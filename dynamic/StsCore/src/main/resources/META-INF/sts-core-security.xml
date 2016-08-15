@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd 
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd "
+    default-autowire="byName" >
+		
+	    <sec:http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="clientAuthenticationManager" > 
+	        <sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+	        <sec:anonymous enabled="false" />
+	        <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
+	        <sec:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" /> 
+	        <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
+	    </sec:http>
+	    
+	    <sec:http pattern="/oauth/authorize" create-session="stateless" authentication-manager-ref="clientAuthenticationManager" > 
+	        <sec:intercept-url pattern="/oauth/authorize" access="IS_AUTHENTICATED_FULLY" />
+	        <sec:anonymous enabled="false" />
+	        <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
+	        <sec:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" /> 
+	        <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
+	    </sec:http>        
+	    
+	    <sec:http pattern="/js/saveErrorLog" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/> 
+ 		<sec:http pattern="/js/facebookSignIn" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>       
+ 		<sec:http pattern="/js/facebookSignUp" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+ 		<sec:http pattern="/js/setupFacebookProfile" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>       
+ 		<sec:http pattern="/js/setupFacebookProfileWithRole" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+		<sec:http pattern="/js/mergeFacebook" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/> 
+		<sec:http pattern="/js/linkedInSignIn" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>      
+		<sec:http pattern="/js/linkedInSignUp" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+		<sec:http pattern="/js/mergeLinkedIn" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>       		       
+ 	    
+ 	           
+ 	    <sec:http pattern="/js/sendPasswordResetMail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>       
+ 	    <sec:http pattern="/js/checkOTP" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>       
+ 	  	<sec:http pattern="/js/resetPassword" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>  
+ 	  	<sec:http pattern="/js/setPassword" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+ 	  	<sec:http pattern="/js/sendSignUpVerificationMail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>  
+ 	  	<sec:http pattern="/js/sendSignUpOTPMail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>  
+ 	  	<sec:http pattern="/js/signup" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+ 	  	<sec:http pattern="/js/activateAccount" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+ 	  	<sec:http pattern="/js/accountVerificationMail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+ 
+ 	  	<sec:http pattern="/**" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" use-expressions="true">
+	        <sec:intercept-url pattern="/**" access="isAuthenticated()"/>
+	        <sec:anonymous enabled="false" />
+	        <sec:http-basic entry-point-ref="oauthAuthenticationEntryPoint" />
+ 			<sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+	        <sec:access-denied-handler ref="oauthAccessDeniedHandler"/>
+            <sec:logout logout-url="/logout" invalidate-session="true" success-handler-ref="logoutSuccessHandler"/>
+		</sec:http>
+
+        <bean id="logoutSuccessHandler" class="com.jykra.social.util.LogoutHandler">
+               <property name="tokenStore" ref="tokenStore"/>
+        </bean>  
+
+		<bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+			<property name="realmName" value="jykra.com" />
+		</bean>
+
+		<bean id="clientAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+			<property name="realmName" value="jykra.com" />
+			<property name="typeName" value="Basic" />
+		</bean>
+
+		<bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+
+		<bean id="clientCredentialsTokenEndpointFilter" class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+			<property name="authenticationManager" ref="clientAuthenticationManager" />
+		</bean>
+
+		<bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+			<constructor-arg>
+				<list>
+					<bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
+					<bean class="org.springframework.security.access.vote.RoleVoter" />
+					<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+				</list>
+			</constructor-arg>
+		</bean>
+
+		<sec:authentication-manager id="clientAuthenticationManager">
+			<sec:authentication-provider user-service-ref="clientDetailsUserService" />
+		</sec:authentication-manager>
+
+	    <sec:authentication-manager alias="authenticationManager">
+	        <sec:authentication-provider ref="customUserAuthenticationProvider" />
+	    </sec:authentication-manager>
+     
+        <bean id="customUserAuthenticationProvider" class="com.sts.core.config.UserAuthenticationProvider"/>
+
+		<bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+			<constructor-arg ref="clientDetails" />
+		</bean>
+
+        <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore">
+		     <constructor-arg ref="dataSource" />
+		</bean>
+ 
+		<bean id="userApprovalHandler" class="org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler">
+              <property name="requestFactory" ref="requestFactory" />
+              <property name="tokenStore" ref="tokenStore" />
+        </bean>  
+
+	    <bean id="requestFactory" class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
+	        <constructor-arg ref="clientDetails"/>
+	    </bean>
+ 
+		<bean id="tokenServices" class="com.sts.core.config.CustomTokenServices">
+			<property name="tokenStore" ref="tokenStore" />
+			<property name="supportRefreshToken" value="true" />
+			<property name="accessTokenValiditySeconds" value="36000" />
+			<property name="refreshTokenValiditySeconds" value="36000" />
+			<property name="clientDetailsService" ref="clientDetails" />
+			<property name="tokenEnhancer" ref="tokenEnhancer" />
+		</bean>
+
+		<bean id="tokenEnhancer" class="com.sts.core.config.CustomTokenEnhancer" />
+			
+	 	<oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices" user-approval-handler-ref="userApprovalHandler" token-endpoint-url="/token" authorization-endpoint-url="/authorize">
+			<oauth:authorization-code />
+			<oauth:implicit />
+			<oauth:refresh-token />
+			<oauth:client-credentials />
+			<oauth:password />
+		</oauth:authorization-server>
+
+		<oauth:resource-server id="resourceServerFilter" resource-id="gabalotservices" token-services-ref="tokenServices" />
+		<sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true">
+			<sec:expression-handler ref="oauthExpressionHandler" />
+		</sec:global-method-security>
+
+		<oauth:expression-handler id="oauthExpressionHandler" />
+		<oauth:web-expression-handler id="oauthWebExpressionHandler" />
+ </beans>
