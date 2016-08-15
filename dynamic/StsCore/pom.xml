@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.sts.core</groupId>
-  <artifactId>StsCore</artifactId>
+  <artifactId>sts-core</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -116,7 +116,7 @@
 	</dependency>
   </dependencies>
   <build>
-  	<finalName>sts-core</finalName>
+  	<finalName>sts-core-${project.version}</finalName>
   	<plugins>
   		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -126,7 +126,23 @@
 				<source>${jdk.version}</source>
 				<target>${jdk.version}</target>
 			</configuration>
-			</plugin>
+		</plugin>	
+		<plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+            </execution>
+            </executions>
+                <configuration>
+                       <mainClass>com.sts.core.util.SecurityEncryptor</mainClass>
+                </configuration>
+                
+            </plugin>		
   	</plugins>  	
   </build>
 </project>
