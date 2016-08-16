@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "FacebookProfile.findByUserId", query = "SELECT fp FROM FacebookProfile fp WHERE fb.archived = 'false' AND fb.verified = 'true' AND fb.userId =:userId"),
-	@NamedQuery(name = "FacebookProfile.findByEmail", query = "SELECT fp FROM FacebookProfile fp WHERE fb.archived = 'false' AND fb.verified = 'true' AND fb.email =:email")
+	@NamedQuery(name = "FacebookProfile.findByUserId", query = "SELECT fp FROM FacebookProfile fp WHERE fp.archived = 'false' AND fp.verified = 'true' AND fp.userId =:userId"),
+	@NamedQuery(name = "FacebookProfile.findByEmail", query = "SELECT fp FROM FacebookProfile fp WHERE fp.archived = 'false' AND fp.verified = 'true' AND fp.email =:email")
 })
 @XmlRootElement
 public class FacebookProfile extends BaseEntity {
