@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="awacp_pu">
+		<jar-file>../lib/sts-core-0.0.1-SNAPSHOT.jar</jar-file>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>		
+		<properties>
+		   <property name="javax.persistence.schema-generation.create-database-schemas" value="true"/>
+		   <property name="eclipselink.ddl-generation" value="create-tables"/>
+		   <property name="eclipselink.logging.parameters" value="true" />
+		   <property name="eclipselink.weaving" value="true"/>
+		   <property name="eclipselink.temporal.mutable" value="true"/>
+		   <property name="eclipselink.ddlgen-terminate-statements" value="true"/>
+	   </properties>
+	</persistence-unit>	
+</persistence>

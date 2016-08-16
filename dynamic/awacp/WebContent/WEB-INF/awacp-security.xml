@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd 
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd "
+    default-autowire="byName" >	
+
+		<oauth:client-details-service id="clientDetails">
+        	<oauth:client client-id="oboatservices" authorized-grant-types="authorization_code,client_credentials" secret="oboatservices" authorities="Admin,Partner,Business" scope="read,write,trust"/>
+        	<oauth:client client-id="oboatservices" authorized-grant-types="password,authorization_code,implicit" secret="oboatservices" authorities="Admin,Partner,Business" scope="read,write,trust"/>
+	 	</oauth:client-details-service>	 
+
+	 	<sec:http pattern="/ob/registerSubscriptionForLetter" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/crateUserDetail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/listBoatFeatures" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/getBoatDetail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/listBoatsWithDetail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/listBoats" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/listFeaturedBoats" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/listBoatsByCategory" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/listBoatCategories" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/searchBoats" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	<sec:http pattern="/ob/searchBoatsWithAdditionalFeatures" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+ </beans>
