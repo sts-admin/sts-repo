@@ -14,17 +14,5 @@
 		<oauth:client-details-service id="clientDetails">
         	<oauth:client client-id="oboatservices" authorized-grant-types="authorization_code,client_credentials" secret="oboatservices" authorities="Admin,Partner,Business" scope="read,write,trust"/>
         	<oauth:client client-id="oboatservices" authorized-grant-types="password,authorization_code,implicit" secret="oboatservices" authorities="Admin,Partner,Business" scope="read,write,trust"/>
-	 	</oauth:client-details-service>	 
-
-	 	<sec:http pattern="/ob/registerSubscriptionForLetter" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/crateUserDetail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/listBoatFeatures" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/getBoatDetail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/listBoatsWithDetail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/listBoats" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/listFeaturedBoats" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/listBoatsByCategory" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/listBoatCategories" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/searchBoats" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
-	 	<sec:http pattern="/ob/searchBoatsWithAdditionalFeatures" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+	 	</oauth:client-details-service>	
  </beans>
