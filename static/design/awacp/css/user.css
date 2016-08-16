@@ -1,0 +1,389 @@
+@charset "utf-8";
+/* CSS Document */
+
+.ddsmoothmenu {
+	font: bold 12px Verdana;
+	background: -webkit-linear-gradient(#434446, #323335); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#434446, #323335); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#434446, #323335); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#434446, #323335); /* Standard syntax */
+	width: 100%;
+}
+.ddsmoothmenu ul {
+	z-index:100;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+} /*Top level list items*/
+.ddsmoothmenu ul li {
+	position: relative;
+	display: inline;
+	float: left;
+} /*Top level menu link items style*/
+.ddsmoothmenu ul li a {
+	display: block;
+	background:#169ccc; /*background of menu items (default state)*/
+    background: -webkit-linear-gradient(#434446, #323335); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#434446, #323335); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#434446, #323335); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#434446, #323335); /* Standard syntax */
+	color: white;
+	padding: 8px 10px;
+	border-right: 1px solid #778;
+	color: #2d2b2b;
+	text-decoration: none;
+}
+* html .ddsmoothmenu ul li a { /*IE6 hack to get sub menu links to behave correctly*/
+	display: inline-block;
+}
+.ddsmoothmenu ul li a:link, .ddsmoothmenu ul li a:visited {
+	color: white;
+}
+.ddsmoothmenu ul li a.selected { /*CSS class that's dynamically added to the currently active menu items' LI A element*/
+	background:#0b54a1;
+	background: -webkit-linear-gradient(#0073c4, #009ced); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#0073c4, #009ced); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#0073c4, #009ced); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#0073c4, #009ced); /* Standard syntax */
+	color: white;
+}
+.ddsmoothmenu ul li a:hover {
+	background: #0b54a1; /*background of menu items during onmouseover (hover state)*/
+    background: -webkit-linear-gradient(#0073c4, #009ced); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#0073c4, #009ced); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#0073c4, #009ced); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#0073c4, #009ced); /* Standard syntax */
+	color: white;
+} /*1st sub level menu*/
+.ddsmoothmenu ul li ul {
+	position: absolute;
+	left: 0;
+	display: none; /*collapse all sub menus to begin with*/
+	visibility: hidden;
+} /*Sub level menu list items (undo style from Top level List Items)*/
+.ddsmoothmenu ul li ul li {
+	display: list-item;
+	float: none;
+} /*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.ddsmoothmenu ul li ul li ul {
+	top: 0;
+} /* Sub level menu links style */
+.ddsmoothmenu ul li ul li a {
+	font: normal 13px Verdana;
+	width: 160px; /*width of sub menus*/
+	padding: 8px;
+	margin: 0;
+	border-top-width: 0;
+	/*border-bottom: 1px solid gray;*/
+} /* Holly Hack for IE \*/
+* html .ddsmoothmenu {
+	height: 1%;
+} /*Holly Hack for IE7 and below*/ /* ######### CSS classes applied to down and right arrow images ######### */
+.downarrowclass {
+	position: absolute;
+	top: 12px;
+	right: 7px;
+	display:none;
+}
+.rightarrowclass {
+	position: absolute;
+	top: 6px;
+	right: 5px;
+} /* ######### CSS for shadow added to sub menus ######### */
+.ddshadow { /*shadow for NON CSS3 capable browsers*/
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 0;
+	height: 0;
+	background:#66F;
+}
+.toplevelshadow { /*shadow opacity for NON CSS3 capable browsers. Doesn't work in IE*/
+	opacity: 0.8;
+}
+.card-box {
+	text-decoration: none !important;
+	background-color:#8DB3B3;
+	color:white !important;
+	min-height: 15em;
+	display:table;
+	width: 100%;
+	margin-top:30px;
+	border: #999999 1px solid;
+	transition: all 300ms ease-in-out;
+}
+.card-content {
+	display: table-cell;
+	vertical-align: middle;
+}
+.card-box:hover {
+	background-color:#D9E5E5;
+	border:1px double #666666;
+	cursor:pointer;
+	color: inherit;
+}
+.card-box a {
+	color: inherit;
+}
+.card-box span {
+	display: block;
+	font-size: 1.4em;
+	color: inherit;
+	font-weight: bold;
+}
+.card-box img {
+	display: inline-block;
+}
+.takeoff {
+	background-color:#02577D;
+}
+.takeoff:hover {
+	background-color:#42A6D3;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#F00 !important;
+}
+.quote {
+	background-color:#8DB3B3;
+}
+.quote:hover {
+	background-color:#D9E5E5;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#03C;
+	color:#F00 !important;
+}
+.job_order {
+	background-color:#7D3549;
+}
+.job_order:hover {
+	background-color:#BD7589;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#F00 !important;
+}
+.order_book {
+	background-color:#80661A;
+}
+.order_book:hover {
+	background-color:#FFCC33;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#F00 !important;
+}
+.inventory_awpng {
+	background-color:#1E7D44;
+}
+.inventory_awpng:hover {
+	background-color:#6CFCA6;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#F00 !important;
+}
+.inventory_awf {
+	background-color:#7300BF;
+}
+.inventory_awf:hover {
+	background-color:#CD80FF;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#F00 !important;
+}
+.inventory_sbc {
+	background-color:#D95700;
+}
+.inventory_sbc:hover {
+	background-color:#FF8D40;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#F00 !important;
+}
+.claim1 {
+	background-color:#FF0000;
+}
+.claim1:hover {
+	background-color:#FF6666;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#C03 !important;
+}
+.claim {
+	background-color:#FF0000;
+}
+.claim:hover {
+	background-color:#FF6666;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#C03 !important;
+}
+.spl {
+	background-color:#D1D683;
+}
+.spl:hover {
+	background-color:#FFFFCC;
+	border:1px double #666666;
+	color:#F00 !important;
+	cursor:pointer;
+}
+.marketing {
+	background-color:#6CF;
+}
+.marketing:hover {
+	background-color:#069;
+	border:1px double #666666;
+	color:#F00 !important;
+	cursor:pointer;
+}
+.collection {
+	background-color:#C90;
+}
+.collection:hover {
+	background-color:#CC0;
+	border:1px double #666666;
+	color:#F00 !important;
+	cursor:pointer;
+}
+.takeoff_dash {
+	background-color: #02577D;
+}
+.takeoff_dashhover:hover {
+	background-color: #42A6D3;
+}
+.quote_dashhover:hover {
+	background-color: #D9E5E5;
+	color: #03C !important;
+}
+.joborder_dash {
+	background-color: #7D3549;
+}
+.joborder_dashhover:hover {
+	background-color: #BD7589;
+}
+.invnt_awf_dash {
+	background-color: #7300BF;
+}
+.invnt_awf_dashhover:hover {
+	background-color: #CD80FF;
+}
+.logs_dash {
+	background-color: #C99;
+}
+.logs_dashhover:hover {
+	background-color: #C9C;
+}
+.factory_dash {
+	background-color: #46ccc1;
+}
+.factory_dashhover:hover {
+	background-color: #46eee1;
+}
+.orderbook_dash {
+	background-color: #80661A;
+}
+.orderbook_dashhover:hover {
+	background-color: #FFCC33;
+}
+.engineer_dash {
+	background-color: #009F00;
+}
+.customer_dash {
+	background-color: #808040;
+}
+.architect_dash {
+	background-color: #804040;
+}
+.shipping_dash {
+	background-color: #FF8080;
+}
+.bidders_dash {
+	background-color: #C9C;
+}
+.logs_manf {
+	background-color: #9CC;
+}
+.itemship {
+	background-color: #007138;
+}
+.shippdvia {
+	background-color: #2E5C5C;
+}
+.delfiles {
+	background-color: #696;
+}
+.engineer_dash:hover {
+	background-color:#2F2;
+}
+.customer_dash:hover {
+	background-color:#BB7;
+}
+.architect_dash:hover {
+	background-color:#C08181;
+}
+.shipping_dash:hover {
+	background-color:#FFD9D9;
+}
+.bidders_dash:hover {
+	background-color:#E9E;
+}
+.logs_manf:hover {
+	background-color:#9CF;
+}
+.itemship:hover {
+	background-color: #28FF94;
+}
+.shippdvia:hover {
+	background-color: #54A9A9;
+}
+.delfiles:hover {
+	background-color: #6C6;
+}
+.trucker_claim {
+	background-color:#FF4646;
+}
+.trucker_claim:hover {
+	background-color:#FF6666;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#F00 !important;
+}
+.factory_claim {
+	background-color:#F6F;
+}
+.factory_claim:hover {
+	background-color:#FCF;
+	border:1px double #666666;
+	cursor:pointer;
+	color:#F00 !important;
+}
+.sitesettings_dash {
+	background-color: #99F;
+}
+.sitesettings_dashhover:hover {
+	background-color:#96C;
+}
+.bg-d0e9f4 {
+	background: #D0E9F4;
+}
+.theme-row {
+	background: #42A6D3;
+}
+.bg-dark-green {
+	background: #02577D;
+}
+.bg-4D7373 {
+	background: #4D7373;
+	color: #FFF;
+}
+.bg-7D3549 {
+	background: #7D3549;
+	color: #FFF;
+}
+.bg-8DB3B3 {
+	background: #8DB3B3;
+	padding: 5px;
+	color:#FFFFFF;
+}
+.bg-BD7589 {
+	background: #BD7589;
+	padding: 5px;
+}
