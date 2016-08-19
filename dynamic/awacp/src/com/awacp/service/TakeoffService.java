@@ -1,5 +1,5 @@
 package com.awacp.service;
 
-public class TakeoffService {
-
+public interface TakeoffService {
+	
 }

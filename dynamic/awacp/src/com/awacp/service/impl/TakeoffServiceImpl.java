@@ -1,5 +1,7 @@
 package com.awacp.service.impl;
 
-public class TakeoffServiceImpl {
+import com.awacp.service.TakeoffService;
+
+public class TakeoffServiceImpl implements TakeoffService{
 
 }
