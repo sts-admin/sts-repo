@@ -1,0 +1,110 @@
+<div ng-controller="NavigationCtrl as navCtrl">
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
+                    ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="dashboard">Dashboard</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+            <ul class="nav navbar-nav">
+                <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        Take Off
+                        <b class='caret'></b>
+                    </a>
+                    <tree tree='takeOfMenu'></tree>
+                </li>
+                <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        Quote
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='quoteMenu'></tree>
+                </li>
+                <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        Job Order
+                        <b class='caret'></b>
+                    </a>
+                    <tree tree='orderMenu'></tree>
+                </li>
+                <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        Order Book
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='bookMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        AW
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='awMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                       AWF
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='awfMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        SBC
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='sbcMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                       SPL
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='splMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                       Job
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='jobMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        BBT
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='bbtMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        Claims
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='claimMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#" uib-dropdown-toggle>
+                        Marketing
+                        <span class='caret'></span>
+                    </a>
+                    <tree tree='marketingMenu'></tree>
+                </li>
+				 <li uib-dropdown>
+                    <a href="#">
+                        Collection
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+</div>
