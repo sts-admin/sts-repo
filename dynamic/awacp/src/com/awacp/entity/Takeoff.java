@@ -4,11 +4,13 @@ import java.util.Calendar;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -50,7 +52,8 @@ public class Takeoff extends BaseEntity {
 	public Takeoff() {
 		super();
 	}
-
+	@NotNull
+	@Column(nullable = false)
 	public Long getSalesPerson() {
 		return salesPerson;
 	}
@@ -58,7 +61,8 @@ public class Takeoff extends BaseEntity {
 	public void setSalesPerson(Long salesPerson) {
 		this.salesPerson = salesPerson;
 	}
-
+	@NotNull
+	@Column(nullable = false)
 	public String getUserCode() {
 		return userCode;
 	}
@@ -82,7 +86,8 @@ public class Takeoff extends BaseEntity {
 	public void setEngineerId(Long engineerId) {
 		this.engineerId = engineerId;
 	}
-
+	@NotNull
+	@Column(nullable = false, length = 100)
 	public String getJobName() {
 		return jobName;
 	}
@@ -91,6 +96,8 @@ public class Takeoff extends BaseEntity {
 		this.jobName = jobName;
 	}
 
+	@NotNull
+	@Column(nullable = false, length = 200)
 	public String getJobAddress() {
 		return jobAddress;
 	}
@@ -98,7 +105,8 @@ public class Takeoff extends BaseEntity {
 	public void setJobAddress(String jobAddress) {
 		this.jobAddress = jobAddress;
 	}
-
+	@NotNull
+	@Column(nullable = false, length = 200)
 	public String getJobSpecification() {
 		return jobSpecification;
 	}
