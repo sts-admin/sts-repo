@@ -1,4 +1,4 @@
-package com.sts.core.entity;
+package com.awacp.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -7,6 +7,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.sts.core.entity.BaseEntity;
+import com.sts.core.entity.Country;
+import com.sts.core.entity.State;
 
 /**
  * Entity implementation class for Entity: Address

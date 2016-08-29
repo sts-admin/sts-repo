@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -37,7 +38,8 @@ public class UserMailHistory extends BaseEntity {
 		this.event = event;
 	}
 
-
+	@NotNull
+	@Column(nullable = false, length = 100)
 	public String getEmail() {
 		return email;
 	}
@@ -47,7 +49,8 @@ public class UserMailHistory extends BaseEntity {
 	}
 
 	@Lob
-	@Column(name = "content", length = 2048)
+	@Column(nullable = false, name = "content", length = 2048)
+	@NotNull
 	public String getContent() {
 		return content;
 	}

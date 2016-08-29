@@ -1,9 +1,11 @@
 package com.sts.core.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -43,6 +45,8 @@ public class Image extends BaseEntity {
 		this.contentType = contentType;
 	}
 
+	@NotNull
+	@Column(nullable = false, length = 25)
 	public String getCreatedName() {
 		return createdName;
 	}
@@ -59,6 +63,8 @@ public class Image extends BaseEntity {
 		this.originalName = originalName;
 	}
 
+	@NotNull
+	@Column(nullable = false, length = 4)
 	public String getExtension() {
 		return extension;
 	}
@@ -86,6 +92,8 @@ public class Image extends BaseEntity {
 	/**
 	 * @return the contentType
 	 */
+	@NotNull
+	@Column(nullable = false, length = 50)
 	public String getContentType() {
 		return contentType;
 	}

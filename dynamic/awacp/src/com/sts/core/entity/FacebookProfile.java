@@ -8,15 +8,15 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "FacebookProfile.Login", query = "SELECT fp FROM FacebookProfile fp WHERE fp.archived = 'false' AND LOWER(fp.email) = :email AND fp.verified = :verified "),
-	@NamedQuery(name = "FacebookProfile.findByUserId", query = "SELECT fp FROM FacebookProfile fp WHERE fp.archived = 'false' AND fp.verified = 'true' AND fp.userId =:userId")	
-})
+		@NamedQuery(name = "FacebookProfile.Login", query = "SELECT fp FROM FacebookProfile fp WHERE fp.archived = 'false' AND LOWER(fp.email) = :email AND fp.verified = :verified "),
+		@NamedQuery(name = "FacebookProfile.findByUserId", query = "SELECT fp FROM FacebookProfile fp WHERE fp.archived = 'false' AND fp.verified = 'true' AND fp.userId =:userId") })
 public class FacebookProfile extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -84,6 +84,8 @@ public class FacebookProfile extends BaseEntity {
 		this.userName = userName;
 	}
 
+	@NotNull
+	@Column(nullable = false, length = 100)
 	public String getEmail() {
 		return email;
 	}
@@ -92,6 +94,7 @@ public class FacebookProfile extends BaseEntity {
 		this.email = email;
 	}
 
+	@NotNull
 	public Long getUserId() {
 		return userId;
 	}

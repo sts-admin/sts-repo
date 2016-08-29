@@ -1,11 +1,13 @@
 package com.sts.core.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -92,7 +94,8 @@ public class LinkedInProfile extends BaseEntity {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
+	@NotNull
+	@Column(nullable = false)
 	public Long getUserId() {
 		return userId;
 	}
@@ -100,7 +103,8 @@ public class LinkedInProfile extends BaseEntity {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-
+	@NotNull
+	@Column(nullable = false, length = 100)
 	public String getEmail() {
 		return email;
 	}

@@ -1,6 +1,7 @@
 package com.sts.core.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,6 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,7 +39,7 @@ public class User extends BaseEntity {
 	private boolean verified;
 	private String password;
 	private String userCode;
-	private UserType type;
+	private Role type;
 	private boolean firstLogin;
 	private boolean online;
 
@@ -48,6 +50,8 @@ public class User extends BaseEntity {
 		super();
 	}
 
+	@NotNull
+	@Column(nullable = false, length = 100)
 	public String getEmail() {
 		return email;
 	}
@@ -78,6 +82,8 @@ public class User extends BaseEntity {
 	/**
 	 * @return the firstName
 	 */
+	@NotNull
+	@Column(nullable = false, length = 20)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -138,6 +144,8 @@ public class User extends BaseEntity {
 	/**
 	 * @return the userName
 	 */
+	@NotNull
+	@Column(nullable = false, length = 25)
 	public String getUserName() {
 		return userName;
 	}
@@ -178,7 +186,8 @@ public class User extends BaseEntity {
 	 * @return the type
 	 */
 	@Enumerated(EnumType.ORDINAL)
-	public UserType getType() {
+	@NotNull
+	public Role getType() {
 		return type;
 	}
 
@@ -186,19 +195,20 @@ public class User extends BaseEntity {
 	 * @param type
 	 *            the type to set
 	 */
-	public void setType(UserType type) {
+	public void setType(Role type) {
 		this.type = type;
 	}
 
 	@PrePersist
 	public void prePersist() {
 		if (getType() == null)
-			setType(UserType.CUSTOMER);
+			setType(Role.CUSTOMER);
 	}
 
 	/**
 	 * @return the firstLogin
 	 */
+	@Column(columnDefinition="tinyint(1) default 1")
 	public boolean isFirstLogin() {
 		return firstLogin;
 	}

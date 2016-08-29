@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -48,7 +49,7 @@ public class Address extends BaseEntity {
 	public void setStreet(String street) {
 		this.street = street;
 	}
-
+	
 	public String getCity() {
 		return city;
 	}
@@ -87,6 +88,8 @@ public class Address extends BaseEntity {
 		this.zipCode = zipCode;
 	}
 
+	@NotNull
+	@Column(nullable = false)
 	public Long getUserId() {
 		return userId;
 	}

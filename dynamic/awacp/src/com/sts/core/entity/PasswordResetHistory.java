@@ -1,10 +1,12 @@
 package com.sts.core.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -64,6 +66,8 @@ public class PasswordResetHistory extends BaseEntity {
 	@XmlElement(name = "user")
 	@OneToOne(optional = false, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "EXISTINGUSERID", unique = false, nullable = true, updatable = true)
+	@NotNull
+	@Column(nullable = false)
 	public User getUser() {
 		return user;
 	}

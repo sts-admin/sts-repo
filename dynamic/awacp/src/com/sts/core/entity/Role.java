@@ -3,7 +3,7 @@ package com.sts.core.entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public enum UserType {
+public enum Role {
 
 	ANONYMOUS(0), CUSTOMER(1), ADMIN(2), SUPERADMIN(3), BUSINESS(4);
 
@@ -11,12 +11,12 @@ public enum UserType {
 
 	private String name;
 
-	private UserType(int type) {
+	private Role(int type) {
 		this.type = type;
 
 	}
 
-	private UserType(String name) {
+	private Role(String name) {
 		this.name = name;
 
 	}
@@ -29,8 +29,8 @@ public enum UserType {
 		return name;
 	}
 
-	public static UserType valueOf(int type) {
-		for (UserType usr : UserType.values()) {
+	public static Role valueOf(int type) {
+		for (Role usr : Role.values()) {
 			if (usr.getType() == type) {
 				return usr;
 			}

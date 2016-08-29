@@ -15,7 +15,7 @@ import com.sts.core.entity.State;
  */
 @Entity
 @XmlRootElement
-public class Contractor extends BaseEntity {
+public class GeneralContractor extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	private String contractorTitle;
@@ -29,7 +29,7 @@ public class Contractor extends BaseEntity {
 	private String email;
 	private String website;
 
-	public Contractor() {
+	public GeneralContractor() {
 		super();
 	}
 
@@ -100,7 +100,8 @@ public class Contractor extends BaseEntity {
 	public void setFax(String fax) {
 		this.fax = fax;
 	}
-
+	@NotNull
+	@Column(nullable = false, length = 100)
 	public String getEmail() {
 		return email;
 	}

@@ -3,6 +3,7 @@ package com.sts.core.entity;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -58,7 +60,8 @@ public class State implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	@NotNull
+	@Column(nullable = false)
 	public String getStateCode() {
 		return stateCode;
 	}
@@ -66,7 +69,8 @@ public class State implements Serializable {
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
 	}
-
+	@NotNull
+	@Column(nullable = false)
 	public String getStateName() {
 		return stateName;
 	}

@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sts.core.dto.StsCoreResponse;
-import com.sts.core.entity.UserType;
+import com.sts.core.entity.Role;
 import com.sts.core.service.FacebookService;
 import com.sts.core.web.filter.CrossOriginFilter;
 
@@ -26,7 +26,7 @@ public class FacebookServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsCoreResponse setupFacebookProfile(@QueryParam("accessToken") String accessToken,
 			@Context HttpServletResponse servletResponse) throws IOException {
-		StsCoreResponse result = this.facebookService.setupProfile(accessToken, UserType.CUSTOMER.name());
+		StsCoreResponse result = this.facebookService.setupProfile(accessToken, Role.CUSTOMER.name());
 		return result;
 	}
 

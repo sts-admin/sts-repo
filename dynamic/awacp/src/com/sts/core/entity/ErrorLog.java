@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,7 +29,7 @@ public class ErrorLog extends BaseEntity {
 	public ErrorLog() {
 		super();
 	}
-
+	@NotNull
 	public String getErrorCode() {
 		return errorCode;
 	}

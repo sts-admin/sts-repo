@@ -2,11 +2,13 @@ package com.sts.core.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.eclipse.persistence.annotations.ReadOnly;
@@ -48,7 +50,8 @@ public class Country implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	@NotNull
+	@Column(nullable =false, length = 2)
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -56,7 +59,8 @@ public class Country implements Serializable {
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
 	}
-
+	@NotNull
+	@Column(nullable = false, length = 25)
 	public String getCountryName() {
 		return countryName;
 	}
