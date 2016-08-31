@@ -39,7 +39,7 @@ public class User extends BaseEntity {
 	private boolean verified;
 	private String password;
 	private String userCode;
-	private Role type;
+	private Role role;
 	private boolean firstLogin;
 	private boolean online;
 
@@ -182,33 +182,28 @@ public class User extends BaseEntity {
 		this.photoUrl = photoUrl;
 	}
 
-	/**
-	 * @return the type
-	 */
-	@Enumerated(EnumType.ORDINAL)
-	@NotNull
-	public Role getType() {
-		return type;
+	public Role getRole() {
+		return role;
 	}
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(Role type) {
-		this.type = type;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	@PrePersist
 	public void prePersist() {
-		if (getType() == null)
-			setType(Role.CUSTOMER);
+		if (getRole() == null) {
+			role = new Role();
+		}
+
+		role.setRoleName(RoleType.GUEST.getName());
+		setRole(role);
 	}
 
 	/**
 	 * @return the firstLogin
 	 */
-	@Column(columnDefinition="tinyint(1) default 1")
+	@Column(columnDefinition = "tinyint(1) default 1")
 	public boolean isFirstLogin() {
 		return firstLogin;
 	}

@@ -1,24 +1,29 @@
 package com.sts.core.entity;
 
-import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.sts.core.entity.BaseEntity;
+
 /**
- * Entity implementation class for Entity: Role
+ * Entity implementation class for Entity: Permission
  *
  */
 @Entity
 @XmlRootElement
-public class Role implements Serializable {
+public class Permission {
 
 	private static final long serialVersionUID = 1L;
-	private String roleName;
+	private String authority;
+	private String description;
 	private Calendar dateCreated;
 	private Calendar dateUpdated;
 	private Long createdById;
@@ -26,21 +31,19 @@ public class Role implements Serializable {
 	private Long version;
 	private boolean archived;
 
-	private Set<Permission> permissions;
-
-	public Role() {
+	public Permission() {
 		super();
 	}
 
 	@Id
-	@Column(nullable = false, length = 20)
 	@NotNull
-	public String getRoleName() {
-		return roleName;
+	@Column(nullable = false, length = 30)
+	public String getAuthority() {
+		return authority;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 
 	public Calendar getDateCreated() {
@@ -102,15 +105,16 @@ public class Role implements Serializable {
 		setDateUpdated(Calendar.getInstance());
 	}
 
-	@XmlElement(name = "permissions")
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "ROLE_PERMISSION", joinColumns = @JoinColumn(name = "ROLEID") , inverseJoinColumns = @JoinColumn(name = "PERMISSIONID") )
-	public Set<Permission> getPermissions() {
-		return permissions;
+	@NotNull
+	@Column(nullable = false, length = 35)
+	public String getDescription() {
+		return description;
 	}
 
-	public void setPermissions(Set<Permission> permissions) {
-		this.permissions = permissions;
+	public void setDescription(String description) {
+		this.description = description;
 	}
+	
+	
 
 }

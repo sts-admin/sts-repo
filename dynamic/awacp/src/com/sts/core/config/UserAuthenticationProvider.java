@@ -45,7 +45,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 			return auth;
 		}
 		List<GrantedAuthority> grantedAuths = new ArrayList<>();
-		String role = user.getType().name();
+		String role = user.getRole().getRoleName();
 
 		if ("manual".equals(loginType)) {
 			// Compare password if provided with manual profile password

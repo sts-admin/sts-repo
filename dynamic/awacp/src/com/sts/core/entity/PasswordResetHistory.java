@@ -65,9 +65,8 @@ public class PasswordResetHistory extends BaseEntity {
 
 	@XmlElement(name = "user")
 	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "EXISTINGUSERID", unique = false, nullable = true, updatable = true)
+	@JoinColumn(name = "USERID", unique = false, nullable = false, updatable = true)
 	@NotNull
-	@Column(nullable = false)
 	public User getUser() {
 		return user;
 	}

@@ -45,7 +45,7 @@ public class Takeoff extends BaseEntity {
 	private Set<Bidder> bidders;
 	private Set<GeneralContractor> generalContractors;
 
-	@Transient
+	//Transient
 	private String biddersString;
 	private String contractorsString;
 
