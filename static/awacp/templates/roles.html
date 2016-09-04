@@ -1,0 +1,28 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid">
+	<div class="clearfix">
+		<div ng-init="roleVm.initRoles();">
+			<div>
+				<ul>
+					<li>
+						<select 
+						  ng-model="roleVm.selectedRole" 
+						  ng-options="role as role.roleDescription for role in roleVm.roles"  ng-required="true" ng-change="roleVm.getRoleWithPermissions();">
+						  <option value="">Select Role</option>
+						</select>
+					</li>
+				</ul>
+			</div>
+			<div class="add-product-row">
+				<label>Privileges	</label>
+				<ul ng-repeat="permission in roleVm.allPermissions">
+					<li>
+					  <label><input type="checkbox" checklist-model="roleVm.role.permissionArray" checklist-value="permission.authority"> {{permission.description}}</label>
+					</li>
+				</ul>				
+			</div>
+		</div>
+	</div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>

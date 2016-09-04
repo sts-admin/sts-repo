@@ -1,11 +1,10 @@
+
 (function() {
     'use strict';
 	//Local env
 	var base ="http://localhost:8080/awacpservices";
-	var resourceReadPath = "http://localhost/awacp/resource/img/";
-	 
-	
-    angular.module('awacpApp', ['awacpApp.controllers' ,'awacpApp.services', 'angular-storage', 'ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar'])
+	var resourceReadPath = "http://localhost/awacp/resource/img/";	
+    angular.module('awacpApp', ['awacpApp.controllers' ,'awacpApp.services', 'angular-storage', 'ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'SS'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 			$stateProvider				
@@ -19,16 +18,26 @@
 				templateUrl:"templates/dashboard.html",
 				controller:"DashboardCtrl",
 				controllerAs:"dashVm"
+			}).state('admin',{
+				url: '/admin',
+				templateUrl:"templates/dashboard-admin.html",
+				controller:"AdminCtrl",
+				controllerAs:"adminVm"
 			}).state('users',{
 				url: '/users',
 				templateUrl:"templates/users.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
+			}).state('roles',{
+				url: '/manage/roles',
+				templateUrl:"templates/roles.html",
+				controller:"RoleCtrl",
+				controllerAs:"roleVm"
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
-		}).run(function($rootScope, $state, store, $window, AjaxUtil, $timeout, resourceReadPath) {
+		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath) {
 			$rootScope.resourceReadPath = resourceReadPath;
 			$rootScope.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 			$rootScope.dateFormat = $rootScope.dateFormats[0];
@@ -38,7 +47,7 @@
 			$rootScope.logoutUser =function(){
 				AjaxUtil.logout();
 			};			
-			$rootScope.user = {isLoggedIn:AjaxUtil.isLoggedIn(), profileImageUrl: AjaxUtil.profileImageUrl()};
+			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), profileImageUrl: StoreService.profileImageUrl()};
 			$rootScope.alert = {noService:false};
 		}).directive('blink', function($timeout) {
 		return {

@@ -169,7 +169,7 @@
 						}
 					});
 				}else{
-					store.set('user', user);
+					StoreService.setUser(user);
 					$rootScope.$apply(function(){
 						$rootScope.user.isLoggedIn = me.isLoggedIn();
 						$rootScope.user.profileImageUrl = user.photoUrl;
@@ -191,16 +191,13 @@
 			},
 			logout: function(){
 				var me = this;
-				var accessToken = store.get('token');
+				var accessToken = StoreService.getAccessToken();
 				var headers = {
 					'Authorization' : 'Bearer ' + accessToken,
 					'Accept' : 'application/json'
 				};
+				StoreService.removeAll();
 				
-				store.remove('token'); 
-				store.remove('role');
-				store.remove('facebook');
-				store.remove('user');
 				$timeout(function(){
 					$rootScope.$apply(function(){
 						$rootScope.user.isLoggedIn = me.isLoggedIn();
@@ -246,7 +243,7 @@
 				);
 			},			
 			authorized: function(){
-				var accessToken = store.get('token');
+				var accessToken = StoreService.getAccessToken();
 				var headers = {
 					'Authorization' : 'Bearer ' + accessToken,
 					'Accept' : 'application/json'
@@ -256,7 +253,8 @@
 					 dataType : 'json'
 				});
 				return true;
-			},			
+			},
+			
 			getData: function (serviceUrl, data) {
 				if(!this.authorized()){return false;};
 				return this.getDataNoSecure(serviceUrl, data)
