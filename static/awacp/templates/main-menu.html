@@ -1,5 +1,5 @@
 
-    <nav class="navbar navbar-inverse" role="navigation" ng-controller="NavigationCtrl as navCtrl">
+    <nav class="navbar navbar-inverse" role="navigation" ng-controller="NavigationCtrl as navVm">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
                     ng-click="navCollapsed = !navCollapsed">
@@ -19,84 +19,84 @@
                         Take Off
                         <b class='caret'></b>
                     </a>
-                    <tree tree='takeOfMenu'></tree>
+                    <tree tree='navVm.takeOfMenu'></tree>
                 </li>
                 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                         Quote
                         <span class='caret'></span>
                     </a>
-                    <tree tree='quoteMenu'></tree>
+                    <tree tree='navVm.quoteMenu'></tree>
                 </li>
                 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                         Job Order
                         <b class='caret'></b>
                     </a>
-                    <tree tree='orderMenu'></tree>
+                    <tree tree='navVm.orderMenu'></tree>
                 </li>
                 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                         Order Book
                         <span class='caret'></span>
                     </a>
-                    <tree tree='bookMenu'></tree>
+                    <tree tree='navVm.bookMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                         AW
                         <span class='caret'></span>
                     </a>
-                    <tree tree='awMenu'></tree>
+                    <tree tree='navVm.awMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                        AWF
                         <span class='caret'></span>
                     </a>
-                    <tree tree='awfMenu'></tree>
+                    <tree tree='navVm.awfMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                         SBC
                         <span class='caret'></span>
                     </a>
-                    <tree tree='sbcMenu'></tree>
+                    <tree tree='navVm.sbcMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                        SPL
                         <span class='caret'></span>
                     </a>
-                    <tree tree='splMenu'></tree>
+                    <tree tree='navVm.splMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                        Job
                         <span class='caret'></span>
                     </a>
-                    <tree tree='jobMenu'></tree>
+                    <tree tree='navVm.jobMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                         BBT
                         <span class='caret'></span>
                     </a>
-                    <tree tree='bbtMenu'></tree>
+                    <tree tree='navVm.bbtMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                         Claims
                         <span class='caret'></span>
                     </a>
-                    <tree tree='claimMenu'></tree>
+                    <tree tree='navVm.claimMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#" uib-dropdown-toggle>
                         Marketing
                         <span class='caret'></span>
                     </a>
-                    <tree tree='marketingMenu'></tree>
+                    <tree tree='navVm.marketingMenu'></tree>
                 </li>
 				 <li uib-dropdown>
                     <a href="#">

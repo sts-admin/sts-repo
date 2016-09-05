@@ -4,7 +4,7 @@
 	NavigationCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile'];
 	function NavigationCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile){
 		var navVm = this;
-		$scope.takeOfMenu = 
+		navVm.takeOfMenu = 
 		[
 			{ name: "Add New", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -12,7 +12,7 @@
 			{ name: "divider", link: "#" },
 			{ name: "Reports", link: "#" }
 		];
-		$scope.quoteMenu = 
+		navVm.quoteMenu = 
 		[
 			{ name: "Add New", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -22,7 +22,7 @@
 			{ name: "divider", link: "#" },
 			{ name: "Follow Up", link: "#" }
 		];
-		$scope.orderMenu = 
+		navVm.orderMenu = 
 		[
 			{ name: "Add New", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -30,7 +30,7 @@
 			{ name: "divider", link: "#" },
 			{ name: "Reports", link: "#" }
 		];
-		$scope.bookMenu = 
+		navVm.bookMenu = 
 		[
 			{ name: "Add New", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -38,7 +38,7 @@
 			{ name: "divider", link: "#" },
 			{ name: "Reports", link: "#" }
 		];
-		$scope.awMenu = 
+		navVm.awMenu = 
 		[
 			{ name: "New Inventory", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -46,7 +46,7 @@
 			{ name: "divider", link: "#" },
 			{ name: "View Orders", link: "#" }
 		];
-		$scope.awfMenu = 
+		navVm.awfMenu = 
 		[
 			{ name: "New Inventory", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -54,7 +54,7 @@
 			{ name: "divider", link: "#" },
 			{ name: "View Orders", link: "#" }
 		];
-		$scope.sbcMenu = 
+		navVm.sbcMenu = 
 		[
 			{ name: "New Inventory", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -62,7 +62,7 @@
 			{ name: "divider", link: "#" },
 			{ name: "View Orders", link: "#" }
 		];
-		$scope.splMenu = 
+		navVm.splMenu = 
 		[
 			{ name: "New Inventory", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -70,7 +70,7 @@
 			{ name: "divider", link: "#" },
 			{ name: "View Orders", link: "#" }
 		];
-		$scope.jobMenu = 
+		navVm.jobMenu = 
 		[
 			{ name: "New Inventory", link: "#" }, 
 			{ name: "divider", link: "#" },
@@ -78,19 +78,19 @@
 			{ name: "divider", link: "#" },
 			{ name: "View Orders", link: "#" }
 		];
-		$scope.claimMenu = 
+		navVm.claimMenu = 
 		[
 			{ name: "Trucker", link: "#" }, 
 			{ name: "divider", link: "#" },
 			{ name: "Factory", link: "#" }
 		];
-		$scope.marketingMenu = 
+		navVm.marketingMenu = 
 		[
 			{ name: "Manage Template", link: "#" }, 
 			{ name: "divider", link: "#" },
 			{ name: "Send Mail", link: "#" }
 		];
-		$scope.bbtMenu = 
+		navVm.bbtMenu = 
 		[
 			{ name: "Engineer", link: "#" }, 
 			{ name: "divider", link: "#" },

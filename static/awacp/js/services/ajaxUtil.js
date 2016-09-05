@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.services')
-	.factory('AjaxUtil', function ($rootScope, $state, base, $timeout, StoreService) {
+	.factory('AjaxUtil', function ($rootScope, $state, base, $timeout, StoreService, $uibModal) {
 		return {
 			saveErrorLog:function(jqXHR, customMsg, showMsgDialog){
 				var me = this;
@@ -84,9 +84,50 @@
 					$("#"+spinnerId).html("");
 				}
 			},
+			listAllPermissions:function(callback){
+				var result = [];
+				this.getData("/awacp/listAllPermissions", Math.random())
+				.success(function (data, status, headers) {	
+					if(data && data.permission && data.permission.length > 0){
+						$.each(data.permission, function(k, v){
+							result.push(v);
+						});
+						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+							callback(result, "success");
+						}
+					}
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}
+				});
+			},
+			getRoleWithPermissions:function(roleName, callback){
+				var result = [];
+				this.getData("/awacp/getRoleWithPermissions?roleName="+roleName, Math.random())
+				.success(function (data, status, headers) {	
+					if(data && data.role){
+						$.each(data.role, function(k, v){
+							result.push(v);
+						});
+						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+							callback(result, "success");
+						}
+					}
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}
+				});
+			},		
+				
 			listCountries:function(callback){
 				var countries = [];
-				this.getData("/js/listCountries", Math.random())
+				var url = "/awacp/listCountries";
+				alert(url);
+				this.getData(url, Math.random())
 				.success(function (data, status, headers) {					
 					if(data && data.country && data.country.length > 0){
 						$.each(data.country, function(k, v){
@@ -105,7 +146,7 @@
 			},	
 			listStates:function(countryId, callback){
 				var states = [];
-				var url = countryId == null || countryId.length <= 0?"/js/listStates":"/js/listStatesByCountry/"+countryId;
+				var url = countryId == null || countryId.length <= 0?"/awacp/listStates":"/awacp/listStatesByCountry/"+countryId;
 				this.getData(url, Math.random())
 				.success(function (data, status, headers) {					
 					if(data && data.state && data.state.length > 0){
@@ -151,7 +192,7 @@
 			},
 			setUser: function(user, callback){
 				var me = this;
-				if(user == null){ //get user and then set in store for further reference
+				if(user == null){ //get user and then set in StoreService for further reference
 					this.getData( "/js/getUserDetails?userNameOrEmail="+ this.getUserName(), Math.random())
 					.success(function (data, status, headers) {
 						StoreService.setUser(data.user);
@@ -169,7 +210,7 @@
 						}
 					});
 				}else{
-					StoreService.setUser(user);
+					StoreService.setUser('user', user);
 					$rootScope.$apply(function(){
 						$rootScope.user.isLoggedIn = me.isLoggedIn();
 						$rootScope.user.profileImageUrl = user.photoUrl;
@@ -191,13 +232,13 @@
 			},
 			logout: function(){
 				var me = this;
-				var accessToken = StoreService.getAccessToken();
+				var accessToken = StoreService.getAccessToken('token');
 				var headers = {
 					'Authorization' : 'Bearer ' + accessToken,
 					'Accept' : 'application/json'
 				};
-				StoreService.removeAll();
 				
+				StoreService.removeAll(); 
 				$timeout(function(){
 					$rootScope.$apply(function(){
 						$rootScope.user.isLoggedIn = me.isLoggedIn();
@@ -243,7 +284,7 @@
 				);
 			},			
 			authorized: function(){
-				var accessToken = StoreService.getAccessToken();
+				var accessToken = StoreService.getAccessToken('token');
 				var headers = {
 					'Authorization' : 'Bearer ' + accessToken,
 					'Accept' : 'application/json'
@@ -253,8 +294,7 @@
 					 dataType : 'json'
 				});
 				return true;
-			},
-			
+			},			
 			getData: function (serviceUrl, data) {
 				if(!this.authorized()){return false;};
 				return this.getDataNoSecure(serviceUrl, data)
