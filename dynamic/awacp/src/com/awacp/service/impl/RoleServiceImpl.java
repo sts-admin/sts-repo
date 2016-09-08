@@ -135,17 +135,18 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Object[]> getUniquePermissionGroups() {
+	@Override
+	public List<Object[]> getUniquePermissionGroups() {
 		String query = "SELECT DISTINCT(SUBSTRING_INDEX(AUTHORITY,'_',1)) AS authority, label FROM PERMISSION";
 		return getEntityManager().createNativeQuery(query).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Permission> getAllMatchingPermissions(String keyword) {
+	@Override
+	public List<Permission> getAllMatchingPermissions(String keyword) {
 		List<Permission> permissions = getEntityManager().createNamedQuery("Permission.getAllMatchingPermissions")
 				.setParameter("keyword", "'"+keyword.toLowerCase() + "\\_%'").getResultList();
 		System.err.println(permissions);
 		return permissions;
 	}
-
 }

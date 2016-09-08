@@ -25,4 +25,7 @@ public interface RoleService {
 
 	public List<Role> listRolesWithPermissions();
 	
+	public List<Object[]> getUniquePermissionGroups();
+	
+	public List<Permission> getAllMatchingPermissions(String keyword);
 }
