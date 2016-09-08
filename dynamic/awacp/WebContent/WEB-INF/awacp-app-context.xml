@@ -94,6 +94,7 @@
 			<!-- sts-core-context.xml part 2 end -->
 			
 			<ref bean="takeoffServiceEndpoint" />
+			<ref bean="roleServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -145,6 +146,10 @@
 	<bean id="takeoffService" class="com.awacp.service.impl.TakeoffServiceImpl" />
     <bean id="takeoffServiceEndpoint" class="com.awacp.rest.endpoint.TakeoffServiceEndpoint">
         <property name="takeoffService" ref="takeoffService" />
+    </bean>
+    <bean id="roleService" class="com.awacp.service.impl.RoleServiceImpl" />
+    <bean id="roleServiceEndpoint" class="com.awacp.rest.endpoint.RoleServiceEndpoint">
+        <property name="roleService" ref="roleService" />
     </bean>
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">

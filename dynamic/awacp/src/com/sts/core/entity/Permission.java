@@ -5,13 +5,13 @@ import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.sts.core.entity.BaseEntity;
 
 /**
  * Entity implementation class for Entity: Permission
@@ -19,6 +19,9 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
+@NamedQueries({
+		@NamedQuery(name = "Permission.listAll", query = "SELECT p FROM Permission p WHERE p.archived = 'false'"),
+		@NamedQuery(name = "Permission.getByName", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND p.authority =:permissionName") })
 public class Permission {
 
 	private static final long serialVersionUID = 1L;
@@ -30,9 +33,16 @@ public class Permission {
 	private Long updatedById;
 	private Long version;
 	private boolean archived;
+	private String label;
 
 	public Permission() {
 		super();
+	}
+
+	public Permission(String authority, String description) {
+		super();
+		this.authority = authority;
+		this.description = description;
 	}
 
 	@Id
@@ -114,7 +124,13 @@ public class Permission {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
 }

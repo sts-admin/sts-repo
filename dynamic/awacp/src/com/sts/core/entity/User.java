@@ -3,8 +3,6 @@ package com.sts.core.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -182,6 +180,9 @@ public class User extends BaseEntity {
 		this.photoUrl = photoUrl;
 	}
 
+	@XmlElement(name = "role")
+	@OneToOne(optional = false, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "ROLE_NAME", unique = false, nullable = false, updatable = true)
 	public Role getRole() {
 		return role;
 	}
