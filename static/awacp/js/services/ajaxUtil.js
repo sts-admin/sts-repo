@@ -103,6 +103,25 @@
 					}
 				});
 			},
+			getPermissionsGroup:function(callback){
+				var result = [];
+				this.getData("/awacp/groupPermissionsGroup", Math.random())
+				.success(function (data, status, headers) {	
+					if(data && data.permissionGroup && data.permissionGroup.length > 0){
+						$.each(data.permissionGroup, function(k, v){
+							result.push(v);
+						});
+						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+							callback(result, "success");
+						}
+					}
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}
+				});
+			},
 			getRoleWithPermissions:function(roleName, callback){
 				var result = [];
 				this.getData("/awacp/getRoleWithPermissions?roleName="+roleName, Math.random())
@@ -241,8 +260,8 @@
 				StoreService.removeAll(); 
 				$timeout(function(){
 					$rootScope.$apply(function(){
-						$rootScope.user.isLoggedIn = me.isLoggedIn();
-						$rootScope.user.profileImageUrl = me.profileImageUrl()
+						$rootScope.user.isLoggedIn = StoreService.isLoggedIn();
+						$rootScope.user.profileImageUrl = StoreService.profileImageUrl()
 					});					
 				}, 500);
 				

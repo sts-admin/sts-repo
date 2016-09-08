@@ -5,6 +5,7 @@
 	function RoleCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
 		var roleVm = this;
 		roleVm.roles = [];
+		roleVm.allPermissionsGroup = [];
 		roleVm.allPermissions = [];
 		roleVm.role = [];
 		roleVm.selectedRole = null;       
@@ -26,14 +27,15 @@
 				alert("ERROR:"+JSON.stringify(jqXHR, null, 4));
 			});
 		}
-		roleVm.getAllPermissions = function(){ //All permissions, not role specific.
-			roleVm.allPermissions = [];AjaxUtil.listAllPermissions(function(jqXHR, status) {		
+		roleVm.getPermissionsGroup = function(){ //All permissions, not role specific.
+			roleVm.allPermissionsGroup = [];
+			AjaxUtil.getPermissionsGroup(function(jqXHR, status) {
 				if("success" === status){
 					$scope.$apply(function(){
-						roleVm.allPermissions = jqXHR;
+						roleVm.allPermissionsGroup = jqXHR;
 					});
 				}else{
-					jqXHR.errorSource = "RoleCtrl::roleVm.getAllPermissions::Error";
+					jqXHR.errorSource = "RoleCtrl::roleVm.groupPermissionsGroup::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				}
 			});
@@ -52,12 +54,12 @@
 				return;
 			}
 			roleVm.allPermissions = [];
-			AjaxUtil.getRoleWithPermissions(roleVm.selectedRole.roleName, function (jqXHR, status) {		
+			AjaxUtil.getRoleWithPermissions(roleVm.selectedRole.roleName, function (jqXHR, status) {
 				if("success" === status){
 					$scope.$apply(function(){
 						roleVm.role = jqXHR;
 					});
-					roleVm.getAllPermissions();
+					roleVm.getPermissionsGroup();
 				}else{
 					jqXHR.errorSource = "RoleCtrl::roleVm.getRoleWithPermissions::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);

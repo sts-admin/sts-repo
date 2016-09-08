@@ -4,8 +4,7 @@
 	<div class="clearfix">
 		<div ng-init="roleVm.initRoles();">
 			<div>
-				
-				<label>Select A role to show permission(s)</label>
+				<label>Select a role to show permission(s)</label>
 				<select 
 				  ng-model="roleVm.selectedRole" 
 				  ng-options="role as role.roleDescription for role in roleVm.roles"  ng-change="roleVm.getRoleWithPermissions();" ng-required = "true">
@@ -13,13 +12,18 @@
 				</select>
 			</div>
 			<div class="add-product-row" ng-show="roleVm.selectedRole != null">
-				<label>'{{roleVm.selectedRole.roleDescription}}' role is assigned with {{roleVm.role.permissionArray?roleVm.role.permissionArray.length:0}} role(s) at present.</label>
-				<ul ng-repeat="permission in roleVm.allPermissions">
-					<li>
+				<label>'{{roleVm.selectedRole.roleDescription}}' role is assigned with <span class="badge">{{roleVm.role.permissionArray?roleVm.role.permissionArray.length:0}}</span> role(s) at present.</label>
+				<br />
+				<ul ng-repeat="group in roleVm.allPermissionsGroup" style="list-style-type: none;" class="col-md-6 col-sm-6 col-xs-12">
+					<li class="col-xs-12">
+						<label style="font-weight:bold;font-size:12pt;">{{group.groupName}}</label>
+					</li>
+					<li ng-repeat="permission in group.permissions" style="color:gray; font-size:10pt;" class="col-md-6 col-sm-6 col-xs-12">
 					  <label><input type="checkbox" checklist-model="roleVm.role.permissionArray" checklist-value="permission.authority"> {{permission.description}}</label>
 					</li>
 				</ul>				
 			</div>
+			<br />
 		</div>
 	</div>
 </div>
