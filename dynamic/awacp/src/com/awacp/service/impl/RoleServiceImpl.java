@@ -114,25 +114,38 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<PermissionGroup> groupPermissionsByGroup(String roleName) {
+	public List<PermissionGroup> groupPermissionsGroup() {
 		List<Object[]> uniquePermissions = getUniquePermissionGroups();
 		List<PermissionGroup> groups = null;
-		if(uniquePermissions != null && !uniquePermissions.isEmpty()){
+		if (uniquePermissions != null && !uniquePermissions.isEmpty()) {
 			groups = new ArrayList<PermissionGroup>();
-			for(Object[] permission: uniquePermissions){
+			for (Object[] permission : uniquePermissions) {
 				PermissionGroup pg = new PermissionGroup();
 				pg.setGroupName(permission[1].toString());
-				
-				/*System.err.println("Group Name = "+ group[0] + ", Label = "+ group[1]);*/
+				String keyword = permission[0].toString().split("_")[0];
+				pg.setPermissions(getAllMatchingPermissions(keyword));
+				/*
+				 * System.err.println("Group Name = "+ group[0] + ", Label = "+
+				 * group[1]);
+				 */
 			}
 		}
-		
-		return null;
+
+		return groups;
 	}
+
 	@SuppressWarnings("unchecked")
-	private List<Object[]> getUniquePermissionGroups(){
+	private List<Object[]> getUniquePermissionGroups() {
 		String query = "SELECT DISTINCT(SUBSTRING_INDEX(AUTHORITY,'_',1)) AS authority, label FROM PERMISSION";
 		return getEntityManager().createNativeQuery(query).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Permission> getAllMatchingPermissions(String keyword) {
+		List<Permission> permissions = getEntityManager().createNamedQuery("Permission.getAllMatchingPermissions")
+				.setParameter("keyword", "'"+keyword.toLowerCase() + "\\_%'").getResultList();
+		System.err.println(permissions);
+		return permissions;
 	}
 
 }

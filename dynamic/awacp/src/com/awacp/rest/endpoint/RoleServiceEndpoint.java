@@ -55,11 +55,10 @@ public class RoleServiceEndpoint extends CrossOriginFilter {
 		return this.roleService.getRoleWithPermissions(roleName);
 	}
 	@GET
-	@Path("/groupPermissionsByGroup")
+	@Path("/groupPermissionsGroup")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PermissionGroup> groupPermissionsByCategory(@QueryParam("roleName") String roleName,
-			@Context HttpServletResponse servletResponse) throws IOException {
-		return this.roleService.groupPermissionsByGroup(roleName);
+	public List<PermissionGroup> groupPermissionsGroup(@Context HttpServletResponse servletResponse) throws IOException {
+		return this.roleService.groupPermissionsGroup();
 	}
 
 	@POST

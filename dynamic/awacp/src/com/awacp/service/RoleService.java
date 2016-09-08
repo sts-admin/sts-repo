@@ -9,7 +9,7 @@ import com.sts.core.entity.Role;
 public interface RoleService {
 	public List<Permission> listPermissions();
 	
-	public List<PermissionGroup> groupPermissionsByGroup(String roleName);
+	public List<PermissionGroup> groupPermissionsGroup();
 	
 	public Permission getPermission(String permissionName);
 
