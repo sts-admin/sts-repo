@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.cxf.rs.security.cors.CorsHeaderConstants;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -20,10 +19,8 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class SpringCorsFilter extends DelegatingFilterProxy {
 	
-	public static String allowedURL;
+	public static String allowedURL="";
 	
-	@Value("${valid.url:http://jykra.info}")
-	//@Value("http://jykra.info}")
 	public void setAllowedURL(String allowedURL){
 		SpringCorsFilter.allowedURL = allowedURL;
 	}

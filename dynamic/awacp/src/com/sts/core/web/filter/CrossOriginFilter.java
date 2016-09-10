@@ -25,7 +25,7 @@ public class CrossOriginFilter {
            .header(CorsHeaderConstants.HEADER_AC_ALLOW_METHODS, "GET POST DELETE PUT OPTIONS")
            .header(CorsHeaderConstants.HEADER_AC_ALLOW_CREDENTIALS, "true")
            .header(CorsHeaderConstants.HEADER_AC_ALLOW_ORIGIN, origin)
-           .header(CorsHeaderConstants.HEADER_AC_EXPOSE_HEADERS, "Jykra-Service")
+           .header(CorsHeaderConstants.HEADER_AC_EXPOSE_HEADERS, "Awacp-Service")
            .header(CorsHeaderConstants.HEADER_AC_MAX_AGE, -1)
            .header(CorsHeaderConstants.HEADER_AC_ALLOW_HEADERS, "Accept, Origin, X-Requested-With, Content-Type, Last-Modified")
            .build();
