@@ -1,59 +1,57 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.services')
-	.factory('AjaxUtil', function ($rootScope, $state, base, $timeout, StoreService, $uibModal) {
+	.factory('AjaxUtil', function ($rootScope, $state, base, $timeout, StoreService, $uibModal, AlertService) {
 		return {
+			initHeaderInfo:function(){
+				var accessToken = StoreService.getAccessToken('token');
+				var headers = {
+					'Authorization' : 'Bearer ' + accessToken,
+					'Accept' : 'application/json'
+				};
+				$.ajaxSetup({
+					'headers' : headers,
+					 dataType : 'json'
+				});
+			},
+			isAuthorized: function(){
+				var accessToken = StoreService.getAccessToken('token');
+				if(accessToken != null && accessToken.length > 0){
+					this.initHeaderInfo();
+					return true;
+				}
+				AlertService.showAlert(	'AWACP :: Alert!','You are not authorized to perform this operation.')
+				.then(function (){StoreService.removeAll();$state.go("/")},function (){return false;});
+				return false;
+			},	
 			saveErrorLog:function(jqXHR, customMsg, showMsgDialog){
 				var me = this;
 				if (jqXHR.readyState == 0) {
-					$rootScope.$apply(function(){
-						$rootScope.alert.noService = true;
-					})
-					me.logout();
-				}else{
-					var msg = "";
-					var rs = "";
-					var unknownPassword = false;
-					if(jqXHR.responseText && jqXHR.responseText!=null){
+					$rootScope.$apply(function(){ $rootScope.alert.noService = true;});
+					StoreService.removeAll(); 
+					return;
+				}else{var msg = "";
+					var rs = "", unknownPassword = false;
+					if(jqXHR.responseText && jqXHR.responseText!=null){						
 						rs = JSON.parse(jqXHR.responseText);
-						if(rs!=null && rs.error!=null && rs.error == 'invalid_token'){
-							this.showMessage("Your user session expired, need to re-login");
-							$timeout(function(){
-								jQuery.noConflict();
-								$("#message-dialog").modal("hide");
-								me.logout();
-								return;
-							},2000);							
-						}else if(rs!=null && rs.error_description!=null && rs.error_description == 'unknown_password'){
-							this.showMessage("Invalid user credentials");	
-							$timeout(function(){
-								jQuery.noConflict();
-								$("#message-dialog").modal("hide");
-								me.logout();
-								return;
-							},2000);
-						}
-					}else if(jqXHR.statusText == "unauthorized" || jqXHR.statusText == "Unauthorized"){
-						this.showMessage("Unknown User");
-						$timeout(function(){
-							jQuery.noConflict();
-							$("#message-dialog").modal("hide");
-							me.logout();
-							return;
-						},2000);
+						if(rs!=null && rs.error!=null){
+							if(rs.error == 'invalid_token'){
+								AlertService.showAlert(	'AWACP :: Alert!','Your user session expired, need to re-login.')
+								.then(function (){me.logout();},function (){});
+							}else if("invalid_grant" === rs.error || "unknown_password" === rs.error_description){
+								AlertService.showAlert('AWACP :: Alert!','Invalid user credentials')
+								.then(function (){me.logout();},function (){});
+							}else if(rs.error === "unauthorized"){
+								AlertService.showAlert(	'AWACP :: Alert!','Unknown User')
+								.then(function (){me.logout();},function (){});
+							}
+						}						
 					}else{
 						if(showMsgDialog){
-							if(customMsg && customMsg.length > 0){
-								this.showMessage(customMsg);
-							}else{
-								this.showMessage("Unable to complete request due to communication error.");
-							}
-							$timeout(function(){
-								jQuery.noConflict();
-								$("#message-dialog").modal("hide");
-								me.logout();
-								return;
-							},1000);
+							var msg = "Unable to complete request due to communication error.";
+							if(customMsg && customMsg.length > 0){ msg = customMsg;	}
+							AlertService.showAlert('AWACP :: Alert!', msg)
+							.then(function (){ me.logout();}, function (){});
 						}
 					}
 				}				
@@ -69,9 +67,7 @@
 				formData["errorLog"] = errorLog;
 				this.submitDataNoSecure("/js/saveErrorLog",formData)
 				.success(function (data, textStatus, jqXHR) {
-					/*alert("Log save success");*/
 				}).error(function (jqXHR, textStatus, errorThrown) {
-					/*alert("Log save failed");*/
 				});	
 			},
 			toggleSpinner:function(buttonId, spinnerId, spinnerUrl, action){
@@ -84,68 +80,9 @@
 					$("#"+spinnerId).html("");
 				}
 			},
-			listAllPermissions:function(callback){
-				var result = [];
-				this.getData("/awacp/listAllPermissions", Math.random())
-				.success(function (data, status, headers) {	
-					if(data && data.permission && data.permission.length > 0){
-						$.each(data.permission, function(k, v){
-							result.push(v);
-						});
-						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-							callback(result, "success");
-						}
-					}
-				})
-				.error(function (jqXHR, textStatus, errorThrown) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-						callback(jqXHR, "error");
-					}
-				});
-			},
-			getPermissionsGroup:function(callback){
-				var result = [];
-				this.getData("/awacp/groupPermissionsGroup", Math.random())
-				.success(function (data, status, headers) {	
-					if(data && data.permissionGroup && data.permissionGroup.length > 0){
-						$.each(data.permissionGroup, function(k, v){
-							result.push(v);
-						});
-						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-							callback(result, "success");
-						}
-					}
-				})
-				.error(function (jqXHR, textStatus, errorThrown) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-						callback(jqXHR, "error");
-					}
-				});
-			},
-			getRoleWithPermissions:function(roleName, callback){
-				var result = [];
-				this.getData("/awacp/getRoleWithPermissions?roleName="+roleName, Math.random())
-				.success(function (data, status, headers) {	
-					if(data && data.role){
-						$.each(data.role, function(k, v){
-							result.push(v);
-						});
-						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-							callback(result, "success");
-						}
-					}
-				})
-				.error(function (jqXHR, textStatus, errorThrown) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-						callback(jqXHR, "error");
-					}
-				});
-			},		
-				
 			listCountries:function(callback){
 				var countries = [];
 				var url = "/awacp/listCountries";
-				alert(url);
 				this.getData(url, Math.random())
 				.success(function (data, status, headers) {					
 					if(data && data.country && data.country.length > 0){
@@ -182,155 +119,27 @@
 						callback(jqXHR, "error");
 					}
 				});
-			},
-			getUserAddress:function(userId, callback){
-				this.getData("/js/getAddress?userId="+ userId, Math.random())
-				.success(function (data, status, headers) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-						callback(data, "success");
-					}
-				})
-				.error(function (jqXHR, textStatus, errorThrown) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-						callback(jqXHR, "error");
-					}
-				});
-			},
-			getUserDetail: function(callback){
-				this.getData("/ob/getUserDetailByUserEmail?userEmail="+ this.getUserName(), Math.random())
-				.success(function (data, status, headers) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-						callback(data, "success");
-					}					
-				})
-				.error(function (jqXHR, textStatus, errorThrown) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-						callback(jqXHR, "error");
-					}					
-				});
-			},
-			setUser: function(user, callback){
-				var me = this;
-				if(user == null){ //get user and then set in StoreService for further reference
-					this.getData( "/js/getUserDetails?userNameOrEmail="+ this.getUserName(), Math.random())
-					.success(function (data, status, headers) {
-						StoreService.setUser(data.user);
-						$rootScope.$apply(function(){
-							$rootScope.user.isLoggedIn = me.isLoggedIn();
-							$rootScope.user.profileImageUrl = data.user.photoUrl;
-						});						
-						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-							callback(data.user, "success");
-						}
-					})
-					.error(function (jqXHR, textStatus, errorThrown) {
-						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-							callback(jqXHR, "error");
-						}
-					});
-				}else{
-					StoreService.setUser('user', user);
-					$rootScope.$apply(function(){
-						$rootScope.user.isLoggedIn = me.isLoggedIn();
-						$rootScope.user.profileImageUrl = user.photoUrl;
-					});	
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-						callback(user, "success");
-					}
-				}				
-			},
-			showMessage: function(msg){
-				$("div#message-dialog div#message-dialog-content").html(msg);			 
-				jQuery.noConflict();
-				return $("#message-dialog").modal("show");
-			},
-			showConfirm: function(msg){
-				$("div#confirm-dialog div#confirm-dialog-content").html(msg);			 
-				jQuery.noConflict();
-				return $("#confirm-dialog").modal("show");
-			},
-			logout: function(){
-				var me = this;
-				var accessToken = StoreService.getAccessToken('token');
-				var headers = {
-					'Authorization' : 'Bearer ' + accessToken,
-					'Accept' : 'application/json'
-				};
-				
-				StoreService.removeAll(); 
-				$timeout(function(){
-					$rootScope.$apply(function(){
-						$rootScope.user.isLoggedIn = StoreService.isLoggedIn();
-						$rootScope.user.profileImageUrl = StoreService.profileImageUrl()
-					});					
-				}, 500);
-				
-				$.ajaxSetup({
-					'headers' : headers,
-					 dataType : 'json'
-				});
-				$.ajax({url: base+'/logout',type: "POST",data: Math.random(),contentType: "text/plain",crossDomain: true, dataType:"text"})
-				.success(function (data, status, headers, config) {											
-					$state.go("/");
-				}).error(function (jqXHR, textStatus, errorThrown) {
-					if (jqXHR.readyState == 0) {
-						$rootScope.$apply(function(){
-							$rootScope.alert.noService = true;
-						});
-					}								
-				});
-			},			
-			login: function (username, password, loginType) {
-				$.support.cors = true;
-				var data ={
-				  'username' 	  : username+'`'+loginType,
-				  'password' 	  : password,
-				  'client_id' 	  : 'awacpservices',
-				  'client_secret' : 'awacpservices',
-				  'grant_type'    : 'password'
-				};
-				return $.ajax(
-					{
-						url: base+'/oauth/token',
-						type: "POST",
-						data: data,
-						contentType: "application/x-www-form-urlencoded",
-						crossDomain: true,
-						beforeSend: function(jqXHR, settings) {
-							jqXHR.url = settings.url;
-						}
-					}
-				);
-			},			
-			authorized: function(){
-				var accessToken = StoreService.getAccessToken('token');
-				var headers = {
-					'Authorization' : 'Bearer ' + accessToken,
-					'Accept' : 'application/json'
-				};
-				$.ajaxSetup({
-					'headers' : headers,
-					 dataType : 'json'
-				});
-				return true;
-			},			
+			},		
 			getData: function (serviceUrl, data) {
-				if(!this.authorized()){return false;};
-				return this.getDataNoSecure(serviceUrl, data)
+				if(this.isAuthorized()){
+					return this.getDataNoSecure(serviceUrl, data);
+				}				
 			},			
 			getDataNoSecure: function (serviceUrl, data) {
 				return this.submitAJAXRequest(serviceUrl, data, "GET")
 			},			
 			submitData: function (serviceUrl, data) {
-				if(!this.authorized()){return false;};
-				return this.submitDataNoSecure(serviceUrl, data)
+				if(this.isAuthorized()){
+					return this.submitDataNoSecure(serviceUrl, data);
+				}
 			},			
 			submitDataNoSecure: function (serviceUrl, data) {
 				return this.submitAJAXRequest(serviceUrl, data, "POST")
 			},
 			deleteData: function (serviceUrl, data) {
-				if(!this.authorized()){return false;};
-				return this.deleteDataNoSecure(serviceUrl, data)
+				if(this.isAuthorized()){
+					return this.deleteDataNoSecure(serviceUrl, data);
+				}
 			},			
 			deleteDataNoSecure: function (serviceUrl, data) {
 				return this.submitAJAXRequest(serviceUrl, data, "DELETE")
@@ -359,14 +168,16 @@
 			},			
 			uploadData: function uploadData(serviceUrl, data) {
 				var serverUrl = base+serviceUrl;			
-				if(!this.authorized()){return false;};
-				$.support.cors = true;
-				return $.ajax({type: "POST",url: serverUrl,data: data,contentType: false,crossDomain: true,	  processData: false,cache : false});
+				if(this.authorized()){
+					$.support.cors = true;
+					return $.ajax({type: "POST",url: serverUrl,data: data,contentType: false,crossDomain: true,	  processData: false,cache : false});
+				}
 			},			
 			downloadData: function uploadData(serviceUrl, data) {
-				if(!this.authorized()){return false;};
-				$.support.cors = true;
-				return $.ajax({type: "GET",url: base+serviceUrl,crossDomain: true,dataType: "binary",headers:{'Content-Type':'image/png','X-Requested-With':'XMLHttpRequest'},processData: false,});
+				if(this.isAuthorized()){
+					$.support.cors = true;
+					return $.ajax({type: "GET",url: base+serviceUrl,crossDomain: true,dataType: "binary",headers:{'Content-Type':'image/png','X-Requested-With':'XMLHttpRequest'},processData: false,});
+				};
 			}
 		};
 	});

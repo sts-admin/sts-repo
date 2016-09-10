@@ -3,27 +3,42 @@
 <div class="container-fluid">
 	<div class="clearfix">
 		<div ng-init="roleVm.initRoles();">
-			<div>
-				<label>Select a role to show permission(s)</label>
-				<select 
-				  ng-model="roleVm.selectedRole" 
-				  ng-options="role as role.roleDescription for role in roleVm.roles"  ng-change="roleVm.getRoleWithPermissions();" ng-required = "true">
-				  <option value="">--- Select ---</option>
-				</select>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label>Role</label>
+					<select 
+					  ng-model="roleVm.selectedRole" 
+					  ng-options="role as role.roleDescription for role in roleVm.roles"  ng-change="roleVm.getRoleWithPermissions();" ng-required = "true">
+					  <option value="">--- Select ---</option>
+					</select>
+					<span ng-show="roleVm.selectedRole != null">
+						<label>
+							has <span class="badge">{{roleVm.role.permissionArray?roleVm.role.permissionArray.length:0}}</span> permission(s) at present.
+						</label>
+					</span>
+				</div>
+				<div class="panel-body">
+					<form ng-submit="roleVm.updateRolePermissions()">
+						<ul ng-repeat="group in roleVm.allPermissionsGroup" style="list-style-type: none;" class="col-md-6 col-sm-6 col-xs-12">
+							<li class="col-xs-12">
+								<label style="font-weight:bold;font-size:12pt;">{{group.groupName}}</label>
+							</li>
+							<li ng-repeat="permission in group.permissions" style="color:gray; font-size:10pt;" class="col-md-4 col-sm-4 col-xs-12">
+								<label>
+									<input type="checkbox" checklist-model="roleVm.role.permissionArray" checklist-value="permission.authority" ng-click="roleVm.checkSelection();"> {{permission.description}}
+								</label>
+							</li>
+						</ul>	
+						<ul style="list-style-type: none;" class="col-md-6 col-sm-6 col-xs-12" ng-show="roleVm.showUpdateBtn">
+							<li>
+								<input type="submit" class="btn btn-info" value="Update {{roleVm.selectedRole.roleDescription}} Permission(s)">
+							</li>
+						</ul>
+					</form>
+					
+					
+				</div>
 			</div>
-			<div class="add-product-row" ng-show="roleVm.selectedRole != null">
-				<label>'{{roleVm.selectedRole.roleDescription}}' role is assigned with <span class="badge">{{roleVm.role.permissionArray?roleVm.role.permissionArray.length:0}}</span> role(s) at present.</label>
-				<br />
-				<ul ng-repeat="group in roleVm.allPermissionsGroup" style="list-style-type: none;" class="col-md-6 col-sm-6 col-xs-12">
-					<li class="col-xs-12">
-						<label style="font-weight:bold;font-size:12pt;">{{group.groupName}}</label>
-					</li>
-					<li ng-repeat="permission in group.permissions" style="color:gray; font-size:10pt;" class="col-md-6 col-sm-6 col-xs-12">
-					  <label><input type="checkbox" checklist-model="roleVm.role.permissionArray" checklist-value="permission.authority"> {{permission.description}}</label>
-					</li>
-				</ul>				
-			</div>
-			<br />
 		</div>
 	</div>
 </div>

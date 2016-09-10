@@ -1,16 +1,19 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('UserCtrl', UserCtrl);
-	UserCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'StoreService', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile'];
-	function UserCtrl($scope, $state, $location, $http, AjaxUtil, StoreService, $q, $timeout, $window, $rootScope, $interval, $compile){
+	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', ];
+	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService){	
 		var userVm = this;
+		userVm.spinnerUrl = "<img src='images/loading.gif' />";
 		userVm.loginForm = {};
 		userVm.timers = [];
 		userVm.users = [];
 		
 		userVm.login = function(){
-			AjaxUtil.login(userVm.loginForm.userName, userVm.loginForm.password, 'manual')
+			AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "disable");
+			UserService.login(userVm.loginForm.userName, userVm.loginForm.password, 'manual')
 			 .success(function (data, response, headers) {	
+				AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "enable");
 				 var authority = "",  userName ="";	 
 				 if(data && data.authorities){ 
 					authority = data.authorities[0].authority; 
@@ -24,6 +27,7 @@
 				 }
 			 })
 			.error(function (jqXHR, textStatus, errorThrown) {	
+				AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "enable");
 				jqXHR.errorSource = "Login::Error";
 				$scope.signInSpinner = false;
 				AjaxUtil.toggleSpinner("login_button", "loading_span", $scope.spinnerUrl, "enable");

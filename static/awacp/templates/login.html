@@ -1,10 +1,13 @@
 <div class="login-bg">
 	<div class="container">
 		<form ng-submit="userVm.login();">
+			<div class="row" ng-show="alert.noService" style="text-align:center;font-size:16px;color:red;font-weight:bold;">
+					Unable to connect with AWACP Service</blink>
+			</div>
 			<div class="row">
 				<div class="col-sm-12">
 				  <center>
-					<img src="images/awacp_big_logo.png" />
+					<img src="images/awacp_big_logo.png" width="300px;" />
 				  </center>
 				</div>
 			</div>
@@ -30,13 +33,14 @@
 								<div class="form-group">
 								  <input type="checkbox" tabindex="3" class="" name="remme" id="remme">
 								  <label for="remember" style="color:#294860;"> Remember Me</label>
+								  <span id="loading_span" style="padding-left:20px;"></span>
 								</div>
 								
 								<div class="form-group">
 								  <div class="row">
 									<div class="col-sm-12">
 									  <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-									</div>
+									</div>									
 								  </div>
 								</div>
 							  </form>

@@ -1,6 +1,6 @@
 (function() {
 	'use strict';
-	angular.module('SS', [])
+	angular.module('awacpApp.services')
 	.factory('StoreService', function (store) {
 		return {
 			setUser:function(user){
@@ -46,6 +46,10 @@
 		};
 	});
 })();
+
+
+
+
 
 
 

@@ -1,9 +1,9 @@
-<div class="modal-header" style="text-align:center;">
-	<h3 class="modal-title" id="modal-title">{{title}}</h3>
+<div class="modal-header pop-up-alert">
+	<h3 class="pop-up-alert-title" id="modal-title">{{title}}</h3>
 </div>
 <div class="modal-body" id="modal-body" style="text-align:center;">
 	{{message}}
 </div>
-<div class="modal-footer" style="text-align:center;">
-	 <button type="button" class="btn btn-primary btn-warn" data-ng-click="ok(); $event.stopPropagation()">OK</button>
+<div class="pop-up-alert-footer">
+	 <button type="button" class="btn btn-primary btn-warn alert-ok-button" data-ng-click="ok(); $event.stopPropagation()">OK</button>
 </div>
