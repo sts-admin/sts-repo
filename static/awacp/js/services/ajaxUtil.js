@@ -30,21 +30,21 @@
 					$rootScope.$apply(function(){ $rootScope.alert.noService = true;});
 					StoreService.removeAll(); 
 					return;
-				}else{var msg = "";
+				}else{
+					var msg = "";
 					var rs = "", unknownPassword = false;
 					if(jqXHR.responseText && jqXHR.responseText!=null){						
 						rs = JSON.parse(jqXHR.responseText);
-						if(rs!=null && rs.error!=null){
+						if(rs!=null && rs.error!=null){							
 							if(rs.error == 'invalid_token'){
-								AlertService.showAlert(	'AWACP :: Alert!','Your user session expired, need to re-login.')
-								.then(function (){me.logout();},function (){});
+								msg = "Your user session expired, need to re-login.";								
 							}else if("invalid_grant" === rs.error || "unknown_password" === rs.error_description){
-								AlertService.showAlert('AWACP :: Alert!','Invalid user credentials')
-								.then(function (){me.logout();},function (){});
+								msg = "Invalid user credentials";
 							}else if(rs.error === "unauthorized"){
-								AlertService.showAlert(	'AWACP :: Alert!','Unknown User')
-								.then(function (){me.logout();},function (){});
+								msg = "Unknown User";
 							}
+							AlertService.showAlert(	heading, msg)
+							.then(function (){me.logout();},function (){});
 						}						
 					}else{
 						if(showMsgDialog){
