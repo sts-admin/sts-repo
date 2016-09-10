@@ -37,22 +37,6 @@ public class RoleServiceImpl implements RoleService {
 	@Transactional
 	public Role saveRole(Role role) {
 		getEntityManager().persist(role);
-		String[] permissionArray = role.getPermissionArray();
-		if (permissionArray != null && permissionArray.length > 0) {
-			Set<Permission> permissions = new HashSet<Permission>();
-			for (String permissionName : permissionArray) {
-				Permission permission = getPermission(permissionName);
-				if (permission != null) {
-					permissions.add(permission);
-				}
-			}
-			role.setPermissions(permissions);
-		} else {
-			if (role.getPermissions() != null && !role.getPermissions().isEmpty()) {
-				role.getPermissions().clear();
-			}
-
-		}
 		getEntityManager().flush();
 		return role;
 	}
@@ -66,7 +50,24 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	@Transactional
 	public Role updateRole(Role role) {
-		return getEntityManager().merge(role);
+		System.err.println("Role name = "+ role);
+		Role existingRole = getRoleWithPermissions(role.getRoleName());
+		String[] permissionArray = role.getPermissionArray();
+		if (permissionArray != null && permissionArray.length > 0) {
+			Set<Permission> permissions = new HashSet<Permission>();
+			for (String permissionName : permissionArray) {
+				Permission permission = getPermission(permissionName);
+				if (permission != null) {
+					permissions.add(permission);
+				}
+			}
+			existingRole.setPermissions(permissions);
+		} else if (role.getPermissions() != null && !role.getPermissions().isEmpty()) {
+			existingRole.getPermissions().clear();
+		}
+		role = getEntityManager().merge(existingRole);
+		getEntityManager().flush();
+		return role;
 	}
 
 	@Override
@@ -83,6 +84,7 @@ public class RoleServiceImpl implements RoleService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Role getRole(String roleName) {
+		System.err.println("getRole roleName = "+ roleName);
 		List<Role> roles = getEntityManager().createNamedQuery("Role.getByName").setParameter("roleName", roleName)
 				.getResultList();
 		return roles == null || roles.isEmpty() ? null : roles.get(0);
@@ -124,10 +126,7 @@ public class RoleServiceImpl implements RoleService {
 				pg.setGroupName(permission[1].toString());
 				String keyword = permission[0].toString().split("_")[0];
 				pg.setPermissions(getAllMatchingPermissions(keyword));
-				/*
-				 * System.err.println("Group Name = "+ group[0] + ", Label = "+
-				 * group[1]);
-				 */
+				groups.add(pg);
 			}
 		}
 
@@ -144,9 +143,7 @@ public class RoleServiceImpl implements RoleService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Permission> getAllMatchingPermissions(String keyword) {
-		List<Permission> permissions = getEntityManager().createNamedQuery("Permission.getAllMatchingPermissions")
-				.setParameter("keyword", "'"+keyword.toLowerCase() + "\\_%'").getResultList();
-		System.err.println(permissions);
-		return permissions;
+		return getEntityManager().createNamedQuery("Permission.getAllMatchingPermissions")
+				.setParameter("exp", keyword.toLowerCase() + "\\_%").getResultList();
 	}
 }

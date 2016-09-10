@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 		@NamedQuery(name = "Permission.listAll", query = "SELECT p FROM Permission p WHERE p.archived = 'false'"),
 		@NamedQuery(name = "Permission.getByName", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND p.authority =:permissionName"),
-		@NamedQuery(name = "Permission.getAllMatchingPermissions", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND p.authority LIKE :keyword")
+		@NamedQuery(name = "Permission.getAllMatchingPermissions", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND LOWER( p.authority ) LIKE :exp")
 		})
 public class Permission {
 

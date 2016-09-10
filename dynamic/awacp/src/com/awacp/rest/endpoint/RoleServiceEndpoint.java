@@ -73,7 +73,7 @@ public class RoleServiceEndpoint extends CrossOriginFilter {
 	@Path("/updateRole")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Role updateRole(Role role, @Context HttpServletResponse servletResponse) throws IOException {
+	public Role updateRole(Role role, @Context HttpServletResponse servletResponse) throws IOException {		
 		return this.roleService.updateRole(role);
 	}
 
