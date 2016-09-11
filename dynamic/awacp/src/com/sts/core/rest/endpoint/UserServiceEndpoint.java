@@ -74,7 +74,7 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/user/{userId}")
+	@Path("/get/user/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public User getUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.findUser(userId);
@@ -112,7 +112,7 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@DELETE
-	@Path("/user/{userId}")
+	@Path("/delete/user/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String deleteUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse) throws IOException {

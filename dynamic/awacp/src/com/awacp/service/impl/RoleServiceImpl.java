@@ -50,8 +50,7 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	@Transactional
 	public Role updateRole(Role role) {
-		System.err.println("Role name = "+ role);
-		Role existingRole = getRoleWithPermissions(role.getRoleName());
+		Role existingRole = getRole(role.getRoleName());
 		String[] permissionArray = role.getPermissionArray();
 		if (permissionArray != null && permissionArray.length > 0) {
 			Set<Permission> permissions = new HashSet<Permission>();
@@ -84,7 +83,6 @@ public class RoleServiceImpl implements RoleService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Role getRole(String roleName) {
-		System.err.println("getRole roleName = "+ roleName);
 		List<Role> roles = getEntityManager().createNamedQuery("Role.getByName").setParameter("roleName", roleName)
 				.getResultList();
 		return roles == null || roles.isEmpty() ? null : roles.get(0);

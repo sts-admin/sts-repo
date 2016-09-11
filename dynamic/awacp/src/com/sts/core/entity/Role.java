@@ -28,8 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Role.listAll", query = "SELECT r FROM Role r WHERE r.archived = 'false'"),
-		@NamedQuery(name = "Role.getByName", query = "SELECT r FROM Role r WHERE r.archived = 'false' AND r.roleName =:roleName") })
+@NamedQueries({ 
+	@NamedQuery(name = "Role.listAll", query = "SELECT r FROM Role r WHERE r.archived = 'false'"),
+	@NamedQuery(name = "Role.getByName", query = "SELECT r FROM Role r WHERE r.archived = 'false' AND r.roleName =:roleName") 
+})
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -59,7 +61,6 @@ public class Role implements Serializable {
 	}
 
 	public void setRoleName(String roleName) {
-		System.err.println("set role name "+ roleName);
 		this.roleName = roleName;
 	}
 

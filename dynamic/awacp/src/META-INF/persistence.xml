@@ -7,7 +7,7 @@
 		   <property name="eclipselink.ddl-generation" value="create-tables"/>
 		   <property name="eclipselink.logging.parameters" value="true" />
 		   <property name="eclipselink.weaving" value="true"/>
-		   <property name="eclipselink.temporal.mutable" value="true"/>
+		    <property name="eclipselink.temporal.mutable" value="true"/>
 		   <property name="eclipselink.ddlgen-terminate-statements" value="true"/>
 	   </properties>
 	</persistence-unit>	
