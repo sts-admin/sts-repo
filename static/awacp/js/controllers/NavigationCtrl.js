@@ -4,6 +4,7 @@
 	NavigationCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile'];
 	function NavigationCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile){
 		var navVm = this;
+		$scope.timers = [];
 		navVm.takeOfMenu = 
 		[
 			{ name: "Add New", link: "#" }, 

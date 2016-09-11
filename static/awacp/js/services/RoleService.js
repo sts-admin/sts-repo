@@ -61,15 +61,12 @@
 				});
 			},
 			getRoleWithPermissions:function(roleName, callback){
-				var result = [];
 				AjaxUtil.getData("/awacp/getRoleWithPermissions?roleName="+roleName, Math.random())
 				.success(function (data, status, headers) {	
 					if(data && data.role){
-						$.each(data.role, function(k, v){
-							result.push(v);
-						});
+						console.log(data.role);
 						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
-							callback(result, "success");
+							callback(data.role, "success");
 						}
 					}
 				})
@@ -79,9 +76,7 @@
 					}
 				});
 			},
-			updateRolePermissions:function(formData, callback){
-				console.log(JSON.stringify(formData, null, 4));
-				
+			updateRolePermissions:function(formData, callback){				
 				AjaxUtil.submitData("/awacp/updateRole", formData)
 				.success(function (data, status, headers){
 					if(data){
