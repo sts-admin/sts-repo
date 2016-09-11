@@ -13,26 +13,36 @@
 				templateUrl:"templates/login.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
-			}).state('dashboard',{
+			})
+			.state('dashboard',{
 				url: '/dashboard',
 				templateUrl:"templates/dashboard.html",
 				controller:"DashboardCtrl",
 				controllerAs:"dashVm"
-			}).state('admin',{
+			})
+			.state('admin',{
 				url: '/admin',
 				templateUrl:"templates/dashboard-admin.html",
 				controller:"AdminCtrl",
 				controllerAs:"adminVm"
-			}).state('users',{
+			})
+			.state('users',{
 				url: '/users',
 				templateUrl:"templates/users.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
-			}).state('roles',{
+			})
+			.state('roles',{
 				url: '/manage/roles',
 				templateUrl:"templates/roles.html",
 				controller:"RoleCtrl",
 				controllerAs:"roleVm"
+			})
+			.state('add-user',{
+				url: '/manage/users/add',
+				templateUrl:"templates/new_user.html",
+				controller:"UserCtrl",
+				controllerAs:"userVm"
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);

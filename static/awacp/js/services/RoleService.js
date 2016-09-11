@@ -61,6 +61,7 @@
 				});
 			},
 			getRoleWithPermissions:function(roleName, callback){
+				alert("roleName-"+roleName);
 				AjaxUtil.getData("/awacp/getRoleWithPermissions?roleName="+roleName, Math.random())
 				.success(function (data, status, headers) {	
 					if(data && data.role){

@@ -1,0 +1,148 @@
+
+<!-- ************************************************************************************************************************************-->
+
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" id="modal-box-area">
+      <div class="modal-body">
+        <div class="te">
+          <center>
+            <img src="images/ajax-loader.gif" />
+          </center>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<section class="newUser" >
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 dashboard-content">
+        <h1>New User</h1>
+      </div>
+      <!-- .col -->
+      <div class="col-lg-6 col-md-6 col-sm-6 text-center"> </div>
+      <!-- .col -->
+      <div class="col-lg-12 col-md-12 col-sm-12"><br/>
+      </div>
+      <!-- .col -->
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container -->
+  <form name="add_user" id="add_user" method="post" action="" class="formular" ng-submit="userVm.saveUser()">
+    <div class="bg-d0e9f4 theme-form">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30">
+            <div class="form-group">
+              <input type="submit" value="Submit" class="submit-btn btn btn-primary">
+              &nbsp;&nbsp;&nbsp;
+              <input type="reset" value="Reset" class="reset-btn btn btn-info" onclick="this.form.reset();">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>First Name</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userVm.user.firstName" ng-required="true" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Last Name</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userVm.user.lastName" ng-required="true" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>User ID</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userVm.user.userName" ng-required="true"/>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Password</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userVm.user.password" ng-required="true" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Usercode</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userVm.user.userCode" ng-required="true"/>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Email ID</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userVm.user.email" ng-required="true" />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Phone</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userVm.user.contact" ng-required="true"  />
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red"></i>Role</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-3 col-md-3 col-sm-2">
+            <div class="form-group" ng-init="userVm.initRoles();">
+             <select 
+			  ng-model="userVm.user.role" 
+			  ng-options="role as role.roleDescription for role in userVm.roles"  ng-required = "true">
+			  <option value="">--- Select ---</option>
+			</select>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+       
+        <!-- .row -->
+        <div class="row checkrow">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+            <input type="submit" value="Submit" class="submit-btn btn btn-primary">
+            <input type="hidden" name="add" value="add" />
+            &nbsp;&nbsp;&nbsp;
+            <input type="reset" value="Reset" class="reset-btn btn btn-info" onclick="this.form.reset();">
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+      </div>
+      <!-- .container -->
+    </div>
+    <!-- .bg-d0e9f4 -->
+  </form>
+</section>
+<div style = "margin-top:50px;" ng-include="'templates/footer.html'" ></div>
+
+
