@@ -10,7 +10,6 @@
 		userVm.timers = [];
 		userVm.users = [];
 		userVm.roles = [];
-		
 		userVm.login = function(){
 			AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "disable");
 			UserService.login(userVm.loginForm.userName, userVm.loginForm.password, 'manual')

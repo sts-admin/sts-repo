@@ -13,8 +13,7 @@
 				templateUrl:"templates/login.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
-			})
-			.state('dashboard',{
+			}).state('dashboard',{
 				url: '/dashboard',
 				templateUrl:"templates/dashboard.html",
 				controller:"DashboardCtrl",
@@ -25,24 +24,51 @@
 				templateUrl:"templates/dashboard-admin.html",
 				controller:"AdminCtrl",
 				controllerAs:"adminVm"
-			})
-			.state('users',{
+			}).state('users',{
 				url: '/users',
 				templateUrl:"templates/users.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
-			})
-			.state('roles',{
+			}).state('roles',{
 				url: '/manage/roles',
 				templateUrl:"templates/roles.html",
 				controller:"RoleCtrl",
 				controllerAs:"roleVm"
-			})
-			.state('add-user',{
+			}).state('add-user',{
 				url: '/manage/users/add',
 				templateUrl:"templates/new_user.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
+			}).state('engineers',{
+				url: '/engineers',
+				templateUrl:"templates/engineers.html",
+				controller:"EngineerCtrl",
+				controllerAs:"engVm"
+			}).state('engineer-add',{
+				url: '/engineer/add',
+				templateUrl:"templates/engineer-add.html",
+				controller:"EngineerCtrl",
+				controllerAs:"engVm"
+			}).state('architects',{
+				url: '/architects',
+				templateUrl:"templates/architects.html",
+				controller:"EngineerCtrl",
+				controllerAs:"engVm"
+			}).state('architect-add',{
+				url: '/architect/add',
+				templateUrl:"templates/architect-add.html",
+				controller:"ArchitectCtrl",
+				controllerAs:"arcVm"
+			}).state('contractors',{
+				url: '/contractors',
+				templateUrl:"templates/contractors.html",
+				controller:"ContractorCtrl",
+				controllerAs:"conVm"
+			}).state('contractor-add',{
+				url: '/contractor/add',
+				templateUrl:"templates/contractor-add.html",
+				controller:"ContractorCtrl",
+				controllerAs:"conVm"
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);

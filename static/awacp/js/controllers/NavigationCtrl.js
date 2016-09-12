@@ -93,11 +93,11 @@
 		];
 		navVm.bbtMenu = 
 		[
-			{ name: "Engineer", link: "#" }, 
+			{ name: "Engineer", link: "engineers" }, 
 			{ name: "divider", link: "#" },
-			{ name: "Architect", link: "#" },
+			{ name: "Architect", link: "architects" },
 			{ name: "divider", link: "#" },
-			{ name: "Contractor", link: "#" },
+			{ name: "Contractor", link: "contractors" },
 			{ name: "divider", link: "#" },
 			{ name: "Bidder", link: "#" },
 			{ name: "divider", link: "#" },

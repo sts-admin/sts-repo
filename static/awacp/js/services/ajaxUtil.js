@@ -29,13 +29,15 @@
 				if (jqXHR.readyState == 0) {
 					$rootScope.$apply(function(){ $rootScope.alert.noService = true;});
 					StoreService.removeAll(); 
+					AlertService.showAlert(	"AWACP :: Alert", "Unable to connect AWACP Services.")
+					.then(function (){return},function (){return});
 					return;
 				}else{
 					var msg = "";
 					var rs = "", unknownPassword = false;
 					if(jqXHR.responseText && jqXHR.responseText!=null){						
 						rs = JSON.parse(jqXHR.responseText);
-						if(rs!=null && rs.error!=null){							
+						if(rs!=null && rs.error!=null){
 							if(rs.error == 'invalid_token'){
 								msg = "Your user session expired, need to re-login.";								
 							}else if("invalid_grant" === rs.error || "unknown_password" === rs.error_description){
@@ -43,8 +45,8 @@
 							}else if(rs.error === "unauthorized"){
 								msg = "Unknown User";
 							}
-							AlertService.showAlert(	heading, msg)
-							.then(function (){me.logout();},function (){});
+							AlertService.showAlert(	"AWACP :: Alert", msg)
+							.then(function (){StoreService.removeAll();$state.go("/")},function (){});
 						}						
 					}else{
 						if(showMsgDialog){
