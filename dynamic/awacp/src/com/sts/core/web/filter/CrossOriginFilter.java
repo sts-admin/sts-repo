@@ -10,7 +10,7 @@ import org.apache.cxf.rs.security.cors.CorsHeaderConstants;
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
 import org.apache.cxf.rs.security.cors.LocalPreflight;
 
-@CrossOriginResourceSharing(allowAllOrigins=true, allowHeaders={"Accept, Origin, X-Requested-With, Content-Type, Last-Modified"}, exposeHeaders={"Jykra-Service"}, allowCredentials=true, maxAge=-1)
+@CrossOriginResourceSharing(allowAllOrigins=true, allowHeaders={"Accept, Origin, X-Requested-With, Content-Type, Last-Modified"}, exposeHeaders={"STS-Service"}, allowCredentials=true, maxAge=-1)
 public class CrossOriginFilter {
 
     @Context
@@ -25,7 +25,7 @@ public class CrossOriginFilter {
            .header(CorsHeaderConstants.HEADER_AC_ALLOW_METHODS, "GET POST DELETE PUT OPTIONS")
            .header(CorsHeaderConstants.HEADER_AC_ALLOW_CREDENTIALS, "true")
            .header(CorsHeaderConstants.HEADER_AC_ALLOW_ORIGIN, origin)
-           .header(CorsHeaderConstants.HEADER_AC_EXPOSE_HEADERS, "Awacp-Service")
+           .header(CorsHeaderConstants.HEADER_AC_EXPOSE_HEADERS, "STS-Service")
            .header(CorsHeaderConstants.HEADER_AC_MAX_AGE, -1)
            .header(CorsHeaderConstants.HEADER_AC_ALLOW_HEADERS, "Accept, Origin, X-Requested-With, Content-Type, Last-Modified")
            .build();

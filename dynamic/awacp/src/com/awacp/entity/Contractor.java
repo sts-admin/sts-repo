@@ -2,6 +2,8 @@ package com.awacp.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -15,6 +17,9 @@ import com.sts.core.entity.State;
  */
 @Entity
 @XmlRootElement
+@NamedQueries({ 
+	@NamedQuery(name = "Contractor.listAll", query = "SELECT c FROM Contractor c WHERE c.archived = 'false'")
+})
 public class Contractor extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

@@ -53,11 +53,11 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host"><value>smtp.gmail.com</value></property>
         <property name="port"><value>587</value></property>
         <property name="protocol"><value>smtp</value></property>
-        <property name="username"><value>Jykra</value></property>
+        <property name="username"><value>abc</value></property>
         <property name="password"><value>nhgWzb4PZJxqtkaN1UhuLg</value></property>
         <property name="javaMailProperties">
             <props>
@@ -91,6 +91,7 @@
 	            <ref bean="countryServiceEndpoint" />
 	            <ref bean="stateServiceEndpoint" />
 	            <ref bean="errorLogServiceEndpoint" />
+	             <ref bean="contractorServiceEndpoint" />
 			<!-- sts-core-context.xml part 2 end -->
 			
 			<ref bean="takeoffServiceEndpoint" />
@@ -110,10 +111,11 @@
     <bean id="userService" class="com.sts.core.service.impl.UserServiceImpl" />
     <bean id="facebookService" class="com.sts.core.service.impl.FacebookServiceImpl" />
     <bean id="imageService" class="com.sts.core.service.impl.ImageServiceImpl" />
+    <bean id="contractorService" class="com.awacp.service.impl.ContractorServiceImpl" />
     <bean id="mailService" class="com.sts.core.mail.service.impl.MailServiceImpl">
       <property name="mailSender" ref="mailSender"/>
       <property name="templateMessage" ref="templateMessage"/>
-    </bean>  
+    </bean>
     
     <bean id="errorLogServiceEndpoint" class="com.sts.core.rest.endpoint.ErrorLogServiceEndpoint">
         <property name="errorLogService" ref="errorLogService" />
@@ -135,6 +137,10 @@
     </bean>    
     <bean id="emailServiceEndpoint" class="com.sts.core.rest.endpoint.MailServiceEndpoint">
         <property name="mailService" ref="mailService" />
+    </bean>
+    
+     <bean id="contractorServiceEndpoint" class="com.awacp.rest.endpoint.ContractorServiceEndpoint">
+        <property name="contractorService" ref="contractorService" />
     </bean>
     
      
