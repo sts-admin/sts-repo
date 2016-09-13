@@ -6,10 +6,13 @@
 		var conVm = this;
 		$scope.timers = [];
 		conVm.contractors= [];
-		conVm.contractor = [];
+		conVm.contractor = {};
 		conVm.countries = [];
 		conVm.states = [];
 		conVm.users = [];
+		conVm.cancelContractorAction = function(){
+			$state.go("contractors");
+		}
 		conVm.initCountries = function(){
 			conVm.countries = [];
 			AjaxUtil.listCountries(function(result, status){
@@ -22,10 +25,8 @@
 			});
 		}
 		conVm.getStates = function(){
-			alert("Country id = "+ conVm.contractor.country.id);
 			conVm.states = [];
-			AjaxUtil.listStates(conVm.contractor.country.id, function(result, status){
-				
+			AjaxUtil.listStates(conVm.contractor.country.id, function(result, status){				
 				if("success" === status){
 					$scope.$apply(function(){
 						conVm.states = result;
@@ -42,8 +43,7 @@
 			.success(function(data, status, headers){
 				if(data && data.user && data.user.length > 0){
 					$.each(data.user, function(k, v){
-						
-						v.customName = v.usercode + " - "+ v.firstName;
+						v.customName = v.userCode + " - "+ v.firstName;
 						conVm.users.push(v);
 					});
 				}
@@ -60,7 +60,18 @@
 			conVm.contractors = [];
 		}
 		conVm.addContractor = function(){
-			alert("add contractor");
+			console.log(conVm.contractor);
+			var formData = {};
+			formData["contractor"] = conVm.contractor;
+			alert(JSON.stringify(formData, null, 4));
+			AjaxUtil.submitData("/awacp/saveContractor", formData)
+			.success(function(data, status, headers){
+				alert("submit success");
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "ContractorCtrl::conVm.addContractor::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
 		}
 		conVm.initContractorMasterInputs = function(){
 			conVm.initCountries();
