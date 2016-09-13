@@ -51,7 +51,7 @@
 			}
 			RoleService.getRoleWithPermissions(roleVm.selectedRole.roleName, function (jqXHR, status) {
 				if("success" === status){
-					if(!jqXHR.permissions || (jqXHR.permissions && !jqXHR.permissions.length)){
+					if(jqXHR.permissions && !jqXHR.permissions.length){
 						var permissionArray = [];
 						permissionArray.push(jqXHR.permissionArray);
 						jqXHR["permissionArray"] = permissionArray;

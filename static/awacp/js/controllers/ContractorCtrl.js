@@ -7,7 +7,52 @@
 		$scope.timers = [];
 		conVm.contractors= [];
 		conVm.contractor = [];
-		
+		conVm.countries = [];
+		conVm.states = [];
+		conVm.users = [];
+		conVm.initCountries = function(){
+			conVm.countries = [];
+			AjaxUtil.listCountries(function(result, status){
+				if("success" === status){
+					conVm.countries = result;
+				}else{
+					jqXHR.errorSource = "ContractorCtrl::conVm.initCountries::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				}
+			});
+		}
+		conVm.getStates = function(){
+			alert("Country id = "+ conVm.contractor.country.id);
+			conVm.states = [];
+			AjaxUtil.listStates(conVm.contractor.country.id, function(result, status){
+				
+				if("success" === status){
+					$scope.$apply(function(){
+						conVm.states = result;
+					});					
+				}else{
+					jqXHR.errorSource = "ContractorCtrl::conVm.getStates::Error, countryId = " + conVm.contractor.country.id;
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				}
+			});
+		}
+		conVm.getUsers = function(){
+			conVm.users = [];
+			AjaxUtil.getData("/awacp/listUser", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.user && data.user.length > 0){
+					$.each(data.user, function(k, v){
+						
+						v.customName = v.usercode + " - "+ v.firstName;
+						conVm.users.push(v);
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "ContractorCtrl::conVm.getUsers::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		conVm.initContractors = function(){
 			if(!AjaxUtil.isAuthorized()){
 				return;
@@ -16,6 +61,10 @@
 		}
 		conVm.addContractor = function(){
 			alert("add contractor");
+		}
+		conVm.initContractorMasterInputs = function(){
+			conVm.initCountries();
+			conVm.getUsers();
 		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
