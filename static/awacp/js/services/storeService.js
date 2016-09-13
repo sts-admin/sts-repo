@@ -9,6 +9,13 @@
 			getUser:function(){
 				return store.get('user');
 			},
+			userDisplayName:function(){
+				var user = store.get('user');
+				if(user!=null){
+					return user.firstName + "	" +user.lastName;
+				}
+				return "";
+			},
 			profileImageUrl:function(){	
 				var user = store.get('user');
 				if(user!=null){

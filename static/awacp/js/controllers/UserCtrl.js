@@ -4,6 +4,14 @@
 	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'RoleService'];
 	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, RoleService){	
 		var userVm = this;
+		userVm.totalItems = 64;
+		userVm.currentPage = 4;
+		userVm.setPage = function (pageNo) {
+			$scope.currentPage = pageNo;
+		};
+		userVm.pageChanged = function() {
+			$log.log('Page changed to: ' + $scope.currentPage);
+		};
 		userVm.spinnerUrl = "<img src='images/loading.gif' />";
 		userVm.loginForm = {};
 		userVm.user = {};
@@ -18,7 +26,7 @@
 				 var authority = "",  userName ="";	 
 				 if(data && data.authorities){ 
 					authority = data.authorities[0].authority; 
-					userName = data.authorities[0].userName;  
+					userName = data.authorities[0].userName; 
 					StoreService.setUserName(userName);
 					StoreService.setRole(authority);
 					if (data.access_token){

@@ -4,6 +4,14 @@
 	ContractorCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService'];
 	function ContractorCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
 		var conVm = this;
+		conVm.totalItems = 64;
+		conVm.currentPage = 4;
+		conVm.setPage = function (pageNo) {
+			$scope.currentPage = pageNo;
+		};
+		conVm.pageChanged = function() {
+			$log.log('Page changed to: ' + $scope.currentPage);
+		};
 		$scope.timers = [];
 		conVm.contractors= [];
 		conVm.contractor = {};

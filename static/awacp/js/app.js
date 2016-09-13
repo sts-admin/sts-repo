@@ -24,7 +24,13 @@
 				templateUrl:"templates/dashboard-admin.html",
 				controller:"AdminCtrl",
 				controllerAs:"adminVm"
-			}).state('users',{
+			}).state('take-off-search',{
+				url: '/takeoff',
+				templateUrl:"templates/take-off.html",
+				controller:"TakeoffCtrl",
+				controllerAs:"takeVm"
+			})
+			.state('users',{
 				url: '/users',
 				templateUrl:"templates/users.html",
 				controller:"UserCtrl",
@@ -73,7 +79,7 @@
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
-		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath) {
+		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService) {
 			$rootScope.resourceReadPath = resourceReadPath;
 			$rootScope.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 			$rootScope.dateFormat = $rootScope.dateFormats[0];
@@ -81,9 +87,9 @@
 			$rootScope.dateOptions = { formatYear: 'yy', maxDate: new Date(2025, 5, 22), minDate: new Date(), startingDay: 0, showWeeks: false};
 			$rootScope.inlineOptions = { minDate: new Date(), showWeeks: true };
 			$rootScope.logoutUser =function(){
-				AjaxUtil.logout();
+				UserService.logout();
 			};			
-			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), profileImageUrl: StoreService.profileImageUrl()};
+			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), profileImageUrl: StoreService.profileImageUrl(), userDisplayName:"Administrator"};
 			$rootScope.alert = {noService:false};
 		}).directive('blink', function($timeout) {
 		return {

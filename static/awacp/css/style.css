@@ -1,17 +1,4 @@
-#top-header
-{
-	padding-top: 10px;
-	padding-bottom: 10px;
-	/*background: url(images/banner-bg.jpg) #7e7e7e;*/
-	
-	background-size: auto 100%;
-	background-clip: padding-box;
-	border-bottom: 1px solid rgb(126, 126, 126);
-	height:100px;
-}   
-.container-fluid{
-	min-height:100%;
-}
+
 .pop-up-alert{text-align:center; background:#f4624a; color:white; height:40px; border-radius:4px;}
 .pop-up-alert-title{margin:0; line-height:0.428571;}
 .pop-up-alert-footer{text-align:center;  padding: 15px;border-top: 1px solid #e5e5e5;}
@@ -19,9 +6,9 @@
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
  .shadow {
-	-moz-box-shadow: -5px 5px 35px #888;
-	-webkit-box-shadow: -5px 5px 35px #888;
-	box-shadow: -5px 5px 35px #888;
+	-moz-box-shadow: -5px 5px 20px #888;
+	-webkit-box-shadow: -5px 5px 20px #888;
+	box-shadow: -5px 5px 20px #888;
 }
 html, body{height:100%; margin:0;padding:0}            
 .row-fluid {

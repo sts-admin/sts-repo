@@ -7,11 +7,11 @@
 		$scope.timers = [];
 		navVm.takeOfMenu = 
 		[
-			{ name: "Add New", link: "#" }, 
+			{ name: "Add New", link: "take-off-add" }, 
 			{ name: "divider", link: "#" },
-			{ name: "View/Search", link: "#" }, 
+			{ name: "View/Search", link: "take-off-search" }, 
 			{ name: "divider", link: "#" },
-			{ name: "Reports", link: "#" }
+			{ name: "Reports", link: "take-off-report" }
 		];
 		navVm.quoteMenu = 
 		[

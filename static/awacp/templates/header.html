@@ -21,10 +21,10 @@
   </div>
   <!-- .col -->
   <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-right">
-	<div id="top-search"> <a href="/admin">
-	  <input type="text" value="Logged in as Abhishek Rastogi" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" />
-	  </a>
-	  <input type="text" value="Logout" class="logout-inp" readonly style="cursor:pointer;" onclick="window.location.href='/login/logout'">
+	<div id="top-search"> 
+		<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" />
+	  
+	  <input type="text" value="Logout" class="logout-inp" readonly style="cursor:pointer;" ng-click="logoutUser();">
 	</div>
 	<!-- #top-search -->
   </div>
