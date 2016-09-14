@@ -111,7 +111,7 @@
     <bean id="userService" class="com.sts.core.service.impl.UserServiceImpl" />
     <bean id="facebookService" class="com.sts.core.service.impl.FacebookServiceImpl" />
     <bean id="imageService" class="com.sts.core.service.impl.ImageServiceImpl" />
-    <bean id="contractorService" class="com.awacp.service.impl.ContractorServiceImpl" />
+   
     <bean id="mailService" class="com.sts.core.mail.service.impl.MailServiceImpl">
       <property name="mailSender" ref="mailSender"/>
       <property name="templateMessage" ref="templateMessage"/>
@@ -137,25 +137,22 @@
     </bean>    
     <bean id="emailServiceEndpoint" class="com.sts.core.rest.endpoint.MailServiceEndpoint">
         <property name="mailService" ref="mailService" />
-    </bean>
-    
-     <bean id="contractorServiceEndpoint" class="com.awacp.rest.endpoint.ContractorServiceEndpoint">
-        <property name="contractorService" ref="contractorService" />
-    </bean>
-    
-     
-
-    
-    
+    </bean>    
     <!-- sts-core-context.xml part-3 end -->
+    
     
 	<bean id="takeoffService" class="com.awacp.service.impl.TakeoffServiceImpl" />
     <bean id="takeoffServiceEndpoint" class="com.awacp.rest.endpoint.TakeoffServiceEndpoint">
         <property name="takeoffService" ref="takeoffService" />
     </bean>
-    <bean id="roleService" class="com.awacp.service.impl.RoleServiceImpl" />
+    <bean id="roleService" class="com.awacp.service.impl.RoleServiceImpl" />    
     <bean id="roleServiceEndpoint" class="com.awacp.rest.endpoint.RoleServiceEndpoint">
         <property name="roleService" ref="roleService" />
+    </bean>
+    
+     <bean id="contractorService" class="com.awacp.service.impl.ContractorServiceImpl" />
+     <bean id="contractorServiceEndpoint" class="com.awacp.rest.endpoint.ContractorServiceEndpoint">
+        <property name="contractorService" ref="contractorService" />
     </bean>
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">

@@ -15,12 +15,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sts.core.dto.StsCoreResponse;
 import com.sts.core.dto.UserDTO;
 import com.sts.core.entity.Address;
 import com.sts.core.entity.User;
+import com.sts.core.exception.StsCoreException;
 import com.sts.core.service.UserService;
 import com.sts.core.web.filter.CrossOriginFilter;
 
@@ -33,11 +35,11 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	@Path("/activateAccount")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public StsCoreResponse activateAccount(@QueryParam("vcode") String vcode, @Context HttpServletResponse servletResponse) throws IOException {
+	public StsCoreResponse activateAccount(@QueryParam("vcode") String vcode,
+			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.activateAccount(vcode);
 	}
 
-		
 	@POST
 	@Path("/signup")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,22 +47,23 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	public StsCoreResponse signup(User user, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.doSignup(user);
 	}
-	
+
 	@GET
 	@Path("/setPassword")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public StsCoreResponse setPassword(@QueryParam("email") String email, @QueryParam("otp") String otp, @QueryParam("password") String password, @Context HttpServletResponse servletResponse) throws IOException {
+	public StsCoreResponse setPassword(@QueryParam("email") String email, @QueryParam("otp") String otp,
+			@QueryParam("password") String password, @Context HttpServletResponse servletResponse) throws IOException {
 		StsCoreResponse result = this.userService.setPassword(email, otp, password);
 		return result;
 	}
-
 
 	@GET
 	@Path("/resetPassword")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public StsCoreResponse resetPassword(@QueryParam("email") String email, @QueryParam("otp") String otp, @QueryParam("password") String password, @Context HttpServletResponse servletResponse) throws IOException {
+	public StsCoreResponse resetPassword(@QueryParam("email") String email, @QueryParam("otp") String otp,
+			@QueryParam("password") String password, @Context HttpServletResponse servletResponse) throws IOException {
 		StsCoreResponse result = this.userService.resetPassword(email, otp, password);
 		return result;
 	}
@@ -68,7 +71,8 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/checkOTP")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String checkOTP(@QueryParam("otp") String otp, @Context HttpServletResponse servletResponse) throws IOException {
+	public String checkOTP(@QueryParam("otp") String otp, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		boolean result = this.userService.checkOTP(otp);
 		return "{\"result\":\"" + result + "\"}";
 	}
@@ -76,18 +80,18 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/get/user/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse) throws IOException {
+	public User getUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		return this.userService.findUser(userId);
 	}
 
 	@GET
 	@Path("/getUserDetails")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUserDetails(@QueryParam("userNameOrEmail") String userNameOrEmail, @Context HttpServletResponse servletResponse) throws IOException {
+	public User getUserDetails(@QueryParam("userNameOrEmail") String userNameOrEmail,
+			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.getUserByUserNameOrEmail(userNameOrEmail);
 	}
-
-	
 
 	@GET
 	@Path("/listUser")
@@ -95,11 +99,12 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	public List<User> listUser(@Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.listUser();
 	}
-	
+
 	@GET
 	@Path("/listUsersByKeyword")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<User> listUser(@QueryParam("keyword") String keyword, @Context HttpServletResponse servletResponse) throws IOException {
+	public List<User> listUser(@QueryParam("keyword") String keyword, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		return this.userService.listUser(keyword);
 	}
 
@@ -108,14 +113,31 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User saveUser(User user, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.userService.saveUser(user);
+		User aUser = null;
+		try {
+			aUser = this.userService.saveUser(user);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if(message.equals(User.DUPLICATE_CODE.toLowerCase())){
+				code = 1000;
+			}else if(e.getMessage().equals(User.DUPLICATE_USERNAME.toLowerCase())) {
+				code = 1001;
+			}else if (e.getMessage().equals(User.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return aUser;
 	}
 
 	@DELETE
 	@Path("/delete/user/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String deleteUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse) throws IOException {
+	public String deleteUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		this.userService.removeUser(userId);
 		return "{\"Id\":\"" + userId + "\"}";
 	}
@@ -123,25 +145,29 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/getUserNameAndImage/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getUserNameAndImage(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse) throws IOException {
+	public String getUserNameAndImage(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		User user = this.userService.findUser(userId);
-		return "{\"id\":\"" + userId + "\",\"name\":\"" + user.getFirstName() + " " + user.getFirstName() + "\",\"src\":\"" + user.getAvtarImage() + "\"}";
+		return "{\"id\":\"" + userId + "\",\"name\":\"" + user.getFirstName() + " " + user.getFirstName()
+				+ "\",\"src\":\"" + user.getAvtarImage() + "\"}";
 	}
 
 	@GET
 	@Path("/searchUserByFilter")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<UserDTO> searchUserByFilter(@QueryParam("filterString") String filterString, @Context HttpServletResponse servletResponse) throws IOException {
+	public List<UserDTO> searchUserByFilter(@QueryParam("filterString") String filterString,
+			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.searchUserByFilter(filterString);
 	}
-	
+
 	@GET
 	@Path("/getAddress")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Address getAddress(@QueryParam("userId") Long userId, @Context HttpServletResponse servletResponse) throws IOException {
+	public Address getAddress(@QueryParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		return this.userService.getAddress(userId);
 	}
-	
+
 	@POST
 	@Path("/saveAddress")
 	@Produces(MediaType.APPLICATION_JSON)

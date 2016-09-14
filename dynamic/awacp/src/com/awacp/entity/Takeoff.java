@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
@@ -22,6 +24,9 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
+@NamedQueries({ 
+	@NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'") 
+})
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -45,13 +50,14 @@ public class Takeoff extends BaseEntity {
 	private Set<Bidder> bidders;
 	private Set<GeneralContractor> generalContractors;
 
-	//Transient
+	// Transient
 	private String biddersString;
 	private String contractorsString;
 
 	public Takeoff() {
 		super();
 	}
+
 	@NotNull
 	@Column(nullable = false)
 	public Long getSalesPerson() {
@@ -61,6 +67,7 @@ public class Takeoff extends BaseEntity {
 	public void setSalesPerson(Long salesPerson) {
 		this.salesPerson = salesPerson;
 	}
+
 	@NotNull
 	@Column(nullable = false)
 	public String getUserCode() {
@@ -86,6 +93,7 @@ public class Takeoff extends BaseEntity {
 	public void setEngineerId(Long engineerId) {
 		this.engineerId = engineerId;
 	}
+
 	@NotNull
 	@Column(nullable = false, length = 100)
 	public String getJobName() {
@@ -105,6 +113,7 @@ public class Takeoff extends BaseEntity {
 	public void setJobAddress(String jobAddress) {
 		this.jobAddress = jobAddress;
 	}
+
 	@NotNull
 	@Column(nullable = false, length = 200)
 	public String getJobSpecification() {

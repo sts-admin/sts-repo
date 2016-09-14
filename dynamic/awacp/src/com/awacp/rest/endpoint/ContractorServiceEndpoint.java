@@ -17,10 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Contractor;
 import com.awacp.service.ContractorService;
-import com.awacp.service.RoleService;
-import com.sts.core.dto.PermissionGroup;
-import com.sts.core.entity.Permission;
-import com.sts.core.entity.Role;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class ContractorServiceEndpoint extends CrossOriginFilter {

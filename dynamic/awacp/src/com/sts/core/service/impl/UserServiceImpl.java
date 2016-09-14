@@ -9,8 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.service.RoleService;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsCoreResponse;
@@ -19,11 +21,15 @@ import com.sts.core.entity.Address;
 import com.sts.core.entity.Image;
 import com.sts.core.entity.PasswordResetHistory;
 import com.sts.core.entity.User;
+import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.UserService;
 import com.sts.core.util.ConversionUtil;
 import com.sts.core.util.SecurityEncryptor;
 
 public class UserServiceImpl implements UserService {
+
+	@Autowired
+	RoleService roleService;
 
 	private EntityManager entityManager;
 
@@ -87,23 +93,29 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public User saveUser(User user) {
-		// Encrypt and set the password if user is trying to change the
-		// password.
-		// We must supply the OLD password from client side, if it is not
-		// changed by user
-		if (user.getPassword() != null) {
-			String password = user.getPassword();
-			if (SecurityEncryptor.decrypt(password) == null) {
-				password = SecurityEncryptor.encrypt(password);
+	public User saveUser(User user) throws StsDuplicateException {
+		User existingUser = getUserDetails(user.getEmail(), user.getUserName());
+		if (existingUser != null) {
+			if (existingUser.getUserName().equalsIgnoreCase(user.getUserName())) {
+				throw new StsDuplicateException("duplicate_username");
 			}
-			user.setPassword(password);
+			if (existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
+				throw new StsDuplicateException("duplicate_email");
+			}
 		}
-		if (user.getId() == null) {
-			getEntityManager().persist(user);
-		} else {
-			getEntityManager().merge(user);
+		if (getByUserCode(user.getUserCode()) != null) {
+			throw new StsDuplicateException("duplicate_code");
 		}
+
+		if (user.getPassword() != null) {
+			user.setPassword(SecurityEncryptor.encrypt(user.getPassword()));
+		}
+		if (user.getRole() != null) {
+			user.setRole(roleService.getRole(user.getRole().getRoleName()));
+		}
+		user.setVerified(true);
+		user.setVerificationCode("DEFAULT");
+		getEntityManager().persist(user);
 		getEntityManager().flush();
 		return user;
 	}
@@ -155,11 +167,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserDetail(String userNameOrEmail, String loginType, boolean verified) {
 		String queryHanlder = "User.Login";
-		if(loginType.equalsIgnoreCase("facebook")){
+		if (loginType.equalsIgnoreCase("facebook")) {
 			queryHanlder = "FacebookProfile.Login";
-		}else if(loginType.equalsIgnoreCase("twitter")){
+		} else if (loginType.equalsIgnoreCase("twitter")) {
 			queryHanlder = "TwitterProfile.Login";
-		}else if(loginType.equalsIgnoreCase("linkedin")){
+		} else if (loginType.equalsIgnoreCase("linkedin")) {
 			queryHanlder = "LinkedInProfile.Login";
 		}
 		Query userQuery = entityManager.createNamedQuery(queryHanlder);
@@ -375,6 +387,14 @@ public class UserServiceImpl implements UserService {
 			getEntityManager().merge(address);
 		}
 		return address;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public User getByUserCode(String code) {
+		List<User> users = getEntityManager().createNamedQuery("User.findUserCode")
+				.setParameter("userCode", code.toLowerCase()).getResultList();
+		return users == null || users.isEmpty() ? null : users.get(0);
 	}
 
 }

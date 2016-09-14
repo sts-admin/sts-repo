@@ -19,8 +19,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u WHERE u.archived = 'false' ORDER BY u.dateCreated DESC"),
 		@NamedQuery(name = "User.Login", query = "SELECT u FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName) AND u.verified = :verified "),
 		@NamedQuery(name = "User.findUserByNameOrEmail", query = "SELECT u FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName)"),
-		@NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE lower(u.email) = :email") })
+		@NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE lower(u.email) = :email"),
+		@NamedQuery(name = "User.findUserCode", query = "SELECT u FROM User u WHERE lower(u.userCode) = :userCode")
+
+})
 public class User extends BaseEntity {
+
+	public static final String DUPLICATE_EMAIL = "duplicate_email";
+	public static final String DUPLICATE_USERNAME = "duplicate_username";
+	public static final String DUPLICATE_CODE = "duplicate_code";
 
 	private static final long serialVersionUID = 1L;
 	private String email;
@@ -195,10 +202,9 @@ public class User extends BaseEntity {
 	public void prePersist() {
 		if (getRole() == null) {
 			role = new Role();
+			role.setRoleName(RoleType.GUEST.getName());
+			setRole(role);
 		}
-
-		role.setRoleName(RoleType.GUEST.getName());
-		setRole(role);
 	}
 
 	/**
