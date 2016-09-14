@@ -53,7 +53,7 @@
 							var msg = "Unable to complete request due to communication error.";
 							if(customMsg && customMsg.length > 0){ msg = customMsg;	}
 							AlertService.showAlert('AWACP :: Alert!', msg)
-							.then(function (){ me.logout();}, function (){});
+							.then(function (){ StoreService.logout();}, function (){});
 						}
 					}
 				}				

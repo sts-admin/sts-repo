@@ -41,8 +41,8 @@
 				controller:"RoleCtrl",
 				controllerAs:"roleVm"
 			}).state('add-user',{
-				url: '/manage/users/add',
-				templateUrl:"templates/new_user.html",
+				url: '/manage/user/add',
+				templateUrl:"templates/user-add.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
 			}).state('engineers',{

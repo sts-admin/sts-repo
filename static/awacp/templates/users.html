@@ -4,9 +4,12 @@
 	<div class="clearfix">
 		<div class="panel panel-default shadow">
 			<div class="panel-heading form-heading">
-				<label>Manage Users</label>				
+				<label>Manage Users</label>	
+				<div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 dashboard-content"> 
+					<a href ui-sref="add-user" class="btn btn-info width-full">Add User</a> 
+				</div>				
 			</div>
-			<div class="panel-body" style="margin-top:-20px;">
+			<div class="panel-body" style="margin-top:-20px;" ng-init="userVm.getUsers();">
 				<div style="text-align:right;">
 					<ul uib-pagination total-items="userVm.totalItems" ng-model="userVm.currentPage" ng-change="userVm.pageChanged()"></ul>
 				</div>
@@ -34,25 +37,25 @@
 							<tr style="background:#042F51;">
 							  <td style="padding:5px; color:#FFF;" align="center">S. No.</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Name</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Country</td>
-							  <td style="padding:5px; color:#FFF;" align="center">State</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Street</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Email ID</td>
+							  <td style="padding:5px; color:#FFF;" align="center">User ID</td>
+							  <td style="padding:5px; color:#FFF;" align="center">User Code</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Email</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Gender</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Phone</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Date Created</td>
 							  <td style="padding:5px; color:#FFF;" filter="false" align="center"></td>
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25">
-							  <td align="center">1</td>
-							  <td>Debendra Barik</td>
-							  <td>India</td>
-							  <td align="center">Odisha</td>
-							  <td align="center">Bhadrak</td>
-							  <td>onlydeb143@gmail.com</td>
-							  <td align="center">7607856251</td>
-							  <td>04/01/2016 03:12:32 pm</td>
+							<tr id="user_90" height="25" ng-repeat="user in userVm.users track by $index">
+							  <td align="center">{{$index + 1}}</td>
+							  <td>{{user.firstName}} &nbsp;{{user.lastName}}</td>
+							  <td>{{user.userName}}</td>
+							  <td align="center">{{user.userCode}}</td>
+							  <td align="center">{{user.email}}</td>
+							  <td>{{user.gender}}</td>
+							  <td align="center">{{user.contact}}</td>
+							  <td>{{user.dateCreated | date:'mediumDate'}}</td>
 							  <td align="center">&nbsp; <a href="" target="_blank"> <img src="http://www.awacp.org/resources/images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="http://www.awacp.org/resources/images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)"><img src="http://www.awacp.org/resources/images/business_user_info.png" title="show user information" border="0"></a></td>
 							</tr>							
 						</table>

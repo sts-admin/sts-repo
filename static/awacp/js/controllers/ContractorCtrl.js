@@ -10,7 +10,7 @@
 			$scope.currentPage = pageNo;
 		};
 		conVm.pageChanged = function() {
-			$log.log('Page changed to: ' + $scope.currentPage);
+			console.log('Page changed to: ' + conVm.currentPage);
 		};
 		$scope.timers = [];
 		conVm.contractors= [];
@@ -61,17 +61,9 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		conVm.initContractors = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
-			conVm.contractors = [];
-		}
 		conVm.addContractor = function(){
-			console.log(conVm.contractor);
 			var formData = {};
 			formData["contractor"] = conVm.contractor;
-			alert(JSON.stringify(formData, null, 4));
 			AjaxUtil.submitData("/awacp/saveContractor", formData)
 			.success(function(data, status, headers){
 				alert("submit success");
@@ -84,6 +76,25 @@
 		conVm.initContractorMasterInputs = function(){
 			conVm.initCountries();
 			conVm.getUsers();
+		}
+		conVm.getContractors = function(){
+			if(!AjaxUtil.isAuthorized()){
+				return;
+			}
+			conVm.contractors = [];
+			AjaxUtil.getData("/awacp/listContractors", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.contractor && data.contractor.length > 0){
+					conVm.totalItems = data.contractor.length;
+					$.each(data.contractor, function(k, v){
+						conVm.contractors.push(v);
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UserCtrl::conVm.getContractors::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
 		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){

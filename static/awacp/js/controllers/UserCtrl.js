@@ -1,16 +1,17 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('UserCtrl', UserCtrl);
-	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'RoleService'];
-	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, RoleService){	
+	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'RoleService', 'AlertService'];
+	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, RoleService, AlertService){	
 		var userVm = this;
-		userVm.totalItems = 64;
-		userVm.currentPage = 4;
+		userVm.users = [];
+		userVm.totalItems = 0;
+		userVm.currentPage = 1;
 		userVm.setPage = function (pageNo) {
 			$scope.currentPage = pageNo;
 		};
 		userVm.pageChanged = function() {
-			$log.log('Page changed to: ' + $scope.currentPage);
+			console.log('Page changed to: ' + userVm.currentPage);
 		};
 		userVm.spinnerUrl = "<img src='images/loading.gif' />";
 		userVm.loginForm = {};
@@ -64,8 +65,56 @@
 				}
 			});
 		}
-		userVm.saveUser = function(){
-			alert("save user"+JSON.stringify(userVm.user,null,4));
+		userVm.saveUser = function(){			
+			var role = {};
+			role["roleName"] = userVm.user.role.roleName;
+			userVm.user.role = role;
+			var formData = {};
+			formData["user"] = userVm.user;
+			AjaxUtil.submitData("/awacp/saveUser", formData)
+			.success(function(data, status, headers){
+				var message = "User Created Successfully.";
+				AlertService.showAlert(	'AWACP :: Alert!', message)
+				.then(function (){return},function (){return});
+				return;
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				var message = "";
+				if(1000 == jqXHR.status){
+					message = "Duplicate User Code.";
+				}else if(1001 == jqXHR.status){
+					message = "User ID already taken.";
+				}else if(1002 == jqXHR.status){
+					message = "Email ID already taken.";
+				}
+				if(message.length > 0){
+					AlertService.showAlert(	'AWACP :: Alert!', message)
+					.then(function (){return},function (){return});
+					return;
+				}
+				jqXHR.errorSource = "UserCtrl::saveUser::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		userVm.cancelUserAction = function(){
+			$state.go("users");
+		}
+		userVm.getUsers = function(){
+			userVm.users = [];
+			AjaxUtil.getData("/awacp/listUser", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.user && data.user.length > 0){
+					userVm.totalItems = data.user.length;
+					$.each(data.user, function(k, v){
+						v.customName = v.userCode + " - "+ v.firstName;
+						userVm.users.push(v);
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UserCtrl::userVm.getUsers::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
 		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < userVm.timers.length; i++){
