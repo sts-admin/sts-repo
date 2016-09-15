@@ -4,7 +4,8 @@
 	<div class="clearfix">
 		<div class="panel panel-default shadow" ng-init="conVm.getContractors();">
 			<div class="panel-heading form-heading">
-				<label>Manage Contractors</label>				
+				<label>Manage Contractors</label>	
+				<span class="pull-right"><a href ui-sref="contractor-add" >Add Contractor</a></span>
 			</div>
 			<div class="panel-body" style="margin-top:-20px;">
 				<div style="text-align:right;">
@@ -53,7 +54,7 @@
 							  <td>{{contractor.email}}</td>
 							  <td align="center">{{contractor.contact}}</td>
 							  <td>{{contractor.dateCreated | date:'mediumDate'}}</td>
-							  <td align="center">&nbsp; <a href="" target="_blank"> <img src="http://www.awacp.org/resources/images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="http://www.awacp.org/resources/images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)"><img src="http://www.awacp.org/resources/images/business_user_info.png" title="show user information" border="0"></a></td>
+							  <td align="center">&nbsp; <a href="" target="_blank"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)"><img src="images/business_user_info.png" title="show user information" border="0"></a></td>
 							</tr>							
 						</table>
 						</td>

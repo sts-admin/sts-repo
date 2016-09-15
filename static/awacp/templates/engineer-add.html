@@ -1,0 +1,163 @@
+
+<!-- ************************************************************************************************************************************-->
+
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+
+<div class="container-fluid">
+	<div class="clearfix">
+		<div class="panel panel-default" ng-init="conVm.initContractorMasterInputs()">
+				<div class="panel-heading form-heading">
+					<label>Add Contractor Detail</label>				
+				</div>
+				<div class="panel-body">
+					<form ng-submit="conVm.addContractor();">
+						<!-- .row -->
+						<div class="row">
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">
+								Contractor Name
+							</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" placeholder="Contractor Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Contractor Name');" onkeypress="this.setCustomValidity('');" ng-model="conVm.contractor.contractorTitle" ng-required="true" autofocus />
+							</div>
+						  </div>
+						  						  <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Country</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+								<select class="form-control"
+								  ng-model="conVm.contractor.country" 
+								  ng-options="country as country.countryName for country in conVm.countries"  ng-change="conVm.getStates();" ng-required = "true">
+								  <option value="">--- Select ---</option>
+								</select>
+							</div>
+						  </div>
+						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+								<span class="form-label">State</span>
+								<i class="star red">*</i>
+								<span class="colon">:</span> 
+							</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							 <select class="form-control" 
+								  ng-model="conVm.contractor.state" 
+								  ng-options="state as state.stateName for state in conVm.states" ng-required = "true">
+								  <option value="">--- Select ---</option>
+								</select>
+							</div>
+						  </div>
+						  <!-- .col -->
+						  <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+							<span class="form-label">Street</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" oninvalid="this.setCustomValidity('Enter Street');" onkeypress="this.setCustomValidity('');" ng-model="conVm.contractor.street" ng-required="true" />
+							</div>
+						  </div>
+						  <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+						  <span class="form-label">City</span>
+						  <i class="star red">*</i>
+						  <span class="colon">:</span> 
+						 </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter City" maxlength="100" oninvalid="this.setCustomValidity('Enter City');" onkeypress="this.setCustomValidity('');" ng-model="conVm.contractor.city" ng-required="true"/>
+							</div>
+						  </div>
+
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Email ID</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter Email" maxlength="100" oninvalid="this.setCustomValidity('Enter Email');" onkeypress="this.setCustomValidity('');" ng-model="conVm.contractor.email" ng-required="true" />
+							</div>
+						  </div>
+						 
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Phone</span><span class="colon">:</span> </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="conVm.contractor.contact" ng-required="true"  />
+							</div>
+						  </div>
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Fax</span><span class="colon">:</span> </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" maxlength="25" placeholder="Enter Fax No" ng-model="conVm.contractor.fax" />
+							</div>
+						  </div>
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Website</span><span class="colon">:</span> </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter Website URL" maxlength="100" ng-model="conVm.contractor.website" />
+							</div>
+						  </div>
+						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Sales Person</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							 <select class="form-control"
+								  ng-model="conVm.contractor.salesPerson" 
+								  ng-options="user.id as user.customName for user in conVm.users" ng-required = "true">
+								  <option value="">--- Select ---</option>
+								</select>
+							</div>
+						  </div>
+						  <!-- .col -->
+						  <!-- .col -->
+						 
+						</div>
+						<!-- .row -->
+					   
+						<!-- .row -->
+						<div class="row checkrow">
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+						  <!-- .col -->
+						  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+							<input type="submit" value="Add Contractor" class="submit-btn btn btn-primary">
+							<input type="hidden" name="add" value="add" />
+							&nbsp;&nbsp;
+							<input type="reset" value="Reset" class="reset-btn btn btn-warning">
+							&nbsp;&nbsp;
+							<input type="button" value="Cancel" class="reset-btn btn btn-info" ng-click="conVm.cancelContractorAction();">
+						  </div>
+						  <!-- .col -->
+						</div>
+						<!-- .row -->
+					</form>
+				</div>
+			</div>
+	</div>
+</div>
+<div style="clear:both;height:50px;"></div>
+<div ng-include="'templates/footer.html'" ></div>
+
+
