@@ -33,8 +33,8 @@ public class Architect extends BaseEntity {
 		super();
 	}
 
-	@NotNull
-	@Column(nullable = false, length = 100)
+	
+	@Column(nullable = true, length = 100)
 	public String getArchitectTitle() {
 		return architectTitle;
 	}

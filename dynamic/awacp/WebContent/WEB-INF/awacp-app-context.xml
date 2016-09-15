@@ -82,7 +82,7 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 
 	<jaxrs:server id="awacpServer" address="/awacp">
-		<jaxrs:serviceBeans>			
+		<jaxrs:serviceBeans>	ArchitectServiceEndpoint		
 			<!-- sts-core-context.xml part 2 start -->
 				<ref bean="userServiceEndpoint" />             
 	            <ref bean="facebookServiceEndpoint" />
@@ -92,10 +92,12 @@
 	            <ref bean="stateServiceEndpoint" />
 	            <ref bean="errorLogServiceEndpoint" />
 	             <ref bean="contractorServiceEndpoint" />
+	             
 			<!-- sts-core-context.xml part 2 end -->
 			
 			<ref bean="takeoffServiceEndpoint" />
 			<ref bean="roleServiceEndpoint" />
+			<ref bean="architectServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -153,6 +155,10 @@
      <bean id="contractorService" class="com.awacp.service.impl.ContractorServiceImpl" />
      <bean id="contractorServiceEndpoint" class="com.awacp.rest.endpoint.ContractorServiceEndpoint">
         <property name="contractorService" ref="contractorService" />
+    </bean>
+    <bean id="architectService" class="com.awacp.service.impl.ArchitectServiceImpl" />
+     <bean id="architectServiceEndpoint" class="com.awacp.rest.endpoint.ArchitectServiceEndpoint">
+        <property name="architectService" ref="architectService" />
     </bean>
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
