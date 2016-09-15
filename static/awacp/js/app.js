@@ -45,6 +45,16 @@
 				templateUrl:"templates/user-add.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
+			}).state('takeoffs',{
+				url: '/takeoffs',
+				templateUrl:"templates/takeoffs.html",
+				controller:"EngineerCtrl",
+				controllerAs:"engVm"
+			}).state('takeoff-add',{
+				url: '/takeoff/add',
+				templateUrl:"templates/takeoff-add.html",
+				controller:"TakeoffCtrl",
+				controllerAs:"takeVm"
 			}).state('engineers',{
 				url: '/engineers',
 				templateUrl:"templates/engineers.html",

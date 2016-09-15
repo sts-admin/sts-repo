@@ -1,0 +1,227 @@
+
+<!-- ************************************************************************************************************************************-->
+
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+
+<div class="container-fluid">
+	<div class="clearfix">
+		<div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+				<div class="panel-heading form-heading">
+					<label>Add Takeoff Detail</label>				
+				</div>
+				<div class="panel-body">
+					<form ng-submit="conVm.addContractor();">
+						<!-- .row -->
+						<div class="row">
+							<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">Sales Person</span>
+								<i class="star red">*</i>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								 <select class="form-control"
+									  ng-model="takeVm.takeoff.salesPerson" 
+									  ng-options="user.id as user.customName for user in takeVm.users" ng-required = "true">
+									  <option value="">--- Select ---</option>
+									</select>
+								</div>
+							  </div>
+							 <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">Engineer</span>
+								<i class="star red">*</i>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+									<select class="form-control"
+									  ng-model="takeVm.takeoff.engineer" 
+									  ng-options="engineer.id as engineer.engineerTitle for engineer in takeVm.engineers" ng-required = "true">
+									  <option value="">--- Select ---</option>
+									</select>
+								</div>
+							  </div>
+							   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+									<span class="form-label">Architecture</span>
+									<i class="star red">*</i>
+									<span class="colon">:</span> 
+								</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								 <select class="form-control" 
+									  ng-model="takeVm.takeoff.architect" 
+									  ng-options="architect.id as architect.architectTitle for architect in takeVm.architectures" ng-required = "true">
+									  <option value="">--- Select ---</option>
+									</select>
+								</div>
+							  </div>
+							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">
+									Job Name
+								</span>
+								<i class="star red">*</i>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <input type="text" placeholder="Job Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Job Name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobName" ng-required="true" />
+								</div>
+							  </div>
+
+							
+							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">
+									Job Address
+								</span>
+								<i class="star red">*</i>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <input type="text" placeholder="Job Address" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Job Address');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobAddress" ng-required="true" />
+								</div>
+							  </div>
+							   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">
+									Job Specification
+								</span>
+								<i class="star red">*</i>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <input type="text" placeholder="Job Specification" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Job Specification');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobSpecification" ng-required="true" />
+								</div>
+							  </div>
+							   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">
+									Project Number
+								</span>
+								<i class="star red">*</i>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <input type="text" placeholder="Project Number" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Project Number');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.projectNumber" ng-required="true" />
+								</div>
+							  </div>
+							  
+							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">
+									Drawing Date
+								</span>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <input type="date" class="form-control" ng-model="takeVm.takeoff.drawingDate" />
+								</div>
+							  </div>
+							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">
+									Revision Date
+								</span>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <input type="date" class="form-control" ng-model="takeVm.takeoff.revisedDate" />
+								</div>
+							  </div>
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">
+									Due Date
+								</span>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <input type="date" class="form-control" ng-model="takeVm.takeoff.dueDate" />
+								</div>
+							  </div>
+							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+								  <span class="form-label">Drawing Received From</span>
+								  <span class="colon">:</span> 
+							 </div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <input type="text" class="form-control" placeholder="Drawing Received From" maxlength="100" oninvalid="this.setCustomValidity('Drawing Received From');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.drawingReceivedFrom" />
+								</div>
+							  </div>
+							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+									<span class="form-label">Bidders</span>
+									<span class="colon">:</span> 
+								</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								 <select class="form-control" 
+									  ng-model="takeVm.takeoff.biddersString" 
+									  ng-options="bidder.id as bidder.bidderTitle for bidder in takeVm.bidders">
+									  <option value="">--- Select ---</option>
+									</select>
+								</div>
+							  </div>
+								<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+									<span class="form-label">General Contractors</span>
+									<span class="colon">:</span> 
+								</div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								 <select class="form-control" 
+									  ng-model="takeVm.takeoff.contractorsString" 
+									  ng-options="gc.id as gc.contractorTitle for gc in takeVm.gcs">
+									  <option value="">--- Select ---</option>
+									</select>
+								</div>
+							  </div>
+							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+								  <span class="form-label">Takeoff Comment</span>
+								  <span class="colon">:</span> 
+							 </div>
+							  <!-- .col -->
+							  <div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+								  <textarea class="form-control" placeholder="Enter Comment" maxlength="1000"  oninvalid="this.setCustomValidity('Enter Comment');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.takeOffComment"  />
+								</div>
+							  </div>
+						</div>
+						<!-- .row -->
+					   
+						<!-- .row -->
+						<div class="row checkrow">
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+						  <!-- .col -->
+						  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+							<input type="submit" value="Add Contractor" class="submit-btn btn btn-primary">
+							<input type="hidden" name="add" value="add" />
+							&nbsp;&nbsp;
+							<input type="reset" value="Reset" class="reset-btn btn btn-warning">
+							&nbsp;&nbsp;
+							<input type="button" value="Cancel" class="reset-btn btn btn-info" ng-click="takeVm.cancelTakeoffAction();">
+						  </div>
+						  <!-- .col -->
+						</div>
+						<!-- .row -->
+					</form>
+				</div>
+			</div>
+	</div>
+</div>
+<div style="clear:both;height:50px;"></div>
+<div ng-include="'templates/footer.html'" ></div>
+
+
