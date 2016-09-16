@@ -64,7 +64,6 @@
 				AjaxUtil.getData("/awacp/getRoleWithPermissions?roleName="+roleName, Math.random())
 				.success(function (data, status, headers) {	
 					if(data && data.role){
-						console.log(data.role);
 						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
 							callback(data.role, "success");
 						}
