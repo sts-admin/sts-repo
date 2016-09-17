@@ -121,7 +121,50 @@
 						callback(jqXHR, "error");
 					}
 				});
-			},		
+			},	
+          
+		    listArchitects:function(callback){
+				var architects = [];
+				var url = "/awacp/listArchitects";
+				this.getData(url, Math.random())
+				.success(function (data, status, headers) {			
+					if(data && data.architect && data.architect.length > 0){
+						$.each(data.architect, function(k, v){
+							architects.push(v);
+						});
+					}
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(architects, "success");
+					}
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}
+				});
+			},
+
+			listEngineers:function(callback){
+				var engineers = [];
+				var url = "/awacp/listEngineers";
+				this.getData(url, Math.random())
+				.success(function (data, status, headers) {			
+					if(data && data.engineer && data.engineer.length > 0){
+						$.each(data.engineer, function(k, v){
+							engineers.push(v);
+						});
+					}
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(engineers, "success");
+					}
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}
+				});
+			},
+			
 			getData: function (serviceUrl, data) {
 				if(this.isAuthorized()){
 					return this.getDataNoSecure(serviceUrl, data);

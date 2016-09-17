@@ -29,6 +29,7 @@
 		takeVm.cancelTakeoffAction = function(){
 			$state.go("takeoffs");
 		}
+		
 		takeVm.getUsers = function(){
 			takeVm.users = [];
 			AjaxUtil.getData("/awacp/listUser", Math.random())
@@ -36,7 +37,9 @@
 				if(data && data.user && data.user.length > 0){
 					$.each(data.user, function(k, v){
 						v.customName = v.userCode + " - "+ v.firstName;
-						takeVm.users.push(v);
+						$scope.$apply(function(){
+							takeVm.users.push(v); 
+					    });
 					});
 				}
 			})
@@ -45,32 +48,39 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		takeVm.initTakeoffMasterInputs = function(){
-			takeVm.getUsers();
-		}
+		
 		takeVm.getEngineers = function(){
 			takeVm.engineers = [];
 			AjaxUtil.listEngineers(function(result, status){
 				if("success" === status){
-					takeVm.engineers = result;
+					$scope.$apply(function(){
+						takeVm.engineers = result;
+					});
 				}else{
 					jqXHR.errorSource = "TakeoffCtrl::takeVm.initCountries::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				}
 			});
 		}
-		takeVm.getArchitectures = function(){
-			takeVm.architectures = [];
-			AjaxUtil.listArchitectures(function(result, status){				
+		
+		takeVm.getArchitects = function(){
+			takeVm.architects = [];
+			AjaxUtil.listArchitects(function(result, status){			
 				if("success" === status){
 					$scope.$apply(function(){
-						takeVm.architectures = result;
-					});					
+						takeVm.architects = result;
+					});	
 				}else{
 					jqXHR.errorSource = "TakeoffCtrl::takeVm.getArchitectures::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				}
 			});
+		}
+		
+		takeVm.initTakeoffMasterInputs = function(){
+			takeVm.getUsers();
+			takeVm.getArchitects();
+			takeVm.getEngineers();
 		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
