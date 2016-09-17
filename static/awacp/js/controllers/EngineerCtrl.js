@@ -101,7 +101,6 @@
 		engVm.addEngineer = function(){
 			var formData = {};
 			formData["engineer"] = engVm.engineer;
-			alert(JSON.stringify(formData,null,4));
 			AjaxUtil.submitData("/awacp/saveEngineer", formData)
 			.success(function(data, status, headers){
 				alert("submit success");

@@ -70,7 +70,7 @@
 			arcVm.getUsers();
 		}
 		
-		arcVm.getArchitects = function(){
+		arcVm.getArchitects = function(){alert(1)
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
