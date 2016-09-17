@@ -25,7 +25,7 @@ public class ArchitectServiceImpl implements ArchitectService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Architect> listArchitects() {
-		return getEntityManager().createNamedQuery("Contractor.listAll").getResultList();
+		return getEntityManager().createNamedQuery("Architect.listAll").getResultList();
 	}
 
 	@Override

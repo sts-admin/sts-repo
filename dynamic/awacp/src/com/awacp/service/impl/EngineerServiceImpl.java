@@ -25,7 +25,7 @@ public class EngineerServiceImpl implements EngineerService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Engineer> listEngineers() {
-		return getEntityManager().createNamedQuery("Contractor.listAll").getResultList();
+		return getEntityManager().createNamedQuery("Engineer.listAll").getResultList();
 	}
 
 	@Override
