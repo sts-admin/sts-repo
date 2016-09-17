@@ -35,7 +35,7 @@ public class Engineer extends BaseEntity {
 		super();
 	}
 
-	@NotNull
+
 	@Column(nullable = false, length = 100)
 	public String getEngineerTitle() {
 		return engineerTitle;

@@ -98,6 +98,7 @@
 			<ref bean="takeoffServiceEndpoint" />
 			<ref bean="roleServiceEndpoint" />
 			<ref bean="architectServiceEndpoint" />
+			<ref bean="engineerServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -159,6 +160,10 @@
     <bean id="architectService" class="com.awacp.service.impl.ArchitectServiceImpl" />
      <bean id="architectServiceEndpoint" class="com.awacp.rest.endpoint.ArchitectServiceEndpoint">
         <property name="architectService" ref="architectService" />
+    </bean>
+    <bean id="engineerService" class="com.awacp.service.impl.EngineerServiceImpl" />
+     <bean id="engineerServiceEndpoint" class="com.awacp.rest.endpoint.EngineerServiceEndpoint">
+        <property name="engineerService" ref="engineerService" />
     </bean>
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
