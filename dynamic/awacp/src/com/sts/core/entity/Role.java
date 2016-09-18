@@ -33,7 +33,7 @@ import org.eclipse.persistence.annotations.ReadOnly;
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "Role.listAll", query = "SELECT r FROM Role r WHERE r.archived = 'false'"),
-	@NamedQuery(name = "Role.getByName", query = "SELECT r FROM Role r WHERE r.archived = 'false' AND r.roleName =:roleName") 
+	@NamedQuery(name = "Role.getByName", query = "SELECT r FROM Role r WHERE r.archived = 'false' AND r.roleName = :roleName") 
 })
 public class Role implements Serializable {
 

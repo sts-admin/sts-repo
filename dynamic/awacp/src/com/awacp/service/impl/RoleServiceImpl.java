@@ -8,15 +8,23 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.service.RoleService;
+import com.sts.core.dto.Menu;
+import com.sts.core.dto.MenuItem;
 import com.sts.core.dto.PermissionGroup;
 import com.sts.core.entity.Permission;
 import com.sts.core.entity.Role;
+import com.sts.core.entity.User;
+import com.sts.core.service.UserService;
 
 public class RoleServiceImpl implements RoleService {
 	private EntityManager entityManager;
+
+	@Autowired
+	UserService userService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -61,12 +69,13 @@ public class RoleServiceImpl implements RoleService {
 				}
 			}
 			existingRole.setPermissions(permissions);
-		} else if (role.getPermissions() != null && !role.getPermissions().isEmpty()) {
+		}else{
 			existingRole.getPermissions().clear();
 		}
-		role = getEntityManager().merge(existingRole);
+		System.err.println("role permission size = "+ existingRole.getPermissions().size());
+		getEntityManager().merge(existingRole);
 		getEntityManager().flush();
-		return role;
+		return existingRole;
 	}
 
 	@Override
@@ -144,4 +153,103 @@ public class RoleServiceImpl implements RoleService {
 		return getEntityManager().createNamedQuery("Permission.getAllMatchingPermissions")
 				.setParameter("exp", keyword.toLowerCase() + "\\_%").getResultList();
 	}
+
+	@Override
+	public List<Menu> getUserMenu(String userNameOrEmail) {
+		User user = userService.getUserByUserNameOrEmail(userNameOrEmail);
+		Role role = getRole(user.getRole().getRoleName());
+		if (role != null) {
+			role.getPermissions();
+		}
+		return getMenuOfRole(role);
+	}
+
+	@Override
+	public List<Menu> getUserMenu(Long userId) {
+
+		User user = getEntityManager().find(User.class, userId);
+		Role role = getRole(user.getRole().getRoleName());
+		if (role != null) {
+			role.getPermissions();
+		}
+
+		return getMenuOfRole(role);
+	}
+
+	private List<Menu> getMenuOfRole(Role role) {
+		List<Menu> menus = new ArrayList<Menu>();
+		for (PermissionGroup group : groupPermissionsGroup()) {
+			Menu aMenu = new Menu(group.getGroupName(), group.getGroupName());
+			if (group.getPermissions() != null && !group.getPermissions().isEmpty()) {
+				group.getPermissions().retainAll(role.getPermissions());
+				if (group.getPermissions() != null && !group.getPermissions().isEmpty()) {
+					List<MenuItem> items = new ArrayList<MenuItem>();
+					for (Permission permission : group.getPermissions()) {
+						/*
+						 * String partial =
+						 * permission.getAuthority().split("_")[1]; if
+						 * (!partial.contains("c") || !partial.contains("r") ||
+						 * !partial.contains("follow") ||
+						 * !partial.contains("report")) { continue; }
+						 */
+						if (permission.getUrl() == null || permission.getUrl().isEmpty()) {
+							continue;
+						}
+						if (permission.getAuthority().contains("bbt")) {
+							items = getBbtItems(items);
+							continue;
+						}
+						items.add(new MenuItem(permission.getDescription(), permission.getUrl()));
+						items.add(new MenuItem("divider", "#"));
+					}
+					aMenu.setItems(items);
+				}
+			}
+			menus.add(aMenu);
+		}
+		System.err.println("menus size = "+ menus.size());
+		return menus;
+		
+	}
+
+	private List<MenuItem> getBbtItems(List<MenuItem> items) {
+		items.add(new MenuItem("Engineer", "engineers"));
+		items.add(new MenuItem("divider", "#"));
+		items.add(new MenuItem("Architect", "architects"));
+		items.add(new MenuItem("divider", "#"));
+		items.add(new MenuItem("Contractor", "contractors"));
+		items.add(new MenuItem("divider", "#"));
+		items.add(new MenuItem("Bidder", "bidders"));
+		items.add(new MenuItem("divider", "#"));
+		items.add(new MenuItem("Trucker", "truckers"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Specification", "specifications"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Product", "products"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Ship To", "ships"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("PNDI", "pndis"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Quote Notes", "qnotes"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manufacture & Description", "manufactures"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Item Shipped", "iships"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Shipped Via", "vships"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Delete File", "deletefiles"));
+		return items;
+	}
+
 }

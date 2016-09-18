@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.service.RoleService;
+import com.sts.core.dto.Menu;
 import com.sts.core.dto.PermissionGroup;
 import com.sts.core.entity.Permission;
 import com.sts.core.entity.Role;
@@ -32,6 +33,7 @@ public class RoleServiceEndpoint extends CrossOriginFilter {
 	public List<Role> listRoles(@Context HttpServletResponse servletResponse) throws IOException {
 		return this.roleService.listRoles();
 	}
+
 	@GET
 	@Path("/listAllPermissions")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -48,16 +50,34 @@ public class RoleServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
+	@Path("/getUserMenusById")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Menu> getUserMenus(@QueryParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.roleService.getUserMenu(userId);
+	}
+
+	@GET
+	@Path("/getUserMenusByNameOrEmail")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Menu> getUserMenusByNameOrEmail(@QueryParam("userNameOrEmail") String userNameOrEmail,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.roleService.getUserMenu(userNameOrEmail);
+	}
+
+	@GET
 	@Path("/getRoleWithPermissions")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Role getRoleWithPermissions(@QueryParam("roleName") String roleName,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.roleService.getRoleWithPermissions(roleName);
 	}
+
 	@GET
 	@Path("/groupPermissionsGroup")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PermissionGroup> groupPermissionsGroup(@Context HttpServletResponse servletResponse) throws IOException {
+	public List<PermissionGroup> groupPermissionsGroup(@Context HttpServletResponse servletResponse)
+			throws IOException {
 		return this.roleService.groupPermissionsGroup();
 	}
 
@@ -73,7 +93,7 @@ public class RoleServiceEndpoint extends CrossOriginFilter {
 	@Path("/updateRole")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Role updateRole(Role role, @Context HttpServletResponse servletResponse) throws IOException {		
+	public Role updateRole(Role role, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.roleService.updateRole(role);
 	}
 

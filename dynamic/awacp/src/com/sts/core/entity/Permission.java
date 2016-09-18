@@ -21,9 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Permission.listAll", query = "SELECT p FROM Permission p WHERE p.archived = 'false'"),
-		@NamedQuery(name = "Permission.getByName", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND p.authority =:permissionName"),
-		@NamedQuery(name = "Permission.getAllMatchingPermissions", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND LOWER( p.authority ) LIKE :exp")
-		})
+		@NamedQuery(name = "Permission.getByName", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND p.authority = :permissionName"),
+		@NamedQuery(name = "Permission.getAllMatchingPermissions", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND LOWER( p.authority ) LIKE :exp") })
 public class Permission {
 
 	private static final long serialVersionUID = 1L;
@@ -36,6 +35,7 @@ public class Permission {
 	private Long version;
 	private boolean archived;
 	private String label;
+	private String url;
 
 	public Permission() {
 		super();
@@ -133,6 +133,14 @@ public class Permission {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
