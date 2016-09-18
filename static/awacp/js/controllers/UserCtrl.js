@@ -33,6 +33,7 @@
 					if (data.access_token){
 						StoreService.setAccessToken(data.access_token);
 					}
+					$rootScope.setUpUserMenu();
 					$state.go("dashboard");
 				 }
 			 })

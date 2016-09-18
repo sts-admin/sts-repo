@@ -35,16 +35,16 @@
 				templateUrl:"templates/users.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
-			}).state('roles',{
-				url: '/manage/roles',
-				templateUrl:"templates/roles.html",
-				controller:"RoleCtrl",
-				controllerAs:"roleVm"
 			}).state('add-user',{
 				url: '/manage/user/add',
 				templateUrl:"templates/user-add.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
+			}).state('roles',{
+				url: '/manage/roles',
+				templateUrl:"templates/roles.html",
+				controller:"RoleCtrl",
+				controllerAs:"roleVm"
 			}).state('takeoffs',{
 				url: '/takeoffs',
 				templateUrl:"templates/takeoffs.html",
@@ -90,6 +90,7 @@
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService) {
+			$rootScope.menus = [];
 			$rootScope.resourceReadPath = resourceReadPath;
 			$rootScope.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 			$rootScope.dateFormat = $rootScope.dateFormats[0];
@@ -101,6 +102,19 @@
 			};			
 			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), profileImageUrl: StoreService.profileImageUrl(), userDisplayName:"Administrator"};
 			$rootScope.alert = {noService:false};
+			$rootScope.setUpUserMenu = function(){
+				UserService.initializeMenu(function(jqXHR, status){
+					if("success" === status){
+						$rootScope.$apply(function(){
+							$rootScope.menus = jqXHR;
+						});
+						alert("Menu at root scope = "+JSON.stringify($rootScope.menus, null, 4));
+					}else{
+						jqXHR.errorSource = "RootScope::setUpUserMenu::Error";
+						AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+					}
+				});		
+			}
 		}).directive('blink', function($timeout) {
 		return {
 			restrict: 'E',

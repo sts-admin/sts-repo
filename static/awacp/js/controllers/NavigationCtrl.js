@@ -1,8 +1,9 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('NavigationCtrl', NavigationCtrl);
-	NavigationCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile'];
-	function NavigationCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile){
+	NavigationCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'UserService'];
+	function NavigationCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, UserService){
+
 		var navVm = this;
 		$scope.timers = [];
 		navVm.takeOfMenu = 

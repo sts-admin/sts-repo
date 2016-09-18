@@ -25,7 +25,7 @@
 			},
 			logout: function(){
 				var me = this;
-				var accessToken = StoreService.getAccessToken('token');
+				var accessToken = StoreService.getAccessToken('awacp_token');
 				var headers = {
 					'Authorization' : 'Bearer ' + accessToken,
 					'Accept' : 'application/json'
@@ -107,6 +107,26 @@
 						callback(user, "success");
 					}
 				}				
+			},
+			initializeMenu: function(callback){
+				var menus = [];
+				var url  = "/awacp/getUserMenusByNameOrEmail?userNameOrEmail="+ StoreService.getUserName();
+				AjaxUtil.getData( url, Math.random())
+				.success(function (data, status, headers) {
+					if(data && data.menu && data.menu.length > 0){
+						$.each(data.menu, function(k, v){
+							menus.push(v);
+						});
+					}	
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(menus, "success");
+					}
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}
+				});
 			}
 		};
 	});
