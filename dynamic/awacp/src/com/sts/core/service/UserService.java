@@ -10,7 +10,7 @@ import com.sts.core.entity.User;
 import com.sts.core.exception.StsCoreException;
 
 public interface UserService {
-	
+
 	public User getByUserCode(final String code);
 
 	public User getUserDetails(String email);
@@ -50,4 +50,6 @@ public interface UserService {
 	public Address getAddress(Long userId);
 
 	public Address saveAddress(Address address);
+
+	public String getUserCode(final String userNameOrEmail);
 }

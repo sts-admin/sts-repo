@@ -20,7 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "User.Login", query = "SELECT u FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName) AND u.verified = :verified "),
 		@NamedQuery(name = "User.findUserByNameOrEmail", query = "SELECT u FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName)"),
 		@NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE lower(u.email) = :email"),
-		@NamedQuery(name = "User.findUserCode", query = "SELECT u FROM User u WHERE lower(u.userCode) = :userCode")
+		@NamedQuery(name = "User.findUserCode", query = "SELECT u FROM User u WHERE lower(u.userCode) = :userCode"),
+		@NamedQuery(name = "User.getCode", query = "SELECT u.userCode FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName)") 
 
 })
 public class User extends BaseEntity {

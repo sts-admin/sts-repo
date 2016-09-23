@@ -397,4 +397,11 @@ public class UserServiceImpl implements UserService {
 		return users == null || users.isEmpty() ? null : users.get(0);
 	}
 
+	@Override
+	public String getUserCode(String userNameOrEmail) {
+		return (String) getEntityManager().createNamedQuery("User.getCode").setParameter("email", userNameOrEmail)
+				.setParameter("userName", userNameOrEmail).getSingleResult();
+
+	}
+
 }

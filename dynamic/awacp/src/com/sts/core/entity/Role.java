@@ -22,14 +22,11 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.eclipse.persistence.annotations.ReadOnly;
-
 /**
  * Entity implementation class for Entity: Role
  *
  */
 @Entity
-@ReadOnly
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "Role.listAll", query = "SELECT r FROM Role r WHERE r.archived = 'false'"),
