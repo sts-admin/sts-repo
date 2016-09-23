@@ -82,7 +82,7 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 
 	<jaxrs:server id="awacpServer" address="/awacp">
-		<jaxrs:serviceBeans>	ArchitectServiceEndpoint		
+		<jaxrs:serviceBeans>	
 			<!-- sts-core-context.xml part 2 start -->
 				<ref bean="userServiceEndpoint" />             
 	            <ref bean="facebookServiceEndpoint" />
@@ -91,7 +91,7 @@
 	            <ref bean="countryServiceEndpoint" />
 	            <ref bean="stateServiceEndpoint" />
 	            <ref bean="errorLogServiceEndpoint" />
-	             <ref bean="contractorServiceEndpoint" />
+	             
 	             
 			<!-- sts-core-context.xml part 2 end -->
 			
@@ -99,6 +99,7 @@
 			<ref bean="roleServiceEndpoint" />
 			<ref bean="architectServiceEndpoint" />
 			<ref bean="engineerServiceEndpoint" />
+			<ref bean="contractorServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -154,8 +155,10 @@
     </bean>
     
      <bean id="contractorService" class="com.awacp.service.impl.ContractorServiceImpl" />
+     <bean id="bidderService" class="com.awacp.service.impl.BidderServiceImpl" />
      <bean id="contractorServiceEndpoint" class="com.awacp.rest.endpoint.ContractorServiceEndpoint">
         <property name="contractorService" ref="contractorService" />
+        <property name="bidderService" ref="bidderService" />
     </bean>
     <bean id="architectService" class="com.awacp.service.impl.ArchitectServiceImpl" />
      <bean id="architectServiceEndpoint" class="com.awacp.rest.endpoint.ArchitectServiceEndpoint">
@@ -165,6 +168,8 @@
      <bean id="engineerServiceEndpoint" class="com.awacp.rest.endpoint.EngineerServiceEndpoint">
         <property name="engineerService" ref="engineerService" />
     </bean>
+    
+    
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
         <property name="produceMediaTypes" ref="jsonTypes" />
