@@ -55,6 +55,16 @@
 				templateUrl:"templates/takeoff-add.html",
 				controller:"TakeoffCtrl",
 				controllerAs:"takeVm"
+			}).state('bidders',{
+				url: '/bidders',
+				templateUrl:"templates/bidders.html",
+				controller:"BidderCtrl",
+				controllerAs:"bidVm"
+			}).state('bidder-add',{
+				url: '/bidder/add',
+				templateUrl:"templates/bidder-add.html",
+				controller:"BidderCtrl",
+				controllerAs:"bidVm"
 			}).state('engineers',{
 				url: '/engineers',
 				templateUrl:"templates/engineers.html",
@@ -68,8 +78,8 @@
 			}).state('architects',{
 				url: '/architects',
 				templateUrl:"templates/architects.html",
-				controller:"EngineerCtrl",
-				controllerAs:"engVm"
+				controller:"ArchitectCtrl",
+				controllerAs:"arcVm"
 			}).state('architect-add',{
 				url: '/architect/add',
 				templateUrl:"templates/architect-add.html",
@@ -90,7 +100,6 @@
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService) {
-			$rootScope.menus = [];
 			$rootScope.resourceReadPath = resourceReadPath;
 			$rootScope.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 			$rootScope.dateFormat = $rootScope.dateFormats[0];
@@ -102,38 +111,21 @@
 			};			
 			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), profileImageUrl: StoreService.profileImageUrl(), userDisplayName:"Administrator"};
 			$rootScope.alert = {noService:false};
+			
 			$rootScope.setUpUserMenu = function(){
 				UserService.initializeMenu(function(jqXHR, status){
 					if("success" === status){
 						$rootScope.$apply(function(){
 							$rootScope.menus = jqXHR;
 						});
-						alert("Menu at root scope = "+JSON.stringify($rootScope.menus, null, 4));
 					}else{
 						jqXHR.errorSource = "RootScope::setUpUserMenu::Error";
 						AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 					}
 				});		
 			}
-		}).directive('blink', function($timeout) {
-		return {
-			restrict: 'E',
-			transclude: true,
-			scope: {},
-			controller: function($scope, $element) {
-				function showElement() {
-					$element.css("visibility", "visible");
-					$timeout(hideElement, 1000);
-				}
-
-				function hideElement() {
-					$element.css("visibility", "hidden");
-					$timeout(showElement, 1000);
-				}
-				showElement();
-			},
-			template: '<span ng-transclude></span>',
-			replace: true
-		};
-	});
+			if($rootScope.user.isLoggedIn){
+				$rootScope.setUpUserMenu();
+			}
+		});
 })();

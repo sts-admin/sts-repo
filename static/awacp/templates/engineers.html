@@ -2,8 +2,8 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow">
-			<div class="panel-heading form-heading"  ng-init="engVm.getEngineers();">
+		<div class="panel panel-default shadow" ng-init="engVm.getEngineers();">
+			<div class="panel-heading form-heading">
 				<label>Manage Engineers</label>		
 				<span class="pull-right"><a href ui-sref="engineer-add" >Add Engineer</a></span>				
 			</div>

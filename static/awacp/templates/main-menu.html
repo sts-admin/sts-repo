@@ -1,108 +1,105 @@
-
-
-    <nav class="navbar navbar-inverse" role="navigation">
-		 <div class="container-fluid">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+		<div class="container-fluid" style="height: 38px !important;">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
-						ng-click="navCollapsed = !navCollapsed">
+				<button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>				
 			</div>
-
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
-				<ul class="nav navbar-nav" style="margin-top:-65px;">
+			<div class="collapse navbar-collapse" style="height: 38px !important;">
+				<ul class="nav navbar-nav navbar-left">
 					<li uib-dropdown>
 						<a class="navbar-brand" ui-sref="dashboard">Dashboard</a>
 					</li>
-					<li uib-dropdown>
+					<li uib-dropdown ng-show="menus['Takeoff']">
 						<a href="#" uib-dropdown-toggle>
 							Take Off
 							<b class='caret'></b>
 						</a>
-						<tree tree='navVm.takeOfMenu'></tree>
+						<tree tree='menus["Takeoff"]'></tree>
 					</li>
-					<li uib-dropdown>
+					<li uib-dropdown ng-show="menus['Quote']">
 						<a href="#" uib-dropdown-toggle>
 							Quote
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.quoteMenu'></tree>
+						<tree tree='menus["Quote"]'></tree>
 					</li>
-					<li uib-dropdown>
+					<li uib-dropdown ng-show="menus['Job Order']">
 						<a href="#" uib-dropdown-toggle>
 							Job Order
 							<b class='caret'></b>
 						</a>
-						<tree tree='navVm.orderMenu'></tree>
+						<tree tree='menus["Job Order"]'></tree>
 					</li>
-					<li uib-dropdown>
+					<li uib-dropdown ng-show="menus['Order Book']">
 						<a href="#" uib-dropdown-toggle>
 							Order Book
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.bookMenu'></tree>
+						<tree tree='menus["Order Book"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown ng-show="menus['AW']">
 						<a href="#" uib-dropdown-toggle>
 							AW
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.awMenu'></tree>
+						
+						<tree tree='menus["AW"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown ng-show="menus['AWF']">
 						<a href="#" uib-dropdown-toggle>
 						   AWF
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.awfMenu'></tree>
+						<tree tree='menus["AWF"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown ng-show="menus['SBC']">
 						<a href="#" uib-dropdown-toggle>
 							SBC
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.sbcMenu'></tree>
+						<tree tree='menus["SBC"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown ng-show="menus['SPL']">
 						<a href="#" uib-dropdown-toggle>
 						   SPL
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.splMenu'></tree>
+						<tree tree='menus["SPL"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown ng-show="menus['Job']">
 						<a href="#" uib-dropdown-toggle>
 						   Job
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.jobMenu'></tree>
+						<tree tree='menus["Job"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown uib-dropdown ng-show="menus['BBT']">
 						<a href="#" uib-dropdown-toggle>
 							BBT
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.bbtMenu'></tree>
+						<tree tree='menus["BBT"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown uib-dropdown ng-show="menus['Claim']">
 						<a href="#" uib-dropdown-toggle>
 							Claims
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.claimMenu'></tree>
+						<tree tree='menus["Claim"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown uib-dropdown ng-show="menus['Marketing']">
 						<a href="#" uib-dropdown-toggle>
 							Marketing
 							<span class='caret'></span>
 						</a>
-						<tree tree='navVm.marketingMenu'></tree>
+						<tree tree='menus["Marketing"]'></tree>
 					</li>
-					 <li uib-dropdown>
+					 <li uib-dropdown uib-dropdown ng-show="menus['Collection']">
 						<a href="#">
 							Collection
 						</a>

@@ -109,13 +109,19 @@
 				}				
 			},
 			initializeMenu: function(callback){
-				var menus = [];
+				var menus = {};
 				var url  = "/awacp/getUserMenusByNameOrEmail?userNameOrEmail="+ StoreService.getUserName();
 				AjaxUtil.getData( url, Math.random())
 				.success(function (data, status, headers) {
 					if(data && data.menu && data.menu.length > 0){
 						$.each(data.menu, function(k, v){
-							menus.push(v);
+							if(v.items.length === undefined || v.items.length === 'undefined'){
+								var tmp = []
+								tmp.push(v.items);
+								menus[v.id] = tmp;
+							}else{
+								menus[v.id] = v.items;
+							}							
 						});
 					}	
 					if (typeof callback !== 'undefined' && $.isFunction(callback)) {

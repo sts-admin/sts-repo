@@ -4,24 +4,18 @@
 	EngineerCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService'];
 	function EngineerCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
 		var engVm = this;
-		engVm.totalItems = 64;
-		engVm.currentPage = 4;
-		engVm.setPage = function (pageNo) {
-			$scope.currentPage = pageNo;
-		};
-		engVm.pageChanged = function() {
-			$log.log('Page changed to: ' + $scope.currentPage);
-		};
+		engVm.totalItems = 0;
+		engVm.currentPage = 1;
 		$scope.timers = [];
 		engVm.engineers = [];
 		engVm.engineer = {};
 		
-		engVm.initEngineers = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
-			engVm.engineers = [];
-		}
+		engVm.setPage = function (pageNo) {
+			engVm.currentPage = pageNo;
+		};
+		engVm.pageChanged = function() {
+			console.log('Page changed to: ' + engVm.currentPage);
+		};
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
 				$timeout.cancel($scope.timers[i]);
@@ -79,6 +73,7 @@
 		}
 		
 		engVm.getEngineers = function(){
+			alert("getEngineers");
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
@@ -86,9 +81,13 @@
 			AjaxUtil.getData("/awacp/listEngineers", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.engineer && data.engineer.length > 0){
+					var tmp = [];
 					engVm.totalItems = data.engineer.length;
 					$.each(data.engineer, function(k, v){
-						engVm.engineers.push(v);
+						tmp.push(v);
+					});
+					$scope.$apply(function(){
+						engVm.engineers = tmp;
 					});
 				}
 			})

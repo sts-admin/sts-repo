@@ -5,11 +5,9 @@
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
- .shadow {
-	-moz-box-shadow: -5px 5px 20px #888;
-	-webkit-box-shadow: -5px 5px 20px #888;
-	box-shadow: -5px 5px 20px #888;
-}
+
+
+
 html, body{height:100%; margin:0;padding:0}            
 .row-fluid {
 	height: 100%; display:table-cell; vertical-align: middle;
@@ -82,7 +80,19 @@ html, body{height:100%; margin:0;padding:0}
 .form-heading{
 	font-size: 20px;
 	font-weight:bold;
-	text-align:center;
+	text-align:center-left;
 }
 .form-control select{width:100%; height:40px; text-indent:5px; color:#333; font:normal 14px work_sansregular; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; -o-border-radius:5px; -ms-border-radius:5px; border:1px solid #d4d4d4;}
 .form-control select:focus{outline:none;}
+nav .navbar{
+	float:left !important;
+}
+nav.navbar{
+	min-height: 38px;
+	height: 38px;
+}
+.dropdown a{
+	max-height:38px;
+	padding-top:8px !important;
+	
+}

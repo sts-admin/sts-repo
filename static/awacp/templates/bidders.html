@@ -1,0 +1,28 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+	<div class="clearfix">
+		<div class="panel panel-default shadow" ng-init="bidVm.getBidders();">
+			<div class="panel-heading form-heading">
+				<label>Manage Bidders</label>				
+				<span class="pull-right"><a href ui-sref="bidder-add" >Add Bidder</a></span>	
+			</div>
+			<div class="panel-body" style="margin-top:-20px;">
+				<div style="text-align:right;">
+					<ul uib-pagination total-items="bidVm.totalItems" ng-model="bidVm.currentPage" ng-change="bidVm.pageChanged()"></ul>
+				</div>
+  
+				<!-- .row -->
+				<div class="row" id="contents">
+				 
+				  <!-- .col -->
+				  <div class="col-lg-12">
+					
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</div>
+</div>
+
+<div ng-include="'templates/footer.html'" ></div>

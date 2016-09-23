@@ -39,7 +39,8 @@
 						rs = JSON.parse(jqXHR.responseText);
 						if(rs!=null && rs.error!=null){
 							if(rs.error == 'invalid_token'){
-								msg = "Your user session expired, need to re-login.";								
+								//msg = "Your user session expired, need to re-login.";	
+								StoreService.removeAll();$state.go("/");								
 							}else if("invalid_grant" === rs.error || "unknown_password" === rs.error_description){
 								msg = "Invalid user credentials";
 							}else if(rs.error === "unauthorized"){
@@ -53,7 +54,7 @@
 							var msg = "Unable to complete request due to communication error.";
 							if(customMsg && customMsg.length > 0){ msg = customMsg;	}
 							AlertService.showAlert('AWACP :: Alert!', msg)
-							.then(function (){ StoreService.logout();}, function (){});
+							.then(function (){ StoreService.removeAll();$state.go("/")}, function (){});
 						}
 					}
 				}				
@@ -156,6 +157,46 @@
 					}
 					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
 						callback(engineers, "success");
+					}
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}
+				});
+			},
+			listBidders:function(callback){
+				var bidders = [];
+				var url = "/awacp/listBidders";
+				this.getData(url, Math.random())
+				.success(function (data, status, headers) {			
+					if(data && data.bidder && data.bidder.length > 0){
+						$.each(data.bidder, function(k, v){
+							bidders.push(v);
+						});
+					}
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(bidders, "success");
+					}
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}
+				});
+			},
+			listContractors:function(callback){
+				var contractors = [];
+				var url = "/awacp/listContractors";
+				this.getData(url, Math.random())
+				.success(function (data, status, headers) {			
+					if(data && data.contractor && data.contractor.length > 0){
+						$.each(data.contractor, function(k, v){
+							contractors.push(v);
+						});
+					}
+					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						callback(contractors, "success");
 					}
 				})
 				.error(function (jqXHR, textStatus, errorThrown) {

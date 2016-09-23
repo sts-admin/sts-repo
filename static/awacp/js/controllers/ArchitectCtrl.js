@@ -5,32 +5,26 @@
 	function ArchitectCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
 		var arcVm = this;
 		$scope.timers = [];
+		arcVm.totalItems = 0;
+		arcVm.currentPage = 1;
 		arcVm.architects= [];
 		arcVm.architect = {};
-		
-		arcVm.initArchitects = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
-			arcVm.architects = [];
-		}
-		$scope.$on("$destroy", function(){
-			for(var i = 0; i < $scope.timers.length; i++){
-				$timeout.cancel($scope.timers[i]);
-			}
-		});
-		
+		arcVm.setPage = function (pageNo) {
+			arcVm.currentPage = pageNo;
+		};
+		arcVm.pageChanged = function() {
+			console.log('Page changed to: ' + arcVm.currentPage);
+		};		
 		arcVm.cancelArchitectAction = function(){
 			$state.go("architects");
-		}
-		
+		}		
 		arcVm.initCountries = function(){
 			arcVm.countries = [];
 			AjaxUtil.listCountries(function(result, status){
 				if("success" === status){
 					arcVm.countries = result;
 				}else{
-					jqXHR.errorSource = "ContractorCtrl::arcVm.initCountries::Error";
+					jqXHR.errorSource = "ArchitectCtrl::arcVm.initCountries::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				}
 			});
@@ -43,7 +37,7 @@
 						arcVm.states = result;
 					});					
 				}else{
-					jqXHR.errorSource = "ContractorCtrl::arcVm.getStates::Error, countryId = " + arcVm.architect.country.id;
+					jqXHR.errorSource = "ArchitectCtrl::arcVm.getStates::Error, countryId = " + arcVm.architect.country.id;
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				}
 			});
@@ -60,7 +54,7 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "ContractorCtrl::arcVm.getUsers::Error";
+				jqXHR.errorSource = "ArchitectCtrl::arcVm.getUsers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -70,7 +64,7 @@
 			arcVm.getUsers();
 		}
 		
-		arcVm.getArchitects = function(){alert(1)
+		arcVm.getArchitects = function(){
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
@@ -78,14 +72,18 @@
 			AjaxUtil.getData("/awacp/listArchitects", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.architect && data.architect.length > 0){
+					var tmp = [];
 					arcVm.totalItems = data.architect.length;
 					$.each(data.architect, function(k, v){
-						arcVm.architects.push(v);
+						tmp.push(v);
 					});
+					$scope.$apply(function(){
+						arcVm.architects = tmp;
+					});					
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "UserCtrl::arcVm.getArchitects::Error";
+				jqXHR.errorSource = "ArchitectCtrl::arcVm.getArchitects::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -95,14 +93,21 @@
 			formData["architect"] = arcVm.architect;
 			AjaxUtil.submitData("/awacp/saveArchitect", formData)
 			.success(function(data, status, headers){
-				alert("submit success");
+				AlertService.showAlert(	'AWACP :: Message!','Architect added successfully.')
+				.then(function (){					
+					return
+				},function (){return;});
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "ContractorCtrl::arcVm.addContractor::Error";
+				jqXHR.errorSource = "ArchitectCtrl::arcVm.addArchitect::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		
+		$scope.$on("$destroy", function(){
+			for(var i = 0; i < $scope.timers.length; i++){
+				$timeout.cancel($scope.timers[i]);
+			}
+		});
 	}		
 })();
 

@@ -45,16 +45,16 @@
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25">
-							  <td align="center">1</td>
-							  <td>Test Job</td>
-							  <td>Test Job Description</td>
+							<tr height="25" ng-repeat="takeoff in takeVm.takeoffs track by $index">
+							  <td align="center">{{$index + 1}}</td>
+							  <td>{{takeoff.jobName}}</td>
+							  <td>{{takeoff.jobDescription}}</td>
 							  <td align="center">DB</td>
 							  <td align="center">Debendra</td>
 							  <td>Abhishek</td>
 							  <td align="center">{{'04/01/2016 03:12:32' | date:'mediumDate'}}</td>
 							  <td>{{'14/01/2016 03:12:32' | date:'mediumDate'}}</td>
-							  <td align="center">&nbsp; <a href="" target="_blank"> <img src="http://www.awacp.org/resources/images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="http://www.awacp.org/resources/images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)"><img src="http://www.awacp.org/resources/images/business_user_info.png" title="show user information" border="0"></a></td>
+							  <td align="center">&nbsp; <a href="" target="_blank"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)"><img src="images/business_user_info.png" title="show user information" border="0"></a></td>
 							</tr>							
 						</table>
 						</td>

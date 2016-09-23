@@ -47,7 +47,15 @@
 				.success(function (data, status, headers) {	
 					if(data && data.permissionGroup && data.permissionGroup.length > 0){
 						$.each(data.permissionGroup, function(k, v){
-							result.push(v);
+							if(v.permissions.length === undefined || v.permissions.length === 'undefined'){
+								var tmp = [];
+								tmp.push(v.permissions);
+								v["permissions"] = tmp;
+								result.push(v);
+							}else{
+								result.push(v);
+							}
+							
 						});
 						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
 							callback(result, "success");
