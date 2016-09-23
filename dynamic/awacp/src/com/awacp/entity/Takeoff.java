@@ -24,9 +24,7 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
-@NamedQueries({ 
-	@NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'") 
-})
+@NamedQueries({ @NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'") })
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -51,8 +49,12 @@ public class Takeoff extends BaseEntity {
 	private Set<GeneralContractor> generalContractors;
 
 	// Transient
-	private String biddersString;
-	private String contractorsString;
+	private String[] biddersIds;
+	private String[] contractorsIds;
+	private String userNameOrEmail;
+	private String salesPersonName;
+	private String architectureName;
+	private String engineerName;
 
 	public Takeoff() {
 		super();
@@ -195,21 +197,30 @@ public class Takeoff extends BaseEntity {
 	}
 
 	@Transient
-	public String getBiddersString() {
-		return biddersString;
+	public String[] getBiddersIds() {
+		return biddersIds;
 	}
 
-	public void setBiddersString(String biddersString) {
-		this.biddersString = biddersString;
+	public void setBiddersIds(String[] biddersIds) {
+		this.biddersIds = biddersIds;
 	}
 
 	@Transient
-	public String getContractorsString() {
-		return contractorsString;
+	public String[] getContractorsIds() {
+		return contractorsIds;
 	}
 
-	public void setContractorsString(String contractorsString) {
-		this.contractorsString = contractorsString;
+	public void setContractorsIds(String[] contractorsIds) {
+		this.contractorsIds = contractorsIds;
+	}
+
+	@Transient
+	public String getUserNameOrEmail() {
+		return userNameOrEmail;
+	}
+
+	public void setUserNameOrEmail(String userNameOrEmail) {
+		this.userNameOrEmail = userNameOrEmail;
 	}
 
 }

@@ -15,7 +15,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.awacp.entity.Bidder;
 import com.awacp.entity.Contractor;
+import com.awacp.service.BidderService;
 import com.awacp.service.ContractorService;
 import com.sts.core.web.filter.CrossOriginFilter;
 
@@ -23,6 +25,9 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private ContractorService contractorService;
+	
+	@Autowired
+	private BidderService bidderService;
 
 	@GET
 	@Path("/listContractors")
@@ -30,6 +35,32 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	public List<Contractor> listContractors(@Context HttpServletResponse servletResponse) throws IOException {
 		return this.contractorService.listContractors();
 	}
+	
+	@GET
+	@Path("/listBidders")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Bidder> listBidders(@Context HttpServletResponse servletResponse) throws IOException {
+		return this.bidderService.listBidders();
+	}
+	
+	@POST
+	@Path("/saveBidder")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Bidder saveBidder(Bidder bidder, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.bidderService.saveBidder(bidder);
+	}
+	
+	@POST
+	@Path("/updateBidder")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Bidder updateBidder(Bidder bidder, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.bidderService.updateBidder(bidder);
+	}
+	
 
 	@GET
 	@Path("/getContractor")
@@ -60,5 +91,7 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	public void setContractorService(ContractorService contractorService) {
 		this.contractorService = contractorService;
 	}
-
+	public void setBidderService(BidderService bidderService) {
+		this.bidderService = bidderService;
+	}
 }

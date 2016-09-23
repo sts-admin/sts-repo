@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Contractor;
+import com.awacp.entity.GeneralContractor;
 import com.awacp.service.ContractorService;
 
 public class ContractorServiceImpl implements ContractorService {
@@ -47,6 +48,11 @@ public class ContractorServiceImpl implements ContractorService {
 		contractor = getEntityManager().merge(contractor);
 		getEntityManager().flush();
 		return contractor;
+	}
+
+	@Override
+	public GeneralContractor getGenearalContractor(Long id) {
+		return getEntityManager().find(GeneralContractor.class, id);
 	}
 
 }

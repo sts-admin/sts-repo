@@ -69,10 +69,10 @@ public class RoleServiceImpl implements RoleService {
 				}
 			}
 			existingRole.setPermissions(permissions);
-		}else{
+		} else {
 			existingRole.getPermissions().clear();
 		}
-		System.err.println("role permission size = "+ existingRole.getPermissions().size());
+		System.err.println("role permission size = " + existingRole.getPermissions().size());
 		getEntityManager().merge(existingRole);
 		getEntityManager().flush();
 		return existingRole;
@@ -128,12 +128,14 @@ public class RoleServiceImpl implements RoleService {
 		List<PermissionGroup> groups = null;
 		if (uniquePermissions != null && !uniquePermissions.isEmpty()) {
 			groups = new ArrayList<PermissionGroup>();
+			System.err.println("uniquePermissions size = "+ uniquePermissions.size());
 			for (Object[] permission : uniquePermissions) {
 				PermissionGroup pg = new PermissionGroup();
 				pg.setGroupName(permission[1].toString());
 				String keyword = permission[0].toString().split("_")[0];
 				pg.setPermissions(getAllMatchingPermissions(keyword));
 				groups.add(pg);
+				System.err.println("Group Name = "+ permission[0].toString() + " permission size = "+ pg.getPermissions().size());
 			}
 		}
 
@@ -177,39 +179,54 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	private List<Menu> getMenuOfRole(Role role) {
+		if (role.getPermissions() != null) {
+			System.err.println("role permissions = " + role.getPermissions().size());
+		}
+
 		List<Menu> menus = new ArrayList<Menu>();
+		List<MenuItem> items = null;
+		Menu aMenu = null;
 		for (PermissionGroup group : groupPermissionsGroup()) {
-			Menu aMenu = new Menu(group.getGroupName(), group.getGroupName());
+			aMenu = new Menu(group.getGroupName(), group.getGroupName());
 			if (group.getPermissions() != null && !group.getPermissions().isEmpty()) {
 				group.getPermissions().retainAll(role.getPermissions());
-				if (group.getPermissions() != null && !group.getPermissions().isEmpty()) {
-					List<MenuItem> items = new ArrayList<MenuItem>();
-					for (Permission permission : group.getPermissions()) {
-						/*
-						 * String partial =
-						 * permission.getAuthority().split("_")[1]; if
-						 * (!partial.contains("c") || !partial.contains("r") ||
-						 * !partial.contains("follow") ||
-						 * !partial.contains("report")) { continue; }
-						 */
-						if (permission.getUrl() == null || permission.getUrl().isEmpty()) {
-							continue;
-						}
-						if (permission.getAuthority().contains("bbt")) {
-							items = getBbtItems(items);
-							continue;
-						}
-						items.add(new MenuItem(permission.getDescription(), permission.getUrl()));
+				if (group.getPermissions() == null || group.getPermissions().isEmpty()) {
+					continue;
+				}
+				items = new ArrayList<MenuItem>();
+				int index = 0;
+				int size = group.getPermissions().size();
+				boolean emptyUrl = false, bbt = false;
+				for (Permission permission : group.getPermissions()) {
+					emptyUrl = bbt = false;
+					if (permission.getUrl() == null || permission.getUrl().isEmpty()) {
+						emptyUrl = true;
+					}
+					if (permission.getAuthority().contains("bbt")) {
+						bbt = true;
+						items = getBbtItems(items);
+					}
+					if (index != 0 && index != (size - 1) && !emptyUrl && !bbt) {
 						items.add(new MenuItem("divider", "#"));
 					}
-					aMenu.setItems(items);
+					if (emptyUrl) {
+						continue;
+					}
+					if (bbt) {
+						break;
+					}
+					items.add(new MenuItem(permission.getDescription(), permission.getUrl()));
+					index++;
 				}
+				aMenu.setItems(items);
 			}
-			menus.add(aMenu);
+			if (items != null && !items.isEmpty()) {
+				menus.add(aMenu);
+			}
 		}
-		System.err.println("menus size = "+ menus.size());
+		System.err.println("menus size = " + menus.size());
 		return menus;
-		
+
 	}
 
 	private List<MenuItem> getBbtItems(List<MenuItem> items) {
