@@ -223,4 +223,31 @@ public class Takeoff extends BaseEntity {
 		this.userNameOrEmail = userNameOrEmail;
 	}
 
+	@Transient
+	public String getSalesPersonName() {
+		return salesPersonName;
+	}
+
+	public void setSalesPersonName(String salesPersonName) {
+		this.salesPersonName = salesPersonName;
+	}
+
+	@Transient
+	public String getArchitectureName() {
+		return architectureName;
+	}
+
+	public void setArchitectureName(String architectureName) {
+		this.architectureName = architectureName;
+	}
+
+	@Transient
+	public String getEngineerName() {
+		return engineerName;
+	}
+
+	public void setEngineerName(String engineerName) {
+		this.engineerName = engineerName;
+	}
+
 }

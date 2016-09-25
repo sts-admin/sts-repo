@@ -5,7 +5,7 @@ import java.util.List;
 import com.awacp.entity.Takeoff;
 
 public interface TakeoffService {
-	public List<Takeoff> listTakeoffs();
+	public List<Takeoff> listTakeoffs(int pageNumber, int pageSize);
 
 	public Takeoff getTakeoff(Long takeoffId);
 

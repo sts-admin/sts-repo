@@ -13,9 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awacp.entity.Bidder;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.Takeoff;
+import com.awacp.service.ArchitectService;
 import com.awacp.service.BidderService;
 import com.awacp.service.ContractorService;
+import com.awacp.service.EngineerService;
 import com.awacp.service.TakeoffService;
+import com.sts.core.entity.User;
 import com.sts.core.service.UserService;
 
 public class TakeoffServiceImpl implements TakeoffService {
@@ -27,7 +30,13 @@ public class TakeoffServiceImpl implements TakeoffService {
 
 	@Autowired
 	private ContractorService contractorService;
-	
+
+	@Autowired
+	private EngineerService engineerService;
+
+	@Autowired
+	private ArchitectService architectService;
+
 	@Autowired
 	private UserService userService;
 
@@ -42,8 +51,24 @@ public class TakeoffServiceImpl implements TakeoffService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Takeoff> listTakeoffs() {
-		return getEntityManager().createNamedQuery("Takeoff.listAll").getResultList();
+	public List<Takeoff> listTakeoffs(int pageNumber, int pageSize) {
+		int fResult = ((pageNumber - 1) * pageSize);
+		return initWithDetail(getEntityManager().createNamedQuery("Takeoff.listAll").setFirstResult(fResult)
+				.setMaxResults(pageSize).getResultList());
+	}
+
+	private List<Takeoff> initWithDetail(List<Takeoff> takeoffs) {
+		if (takeoffs == null || takeoffs.isEmpty())
+			return null;
+
+		for (Takeoff takeoff : takeoffs) {
+			User user = userService.findUser(takeoff.getSalesPerson());
+			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
+			takeoff.setEngineerName(engineerService.getEngineer(takeoff.getEngineerId()).getEngineerTitle());
+			takeoff.setArchitectureName(architectService.getArchitect(takeoff.getArchitectureId()).getArchitectTitle());
+		}
+
+		return takeoffs;
 	}
 
 	@Override
