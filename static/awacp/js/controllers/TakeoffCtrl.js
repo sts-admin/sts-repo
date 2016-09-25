@@ -14,6 +14,7 @@
 		takeVm.architects = [];	
 		takeVm.contractors = [];
 		takeVm.bidders = [];
+		takeVm.takeoffs = [];
 		takeVm.takeoff = {};
 		takeVm.selectedBidders = [];
 		takeVm.selectedContractors = [];
@@ -24,7 +25,7 @@
 			console.log('Page changed to: ' + takeVm.currentPage);
 		};	
 		takeVm.cancelTakeoffAction = function(){
-			$state.go("takeoffs");
+			$state.go("takeoff-view");
 		}
 		
 		takeVm.getUsers = function(){
@@ -108,8 +109,51 @@
 			takeVm.getContractors();
 			takeVm.getBidders();
 		}
+		takeVm.isValidDateRange =function(fDate, lDate){
+			var sDate = new Date(fDate);
+			var eDate = new Date(lDate);
+			return (eDate >= sDate);
+		}
 		takeVm.saveTakeoff = function(){
-			
+			if(takeVm.takeoff.revisedDate){
+				if(!takeVm.isValidDateRange(takeVm.takeoff.drawingDate, takeVm.takeoff.revisedDate)){
+					 AlertService.showAlert(
+					'AWACP :: Message!',
+					"Drawing date should be greater than or equal to revised date."
+					).then(function (){	
+						return;
+					},
+					function (){		
+						return;
+					});
+					return;
+				}
+				if(!takeVm.isValidDateRange(takeVm.takeoff.revisedDate, takeVm.takeoff.dueDate)){
+					 AlertService.showAlert(
+					'AWACP :: Message!',
+					"Due date should be greater than or equal to revised date."
+					).then(function (){	
+						return;
+					},
+					function (){		
+						return;
+					});
+					return;
+				}
+			}
+
+			if(!takeVm.isValidDateRange(takeVm.takeoff.drawingDate, takeVm.takeoff.dueDate)){
+				 AlertService.showAlert(
+				'AWACP :: Message!',
+				"Due date should be greater than or equal to drawing date."
+				).then(function (){	
+					return;
+				},
+				function (){		
+					return;
+				});
+				return;
+			}
 			if(takeVm.selectedBidders.length > 0){
 				var ids = [];
 				$.each(takeVm.selectedBidders, function(k, v){
@@ -128,13 +172,13 @@
 					takeVm.takeoff.contractorsIds = ids;
 				}
 			}
-			alert(JSON.stringify(takeVm.takeoff, null, 4));
 			
 			var formData = {};
 			takeVm.takeoff.userNameOrEmail = StoreService.getUserName();
 			formData["takeoff"] = takeVm.takeoff;
 			AjaxUtil.submitData("/awacp/saveTakeoff", formData)
 			.success(function(data, status, headers){
+				angular.element("takeoff-reset").trigger("click");
 				AlertService.showAlert(	'AWACP :: Message!','Takeoff added successfully.')
 				.then(function (){					
 					return
@@ -144,6 +188,26 @@
 				jqXHR.errorSource = "TakeoffCtrl::takeVm.saveTakeoff::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
+		}
+		takeVm.listTakeoffs = function(){
+			takeVm.takeoffs = [];
+			AjaxUtil.getData("/awacp/listTakeoffs?pageNumber="+takeVm.currentPage+"&pageSize=10", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.takeoff && data.takeoff.length > 0){
+					var tmp = [];
+					$.each(data.takeoff, function(k, v){
+						tmp.push(v);
+						$scope.$apply(function(){
+							takeVm.takeoffs = tmp;
+					    });
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.getUsers::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+			
 		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){

@@ -45,11 +45,11 @@
 				templateUrl:"templates/roles.html",
 				controller:"RoleCtrl",
 				controllerAs:"roleVm"
-			}).state('takeoffs',{
+			}).state('takeoff-view',{
 				url: '/takeoffs',
 				templateUrl:"templates/takeoffs.html",
-				controller:"EngineerCtrl",
-				controllerAs:"engVm"
+				controller:"TakeoffCtrl",
+				controllerAs:"takeVm"
 			}).state('takeoff-add',{
 				url: '/takeoff/add',
 				templateUrl:"templates/takeoff-add.html",
@@ -100,6 +100,14 @@
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService) {
+			$rootScope.dayDiff = function(startdate, enddate) {
+				var dayCount = 0;
+				while(enddate >= startdate) {
+					dayCount++;
+					startdate.setDate(startdate.getDate() + 1);
+				}
+				return dayCount; 
+			}
 			$rootScope.resourceReadPath = resourceReadPath;
 			$rootScope.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 			$rootScope.dateFormat = $rootScope.dateFormats[0];

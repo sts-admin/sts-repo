@@ -2,7 +2,7 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow">
+		<div class="panel panel-default shadow" ng-init="takeVm.listTakeoffs();">
 			<div class="panel-heading form-heading">
 				<label>Manage Takeoff</label>				
 				<span class="pull-right"><a href ui-sref="takeoff-add" >Add Takeoff</a></span>	
@@ -24,18 +24,18 @@
 							<tr style="background:#02577D;">
 							  <td align="center" style="padding:5px;" width="5%">&nbsp;</td>
 							  <td align="center" style="padding:5px;" width="11%"><input type="text" class="searchtxt form-control" name="user_name" value="" /></td>
-							  <td align="center" style="padding:5px;" width="14%"><input type="text" class="searchtxt form-control" name="user_id" value="" /></td>
+							  <td align="center" style="padding:5px;" width="18%"></td>
 							  <td align="center" style="padding:5px;" width="10%"><input type="text" class="searchtxt form-control" name="user_password" value="" /></td>
 							  <td align="center" style="padding:5px;" width="10%"><input type="text" class="searchtxt form-control" name="usercode" value="" /></td>
-							  <td align="center" style="padding:5px;" width="17%"><input type="text" class="searchtxt form-control" name="email" value="" /></td>
-							  <td align="center" style="padding:5px;" width="8%"><input type="text" class="searchtxt form-control" name="role" value="" /></td>
-							  <td align="center" style="padding:5px;" width="15%">&nbsp;</td>
-							  <td align="center" style="padding:5px;" width="10%"><input type="hidden" class="searchtxt form-control" name="status" id="status" value="" /></td>
+							  <td align="center" style="padding:5px;" width="15%"><input type="text" class="searchtxt form-control" name="email" value="" /></td>
+							  <td align="center" style="padding:5px;" width="11%"><input type="date" class="searchtxt form-control" name="role" value="" /></td>
+							  <td align="center" style="padding:5px;" width="12%"><input type="date" class="searchtxt form-control" name="role" value="" /></td>
+							  <td align="center" style="padding:5px;" width="8%"><input type="hidden" class="searchtxt form-control" name="status" id="status" value="" /></td>
 							</tr>
 							<tr style="background:#042F51;">
 							  <td style="padding:5px; color:#FFF;" align="center">S. No.</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Job Name</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Job Description</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Job Specification</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Sales Person</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Engineer</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Architecture</td>
@@ -47,14 +47,22 @@
 						  <tbody>
 							<tr height="25" ng-repeat="takeoff in takeVm.takeoffs track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td>{{takeoff.jobName}}</td>
-							  <td>{{takeoff.jobDescription}}</td>
-							  <td align="center">DB</td>
-							  <td align="center">Debendra</td>
-							  <td>Abhishek</td>
-							  <td align="center">{{'04/01/2016 03:12:32' | date:'mediumDate'}}</td>
-							  <td>{{'14/01/2016 03:12:32' | date:'mediumDate'}}</td>
-							  <td align="center">&nbsp; <a href="" target="_blank"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)"><img src="images/business_user_info.png" title="show user information" border="0"></a></td>
+							  <td align="center">{{takeoff.jobName}}</td>
+							  <td align="center">{{takeoff.jobSpecification}}</td>
+							  <td align="center">{{takeoff.salesPersonName}}</td>
+							  <td align="center">{{takeoff.engineerName}}</td>
+							  <td align="center">{{takeoff.architectureName}}</td>
+							  <td align="center">{{takeoff.drawingDate | date:'mediumDate'}}</td>
+							  <td align="center">{{takeoff.dueDate | date:'mediumDate'}}</td>
+							  <td align="center">
+								&nbsp; 
+								<a href="" target="_blank"> 
+									<img src="images/file_edit.png" title="edit user" border="0">
+								</a> &nbsp;&nbsp; 
+								<a href="" target="_blank"> 
+									<img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0">
+								</a>
+							  </td>
 							</tr>							
 						</table>
 						</td>

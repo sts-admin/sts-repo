@@ -119,7 +119,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="date" class="form-control" ng-model="takeVm.takeoff.drawingDate" />
+							  <input type="date" class="form-control" ng-model="takeVm.takeoff.drawingDate" ng-required="true" />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -143,7 +143,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="date" class="form-control" ng-model="takeVm.takeoff.dueDate" />
+							  <input type="date" class="form-control" ng-model="takeVm.takeoff.dueDate" ng-required="true" />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
@@ -197,7 +197,7 @@
 						<input type="submit" value="Add Takeoff" class="submit-btn btn btn-primary">
 						<input type="hidden" name="add" value="add" />
 						&nbsp;&nbsp;
-						<input type="reset" value="Reset" class="reset-btn btn btn-warning">
+						<input type="reset" value="Reset" class="reset-btn btn btn-warning" id="takeoff-reset">
 						&nbsp;&nbsp;
 						<input type="button" value="Cancel" class="reset-btn btn btn-info" ng-click="takeVm.cancelTakeoffAction();">
 					  </div>

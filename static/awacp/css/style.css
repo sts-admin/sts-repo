@@ -31,6 +31,17 @@ html, body{height:100%; margin:0;padding:0}
 .form-group{
 	padding: 5px;
 }
+.form-group div.dropdown-multiselect{
+	width: 100%;
+}
+.form-group div.dropdown-multiselect button{
+	left:0px;
+	text-align:left;
+	width:100%;
+}
+.form-group div.dropdown-multiselect ul{
+	width:100%;
+}
 .form-control{
 	margin-top: 1px;
 }

@@ -105,11 +105,15 @@
 			AjaxUtil.getData("/awacp/listUser", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.user && data.user.length > 0){
+					var tmp = [];
 					userVm.totalItems = data.user.length;
 					$.each(data.user, function(k, v){
 						v.customName = v.userCode + " - "+ v.firstName;
-						userVm.users.push(v);
+						tmp.push(v);						
 					});
+					$scope.$apply(function(){
+						userVm.users = tmp;
+					});					
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
