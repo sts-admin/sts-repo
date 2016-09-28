@@ -1,0 +1,10 @@
+<div class="modal-header pop-up-alert">
+	<h3 class="pop-up-alert-title" id="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body" id="modal-body" style="text-align:center;">
+	{{message}}
+</div>
+<div class="pop-up-alert-footer">
+	 <button type="button" class="btn btn-primary btn-primary alert-ok-button" data-ng-click="yes(); $event.stopPropagation()">Yes</button>
+	 <button type="button" class="btn btn-primary btn-warn alert-ok-button" data-ng-click="no(); $event.stopPropagation()">No</button>
+</div>

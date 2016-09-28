@@ -14,11 +14,64 @@
   
 				<!-- .row -->
 				<div class="row" id="contents">
-				 
-				  <!-- .col -->
+				   <!-- .col -->
 				  <div class="col-lg-12">
-					
+					<form id="users_view_form" class="table-container" action="" method="post">
+					  <div class="table-container">
+						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+						  <thead>
+							<tr style="background:#02577D;">
+							  <td align="center" style="padding:5px;" width="5%">&nbsp;</td>
+							  <td align="center" style="padding:5px;" width="11%"><input type="text" class="searchtxt form-control" name="user_name" value="" /></td>
+							  <td align="center" style="padding:5px;" width="14%"><input type="text" class="searchtxt form-control" name="user_id" value="" /></td>
+							  <td align="center" style="padding:5px;" width="10%"><input type="text" class="searchtxt form-control" name="user_password" value="" /></td>
+							  <td align="center" style="padding:5px;" width="10%"><input type="text" class="searchtxt form-control" name="usercode" value="" /></td>
+							  <td align="center" style="padding:5px;" width="17%"><input type="text" class="searchtxt form-control" name="email" value="" /></td>
+							  <td align="center" style="padding:5px;" width="8%"><input type="text" class="searchtxt form-control" name="role" value="" /></td>
+							  <td align="center" style="padding:5px;" width="15%">&nbsp;</td>
+							  <td align="center" style="padding:5px;" width="10%"><input type="hidden" class="searchtxt form-control" name="status" id="status" value="" /></td>
+							</tr>
+							<tr style="background:#042F51;">
+							  <td style="padding:5px; color:#FFF;" align="center">S. No.</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Name</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Country</td>
+							  <td style="padding:5px; color:#FFF;" align="center">State</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Street</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Email ID</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Phone</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Date Created</td>
+							  <td style="padding:5px; color:#FFF;" filter="false" align="center"></td>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr height="25" ng-repeat="bidder in bidVm.bidders track by $index">
+							  <td align="center">{{$index + 1}}</td>
+							  <td align="center">{{bidder.bidderTitle}}</td>
+							  <td align="center">{{bidder.country.countryName}}</td>
+							  <td align="center">{{bidder.state.stateName}}</td>
+							  <td align="center">{{bidder.city}}</td>
+							  <td align="center">{{bidder.email}}</td>
+							  <td align="center">{{bidder.contact}}</td>
+							  <td align="center">{{bidder.dateCreated | date:'mediumDate'}}</td>
+							  <td align="center">&nbsp; 
+								<a href ui-sref="bidder-edit({id:bidder.id})"> 
+									<img src="images/file_edit.png" title="edit user" border="0">
+								</a> 
+									&nbsp;&nbsp; 
+									<img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)">
+									
+								</a>
+							  </td>
+							</tr>							
+						</table>
+						</td>
+						</tr>
+						</tbody>
+						</table>
+					  </div>
+					</form>
 				  </div>
+				  
 				</div>
 			  </div>
 			</div>

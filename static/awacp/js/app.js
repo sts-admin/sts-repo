@@ -60,6 +60,12 @@
 				templateUrl:"templates/bidders.html",
 				controller:"BidderCtrl",
 				controllerAs:"bidVm"
+			})
+			.state('bidder-edit',{
+				url: '/bidder/edit/:id',
+				templateUrl:"templates/bidder-add.html",
+				controller:"BidderCtrl",
+				controllerAs:"bidVm"
 			}).state('bidder-add',{
 				url: '/bidder/add',
 				templateUrl:"templates/bidder-add.html",

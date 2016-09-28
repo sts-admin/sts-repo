@@ -4,6 +4,7 @@
 	BidderCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService'];
 	function BidderCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
 		var bidVm = this;
+		bidVm.spinnerUrl = "<img src='images/loading.gif' />";
 		bidVm.totalItems = 0;
 		bidVm.currentPage = 1;
 		bidVm.setPage = function (pageNo) {
@@ -50,10 +51,14 @@
 			AjaxUtil.getData("/awacp/listUser", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.user && data.user.length > 0){
+					var tmp = [];
 					$.each(data.user, function(k, v){
 						v.customName = v.userCode + " - "+ v.firstName;
-						bidVm.users.push(v);
+						tmp.push(v);						
 					});
+					$scope.$apply(function(){
+						bidVm.users = tmp;
+					});					
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -61,22 +66,25 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		bidVm.editBidder = function(){
-			
+		bidVm.editBidder = function(id){
+			alert("edit bidder detail with id "+ id);
 		}
 		bidVm.updateBidder = function(){
 			
 		}
 		bidVm.addBidder = function(){
-			AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "disable");
+			AjaxUtil.toggleSpinner('login-submit', 'loading_span', bidVm.spinnerUrl, "disable");
 			var formData = {};
 			formData["bidder"] = bidVm.bidder;
 			AjaxUtil.submitData("/awacp/saveBidder", formData)
 			.success(function(data, status, headers){				
-				AlertService.showAlert(	'AWACP :: Message!','Bidder added successfully.')
-				.then(function (){					
+				bidVm.bidder = {};
+				AlertService.showConfirm('AWACP :: Message!','Bidder added successfully. Add more?')
+				.then(function (){	
 					return
-				},function (){return;});
+				},function (){
+					bidVm.cancelBidderAction();
+				});
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "BidderCtrl::bidVm.addBidder::Error";
@@ -95,9 +103,13 @@
 			AjaxUtil.getData("/awacp/listBidders", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.bidder && data.bidder.length > 0){
+					var tmp = [];
 					bidVm.totalItems = data.bidder.length;
 					$.each(data.bidder, function(k, v){
-						bidVm.bidders.push(v);
+						tmp.push(v);						
+					});
+					$scope.$apply(function(){
+						bidVm.bidders = tmp;
 					});
 				}
 			})

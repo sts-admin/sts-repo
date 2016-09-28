@@ -102,7 +102,10 @@
 			formData["engineer"] = engVm.engineer;
 			AjaxUtil.submitData("/awacp/saveEngineer", formData)
 			.success(function(data, status, headers){
-				alert("submit success");
+				AlertService.showAlert(	'AWACP :: Message!','Engineer added successfully.')
+				.then(function (){					
+					return
+				},function (){return;});
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "ContractorCtrl::engVm.addContractor::Error";
