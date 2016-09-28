@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Takeoff;
 import com.awacp.service.TakeoffService;
+import com.sts.core.dto.StsResponse;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class TakeoffServiceEndpoint extends CrossOriginFilter {
@@ -27,7 +28,7 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/listTakeoffs")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Takeoff> listTakeoffs(@QueryParam("pageNumber") int pageNumber, @QueryParam("pageSize") int pageSize,
+	public List<StsResponse> listTakeoffs(@QueryParam("pageNumber") int pageNumber, @QueryParam("pageSize") int pageSize,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.takeoffService.listTakeoffs(pageNumber, pageSize);
 	}

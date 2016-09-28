@@ -18,6 +18,7 @@ import com.awacp.service.BidderService;
 import com.awacp.service.ContractorService;
 import com.awacp.service.EngineerService;
 import com.awacp.service.TakeoffService;
+import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
 import com.sts.core.service.UserService;
 
@@ -51,7 +52,7 @@ public class TakeoffServiceImpl implements TakeoffService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Takeoff> listTakeoffs(int pageNumber, int pageSize) {
+	public List<StsResponse> listTakeoffs(int pageNumber, int pageSize) {
 		int fResult = ((pageNumber - 1) * pageSize);
 		return initWithDetail(getEntityManager().createNamedQuery("Takeoff.listAll").setFirstResult(fResult)
 				.setMaxResults(pageSize).getResultList());

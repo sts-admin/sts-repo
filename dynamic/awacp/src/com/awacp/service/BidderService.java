@@ -6,7 +6,7 @@ import com.awacp.entity.Bidder;
 
 public interface BidderService {
 
-	public List<Bidder> listBidders();
+	public List<Bidder> listBidders(int pageNumber, int pageSize);
 
 	public Bidder getBidder(Long bidderId);
 

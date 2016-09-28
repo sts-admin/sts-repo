@@ -25,8 +25,10 @@ public class BidderServiceImpl implements BidderService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Bidder> listBidders() {
-		return getEntityManager().createNamedQuery("Bidder.listAll").getResultList();
+	public List<Bidder> listBidders(int pageNumber, int pageSize) {
+		int fResult = ((pageNumber - 1) * pageSize);
+		return getEntityManager().createNamedQuery("Bidder.listAll").setFirstResult(fResult).setMaxResults(pageSize)
+				.getResultList();
 	}
 
 	@Override
