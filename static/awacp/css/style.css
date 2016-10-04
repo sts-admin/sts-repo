@@ -254,7 +254,7 @@ html, body{height:100%; margin:0;padding:0}
 	float:right;
 }
 .clearfix{clear:both;}
-.admin-mng{text-align:center; font-size:18px;}
+.admin-mng{}
 
 @media (min-width: 992px) and (max-width: 1200px) {
 }
