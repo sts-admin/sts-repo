@@ -1,32 +1,26 @@
-<div role="header" class="row" style="background:#0b54a1;height:100px;">
-  <div class="col-lg-3 col-md-3 col-sm-4 col-sm-6 col-xs-6 col-xss-12"> 
+<div role="header" class="header-bg">
+  <div class="col-lg-4"> 
 	<a href ui-sref="dashboard"><img src="images/logo.png" class="img-responsive" alt="" /></a> 
 </div>
-  <!-- .col -->
-  <div class="col-lg-2 col-md-2 col-sm-3 hidden-sm hidden-xs text-center">
-	<div style="color:#FFFFFF; font-weight:bold;">INDIA</div>
-	<div class="clockdiv">
-	  <canvas class="CoolClock:awacp:35::5.5::logClockRe"></canvas>
-	</div>
+  
+  <div class="col-lg-2">
+	<div style="color:#FFFFFF; text-align:center">INDIA</div>
+	
   </div>
-  <!-- .col -->
-  <!--<div class="col-lg-2 col-md-2 col-sm-4 text-center hidden-xs"> <a href="" class="home-link"> <img src="images/home-icon.png" alt="" /><br/>
-	Go to Dashboard </a> </div>-->
-  <!-- .col -->
-  <div class="col-lg-2 col-md-2 col-sm-3 hidden-sm hidden-xs text-center">
-	<div style="color:#FFFFFF; font-weight:bold;">NEW YORK</div>
-	<div class="clockdiv">
-	  <canvas class="CoolClock:awacp:35::-4.0::logClockRe"></canvas>
-	</div>
+
+  <div class="col-lg-2">
+	<div style="color:#FFFFFF; text-align:center">NEW YORK</div>
+	
   </div>
-  <!-- .col -->
-  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-right">
+ 
+  <div class="col-lg-4">
 	<div id="top-search"> 
-		<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" />
+		<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" /><br />
 	  
 	  <input type="text" value="Logout" class="logout-inp" readonly style="cursor:pointer;" ng-click="logoutUser();">
 	</div>
-	<!-- #top-search -->
+	
   </div>
-  <!-- .col -->
+  
 </div>
+<div class="clearfix"></div>
