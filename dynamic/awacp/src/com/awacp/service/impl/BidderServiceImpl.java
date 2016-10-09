@@ -1,5 +1,6 @@
 package com.awacp.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,11 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Bidder;
 import com.awacp.service.BidderService;
+import com.awacp.util.PaginationUtil;
 
-public class BidderServiceImpl implements BidderService {
+public class BidderServiceImpl extends PaginationUtil implements BidderService  {
 
 	private EntityManager entityManager;
-
+    int PAGESIZE = 4;
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
@@ -25,12 +27,21 @@ public class BidderServiceImpl implements BidderService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Bidder> listBidders(int pageNumber, int pageSize) {
-		int fResult = ((pageNumber - 1) * pageSize);
-		return getEntityManager().createNamedQuery("Bidder.listAll").setFirstResult(fResult).setMaxResults(pageSize)
-				.getResultList();
+	public List<Bidder> listBidders(int pageNumber,int pageSize) {
+		Bidder bidder = new Bidder();
+		long count = 0L;
+		List<Bidder> listOfBidders = new ArrayList<>();
+		String qryName = "Bidder.listAll";
+		if(pageNumber == 1){
+			count = ((Long)getEntityManager().createNamedQuery(qryName+"Count").getSingleResult()).intValue();
+		}
+		List <Bidder> bidders = pagination(pageNumber,pageSize,qryName);
+		bidders.get(0).setCountBidders(count);
+		return bidders;
+		
+		
 	}
-
+	
 	@Override
 	public Bidder getBidder(Long bidderId) {
 		return getEntityManager().find(Bidder.class, bidderId);
