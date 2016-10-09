@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,7 +19,8 @@ import com.sts.core.entity.State;
 @Entity
 @XmlRootElement
 @NamedQueries({ 
-	@NamedQuery(name = "Bidder.listAll", query = "SELECT b FROM Bidder b WHERE b.archived = 'false'") 
+	@NamedQuery(name = "Bidder.listAll", query = "SELECT b FROM Bidder b WHERE b.archived = 'false'"),
+	@NamedQuery(name = "Bidder.listAllCount", query = "SELECT count(b.id) FROM Bidder b WHERE b.archived = 'false'")
 })
 public class Bidder extends BaseEntity {
 
@@ -28,6 +30,7 @@ public class Bidder extends BaseEntity {
 	private String street;
 	private String city;
 	private Country country;
+	private Long countBidders;
 	private State state;
 	private String officePhone;
 	private String phone;
@@ -76,6 +79,14 @@ public class Bidder extends BaseEntity {
 
 	public Country getCountry() {
 		return country;
+	}
+    @Transient
+	public Long getCountBidders() {
+		return countBidders;
+	}
+
+	public void setCountBidders(Long countBidders) {
+		this.countBidders = countBidders;
 	}
 
 	public void setCountry(Country country) {
