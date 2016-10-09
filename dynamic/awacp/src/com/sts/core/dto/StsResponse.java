@@ -2,15 +2,17 @@ package com.sts.core.dto;
 
 import java.util.List;
 
-public class StsResponse {
+public class StsResponse<T> {
+	private String status;
+	private String message;
 	private int totalCount;
-	private List<Object> results;
+	private List<T> results;
 
 	public StsResponse() {
 		super();
 	}
 
-	public StsResponse(int totalCount, List<Object> results) {
+	public StsResponse(int totalCount, List<T> results) {
 		super();
 		this.totalCount = totalCount;
 		this.results = results;
@@ -24,12 +26,28 @@ public class StsResponse {
 		this.totalCount = totalCount;
 	}
 
-	public List<Object> getResults() {
+	public List<T> getResults() {
 		return results;
 	}
 
-	public void setResults(List<Object> results) {
+	public void setResults(List<T> results) {
 		this.results = results;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }
