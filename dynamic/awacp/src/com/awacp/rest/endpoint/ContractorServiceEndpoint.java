@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -37,13 +38,20 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	}
 	
 	@GET
-	@Path("/listBidders")
+	@Path("/listBidders/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Bidder> listBidders(@Context HttpServletResponse servletResponse) throws IOException {
-		return this.bidderService.listBidders();
+	public List<Bidder> listBidders(@PathParam("pageNumber") int pageNumber,@PathParam("pageSize") int pageSize ,@Context HttpServletResponse servletResponse) throws IOException {
+		return this.bidderService.listBidders(pageNumber,pageSize);
 	}
 	
-	@POST
+	@GET
+	@Path("/getBidder/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Bidder getBidders(@PathParam("id") Long id ,@Context HttpServletResponse servletResponse) throws IOException {
+		return this.bidderService.getBidder(id);
+	}
+	
+	@POST 
 	@Path("/saveBidder")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
