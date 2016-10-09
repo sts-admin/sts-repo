@@ -1,28 +1,44 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('BidderCtrl', BidderCtrl);
-	BidderCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService'];
-	function BidderCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
+	BidderCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$stateParams', '$compile', 'AlertService'];
+	function BidderCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $stateParams){
 		var bidVm = this;
 		bidVm.spinnerUrl = "<img src='images/loading.gif' />";
-		bidVm.totalItems = 0;
+		bidVm.totalItems = 20;
 		bidVm.currentPage = 1;
-		bidVm.setPage = function (pageNo) {
-			$scope.currentPage = pageNo;
+		$scope.pageNumber = 1;
+		bidVm.pageSize = 5;
+		$scope.pagination = {
+			currentPage: 1,
+			maxSize: 21,
+			totalItems: 22
 		};
-		bidVm.pageChanged = function() {
-			console.log('Page changed to: ' + bidVm.currentPage);
-		};
+		
 		$scope.timers = [];
 		bidVm.bidders= [];
 		bidVm.bidder = {};
 		bidVm.countries = [];
 		bidVm.states = [];
 		bidVm.users = [];
+		
+		
+		bidVm.setPage = function (pageNo) {
+			$scope.currentPage = pageNo;
+		};
+		
+		bidVm.pageChanged = function() {
+			bidVm.getBidders(bidVm.currentPage);
+		};
+
 		bidVm.cancelBidderAction = function(){
 			$state.go("bidders");
 		}
-		bidVm.initCountries = function(){
+		
+	    $scope.loadMore = function(){
+          bidVm.getBidders($scope.pageNumber);
+	   } 
+	   bidVm.initCountries = function(){
 			bidVm.countries = [];
 			AjaxUtil.listCountries(function(result, status){
 				if("success" === status){
@@ -66,8 +82,21 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		bidVm.editBidder = function(id){
-			alert("edit bidder detail with id "+ id);
+		bidVm.editBidder = function(){
+			if($state.params.id != undefined){
+				AjaxUtil.getData("/awacp/getBidder/"+$state.params.id, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.bidder){
+						$scope.$apply(function(){
+							bidVm.bidder = data.bidder;
+						});
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "BidderCtrl::bidVm.getBidders::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				})
+			}
 		}
 		bidVm.updateBidder = function(){
 			
@@ -92,19 +121,30 @@
 			});
 		}
 		bidVm.initBidderMasterInputs = function(){
-			bidVm.initCountries();
-			bidVm.getUsers();
+			if($state.params.id == undefined){
+			   bidVm.initCountries();
+			   bidVm.getUsers();
+		    }
 		}
-		bidVm.getBidders = function(){
+		
+		
+		bidVm.getBidders = function(pageNumber){
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
-			bidVm.bidders = [];
-			AjaxUtil.getData("/awacp/listBidders", Math.random())
+			AjaxUtil.getData("/awacp/listBidders/"+pageNumber+"/5", Math.random())
 			.success(function(data, status, headers){
+				$scope.$apply(function(){
+					$scope.pageNumber = $scope.pageNumber + 1;
+				});
+				
 				if(data && data.bidder && data.bidder.length > 0){
 					var tmp = [];
-					bidVm.totalItems = data.bidder.length;
+					console.log(JSON.stringify(data,null,4));
+					$scope.$apply(function(){
+					   bidVm.totalItems = data.bidder[0].countBidders;
+				    });
+					
 					$.each(data.bidder, function(k, v){
 						tmp.push(v);						
 					});
@@ -118,6 +158,10 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		// if(!bidderId || bidderId != undefined ){
+			// bidVm.getBidder();
+		// }
+		bidVm.editBidder();
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
 				$timeout.cancel($scope.timers[i]);
