@@ -32,10 +32,10 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	private BidderService bidderService;
 
 	@GET
-	@Path("/listContractors")
+	@Path("/listContractors/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Contractor> listContractors(@Context HttpServletResponse servletResponse) throws IOException {
-		return this.contractorService.listContractors();
+	public StsResponse<Contractor> listContractors(@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize,@Context HttpServletResponse servletResponse) throws IOException {
+		return this.contractorService.listContractors(pageNumber ,pageSize);
 	}
 
 	@GET

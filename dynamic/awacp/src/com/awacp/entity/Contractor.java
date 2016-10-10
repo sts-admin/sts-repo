@@ -18,7 +18,9 @@ import com.sts.core.entity.State;
 @Entity
 @XmlRootElement
 @NamedQueries({ 
-	@NamedQuery(name = "Contractor.listAll", query = "SELECT c FROM Contractor c WHERE c.archived = 'false'")
+	@NamedQuery(name = "Contractor.listAll", query = "SELECT c FROM Contractor c WHERE c.archived = 'false'"),
+	@NamedQuery(name = "Contractor.countAll", query = "SELECT COUNT(c.id) FROM Contractor c WHERE c.archived = 'false'")
+
 })
 public class Contractor extends BaseEntity {
 

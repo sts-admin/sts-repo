@@ -8,13 +8,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.awacp.entity.Architect;
+import com.awacp.entity.Bidder;
 import com.awacp.service.ArchitectService;
+import com.sts.core.dto.StsResponse;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class ArchitectServiceEndpoint extends CrossOriginFilter {
@@ -23,10 +26,10 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 	private ArchitectService architectService;
 
 	@GET
-	@Path("/listArchitects")
+	@Path("/listArchitects/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Architect> listArchitect(@Context HttpServletResponse servletResponse) throws IOException {
-		return this.architectService.listArchitects();
+	public StsResponse<Architect> listArchitect(@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize,@Context HttpServletResponse servletResponse) throws IOException {
+		return this.architectService.listArchitects(pageNumber, pageSize);
 	}
 
 	@GET

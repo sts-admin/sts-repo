@@ -5,11 +5,12 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.awacp.entity.Architect;
 import com.awacp.entity.Bidder;
 import com.awacp.entity.Takeoff;
 
 @XmlRootElement
-@XmlSeeAlso({Bidder.class, Takeoff.class})
+@XmlSeeAlso({Bidder.class, Takeoff.class, Architect.class})
 public class StsResponse<T> {
 	private String status;
 	private String message;
