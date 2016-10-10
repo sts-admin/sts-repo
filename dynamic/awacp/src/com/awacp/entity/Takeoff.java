@@ -24,10 +24,15 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'") })
+@NamedQueries({ @NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'"),
+		@NamedQuery(name = "Takeoff.countAll", query = "SELECT COUNT(t.id) FROM Takeoff t WHERE t.archived = 'false'") })
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
+
+	private String takeoffId;
+	private String quoteId;
+	private String jobId;
 
 	private Long salesPerson; // User id //required
 	private String userCode;
@@ -248,6 +253,30 @@ public class Takeoff extends BaseEntity {
 
 	public void setEngineerName(String engineerName) {
 		this.engineerName = engineerName;
+	}
+
+	public String getTakeoffId() {
+		return takeoffId;
+	}
+
+	public void setTakeoffId(String takeoffId) {
+		this.takeoffId = takeoffId;
+	}
+
+	public String getQuoteId() {
+		return quoteId;
+	}
+
+	public void setQuoteId(String quoteId) {
+		this.quoteId = quoteId;
+	}
+
+	public String getJobId() {
+		return jobId;
+	}
+
+	public void setJobId(String jobId) {
+		this.jobId = jobId;
 	}
 
 }

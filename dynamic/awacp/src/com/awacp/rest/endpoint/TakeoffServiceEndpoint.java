@@ -1,7 +1,6 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -28,8 +27,8 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/listTakeoffs")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<StsResponse> listTakeoffs(@QueryParam("pageNumber") int pageNumber, @QueryParam("pageSize") int pageSize,
-			@Context HttpServletResponse servletResponse) throws IOException {
+	public StsResponse<Takeoff> listTakeoffs(@QueryParam("pageNumber") int pageNumber,
+			@QueryParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.takeoffService.listTakeoffs(pageNumber, pageSize);
 	}
 

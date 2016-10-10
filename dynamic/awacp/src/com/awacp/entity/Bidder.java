@@ -20,7 +20,7 @@ import com.sts.core.entity.State;
 @XmlRootElement
 @NamedQueries({ 
 	@NamedQuery(name = "Bidder.listAll", query = "SELECT b FROM Bidder b WHERE b.archived = 'false'"),
-	@NamedQuery(name = "Bidder.listAllCount", query = "SELECT count(b.id) FROM Bidder b WHERE b.archived = 'false'")
+	@NamedQuery(name = "Bidder.countAll", query = "SELECT COUNT(b.id) FROM Bidder b WHERE b.archived = 'false'")
 })
 public class Bidder extends BaseEntity {
 

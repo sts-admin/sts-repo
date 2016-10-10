@@ -1,21 +1,21 @@
 package com.awacp.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Bidder;
 import com.awacp.service.BidderService;
-import com.awacp.util.PaginationUtil;
+import com.sts.core.dto.StsResponse;
 
-public class BidderServiceImpl extends PaginationUtil implements BidderService  {
+public class BidderServiceImpl implements BidderService {
 
 	private EntityManager entityManager;
-    int PAGESIZE = 4;
+
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
@@ -27,21 +27,23 @@ public class BidderServiceImpl extends PaginationUtil implements BidderService  
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Bidder> listBidders(int pageNumber,int pageSize) {
-		Bidder bidder = new Bidder();
-		long count = 0L;
-		List<Bidder> listOfBidders = new ArrayList<>();
-		String qryName = "Bidder.listAll";
-		if(pageNumber == 1){
-			count = ((Long)getEntityManager().createNamedQuery(qryName+"Count").getSingleResult()).intValue();
+	public StsResponse<com.awacp.entity.Bidder> listBidders(int pageNumber, int pageSize) {
+		StsResponse<com.awacp.entity.Bidder> response = new StsResponse<com.awacp.entity.Bidder>();
+		if (pageNumber <= 1) {
+			Object object = getEntityManager().createNamedQuery("Bidder.countAll").getSingleResult();
+			if (object != null) {
+				response.setTotalCount(((Long) object).intValue());
+			}
 		}
-		List <Bidder> bidders = pagination(pageNumber,pageSize,qryName);
-		bidders.get(0).setCountBidders(count);
-		return bidders;
-		
-		
+		Query query = getEntityManager().createNamedQuery("Bidder.listAll");
+		if (pageNumber > 0 && pageSize > 0) {
+			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
+		}
+		List<Bidder> bidders = query.getResultList();
+		return bidders == null || bidders.isEmpty() ? response : response.setResults(bidders);
+
 	}
-	
+
 	@Override
 	public Bidder getBidder(Long bidderId) {
 		return getEntityManager().find(Bidder.class, bidderId);

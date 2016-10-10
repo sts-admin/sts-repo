@@ -1,11 +1,15 @@
 package com.awacp.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,10 +56,20 @@ public class TakeoffServiceImpl implements TakeoffService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<StsResponse> listTakeoffs(int pageNumber, int pageSize) {
-		int fResult = ((pageNumber - 1) * pageSize);
-		return initWithDetail(getEntityManager().createNamedQuery("Takeoff.listAll").setFirstResult(fResult)
-				.setMaxResults(pageSize).getResultList());
+	public StsResponse<Takeoff> listTakeoffs(int pageNumber, int pageSize) {
+		StsResponse<Takeoff> response = new StsResponse<Takeoff>();
+		if (pageNumber <= 1) {
+			Object object = getEntityManager().createNamedQuery("Takeoff.countAll").getSingleResult();
+			if (object != null) {
+				response.setTotalCount(((Long) object).intValue());
+			}
+		}
+		Query query = getEntityManager().createNamedQuery("Takeoff.listAll");
+		if (pageNumber > 0 && pageSize > 0) {
+			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
+		}
+		List<Takeoff> results = query.getResultList();
+		return results == null || results.isEmpty() ? response : response.setResults(initWithDetail(results));
 	}
 
 	private List<Takeoff> initWithDetail(List<Takeoff> takeoffs) {
@@ -107,6 +121,13 @@ public class TakeoffServiceImpl implements TakeoffService {
 			takeoff.setUserCode(code);
 		}
 		getEntityManager().persist(takeoff);
+		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
+													// digits
+		String takeoffId = new StringBuffer("T").append(df.format(Calendar.getInstance().getTime())).append("-")
+				.append(takeoff.getId()).toString();
+		System.out.println(takeoffId);
+		takeoff.setTakeoffId(takeoffId);
+		getEntityManager().merge(takeoff);
 		getEntityManager().flush();
 		return takeoff;
 	}
@@ -117,6 +138,13 @@ public class TakeoffServiceImpl implements TakeoffService {
 		takeoff = getEntityManager().merge(takeoff);
 		getEntityManager().flush();
 		return takeoff;
+	}
+
+	public static void main(String args[]) {
+		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
+													// digits
+		String formattedDate = df.format(Calendar.getInstance().getTime());
+		System.out.println(formattedDate);
 	}
 
 }

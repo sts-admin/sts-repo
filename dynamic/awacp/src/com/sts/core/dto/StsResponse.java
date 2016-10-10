@@ -2,6 +2,14 @@ package com.sts.core.dto;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+
+import com.awacp.entity.Bidder;
+import com.awacp.entity.Takeoff;
+
+@XmlRootElement
+@XmlSeeAlso({Bidder.class, Takeoff.class})
 public class StsResponse<T> {
 	private String status;
 	private String message;
@@ -30,8 +38,9 @@ public class StsResponse<T> {
 		return results;
 	}
 
-	public void setResults(List<T> results) {
+	public StsResponse<T> setResults(List<T> results) {
 		this.results = results;
+		return this;
 	}
 
 	public String getStatus() {

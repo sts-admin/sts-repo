@@ -20,13 +20,14 @@ import com.awacp.entity.Bidder;
 import com.awacp.entity.Contractor;
 import com.awacp.service.BidderService;
 import com.awacp.service.ContractorService;
+import com.sts.core.dto.StsResponse;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class ContractorServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private ContractorService contractorService;
-	
+
 	@Autowired
 	private BidderService bidderService;
 
@@ -36,39 +37,37 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	public List<Contractor> listContractors(@Context HttpServletResponse servletResponse) throws IOException {
 		return this.contractorService.listContractors();
 	}
-	
+
 	@GET
 	@Path("/listBidders/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Bidder> listBidders(@PathParam("pageNumber") int pageNumber,@PathParam("pageSize") int pageSize ,@Context HttpServletResponse servletResponse) throws IOException {
-		return this.bidderService.listBidders(pageNumber,pageSize);
+	public StsResponse<Bidder> listBidders(@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.bidderService.listBidders(pageNumber, pageSize);
 	}
-	
+
 	@GET
 	@Path("/getBidder/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Bidder getBidders(@PathParam("id") Long id ,@Context HttpServletResponse servletResponse) throws IOException {
+	public Bidder getBidder(@PathParam("id") Long id, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.bidderService.getBidder(id);
 	}
-	
-	@POST 
+
+	@POST
 	@Path("/saveBidder")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Bidder saveBidder(Bidder bidder, @Context HttpServletResponse servletResponse)
-			throws IOException {
+	public Bidder saveBidder(Bidder bidder, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.bidderService.saveBidder(bidder);
 	}
-	
+
 	@POST
 	@Path("/updateBidder")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Bidder updateBidder(Bidder bidder, @Context HttpServletResponse servletResponse)
-			throws IOException {
+	public Bidder updateBidder(Bidder bidder, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.bidderService.updateBidder(bidder);
 	}
-	
 
 	@GET
 	@Path("/getContractor")
@@ -99,6 +98,7 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	public void setContractorService(ContractorService contractorService) {
 		this.contractorService = contractorService;
 	}
+
 	public void setBidderService(BidderService bidderService) {
 		this.bidderService = bidderService;
 	}
