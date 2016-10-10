@@ -2,7 +2,7 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="bidVm.getBidders('1');">
+		<div class="panel panel-default shadow" ng-init="bidVm.getBidders();">
 			<div class="panel-heading form-heading">
 				<label>Manage Bidders</label>				
 				<span class="pull-right"><a href ui-sref="bidder-add" >Add Bidder</a></span>	
@@ -19,7 +19,6 @@
 				   
 					<form id="users_view_form" class="table-container" action="" method="post">
 					  <div class="table-container">
-					  <div infinite-scroll='loadMore()' infinite-scroll-distance='10'>
 						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
 						  <thead>
 							<tr style="background:#02577D;">

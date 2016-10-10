@@ -5,15 +5,10 @@
 	function BidderCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $stateParams){
 		var bidVm = this;
 		bidVm.spinnerUrl = "<img src='images/loading.gif' />";
-		bidVm.totalItems = 20;
+		bidVm.totalItems = -1;
 		bidVm.currentPage = 1;
-		$scope.pageNumber = 1;
+		bidVm.pageNumber = 1;
 		bidVm.pageSize = 5;
-		$scope.pagination = {
-			currentPage: 1,
-			maxSize: 21,
-			totalItems: 22
-		};
 		
 		$scope.timers = [];
 		bidVm.bidders= [];
@@ -24,20 +19,17 @@
 		
 		
 		bidVm.setPage = function (pageNo) {
-			$scope.currentPage = pageNo;
+			bidVm.currentPage = pageNo;
 		};
 		
 		bidVm.pageChanged = function() {
-			bidVm.getBidders(bidVm.currentPage);
+			bidVm.getBidders();
 		};
 
 		bidVm.cancelBidderAction = function(){
 			$state.go("bidders");
 		}
 		
-	    $scope.loadMore = function(){
-          bidVm.getBidders($scope.pageNumber);
-	   } 
 	   bidVm.initCountries = function(){
 			bidVm.countries = [];
 			AjaxUtil.listCountries(function(result, status){
@@ -128,25 +120,22 @@
 		}
 		
 		
-		bidVm.getBidders = function(pageNumber){
+		bidVm.getBidders = function(){
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
 
-			AjaxUtil.getData("/awacp/listBidders/"+pageNumber+"/5", Math.random())
+			bidVm.pageNumber = bidVm.currentPage;
+			AjaxUtil.getData("/awacp/listBidders/"+bidVm.pageNumber+"/"+bidVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				$scope.$apply(function(){
-					$scope.pageNumber = $scope.pageNumber + 1;
-				});
-				
-				if(data && data.bidder && data.bidder.length > 0){
-					var tmp = [];
-					console.log(JSON.stringify(data,null,4));
+				if(data && data.stsResponse && bidVm.totalItems <= 0){//Already set
 					$scope.$apply(function(){
-					   bidVm.totalItems = data.bidder[0].countBidders;
-				    });
-					
-					$.each(data.bidder, function(k, v){
+						bidVm.totalItems = data.stsResponse.totalCount;
+					});
+				}
+				if(data && data.stsResponse && data.stsResponse.results.length > 0){
+					var tmp = [];					
+					$.each(data.stsResponse.results, function(k, v){
 						tmp.push(v);						
 					});
 					$scope.$apply(function(){

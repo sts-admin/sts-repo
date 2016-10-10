@@ -4,7 +4,7 @@
 	//Local env
 	var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/awacp/resource/img/";	
-    angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers', 'angular-storage', 'ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls'])
+    angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','infinite-scroll','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 			$stateProvider				
@@ -88,6 +88,11 @@
 				controllerAs:"arcVm"
 			}).state('architect-add',{
 				url: '/architect/add',
+				templateUrl:"templates/architect-add.html",
+				controller:"ArchitectCtrl",
+				controllerAs:"arcVm"
+			}).state('architect-edit',{
+				url: '/architect/edit/:architectId',
 				templateUrl:"templates/architect-add.html",
 				controller:"ArchitectCtrl",
 				controllerAs:"arcVm"
