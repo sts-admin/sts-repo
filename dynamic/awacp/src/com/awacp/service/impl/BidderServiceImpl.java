@@ -52,8 +52,13 @@ public class BidderServiceImpl implements BidderService {
 	@Override
 	@Transactional
 	public Bidder saveBidder(Bidder bidder) {
-		getEntityManager().persist(bidder);
-		getEntityManager().flush();
+		if(bidder.getId() == null){
+			getEntityManager().persist(bidder);
+			getEntityManager().flush();
+		}else{
+			getEntityManager().merge(bidder);
+			getEntityManager().flush();
+		}
 		return bidder;
 	}
 
