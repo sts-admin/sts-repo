@@ -50,6 +50,7 @@
 						$rootScope.$apply(function(){
 							$rootScope.alert.noService = true;
 						});
+						$state.go("/");
 					}								
 				});
 			},

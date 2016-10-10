@@ -24,11 +24,6 @@
 				templateUrl:"templates/dashboard-admin.html",
 				controller:"AdminCtrl",
 				controllerAs:"adminVm"
-			}).state('take-off-search',{
-				url: '/takeoff',
-				templateUrl:"templates/take-off.html",
-				controller:"TakeoffCtrl",
-				controllerAs:"takeVm"
 			})
 			.state('users',{
 				url: '/users',
@@ -45,6 +40,11 @@
 				templateUrl:"templates/roles.html",
 				controller:"RoleCtrl",
 				controllerAs:"roleVm"
+			}).state('quote-view',{
+				url: '/quotes',
+				templateUrl:"templates/quotes.html",
+				controller:"QuoteCtrl",
+				controllerAs:"qVm"
 			}).state('takeoff-view',{
 				url: '/takeoffs',
 				templateUrl:"templates/takeoffs.html",

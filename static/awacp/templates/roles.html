@@ -3,7 +3,8 @@
 <div class="container-fluid">
 	<div class="clearfix">
 		<div ng-init="roleVm.initRoles();">
-			<div class="panel panel-default  shadow">
+		<form ng-submit="roleVm.updateRolePermissions()">
+			<div class="panel panel-default  shadow">			
 				<div class="panel-heading">
 					<label>Role</label>
 					<select 
@@ -20,7 +21,7 @@
 					</span>
 				</div>
 				<div class="panel-body">
-					<form ng-submit="roleVm.updateRolePermissions()">
+					
 						<ul ng-repeat="group in roleVm.allPermissionsGroup" style="list-style-type: none;" class="col-md-6 col-sm-6 col-xs-12">
 							<li class="col-xs-12">
 								<label style="font-weight:bold;font-size:12pt;">{{group.groupName}}</label>
@@ -32,16 +33,15 @@
 								</label>
 							</li>
 						</ul>	
-						<ul style="list-style-type: none;" class="col-md-6 col-sm-6 col-xs-12" ng-show="roleVm.showUpdateBtn">
-							<li>
-								<input type="submit" class="btn btn-info" value="Update {{roleVm.selectedRole.roleDescription}} Permission(s)">
-							</li>
-						</ul>
-					</form>
-					
+						
+					</form>			
 					
 				</div>
+				<div class="panel-footer" ng-show="roleVm.showUpdateBtn">
+					<span><input type="submit" class="btn btn-info" value="Update {{roleVm.selectedRole.roleDescription}} Permission(s)"></span>
+				</div>				
 			</div>
+			</form>
 		</div>
 	</div>
 </div>

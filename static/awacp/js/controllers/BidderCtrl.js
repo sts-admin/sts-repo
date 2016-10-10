@@ -132,6 +132,7 @@
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
+
 			AjaxUtil.getData("/awacp/listBidders/"+pageNumber+"/5", Math.random())
 			.success(function(data, status, headers){
 				$scope.$apply(function(){
@@ -158,9 +159,6 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		// if(!bidderId || bidderId != undefined ){
-			// bidVm.getBidder();
-		// }
 		bidVm.editBidder();
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){

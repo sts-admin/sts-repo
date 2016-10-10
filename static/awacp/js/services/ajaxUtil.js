@@ -4,7 +4,7 @@
 	.factory('AjaxUtil', function ($rootScope, $state, base, $timeout, StoreService, $uibModal, AlertService) {
 		return {
 			initHeaderInfo:function(){
-				var accessToken = StoreService.getAccessToken('token');
+				var accessToken = StoreService.getAccessToken();
 				var headers = {
 					'Authorization' : 'Bearer ' + accessToken,
 					'Accept' : 'application/json'
@@ -15,7 +15,7 @@
 				});
 			},
 			isAuthorized: function(){
-				var accessToken = StoreService.getAccessToken('token');
+				var accessToken = StoreService.getAccessToken();
 				if(accessToken != null && accessToken.length > 0){
 					this.initHeaderInfo();
 					return true;
@@ -40,7 +40,8 @@
 						if(rs!=null && rs.error!=null){
 							if(rs.error == 'invalid_token'){
 								//msg = "Your user session expired, need to re-login.";	
-								StoreService.removeAll();$state.go("/");								
+								StoreService.removeAll();$state.go("/");				
+								return;
 							}else if("invalid_grant" === rs.error || "unknown_password" === rs.error_description){
 								msg = "Invalid user credentials";
 							}else if(rs.error === "unauthorized"){
@@ -167,7 +168,8 @@
 			},
 			listBidders:function(callback){
 				var bidders = [];
-				var url = "/awacp/listBidders";
+				var url = "/awacp/listBidders/1/10";
+				alert(url);
 				this.getData(url, Math.random())
 				.success(function (data, status, headers) {			
 					if(data && data.bidder && data.bidder.length > 0){
