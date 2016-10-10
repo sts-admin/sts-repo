@@ -9,7 +9,7 @@
 			</div>
 			<div class="panel-body" style="margin-top:-20px;">
 				<div style="text-align:right;">
-					<ul uib-pagination total-items="conVm.totalItems" ng-model="conVm.currentPage" ng-change="conVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="conVm.totalItems" items-per-page = "conVm.pageSize" ng-model="conVm.currentPage" ng-change="conVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->

@@ -17,11 +17,6 @@
 		bidVm.states = [];
 		bidVm.users = [];
 		
-		
-		bidVm.setPage = function (pageNo) {
-			bidVm.currentPage = pageNo;
-		};
-		
 		bidVm.pageChanged = function() {
 			bidVm.getBidders();
 		};

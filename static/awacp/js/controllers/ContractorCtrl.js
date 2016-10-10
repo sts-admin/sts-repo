@@ -4,20 +4,22 @@
 	ContractorCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService'];
 	function ContractorCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
 		var conVm = this;
-		conVm.totalItems = 64;
-		conVm.currentPage = 4;
-		conVm.setPage = function (pageNo) {
-			$scope.currentPage = pageNo;
-		};
-		conVm.pageChanged = function() {
-			console.log('Page changed to: ' + conVm.currentPage);
-		};
+	    conVm.totalItems = -1;
+		conVm.currentPage = 1;
+		conVm.pageNumber = 1;
+		conVm.pageSize = 5;
 		$scope.timers = [];
 		conVm.contractors= [];
 		conVm.contractor = {};
 		conVm.countries = [];
 		conVm.states = [];
 		conVm.users = [];
+		
+		conVm.pageChanged = function() {
+			conVm.getContractors();
+		};
+
+		
 		conVm.cancelContractorAction = function(){
 			$state.go("contractors");
 		}
@@ -81,15 +83,30 @@
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
-			conVm.contractors = [];
-			AjaxUtil.getData("/awacp/listContractors", Math.random())
+			conVm.pageNumber = conVm.currentPage;
+			AjaxUtil.getData("/awacp/listContractors/"+conVm.pageNumber+"/"+conVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.contractor && data.contractor.length > 0){
-					conVm.totalItems = data.contractor.length;
-					$.each(data.contractor, function(k, v){
-						conVm.contractors.push(v);
+				if(data && data.stsResponse && conVm.totalItems <= 0){//Already set
+					$scope.$apply(function(){
+						conVm.totalItems = data.stsResponse.totalCount;
 					});
 				}
+				if(data && data.stsResponse && data.stsResponse.results.length > 0){
+					var tmp = [];					
+					$.each(data.stsResponse.results, function(k, v){
+						tmp.push(v);						
+					});
+					$scope.$apply(function(){
+						conVm.contractors = tmp;
+					});
+				}
+				else{
+					$scope.$apply(function(){
+						conVm.contractors = data.stsResponse;
+					});
+				}
+				
+				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "UserCtrl::conVm.getContractors::Error";

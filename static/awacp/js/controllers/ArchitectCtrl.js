@@ -5,15 +5,14 @@
 	function ArchitectCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
 		var arcVm = this;
 		$scope.timers = [];
-		arcVm.totalItems = 0;
+		arcVm.totalItems = -1;
 		arcVm.currentPage = 1;
+		arcVm.pageNumber = 1;
+		arcVm.pageSize = 5;
 		arcVm.architects= [];
 		arcVm.architect = {};
-		arcVm.setPage = function (pageNo) {
-			arcVm.currentPage = pageNo;
-		};
 		arcVm.pageChanged = function() {
-			console.log('Page changed to: ' + arcVm.currentPage);
+			arcVm.getArchitects();
 		};		
 		arcVm.cancelArchitectAction = function(){
 			$state.go("architects");
@@ -69,18 +68,28 @@
 				return;
 			}
 			arcVm.architects = [];
-			AjaxUtil.getData("/awacp/listArchitects", Math.random())
+			AjaxUtil.getData("/awacp/listArchitects/"+arcVm.pageNumber+"/"+arcVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.architect && data.architect.length > 0){
-					var tmp = [];
-					arcVm.totalItems = data.architect.length;
-					$.each(data.architect, function(k, v){
-						tmp.push(v);
+				if(data && data.stsResponse && arcVm.totalItems <= 0){//Already set
+					$scope.$apply(function(){
+						arcVm.totalItems = data.stsResponse.totalCount;
+					});
+				}
+				if(data && data.stsResponse && data.stsResponse.results.length > 0){
+					var tmp = [];					
+					$.each(data.stsResponse.results, function(k, v){
+						tmp.push(v);						
 					});
 					$scope.$apply(function(){
 						arcVm.architects = tmp;
-					});					
+					});
 				}
+				else{
+					$scope.$apply(function(){
+						arcVm.architects = data.stsResponse;
+					});
+				}
+				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "ArchitectCtrl::arcVm.getArchitects::Error";
