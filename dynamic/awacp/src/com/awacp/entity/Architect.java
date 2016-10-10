@@ -21,7 +21,6 @@ import com.sts.core.entity.State;
 @NamedQueries({ 
 	@NamedQuery(name = "Architect.listAll", query = "SELECT a FROM Architect a WHERE a.archived = 'false'"),
 	@NamedQuery(name = "Architect.countAll", query = "SELECT COUNT(a.id) FROM Architect a WHERE a.archived = 'false'")
-
 })
 
 

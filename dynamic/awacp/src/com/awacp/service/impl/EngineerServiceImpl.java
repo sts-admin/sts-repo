@@ -1,7 +1,5 @@
 package com.awacp.service.impl;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -9,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Engineer;
 import com.awacp.service.EngineerService;
+import com.sts.core.dto.StsResponse;
 
-public class EngineerServiceImpl implements EngineerService {
+public class EngineerServiceImpl extends CommonServiceImpl<Engineer> implements EngineerService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -22,10 +21,9 @@ public class EngineerServiceImpl implements EngineerService {
 		return entityManager;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<Engineer> listEngineers() {
-		return getEntityManager().createNamedQuery("Engineer.listAll").getResultList();
+	public StsResponse<Engineer> listEngineers(int pageNumber, int pageSize) {
+		return listAll(pageNumber, pageSize, Engineer.class.getSimpleName(), getEntityManager());
 	}
 
 	@Override

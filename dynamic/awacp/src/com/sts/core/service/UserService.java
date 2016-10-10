@@ -3,6 +3,7 @@ package com.sts.core.service;
 import java.util.List;
 
 import com.sts.core.dto.StsCoreResponse;
+import com.sts.core.dto.StsResponse;
 import com.sts.core.dto.UserDTO;
 import com.sts.core.entity.Address;
 import com.sts.core.entity.PasswordResetHistory;
@@ -19,7 +20,7 @@ public interface UserService {
 
 	public User findUser(Long userId);
 
-	public List<User> listUser();
+	public StsResponse<User> listUser(int pageNumber, int pageSize);
 
 	public User saveUser(User user) throws StsCoreException;
 

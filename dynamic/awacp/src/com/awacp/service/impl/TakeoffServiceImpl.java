@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,7 @@ import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
 import com.sts.core.service.UserService;
 
-public class TakeoffServiceImpl implements TakeoffService {
+public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements TakeoffService {
 
 	private EntityManager entityManager;
 
@@ -54,22 +53,12 @@ public class TakeoffServiceImpl implements TakeoffService {
 		return entityManager;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public StsResponse<Takeoff> listTakeoffs(int pageNumber, int pageSize) {
-		StsResponse<Takeoff> response = new StsResponse<Takeoff>();
-		if (pageNumber <= 1) {
-			Object object = getEntityManager().createNamedQuery("Takeoff.countAll").getSingleResult();
-			if (object != null) {
-				response.setTotalCount(((Long) object).intValue());
-			}
-		}
-		Query query = getEntityManager().createNamedQuery("Takeoff.listAll");
-		if (pageNumber > 0 && pageSize > 0) {
-			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
-		}
-		List<Takeoff> results = query.getResultList();
-		return results == null || results.isEmpty() ? response : response.setResults(initWithDetail(results));
+		StsResponse<Takeoff> response = listAll(pageNumber, pageSize, Takeoff.class.getSimpleName(),
+				getEntityManager());
+		return response.getResults() == null || response.getResults().isEmpty() ? response
+				: response.setResults(initWithDetail(response.getResults()));
 	}
 
 	private List<Takeoff> initWithDetail(List<Takeoff> takeoffs) {

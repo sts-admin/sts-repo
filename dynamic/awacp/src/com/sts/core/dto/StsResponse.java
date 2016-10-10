@@ -7,10 +7,13 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 import com.awacp.entity.Architect;
 import com.awacp.entity.Bidder;
+import com.awacp.entity.Contractor;
+import com.awacp.entity.Engineer;
 import com.awacp.entity.Takeoff;
+import com.sts.core.entity.User;
 
 @XmlRootElement
-@XmlSeeAlso({Bidder.class, Takeoff.class, Architect.class})
+@XmlSeeAlso({Bidder.class, Takeoff.class, Architect.class, Engineer.class, Contractor.class, User.class})
 public class StsResponse<T> {
 	private String status;
 	private String message;

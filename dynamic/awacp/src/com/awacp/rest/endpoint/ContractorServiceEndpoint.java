@@ -1,7 +1,6 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -34,8 +33,9 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/listContractors/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StsResponse<Contractor> listContractors(@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize,@Context HttpServletResponse servletResponse) throws IOException {
-		return this.contractorService.listContractors(pageNumber ,pageSize);
+	public StsResponse<Contractor> listContractors(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.contractorService.listContractors(pageNumber, pageSize);
 	}
 
 	@GET

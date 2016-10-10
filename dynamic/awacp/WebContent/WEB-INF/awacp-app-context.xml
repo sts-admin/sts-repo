@@ -144,7 +144,7 @@
     </bean>    
     <!-- sts-core-context.xml part-3 end -->
     
-    
+    <bean id="commonService" class="com.awacp.service.impl.CommonServiceImpl" />
 	<bean id="takeoffService" class="com.awacp.service.impl.TakeoffServiceImpl" />
     <bean id="takeoffServiceEndpoint" class="com.awacp.rest.endpoint.TakeoffServiceEndpoint">
         <property name="takeoffService" ref="takeoffService" />

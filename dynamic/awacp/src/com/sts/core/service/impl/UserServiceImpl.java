@@ -12,10 +12,13 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Takeoff;
 import com.awacp.service.RoleService;
+import com.awacp.service.impl.CommonServiceImpl;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsCoreResponse;
+import com.sts.core.dto.StsResponse;
 import com.sts.core.dto.UserDTO;
 import com.sts.core.entity.Address;
 import com.sts.core.entity.Image;
@@ -26,7 +29,7 @@ import com.sts.core.service.UserService;
 import com.sts.core.util.ConversionUtil;
 import com.sts.core.util.SecurityEncryptor;
 
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends CommonServiceImpl<User> implements UserService {
 
 	@Autowired
 	RoleService roleService;
@@ -78,17 +81,15 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> listUser() {
-		Query query = getEntityManager().createNamedQuery("User.findAll");
-		List<User> users = query.getResultList();
-		if (users != null && !users.isEmpty()) {
-			for (User user : users) {
+	public StsResponse<User> listUser(int pageNumber, int pageSize) {
+		StsResponse<User> response = listAll(pageNumber, pageSize, User.class.getSimpleName(), getEntityManager());
+		if (response.getResults() != null && !response.getResults().isEmpty()) {
+			for (User user : response.getResults()) {
 				setUserPhotoAndName(user);
 			}
 		}
-		return users;
+		return response;
 	}
 
 	@Override
