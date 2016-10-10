@@ -74,9 +74,11 @@
 					roleVm.role.permissionArray.push(val.authority);
 				});
 			});
+			roleVm.checkSelection();
 		}
 		roleVm.uncheckAll = function() {
 			roleVm.role["permissionArray"] = [];
+			roleVm.checkSelection();
 		}
 		roleVm.updateRolePermissions = function(){	
 			var formData = {};
