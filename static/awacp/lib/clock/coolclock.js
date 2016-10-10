@@ -1,3 +1,12 @@
+/**
+ * CoolClock 2.1.4
+ * Copyright 2010, Simon Baird
+ * Released under the BSD License.
+ *
+ * Display an analog clock using canvas.
+ * http://randomibis.com/coolclock/
+ *
+ */
 
 // Constructor for CoolClock objects
 window.CoolClock = function(options) {
@@ -11,7 +20,6 @@ CoolClock.config = {
 	defaultRadius: 85,
 	renderRadius: 100,
 	defaultSkin: "chunkySwiss",
-	defaultFont: "15px sans-serif",
 	// Should be in skin probably...
 	// (TODO: allow skinning of digital display)
 	showSecs: true,
@@ -68,9 +76,7 @@ CoolClock.prototype = {
 		// Parse and store the options
 		this.canvasId       = options.canvasId;
 		this.skinId         = options.skinId || CoolClock.config.defaultSkin;
-		this.font           = options.font || CoolClock.config.defaultFont;
 		this.displayRadius  = options.displayRadius || CoolClock.config.defaultRadius;
-		this.renderRadius   = options.renderRadius || CoolClock.config.renderRadius;
 		this.showSecondHand = typeof options.showSecondHand == "boolean" ? options.showSecondHand : true;
 		this.gmtOffset      = (options.gmtOffset != null && options.gmtOffset != '') ? parseFloat(options.gmtOffset) : null;
 		this.showDigital    = typeof options.showDigital == "boolean" ? options.showDigital : false;
@@ -88,13 +94,8 @@ CoolClock.prototype = {
 		this.canvas.style.width = this.displayRadius*2 + "px";
 		this.canvas.style.height = this.displayRadius*2 + "px";
 
-		// Determine by what factor to relate skin values to canvas positions.
-		// renderRadius is the max skin positional value before leaving the
-		// canvas. displayRadius is half the width and height of the canvas in
-		// pixels. If they are equal, there is a 1:1 relation of skin position
-		// values to canvas pixels. Setting both to 200 allows 100px of space
-		// around clock skins to add your own things: this is due to current
-		// skins maxing out at a positional value of 100.
+		// Explain me please...?
+		this.renderRadius = CoolClock.config.renderRadius;
 		this.scale = this.displayRadius / this.renderRadius;
 
 		// Initialise canvas context
@@ -103,10 +104,6 @@ CoolClock.prototype = {
 
 		// Keep track of this object
 		CoolClock.config.clockTracker[this.canvasId] = this;
-
-		// should we be running the clock?
-		this.active = true;
-		this.tickTimeout = null;
 
 		// Start the clock going
 		this.tick();
@@ -140,7 +137,8 @@ CoolClock.prototype = {
 			this.ctx.fillStyle = skin.fillColor
 			this.ctx.fill();
 		}
-		if (skin.color) {
+		else {
+			// XXX why not stroke and fill
 			this.ctx.strokeStyle = skin.color;
 			this.ctx.stroke();
 		}
@@ -148,17 +146,12 @@ CoolClock.prototype = {
 	},
 
 	// Draw some text centered vertically and horizontally
-	drawTextAt: function(theText,x,y,skin) {
-		if (!skin) skin = this.getSkin();
+	drawTextAt: function(theText,x,y) {
 		this.ctx.save();
-		this.ctx.font = skin.font || this.font;
+		this.ctx.font = '15px sans-serif';
 		var tSize = this.ctx.measureText(theText);
-		// TextMetrics rarely returns a height property: use baseline instead.
-		if (!tSize.height) {
-			tSize.height = 0;
-			this.ctx.textBaseline = 'middle';
-		}
-		this.ctx.fillText(theText, x - tSize.width/2, y - tSize.height/2);
+		if (!tSize.height) tSize.height = 15; // no height in firefox.. :(
+		this.ctx.fillText(theText,x - tSize.width/2,y - tSize.height/2);
 		this.ctx.restore();
 	},
 
@@ -220,7 +213,8 @@ CoolClock.prototype = {
 
 	render: function(hour,min,sec) {
 		// Get the skin
-		var skin = this.getSkin();
+		var skin = CoolClock.config.skins[this.skinId];
+		if (!skin) skin = CoolClock.config.skins[CoolClock.config.defaultSkin];
 
 		// Clear
 		this.ctx.clearRect(0,0,this.renderRadius*2,this.renderRadius*2);
@@ -244,35 +238,19 @@ CoolClock.prototype = {
 			);
 		}
 
-		var hourA = (hour%12)*5 + min/12.0,
-		    minA = min + sec/60.0,
-		    secA = sec;
-
 		// Draw the hands
 		if (skin.hourHand)
-			this.radialLineAtAngle(this.tickAngle(hourA),skin.hourHand);
+			this.radialLineAtAngle(this.tickAngle(((hour%12)*5 + min/12.0)),skin.hourHand);
 
 		if (skin.minuteHand)
-			this.radialLineAtAngle(this.tickAngle(minA),skin.minuteHand);
+			this.radialLineAtAngle(this.tickAngle((min + sec/60.0)),skin.minuteHand);
 
 		if (this.showSecondHand && skin.secondHand)
-			this.radialLineAtAngle(this.tickAngle(secA),skin.secondHand);
+			this.radialLineAtAngle(this.tickAngle(sec),skin.secondHand);
 
-		// Hands decoration - not in IE
-		if  (!CoolClock.config.isIE) {
-			if (skin.hourDecoration)
-				this.radialLineAtAngle(this.tickAngle(hourA), skin.hourDecoration);
-
-			if (skin.minDecoration)
-				this.radialLineAtAngle(this.tickAngle(minA), skin.minDecoration);
-
-			if (this.showSecondHand && skin.secondDecoration)
-				this.radialLineAtAngle(this.tickAngle(secA),skin.secondDecoration);
-		}
-
-		if (this.extraRender) {
-			this.extraRender(hour,min,sec);
-		}
+		// Second hand decoration doesn't render right in IE so lets turn it off
+		if (!CoolClock.config.isIE && this.showSecondHand && skin.secondDecoration)
+			this.radialLineAtAngle(this.tickAngle(sec),skin.secondDecoration);
 	},
 
 	// Check the time and display the clock
@@ -291,7 +269,7 @@ CoolClock.prototype = {
 
 	// Set timeout to trigger a tick in the future
 	nextTick: function() {
-		this.tickTimeout = setTimeout("CoolClock.config.clockTracker['"+this.canvasId+"'].tick()",this.tickDelay);
+		setTimeout("CoolClock.config.clockTracker['"+this.canvasId+"'].tick()",this.tickDelay);
 	},
 
 	// Check the canvas element hasn't been removed
@@ -299,37 +277,18 @@ CoolClock.prototype = {
 		return document.getElementById(this.canvasId) != null;
 	},
 
-	// Stop this clock
-	stop: function() {
-		this.active = false;
-		clearTimeout(this.tickTimeout);
-	},
-
-	// Start this clock
-	start: function() {
-		if (!this.active) {
-			this.active = true;
-			this.tick();
-		}
-	},
-
 	// Main tick handler. Refresh the clock then setup the next tick
 	tick: function() {
-		if (this.stillHere() && this.active) {
+		if (this.stillHere()) {
 			this.refreshDisplay()
 			this.nextTick();
 		}
-	},
-
-	getSkin: function() {
-		var skin = CoolClock.config.skins[this.skinId];
-		if (!skin) skin = CoolClock.config.skins[CoolClock.config.defaultSkin];
-		return skin;
 	}
 };
 
 // Find all canvas elements that have the CoolClock class and turns them into clocks
 CoolClock.findAndCreateClocks = function() {
+	alert("findAndCreateClocks");
 	// (Let's not use a jQuery selector here so it's easier to use frameworks other than jQuery)
 	var canvases = document.getElementsByTagName("canvas");
 	for (var i=0;i<canvases.length;i++) {

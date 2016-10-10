@@ -30,7 +30,7 @@
 					$rootScope.$apply(function(){ $rootScope.alert.noService = true;});
 					StoreService.removeAll(); 
 					AlertService.showAlert(	"AWACP :: Alert", "Unable to connect AWACP Services.")
-					.then(function (){return},function (){return});
+					.then(function (){$state.go("/");},function (){return});
 					return;
 				}else{
 					var msg = "";

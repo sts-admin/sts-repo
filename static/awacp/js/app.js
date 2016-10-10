@@ -4,7 +4,7 @@
 	//Local env
 	var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/awacp/resource/img/";	
-    angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','infinite-scroll','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls'])
+    angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','infinite-scroll','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 			$stateProvider				
@@ -111,6 +111,7 @@
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService) {
+			$rootScope.gmtValue = 5.3;
 			$rootScope.dayDiff = function(startdate, enddate) {
 				var dayCount = 0;
 				while(enddate >= startdate) {
