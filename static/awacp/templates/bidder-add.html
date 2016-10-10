@@ -37,9 +37,8 @@
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
 								<select class="form-control"
-								  ng-model="bidVm.bidder.country" 
-								  ng-options="country as country.countryName for country in bidVm.countries"  ng-change="bidVm.getStates();" ng-required = "true">
-								  <option value="">--- Select ---</option>
+								  ng-model="bidVm.bidder.country.id"
+								  ng-options="country.id as country.countryName for country in bidVm.countries"  ng-change="bidVm.getStates();" ng-required = "true">
 								</select>
 							</div>
 						  </div>
@@ -52,8 +51,8 @@
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
 							 <select class="form-control" 
-								  ng-model="bidVm.bidder.state" 
-								  ng-options="state as state.stateName for state in bidVm.states" ng-required = "true">
+								  ng-model="bidVm.bidder.state.id" 
+								  ng-options="state.id as state.stateName for state in bidVm.states" >
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>

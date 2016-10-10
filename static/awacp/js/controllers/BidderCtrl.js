@@ -71,12 +71,19 @@
 		}
 		bidVm.editBidder = function(){
 			if($state.params.id != undefined){
-				AjaxUtil.getData("/awacp/getBidder/"+$state.params.id, Math.random())
+				var formData = {};
+				formData["bidder"] = bidVm.bidder;
+				AjaxUtil.getData("/awacp/getBidder/"+$state.params.id, formData)
 				.success(function(data, status, headers){
 					if(data && data.bidder){
+						data.bidder.customName = data.bidder.userCode + " - "+ data.bidder.firstName;
 						$scope.$apply(function(){
-							bidVm.bidder = data.bidder;
+							bidVm.bidder = data.bidder;							
 						});
+						bidVm.initCountries();
+						bidVm.getStates();
+						bidVm.getUsers();
+						
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
@@ -85,9 +92,7 @@
 				})
 			}
 		}
-		bidVm.updateBidder = function(){
-			
-		}
+		
 		bidVm.addBidder = function(){
 			AjaxUtil.toggleSpinner('login-submit', 'loading_span', bidVm.spinnerUrl, "disable");
 			var formData = {};
@@ -95,7 +100,7 @@
 			AjaxUtil.submitData("/awacp/saveBidder", formData)
 			.success(function(data, status, headers){				
 				bidVm.bidder = {};
-				AlertService.showConfirm('AWACP :: Message!','Bidder added successfully. Add more?')
+				AlertService.showAlert('AWACP :: Message!', 'Bidder added successfully. Add more?')
 				.then(function (){	
 					return
 				},function (){
