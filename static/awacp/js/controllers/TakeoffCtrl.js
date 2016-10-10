@@ -9,6 +9,7 @@
 		takeVm.contractorsSettings = {displayProp: 'contractorTitle', idProp: 'id'};
 		takeVm.totalItems = 0;
 		takeVm.currentPage = 1;
+		takeVm.pageSize = 5;
 		takeVm.users = [];
 		takeVm.engineers = [];
 		takeVm.architects = [];	
@@ -27,17 +28,18 @@
 		takeVm.cancelTakeoffAction = function(){
 			$state.go("takeoff-view");
 		}
-		
 		takeVm.getUsers = function(){
 			takeVm.users = [];
-			AjaxUtil.getData("/awacp/listUser", Math.random())
+			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.user && data.user.length > 0){
-					$.each(data.user, function(k, v){
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+					var tmp = [];
+					$.each(data.stsResponse.results, function(k, v){
 						v.customName = v.userCode + " - "+ v.firstName;
-						$scope.$apply(function(){
-							takeVm.users.push(v); 
-					    });
+						tmp.push(v);
+					});
+					$scope.$apply(function(){
+						takeVm.users = tmp;
 					});
 				}
 			})
@@ -49,56 +51,79 @@
 		
 		takeVm.getEngineers = function(){
 			takeVm.engineers = [];
-			AjaxUtil.listEngineers(function(result, status){
-				if("success" === status){
-					$scope.$apply(function(){
-						takeVm.engineers = result;
+			AjaxUtil.getData("/awacp/listEngineers/-1/-1", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+					var tmp = [];
+					$.each(data.stsResponse.results, function(k, v){
+						tmp.push(v);
 					});
-				}else{
-					jqXHR.errorSource = "TakeoffCtrl::takeVm.initCountries::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+					$scope.$apply(function(){
+						takeVm.engineers= tmp;
+					});
 				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.getEngineers::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		
 		takeVm.getArchitects = function(){
 			takeVm.architects = [];
-			AjaxUtil.listArchitects(function(result, status){			
-				if("success" === status){
+			AjaxUtil.getData("/awacp/listArchitects/-1/-1", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+					var tmp = [];
+					$.each(data.stsResponse.results, function(k, v){
+						tmp.push(v);
+					});
 					$scope.$apply(function(){
-						takeVm.architects = result;
-					});	
-					console.log(JSON.stringify(takeVm.architects, null, 4));
-				}else{
-					jqXHR.errorSource = "TakeoffCtrl::takeVm.getArchitectures::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+						takeVm.architects = tmp;
+					});
 				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.getArchitects::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}		
 		takeVm.getContractors = function(){
 			takeVm.contractors = [];
-			AjaxUtil.listContractors(function(result, status){			
-				if("success" === status){
+			AjaxUtil.getData("/awacp/listContractors/-1/-1", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+					var tmp = [];
+					$.each(data.stsResponse.results, function(k, v){
+						tmp.push(v);
+					});
 					$scope.$apply(function(){
-						takeVm.contractors = result;
-					});	
-				}else{
-					jqXHR.errorSource = "TakeoffCtrl::takeVm.listContractors::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+						takeVm.contractors = tmp;
+					});
 				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.getContractors::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		takeVm.getBidders = function(){
 			takeVm.bidders = [];
-			AjaxUtil.listBidders(function(result, status){			
-				if("success" === status){
+			AjaxUtil.getData("/awacp/listBidders/-1/-1", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+					var tmp = [];
+					$.each(data.stsResponse.results, function(k, v){
+						tmp.push(v);
+					});
 					$scope.$apply(function(){
-						takeVm.bidders = result;
-					});	
-				}else{
-					jqXHR.errorSource = "TakeoffCtrl::takeVm.getBidders::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+						takeVm.bidders = tmp;
+					});
 				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.getBidders::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		
@@ -178,11 +203,11 @@
 			formData["takeoff"] = takeVm.takeoff;
 			AjaxUtil.submitData("/awacp/saveTakeoff", formData)
 			.success(function(data, status, headers){
-				angular.element("takeoff-reset").trigger("click");
-				AlertService.showAlert(	'AWACP :: Message!','Takeoff added successfully.')
-				.then(function (){					
-					return
-				},function (){return;});
+				takeVm.takeoff = {};
+				var message = "User Detail Created Successfully, add more?";
+				AlertService.showConfirm(	'AWACP :: Alert!', message)
+				.then(function (){return},function (){$state.go("users")});
+				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "TakeoffCtrl::takeVm.saveTakeoff::Error";
@@ -191,20 +216,23 @@
 		}
 		takeVm.listTakeoffs = function(){
 			takeVm.takeoffs = [];
-			AjaxUtil.getData("/awacp/listTakeoffs?pageNumber="+takeVm.currentPage+"&pageSize=10", Math.random())
+			AjaxUtil.getData("/awacp/listTakeoffs/"+takeVm.currentPage+"/"+takeVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.takeoff && data.takeoff.length > 0){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					takeVm.totalItems = 	data.stsResponse.totalCount;
+				}
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
 					var tmp = [];
-					$.each(data.takeoff, function(k, v){
+					$.each(data.stsResponse.results, function(k, v){
 						tmp.push(v);
-						$scope.$apply(function(){
-							takeVm.takeoffs = tmp;
-					    });
+					});
+					$scope.$apply(function(){
+						takeVm.takeoffs = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "TakeoffCtrl::takeVm.getUsers::Error";
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.listTakeoffs::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 			

@@ -6,6 +6,7 @@
 		var engVm = this;
 		engVm.totalItems = 0;
 		engVm.currentPage = 1;
+		engVm.pageSize = 5;
 		$scope.timers = [];
 		engVm.engineers = [];
 		engVm.engineer = {};
@@ -52,17 +53,21 @@
 		}
 		engVm.getUsers = function(){
 			engVm.users = [];
-			AjaxUtil.getData("/awacp/listUser", Math.random())
+			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.user && data.user.length > 0){
-					$.each(data.user, function(k, v){
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+					var tmp = [];
+					$.each(data.stsResponse.results, function(k, v){
 						v.customName = v.userCode + " - "+ v.firstName;
-						engVm.users.push(v);
+						tmp.push(v);
+					});
+					$scope.$apply(function(){
+						engVm.users = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "ContractorCtrl::engVm.getUsers::Error";
+				jqXHR.errorSource = "TakeoffCtrl::engVm.getUsers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -73,17 +78,18 @@
 		}
 		
 		engVm.getEngineers = function(){
-			alert("getEngineers");
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
 			engVm.engineers = [];
-			AjaxUtil.getData("/awacp/listEngineers", Math.random())
+			AjaxUtil.getData("/awacp/listEngineers/"+engVm.currentPage+"/"+engVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.engineer && data.engineer.length > 0){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					engVm.totalItems = 	data.stsResponse.totalCount;
+				}
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
 					var tmp = [];
-					engVm.totalItems = data.engineer.length;
-					$.each(data.engineer, function(k, v){
+					$.each(data.stsResponse.results, function(k, v){
 						tmp.push(v);
 					});
 					$scope.$apply(function(){
@@ -102,10 +108,10 @@
 			formData["engineer"] = engVm.engineer;
 			AjaxUtil.submitData("/awacp/saveEngineer", formData)
 			.success(function(data, status, headers){
-				AlertService.showAlert(	'AWACP :: Message!','Engineer added successfully.')
-				.then(function (){					
-					return
-				},function (){return;});
+				var message = "Engineer Detail Created Successfully, add more?";
+				AlertService.showConfirm(	'AWACP :: Alert!', message)
+				.then(function (){return},function (){$state.go("engineers")});
+				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "ContractorCtrl::engVm.addContractor::Error";

@@ -7,6 +7,8 @@
 		userVm.users = [];
 		userVm.totalItems = 0;
 		userVm.currentPage = 1;
+		userVm.pageSize = 5;
+		userVm.genders = [{name:"male", title:"Male"}, {name:"female", title:"Female"}];
 		userVm.setPage = function (pageNo) {
 			$scope.currentPage = pageNo;
 		};
@@ -74,9 +76,9 @@
 			formData["user"] = userVm.user;
 			AjaxUtil.submitData("/awacp/saveUser", formData)
 			.success(function(data, status, headers){
-				var message = "User Created Successfully.";
-				AlertService.showAlert(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){return});
+				var message = "User Detail Created Successfully, add more?";
+				AlertService.showConfirm(	'AWACP :: Alert!', message)
+				.then(function (){return},function (){$state.go("users")});
 				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -102,18 +104,20 @@
 		}
 		userVm.getUsers = function(){
 			userVm.users = [];
-			AjaxUtil.getData("/awacp/listUser", Math.random())
+			AjaxUtil.getData("/awacp/listUser/"+userVm.currentPage+"/"+userVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.user && data.user.length > 0){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					userVm.totalItems = data.stsResponse.totalCount;
+				}
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
 					var tmp = [];
-					userVm.totalItems = data.user.length;
-					$.each(data.user, function(k, v){
+					$.each(data.stsResponse.results, function(k, v){
 						v.customName = v.userCode + " - "+ v.firstName;
-						tmp.push(v);						
+						tmp.push(v);
 					});
 					$scope.$apply(function(){
 						userVm.users = tmp;
-					});					
+					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

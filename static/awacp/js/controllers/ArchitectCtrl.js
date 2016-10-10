@@ -43,17 +43,21 @@
 		}
 		arcVm.getUsers = function(){
 			arcVm.users = [];
-			AjaxUtil.getData("/awacp/listUser", Math.random())
+			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.user && data.user.length > 0){
-					$.each(data.user, function(k, v){
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+					var tmp = [];
+					$.each(data.stsResponse.results, function(k, v){
 						v.customName = v.userCode + " - "+ v.firstName;
-						arcVm.users.push(v);
+						tmp.push(v);
+					});
+					$scope.$apply(function(){
+						arcVm.users = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "ArchitectCtrl::arcVm.getUsers::Error";
+				jqXHR.errorSource = "TakeoffCtrl::arcVm.getUsers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -75,7 +79,7 @@
 						arcVm.totalItems = data.stsResponse.totalCount;
 					});
 				}
-				if(data && data.stsResponse && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
 					var tmp = [];					
 					$.each(data.stsResponse.results, function(k, v){
 						tmp.push(v);						
@@ -83,13 +87,7 @@
 					$scope.$apply(function(){
 						arcVm.architects = tmp;
 					});
-				}
-				else{
-					$scope.$apply(function(){
-						arcVm.architects = data.stsResponse;
-					});
-				}
-				
+				}				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "ArchitectCtrl::arcVm.getArchitects::Error";

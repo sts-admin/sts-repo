@@ -95,7 +95,34 @@
 							  <input type="email" class="form-control" placeholder="Enter Email" maxlength="100" oninvalid="this.setCustomValidity('Enter Email');" onkeypress="this.setCustomValidity('');" ng-model="userVm.user.email" ng-required="true" />
 							</div>
 						  </div>
-						
+						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Contact No</span>
+							<span class="colon">:</span> </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter Contact" maxlength="15" oninvalid="this.setCustomValidity('Enter Contact');" onkeypress="this.setCustomValidity('');" ng-model="userVm.user.contact" />
+							</div>
+						  </div>
+						    <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">
+								Gender
+							</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							 <select class="form-control"
+							  ng-model="userVm.user.gender" 
+							  ng-options="gender.name as gender.title for gender in userVm.genders"  ng-required = "true">
+							  <option value="">--- Select ---</option>
+							</select>
+							</div>
+						  </div>
+						  <!-- .col -->
 						  
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -130,7 +157,7 @@
 							&nbsp;&nbsp;
 							<input type="reset" value="Reset" class="reset-btn btn btn-warning">
 							&nbsp;&nbsp;
-							<input type="button" value="Cancel" class="reset-btn btn btn-info" ng-click="userVm.cancelUserAction();">
+							<input type="button" value="Go Back" class="reset-btn btn btn-info" ng-click="userVm.cancelUserAction();">
 						  </div>
 						  <!-- .col -->
 						</div>
