@@ -109,12 +109,16 @@
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					userVm.totalItems = data.stsResponse.totalCount;
 				}
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						v.customName = v.userCode + " - "+ v.firstName;
-						tmp.push(v);
-					});
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							v.customName = v.userCode + " - "+ v.firstName;
+							tmp.push(v);
+						});
+					}					
 					$scope.$apply(function(){
 						userVm.users = tmp;
 					});

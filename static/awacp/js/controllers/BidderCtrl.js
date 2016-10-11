@@ -128,16 +128,20 @@
 			bidVm.pageNumber = bidVm.currentPage;
 			AjaxUtil.getData("/awacp/listBidders/"+bidVm.pageNumber+"/"+bidVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && bidVm.totalItems <= 0){//Already set
+				if(data && data.stsResponse && data.stsResponse.totalCount){//Already set
 					$scope.$apply(function(){
 						bidVm.totalItems = data.stsResponse.totalCount;
 					});
-				}
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
-					var tmp = [];					
-					$.each(data.stsResponse.results, function(k, v){
-						tmp.push(v);						
-					});
+				}				
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}
 					$scope.$apply(function(){
 						bidVm.bidders = tmp;
 					});

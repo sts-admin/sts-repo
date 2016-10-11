@@ -221,11 +221,14 @@
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					takeVm.totalItems = 	data.stsResponse.totalCount;
 				}
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
-					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						tmp.push(v);
-					});
+				if(data && data.stsResponse && data.stsResponse.results){
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}
 					$scope.$apply(function(){
 						takeVm.takeoffs = tmp;
 					});

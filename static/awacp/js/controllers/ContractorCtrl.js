@@ -90,16 +90,19 @@
 			conVm.pageNumber = conVm.currentPage;
 			AjaxUtil.getData("/awacp/listContractors/"+conVm.pageNumber+"/"+conVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && conVm.totalItems <= 0){//Already set
+				if(data && data.stsResponse && data.stsResponse.totalCount){
 					$scope.$apply(function(){
 						conVm.totalItems = data.stsResponse.totalCount;
 					});
 				}
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
-					var tmp = [];					
-					$.each(data.stsResponse.results, function(k, v){
-						tmp.push(v);						
-					});
+				if(data && data.stsResponse && data.stsResponse.results){
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}
 					$scope.$apply(function(){
 						conVm.contractors = tmp;
 					});
