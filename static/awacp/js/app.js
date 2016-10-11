@@ -81,6 +81,11 @@
 				templateUrl:"templates/engineer-add.html",
 				controller:"EngineerCtrl",
 				controllerAs:"engVm"
+			}).state('engineer-edit',{
+				url: '/engineer/edit/:engineerId',
+				templateUrl:"templates/engineer-add.html",
+				controller:"EngineerCtrl",
+				controllerAs:"engVm"
 			}).state('architects',{
 				url: '/architects',
 				templateUrl:"templates/architects.html",
@@ -103,6 +108,11 @@
 				controllerAs:"conVm"
 			}).state('contractor-add',{
 				url: '/contractor/add',
+				templateUrl:"templates/contractor-add.html",
+				controller:"ContractorCtrl",
+				controllerAs:"conVm"
+			}).state('contractor-edit',{
+				url: '/contractor/edit/:contractorId',
 				templateUrl:"templates/contractor-add.html",
 				controller:"ContractorCtrl",
 				controllerAs:"conVm"
