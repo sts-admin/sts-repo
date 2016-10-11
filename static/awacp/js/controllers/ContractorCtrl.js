@@ -99,6 +99,7 @@
 					});
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
