@@ -37,8 +37,8 @@
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
 								<select class="form-control"
-								  ng-model="conVm.contractor.country" 
-								  ng-options="country as country.countryName for country in conVm.countries"  ng-change="conVm.getStates();" ng-required = "true">
+								  ng-model="conVm.contractor.country.id" 
+								  ng-options="country.id as country.countryName for country in conVm.countries"  ng-change="conVm.getStates();" ng-required = "true">
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
@@ -52,8 +52,8 @@
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
 							 <select class="form-control" 
-								  ng-model="conVm.contractor.state" 
-								  ng-options="state as state.stateName for state in conVm.states" ng-required = "true">
+								  ng-model="conVm.contractor.state.id" 
+								  ng-options="state.id as state.stateName for state in conVm.states" ng-required = "true">
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>

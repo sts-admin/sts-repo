@@ -86,6 +86,31 @@
 			conVm.initCountries();
 			conVm.getUsers();
 		}
+		
+		conVm.editContractor = function(){
+			if($state.params.id != undefined){
+				var formData = {};
+				formData["contractor"] = conVm.contractor;
+				AjaxUtil.getData("/awacp/getContractor/"+$state.params.id, formData)
+				.success(function(data, status, headers){
+					if(data && data.contractor){
+						data.contractor.customName = data.contractor.userCode + " - "+ data.contractor.firstName;
+						$scope.$apply(function(){
+							conVm.contractor = data.contractor;							
+						});
+						conVm.initCountries();
+						conVm.getStates();
+						conVm.getUsers();
+						
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "ContractorCtrl::bidVm.getContractors::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				})
+			}
+		}
+		
 		conVm.getContractors = function(){
 			if(!AjaxUtil.isAuthorized()){
 				return;
@@ -122,6 +147,7 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
+		conVm.editContractor();
 	}		
 })();
 
