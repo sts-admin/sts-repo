@@ -120,7 +120,7 @@
 			.success(function(data, status, headers){
 				var message = "Engineer Detail Created Successfully, add more?";
 				AlertService.showConfirm(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){$state.go("engineers")});
+				.then(function (){return},function (){bidVm.cancelEngineerAction();});
 				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

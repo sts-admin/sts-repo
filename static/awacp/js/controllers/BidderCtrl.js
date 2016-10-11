@@ -101,12 +101,10 @@
 			AjaxUtil.submitData("/awacp/saveBidder", formData)
 			.success(function(data, status, headers){				
 				bidVm.bidder = {};
-				AlertService.showAlert('AWACP :: Message!', 'Bidder added successfully. Add more?')
-				.then(function (){	
-					return
-				},function (){
-					bidVm.cancelBidderAction();
-				});
+				var message = "Bidder Detail Created Successfully, add more?";
+				AlertService.showConfirm(	'AWACP :: Alert!', message)
+				.then(function (){return},function (){bidVm.cancelBidderAction();});
+				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "BidderCtrl::bidVm.addBidder::Error";

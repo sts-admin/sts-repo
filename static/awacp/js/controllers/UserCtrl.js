@@ -15,6 +15,9 @@
 		userVm.pageChanged = function() {
 			console.log('Page changed to: ' + userVm.currentPage);
 		};
+		userVm.cancelUserAction = function(){
+			$state.go("users");
+		}
 		userVm.spinnerUrl = "<img src='images/loading.gif' />";
 		userVm.loginForm = {};
 		userVm.user = {};
@@ -78,7 +81,7 @@
 			.success(function(data, status, headers){
 				var message = "User Detail Created Successfully, add more?";
 				AlertService.showConfirm(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){$state.go("users")});
+				.then(function (){return},function (){userVm.cancelUserAction();});
 				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -99,9 +102,7 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		userVm.cancelUserAction = function(){
-			$state.go("users");
-		}
+		
 		userVm.getUsers = function(){
 			userVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/"+userVm.currentPage+"/"+userVm.pageSize, Math.random())

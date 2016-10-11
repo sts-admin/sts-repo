@@ -104,10 +104,10 @@
 			formData["architect"] = arcVm.architect;
 			AjaxUtil.submitData("/awacp/saveArchitect", formData)
 			.success(function(data, status, headers){
-				AlertService.showAlert(	'AWACP :: Message!','Architect added successfully.')
-				.then(function (){					
-					return
-				},function (){return;});
+				var message = "Architecture Detail Created Successfully, add more?";
+				AlertService.showConfirm(	'AWACP :: Alert!', message)
+				.then(function (){return},function (){arcVm.cancelArchitectAction();});
+				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "ArchitectCtrl::arcVm.addArchitect::Error";

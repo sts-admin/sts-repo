@@ -72,7 +72,10 @@
 			formData["contractor"] = conVm.contractor;
 			AjaxUtil.submitData("/awacp/saveContractor", formData)
 			.success(function(data, status, headers){
-				alert("submit success");
+				var message = "Contractor Detail Created Successfully, add more?";
+				AlertService.showConfirm(	'AWACP :: Alert!', message)
+				.then(function (){return},function (){conVm.cancelContractorAction();});
+				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "ContractorCtrl::conVm.addContractor::Error";
