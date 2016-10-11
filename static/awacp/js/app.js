@@ -82,7 +82,7 @@
 				controller:"EngineerCtrl",
 				controllerAs:"engVm"
 			}).state('engineer-edit',{
-				url: '/engineer/edit/:engineerId',
+				url: '/engineer/edit/:id',
 				templateUrl:"templates/engineer-add.html",
 				controller:"EngineerCtrl",
 				controllerAs:"engVm"
@@ -97,7 +97,7 @@
 				controller:"ArchitectCtrl",
 				controllerAs:"arcVm"
 			}).state('architect-edit',{
-				url: '/architect/edit/:architectId',
+				url: '/architect/edit/:id',
 				templateUrl:"templates/architect-add.html",
 				controller:"ArchitectCtrl",
 				controllerAs:"arcVm"
@@ -112,7 +112,7 @@
 				controller:"ContractorCtrl",
 				controllerAs:"conVm"
 			}).state('contractor-edit',{
-				url: '/contractor/edit/:contractorId',
+				url: '/contractor/edit/:id',
 				templateUrl:"templates/contractor-add.html",
 				controller:"ContractorCtrl",
 				controllerAs:"conVm"

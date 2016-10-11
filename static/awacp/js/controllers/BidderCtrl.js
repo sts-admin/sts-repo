@@ -102,7 +102,7 @@
 			.success(function(data, status, headers){				
 				bidVm.bidder = {};
 				var message = "Bidder Detail Created Successfully, add more?";
-				AlertService.showConfirm(	'AWACP :: Alert!', message)
+				AlertService.showConfirm('AWACP :: Alert!', message)
 				.then(function (){return},function (){bidVm.cancelBidderAction();});
 				return;
 			})
