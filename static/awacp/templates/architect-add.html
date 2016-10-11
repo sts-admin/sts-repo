@@ -33,8 +33,8 @@
 					  <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
 							<select class="form-control"
-							  ng-model="arcVm.architect.country" 
-							  ng-options="country as country.countryName for country in arcVm.countries"  ng-change="arcVm.getStates();" ng-required = "true">
+							  ng-model="arcVm.architect.country.id" 
+							  ng-options="country.id as country.countryName for country in arcVm.countries"  ng-change="arcVm.getStates();" ng-required = "true">
 							  <option value="">--- Select ---</option>
 							</select>
 						</div>
@@ -48,8 +48,8 @@
 					  <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
 						 <select class="form-control" 
-							  ng-model="arcVm.architect.state" 
-							  ng-options="state as state.stateName for state in arcVm.states" ng-required = "true">
+							  ng-model="arcVm.architect.state.id" 
+							  ng-options="state.id as state.stateName for state in arcVm.states" ng-required = "true">
 							  <option value="">--- Select ---</option>
 							</select>
 						</div>

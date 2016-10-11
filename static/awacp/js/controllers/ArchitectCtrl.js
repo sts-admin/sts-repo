@@ -67,6 +67,30 @@
 			arcVm.getUsers();
 		}
 		
+		 arcVm.editArchitect = function(){
+			if($state.params.id != undefined){
+				var formData = {};
+				formData["architect"] = arcVm.architect;
+				AjaxUtil.getData("/awacp/getArchitect/"+$state.params.id, formData)
+				.success(function(data, status, headers){
+					if(data && data.architect){
+						data.architect.customName = data.architect.userCode + " - "+ data.architect.firstName;
+						$scope.$apply(function(){
+							arcVm.architect = data.architect;							
+						});
+						arcVm.initCountries();
+						arcVm.getStates();
+						arcVm.getUsers();
+						
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "ArchitectrCtrl::bidVm.getArchitectrs::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				})
+			}
+		}
+		
 		arcVm.getArchitects = function(){
 			if(!AjaxUtil.isAuthorized()){
 				return;
@@ -119,6 +143,8 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
+		
+		arcVm.editArchitect();
 	}		
 })();
 
