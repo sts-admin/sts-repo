@@ -30,7 +30,7 @@
 		}
 		takeVm.getUsers = function(){
 			takeVm.users = [];
-			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
+			AjaxUtil.getData("/awacp/listUser/1/-1", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
 					var tmp = [];
@@ -51,16 +51,20 @@
 		
 		takeVm.getEngineers = function(){
 			takeVm.engineers = [];
-			AjaxUtil.getData("/awacp/listEngineers/-1/-1", Math.random())
-			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+			AjaxUtil.getData("/awacp/listEngineers/1/-1", Math.random())
+			.success(function(data, status, headers){				
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						tmp.push(v);
-					});
-					$scope.$apply(function(){
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}	
+					//$scope.$apply(function(){
 						takeVm.engineers= tmp;
-					});
+					//});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -71,16 +75,20 @@
 		
 		takeVm.getArchitects = function(){
 			takeVm.architects = [];
-			AjaxUtil.getData("/awacp/listArchitects/-1/-1", Math.random())
+			AjaxUtil.getData("/awacp/listArchitects/1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						tmp.push(v);
-					});
-					$scope.$apply(function(){
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}	
+					//$scope.$apply(function(){
 						takeVm.architects = tmp;
-					});
+					//});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -90,16 +98,20 @@
 		}		
 		takeVm.getContractors = function(){
 			takeVm.contractors = [];
-			AjaxUtil.getData("/awacp/listContractors/-1/-1", Math.random())
+			AjaxUtil.getData("/awacp/listContractors/1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						tmp.push(v);
-					});
-					$scope.$apply(function(){
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}	
+					//$scope.$apply(function(){
 						takeVm.contractors = tmp;
-					});
+					//});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -109,16 +121,20 @@
 		}
 		takeVm.getBidders = function(){
 			takeVm.bidders = [];
-			AjaxUtil.getData("/awacp/listBidders/-1/-1", Math.random())
+			AjaxUtil.getData("/awacp/listBidders/1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						tmp.push(v);
-					});
-					$scope.$apply(function(){
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}	
+					//$scope.$apply(function(){
 						takeVm.bidders = tmp;
-					});
+					//});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -204,7 +220,7 @@
 			AjaxUtil.submitData("/awacp/saveTakeoff", formData)
 			.success(function(data, status, headers){
 				takeVm.takeoff = {};
-				var message = "User Detail Created Successfully, add more?";
+				var message = "New Takeoff Detail Created Successfully, add more?";
 				AlertService.showConfirm(	'AWACP :: Alert!', message)
 				.then(function (){return},function (){takeVm.cancelTakeoffAction();});
 				return;
@@ -222,6 +238,7 @@
 					takeVm.totalItems = 	data.stsResponse.totalCount;
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
