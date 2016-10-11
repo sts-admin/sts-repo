@@ -82,6 +82,31 @@
 			engVm.getUsers();
 		}
 		
+	    engVm.editEngineer = function(){
+			if($state.params.id != undefined){
+				var formData = {};
+				formData["engineer"] = engVm.engineer;
+				AjaxUtil.getData("/awacp/getEngineer/"+$state.params.id, formData)
+				.success(function(data, status, headers){
+					if(data && data.engineer){
+						data.engineer.customName = data.engineer.userCode + " - "+ data.engineer.firstName;
+						$scope.$apply(function(){
+							engVm.engineer = data.engineer;							
+						});
+						engVm.initCountries();
+						engVm.getStates();
+						engVm.getUsers();
+						
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "EngineerCtrl::bidVm.getEngineers::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				})
+			}
+		}
+		
+		
 		engVm.getEngineers = function(){
 			if(!AjaxUtil.isAuthorized()){
 				return;
@@ -120,7 +145,7 @@
 			.success(function(data, status, headers){
 				var message = "Engineer Detail Created Successfully, add more?";
 				AlertService.showConfirm(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){bidVm.cancelEngineerAction();});
+				.then(function (){return},function (){engVm.cancelEngineerAction();});
 				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -128,6 +153,9 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		
+		engVm.editEngineer();
+		
 	}		
 })();
 
