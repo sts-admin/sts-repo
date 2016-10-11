@@ -206,7 +206,7 @@
 				takeVm.takeoff = {};
 				var message = "User Detail Created Successfully, add more?";
 				AlertService.showConfirm(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){$state.go("users")});
+				.then(function (){return},function (){takeVm.cancelTakeoffAction();});
 				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
