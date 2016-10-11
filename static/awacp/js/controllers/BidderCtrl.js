@@ -125,7 +125,6 @@
 			if(!AjaxUtil.isAuthorized()){
 				return;
 			}
-
 			bidVm.pageNumber = bidVm.currentPage;
 			AjaxUtil.getData("/awacp/listBidders/"+bidVm.pageNumber+"/"+bidVm.pageSize, Math.random())
 			.success(function(data, status, headers){
