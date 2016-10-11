@@ -25,8 +25,7 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'"),
-		@NamedQuery(name = "Takeoff.countAll", query = "SELECT COUNT(t.id) FROM Takeoff t WHERE t.archived = 'false'") 
-})
+		@NamedQuery(name = "Takeoff.countAll", query = "SELECT COUNT(t.id) FROM Takeoff t WHERE t.archived = 'false'") })
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -61,6 +60,8 @@ public class Takeoff extends BaseEntity {
 	private String salesPersonName;
 	private String architectureName;
 	private String engineerName;
+
+	private String status;
 
 	public Takeoff() {
 		super();
@@ -278,6 +279,15 @@ public class Takeoff extends BaseEntity {
 
 	public void setJobId(String jobId) {
 		this.jobId = jobId;
+	}
+
+	@Transient
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

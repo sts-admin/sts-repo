@@ -8,7 +8,9 @@ public interface TakeoffService {
 
 	public Takeoff getTakeoff(Long takeoffId);
 
-	public Takeoff saveTakeoff(Takeoff takeoff);
+	public Takeoff saveTakeoff(Takeoff takeoff) throws Exception;
 
 	public Takeoff updateTakeoff(Takeoff takeoff);
+
+	public String[] getNewTakeoffEmails(Long takeoffId);
 }

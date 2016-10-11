@@ -12,7 +12,6 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Takeoff;
 import com.awacp.service.RoleService;
 import com.awacp.service.impl.CommonServiceImpl;
 import com.sts.core.config.AppPropConfig;

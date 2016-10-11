@@ -35,7 +35,7 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsCoreResponse sendSignUpOTPMail(@QueryParam("userFullName") String userFullName,
 			@QueryParam("email") String email, @QueryParam("verificationCode") String verificationCode,
-			@Context HttpServletResponse servletResponse) throws IOException {
+			@Context HttpServletResponse servletResponse) throws Exception {
 		return sendSignupMail(userFullName, email, verificationCode, "OTP");
 	}
 
@@ -44,12 +44,12 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsCoreResponse sendSignUpVerificationMail(@QueryParam("userFullName") String userFullName,
 			@QueryParam("email") String email, @QueryParam("verificationCode") String verificationCode,
-			@Context HttpServletResponse servletResponse) throws IOException {
+			@Context HttpServletResponse servletResponse) throws Exception {
 		return sendSignupMail(userFullName, email, verificationCode, "MAIL");
 	}
 
 	private StsCoreResponse sendSignupMail(String userFullName, String email, String verificationCode,
-			String mailType) {
+			String mailType) throws Exception{
 		StsCoreResponse StsCoreResponse = null;
 
 		String emailVerificationUrl = AppPropConfig.emailVerificationUrl;
@@ -72,7 +72,7 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 				mailTemplate = StsCoreConstant.SIGNUP_SUCCESS_OTP_MESSAGE;
 			}
 			String content = String.format(mailTemplate, userFullName, appName, verificationUrl, projectTeamName);
-			boolean status = mailService.sendMail(email, mailSubject, content, event);
+			boolean status = mailService.sendMail(email, mailSubject, content, event, "");
 			if (status == true) {
 				StsCoreResponse = new StsCoreResponse(StsCoreConstant.MAIL_SEND_SUCCESS);
 			} else {
@@ -87,7 +87,7 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 	@Path("/sendPasswordResetMail")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsCoreResponse sendPasswordResetMail(@QueryParam("email") String email,
-			@Context HttpServletResponse servletResponse) throws IOException {
+			@Context HttpServletResponse servletResponse) throws Exception {
 		StsCoreResponse StsCoreResponse = null;
 
 		User user = userService.getUserDetails(email);
@@ -103,7 +103,7 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 			String content = String.format(StsCoreConstant.PASSWORD_RESET_MAIL_MESSAGE, userName, appName,
 					verificationCode, projectTeamName);
 			String event = StsCoreConstant.PASSWORD_RESET_EMAIL_EVENT;
-			boolean status = mailService.sendMail(email, mailSubject, content, event);
+			boolean status = mailService.sendMail(email, mailSubject, content, event, "");
 			if (status == true) {
 				PasswordResetHistory passwordResetHistory = new PasswordResetHistory();
 				passwordResetHistory.setOtp(verificationCode);
@@ -123,7 +123,7 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsCoreResponse saveContact(@QueryParam("userFullName") String userFullName,
 			@QueryParam("email") String email, @QueryParam("verificationCode") String verificationCode,
-			@Context HttpServletResponse servletResponse) throws IOException {
+			@Context HttpServletResponse servletResponse) throws Exception {
 		StsCoreResponse StsCoreResponse = null;
 		String appName = AppPropConfig.appName;
 		String projectTeamName = AppPropConfig.projectTeamName;
@@ -135,7 +135,7 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 			String content = String.format(StsCoreConstant.ACCOUNT_VERIFICATION_MAIL, user.getFirstName(), appName,
 					verificationCode, projectTeamName);
 			String event = "Sign Up Confirmation";
-			boolean status = mailService.sendMail(email, subject, content, event);
+			boolean status = mailService.sendMail(email, subject, content, event, "");
 			if (status == true) {
 				StsCoreResponse = new StsCoreResponse(StsCoreConstant.MAIL_SEND_SUCCESS);
 			} else {

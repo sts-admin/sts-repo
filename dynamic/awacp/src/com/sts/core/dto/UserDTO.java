@@ -7,27 +7,13 @@ public class UserDTO {
 	private Long userId;
 	private String userName;
 	private String fullName;
-	
-	
-	
+	private String userCode;
 
 	/**
 	 * 
 	 */
 	public UserDTO() {
 		super();
-	}
-
-	/**
-	 * @param userId
-	 * @param userName
-	 * @param fullName
-	 */
-	public UserDTO(Long userId, String userName, String fullName) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.fullName = fullName;
 	}
 
 	/**
@@ -73,6 +59,14 @@ public class UserDTO {
 	 */
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
 	}
 
 }

@@ -8,7 +8,6 @@ import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Bidder;
 import com.awacp.entity.Contractor;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.service.ContractorService;

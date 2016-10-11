@@ -44,7 +44,7 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@Path("/saveTakeoff")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Takeoff saveTakeoff(Takeoff takeoff, @Context HttpServletResponse servletResponse) throws IOException {
+	public Takeoff saveTakeoff(Takeoff takeoff, @Context HttpServletResponse servletResponse) throws Exception {
 		return this.takeoffService.saveTakeoff(takeoff);
 	}
 

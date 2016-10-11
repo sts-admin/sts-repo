@@ -20,6 +20,7 @@ import com.awacp.service.ArchitectService;
 import com.awacp.service.BidderService;
 import com.awacp.service.ContractorService;
 import com.awacp.service.EngineerService;
+import com.awacp.service.MailService;
 import com.awacp.service.TakeoffService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
@@ -43,6 +44,9 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private MailService awacpMailService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -82,7 +86,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 
 	@Override
 	@Transactional
-	public Takeoff saveTakeoff(Takeoff takeoff) {
+	public Takeoff saveTakeoff(Takeoff takeoff) throws Exception{
 		String[] biddersIds = takeoff.getBiddersIds();
 		if (biddersIds != null && biddersIds.length > 0) {
 			Set<Bidder> bidders = new HashSet<Bidder>();
@@ -109,15 +113,20 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 			String code = userService.getUserCode(takeoff.getUserNameOrEmail());
 			takeoff.setUserCode(code);
 		}
+		takeoff.setUserCode(userService.getUserCode(takeoff.getUserNameOrEmail()));
 		getEntityManager().persist(takeoff);
 		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
 													// digits
+		getEntityManager().flush();
 		String takeoffId = new StringBuffer("T").append(df.format(Calendar.getInstance().getTime())).append("-")
 				.append(takeoff.getId()).toString();
 		System.out.println(takeoffId);
 		takeoff.setTakeoffId(takeoffId);
 		getEntityManager().merge(takeoff);
-		getEntityManager().flush();
+		
+		//Takeoff mail
+		String status = awacpMailService.sendNewTakeoffMail(takeoff.getId());
+		takeoff.setStatus(status);
 		return takeoff;
 	}
 
@@ -134,6 +143,22 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 													// digits
 		String formattedDate = df.format(Calendar.getInstance().getTime());
 		System.out.println(formattedDate);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String[] getNewTakeoffEmails(Long takeoffId) {
+		String[] emails = null;
+		String queryString  = "SELECT u.email FROM USER AS u INNER JOIN ROLE_PERMISSION AS p ON u.ROLE_NAME = p.ROLEID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'takeoff_loginemail'";
+		List<String> results = getEntityManager().createNativeQuery(queryString).getResultList();
+		if(results != null && !results.isEmpty()){
+			emails = new String[results.size()];
+			int index = 0;
+			for(String email: results){
+				emails[index++]  = email;
+			}
+		}
+		return emails;
 	}
 
 }

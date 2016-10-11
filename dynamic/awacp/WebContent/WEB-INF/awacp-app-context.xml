@@ -53,7 +53,7 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host"><value>smtp.gmail.com</value></property>
         <property name="port"><value>587</value></property>
         <property name="protocol"><value>smtp</value></property>
@@ -74,7 +74,7 @@
       <property name="from" value="no-reply@sts.com"/>
       <property name="bcc" value="onlinedatashare4personaluse@gmail.com"/> 
 	  <property name="subject" value="Thanks for contacting!"/>
-	</bean>
+	</bean>-->
 	<!-- sts-core-context.xml part-1 end -->
 	
 	
@@ -115,11 +115,9 @@
     <bean id="userService" class="com.sts.core.service.impl.UserServiceImpl" />
     <bean id="facebookService" class="com.sts.core.service.impl.FacebookServiceImpl" />
     <bean id="imageService" class="com.sts.core.service.impl.ImageServiceImpl" />
+     <bean id="awacpMailService" class="com.awacp.service.impl.MailServiceImpl" />
    
-    <bean id="mailService" class="com.sts.core.mail.service.impl.MailServiceImpl">
-      <property name="mailSender" ref="mailSender"/>
-      <property name="templateMessage" ref="templateMessage"/>
-    </bean>
+   <bean id="mailService" class="com.sts.core.mail.service.impl.MailServiceImpl" />
     
     <bean id="errorLogServiceEndpoint" class="com.sts.core.rest.endpoint.ErrorLogServiceEndpoint">
         <property name="errorLogService" ref="errorLogService" />
