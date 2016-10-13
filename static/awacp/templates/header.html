@@ -4,17 +4,17 @@
 </div>
   
   <div class="col-lg-2" style="max-height:50px;">
-	<div style="color:#FFFFFF; text-align:center">INDIA</div>
+	<div style="color:#FFFFFF; text-align:center; font-size:12px; font-weight:bold;">INDIA</div>
 	<ds-widget-clock show-analog theme="blue-light" ></ds-widget-clock>
   </div>
-<div class="col-lg-2"><a href ui-sref="dashboard"><img src="images/home.png" class="img-responsive" alt="" /></div>
+<div class="col-lg-2" style="text-align:center; padding-top:20px;"><a href ui-sref="dashboard"><img src="images/home.png" alt="dashboard" /><br /><span style="color:#fff">Go to Dashboard</span></div>
   <div class="col-lg-2">
-	<div style="color:#FFFFFF; text-align:center">NEW YORK</div>
+	<div style="color:#FFFFFF; text-align:center;font-size:12px; font-weight:bold;">NEW YORK</div>
 		<ds-widget-clock show-analog theme="blue-light" gmt-offset="-04.00"></ds-widget-clock>
   </div>
  
-  <div class="col-lg-4">
-	<div id="top-search"> 
+  <div class="col-lg-3">
+	<div id="top-search" style="margin-top:15px;"> 
 		<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" /><br />
 	  
 	  <input type="text" value="Logout" class="logout-inp" readonly style="cursor:pointer;" ng-click="logoutUser();">

@@ -229,7 +229,7 @@ html, body{height:100%; margin:0;padding:0}
 
 /*bootstrap-customization*/
 
-.header-bg{background:#0b54a1; padding:15px; overflow:hidden;}
+.header-bg{background:#0b54a1; padding:8px; overflow:hidden;}
 .footer-bottom {
     border-bottom: 1px solid #dbdbdb;
     border-top: 1px solid #dbdbdb;
