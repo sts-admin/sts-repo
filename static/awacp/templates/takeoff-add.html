@@ -27,7 +27,6 @@
 						  </div>
 						 <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">Engineer</span>
-							<i class="star red">*</i>
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
@@ -35,14 +34,13 @@
 							<div class="form-group">
 								<select class="form-control"
 								  ng-model="takeVm.takeoff.engineerId" 
-								  ng-options="engineer.id as engineer.engineerTitle for engineer in takeVm.engineers" ng-required = "true">
+								  ng-options="engineer.id as engineer.engineerTitle for engineer in takeVm.engineers" >
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
 						  </div>
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
 								<span class="form-label">Architecture</span>
-								<i class="star red">*</i>
 								<span class="colon">:</span> 
 							</div>
 						  <!-- .col -->
@@ -50,7 +48,7 @@
 							<div class="form-group">
 							 <select class="form-control" 
 								  ng-model="takeVm.takeoff.architectureId" 
-								  ng-options="architect.id as architect.architectTitle for architect in takeVm.architects" ng-required = "true">
+								  ng-options="architect.id as architect.architectTitle for architect in takeVm.architects" >
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
