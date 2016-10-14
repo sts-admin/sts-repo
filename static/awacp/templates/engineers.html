@@ -34,13 +34,17 @@
 							</tr>
 							<tr style="background:#042F51;">
 							  <td style="padding:5px; color:#FFF;" align="center">S. No.</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Name</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Country</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Engineer</td>
+							  <td style="padding:5px; color:#FFF;" align="center">City</td>
 							  <td style="padding:5px; color:#FFF;" align="center">State</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Street</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Email ID</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Zip</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Phone</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Date Created</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Fax</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Email</td>
+							   <td style="padding:5px; color:#FFF;" align="center">Website</td>
+							  <td style="padding:5px; color:#FFF;" align="center">SP</td>
+							   <td style="padding:5px; color:#FFF;" align="center">UC</td>
+							    <td style="padding:5px; color:#FFF;" align="center">UC2</td>
 							  <td style="padding:5px; color:#FFF;" filter="false" align="center"></td>
 							</tr>
 						  </thead>
@@ -48,12 +52,15 @@
 							<tr id="user_90" height="25" ng-repeat="engineer in engVm.engineers track by $index">
 							  <td align="center">{{$index + 1}}</td>
 							  <td>{{engineer.engineerTitle}}</td>
-							  <td>{{engineer.country.countryName}}</td>
+							  <td>{{engineer.city}}</td>
 							  <td align="center">{{engineer.state.stateName}}</td>
-							  <td align="center">{{engineer.city}}</td>
+							  <td align="center">{{engineer.zip}}</td>
+							   <td align="center">{{engineer.phone}}</td>
+							    <td align="center">{{engineer.fax}}</td>
 							  <td>{{engineer.email}}</td>
-							  <td align="center">{{engineer.contact}}</td>
-							  <td>{{engineer.dateCreated | date:'mediumDate'}}</td>
+							  <td align="center">{{engineer.salesPersonName}}</td>
+							   <td align="center">{{engineer.uc}}</td>
+							    <td align="center">{{engineer.uc2}}</td>
 							  <td align="center">&nbsp; <a ui-sref="engineer-edit({id:engineer.id})"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)"><img src="images/business_user_info.png" title="show user information" border="0"></a></td>
 							</tr>								
 						</table>
