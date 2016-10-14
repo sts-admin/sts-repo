@@ -105,13 +105,13 @@
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					if(data.stsResponse.totalCount == 1){
-						tmp.push(data.stsResponse.results);
-					}else{
+					if($.isArray(data.stsResponse.results)) {
 						$.each(data.stsResponse.results, function(k, v){
-							tmp.push(v);						
-						});
-					}	
+							tmp.push(v);
+						});					
+					} else {
+					    tmp.push(data.stsResponse.results);
+					}
 					$scope.$apply(function(){
 						arcVm.architects = tmp;
 					});
