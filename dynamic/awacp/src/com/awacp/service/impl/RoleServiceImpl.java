@@ -230,39 +230,39 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	private List<MenuItem> getBbtItems(List<MenuItem> items) {
-		items.add(new MenuItem("Engineer", "engineers"));
+		items.add(new MenuItem("Manage Engineer", "engineers"));
 		items.add(new MenuItem("divider", "#"));
-		items.add(new MenuItem("Architect", "architects"));
+		items.add(new MenuItem("Manage Architect", "architects"));
 		items.add(new MenuItem("divider", "#"));
-		items.add(new MenuItem("Contractor", "contractors"));
+		items.add(new MenuItem("Manage Contractor", "contractors"));
 		items.add(new MenuItem("divider", "#"));
-		items.add(new MenuItem("Bidder", "bidders"));
+		items.add(new MenuItem("Manage Bidder", "bidders"));
 		items.add(new MenuItem("divider", "#"));
-		items.add(new MenuItem("Trucker", "truckers"));
-		items.add(new MenuItem("divider", "#"));
-
-		items.add(new MenuItem("Specification", "specifications"));
+		items.add(new MenuItem("Manage Trucker", "truckers"));
 		items.add(new MenuItem("divider", "#"));
 
-		items.add(new MenuItem("Product", "products"));
+		items.add(new MenuItem("Manage Specification", "specifications"));
 		items.add(new MenuItem("divider", "#"));
 
-		items.add(new MenuItem("Ship To", "ships"));
+		items.add(new MenuItem("Manage Product", "products"));
 		items.add(new MenuItem("divider", "#"));
 
-		items.add(new MenuItem("PNDI", "pndis"));
+		items.add(new MenuItem("Manage Ship To", "ships"));
 		items.add(new MenuItem("divider", "#"));
 
-		items.add(new MenuItem("Quote Notes", "qnotes"));
+		items.add(new MenuItem("Manage PDNI", "pndis"));
 		items.add(new MenuItem("divider", "#"));
 
-		items.add(new MenuItem("Manufacture & Description", "manufactures"));
+		items.add(new MenuItem("Manage Quote Notes", "qnotes"));
 		items.add(new MenuItem("divider", "#"));
 
-		items.add(new MenuItem("Item Shipped", "iships"));
+		items.add(new MenuItem("Manage Manufacture & Description", "manufactures"));
 		items.add(new MenuItem("divider", "#"));
 
-		items.add(new MenuItem("Shipped Via", "vships"));
+		items.add(new MenuItem("Manage Item Shipped", "iships"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Shipped Via", "vships"));
 		items.add(new MenuItem("divider", "#"));
 
 		items.add(new MenuItem("Delete File", "deletefiles"));

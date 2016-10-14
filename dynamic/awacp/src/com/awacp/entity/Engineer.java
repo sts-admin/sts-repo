@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -39,6 +40,12 @@ public class Engineer extends BaseEntity {
 	private String website;
 	private String comment;
 	private String basicSpecification;
+	
+	
+	//Transient
+	private String salesPersonName;
+	private String uc;
+	private String uc2;
 
 	public Engineer() {
 		super();
@@ -143,5 +150,38 @@ public class Engineer extends BaseEntity {
 	public void setBasicSpecification(String basicSpecification) {
 		this.basicSpecification = basicSpecification;
 	}
+
+	@Transient
+	public String getSalesPersonName() {
+		return salesPersonName;
+	}
+
+
+	public void setSalesPersonName(String salesPersonName) {
+		this.salesPersonName = salesPersonName;
+	}
+
+	@Transient
+	public String getUc() {
+		return uc;
+	}
+
+
+	public void setUc(String uc) {
+		this.uc = uc;
+	}
+
+
+	@Transient
+	public String getUc2() {
+		return uc2;
+	}
+
+
+	public void setUc2(String uc2) {
+		this.uc2 = uc2;
+	}
+	
+	
 
 }
