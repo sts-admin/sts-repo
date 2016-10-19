@@ -18,7 +18,8 @@ public class Specification extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	private String specification;
-	private Long salesPerson;
+	private String createdByUserCode; // Code of the User created this record.
+	private String updatedByUserCode; // Code of the user update this record.
 
 	public Specification() {
 		super();
@@ -35,13 +36,22 @@ public class Specification extends BaseEntity {
 	}
 
 	@NotNull
-	@Column(nullable = false)
-	public Long getSalesPerson() {
-		return salesPerson;
+	@Column(nullable = false, length = 10)
+	public String getCreatedByUserCode() {
+		return createdByUserCode;
 	}
 
-	public void setSalesPerson(Long salesPerson) {
-		this.salesPerson = salesPerson;
+	public void setCreatedByUserCode(String createdByUserCode) {
+		this.createdByUserCode = createdByUserCode;
+	}
+	
+	@Column(nullable = true, length = 10)
+	public String getUpdatedByUserCode() {
+		return updatedByUserCode;
+	}
+
+	public void setUpdatedByUserCode(String updatedByUserCode) {
+		this.updatedByUserCode = updatedByUserCode;
 	}
 
 }

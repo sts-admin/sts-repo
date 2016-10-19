@@ -1,4 +1,4 @@
-package com.awacp.service;
+package com.sts.core.service;
 
 import javax.persistence.EntityManager;
 
@@ -16,4 +16,8 @@ public interface CommonService<T> {
 
 	StsResponse<T> listAll(int pageNumber, int pageSize, String queryString, String entityClassName,
 			String primaryKeyName, EntityManager em);
+
+	public boolean isExistsByEmail(final String email, final String entityName, EntityManager em);
+
+	public T getByEmail(final String email, final String entityName, EntityManager em);
 }

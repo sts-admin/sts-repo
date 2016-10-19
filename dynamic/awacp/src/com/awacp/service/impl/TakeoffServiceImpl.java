@@ -18,15 +18,16 @@ import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.ArchitectService;
 import com.awacp.service.BidderService;
-import com.awacp.service.ContractorService;
 import com.awacp.service.EngineerService;
+import com.awacp.service.GeneralContractorService;
 import com.awacp.service.MailService;
 import com.awacp.service.TakeoffService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
 import com.sts.core.service.UserService;
+import com.sts.core.service.impl.CommonServiceImpl;
 
-public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements TakeoffService {
+public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements TakeoffService {
 
 	private EntityManager entityManager;
 
@@ -34,7 +35,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 	private BidderService bidderService;
 
 	@Autowired
-	private ContractorService contractorService;
+	private GeneralContractorService generalContractorService;
 
 	@Autowired
 	private EngineerService engineerService;
@@ -44,7 +45,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private MailService awacpMailService;
 
@@ -72,8 +73,8 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 		for (Takeoff takeoff : takeoffs) {
 			User user = userService.findUser(takeoff.getSalesPerson());
 			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
-			takeoff.setEngineerName(engineerService.getEngineer(takeoff.getEngineerId()).getEngineerTitle());
-			takeoff.setArchitectureName(architectService.getArchitect(takeoff.getArchitectureId()).getArchitectTitle());
+			takeoff.setEngineerName(engineerService.getEngineer(takeoff.getEngineerId()).getName());
+			takeoff.setArchitectureName(architectService.getArchitect(takeoff.getArchitectureId()).getName());
 		}
 
 		return takeoffs;
@@ -86,7 +87,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 
 	@Override
 	@Transactional
-	public Takeoff saveTakeoff(Takeoff takeoff) throws Exception{
+	public Takeoff saveTakeoff(Takeoff takeoff) throws Exception {
 		String[] biddersIds = takeoff.getBiddersIds();
 		if (biddersIds != null && biddersIds.length > 0) {
 			Set<Bidder> bidders = new HashSet<Bidder>();
@@ -102,7 +103,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 		if (contractorIds != null && contractorIds.length > 0) {
 			Set<GeneralContractor> contractors = new HashSet<GeneralContractor>();
 			for (String id : contractorIds) {
-				GeneralContractor contractor = contractorService.getGenearalContractor(Long.valueOf(id));
+				GeneralContractor contractor = generalContractorService.getContractor(Long.valueOf(id));
 				if (contractor != null) {
 					contractors.add(contractor);
 				}
@@ -123,8 +124,8 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 		System.out.println(takeoffId);
 		takeoff.setTakeoffId(takeoffId);
 		getEntityManager().merge(takeoff);
-		
-		//Takeoff mail
+
+		// Takeoff mail
 		String status = awacpMailService.sendNewTakeoffMail(takeoff.getId());
 		takeoff.setStatus(status);
 		return takeoff;
@@ -149,13 +150,13 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 	@Override
 	public String[] getNewTakeoffEmails(Long takeoffId) {
 		String[] emails = null;
-		String queryString  = "SELECT u.email FROM USER AS u INNER JOIN ROLE_PERMISSION AS p ON u.ROLE_NAME = p.ROLEID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'takeoff_loginemail'";
+		String queryString = "SELECT u.email FROM USER AS u INNER JOIN ROLE_PERMISSION AS p ON u.ROLE_NAME = p.ROLEID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'takeoff_loginemail'";
 		List<String> results = getEntityManager().createNativeQuery(queryString).getResultList();
-		if(results != null && !results.isEmpty()){
+		if (results != null && !results.isEmpty()) {
 			emails = new String[results.size()];
 			int index = 0;
-			for(String email: results){
-				emails[index++]  = email;
+			for (String email : results) {
+				emails[index++] = email;
 			}
 		}
 		return emails;

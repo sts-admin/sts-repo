@@ -2,6 +2,7 @@ package com.awacp.service;
 
 import com.awacp.entity.Engineer;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsDuplicateException;
 
 public interface EngineerService {
 
@@ -9,8 +10,8 @@ public interface EngineerService {
 
 	public Engineer getEngineer(Long engineerId);
 
-	public Engineer saveEngineer(Engineer engineer);
+	public Engineer saveEngineer(Engineer engineer) throws StsDuplicateException;
 
-	public Engineer updateEngineer(Engineer engineer);
+	public Engineer updateEngineer(Engineer engineer) throws StsDuplicateException;
 
 }

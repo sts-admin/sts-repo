@@ -46,8 +46,8 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 		Takeoff takeoff = takeoffService.getTakeoff(takeoffId);
 		User user = userService.findUser(takeoff.getSalesPerson());
 		takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
-		takeoff.setEngineerName(engineerService.getEngineer(takeoff.getEngineerId()).getEngineerTitle());
-		takeoff.setArchitectureName(architectService.getArchitect(takeoff.getArchitectureId()).getArchitectTitle());
+		takeoff.setEngineerName(engineerService.getEngineer(takeoff.getEngineerId()).getName());
+		takeoff.setArchitectureName(architectService.getArchitect(takeoff.getArchitectureId()).getName());
 
 		String dateCreated = takeoff.getDateCreated() == null ? ""
 				: DATE_FORMAT.format(takeoff.getDateCreated().getTime());
@@ -60,7 +60,7 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 		if (takeoff.getBidders() != null) {
 			int bidderCounter = 1;
 			for (Bidder b : takeoff.getBidders()) {
-				bidders.append(b.getBidderTitle());
+				bidders.append(b.getName());
 				if (bidderCounter != 1 && bidderCounter != takeoff.getBidders().size()) {
 					bidders.append(", ");
 				}
@@ -71,7 +71,7 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 		if (takeoff.getGeneralContractors() != null) {
 			int contractorCounter = 1;
 			for (GeneralContractor gc : takeoff.getGeneralContractors()) {
-				gcs.append(gc.getContractorTitle());
+				gcs.append(gc.getName());
 				if (contractorCounter != 1 && contractorCounter != takeoff.getGeneralContractors().size()) {
 					bidders.append(", ");
 				}

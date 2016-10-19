@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsCoreResponse;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.dto.UserDTO;
@@ -120,11 +121,11 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 		} catch (StsCoreException e) {
 			Integer code = 500;
 			final String message = e.getMessage().toLowerCase();
-			if (message.equals(User.DUPLICATE_CODE.toLowerCase())) {
+			if (message.equals(StsCoreConstant.DUPLICATE_CODE.toLowerCase())) {
 				code = 1000;
-			} else if (e.getMessage().equals(User.DUPLICATE_USERNAME.toLowerCase())) {
+			} else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_USERNAME.toLowerCase())) {
 				code = 1001;
-			} else if (e.getMessage().equals(User.DUPLICATE_EMAIL.toLowerCase())) {
+			} else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
 				code = 1002;
 			}
 			servletResponse.sendError(code, message);

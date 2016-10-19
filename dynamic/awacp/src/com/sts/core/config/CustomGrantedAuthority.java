@@ -9,11 +9,15 @@ public class CustomGrantedAuthority implements GrantedAuthority {
 	private String authority;
 	private String userName;
 	private String loginType;
+	private String userCode;
+	private String userId;
 
-	public CustomGrantedAuthority(String authority, String userName, String loginType) {
+	public CustomGrantedAuthority(String authority, String userName, String loginType, String userCode, String userId) {
 		this.authority = authority;
 		this.userName = userName;
 		this.loginType = loginType;
+		this.userCode = userCode;
+		this.userId = userId;
 	}
 
 	public String getAuthority() {
@@ -40,6 +44,22 @@ public class CustomGrantedAuthority implements GrantedAuthority {
 		this.loginType = loginType;
 	}
 
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
 		return "authority:" + authority + "userName:" + userName + "loginType:" + loginType;
@@ -52,6 +72,8 @@ public class CustomGrantedAuthority implements GrantedAuthority {
 		result = prime * result + ((authority == null) ? 0 : authority.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		result = prime * result + ((loginType == null) ? 0 : loginType.hashCode());
+		result = prime * result + ((userCode == null) ? 0 : userCode.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
@@ -78,6 +100,17 @@ public class CustomGrantedAuthority implements GrantedAuthority {
 			if (other.loginType != null)
 				return false;
 		} else if (!loginType.equals(other.loginType))
+			return false;
+
+		if (userCode == null) {
+			if (other.userCode != null)
+				return false;
+		} else if (!userCode.equals(other.userCode))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}

@@ -108,14 +108,14 @@
 	
 	<!--  sts-core-context.xml part-3 start -->
 	
-	 <bean id="errorLogService" class="com.sts.core.service.impl.ErrorLogServiceImpl" />
+	<bean id="errorLogService" class="com.sts.core.service.impl.ErrorLogServiceImpl" />
     <bean id="stateService" class="com.sts.core.service.impl.StateServiceImpl" />
 	<bean id="countryService" class="com.sts.core.service.impl.CountryServiceImpl" />
     <bean id="appPropConfig" class="com.sts.core.config.AppPropConfig" />
     <bean id="userService" class="com.sts.core.service.impl.UserServiceImpl" />
     <bean id="facebookService" class="com.sts.core.service.impl.FacebookServiceImpl" />
     <bean id="imageService" class="com.sts.core.service.impl.ImageServiceImpl" />
-     <bean id="awacpMailService" class="com.awacp.service.impl.MailServiceImpl" />
+    <bean id="awacpMailService" class="com.awacp.service.impl.MailServiceImpl" />
    
    <bean id="mailService" class="com.sts.core.mail.service.impl.MailServiceImpl" />
     
@@ -142,8 +142,10 @@
     </bean>    
     <!-- sts-core-context.xml part-3 end -->
     
-    <bean id="commonService" class="com.awacp.service.impl.CommonServiceImpl" />
+    <bean id="commonService" class="com.sts.core.service.impl.CommonServiceImpl" />
+    <bean id="generalContractorService" class="com.awacp.service.impl.GeneralContractorServiceImpl" />
 	<bean id="takeoffService" class="com.awacp.service.impl.TakeoffServiceImpl" />
+	<bean id="specificationService" class="com.awacp.service.impl.SpecificationServiceImpl" />
     <bean id="takeoffServiceEndpoint" class="com.awacp.rest.endpoint.TakeoffServiceEndpoint">
         <property name="takeoffService" ref="takeoffService" />
     </bean>

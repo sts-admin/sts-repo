@@ -17,15 +17,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Bidder;
 import com.awacp.entity.Contractor;
+import com.awacp.entity.GeneralContractor;
 import com.awacp.service.BidderService;
 import com.awacp.service.ContractorService;
+import com.awacp.service.GeneralContractorService;
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class ContractorServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private ContractorService contractorService;
+
+	@Autowired
+	private GeneralContractorService generalContractorService;
 
 	@Autowired
 	private BidderService bidderService;
@@ -58,7 +65,19 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Bidder saveBidder(Bidder bidder, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.bidderService.saveBidder(bidder);
+		Bidder object = null;
+		try {
+			object = this.bidderService.saveBidder(bidder);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
 	@POST
@@ -66,7 +85,20 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Bidder updateBidder(Bidder bidder, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.bidderService.updateBidder(bidder);
+
+		Bidder object = null;
+		try {
+			object = this.bidderService.updateBidder(bidder);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
 	@GET
@@ -83,7 +115,19 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Contractor saveContractor(Contractor contractor, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.contractorService.saveContractor(contractor);
+		Contractor object = null;
+		try {
+			object = this.contractorService.saveContractor(contractor);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
 	@POST
@@ -92,11 +136,69 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Contractor updateContractor(Contractor contractor, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.contractorService.updateContractor(contractor);
+		Contractor object = null;
+		try {
+			object = this.contractorService.updateContractor(contractor);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
+	}
+
+	@POST
+	@Path("/saveGc")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GeneralContractor saveGc(GeneralContractor contractor, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		GeneralContractor object = null;
+		try {
+			object = this.generalContractorService.updateContractor(contractor);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
+	}
+
+	@POST
+	@Path("/updateGc")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public GeneralContractor updateGc(GeneralContractor contractor, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		GeneralContractor object = null;
+		try {
+			object = this.generalContractorService.updateContractor(contractor);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
 	public void setContractorService(ContractorService contractorService) {
 		this.contractorService = contractorService;
+	}
+
+	public void setGeneralContractorService(GeneralContractorService generalContractorService) {
+		this.generalContractorService = generalContractorService;
 	}
 
 	public void setBidderService(BidderService bidderService) {

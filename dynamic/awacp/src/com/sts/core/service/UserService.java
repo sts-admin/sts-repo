@@ -13,6 +13,10 @@ import com.sts.core.exception.StsCoreException;
 public interface UserService {
 
 	public User getByUserCode(final String code);
+	
+	public UserDTO getUserMinimumInfo(final String userNameOrEmail);
+	
+	public UserDTO getUserMinimumInfo(final Long userId);
 
 	public User getUserDetails(String email);
 

@@ -4,13 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
-import com.sts.core.entity.Country;
-import com.sts.core.entity.State;
 
 /**
  * Entity implementation class for Entity: Product
@@ -18,47 +17,46 @@ import com.sts.core.entity.State;
  */
 @Entity
 @XmlRootElement
-@NamedQueries({ 
-	@NamedQuery(name = "Engineer.listAll", query = "SELECT e FROM Engineer e WHERE e.archived = 'false'"),
-	@NamedQuery(name = "Engineer.countAll", query = "SELECT COUNT(e.id) FROM Engineer e WHERE e.archived = 'false'") 
-})
-
-
+@NamedQueries({ @NamedQuery(name = "Engineer.listAll", query = "SELECT e FROM Engineer e WHERE e.archived = 'false'"),
+		@NamedQuery(name = "Engineer.countAll", query = "SELECT COUNT(e.id) FROM Engineer e WHERE e.archived = 'false'"),
+		@NamedQuery(name = "Engineer.getByEmail", query = "SELECT e FROM Engineer e WHERE e.archived = 'false' AND LOWER(e.email) = :email") })
 
 public class Engineer extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-	private String engineerTitle;
-	private Long salesPerson; // User ID
-	private String street;
+	private String name;
+	private Long salesPerson; // ID of a AWACP System User
+	private String address;
 	private String city;
-	private Country country;
-	private State state;
+	private String state;
+	private String zip;
 	private String phone;
 	private String fax;
 	private String email;
 	private String website;
 	private String comment;
-	private String basicSpecification;
-	
-	
-	//Transient
+	private String basicSpec;
+	private String createdByUserCode; // Code of the User created this record.
+	private String updatedByUserCode; // Code of the user update this record.
+
+	// Transient
 	private String salesPersonName;
-	private String uc;
-	private String uc2;
 
 	public Engineer() {
 		super();
 	}
 
-
 	@Column(nullable = false, length = 100)
-	public String getEngineerTitle() {
-		return engineerTitle;
+	public String getName() {
+		return name;
 	}
 
-	public void setEngineerTitle(String engineerTitle) {
-		this.engineerTitle = engineerTitle;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setEngineer(String name) {
+		this.name = name;
 	}
 
 	@NotNull
@@ -71,14 +69,16 @@ public class Engineer extends BaseEntity {
 		this.salesPerson = salesPerson;
 	}
 
-	public String getStreet() {
-		return street;
+	@Column(length = 150)
+	public String getAddress() {
+		return address;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
+	@Column(length = 50)
 	public String getCity() {
 		return city;
 	}
@@ -87,22 +87,7 @@ public class Engineer extends BaseEntity {
 		this.city = city;
 	}
 
-	public Country getCountry() {
-		return country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}
-
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
-
+	@Column(length = 20)
 	public String getPhone() {
 		return phone;
 	}
@@ -111,6 +96,7 @@ public class Engineer extends BaseEntity {
 		this.phone = phone;
 	}
 
+	@Column(length = 20)
 	public String getFax() {
 		return fax;
 	}
@@ -119,6 +105,8 @@ public class Engineer extends BaseEntity {
 		this.fax = fax;
 	}
 
+	@NotNull
+	@Column(nullable = false, length = 100)
 	public String getEmail() {
 		return email;
 	}
@@ -127,6 +115,7 @@ public class Engineer extends BaseEntity {
 		this.email = email;
 	}
 
+	@Column(length = 150)
 	public String getWebsite() {
 		return website;
 	}
@@ -135,6 +124,7 @@ public class Engineer extends BaseEntity {
 		this.website = website;
 	}
 
+	@Column(length = 200)
 	public String getComment() {
 		return comment;
 	}
@@ -143,45 +133,90 @@ public class Engineer extends BaseEntity {
 		this.comment = comment;
 	}
 
-	public String getBasicSpecification() {
-		return basicSpecification;
-	}
-
-	public void setBasicSpecification(String basicSpecification) {
-		this.basicSpecification = basicSpecification;
-	}
-
 	@Transient
 	public String getSalesPersonName() {
 		return salesPersonName;
 	}
 
-
 	public void setSalesPersonName(String salesPersonName) {
 		this.salesPersonName = salesPersonName;
 	}
 
-	@Transient
-	public String getUc() {
-		return uc;
+	@NotNull
+	@Column(nullable = false, length = 10)
+	public String getCreatedByUserCode() {
+		return createdByUserCode;
 	}
 
-
-	public void setUc(String uc) {
-		this.uc = uc;
+	public void setCreatedByUserCode(String createdByUserCode) {
+		this.createdByUserCode = createdByUserCode;
 	}
 
-
-	@Transient
-	public String getUc2() {
-		return uc2;
+	@Column(length = 10)
+	public String getUpdatedByUserCode() {
+		return updatedByUserCode;
 	}
 
-
-	public void setUc2(String uc2) {
-		this.uc2 = uc2;
+	public void setUpdatedByUserCode(String updatedByUserCode) {
+		this.updatedByUserCode = updatedByUserCode;
 	}
-	
-	
+
+	@Column(length = 10)
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+
+	@Column(length = 150)
+	public String getBasicSpec() {
+		return basicSpec;
+	}
+
+	public void setBasicSpec(String basicSpec) {
+		this.basicSpec = basicSpec;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	@Column(length = 50)
+	public String getState() {
+		return state;
+	}
+
+	@PrePersist
+	public void setDefaults() {
+		if (this.getAddress() == null) {
+			this.address = "";
+		}
+		if (this.getBasicSpec() == null) {
+			this.basicSpec = "";
+		}
+		if (this.getCity() == null) {
+			this.city = "";
+		}
+		if (this.getState() == null) {
+			this.state = "";
+		}
+		if (this.getComment() == null) {
+			this.comment = "";
+		}
+		if (this.getFax() == null) {
+			this.fax = "";
+		}
+		if (this.getUpdatedByUserCode() == null) {
+			this.updatedByUserCode = "";
+		}
+		if (this.getPhone() == null) {
+			this.phone = "";
+		}
+		if (this.getZip() == null) {
+			this.fax = "";
+		}
+	}
 
 }

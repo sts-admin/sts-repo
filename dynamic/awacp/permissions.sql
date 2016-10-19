@@ -93,14 +93,14 @@ VALUES('spl_c',0,1,CURRENT_TIMESTAMP,NULL,'Create/Add',NULL,1,'SPL', 'spl-add'),
 ('spl_remind',0,1,CURRENT_TIMESTAMP,NULL,'Low Inv Remind',NULL,1,'SPL', NULL);
 /*SPL permission end*/
 
-/*JOB permission begin*/
+/*J permission begin*/
 INSERT INTO `awacp`.`permission`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`)
-VALUES('job_c',0,1,CURRENT_TIMESTAMP,NULL,'Create/Add',NULL,1,'Job', 'job-add'),
-('job_r',0,1,CURRENT_TIMESTAMP,NULL,'Read/View/Search',NULL,1,'Job', 'jobs-view'),
-('job_u',0,1,CURRENT_TIMESTAMP,NULL,'Update',NULL,1,'Job', NULL),
-('job_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Job', NULL),
-('job_orders',0,1,CURRENT_TIMESTAMP,NULL,'View Orders',NULL,1,'Job', 'job-orders'),
-('job_remind',0,1,CURRENT_TIMESTAMP,NULL,'Low Inv Remind',NULL,1,'Job', NULL);
+VALUES('j_c',0,1,CURRENT_TIMESTAMP,NULL,'Create/Add',NULL,1,'J', 'j-add'),
+('j_r',0,1,CURRENT_TIMESTAMP,NULL,'Read/View/Search',NULL,1,'J', 'j-view'),
+('j_u',0,1,CURRENT_TIMESTAMP,NULL,'Update',NULL,1,'J', NULL),
+('j_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'J', NULL),
+('j_orders',0,1,CURRENT_TIMESTAMP,NULL,'View Orders',NULL,1,'J', 'j-orders'),
+('j_remind',0,1,CURRENT_TIMESTAMP,NULL,'Low Inv Remind',NULL,1,'J', NULL);
 /*JOB permission end*/
 
 /*Marketing permission begin*/

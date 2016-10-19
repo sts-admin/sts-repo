@@ -1,19 +1,19 @@
-package com.awacp.service.impl;
+package com.sts.core.service.impl;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.awacp.service.CommonService;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.service.CommonService;
 
 public class CommonServiceImpl<T> implements CommonService<T> {
 
 	@Override
 	public int getTotalRecords(String entityClassName, String primaryKeyName, EntityManager em) {
 		StringBuffer sb = new StringBuffer("SELECT COUNT(entity.").append(primaryKeyName).append(") FROM ")
-				.append(entityClassName).append(" AS entity WHERE entity.archived = 'false'");
+				.append(entityClassName).append(" entity WHERE entity.archived = 'false'");
 		return getTotalRecords(sb.toString(), em);
 	}
 
@@ -35,7 +35,7 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
 		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
-				.append(" AS entity WHERE entity.archived = 'false'");
+				.append(" entity WHERE entity.archived = 'false'");
 		return listAll(pageNumber, pageSize, sb.toString(), entityClassName, "id", em);
 	}
 
@@ -43,6 +43,8 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String queryString, String entityClassName,
 			String primaryKeyName, EntityManager em) {
+		System.err.println("listAll, pageNumber = " + pageNumber + ", pageSize = " + pageSize + ", queryString = "
+				+ queryString + ", entityClassName = " + entityClassName + ", primaryKey = " + primaryKeyName);
 		StsResponse<T> response = new StsResponse<T>();
 		if (pageNumber == 1) {
 			response.setTotalCount(getTotalRecords(entityClassName, primaryKeyName, em));
@@ -53,6 +55,24 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 		}
 		List<T> results = query.getResultList();
 		return results == null || results.isEmpty() ? response : response.setResults(results);
+	}
+
+	@Override
+	public boolean isExistsByEmail(String email, String entityName, EntityManager em) {
+		StringBuffer query = new StringBuffer("SELECT COUNT(entity.id) FROM ").append(entityName)
+				.append(" entity WHERE entity.archived = 'false' AND  LOWER(entity.email) = :email");
+		int count = ((Number) em.createQuery(query.toString()).setParameter("email", email).getSingleResult())
+				.intValue();
+		return count <= 0 ? false : true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public T getByEmail(String email, String entityName, EntityManager em) {
+		StringBuffer query = new StringBuffer("SELECT entity FROM ").append(entityName)
+				.append(" entity WHERE entity.archived = 'false' AND  LOWER(entity.email) = :email");
+		List<T> results = em.createQuery(query.toString()).setParameter("email", email).getResultList();
+		return results == null || results.isEmpty() ? null : results.get(0);
 	}
 
 }

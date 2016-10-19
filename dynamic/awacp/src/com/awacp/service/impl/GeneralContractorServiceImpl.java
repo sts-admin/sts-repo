@@ -5,15 +5,15 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Architect;
-import com.awacp.entity.Contractor;
+import com.awacp.entity.Engineer;
 import com.awacp.entity.GeneralContractor;
-import com.awacp.service.ContractorService;
+import com.awacp.service.GeneralContractorService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implements ContractorService {
+public class GeneralContractorServiceImpl extends CommonServiceImpl<GeneralContractor>
+		implements GeneralContractorService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -26,19 +26,20 @@ public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implemen
 	}
 
 	@Override
-	public StsResponse<com.awacp.entity.Contractor> listContractors(int pageNumber, int pageSize) {
+	public StsResponse<GeneralContractor> listContractors(int pageNumber, int pageSize) {
 		return listAll(pageNumber, pageSize, GeneralContractor.class.getSimpleName(), getEntityManager());
+
 	}
 
 	@Override
-	public Contractor getContractor(Long id) {
-		return getEntityManager().find(Contractor.class, id);
+	public GeneralContractor getContractor(Long id) {
+		return getEntityManager().find(GeneralContractor.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Contractor saveContractor(Contractor contractor) throws StsDuplicateException {
-		if (isExistsByEmail(contractor.getEmail(), "Contractor", getEntityManager())) {
+	public GeneralContractor saveContractor(GeneralContractor contractor) throws StsDuplicateException {
+		if (isExistsByEmail(contractor.getEmail(), "GeneralContractor", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
 		}
 		getEntityManager().merge(contractor);
@@ -48,8 +49,8 @@ public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implemen
 
 	@Override
 	@Transactional
-	public Contractor updateContractor(Contractor contractor) throws StsDuplicateException {
-		Contractor object = getByEmail(contractor.getEmail(), "Contractor", getEntityManager());
+	public GeneralContractor updateContractor(GeneralContractor contractor) throws StsDuplicateException {
+		GeneralContractor object = getByEmail(contractor.getEmail(), "GeneralContractor", getEntityManager());
 		if (object != null && object.getId() != contractor.getId()) {
 			throw new StsDuplicateException("duplicate_email");
 		}

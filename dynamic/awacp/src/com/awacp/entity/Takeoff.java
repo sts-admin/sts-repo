@@ -49,6 +49,9 @@ public class Takeoff extends BaseEntity {
 	private Calendar dueDate;
 	private String drawingReceivedFrom;
 	private String takeOffComment;
+	
+	private String createdByUserCode; // Code of the User created this record.
+	private String updatedByUserCode; // Code of the user update this record.
 
 	private Set<Bidder> bidders;
 	private Set<GeneralContractor> generalContractors;
@@ -289,5 +292,26 @@ public class Takeoff extends BaseEntity {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	@NotNull
+	@Column(nullable = false, length = 10)
+	public String getCreatedByUserCode() {
+		return createdByUserCode;
+	}
+
+	public void setCreatedByUserCode(String createdByUserCode) {
+		this.createdByUserCode = createdByUserCode;
+	}
+	
+	@Column(nullable = true, length = 10)
+	public String getUpdatedByUserCode() {
+		return updatedByUserCode;
+	}
+
+	public void setUpdatedByUserCode(String updatedByUserCode) {
+		this.updatedByUserCode = updatedByUserCode;
+	}
+	
+	
 
 }

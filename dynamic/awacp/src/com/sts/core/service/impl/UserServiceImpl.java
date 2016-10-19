@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.service.RoleService;
-import com.awacp.service.impl.CommonServiceImpl;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsCoreResponse;
@@ -28,7 +27,7 @@ import com.sts.core.service.UserService;
 import com.sts.core.util.ConversionUtil;
 import com.sts.core.util.SecurityEncryptor;
 
-public class UserServiceImpl extends CommonServiceImpl<User> implements UserService {
+public class UserServiceImpl extends CommonServiceImpl<User>implements UserService {
 
 	@Autowired
 	RoleService roleService;
@@ -378,6 +377,7 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 	}
 
 	@Override
+
 	@Transactional
 	public Address saveAddress(Address address) {
 		if (address.getId() == null) {
@@ -402,6 +402,40 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 		return (String) getEntityManager().createNamedQuery("User.getCode").setParameter("email", userNameOrEmail)
 				.setParameter("userName", userNameOrEmail).getSingleResult();
 
+	}
+
+	@Override
+	public UserDTO getUserMinimumInfo(String userNameOrEmail) {
+		return setMinimumUserInfo(getUserDetails(userNameOrEmail, userNameOrEmail));
+	}
+
+	@Override
+	public UserDTO getUserMinimumInfo(Long userId) {
+		return setMinimumUserInfo(findUser(userId));
+	}
+
+	private UserDTO setMinimumUserInfo(User user) {
+		UserDTO dto = null;
+		if (user != null) {
+			dto = new UserDTO();
+			dto.setId(user.getId());
+			dto.setUserCode(user.getUserCode());
+			StringBuffer name = new StringBuffer(user.getFirstName());
+			if (user.getMiddleName() != null) {
+				name.append(" ").append(user.getMiddleName());
+			}
+			if (user.getLastName() != null) {
+				name.append(" ").append(user.getLastName());
+			}
+			dto.setFullName(name.toString());
+			if (user.getUserName() != null) {
+				dto.setUserName(user.getUserName());
+			} else {
+				dto.setUserName(user.getEmail());
+			}
+
+		}
+		return dto;
 	}
 
 }

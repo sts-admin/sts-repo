@@ -17,20 +17,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Engineer;
 import com.awacp.service.EngineerService;
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class EngineerServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
-	private EngineerService EngineerService;
+	private EngineerService engineerService;
 
 	@GET
 	@Path("/listEngineers/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<Engineer> listEngineer(@PathParam("pageNumber") int pageNumber,
 			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.EngineerService.listEngineers(pageNumber, pageSize);
+		return this.engineerService.listEngineers(pageNumber, pageSize);
 	}
 
 	@GET
@@ -38,27 +40,51 @@ public class EngineerServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Engineer getEngineer(@QueryParam("EngineerId") Long EngineerId, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.EngineerService.getEngineer(EngineerId);
+		return this.engineerService.getEngineer(EngineerId);
 	}
 
 	@POST
 	@Path("/saveEngineer")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Engineer saveEngineer(Engineer Engineer, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.EngineerService.saveEngineer(Engineer);
+	public Engineer saveEngineer(Engineer engineer, @Context HttpServletResponse servletResponse) throws IOException {
+		Engineer object = null;
+		try {
+			object = this.engineerService.saveEngineer(engineer);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
 	@POST
 	@Path("/updateEngineer")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Engineer updateEngineer(Engineer Engineer, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.EngineerService.updateEngineer(Engineer);
+	public Engineer updateEngineer(Engineer engineer, @Context HttpServletResponse servletResponse) throws IOException {
+		Engineer object = null;
+		try {
+			object = this.engineerService.saveEngineer(engineer);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
-	public void setEngineerService(EngineerService EngineerService) {
-		this.EngineerService = EngineerService;
+	public void setEngineerService(EngineerService engineerService) {
+		this.engineerService = engineerService;
 	}
 
 }

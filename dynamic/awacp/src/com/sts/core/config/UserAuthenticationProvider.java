@@ -44,6 +44,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 		if (user == null) {
 			return auth;
 		}
+
 		List<GrantedAuthority> grantedAuths = new ArrayList<>();
 		String role = user.getRole().getRoleName();
 
@@ -55,7 +56,8 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 			}
 		}
 
-		grantedAuths.add(new CustomGrantedAuthority(role, userNameOrEmail, loginType));
+		grantedAuths.add(new CustomGrantedAuthority(role, userNameOrEmail, loginType, user.getUserCode(),
+				user.getId().toString()));
 		auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
 		return auth;
 	}
