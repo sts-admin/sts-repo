@@ -36,9 +36,9 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/getArchitect/{architectId}")
+	@Path("/getArchitect/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Architect getArchitect(@PathParam("architectId") Long architectId,
+	public Architect getArchitect(@PathParam("id") Long architectId,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.architectService.getArchitect(architectId);
 	}

@@ -9,7 +9,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -36,11 +35,11 @@ public class EngineerServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/getEngineer")
+	@Path("/getEngineer/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Engineer getEngineer(@QueryParam("EngineerId") Long EngineerId, @Context HttpServletResponse servletResponse)
+	public Engineer getEngineer(@PathParam("id") Long engineerId, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.engineerService.getEngineer(EngineerId);
+		return this.engineerService.getEngineer(engineerId);
 	}
 
 	@POST
@@ -70,7 +69,7 @@ public class EngineerServiceEndpoint extends CrossOriginFilter {
 	public Engineer updateEngineer(Engineer engineer, @Context HttpServletResponse servletResponse) throws IOException {
 		Engineer object = null;
 		try {
-			object = this.engineerService.saveEngineer(engineer);
+			object = this.engineerService.updateEngineer(engineer);
 		} catch (StsCoreException e) {
 			Integer code = 500;
 			final String message = e.getMessage().toLowerCase();

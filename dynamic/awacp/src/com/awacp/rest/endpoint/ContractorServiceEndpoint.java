@@ -9,7 +9,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -102,11 +101,18 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/getContractor")
+	@Path("/getContractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Contractor getContractor(@QueryParam("contractorId") Long contractorId,
+	public Contractor getContractor(@PathParam("id") Long contractorId,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.contractorService.getContractor(contractorId);
+	}
+	@GET
+	@Path("/getGc/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public GeneralContractor getGc(@PathParam("id") Long contractorId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.generalContractorService.getContractor(contractorId);
 	}
 
 	@POST
@@ -155,11 +161,11 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	@Path("/saveGc")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public GeneralContractor saveGc(GeneralContractor contractor, @Context HttpServletResponse servletResponse)
+	public GeneralContractor saveGc(GeneralContractor generalContractor, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		GeneralContractor object = null;
 		try {
-			object = this.generalContractorService.updateContractor(contractor);
+			object = this.generalContractorService.updateContractor(generalContractor);
 		} catch (StsCoreException e) {
 			Integer code = 500;
 			final String message = e.getMessage().toLowerCase();
@@ -176,11 +182,11 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	@Path("/updateGc")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public GeneralContractor updateGc(GeneralContractor contractor, @Context HttpServletResponse servletResponse)
+	public GeneralContractor updateGc(GeneralContractor generalContractor, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		GeneralContractor object = null;
 		try {
-			object = this.generalContractorService.updateContractor(contractor);
+			object = this.generalContractorService.updateContractor(generalContractor);
 		} catch (StsCoreException e) {
 			Integer code = 500;
 			final String message = e.getMessage().toLowerCase();

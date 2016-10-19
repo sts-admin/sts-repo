@@ -3,16 +3,22 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Architect;
 import com.awacp.service.ArchitectService;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.entity.User;
 import com.sts.core.exception.StsDuplicateException;
+import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
 public class ArchitectServiceImpl extends CommonServiceImpl<Architect>implements ArchitectService {
 	private EntityManager entityManager;
+
+	@Autowired
+	UserService userService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -25,7 +31,19 @@ public class ArchitectServiceImpl extends CommonServiceImpl<Architect>implements
 
 	@Override
 	public StsResponse<Architect> listArchitects(int pageNumber, int pageSize) {
-		return listAll(pageNumber, pageSize, Architect.class.getSimpleName(), getEntityManager());
+		return initAdditionalInfo(listAll(pageNumber, pageSize, Architect.class.getSimpleName(), getEntityManager()));
+	}
+
+	private StsResponse<Architect> initAdditionalInfo(StsResponse<Architect> results) {
+		if (results.getResults() == null)
+			return null;
+		for (Architect object : results.getResults()) {
+			User user = userService.findUser(object.getSalesPerson());
+			if (user != null) {
+				object.setSalesPersonName(user.getFirstName() + " " + user.getLastName());
+			}
+		}
+		return results;
 	}
 
 	@Override

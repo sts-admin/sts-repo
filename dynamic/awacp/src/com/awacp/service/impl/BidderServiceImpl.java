@@ -3,16 +3,20 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Bidder;
-import com.awacp.entity.Contractor;
 import com.awacp.service.BidderService;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.entity.User;
 import com.sts.core.exception.StsDuplicateException;
+import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
 public class BidderServiceImpl extends CommonServiceImpl<Bidder>implements BidderService {
+	@Autowired
+	UserService userService;
 
 	private EntityManager entityManager;
 
@@ -27,8 +31,19 @@ public class BidderServiceImpl extends CommonServiceImpl<Bidder>implements Bidde
 
 	@Override
 	public StsResponse<Bidder> listBidders(int pageNumber, int pageSize) {
-		return listAll(pageNumber, pageSize, Bidder.class.getSimpleName(), getEntityManager());
+		return initAdditionalInfo(listAll(pageNumber, pageSize, Bidder.class.getSimpleName(), getEntityManager()));
 
+	}
+	private StsResponse<Bidder> initAdditionalInfo(StsResponse<Bidder> results) {
+		if (results.getResults() == null)
+			return null;
+		for (Bidder object : results.getResults()) {
+			User user = userService.findUser(object.getSalesPerson());
+			if (user != null) {
+				object.setSalesPersonName(user.getFirstName() + " " + user.getLastName());
+			}
+		}
+		return results;
 	}
 
 	@Override

@@ -7,8 +7,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -32,15 +32,15 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/listTakeoffs/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StsResponse<Takeoff> listTakeoffs(@QueryParam("pageNumber") int pageNumber,
-			@QueryParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+	public StsResponse<Takeoff> listTakeoffs(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.takeoffService.listTakeoffs(pageNumber, pageSize);
 	}
 
 	@GET
-	@Path("/getTakeoff")
+	@Path("/getTakeoff/{takeoffId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Takeoff getTakeoff(@QueryParam("takeoffId") Long takeoffId, @Context HttpServletResponse servletResponse)
+	public Takeoff getTakeoff(@PathParam("takeoffId") Long takeoffId, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		return this.takeoffService.getTakeoff(takeoffId);
 	}
@@ -64,15 +64,15 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/listSpecifications/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StsResponse<Specification> listSpecifications(@QueryParam("pageNumber") int pageNumber,
-			@QueryParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+	public StsResponse<Specification> listSpecifications(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.specificationService.listSpecifications(pageNumber, pageSize);
 	}
 
 	@GET
-	@Path("/getSpecification")
+	@Path("/getSpecification/{specificationId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Specification getSpecification(@QueryParam("specificationId") Long specificationId,
+	public Specification getSpecification(@PathParam("specificationId") Long specificationId,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.specificationService.getSpecification(specificationId);
 	}

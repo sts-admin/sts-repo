@@ -3,17 +3,21 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Architect;
 import com.awacp.entity.Contractor;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.service.ContractorService;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.entity.User;
 import com.sts.core.exception.StsDuplicateException;
+import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
 public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implements ContractorService {
+	@Autowired
+	UserService userService;
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -26,8 +30,19 @@ public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implemen
 	}
 
 	@Override
-	public StsResponse<com.awacp.entity.Contractor> listContractors(int pageNumber, int pageSize) {
-		return listAll(pageNumber, pageSize, GeneralContractor.class.getSimpleName(), getEntityManager());
+	public StsResponse<Contractor> listContractors(int pageNumber, int pageSize) {
+		return initAdditionalInfo(listAll(pageNumber, pageSize, Contractor.class.getSimpleName(), getEntityManager()));
+	}
+	private StsResponse<Contractor> initAdditionalInfo(StsResponse<Contractor> results) {
+		if (results.getResults() == null)
+			return null;
+		for (Contractor object : results.getResults()) {
+			User user = userService.findUser(object.getSalesPerson());
+			if (user != null) {
+				object.setSalesPersonName(user.getFirstName() + " " + user.getLastName());
+			}
+		}
+		return results;
 	}
 
 	@Override

@@ -11,21 +11,23 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+public class LogoutHandler implements LogoutSuccessHandler {
 
-public class LogoutHandler implements LogoutSuccessHandler  {
-	
-	private TokenStore  tokenStore;
+	private TokenStore tokenStore;
 
 	public void setTokenStore(TokenStore tokenStore) {
 		this.tokenStore = tokenStore;
 	}
 
 	@Override
-	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-		String tokens=request.getHeader("Authorization");
-		String value=tokens.substring(tokens.indexOf(" ")).trim(); 
-		((JdbcTokenStore)tokenStore).removeAccessToken(value);
-		response.getOutputStream().write("You have successfully logged out.".getBytes());
+	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+			throws IOException, ServletException {
+		String tokens = request.getHeader("Authorization");
+		if (tokens != null && !tokens.isEmpty()) {
+			String value = tokens.substring(tokens.indexOf(" ")).trim();
+			((JdbcTokenStore) tokenStore).removeAccessToken(value);
+			response.getOutputStream().write("You have successfully logged out.".getBytes());
+		}
+
 	}
 }
-

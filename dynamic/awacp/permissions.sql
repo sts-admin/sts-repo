@@ -103,6 +103,11 @@ VALUES('j_c',0,1,CURRENT_TIMESTAMP,NULL,'Create/Add',NULL,1,'J', 'j-add'),
 ('j_remind',0,1,CURRENT_TIMESTAMP,NULL,'Low Inv Remind',NULL,1,'J', NULL);
 /*JOB permission end*/
 
+/*Collection permission begin*/
+INSERT INTO `awacp`.`permission`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`)
+VALUES('collection',0,1,CURRENT_TIMESTAMP,NULL,'Manage Collection',NULL,1,'Collection', 'collections');
+/*Collection permission end*/
+
 /*Marketing permission begin*/
 INSERT INTO `awacp`.`permission`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`)
 VALUES('marketing_template',0,1,CURRENT_TIMESTAMP,NULL,'Manage Template',NULL,1,'Marketing', 'marketing-templates'),
