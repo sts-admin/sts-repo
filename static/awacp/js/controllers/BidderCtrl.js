@@ -1,9 +1,10 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('BidderCtrl', BidderCtrl);
-	BidderCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$stateParams', '$compile', 'AlertService'];
-	function BidderCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $stateParams){
+	BidderCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval','$compile', '$stateParams', 'AlertService', 'StoreService'];
+	function BidderCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, $stateParams, AlertService, StoreService){
 		var bidVm = this;
+		bidVm.action = "Add";
 		bidVm.spinnerUrl = "<img src='images/loading.gif' />";
 		bidVm.totalItems = -1;
 		bidVm.currentPage = 1;
@@ -13,8 +14,6 @@
 		$scope.timers = [];
 		bidVm.bidders= [];
 		bidVm.bidder = {};
-		bidVm.countries = [];
-		bidVm.states = [];
 		bidVm.users = [];
 		
 		bidVm.pageChanged = function() {
@@ -25,47 +24,29 @@
 			$state.go("bidders");
 		}
 		
-	   bidVm.initCountries = function(){
-			bidVm.countries = [];
-			AjaxUtil.listCountries(function(result, status){
-				if("success" === status){
-					bidVm.countries = result;
-				}else{
-					jqXHR.errorSource = "BidderCtrl::bidVm.initCountries::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
-		}
-		bidVm.getStates = function(){
-			bidVm.states = [];
-			AjaxUtil.listStates(bidVm.bidder.country.id, function(result, status){				
-				if("success" === status){
-					$scope.$apply(function(){
-						bidVm.states = result;
-					});					
-				}else{
-					jqXHR.errorSource = "BidderCtrl::bidVm.getStates::Error, countryId = " + bidVm.bidder.country.id;
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
-		}
+
 		bidVm.getUsers = function(){
 			bidVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						v.customName = v.userCode + " - "+ v.firstName;
-						tmp.push(v);
-					});
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							v.customName = v.userCode + " - "+ v.firstName;
+							tmp.push(v);
+						});
+					}	
+					
 					$scope.$apply(function(){
 						bidVm.users = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "TakeoffCtrl::bidVm.getUsers::Error";
+				jqXHR.errorSource = "BidderCtrl::bidVm.getUsers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 			
@@ -79,32 +60,48 @@
 					if(data && data.bidder){
 						data.bidder.customName = data.bidder.userCode + " - "+ data.bidder.firstName;
 						$scope.$apply(function(){
-							bidVm.bidder = data.bidder;							
+							bidVm.bidder = data.bidder;		
+							bidVm.action = bidVm.bidder && bidVm.bidder.id?"Update":"Add";	
 						});
-						bidVm.initCountries();
-						bidVm.getStates();
 						bidVm.getUsers();
 						
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "BidderCtrl::bidVm.getBidders::Error";
+					jqXHR.errorSource = "BidderCtrl::bidVm.editBidder::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				})
 			}
 		}
 		
 		bidVm.addBidder = function(){
-			AjaxUtil.toggleSpinner('login-submit', 'loading_span', bidVm.spinnerUrl, "disable");
+			//AjaxUtil.toggleSpinner('login-submit', 'loading_span', bidVm.spinnerUrl, "disable");
+			var message = "Bidder Detail Created Successfully, add more?";
+			var url = "/awacp/saveBidder";
+			var update = false;
+			if(bidVm.bidder && bidVm.bidder.id){
+				message = "Bidder Detail Updated Successfully";
+				bidVm.bidder.updatedByUserCode = StoreService.getUser().userCode;
+				url = "/awacp/updateBidder";
+				update = true;
+			}else{
+				bidVm.bidder.createdByUserCode = StoreService.getUser().userCode;
+			}
+			alert(url);
 			var formData = {};
 			formData["bidder"] = bidVm.bidder;
-			AjaxUtil.submitData("/awacp/saveBidder", formData)
-			.success(function(data, status, headers){				
-				bidVm.bidder = {};
-				var message = "Bidder Detail Created Successfully, add more?";
-				AlertService.showConfirm('AWACP :: Alert!', message)
-				.then(function (){return},function (){bidVm.cancelBidderAction();});
-				return;
+			AjaxUtil.submitData(url, formData)
+			.success(function(data, status, headers){	
+				//bidVm.bidder = {};
+				if(update){
+					AlertService.showAlert(	'AWACP :: Alert!', message)
+					.then(function (){bidVm.cancelBidderAction();},function (){return false;});
+					return;
+				}else{
+					AlertService.showConfirm(	'AWACP :: Alert!', message)
+					.then(function (){return},function (){bidVm.cancelBidderAction();});
+					return;
+				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "BidderCtrl::bidVm.addBidder::Error";
@@ -113,7 +110,6 @@
 		}
 		bidVm.initBidderMasterInputs = function(){
 			if($state.params.id == undefined){
-			   bidVm.initCountries();
 			   bidVm.getUsers();
 		    }
 		}

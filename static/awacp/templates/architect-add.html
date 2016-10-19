@@ -4,7 +4,7 @@
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="arcVm.initArchitectMasterInputs()">
 			<div class="panel-heading form-heading">
-				<label>Add Architect Detail</label>				
+				<label>{{arcVm.action}} Architect Detail</label>				
 			</div>
 			<div class="panel-body">
 				<form ng-submit="arcVm.addArchitect();">
@@ -20,66 +20,9 @@
 					  <!-- .col -->
 					  <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
-						  <input type="text" placeholder="Architect Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Architect Name');" onkeypress="this.setCustomValidity('');" ng-model="arcVm.architect.architectTitle" ng-required="true" autofocus />
+						  <input type="text" placeholder="Architect Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Architect Name');" onkeypress="this.setCustomValidity('');" ng-model="arcVm.architect.name" ng-required="true" autofocus />
 						</div>
 					  </div>
-											  <!-- .col -->
-					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-						<span class="form-label">Country</span>
-						<i class="star red">*</i>
-						<span class="colon">:</span> 
-					</div>
-					  <!-- .col -->
-					  <div class="col-lg-10 col-md-10 col-sm-9">
-						<div class="form-group">
-							<select class="form-control"
-							  ng-model="arcVm.architect.country.id" 
-							  ng-options="country.id as country.countryName for country in arcVm.countries"  ng-change="arcVm.getStates();" ng-required = "true">
-							  <option value="">--- Select ---</option>
-							</select>
-						</div>
-					  </div>
-					   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							<span class="form-label">State</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> 
-						</div>
-					  <!-- .col -->
-					  <div class="col-lg-10 col-md-10 col-sm-9">
-						<div class="form-group">
-						 <select class="form-control" 
-							  ng-model="arcVm.architect.state.id" 
-							  ng-options="state.id as state.stateName for state in arcVm.states" ng-required = "true">
-							  <option value="">--- Select ---</option>
-							</select>
-						</div>
-					  </div>
-					  <!-- .col -->
-					  <!-- .col -->
-					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-						<span class="form-label">Street</span>
-						<i class="star red">*</i>
-						<span class="colon">:</span> 
-					</div>
-					  <!-- .col -->
-					  <div class="col-lg-10 col-md-10 col-sm-9">
-						<div class="form-group">
-						  <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" oninvalid="this.setCustomValidity('Enter Street');" onkeypress="this.setCustomValidity('');" ng-model="arcVm.architect.street" ng-required="true" />
-						</div>
-					  </div>
-					  <!-- .col -->
-					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-					  <span class="form-label">City</span>
-					  <i class="star red">*</i>
-					  <span class="colon">:</span> 
-					 </div>
-					  <!-- .col -->
-					  <div class="col-lg-10 col-md-10 col-sm-9">
-						<div class="form-group">
-						  <input type="text" class="form-control" placeholder="Enter City" maxlength="100" oninvalid="this.setCustomValidity('Enter City');" onkeypress="this.setCustomValidity('');" ng-model="arcVm.architect.city" ng-required="true"/>
-						</div>
-					  </div>
-
 					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 						<span class="form-label">Email ID</span>
 						<i class="star red">*</i>
@@ -88,28 +31,6 @@
 					  <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
 						  <input type="email" class="form-control" placeholder="Enter Email" maxlength="100" oninvalid="this.setCustomValidity('Enter Email');" onkeypress="this.setCustomValidity('');" ng-model="arcVm.architect.email" ng-required="true" />
-						</div>
-					  </div>
-					 
-					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Phone</span><span class="colon">:</span> </div>
-					  <!-- .col -->
-					  <div class="col-lg-10 col-md-10 col-sm-9">
-						<div class="form-group">
-						  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="arcVm.architect.contact" ng-required="true"  />
-						</div>
-					  </div>
-					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Fax</span><span class="colon">:</span> </div>
-					  <!-- .col -->
-					  <div class="col-lg-10 col-md-10 col-sm-9">
-						<div class="form-group">
-						  <input type="text" class="form-control" maxlength="25" placeholder="Enter Fax No" ng-model="arcVm.architect.fax" />
-						</div>
-					  </div>
-					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Website</span><span class="colon">:</span> </div>
-					  <!-- .col -->
-					  <div class="col-lg-10 col-md-10 col-sm-9">
-						<div class="form-group">
-						  <input type="text" class="form-control" placeholder="Enter Website URL" maxlength="100" ng-model="arcVm.architect.website" />
 						</div>
 					  </div>
 					   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -127,6 +48,70 @@
 							</select>
 						</div>
 					  </div>
+					
+					  <!-- .col -->
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+						<span class="form-label">Address</span>
+						<span class="colon">:</span> 
+					</div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" oninvalid="this.setCustomValidity('Enter Street');" onkeypress="this.setCustomValidity('');" ng-model="arcVm.architect.address"/>
+						</div>
+					  </div>
+					  <!-- .col -->
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+					  <span class="form-label">City</span>
+					  <span class="colon">:</span> 
+					 </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter City" maxlength="100" oninvalid="this.setCustomValidity('Enter City');" onkeypress="this.setCustomValidity('');" ng-model="arcVm.architect.city" />
+						</div>
+					  </div>
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+					  <span class="form-label">State</span>
+					  <span class="colon">:</span> 
+					 </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter City" maxlength="100" oninvalid="this.setCustomValidity('Enter City');" onkeypress="this.setCustomValidity('');" ng-model="arcVm.architect.state" />
+						</div>
+					  </div>
+
+					   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Zip</span><span class="colon">:</span> </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="arcVm.architect.zip" />
+						</div>
+					  </div>
+					 
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Phone</span><span class="colon">:</span> </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="arcVm.architect.contact" />
+						</div>
+					  </div>
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Fax</span><span class="colon">:</span> </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" maxlength="25" placeholder="Enter Fax No" ng-model="arcVm.architect.fax" />
+						</div>
+					  </div>
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Website</span><span class="colon">:</span> </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter Website URL" maxlength="100" ng-model="arcVm.architect.website" />
+						</div>
+					  </div>
+					  
 					  <!-- .col -->
 					  <!-- .col -->
 					 
@@ -138,7 +123,7 @@
 					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 					  <!-- .col -->
 					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-						<input type="submit" value="Add Architect" class="submit-btn btn btn-primary">
+						<input type="submit" value="{{arcVm.action}} Architect" class="submit-btn btn btn-primary">
 						<input type="hidden" name="add" value="add" />
 						&nbsp;&nbsp;
 						<input type="reset" value="Reset" class="reset-btn btn btn-warning">

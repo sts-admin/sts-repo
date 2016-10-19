@@ -308,3 +308,7 @@ html, body{height:100%; margin:0;padding:0}
 .widget-clock.blue-light .second-counterweight {
   stroke-width: 1.5;
 }
+.modal-header-css{
+text-align:center; background:#337ab7; color:white; height:50px; border-radius:4px;
+}
+.alert-zindex{z-index:99000 !important;}

@@ -29,15 +29,14 @@
 			UserService.login(userVm.loginForm.userName, userVm.loginForm.password, 'manual')
 			 .success(function (data, response, headers) {	
 				AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "enable");
-				 var authority = "",  userName ="";	 
-				 if(data && data.authorities){ 
-					authority = data.authorities[0].authority; 
-					userName = data.authorities[0].userName; 
-					StoreService.setUserName(userName);
-					StoreService.setRole(authority);
-					if (data.access_token){
-						StoreService.setAccessToken(data.access_token);
-					}
+				 var user = {};
+				 if(data && data.authorities){
+					user["authority"] = data.authorities[0].authority;
+					user["userName"] = data.authorities[0].userName;
+					user["userCode"] = data.authorities[0].userCode;
+					user["userId"] = data.authorities[0].userId;
+					user["token"] = data.access_token;
+					StoreService.setUser(user);
 					$rootScope.setUpUserMenu();
 					$state.go("dashboard");
 				 }

@@ -34,7 +34,7 @@
 				$timeout(function(){
 					$rootScope.$apply(function(){
 						$rootScope.user.isLoggedIn = StoreService.isLoggedIn();
-						$rootScope.user.profileImageUrl = StoreService.profileImageUrl()
+						/*$rootScope.user.profileImageUrl = StoreService.profileImageUrl()*/
 					});					
 				}, 500);
 				

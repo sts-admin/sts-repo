@@ -1,9 +1,10 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('EngineerCtrl', EngineerCtrl);
-	EngineerCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService'];
-	function EngineerCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
+	EngineerCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService'];
+	function EngineerCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var engVm = this;
+		engVm.action = "Add";
 		engVm.totalItems = 0;
 		engVm.currentPage = 1;
 		engVm.pageSize = 5;
@@ -27,30 +28,7 @@
 			$state.go("engineers");
 		}
 		
-		engVm.initCountries = function(){
-			engVm.countries = [];
-			AjaxUtil.listCountries(function(result, status){
-				if("success" === status){
-					engVm.countries = result;
-				}else{
-					jqXHR.errorSource = "ContractorCtrl::engVm.initCountries::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
-		}
-		engVm.getStates = function(){
-			engVm.states = [];
-			AjaxUtil.listStates(engVm.engineer.country.id, function(result, status){				
-				if("success" === status){
-					$scope.$apply(function(){
-						engVm.states = result;
-					});					
-				}else{
-					jqXHR.errorSource = "ContractorCtrl::engVm.getStates::Error, countryId = " + engVm.engineer.country.id;
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
-		}
+		
 		engVm.getUsers = function(){
 			engVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
@@ -78,7 +56,6 @@
 		}
 		
 		engVm.initEngineerMasterInputs = function(){
-			engVm.initCountries();
 			engVm.getUsers();
 		}
 		
@@ -91,10 +68,9 @@
 					if(data && data.engineer){
 						data.engineer.customName = data.engineer.userCode + " - "+ data.engineer.firstName;
 						$scope.$apply(function(){
-							engVm.engineer = data.engineer;							
+							engVm.engineer = data.engineer;	
+							engVm.action = engVm.engineer && engVm.engineer.id?"Update":"Add";							
 						});
-						engVm.initCountries();
-						engVm.getStates();
 						engVm.getUsers();
 						
 					}
@@ -133,23 +109,39 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "UserCtrl::engVm.getEngineers::Error";
+				jqXHR.errorSource = "Engineer::engVm.getEngineers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		
 		engVm.addEngineer = function(){
+			var message = "Engineer Detail Created Successfully, add more?";
+			var url = "/awacp/saveEngineer";
+			var update = false;
+			if(engVm.engineer && engVm.engineer.id){
+				message = "Engineer Detail Updated Successfully";
+				engVm.engineer.updatedByUserCode = StoreService.getUser().userCode;
+				url = "/awacp/updateEngineer";
+				update = true;
+			}else{
+				engVm.engineer.createdByUserCode = StoreService.getUser().userCode;
+			}
 			var formData = {};
 			formData["engineer"] = engVm.engineer;
-			AjaxUtil.submitData("/awacp/saveEngineer", formData)
+			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
-				var message = "Engineer Detail Created Successfully, add more?";
-				AlertService.showConfirm(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){engVm.cancelEngineerAction();});
-				return;
+				if(update){
+					AlertService.showAlert(	'AWACP :: Alert!', message)
+					.then(function (){engVm.cancelEngineerAction();},function (){return false;});
+					return;
+				}else{
+					AlertService.showConfirm(	'AWACP :: Alert!', message)
+					.then(function (){return},function (){engVm.cancelEngineerAction();});
+					return;
+				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "ContractorCtrl::engVm.addContractor::Error";
+				jqXHR.errorSource = "EngineerCtrl::engVm.addEngineer::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}

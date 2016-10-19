@@ -8,7 +8,7 @@
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="bidVm.initBidderMasterInputs()">
 				<div class="panel-heading form-heading">
-					<label>Add bidder Detail</label>				
+					<label>{{bidVm.action}} bidder Detail</label>				
 				</div>
 				<div class="panel-body">
 					<form ng-submit="bidVm.addBidder();">
@@ -24,50 +24,45 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Bidder Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Bidder Name');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.bidderTitle" ng-required="true" autofocus />
+							  <input type="text" placeholder="Bidder Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Bidder Name');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.name" ng-required="true" autofocus />
 							</div>
 						  </div>
-						  						  <!-- .col -->
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">Country</span>
+						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Email ID</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="email" class="form-control" placeholder="Enter Email" maxlength="100" oninvalid="this.setCustomValidity('Enter Email');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.email"  />
+							</div>
+						  </div>
+						  	   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Sales Person</span>
 							<i class="star red">*</i>
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-								<select class="form-control"
-								  ng-model="bidVm.bidder.country.id"
-								  ng-options="country.id as country.countryName for country in bidVm.countries"  ng-change="bidVm.getStates();" ng-required = "true">
-								</select>
-							</div>
-						  </div>
-						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-								<span class="form-label">State</span>
-								<i class="star red">*</i>
-								<span class="colon">:</span> 
-							</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							 <select class="form-control" 
-								  ng-model="bidVm.bidder.state.id" 
-								  ng-options="state.id as state.stateName for state in bidVm.states" >
+							 <select class="form-control"
+								  ng-model="bidVm.bidder.salesPerson" 
+								  ng-options="user.id as user.customName for user in bidVm.users" ng-required = "true">
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
-						  </div>
+						  </div>					  <!-- .col -->
+						 
 						  <!-- .col -->
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							<span class="form-label">Street</span>
-							<i class="star red">*</i>
+							<span class="form-label">Address</span>
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" oninvalid="this.setCustomValidity('Enter Street');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.street" ng-required="true" />
+							  <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" oninvalid="this.setCustomValidity('Enter Street');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.street" />
 							</div>
 						  </div>
 						  <!-- .col -->
@@ -79,26 +74,34 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter City" maxlength="100" oninvalid="this.setCustomValidity('Enter City');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.city" ng-required="true"/>
+							  <input type="text" class="form-control" placeholder="Enter City" maxlength="100" oninvalid="this.setCustomValidity('Enter City');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.city" />
 							</div>
 						  </div>
 
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">Email ID</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> </div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							  <input type="email" class="form-control" placeholder="Enter Email" maxlength="100" oninvalid="this.setCustomValidity('Enter Email');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.email" ng-required="true" />
-							</div>
-						  </div>
+						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+					  <span class="form-label">State</span>
+					  <span class="colon">:</span> 
+					 </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter State" maxlength="100" oninvalid="this.setCustomValidity('Enter State');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.state" />
+						</div>
+					  </div>
+
+					   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Zip</span><span class="colon">:</span> </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="bidVm.bidder.zip" />
+						</div>
+					  </div>
 						 
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Phone</span><span class="colon">:</span> </div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="bidVm.bidder.phone" ng-required="true"  />
+							  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="bidVm.bidder.phone"   />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Fax</span><span class="colon">:</span> </div>
@@ -115,21 +118,7 @@
 							  <input type="text" class="form-control" placeholder="Enter Website URL" maxlength="100" ng-model="bidVm.bidder.website" />
 							</div>
 						  </div>
-						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">Sales Person</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							 <select class="form-control"
-								  ng-model="bidVm.bidder.salesPerson" 
-								  ng-options="user.id as user.customName for user in bidVm.users" ng-required = "true">
-								  <option value="">--- Select ---</option>
-								</select>
-							</div>
-						  </div>
+						
 						  <!-- .col -->
 						  <!-- .col -->
 						 
@@ -141,7 +130,7 @@
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 						  <!-- .col -->
 						  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-							<input type="submit" value="Add Bidder" class="submit-btn btn btn-primary">
+							<input type="submit" value="{{bidVm.action}} Bidder" class="submit-btn btn btn-primary">
 							<input type="hidden" name="add" value="add" />
 							&nbsp;&nbsp;
 							<input type="reset" value="Reset" class="reset-btn btn btn-warning">

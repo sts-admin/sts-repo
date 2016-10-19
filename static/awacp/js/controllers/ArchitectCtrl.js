@@ -1,9 +1,10 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('ArchitectCtrl', ArchitectCtrl);
-	ArchitectCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService'];
-	function ArchitectCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
+	ArchitectCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService'];
+	function ArchitectCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var arcVm = this;
+		arcVm.action = "Add";
 		$scope.timers = [];
 		arcVm.totalItems = -1;
 		arcVm.currentPage = 1;
@@ -16,30 +17,6 @@
 		};		
 		arcVm.cancelArchitectAction = function(){
 			$state.go("architects");
-		}		
-		arcVm.initCountries = function(){
-			arcVm.countries = [];
-			AjaxUtil.listCountries(function(result, status){
-				if("success" === status){
-					arcVm.countries = result;
-				}else{
-					jqXHR.errorSource = "ArchitectCtrl::arcVm.initCountries::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
-		}
-		arcVm.getStates = function(){
-			arcVm.states = [];
-			AjaxUtil.listStates(arcVm.architect.country.id, function(result, status){				
-				if("success" === status){
-					$scope.$apply(function(){
-						arcVm.states = result;
-					});					
-				}else{
-					jqXHR.errorSource = "ArchitectCtrl::arcVm.getStates::Error, countryId = " + arcVm.architect.country.id;
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
 		}
 		arcVm.getUsers = function(){
 			arcVm.users = [];
@@ -63,23 +40,20 @@
 		}
 		
 		arcVm.initArchitectMasterInputs = function(){
-			arcVm.initCountries();
 			arcVm.getUsers();
 		}
 		
 		 arcVm.editArchitect = function(){
 			if($state.params.id != undefined){
 				var formData = {};
-				formData["architect"] = arcVm.architect;
-				AjaxUtil.getData("/awacp/getArchitect/"+$state.params.id, formData)
+				AjaxUtil.getData("/awacp/getArchitect/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.architect){
 						data.architect.customName = data.architect.userCode + " - "+ data.architect.firstName;
 						$scope.$apply(function(){
-							arcVm.architect = data.architect;							
+							arcVm.architect = data.architect;	
+							arcVm.action = arcVm.architect && arcVm.architect.id?"Update":"Add";							
 						});
-						arcVm.initCountries();
-						arcVm.getStates();
 						arcVm.getUsers();
 						
 					}
@@ -124,16 +98,44 @@
 		}
 		
 		arcVm.addArchitect = function(){
-			var formData = {};
+			var message = "Architecture Detail Created Successfully, add more?";
+			var url = "/awacp/saveArchitect";
+			var update = false;
+			if(arcVm.architect && arcVm.architect.id){
+				message = "Architecture Detail Updated Successfully";
+				arcVm.architect.updatedByUserCode = StoreService.getUser().userCode;
+				url = "/awacp/updateArchitect";
+				update = true;
+			}else{
+				arcVm.architect.createdByUserCode = StoreService.getUser().userCode;
+			}
+			var formData = {};			
 			formData["architect"] = arcVm.architect;
-			AjaxUtil.submitData("/awacp/saveArchitect", formData)
+			alert(JSON.stringify(formData, null, 4));
+			
+			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
-				var message = "Architecture Detail Created Successfully, add more?";
-				AlertService.showConfirm(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){arcVm.cancelArchitectAction();});
-				return;
+				if(update){
+					AlertService.showAlert(	'AWACP :: Alert!', message)
+					.then(function (){arcVm.cancelArchitectAction();},function (){return false;});
+					return;
+				}else{
+					AlertService.showConfirm(	'AWACP :: Alert!', message)
+					.then(function (){return},function (){arcVm.cancelArchitectAction();});
+					return;
+				}
+				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
+				var message = "";
+				if(1002 == jqXHR.status){
+					message = "Email ID already taken.";
+				}
+				if(message.length > 0){
+					AlertService.showAlert(	'AWACP :: Alert!', message)
+					.then(function (){return},function (){return});
+					return;
+				}
 				jqXHR.errorSource = "ArchitectCtrl::arcVm.addArchitect::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});

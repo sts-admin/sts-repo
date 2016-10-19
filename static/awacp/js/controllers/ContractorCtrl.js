@@ -1,9 +1,10 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('ContractorCtrl', ContractorCtrl);
-	ContractorCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService'];
-	function ContractorCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService){
+	ContractorCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService'];
+	function ContractorCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var conVm = this;
+		conVm.action = "Add";
 	    conVm.totalItems = -1;
 		conVm.currentPage = 1;
 		conVm.pageNumber = 1;
@@ -11,8 +12,6 @@
 		$scope.timers = [];
 		conVm.contractors= [];
 		conVm.contractor = {};
-		conVm.countries = [];
-		conVm.states = [];
 		conVm.users = [];
 		
 		conVm.pageChanged = function() {
@@ -22,30 +21,6 @@
 		
 		conVm.cancelContractorAction = function(){
 			$state.go("contractors");
-		}
-		conVm.initCountries = function(){
-			conVm.countries = [];
-			AjaxUtil.listCountries(function(result, status){
-				if("success" === status){
-					conVm.countries = result;
-				}else{
-					jqXHR.errorSource = "ContractorCtrl::conVm.initCountries::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
-		}
-		conVm.getStates = function(){
-			conVm.states = [];
-			AjaxUtil.listStates(conVm.contractor.country.id, function(result, status){				
-				if("success" === status){
-					$scope.$apply(function(){
-						conVm.states = result;
-					});					
-				}else{
-					jqXHR.errorSource = "ContractorCtrl::conVm.getStates::Error, countryId = " + conVm.contractor.country.id;
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
 		}
 		conVm.getUsers = function(){
 			conVm.users = [];
@@ -68,14 +43,30 @@
 			});
 		}
 		conVm.addContractor = function(){
+			var message = "Contractor Detail Created Successfully, add more?";
+			var url = "/awacp/saveContractor";
+			var update = false;
+			if(conVm.contractor && conVm.contractor.id){
+				message = "Contractor Detail Updated Successfully";
+				conVm.contractor.updatedByUserCode = StoreService.getUser().userCode;
+				url = "/awacp/updateContractor";
+				update = true;
+			}else{
+				conVm.contractor.createdByUserCode = StoreService.getUser().userCode;
+			}
 			var formData = {};
 			formData["contractor"] = conVm.contractor;
-			AjaxUtil.submitData("/awacp/saveContractor", formData)
+			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
-				var message = "Contractor Detail Created Successfully, add more?";
-				AlertService.showConfirm(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){conVm.cancelContractorAction();});
-				return;
+				if(update){
+					AlertService.showAlert(	'AWACP :: Alert!', message)
+					.then(function (){conVm.cancelContractorAction();},function (){return false;});
+					return;
+				}else{
+					AlertService.showConfirm(	'AWACP :: Alert!', message)
+					.then(function (){return},function (){conVm.cancelContractorAction();});
+					return;
+				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "ContractorCtrl::conVm.addContractor::Error";
@@ -83,7 +74,6 @@
 			});
 		}
 		conVm.initContractorMasterInputs = function(){
-			conVm.initCountries();
 			conVm.getUsers();
 		}
 		
@@ -96,16 +86,15 @@
 					if(data && data.contractor){
 						data.contractor.customName = data.contractor.userCode + " - "+ data.contractor.firstName;
 						$scope.$apply(function(){
-							conVm.contractor = data.contractor;							
+							conVm.contractor = data.contractor;	
+							conVm.action = conVm.contractor && conVm.contractor.id?"Update":"Add";							
 						});
-						conVm.initCountries();
-						conVm.getStates();
 						conVm.getUsers();
 						
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "ContractorCtrl::bidVm.getContractors::Error";
+					jqXHR.errorSource = "ContractorCtrl::conVm.editContractor::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				})
 			}

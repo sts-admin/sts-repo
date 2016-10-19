@@ -9,6 +9,7 @@
 			getUser:function(){
 				return store.get('awacp_user');
 			},
+			/*
 			userDisplayName:function(){
 				var user = store.get('awacp_user');
 				if(user!=null){
@@ -23,32 +24,50 @@
 				}
 				return "";
 			},
+			setUserCode:function(userCode){
+				store.set("awacp_userCode", userCode);
+			},
 			setUserName:function(userName){
 				store.set("awacp_userName", userName);
 			},
-			getUserName: function() {
-				return store.get("awacp_userName");
-			},
+			
 			setAccessToken:function(accessToken){
 				store.set("awacp_token", accessToken);
+			}
+			*/
+			getUserCode: function() {
+				var user = this.getUser();
+				if(user !=null){
+					return user.userCode;
+				}
+				return "";
+			},			
+			getUserName: function() {
+				var user = this.getUser();
+				if(user !=null){
+					return user.userName;
+				}
+				return "";
 			},
 			getAccessToken: function() {
-				return store.get('awacp_token');
+				var user = this.getUser();
+				if(user !=null){
+					return user.token;
+				}
+				return "";
 			},
 			isLoggedIn: function() {
-				return !!store.get('awacp_token');
-			},
-			setRole:function(role){
-				store.set("awacp_role", role);
+				var user = this.getUser();
+				return user != null;
 			},
 			getRole:function(){
-				return store.get("awacp_role");
+				if(user !=null){
+					return user.role;
+				}
+				return "";
 			},
 			removeAll:function(){
-				store.remove('awacp_token'); 
-				store.remove('awacp_role');
-				store.remove('awacp_facebook');
-				store.remove('awacp_user');
+				store.remove('awacp_user'); 
 			}
 		};
 	});

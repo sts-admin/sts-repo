@@ -101,6 +101,21 @@
 				templateUrl:"templates/architect-add.html",
 				controller:"ArchitectCtrl",
 				controllerAs:"arcVm"
+			}).state('gcs',{
+				url: '/gcs',
+				templateUrl:"templates/gcs.html",
+				controller:"GeneralContractorCtrl",
+				controllerAs:"gcVm"
+			}).state('gc-add',{
+				url: '/gc/add',
+				templateUrl:"templates/gc-add.html",
+				controller:"GeneralContractorCtrl",
+				controllerAs:"gcVm"
+			}).state('gc-edit',{
+				url: '/gc/edit/:id',
+				templateUrl:"templates/gc-add.html",
+				controller:"GeneralContractorCtrl",
+				controllerAs:"gcVm"
 			}).state('contractors',{
 				url: '/contractors',
 				templateUrl:"templates/contractors.html",
@@ -116,6 +131,21 @@
 				templateUrl:"templates/contractor-add.html",
 				controller:"ContractorCtrl",
 				controllerAs:"conVm"
+			}).state('specifications',{
+				url: '/specifications',
+				templateUrl:"templates/specifications.html",
+				controller:"SpecificationCtrl",
+				controllerAs:"specVm"
+			}).state('specification-add',{
+				url: '/specification/add',
+				templateUrl:"templates/specification-add.html",
+				controller:"SpecificationCtrl",
+				controllerAs:"specVm"
+			}).state('specification-edit',{
+				url: '/specification/edit/:id',
+				templateUrl:"templates/specification-edit.html",
+				controller:"SpecificationCtrl",
+				controllerAs:"specVm"
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
@@ -139,7 +169,7 @@
 			$rootScope.logoutUser =function(){
 				UserService.logout();
 			};			
-			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), profileImageUrl: StoreService.profileImageUrl(), userDisplayName:"Administrator"};
+			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), userDisplayName:"Administrator"};
 			$rootScope.alert = {noService:false};
 			
 			$rootScope.setUpUserMenu = function(){

@@ -9,6 +9,7 @@
 						animation: true,
 						size: "sm",
 						templateUrl: 'templates/alert.html',
+						windowClass:'alert-zindex',
 						controller: function ($scope, $uibModalInstance){
 							$scope.title = title;
 							$scope.message = message;

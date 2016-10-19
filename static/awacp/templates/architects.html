@@ -21,41 +21,40 @@
 					  <div class="table-container">
 						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
 						  <thead>
-							<tr style="background:#02577D;">
-							  <td align="center" style="padding:5px;" width="5%">&nbsp;</td>
-							  <td align="center" style="padding:5px;" width="11%"><input type="text" class="searchtxt form-control" name="user_name" value="" /></td>
-							  <td align="center" style="padding:5px;" width="14%"><input type="text" class="searchtxt form-control" name="user_id" value="" /></td>
-							  <td align="center" style="padding:5px;" width="10%"><input type="text" class="searchtxt form-control" name="user_password" value="" /></td>
-							  <td align="center" style="padding:5px;" width="10%"><input type="text" class="searchtxt form-control" name="usercode" value="" /></td>
-							  <td align="center" style="padding:5px;" width="17%"><input type="text" class="searchtxt form-control" name="email" value="" /></td>
-							  <td align="center" style="padding:5px;" width="8%"><input type="text" class="searchtxt form-control" name="role" value="" /></td>
-							  <td align="center" style="padding:5px;" width="15%">&nbsp;</td>
-							  <td align="center" style="padding:5px;" width="10%"><input type="hidden" class="searchtxt form-control" name="status" id="status" value="" /></td>
-							</tr>
 							<tr style="background:#042F51;">
 							  <td style="padding:5px; color:#FFF;" align="center">S. No.</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Name</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Country</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Architect</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Address</td>
+							  <td style="padding:5px; color:#FFF;" align="center">City</td>
 							  <td style="padding:5px; color:#FFF;" align="center">State</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Street</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Email ID</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Zip</td>
 							  <td style="padding:5px; color:#FFF;" align="center">Phone</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Date Created</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Fax</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Email</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Website</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Sales Person</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Created By (UC)</td>
+							   <td style="padding:5px; color:#FFF;" align="center">Updated By (UC)</td>
 							  <td style="padding:5px; color:#FFF;" filter="false" align="center"></td>
 							</tr>
 						  </thead>
 						  <tbody>
 							<tr height="25" ng-repeat="architect in arcVm.architects track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td>{{architect.architectTitle}}</td>
-							  <td>{{architect.country.countryName}}</td>
-							  <td align="center">{{architect.state.stateName}}</td>
+							  <td>{{architect.name}}</td>
+							  <td>{{architect.address}}</td>
 							  <td align="center">{{architect.city}}</td>
-							  <td>{{architect.email}}</td>
+							  <td align="center">{{architect.state}}</td>
+							  <td>{{architect.zip}}</td>
 							  <td align="center">{{architect.contact}}</td>
-							  <td>{{architect.dateCreated | date:'mediumDate'}}</td>
+							  <td align="center">{{architect.fax}}</td>
+							  <td align="center">{{architect.email}}</td>
+							  <td align="center">{{architect.website}}</td>
+							  <td align="center">{{architect.salesPersonName}}</td>
+							 <td align="center">{{architect.createdByUserCode}}</td>
+							 <td align="center">{{architect.updatedByUserCode}}</td>
 							  <td align="center">&nbsp; 
-								<a ui-sref = "architect-edit({id:architect.id})"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)"><img src="images/business_user_info.png" title="show user information" border="0"></a>
+								<a ui-sref = "architect-edit({id:architect.id})"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; 
 							  </td>
 							</tr>							
 						</table>

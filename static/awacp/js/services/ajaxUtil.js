@@ -33,7 +33,7 @@
 					.then(function (){$state.go("/");},function (){return});
 					return;
 				}else{
-					var msg = "";
+					var msg = "Unable to complete request due to communication error.";
 					var rs = "", unknownPassword = false;
 					if(jqXHR.responseText && jqXHR.responseText!=null){						
 						rs = JSON.parse(jqXHR.responseText);

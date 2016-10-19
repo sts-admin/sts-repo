@@ -6,17 +6,17 @@
 
 <div class="container-fluid">
 	<div class="clearfix">
-		<div class="panel panel-default" ng-init="engVm.initEngineerMasterInputs()">
+		<div class="panel panel-default" ng-init="conVm.initContractorMasterInputs()">
 				<div class="panel-heading form-heading">
-					<label>{{engVm.action}} Engineer Detail</label>				
+					<label>{{gcVm.action}} Genreal Contractor Detail</label>				
 				</div>
 				<div class="panel-body">
-					<form ng-submit="engVm.addEngineer();">
+					<form ng-submit="conVm.addContractor();">
 						<!-- .row -->
 						<div class="row">
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
-								Engineer Name
+								Contractor Name
 							</span>
 							<i class="star red">*</i>
 							<span class="colon">:</span> 
@@ -24,20 +24,21 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Engineer Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Engineer Name');" onkeypress="this.setCustomValidity('');" ng-model="engVm.engineer.name" ng-required="true" autofocus />
+							  <input type="text" placeholder="Contractor Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Contractor Name');" onkeypress="this.setCustomValidity('');" ng-model="gcVm.generalContractor.name" ng-required="true" autofocus />
 							</div>
 						  </div>
-						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+						  	 <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">Email ID</span>
 							<i class="star red">*</i>
 							<span class="colon">:</span> </div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="email" class="form-control" placeholder="Enter Email" maxlength="100" oninvalid="this.setCustomValidity('Enter Email');" onkeypress="this.setCustomValidity('');" ng-model="engVm.engineer.email" ng-required="true" />
+							  <input type="email" class="form-control" placeholder="Enter Email" maxlength="100" oninvalid="this.setCustomValidity('Enter Email');" onkeypress="this.setCustomValidity('');" ng-model="gcVm.generalContractor.email" ng-required="true" />
 							</div>
-						  </div>
-						    <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+						  </div>	
+								<!-- .col -->
+						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">Sales Person</span>
 							<i class="star red">*</i>
 							<span class="colon">:</span> 
@@ -46,13 +47,13 @@
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
 							 <select class="form-control"
-								  ng-model="engVm.engineer.salesPerson" 
-								  ng-options="user.id as user.customName for user in engVm.users" ng-required = "true">
+								  ng-model="gcVm.generalContractor.salesPerson" 
+								  ng-options="user.id as user.customName for user in conVm.users" ng-required = "true">
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
 						  </div>
-						
+						 
 						  <!-- .col -->
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
@@ -62,7 +63,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" oninvalid="this.setCustomValidity('Enter Street');" onkeypress="this.setCustomValidity('');" ng-model="engVm.engineer.street" />
+							  <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" oninvalid="this.setCustomValidity('Enter Street');" onkeypress="this.setCustomValidity('');" ng-model="gcVm.generalContractor.street"  />
 							</div>
 						  </div>
 						  <!-- .col -->
@@ -73,19 +74,19 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter City" maxlength="100" oninvalid="this.setCustomValidity('Enter City');" onkeypress="this.setCustomValidity('');" ng-model="engVm.engineer.city" />
+							  <input type="text" class="form-control" placeholder="Enter City" maxlength="100" oninvalid="this.setCustomValidity('Enter City');" onkeypress="this.setCustomValidity('');" ng-model="gcVm.generalContractor.city"/>
 							</div>
 						  </div>
 
 						 
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+						 	  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
 					  <span class="form-label">State</span>
 					  <span class="colon">:</span> 
 					 </div>
 					  <!-- .col -->
 					  <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
-						  <input type="text" class="form-control" placeholder="Enter State" maxlength="100" oninvalid="this.setCustomValidity('Enter State');" onkeypress="this.setCustomValidity('');" ng-model="engVm.engineer.state" />
+						  <input type="text" class="form-control" placeholder="Enter State" maxlength="100" oninvalid="this.setCustomValidity('Enter State');" onkeypress="this.setCustomValidity('');" ng-model="gcVm.generalContractor.state" />
 						</div>
 					  </div>
 
@@ -93,31 +94,31 @@
 					  <!-- .col -->
 					  <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
-						  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="engVm.engineer.zip" />
+						  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="gcVm.generalContractor.zip" />
 						</div>
 					  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Phone</span><span class="colon">:</span> </div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="engVm.engineer.phone"   />
+							  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="gcVm.generalContractor.phone"  />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Fax</span><span class="colon">:</span> </div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" maxlength="25" placeholder="Enter Fax No" ng-model="engVm.engineer.fax" />
+							  <input type="text" class="form-control" maxlength="25" placeholder="Enter Fax No" ng-model="gcVm.generalContractor.fax" />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Website</span><span class="colon">:</span> </div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Website URL" maxlength="100" ng-model="engVm.engineer.website" />
+							  <input type="text" class="form-control" placeholder="Enter Website URL" maxlength="100" ng-model="gcVm.generalContractor.website" />
 							</div>
 						  </div>
-						 
+						
 						  <!-- .col -->
 						  <!-- .col -->
 						 
@@ -129,12 +130,12 @@
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 						  <!-- .col -->
 						  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-							<input type="submit" value="{{engVm.action}} Engineer" class="submit-btn btn btn-primary">
+							<input type="submit" value="{{gcVm.action}} Contractor" class="submit-btn btn btn-primary">
 							<input type="hidden" name="add" value="add" />
 							&nbsp;&nbsp;
 							<input type="reset" value="Reset" class="reset-btn btn btn-warning">
 							&nbsp;&nbsp;
-							<input type="button" value="Go Back" class="reset-btn btn btn-info" ng-click="engVm.cancelEngineerAction();">
+							<input type="button" value="Go Back" class="reset-btn btn btn-info" ng-click="conVm.cancelContractorAction();">
 						  </div>
 						  <!-- .col -->
 						</div>
