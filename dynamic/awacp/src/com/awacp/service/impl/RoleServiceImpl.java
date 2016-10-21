@@ -246,6 +246,9 @@ public class RoleServiceImpl implements RoleService {
 
 		items.add(new MenuItem("Manage Product", "products"));
 		items.add(new MenuItem("divider", "#"));
+		
+		items.add(new MenuItem("Manage General Contractors", "gcs"));
+		items.add(new MenuItem("divider", "#"));
 
 		items.add(new MenuItem("Manage Ship To", "ships"));
 		items.add(new MenuItem("divider", "#"));

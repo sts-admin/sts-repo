@@ -17,14 +17,13 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = "GeneralContractor.listAll", query = "SELECT gc FROM GeneralContractor gc WHERE gc.archived = 'false'"),
-	@NamedQuery(name = "GeneralContractor.countAll", query = "SELECT COUNT(gc.id) FROM GeneralContractor gc WHERE gc.archived = 'false'"),
-	@NamedQuery(name = "GeneralContractor.getByEmail", query = "SELECT gc FROM GeneralContractor gc WHERE gc.archived = 'false' AND LOWER(gc.email) = :email")
-})
+@NamedQueries({
+		@NamedQuery(name = "GeneralContractor.listAll", query = "SELECT gc FROM GeneralContractor gc WHERE gc.archived = 'false'"),
+		@NamedQuery(name = "GeneralContractor.countAll", query = "SELECT COUNT(gc.id) FROM GeneralContractor gc WHERE gc.archived = 'false'"),
+		@NamedQuery(name = "GeneralContractor.getByEmail", query = "SELECT gc FROM GeneralContractor gc WHERE gc.archived = 'false' AND LOWER(gc.email) = :email") })
 public class GeneralContractor extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private String engineer;
 	private Long salesPerson; // ID of a AWACP System User
 	private String address;
 	private String city;
@@ -45,15 +44,6 @@ public class GeneralContractor extends BaseEntity {
 
 	public GeneralContractor() {
 		super();
-	}
-
-	@Column(nullable = false, length = 100)
-	public String getEngineer() {
-		return engineer;
-	}
-
-	public void setEngineer(String engineer) {
-		this.engineer = engineer;
 	}
 
 	@NotNull
@@ -176,7 +166,6 @@ public class GeneralContractor extends BaseEntity {
 		this.basicSpec = basicSpec;
 	}
 
-	
 	public void setState(String state) {
 		this.state = state;
 	}

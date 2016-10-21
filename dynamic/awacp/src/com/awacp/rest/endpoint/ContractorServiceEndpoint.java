@@ -43,6 +43,14 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.contractorService.listContractors(pageNumber, pageSize);
 	}
+	
+	@GET
+	@Path("/listGcs/{pageNumber}/{pageSize}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<GeneralContractor> listGcs(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.generalContractorService.listContractors(pageNumber, pageSize);
+	}
 
 	@GET
 	@Path("/listBidders/{pageNumber}/{pageSize}")

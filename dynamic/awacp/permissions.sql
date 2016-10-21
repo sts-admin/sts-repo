@@ -105,7 +105,7 @@ VALUES('j_c',0,1,CURRENT_TIMESTAMP,NULL,'Create/Add',NULL,1,'J', 'j-add'),
 
 /*Collection permission begin*/
 INSERT INTO `awacp`.`permission`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`)
-VALUES('collection',0,1,CURRENT_TIMESTAMP,NULL,'Manage Collection',NULL,1,'Collection', 'collections');
+VALUES('c_r',0,1,CURRENT_TIMESTAMP,NULL,'Manage Collection',NULL,1,'Collection', 'collections');
 /*Collection permission end*/
 
 /*Marketing permission begin*/
