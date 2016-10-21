@@ -136,16 +136,6 @@
 				templateUrl:"templates/specifications.html",
 				controller:"SpecificationCtrl",
 				controllerAs:"specVm"
-			}).state('specification-add',{
-				url: '/specification/add',
-				templateUrl:"templates/specification-add.html",
-				controller:"SpecificationCtrl",
-				controllerAs:"specVm"
-			}).state('specification-edit',{
-				url: '/specification/edit/:id',
-				templateUrl:"templates/specification-edit.html",
-				controller:"SpecificationCtrl",
-				controllerAs:"specVm"
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);

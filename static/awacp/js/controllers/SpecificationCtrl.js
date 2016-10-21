@@ -20,18 +20,20 @@
 				windowClass:'alert-zindex ',
 				controller: function ($scope, $uibModalInstance){
 					$scope.title = title;
-					$scope.specification = "";
+					$scope.detail = "";
 					$scope.save = function (){
-						if($scope.specification.length <= 0)return;
-						var formData = {}, specification = {};
-						specification["specification"] = $scope.specification;
-						specification["createdByUserCode"] = StoreService.getUser().userCode;
-						formData["specification"] = specification;
+						if($scope.detail.length <= 0)return;
+						var formData = {}, spec = {};
+						spec["detail"] = $scope.detail;
+						spec["createdByUserCode"] = StoreService.getUser().userCode;
+						formData["spec"] = spec;
+						alert(JSON.stringify(formData, null, 4));
 						AjaxUtil.submitData("/awacp/saveSpecification", formData)
 						.success(function(data, status, headers){
-							var message = "Specification Detail Created Successfully";
-							AlertService.showAlert(	'AWACP :: Alert!', message)
-							.then(function (){return;},function (){return false;});
+							alert("Specification Detail Created Successfully");
+							//var message = "Specification Detail Created Successfully";
+							//AlertService.showAlert(	'AWACP :: Alert!', message)
+							//.then(function (){return;},function (){return false;});
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
@@ -62,9 +64,9 @@
 				formData["contractor"] = specVm.contractor;
 				AjaxUtil.getData("/awacp/getSpecification/"+$state.params.id, formData)
 				.success(function(data, status, headers){
-					if(data && data.specification){
+					if(data && data.spec){
 						$scope.$apply(function(){
-							specVm.spec = data.specification;							
+							specVm.spec = data.spec;							
 						});						
 					}
 				})
@@ -76,6 +78,7 @@
 		}
 		
 		specVm.getSpecs = function(){
+			alert("get specs");
 			specVm.specs = [];
 			if(!AjaxUtil.isAuthorized()){
 				return;
@@ -83,6 +86,7 @@
 			specVm.pageNumber = specVm.currentPage;
 			AjaxUtil.getData("/awacp/listSpecifications/"+specVm.pageNumber+"/"+specVm.pageSize, Math.random())
 			.success(function(data, status, headers){
+				alert(JSON.stringify(data, null, 4));
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					$scope.$apply(function(){
 						specVm.totalItems = data.stsResponse.totalCount;
@@ -95,11 +99,13 @@
 							tmp.push(v);
 						});					
 					} else {
+						alert(JSON.stringify(data.stsResponse.results, null, 4));
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
 						specVm.specs = tmp;
 					});
+					alert(JSON.stringify(specVm.specs, null, 4));
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

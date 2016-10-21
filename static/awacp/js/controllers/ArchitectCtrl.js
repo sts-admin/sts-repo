@@ -115,7 +115,6 @@
 			}
 			var formData = {};			
 			formData["architect"] = arcVm.architect;
-			alert(JSON.stringify(formData, null, 4));
 			
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
