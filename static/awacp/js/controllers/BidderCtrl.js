@@ -87,7 +87,6 @@
 			}else{
 				bidVm.bidder.createdByUserCode = StoreService.getUser().userCode;
 			}
-			alert(url);
 			var formData = {};
 			formData["bidder"] = bidVm.bidder;
 			AjaxUtil.submitData(url, formData)
