@@ -26,12 +26,16 @@
 			conVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						v.customName = v.userCode + " - "+ v.firstName;
-						tmp.push(v);
-					});
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							v.customName = v.userCode + " - "+ v.firstName;
+							tmp.push(v);
+						});
+					}	
 					$scope.$apply(function(){
 						conVm.users = tmp;
 					});
@@ -69,6 +73,11 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
+				if(1002 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Alert!', "A Contractor with this email ID already exist, please use a different email ID.")
+					.then(function (){return},function (){return});
+					return;
+				}
 				jqXHR.errorSource = "ContractorCtrl::conVm.addContractor::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});

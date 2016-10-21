@@ -141,6 +141,11 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
+				if(1002 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Alert!', "A Engineer with this email ID already exist, please use a different email ID.")
+					.then(function (){return},function (){return});
+					return;
+				}
 				jqXHR.errorSource = "EngineerCtrl::engVm.addEngineer::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});

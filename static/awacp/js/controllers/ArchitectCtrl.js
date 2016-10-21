@@ -22,12 +22,16 @@
 			arcVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					$.each(data.stsResponse.results, function(k, v){
-						v.customName = v.userCode + " - "+ v.firstName;
-						tmp.push(v);
-					});
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							v.customName = v.userCode + " - "+ v.firstName;
+							tmp.push(v);
+						});
+					}	
 					$scope.$apply(function(){
 						arcVm.users = tmp;
 					});
@@ -127,12 +131,8 @@
 				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				var message = "";
 				if(1002 == jqXHR.status){
-					message = "Email ID already taken.";
-				}
-				if(message.length > 0){
-					AlertService.showAlert(	'AWACP :: Alert!', message)
+					AlertService.showAlert(	'AWACP :: Alert!', "An Architect with this email ID already exist, please use a different email ID.")
 					.then(function (){return},function (){return});
 					return;
 				}

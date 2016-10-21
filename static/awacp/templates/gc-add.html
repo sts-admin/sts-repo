@@ -6,12 +6,12 @@
 
 <div class="container-fluid">
 	<div class="clearfix">
-		<div class="panel panel-default" ng-init="conVm.initContractorMasterInputs()">
+		<div class="panel panel-default" ng-init="gcVm.initGcsMasterInputs()">
 				<div class="panel-heading form-heading">
 					<label>{{gcVm.action}} Genreal Contractor Detail</label>				
 				</div>
 				<div class="panel-body">
-					<form ng-submit="conVm.addContractor();">
+					<form ng-submit="gcVm.addGc();">
 						<!-- .row -->
 						<div class="row">
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -48,7 +48,7 @@
 							<div class="form-group">
 							 <select class="form-control"
 								  ng-model="gcVm.generalContractor.salesPerson" 
-								  ng-options="user.id as user.customName for user in conVm.users" ng-required = "true">
+								  ng-options="user.id as user.customName for user in gcVm.users" ng-required = "true">
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
@@ -63,7 +63,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Street" maxlength="100" oninvalid="this.setCustomValidity('Enter Street');" onkeypress="this.setCustomValidity('');" ng-model="gcVm.generalContractor.street"  />
+							  <input type="text" class="form-control" placeholder="Enter Address" maxlength="100" oninvalid="this.setCustomValidity('Enter Address');" onkeypress="this.setCustomValidity('');" ng-model="gcVm.generalContractor.street"  />
 							</div>
 						  </div>
 						  <!-- .col -->
@@ -94,9 +94,16 @@
 					  <!-- .col -->
 					  <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
-						  <input type="text" class="form-control" placeholder="Enter Contact No" maxlength="20" ng-model="gcVm.generalContractor.zip" />
+						  <input type="text" class="form-control" placeholder="Enter Zip" maxlength="20" ng-model="gcVm.generalContractor.zip" />
 						</div>
 					  </div>
+					   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Office Phone</span><span class="colon">:</span> </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter Office Contact No" maxlength="20" ng-model="gcVm.generalContractor.phoneOffice"  />
+							</div>
+						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="form-label">Phone</span><span class="colon">:</span> </div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
