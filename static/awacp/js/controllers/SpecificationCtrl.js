@@ -27,7 +27,6 @@
 						spec["detail"] = $scope.detail;
 						spec["createdByUserCode"] = StoreService.getUser().userCode;
 						formData["spec"] = spec;
-						alert(JSON.stringify(formData, null, 4));
 						AjaxUtil.submitData("/awacp/saveSpecification", formData)
 						.success(function(data, status, headers){
 							alert("Specification Detail Created Successfully");
@@ -78,7 +77,6 @@
 		}
 		
 		specVm.getSpecs = function(){
-			alert("get specs");
 			specVm.specs = [];
 			if(!AjaxUtil.isAuthorized()){
 				return;
@@ -86,7 +84,6 @@
 			specVm.pageNumber = specVm.currentPage;
 			AjaxUtil.getData("/awacp/listSpecifications/"+specVm.pageNumber+"/"+specVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				alert(JSON.stringify(data, null, 4));
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					$scope.$apply(function(){
 						specVm.totalItems = data.stsResponse.totalCount;
@@ -99,13 +96,11 @@
 							tmp.push(v);
 						});					
 					} else {
-						alert(JSON.stringify(data.stsResponse.results, null, 4));
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
 						specVm.specs = tmp;
 					});
-					alert(JSON.stringify(specVm.specs, null, 4));
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
