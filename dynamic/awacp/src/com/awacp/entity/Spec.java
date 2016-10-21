@@ -13,26 +13,26 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
-public class Specification extends BaseEntity {
+public class Spec extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private String specification;
+	private String detail;
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
-	public Specification() {
+	public Spec() {
 		super();
 	}
 
 	@NotNull
 	@Column(nullable = false, length = 200)
-	public String getSpecification() {
-		return specification;
+	public String getDetail() {
+		return detail;
 	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 
 	@NotNull
@@ -44,7 +44,7 @@ public class Specification extends BaseEntity {
 	public void setCreatedByUserCode(String createdByUserCode) {
 		this.createdByUserCode = createdByUserCode;
 	}
-	
+
 	@Column(nullable = true, length = 10)
 	public String getUpdatedByUserCode() {
 		return updatedByUserCode;

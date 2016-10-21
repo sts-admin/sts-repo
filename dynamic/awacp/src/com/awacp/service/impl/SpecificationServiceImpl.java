@@ -5,12 +5,12 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Specification;
+import com.awacp.entity.Spec;
 import com.awacp.service.SpecificationService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class SpecificationServiceImpl extends CommonServiceImpl<Specification>implements SpecificationService {
+public class SpecificationServiceImpl extends CommonServiceImpl<Spec>implements SpecificationService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -23,29 +23,36 @@ public class SpecificationServiceImpl extends CommonServiceImpl<Specification>im
 	}
 
 	@Override
-	public StsResponse<Specification> listSpecifications(int pageNumber, int pageSize) {
-		return listAll(pageNumber, pageSize, Specification.class.getSimpleName(), getEntityManager());
+	public StsResponse<Spec> listSpecifications(int pageNumber, int pageSize) {
+		System.err.println("SpecificationServiceImpl :: listSpecifications");
+		StsResponse<Spec> results = listAll(pageNumber, pageSize, Spec.class.getSimpleName(), getEntityManager());
+		if(results != null && results.getResults() != null){
+			for(Spec spec: results.getResults()){
+				System.err.println("Spec = "+ spec.getDetail());
+			}
+		}
+		return results;
 	}
 
 	@Override
-	public Specification getSpecification(Long id) {
-		return getEntityManager().find(Specification.class, id);
+	public Spec getSpecification(Long id) {
+		return getEntityManager().find(Spec.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Specification saveSpecification(Specification specification) {
-		getEntityManager().persist(specification);
+	public Spec saveSpecification(Spec spec) {
+		getEntityManager().persist(spec);
 		getEntityManager().flush();
-		return specification;
+		return spec;
 	}
 
 	@Override
 	@Transactional
-	public Specification updateSpecification(Specification specification){
-		specification = getEntityManager().merge(specification);
+	public Spec updateSpecification(Spec spec){
+		spec = getEntityManager().merge(spec);
 		getEntityManager().flush();
-		return specification;
+		return spec;
 	}
 
 }

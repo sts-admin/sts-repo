@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.awacp.entity.Specification;
+import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.SpecificationService;
 import com.awacp.service.TakeoffService;
@@ -64,15 +64,21 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/listSpecifications/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StsResponse<Specification> listSpecifications(@PathParam("pageNumber") int pageNumber,
+	public StsResponse<Spec> listSpecifications(@PathParam("pageNumber") int pageNumber,
 			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.specificationService.listSpecifications(pageNumber, pageSize);
+		StsResponse<Spec> results = this.specificationService.listSpecifications(pageNumber, pageSize);
+		if(results != null && results.getResults() != null){
+			for(Spec spec: results.getResults()){
+				System.err.println("Takeoff end point, Spec = "+ spec.getDetail());
+			}
+		}
+		return results;
 	}
 
 	@GET
 	@Path("/getSpecification/{specificationId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Specification getSpecification(@PathParam("specificationId") Long specificationId,
+	public Spec getSpecification(@PathParam("specificationId") Long specificationId,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.specificationService.getSpecification(specificationId);
 	}
@@ -81,18 +87,18 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@Path("/saveSpecification")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Specification saveSpecification(Specification specification, @Context HttpServletResponse servletResponse)
+	public Spec saveSpecification(Spec spec, @Context HttpServletResponse servletResponse)
 			throws Exception {
-		return this.specificationService.saveSpecification(specification);
+		return this.specificationService.saveSpecification(spec);
 	}
 
 	@POST
 	@Path("/updateSpecification")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Specification updateSpecification(Specification specification, @Context HttpServletResponse servletResponse)
+	public Spec updateSpecification(Spec spec, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.specificationService.updateSpecification(specification);
+		return this.specificationService.updateSpecification(spec);
 	}
 
 	public void setTakeoffService(TakeoffService takeoffService) {
