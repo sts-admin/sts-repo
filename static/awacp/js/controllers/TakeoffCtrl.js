@@ -254,7 +254,6 @@
 			takeVm.takeoff.userNameOrEmail = StoreService.getUserName();
 			takeVm.takeoff["createdByUserCode"] = StoreService.getUser().userCode;
 			formData["takeoff"] = takeVm.takeoff;
-			alert(JSON.stringify(formData, null, 4));
 			AjaxUtil.submitData("/awacp/saveTakeoff", formData)
 			.success(function(data, status, headers){
 				takeVm.takeoff = {};
