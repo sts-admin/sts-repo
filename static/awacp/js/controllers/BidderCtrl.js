@@ -91,7 +91,7 @@
 			formData["bidder"] = bidVm.bidder;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){	
-				//bidVm.bidder = {};
+				bidVm.bidder = {};
 				if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){bidVm.cancelBidderAction();},function (){return false;});

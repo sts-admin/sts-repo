@@ -5,12 +5,14 @@
 	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var takeVm = this;
 		$scope.timers = [];
-		takeVm.biddersSettings = {displayProp: 'bidderTitle', idProp: 'id'};
-		takeVm.contractorsSettings = {displayProp: 'contractorTitle', idProp: 'id'};
+		takeVm.specSettings = {displayProp: 'detail', idProp: 'id'};
+		takeVm.biddersSettings = {displayProp: 'name', idProp: 'id'};
+		takeVm.contractorsSettings = {displayProp: 'name', idProp: 'id'};
 		takeVm.totalItems = 0;
 		takeVm.currentPage = 1;
 		takeVm.pageSize = 5;
 		takeVm.users = [];
+		takeVm.specs = [];
 		takeVm.engineers = [];
 		takeVm.architects = [];	
 		takeVm.contractors = [];
@@ -18,6 +20,7 @@
 		takeVm.takeoffs = [];
 		takeVm.takeoff = {};
 		takeVm.selectedBidders = [];
+		takeVm.selectedSpecs = [];
 		takeVm.selectedContractors = [];
 		takeVm.setPage = function (pageNo) {
 			takeVm.currentPage = pageNo;
@@ -28,19 +31,38 @@
 		takeVm.cancelTakeoffAction = function(){
 			$state.go("takeoff-view");
 		}
+		takeVm.getSpecs = function(){
+			takeVm.specs = [];
+			AjaxUtil.getData("/awacp/listSpecifications/1/-1", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						$.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}
+					takeVm.specs = tmp;
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.getSpecs::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		takeVm.getUsers = function(){
 			takeVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/1/-1", Math.random())
 			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.results && data.stsResponse.results.length > 0){
+				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
 					$.each(data.stsResponse.results, function(k, v){
 						v.customName = v.userCode + " - "+ v.firstName;
 						tmp.push(v);
 					});
-					$scope.$apply(function(){
 						takeVm.users = tmp;
-					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -62,9 +84,7 @@
 							tmp.push(v);
 						});
 					}	
-					//$scope.$apply(function(){
 						takeVm.engineers= tmp;
-					//});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -86,9 +106,7 @@
 							tmp.push(v);
 						});
 					}	
-					//$scope.$apply(function(){
 						takeVm.architects = tmp;
-					//});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -98,7 +116,7 @@
 		}		
 		takeVm.getContractors = function(){
 			takeVm.contractors = [];
-			AjaxUtil.getData("/awacp/listContractors/1/-1", Math.random())
+			AjaxUtil.getData("/awacp/listGcs/1/-1", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
@@ -109,9 +127,7 @@
 							tmp.push(v);
 						});
 					}	
-					//$scope.$apply(function(){
 						takeVm.contractors = tmp;
-					//});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -132,9 +148,7 @@
 							tmp.push(v);
 						});
 					}	
-					//$scope.$apply(function(){
 						takeVm.bidders = tmp;
-					//});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -149,6 +163,7 @@
 			takeVm.getEngineers();
 			takeVm.getContractors();
 			takeVm.getBidders();
+			takeVm.getSpecs();
 		}
 		takeVm.isValidDateRange =function(fDate, lDate){
 			var sDate = new Date(fDate);
@@ -195,6 +210,27 @@
 				});
 				return;
 			}
+			if(takeVm.selectedSpecs.length <= 0){
+				 AlertService.showAlert(
+				'AWACP :: Message!',
+				"Please select job specification"
+				).then(function (){	
+					return;
+				},
+				function (){		
+					return;
+				});
+				return;
+			}
+			if(takeVm.selectedSpecs.length > 0){
+				var ids = [];
+				$.each(takeVm.selectedSpecs, function(k, v){
+					ids.push(v.id);
+				});
+				if(ids.length > 0){
+					takeVm.takeoff.specIds = ids;
+				}
+			}
 			if(takeVm.selectedBidders.length > 0){
 				var ids = [];
 				$.each(takeVm.selectedBidders, function(k, v){
@@ -216,7 +252,9 @@
 			
 			var formData = {};
 			takeVm.takeoff.userNameOrEmail = StoreService.getUserName();
+			takeVm.takeoff["createdByUserCode"] = StoreService.getUser().userCode;
 			formData["takeoff"] = takeVm.takeoff;
+			alert(JSON.stringify(formData, null, 4));
 			AjaxUtil.submitData("/awacp/saveTakeoff", formData)
 			.success(function(data, status, headers){
 				takeVm.takeoff = {};

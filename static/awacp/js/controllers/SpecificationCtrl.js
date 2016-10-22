@@ -30,9 +30,8 @@
 						AjaxUtil.submitData("/awacp/saveSpecification", formData)
 						.success(function(data, status, headers){
 							alert("Specification Detail Created Successfully");
-							//var message = "Specification Detail Created Successfully";
-							//AlertService.showAlert(	'AWACP :: Alert!', message)
-							//.then(function (){return;},function (){return false;});
+							modalInstance.dismiss();
+							specVm.getSpecs();
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
@@ -40,7 +39,7 @@
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						});						
 					};
-					$scope.cancel = function (){
+					$scope.cancel = function (){						
 						modalInstance.dismiss();
 						defer.reject();
 					};
