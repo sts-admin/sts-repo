@@ -24,8 +24,10 @@ public class LogoutHandler implements LogoutSuccessHandler {
 			throws IOException, ServletException {
 		String tokens = request.getHeader("Authorization");
 		if (tokens != null && !tokens.isEmpty()) {
-			String value = tokens.substring(tokens.indexOf(" ")).trim();
-			((JdbcTokenStore) tokenStore).removeAccessToken(value);
+			if (tokens.indexOf(" ") >= 0) {
+				String value = tokens.substring(tokens.indexOf(" ")).trim();
+				((JdbcTokenStore) tokenStore).removeAccessToken(value);				
+			}
 			response.getOutputStream().write("You have successfully logged out.".getBytes());
 		}
 

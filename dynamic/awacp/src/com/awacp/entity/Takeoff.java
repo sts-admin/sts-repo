@@ -41,7 +41,6 @@ public class Takeoff extends BaseEntity {
 
 	private String jobName; // required
 	private String jobAddress; // required
-	private String jobSpecification; // required
 	private String projectNumber;
 
 	private Calendar drawingDate;
@@ -55,8 +54,10 @@ public class Takeoff extends BaseEntity {
 
 	private Set<Bidder> bidders;
 	private Set<GeneralContractor> generalContractors;
+	private Set<Spec> specs;
 
 	// Transient
+	private String[] specIds;
 	private String[] biddersIds;
 	private String[] contractorsIds;
 	private String userNameOrEmail;
@@ -126,15 +127,7 @@ public class Takeoff extends BaseEntity {
 		this.jobAddress = jobAddress;
 	}
 
-	@NotNull
-	@Column(nullable = false, length = 200)
-	public String getJobSpecification() {
-		return jobSpecification;
-	}
-
-	public void setJobSpecification(String jobSpecification) {
-		this.jobSpecification = jobSpecification;
-	}
+	
 
 	public String getProjectNumber() {
 		return projectNumber;
@@ -193,6 +186,18 @@ public class Takeoff extends BaseEntity {
 
 	public void setBidders(Set<Bidder> bidders) {
 		this.bidders = bidders;
+	}
+	
+	@XmlElement(name = "specs")
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "TAKEOFF_SPEC", joinColumns = @JoinColumn(name = "TAKEOFF") , inverseJoinColumns = @JoinColumn(name = "SPEC") )
+	@NotNull
+	public Set<Spec> getSpecs() {
+		return specs;
+	}
+
+	public void setSpecs(Set<Spec> specs) {
+		this.specs = specs;
 	}
 
 	@XmlElement(name = "generalContractors")
@@ -311,6 +316,16 @@ public class Takeoff extends BaseEntity {
 	public void setUpdatedByUserCode(String updatedByUserCode) {
 		this.updatedByUserCode = updatedByUserCode;
 	}
+
+	@Transient
+	public String[] getSpecIds() {
+		return specIds;
+	}
+
+	public void setSpecIds(String[] specIds) {
+		this.specIds = specIds;
+	}
+	
 	
 	
 

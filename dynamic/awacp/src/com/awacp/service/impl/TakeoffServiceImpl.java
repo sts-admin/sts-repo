@@ -15,12 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Bidder;
 import com.awacp.entity.GeneralContractor;
+import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.ArchitectService;
 import com.awacp.service.BidderService;
 import com.awacp.service.EngineerService;
 import com.awacp.service.GeneralContractorService;
 import com.awacp.service.MailService;
+import com.awacp.service.SpecService;
 import com.awacp.service.TakeoffService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
@@ -48,6 +50,9 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 
 	@Autowired
 	private MailService awacpMailService;
+
+	@Autowired
+	private SpecService specService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -98,6 +103,17 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 				}
 			}
 			takeoff.setBidders(bidders);
+		}
+		String[] specIds = takeoff.getSpecIds();
+		if (specIds != null && specIds.length > 0) {
+			Set<Spec> specs = new HashSet<Spec>();
+			for (String id : specIds) {
+				Spec spec = specService.getSpec(Long.valueOf(id));
+				if (spec != null) {
+					specs.add(spec);
+				}
+			}
+			takeoff.setSpecs(specs);
 		}
 		String[] contractorIds = takeoff.getContractorsIds();
 		if (contractorIds != null && contractorIds.length > 0) {

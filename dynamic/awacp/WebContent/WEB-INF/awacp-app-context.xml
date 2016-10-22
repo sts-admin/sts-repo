@@ -100,6 +100,7 @@
 			<ref bean="architectServiceEndpoint" />
 			<ref bean="engineerServiceEndpoint" />
 			<ref bean="contractorServiceEndpoint" />
+			<ref bean="specServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -145,10 +146,12 @@
     <bean id="commonService" class="com.sts.core.service.impl.CommonServiceImpl" />
     <bean id="generalContractorService" class="com.awacp.service.impl.GeneralContractorServiceImpl" />
 	<bean id="takeoffService" class="com.awacp.service.impl.TakeoffServiceImpl" />
-	<bean id="specificationService" class="com.awacp.service.impl.SpecificationServiceImpl" />
+	<bean id="specService" class="com.awacp.service.impl.SpecServiceImpl" />
     <bean id="takeoffServiceEndpoint" class="com.awacp.rest.endpoint.TakeoffServiceEndpoint">
         <property name="takeoffService" ref="takeoffService" />
-        <property name="specificationService" ref="specificationService" />
+    </bean>
+    <bean id="specServiceEndpoint" class="com.awacp.rest.endpoint.SpecServiceEndpoint">
+        <property name="specService" ref="specService" />
     </bean>
     <bean id="roleService" class="com.awacp.service.impl.RoleServiceImpl" />    
     <bean id="roleServiceEndpoint" class="com.awacp.rest.endpoint.RoleServiceEndpoint">

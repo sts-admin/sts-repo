@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
-import com.awacp.service.SpecificationService;
+import com.awacp.service.SpecService;
 import com.awacp.service.TakeoffService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.web.filter.CrossOriginFilter;
@@ -27,7 +27,7 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	private TakeoffService takeoffService;
 
 	@Autowired
-	SpecificationService specificationService;
+	SpecService specService;
 
 	@GET
 	@Path("/listTakeoffs/{pageNumber}/{pageSize}")
@@ -61,52 +61,8 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 		return this.takeoffService.updateTakeoff(takeoff);
 	}
 
-	@GET
-	@Path("/listSpecifications/{pageNumber}/{pageSize}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public StsResponse<Spec> listSpecifications(@PathParam("pageNumber") int pageNumber,
-			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
-		StsResponse<Spec> results = this.specificationService.listSpecifications(pageNumber, pageSize);
-		if(results != null && results.getResults() != null){
-			for(Spec spec: results.getResults()){
-				System.err.println("Takeoff end point, Spec = "+ spec.getDetail());
-			}
-		}
-		return results;
-	}
-
-	@GET
-	@Path("/getSpecification/{specificationId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Spec getSpecification(@PathParam("specificationId") Long specificationId,
-			@Context HttpServletResponse servletResponse) throws IOException {
-		return this.specificationService.getSpecification(specificationId);
-	}
-
-	@POST
-	@Path("/saveSpecification")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Spec saveSpecification(Spec spec, @Context HttpServletResponse servletResponse)
-			throws Exception {
-		return this.specificationService.saveSpecification(spec);
-	}
-
-	@POST
-	@Path("/updateSpecification")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Spec updateSpecification(Spec spec, @Context HttpServletResponse servletResponse)
-			throws IOException {
-		return this.specificationService.updateSpecification(spec);
-	}
-
 	public void setTakeoffService(TakeoffService takeoffService) {
 		this.takeoffService = takeoffService;
-	}
-
-	public void setSpecificationService(SpecificationService specificationService) {
-		this.specificationService = specificationService;
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.sts.core.rest.endpoint;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,12 +10,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sts.core.mail.service.MailService;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsCoreResponse;
 import com.sts.core.entity.PasswordResetHistory;
 import com.sts.core.entity.User;
+import com.sts.core.mail.service.MailService;
 import com.sts.core.service.UserService;
 import com.sts.core.util.ConversionUtil;
 import com.sts.core.web.filter.CrossOriginFilter;

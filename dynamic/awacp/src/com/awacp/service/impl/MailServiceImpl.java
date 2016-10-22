@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Bidder;
 import com.awacp.entity.GeneralContractor;
+import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.ArchitectService;
 import com.awacp.service.EngineerService;
@@ -73,16 +74,28 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 			for (GeneralContractor gc : takeoff.getGeneralContractors()) {
 				gcs.append(gc.getName());
 				if (contractorCounter != 1 && contractorCounter != takeoff.getGeneralContractors().size()) {
-					bidders.append(", ");
+					gcs.append(", ");
 				}
 				contractorCounter++;
+			}
+		}
+		
+		StringBuffer specs = new StringBuffer("");
+		if (takeoff.getSpecs() != null) {
+			int specCounter = 1;
+			for (Spec spec : takeoff.getSpecs()) {
+				specs.append(spec.getDetail());
+				if (specCounter != 1 && specCounter != takeoff.getSpecs().size()) {
+					specs.append(", ");
+				}
+				specCounter++;
 			}
 		}
 
 		String content = String.format(AwacpMailTemplate.NEW_TAKEOFF_MAIL_MESSAGE.toString(), dateCreated,
 				takeoff.getSalesPersonName(), takeoff.getUserCode(), takeoff.getTakeoffId(), takeoff.getProjectNumber(),
 				takeoff.getEngineerName(), takeoff.getArchitectureName(), takeoff.getJobName(), takeoff.getJobAddress(),
-				takeoff.getJobSpecification(), drawingDate, reviseDate, dueDate, takeoff.getDrawingReceivedFrom(),
+				specs, drawingDate, reviseDate, dueDate, takeoff.getDrawingReceivedFrom(),
 				bidders.toString(), gcs, takeoff.getTakeOffComment());
 		boolean status = mailService.sendMail(toAddresses, AppPropConfig.emailNewTakeoff, "AWACP :: New Takeoff Detail",
 				content, "NEW_TAKEOFF", AppPropConfig.emailNewTakeoff, AppPropConfig.emailCommonPassword);
