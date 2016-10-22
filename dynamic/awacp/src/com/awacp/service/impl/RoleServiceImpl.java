@@ -72,7 +72,6 @@ public class RoleServiceImpl implements RoleService {
 		} else {
 			existingRole.getPermissions().clear();
 		}
-		System.err.println("role permission size = " + existingRole.getPermissions().size());
 		getEntityManager().merge(existingRole);
 		getEntityManager().flush();
 		return existingRole;
@@ -128,14 +127,13 @@ public class RoleServiceImpl implements RoleService {
 		List<PermissionGroup> groups = null;
 		if (uniquePermissions != null && !uniquePermissions.isEmpty()) {
 			groups = new ArrayList<PermissionGroup>();
-			System.err.println("uniquePermissions size = "+ uniquePermissions.size());
 			for (Object[] permission : uniquePermissions) {
 				PermissionGroup pg = new PermissionGroup();
 				pg.setGroupName(permission[1].toString());
 				String keyword = permission[0].toString().split("_")[0];
 				pg.setPermissions(getAllMatchingPermissions(keyword));
 				groups.add(pg);
-				System.err.println("Group Name = "+ permission[0].toString() + " permission size = "+ pg.getPermissions().size());
+				
 			}
 		}
 
@@ -179,9 +177,7 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	private List<Menu> getMenuOfRole(Role role) {
-		if (role.getPermissions() != null) {
-			System.err.println("role permissions = " + role.getPermissions().size());
-		}
+		
 
 		List<Menu> menus = new ArrayList<Menu>();
 		List<MenuItem> items = null;

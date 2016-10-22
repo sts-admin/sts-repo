@@ -19,7 +19,6 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 
 	@Override
 	public int getTotalRecords(String queryString, EntityManager em) {
-		System.err.println("queryString = " + queryString + " getEntityManager = " + em);
 		Object object = em.createQuery(queryString).getSingleResult();
 		if (object != null) {
 			return (((Long) object).intValue());
@@ -34,7 +33,6 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
-		System.err.println("CommonSerciceImpl :: listAll, entityClassName = "+ entityClassName);
 		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
 				.append(" entity WHERE entity.archived = 'false'");
 		return listAll(pageNumber, pageSize, sb.toString(), entityClassName, "id", em);
@@ -44,9 +42,6 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String queryString, String entityClassName,
 			String primaryKeyName, EntityManager em) {
-		System.err.println("CommonSerciceImpl :: listAll, entityClassName = "+ entityClassName + ", query string = " + queryString);
-		System.err.println("listAll, pageNumber = " + pageNumber + ", pageSize = " + pageSize + ", queryString = "
-				+ queryString + ", entityClassName = " + entityClassName + ", primaryKey = " + primaryKeyName);
 	
 		StsResponse<T> response = new StsResponse<T>();
 		if (pageNumber == 1) {

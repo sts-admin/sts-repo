@@ -29,13 +29,7 @@ public class SpecServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<Spec> listSpecifications(@PathParam("pageNumber") int pageNumber,
 			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
-		StsResponse<Spec> results = this.specService.listSpecs(pageNumber, pageSize);
-		if (results != null && results.getResults() != null) {
-			for (Spec spec : results.getResults()) {
-				System.err.println("Takeoff end point, Spec = " + spec.getDetail());
-			}
-		}
-		return results;
+		return this.specService.listSpecs(pageNumber, pageSize);
 	}
 
 	@GET

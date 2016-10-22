@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Contractor;
-import com.awacp.entity.GeneralContractor;
 import com.awacp.service.ContractorService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;

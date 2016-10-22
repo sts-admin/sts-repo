@@ -24,13 +24,8 @@ public class SpecServiceImpl extends CommonServiceImpl<Spec>implements SpecServi
 
 	@Override
 	public StsResponse<Spec> listSpecs(int pageNumber, int pageSize) {
-		System.err.println("SpecificationServiceImpl :: listSpecifications");
 		StsResponse<Spec> results = listAll(pageNumber, pageSize, Spec.class.getSimpleName(), getEntityManager());
-		if (results != null && results.getResults() != null) {
-			for (Spec spec : results.getResults()) {
-				System.err.println("Spec = " + spec.getDetail());
-			}
-		}
+		
 		return results;
 	}
 
