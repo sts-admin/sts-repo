@@ -55,6 +55,16 @@
 				templateUrl:"templates/takeoff-add.html",
 				controller:"TakeoffCtrl",
 				controllerAs:"takeVm"
+			}).state('takeoff-search',{
+				url: '/takeoff/search',
+				templateUrl:"templates/takeoff-search.html",
+				controller:"TakeoffCtrl",
+				controllerAs:"takeVm"
+			}).state('takeoff-reports',{
+				url: '/takeoff/reports',
+				templateUrl:"templates/takeoff-report.html",
+				controller:"TakeoffCtrl",
+				controllerAs:"takeVm"
 			}).state('bidders',{
 				url: '/bidders',
 				templateUrl:"templates/bidders.html",
