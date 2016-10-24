@@ -13,7 +13,9 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Architect;
 import com.awacp.entity.Bidder;
+import com.awacp.entity.Engineer;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
@@ -77,11 +79,22 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 
 		for (Takeoff takeoff : takeoffs) {
 			User user = userService.findUser(takeoff.getSalesPerson());
-			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
-			takeoff.setEngineerName(engineerService.getEngineer(takeoff.getEngineerId()).getName());
-			takeoff.setArchitectureName(architectService.getArchitect(takeoff.getArchitectureId()).getName());
+			if(user != null){
+				takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
+			}
+			if(takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0){
+				Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
+				if(eng != null){
+					takeoff.setEngineerName(eng.getName());
+				}
+			}
+			if(takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0){
+				Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
+				if(arc != null){
+					takeoff.setArchitectureName(arc.getName());
+				}
+			}
 		}
-
 		return takeoffs;
 	}
 

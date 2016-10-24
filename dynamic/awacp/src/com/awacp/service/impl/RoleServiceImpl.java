@@ -158,9 +158,9 @@ public class RoleServiceImpl implements RoleService {
 	public List<Menu> getUserMenu(String userNameOrEmail) {
 		User user = userService.getUserByUserNameOrEmail(userNameOrEmail);
 		Role role = getRole(user.getRole().getRoleName());
-		if (role != null) {
+		/*if (role != null) {
 			role.getPermissions();
-		}
+		}*/
 		return getMenuOfRole(role);
 	}
 
@@ -169,9 +169,9 @@ public class RoleServiceImpl implements RoleService {
 
 		User user = getEntityManager().find(User.class, userId);
 		Role role = getRole(user.getRole().getRoleName());
-		if (role != null) {
+		/*if (role != null) {
 			role.getPermissions();
-		}
+		}*/
 
 		return getMenuOfRole(role);
 	}
@@ -182,9 +182,10 @@ public class RoleServiceImpl implements RoleService {
 		List<Menu> menus = new ArrayList<Menu>();
 		List<MenuItem> items = null;
 		Menu aMenu = null;
-		for (PermissionGroup group : groupPermissionsGroup()) {
-			aMenu = new Menu(group.getGroupName(), group.getGroupName());
+		for (PermissionGroup group : groupPermissionsGroup()) { //Iterate over each permission group
+			aMenu = new Menu(group.getGroupName(), group.getGroupName()); //Create a menu per permisison group
 			if (group.getPermissions() != null && !group.getPermissions().isEmpty()) {
+				//Retain permissions for this role only.
 				group.getPermissions().retainAll(role.getPermissions());
 				if (group.getPermissions() == null || group.getPermissions().isEmpty()) {
 					continue;
@@ -227,28 +228,29 @@ public class RoleServiceImpl implements RoleService {
 
 	private List<MenuItem> getBbtItems(List<MenuItem> items) {
 		items.add(new MenuItem("Manage Engineer", "engineers"));
-		items.add(new MenuItem("divider", "#"));
-		items.add(new MenuItem("Manage Architect", "architects"));
-		items.add(new MenuItem("divider", "#"));
+		items.add(new MenuItem("divider", "#"));		
+		
 		items.add(new MenuItem("Manage Contractor", "contractors"));
 		items.add(new MenuItem("divider", "#"));
-		items.add(new MenuItem("Manage Bidder", "bidders"));
-		items.add(new MenuItem("divider", "#"));
-		items.add(new MenuItem("Manage Trucker", "truckers"));
-		items.add(new MenuItem("divider", "#"));
-
-		items.add(new MenuItem("Manage Spec", "specifications"));
-		items.add(new MenuItem("divider", "#"));
-
-		items.add(new MenuItem("Manage Product", "products"));
+		
+		
+		
+		items.add(new MenuItem("Manage Architect", "architects"));
 		items.add(new MenuItem("divider", "#"));
 		
-		items.add(new MenuItem("Manage General Contractors", "gcs"));
+		items.add(new MenuItem("Manage Bidder", "bidders"));
 		items.add(new MenuItem("divider", "#"));
-
+		
 		items.add(new MenuItem("Manage Ship To", "ships"));
 		items.add(new MenuItem("divider", "#"));
 
+		
+		items.add(new MenuItem("Manage Trucker", "truckers"));
+		items.add(new MenuItem("divider", "#"));
+
+		
+
+		
 		items.add(new MenuItem("Manage PDNI", "pndis"));
 		items.add(new MenuItem("divider", "#"));
 
@@ -265,6 +267,15 @@ public class RoleServiceImpl implements RoleService {
 		items.add(new MenuItem("divider", "#"));
 
 		items.add(new MenuItem("Delete File", "deletefiles"));
+		items.add(new MenuItem("divider", "#"));
+		
+		items.add(new MenuItem("Manage Specification", "specifications"));
+		items.add(new MenuItem("divider", "#"));
+		
+		items.add(new MenuItem("Manage Product", "products"));
+		items.add(new MenuItem("divider", "#"));
+		
+		items.add(new MenuItem("Manage GCs", "gcs"));
 		return items;
 	}
 
