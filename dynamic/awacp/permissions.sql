@@ -1,11 +1,4 @@
-/*Roles:begin*/
-INSERT INTO `awacp`.`role`(`ROLENAME`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`UPDATEDBYID`,`VERSION`,`ROLEDESCRIPTION`)
-VALUES('role_guest',0,1,CURRENT_TIMESTAMP,NULL,NULL,1,'Guest'),
-('role_user',0,1,CURRENT_TIMESTAMP,NULL,NULL,1,'Employee/Executive'),
-('role_puser',0,1,CURRENT_TIMESTAMP,NULL,NULL,1,'Advance/Power User'),
-('role_admin',0,1,CURRENT_TIMESTAMP,NULL,NULL,1,'Administrator'),
-('role_superadmin',0,1,CURRENT_TIMESTAMP,NULL,NULL,1,'Super Administrator');
-/*Roles:end*/
+
 
 /*Takeoff permission begin*/
 INSERT INTO `awacp`.`permission`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`)

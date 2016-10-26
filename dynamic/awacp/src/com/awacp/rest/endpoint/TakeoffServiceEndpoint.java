@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.SpecService;
 import com.awacp.service.TakeoffService;

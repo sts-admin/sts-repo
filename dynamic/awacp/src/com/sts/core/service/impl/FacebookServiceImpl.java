@@ -17,7 +17,6 @@ import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsCoreResponse;
 import com.sts.core.entity.FacebookProfile;
 import com.sts.core.entity.Image;
-import com.sts.core.entity.Role;
 import com.sts.core.entity.User;
 import com.sts.core.entity.RoleType;
 import com.sts.core.service.FacebookService;
@@ -94,8 +93,7 @@ public class FacebookServiceImpl implements FacebookService {
 			if (profile == null) {
 				profile = setProfileDetail(facebook, profile);
 				user = setUserDetail(facebook, user);
-				Role role = new Role();
-				role.setRoleName(RoleType.valueOf(userType).getName());
+				user.setRole(RoleType.valueOf(userType).getName());
 			} else {
 				user = userService.getUserDetails(profile.getEmail());
 			}

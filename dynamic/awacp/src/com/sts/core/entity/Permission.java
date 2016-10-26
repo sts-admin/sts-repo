@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "Permission.getAllMatchingPermissions", query = "SELECT p FROM Permission p WHERE p.archived = 'false' AND LOWER( p.authority ) LIKE :exp") })
 public class Permission {
 
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 	private String authority;
 	private String description;

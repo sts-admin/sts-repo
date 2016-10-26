@@ -18,10 +18,13 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.dto.Menu;
+import com.sts.core.dto.PermissionGroup;
 import com.sts.core.dto.StsCoreResponse;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.dto.UserDTO;
 import com.sts.core.entity.Address;
+import com.sts.core.entity.Permission;
 import com.sts.core.entity.User;
 import com.sts.core.exception.StsCoreException;
 import com.sts.core.service.UserService;
@@ -31,6 +34,37 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private UserService userService;
+
+	@GET
+	@Path("/listAllPermissions")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Permission> listAllPermissions(@Context HttpServletResponse servletResponse) throws IOException {
+		return this.userService.listPermissions();
+	}
+
+	@GET
+	@Path("/getUserMenusById")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Menu> getUserMenus(@QueryParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.userService.getUserMenu(userId);
+	}
+
+	@GET
+	@Path("/getUserMenusByNameOrEmail")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Menu> getUserMenusByNameOrEmail(@QueryParam("userNameOrEmail") String userNameOrEmail,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.userService.getUserMenu(userNameOrEmail);
+	}
+
+	@GET
+	@Path("/groupPermissionsGroup")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<PermissionGroup> groupPermissionsGroup(@Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.userService.groupPermissionsGroup();
+	}
 
 	@GET
 	@Path("/activateAccount")

@@ -1,9 +1,14 @@
 package com.sts.core.entity;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -26,8 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class User extends BaseEntity {
 
-	
-
 	private static final long serialVersionUID = 1L;
 	private String email;
 	private String avtarImage;
@@ -43,12 +46,16 @@ public class User extends BaseEntity {
 	private boolean verified;
 	private String password;
 	private String userCode;
-	private Role role;
+	private String role;
 	private boolean firstLogin;
 	private boolean online;
 
+	private Set<Permission> permissions;
+
 	// transient attributes
 	private String photoUrl;
+	// Transient attributes
+	private String[] permissionArray;
 
 	public User() {
 		super();
@@ -186,23 +193,10 @@ public class User extends BaseEntity {
 		this.photoUrl = photoUrl;
 	}
 
-	@XmlElement(name = "role")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "ROLE_NAME", unique = false, nullable = false, updatable = true)
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
 	@PrePersist
 	public void prePersist() {
 		if (getRole() == null) {
-			role = new Role();
-			role.setRoleName(RoleType.GUEST.getName());
-			setRole(role);
+			setRole(RoleType.GUEST.getName());
 		}
 	}
 
@@ -268,6 +262,34 @@ public class User extends BaseEntity {
 
 	public void setOnline(boolean online) {
 		this.online = online;
+	}
+
+	@XmlElement(name = "permissions")
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
+	@JoinTable(name = "USER_PERMISSION", joinColumns = @JoinColumn(name = "USERID") , inverseJoinColumns = @JoinColumn(name = "PERMISSIONID") )
+	public Set<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(Set<Permission> permissions) {
+		this.permissions = permissions;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	@Transient
+	public String[] getPermissionArray() {
+		return permissionArray;
+	}
+
+	public void setPermissionArray(String[] permissionArray) {
+		this.permissionArray = permissionArray;
 	}
 
 }

@@ -3,24 +3,30 @@
  */
 package com.sts.core.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.service.RoleService;
+import com.awacp.service.impl.Role;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.dto.Menu;
+import com.sts.core.dto.MenuItem;
+import com.sts.core.dto.PermissionGroup;
 import com.sts.core.dto.StsCoreResponse;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.dto.UserDTO;
 import com.sts.core.entity.Address;
 import com.sts.core.entity.Image;
 import com.sts.core.entity.PasswordResetHistory;
+import com.sts.core.entity.Permission;
 import com.sts.core.entity.User;
 import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.UserService;
@@ -28,9 +34,6 @@ import com.sts.core.util.ConversionUtil;
 import com.sts.core.util.SecurityEncryptor;
 
 public class UserServiceImpl extends CommonServiceImpl<User>implements UserService {
-
-	@Autowired
-	RoleService roleService;
 
 	private EntityManager entityManager;
 
@@ -109,9 +112,20 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 		if (user.getPassword() != null) {
 			user.setPassword(SecurityEncryptor.encrypt(user.getPassword()));
 		}
-		if (user.getRole() != null) {
-			user.setRole(roleService.getRole(user.getRole().getRoleName()));
+		String[] permissionArray = user.getPermissionArray();
+		if (permissionArray != null && permissionArray.length > 0) {
+			Set<Permission> permissions = new HashSet<Permission>();
+			for (String permissionName : permissionArray) {
+				Permission permission = getPermission(permissionName);
+				if (permission != null) {
+					permissions.add(permission);
+				}
+			}
+			user.setPermissions(permissions);
+		} else {
+			user.getPermissions().clear();
 		}
+
 		user.setVerified(true);
 		user.setVerificationCode("DEFAULT");
 		getEntityManager().persist(user);
@@ -160,7 +174,23 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 
 	@Override
 	public User updateUser(User user) {
-		return getEntityManager().merge(user);
+		User existingUser = findUser(user.getId());
+		String[] permissionArray = user.getPermissionArray();
+		if (permissionArray != null && permissionArray.length > 0) {
+			Set<Permission> permissions = new HashSet<Permission>();
+			for (String permissionName : permissionArray) {
+				Permission permission = getPermission(permissionName);
+				if (permission != null) {
+					permissions.add(permission);
+				}
+			}
+			existingUser.setPermissions(permissions);
+		} else {
+			existingUser.getPermissions().clear();
+		}
+		getEntityManager().merge(existingUser);
+		getEntityManager().flush();
+		return existingUser;
 	}
 
 	@Override
@@ -436,6 +466,160 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 
 		}
 		return dto;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Permission> listPermissions() {
+		return getEntityManager().createNamedQuery("Permission.listAll").getResultList();
+	}
+
+	@Override
+	public List<PermissionGroup> groupPermissionsGroup() {
+		List<Object[]> uniquePermissions = getUniquePermissionGroups();
+		List<PermissionGroup> groups = null;
+		if (uniquePermissions != null && !uniquePermissions.isEmpty()) {
+			groups = new ArrayList<PermissionGroup>();
+			for (Object[] permission : uniquePermissions) {
+				PermissionGroup pg = new PermissionGroup();
+				pg.setGroupName(permission[1].toString());
+				String keyword = permission[0].toString().split("_")[0];
+				pg.setPermissions(getAllMatchingPermissions(keyword));
+				groups.add(pg);
+
+			}
+		}
+
+		return groups;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getUniquePermissionGroups() {
+		String query = "SELECT DISTINCT(SUBSTRING_INDEX(AUTHORITY,'_',1)) AS authority, label FROM PERMISSION";
+		return getEntityManager().createNativeQuery(query).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Permission> getAllMatchingPermissions(String keyword) {
+		return getEntityManager().createNamedQuery("Permission.getAllMatchingPermissions")
+				.setParameter("exp", keyword.toLowerCase() + "\\_%").getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Permission getPermission(String permissionName) {
+		List<Permission> permissions = getEntityManager().createNamedQuery("Permission.getByName")
+				.setParameter("permissionName", permissionName).getResultList();
+		return permissions == null || permissions.isEmpty() ? null : permissions.get(0);
+	}
+
+	@Override
+	public List<Menu> getUserMenu(String userNameOrEmail) {
+		return getMenu(getUserByUserNameOrEmail(userNameOrEmail));
+	}
+
+	@Override
+	public List<Menu> getUserMenu(Long userId) {
+		return getMenu(getEntityManager().find(User.class, userId));
+	}
+
+	private List<Menu> getMenu(User user) {
+		List<Menu> menus = new ArrayList<Menu>();
+		List<MenuItem> items = null;
+		Menu aMenu = null;
+		// Iterate over each permission group
+		for (PermissionGroup group : groupPermissionsGroup()) {
+			aMenu = new Menu(group.getGroupName(), group.getGroupName());
+			// Create a menu per permission group
+			if (group.getPermissions() != null && !group.getPermissions().isEmpty()) {
+				// Retain permissions for this role only.
+				group.getPermissions().retainAll(user.getPermissions());
+				if (group.getPermissions() == null || group.getPermissions().isEmpty()) {
+					continue;
+				}
+				items = new ArrayList<MenuItem>();
+				int index = 0;
+				int size = group.getPermissions().size();
+				boolean emptyUrl = false, bbt = false;
+				for (Permission permission : group.getPermissions()) {
+					emptyUrl = bbt = false;
+					if (permission.getUrl() == null || permission.getUrl().isEmpty()) {
+						emptyUrl = true;
+					}
+					if (permission.getAuthority().contains("bbt")) {
+						bbt = true;
+						items = getBbtItems(items);
+					}
+					if (index != 0 && index != (size - 1) && !emptyUrl && !bbt) {
+						items.add(new MenuItem("divider", "#"));
+					}
+					if (emptyUrl) {
+						continue;
+					}
+					if (bbt) {
+						break;
+					}
+					items.add(new MenuItem(permission.getDescription(), permission.getUrl()));
+					index++;
+				}
+				aMenu.setItems(items);
+			}
+			if (items != null && !items.isEmpty()) {
+				menus.add(aMenu);
+			}
+		}
+		System.err.println("menus size = " + menus.size());
+		return menus;
+
+	}
+
+	private List<MenuItem> getBbtItems(List<MenuItem> items) {
+		items.add(new MenuItem("Manage Engineer", "engineers"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Contractor", "contractors"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Architect", "architects"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Bidder", "bidders"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Ship To", "ships"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Trucker", "truckers"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage PDNI", "pndis"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Quote Notes", "qnotes"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Manufacture & Description", "manufactures"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Item Shipped", "iships"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Shipped Via", "vships"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Delete File", "deletefiles"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Specification", "specifications"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage Product", "products"));
+		items.add(new MenuItem("divider", "#"));
+
+		items.add(new MenuItem("Manage GCs", "gcs"));
+		return items;
 	}
 
 }
