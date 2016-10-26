@@ -5,6 +5,7 @@
 	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, RoleService, AlertService){	
 		var userVm = this;
 		userVm.users = [];
+		userVm.roles = [{name:"Administrator", id:"role_admin"}, {name:"Sub Administrator", id:"role_subadmin"}, {name:"Executive", id:"role_executive"}, {name:"Guest", id:"role_guest"}];
 		userVm.totalItems = 0;
 		userVm.currentPage = 1;
 		userVm.pageSize = 5;
@@ -23,7 +24,9 @@
 		userVm.user = {};
 		userVm.timers = [];
 		userVm.users = [];
-		userVm.roles = [];
+		userVm.allPermissionsGroup = [];
+		userVm.allPermissions = [];
+		userVm.enableSubmitBtn = false;
 		userVm.login = function(){
 			AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "disable");
 			UserService.login(userVm.loginForm.userName, userVm.loginForm.password, 'manual')
@@ -36,9 +39,14 @@
 					user["userCode"] = data.authorities[0].userCode;
 					user["userId"] = data.authorities[0].userId;
 					user["token"] = data.access_token;
+					alert(JSON.stringify(user, null, 4));
 					StoreService.setUser(user);
 					$rootScope.setUpUserMenu();
-					$state.go("dashboard");
+					if("role_admin" === user.authority){
+						$state.go("admin");
+					}else{
+						$state.go("dashboard");
+					}					
 				 }
 			 })
 			.error(function (jqXHR, textStatus, errorThrown) {	
@@ -52,23 +60,6 @@
 		
 		userVm.navigateToAddUser = function(){
 			$state.go('add-user');
-		}
-		
-		userVm.initRoles = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
-			userVm.roles = [];
-			RoleService.listRoles(function(jqXHR, status) {			
-				if("success" === status){
-					$scope.$apply(function(){
-						userVm.roles = jqXHR;
-					});
-				}else{
-					jqXHR.errorSource = "RoleCtrl::userVm.listRoles::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
-			});
 		}
 		userVm.saveUser = function(){			
 			var role = {};
@@ -129,11 +120,44 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		userVm.showUserDetail = function(userId){
+			alert("user id = "+ userId);
+		}
+		userVm.getPermissionsGroup = function(){ //All permissions, not role specific.
+			userVm.allPermissionsGroup = [];
+			RoleService.getPermissionsGroup(function(jqXHR, status) {
+				if("success" === status){
+					$scope.$apply(function(){
+						userVm.allPermissionsGroup = jqXHR;
+					});
+				}else{
+					jqXHR.errorSource = "UserCtrl::userVm.groupPermissionsGroup::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				}
+			});
+		}
+		userVm.checkAll = function() {
+			userVm.user["permissionArray"] = [];
+			$.each(userVm.allPermissionsGroup, function(k, v){
+				$.each(v.permissions, function(index, val){
+					userVm.user.permissionArray.push(val.authority);
+				});
+			});
+			userVm.checkSelection();
+		}
+		userVm.uncheckAll = function() {
+			userVm.user["permissionArray"] = [];
+			userVm.checkSelection();
+		}
+		userVm.checkSelection = function(){
+			userVm.enableSubmitBtn = userVm.user && userVm.user.permissionArray && userVm.user.permissionArray.length > 0?true:false;			
+		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < userVm.timers.length; i++){
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
+		userVm.getPermissionsGroup();
 	}		
 })();
 
