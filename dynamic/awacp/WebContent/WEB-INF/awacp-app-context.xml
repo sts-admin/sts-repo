@@ -96,7 +96,6 @@
 			<!-- sts-core-context.xml part 2 end -->
 			
 			<ref bean="takeoffServiceEndpoint" />
-			<ref bean="roleServiceEndpoint" />
 			<ref bean="architectServiceEndpoint" />
 			<ref bean="engineerServiceEndpoint" />
 			<ref bean="contractorServiceEndpoint" />
@@ -152,10 +151,6 @@
     </bean>
     <bean id="specServiceEndpoint" class="com.awacp.rest.endpoint.SpecServiceEndpoint">
         <property name="specService" ref="specService" />
-    </bean>
-    <bean id="roleService" class="com.awacp.service.impl.RoleServiceImpl" />    
-    <bean id="roleServiceEndpoint" class="com.awacp.rest.endpoint.RoleServiceEndpoint">
-        <property name="roleService" ref="roleService" />
     </bean>
     
      <bean id="contractorService" class="com.awacp.service.impl.ContractorServiceImpl" />

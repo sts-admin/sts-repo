@@ -14,7 +14,6 @@ import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.service.impl.Role;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.Menu;
