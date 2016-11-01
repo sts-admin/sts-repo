@@ -312,3 +312,53 @@ html, body{height:100%; margin:0;padding:0}
 text-align:center; background:#337ab7; color:white; height:50px; border-radius:4px;
 }
 .alert-zindex{z-index:99000 !important;}
+
+/*takeoff-css*/
+
+.theme-row {background: #42a6d3 none repeat scroll 0 0;}
+.bg-dark-green {background: #02577d none repeat scroll 0 0;}
+.datepicker::before {
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 6px;
+    position: absolute;
+    top: -7px;
+}
+.datepicker::after {
+    border-bottom: 6px solid #ffffff;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 7px;
+    position: absolute;
+    top: -6px;
+}
+.bg-8DB3B3 {
+    background: #8db3b3 none repeat scroll 0 0;
+    color: #ffffff;
+}
+.bg-BD7589 {
+    background: #bd7589 none repeat scroll 0 0;
+    padding: 5px;
+}
+tr.bg-dark-green td {
+    color: white;
+}
+.table-container table td {
+    padding: 2px;
+}
+.theme-table td {
+    font-size: 13px;
+}
+.bg-4D7373 {
+    background: #4d7373 none repeat scroll 0 0;
+    color: #fff;
+}
+.bg-7D3549 {
+    background: #7D3549;
+    color: #FFF;
+}

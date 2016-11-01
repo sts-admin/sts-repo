@@ -1,70 +1,91 @@
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
-	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="takeVm.listTakeoffs();">
-			<div class="panel-heading form-heading">
-				<label>Manage Takeoff</label>				
-				<span class="pull-right"><a href ui-sref="takeoff-add" >Add Takeoff</a></span>	
-			</div>
-			<div class="panel-body" style="margin-top:-20px;">
-				<div style="text-align:right;">
-					<ul uib-pagination total-items="takeVm.totalItems" ng-model="takeVm.currentPage" ng-change="takeVm.pageChanged()"></ul>
-				</div>
-  
-				<!-- .row -->
-				<div class="row" id="contents">
-				 
-				  <!-- .col -->
-				  <div class="col-lg-12">
-					<form id="users_view_form" class="table-container" action="" method="post">
-					  <div class="table-container">
-						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
-						  <thead>
-							<tr style="background:#042F51;">
-							  <td style="padding:5px; color:#FFF;" align="center">Takeoff ID</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Quote ID</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Job Name</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Sales Person</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Engineer</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Architecture</td>
-							   <td style="padding:5px; color:#FFF;" align="center">General Contractor</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Drawing Date</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Due Date</td>
-							</tr>
-						  </thead>
-						  <tbody>
-							<tr height="25" ng-repeat="takeoff in takeVm.takeoffs track by $index">
-							  <td align="center">{{takeoff.takeoffId}}</td>
-							   <td align="center">{{takeoff.quoteId}}</td>
-							  <td align="center">{{takeoff.jobName}}</td>
-							  <td align="center">{{takeoff.salesPersonName}}</td>
-							  <td align="center">{{takeoff.engineerName}}</td>
-							  <td align="center">{{takeoff.architectureName}}</td>
-							  <td align="center">{{takeoff.drawingDate | date:'mediumDate'}}</td>
-							  <td align="center">{{takeoff.dueDate | date:'mediumDate'}}</td>
-							  <td align="center">
-								&nbsp; 
-								<a href="" target="_blank"> 
-									<img src="images/file_edit.png" title="edit user" border="0">
-								</a> &nbsp;&nbsp; 
-								<a href="" target="_blank"> 
-									<img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0">
-								</a>
-							  </td>
-							</tr>							
-						</table>
-						</td>
-						</tr>
-						</tbody>
-						</table>
-					  </div>
-					</form>
-				  </div>
-				</div>
-			  </div>
-			</div>
-		</div>
+  <div class="clearfix">
+    <div class="panel panel-default shadow" ng-init="takeVm.listTakeoffs();">
+      <div class="panel-heading form-heading">
+        <label>Manage Takeoff</label>
+        <span class="pull-right"><a href ui-sref="takeoff-add" >Add Takeoff</a></span> </div>
+      <div class="panel-body" style="margin-top:-20px;">
+        <div style="text-align:right;">
+          <ul uib-pagination total-items="takeVm.totalItems" ng-model="takeVm.currentPage" ng-change="takeVm.pageChanged()">
+          </ul>
+        </div>
+        <!-- .row -->
+        <div class="row" id="contents">
+          <!-- .col -->
+          <div class="col-lg-12">
+            <form id="users_view_form" class="table-container" action="" method="post">
+              <div class="table-container">
+                <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+                  <thead>
+                    <tr class="theme-row">
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="takeoff_date" value=""></td>
+                      <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="takeoff_due_dt" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_id" value=""></td>
+                      <td class="bg-8DB3B3" align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td class="bg-BD7589" align="center"><input type="text" class="searchtxt" name="takeoff_jobid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_jobname" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_address" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_engineer" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_architect" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="takeoff_gc" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="takeoff_sp" maxlength="2" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="takeoff_uc" maxlength="2" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_specs" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_vibro_lay_in" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="project_num" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_bidders" value=""></td>
+                    </tr>
+                    
+                    <tr class="bg-dark-green">
+                      <td align="center" style="min-width:50px;">Info Icon</td>
+                      <td align="center">DWGS</td>
+                      <td align="center">TCKOFF</td>
+                      <td align="center">Login Date</td>
+                      <td align="center">Due Date</td>
+                      <td align="center">Takeoff ID</td>
+                      <td class="bg-4D7373" align="center">Quote ID</td>
+                      <td class="c10 bg-7D3549" align="center">Job ID</td>
+                      <td align="center">Job Name</td>
+                      <td align="center">Address</td>
+                      <td align="center">Engineer</td>
+                      <td align="center">Architect</td>
+                      <td align="center">GC</td>
+                      <td align="center">SP</td>
+                      <td align="center">UC</td>
+                      <td align="center">Specs</td>
+                      <td align="center">Vibro</td>
+                      <td align="center">Project#</td>
+                      <td align="center">Bidders</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr height="25" ng-repeat="takeoff in takeVm.takeoffs track by $index">
+                      <td align="center">{{takeoff.takeoffId}}</td>
+                      <td align="center">{{takeoff.quoteId}}</td>
+                      <td align="center">{{takeoff.jobName}}</td>
+                      <td align="center">{{takeoff.salesPersonName}}</td>
+                      <td align="center">{{takeoff.engineerName}}</td>
+                      <td align="center">{{takeoff.architectureName}}</td>
+                      <td align="center">{{takeoff.drawingDate | date:'mediumDate'}}</td>
+                      <td align="center">{{takeoff.dueDate | date:'mediumDate'}}</td>
+                      <td align="center">&nbsp; <a href="" target="_blank"> <img src="images/file_edit.png" title="edit user" border="0"> </a> &nbsp;&nbsp; <a href="" target="_blank"> <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> </a></td>
+                    </tr>
+                </table>
+                </td>
+                </tr>
+                </tbody>
+                </table>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
 <div ng-include="'templates/footer.html'" ></div>
