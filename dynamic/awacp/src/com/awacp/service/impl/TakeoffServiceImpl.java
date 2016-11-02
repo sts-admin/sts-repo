@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,18 +80,18 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 
 		for (Takeoff takeoff : takeoffs) {
 			User user = userService.findUser(takeoff.getSalesPerson());
-			if(user != null){
+			if (user != null) {
 				takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
 			}
-			if(takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0){
+			if (takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0) {
 				Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
-				if(eng != null){
+				if (eng != null) {
 					takeoff.setEngineerName(eng.getName());
 				}
 			}
-			if(takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0){
+			if (takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0) {
 				Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
-				if(arc != null){
+				if (arc != null) {
 					takeoff.setArchitectureName(arc.getName());
 				}
 			}
@@ -107,6 +108,29 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 	@Transactional
 	public Takeoff saveTakeoff(Takeoff takeoff) throws Exception {
 		String[] biddersIds = takeoff.getBiddersIds();
+		User user = userService.getUserByUserNameOrEmail(takeoff.getUserNameOrEmail());
+		if (StringUtils.isNotEmpty(takeoff.getArchitectureName())) { // NEW
+			Architect architect = new Architect();
+			architect.setName(takeoff.getArchitectureName());
+			architect.setSalesPerson(user.getId());
+			getEntityManager().persist(architect);
+			takeoff.setArchitectureId(architect.getId());
+		}
+		if (StringUtils.isNotEmpty(takeoff.getEngineerName())) { // NEW
+			Engineer engineer = new Engineer();
+			engineer.setName(takeoff.getEngineerName());
+			engineer.setSalesPerson(user.getId());
+			getEntityManager().persist(engineer);
+			takeoff.setEngineerId(engineer.getId());
+		}
+		if (StringUtils.isNotEmpty(takeoff.getSpecName())) { // NEW
+			Spec spec = new Spec();
+			spec.setDetail(takeoff.getSpecName());
+			spec.setCreatedById(user.getId());
+			spec.setCreatedByUserCode(user.getUserCode());
+			getEntityManager().persist(spec);
+			takeoff.setSpec(spec);
+		}
 		if (biddersIds != null && biddersIds.length > 0) {
 			Set<Bidder> bidders = new HashSet<Bidder>();
 			for (String id : biddersIds) {
@@ -117,16 +141,9 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			}
 			takeoff.setBidders(bidders);
 		}
-		String[] specIds = takeoff.getSpecIds();
-		if (specIds != null && specIds.length > 0) {
-			Set<Spec> specs = new HashSet<Spec>();
-			for (String id : specIds) {
-				Spec spec = specService.getSpec(Long.valueOf(id));
-				if (spec != null) {
-					specs.add(spec);
-				}
-			}
-			takeoff.setSpecs(specs);
+		String specId = takeoff.getSpecId();
+		if (specId != null && !specId.isEmpty()) {
+			takeoff.setSpec(specService.getSpec(Long.valueOf(specId)));
 		}
 		String[] contractorIds = takeoff.getContractorsIds();
 		if (contractorIds != null && contractorIds.length > 0) {
@@ -179,7 +196,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 	@Override
 	public String[] getNewTakeoffEmails(Long takeoffId) {
 		String[] emails = null;
-		String queryString = "SELECT u.email FROM USER AS u INNER JOIN ROLE_PERMISSION AS p ON u.ROLE_NAME = p.ROLEID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'takeoff_loginemail'";
+		String queryString = "SELECT u.email FROM USER AS u INNER JOIN USER_PERMISSION AS p ON u.ROLE = p.USERID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'takeoff_loginemail'";
 		List<String> results = getEntityManager().createNativeQuery(queryString).getResultList();
 		if (results != null && !results.isEmpty()) {
 			emails = new String[results.size()];

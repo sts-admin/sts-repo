@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: Product
+ * Entity implementation class for Entity: GeneralContractor
  *
  */
 @Entity
@@ -111,7 +111,7 @@ public class GeneralContractor extends BaseEntity {
 		this.website = website;
 	}
 
-	@Column(length = 200)
+	@Column(length = 250)
 	public String getComment() {
 		return comment;
 	}
@@ -175,6 +175,7 @@ public class GeneralContractor extends BaseEntity {
 		return state;
 	}
 
+	@NotNull
 	@Column(nullable = false, length = 100)
 	public String getName() {
 		return name;

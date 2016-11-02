@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: Product
+ * Entity implementation class for Entity: ClaimDocument
  *
  */
 @Entity
 @XmlRootElement
-public class Product extends BaseEntity {
+public class ClaimDocument extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class Product extends BaseEntity {
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
-	public Product() {
+	public ClaimDocument() {
 		super();
 	}
 

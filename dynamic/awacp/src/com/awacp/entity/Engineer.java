@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: Product
+ * Entity implementation class for Entity: Engineer
  *
  */
 @Entity
@@ -46,6 +46,7 @@ public class Engineer extends BaseEntity {
 		super();
 	}
 
+	@NotNull
 	@Column(nullable = false, length = 100)
 	public String getName() {
 		return name;
@@ -55,12 +56,8 @@ public class Engineer extends BaseEntity {
 		this.name = name;
 	}
 
-	public void setEngineer(String name) {
-		this.name = name;
-	}
-
 	@NotNull
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10)
 	public Long getSalesPerson() {
 		return salesPerson;
 	}
@@ -105,8 +102,7 @@ public class Engineer extends BaseEntity {
 		this.fax = fax;
 	}
 
-	@NotNull
-	@Column(nullable = false, length = 100)
+	@Column(length = 100)
 	public String getEmail() {
 		return email;
 	}
@@ -124,7 +120,7 @@ public class Engineer extends BaseEntity {
 		this.website = website;
 	}
 
-	@Column(length = 200)
+	@Column(length = 250)
 	public String getComment() {
 		return comment;
 	}

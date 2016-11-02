@@ -3,6 +3,7 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +54,8 @@ public class EngineerServiceImpl extends CommonServiceImpl<Engineer>implements E
 	@Override
 	@Transactional
 	public Engineer saveEngineer(Engineer engineer) throws StsDuplicateException {
-		if (isExistsByEmail(engineer.getEmail(), "Engineer", getEntityManager())) {
+		if (StringUtils.isNotEmpty(engineer.getEmail())
+				&& isExistsByEmail(engineer.getEmail(), "Engineer", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
 		}
 		getEntityManager().persist(engineer);
@@ -64,10 +66,13 @@ public class EngineerServiceImpl extends CommonServiceImpl<Engineer>implements E
 	@Override
 	@Transactional
 	public Engineer updateEngineer(Engineer engineer) throws StsDuplicateException {
-		Engineer object = getByEmail(engineer.getEmail(), "Engineer", getEntityManager());
-		if (object != null && object.getId() != engineer.getId()) {
-			throw new StsDuplicateException("duplicate_email");
+		if (StringUtils.isNotEmpty(engineer.getEmail())) {
+			Engineer object = getByEmail(engineer.getEmail(), "Engineer", getEntityManager());
+			if (object != null && object.getId() != engineer.getId()) {
+				throw new StsDuplicateException("duplicate_email");
+			}
 		}
+
 		engineer = getEntityManager().merge(engineer);
 		getEntityManager().flush();
 		return engineer;

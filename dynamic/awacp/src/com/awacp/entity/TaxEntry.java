@@ -12,7 +12,7 @@ import com.sts.core.entity.Country;
 import com.sts.core.entity.State;
 
 /**
- * Entity implementation class for Entity: Product
+ * Entity implementation class for Entity: TaxEntry
  *
  */
 @Entity

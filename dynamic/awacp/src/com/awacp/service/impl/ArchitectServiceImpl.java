@@ -3,6 +3,7 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +55,8 @@ public class ArchitectServiceImpl extends CommonServiceImpl<Architect>implements
 	@Override
 	@Transactional
 	public Architect saveArchitect(Architect architect) throws StsDuplicateException {
-		if (isExistsByEmail(architect.getEmail(), "Architect", getEntityManager())) {
+		if (StringUtils.isNotEmpty(architect.getEmail())
+				&& isExistsByEmail(architect.getEmail(), "Architect", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
 		}
 		getEntityManager().persist(architect);
@@ -65,10 +67,13 @@ public class ArchitectServiceImpl extends CommonServiceImpl<Architect>implements
 	@Override
 	@Transactional
 	public Architect updateArchitect(Architect architect) throws StsDuplicateException {
-		Architect object = getByEmail(architect.getEmail(), "Architect", getEntityManager());
-		if (object != null && object.getId() != architect.getId()) {
-			throw new StsDuplicateException("duplicate_email");
+		if (StringUtils.isNotEmpty(architect.getEmail())) {
+			Architect object = getByEmail(architect.getEmail(), "Architect", getEntityManager());
+			if (object != null && object.getId() != architect.getId()) {
+				throw new StsDuplicateException("duplicate_email");
+			}
 		}
+
 		architect = getEntityManager().merge(architect);
 		getEntityManager().flush();
 		return architect;

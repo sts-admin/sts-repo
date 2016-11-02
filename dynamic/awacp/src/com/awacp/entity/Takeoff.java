@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
@@ -48,22 +49,26 @@ public class Takeoff extends BaseEntity {
 	private Calendar dueDate;
 	private String drawingReceivedFrom;
 	private String takeOffComment;
-	
+
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
 	private Set<Bidder> bidders;
 	private Set<GeneralContractor> generalContractors;
-	private Set<Spec> specs;
+	private Spec spec;
+
+	private String vibrolayin;
+	// VIBRO LAY IN
 
 	// Transient
-	private String[] specIds;
+	private String specId;
 	private String[] biddersIds;
 	private String[] contractorsIds;
 	private String userNameOrEmail;
 	private String salesPersonName;
 	private String architectureName;
 	private String engineerName;
+	private String specName;
 
 	private String status;
 
@@ -72,7 +77,7 @@ public class Takeoff extends BaseEntity {
 	}
 
 	@NotNull
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10)
 	public Long getSalesPerson() {
 		return salesPerson;
 	}
@@ -82,7 +87,7 @@ public class Takeoff extends BaseEntity {
 	}
 
 	@NotNull
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10)
 	public String getUserCode() {
 		return userCode;
 	}
@@ -91,6 +96,7 @@ public class Takeoff extends BaseEntity {
 		this.userCode = userCode;
 	}
 
+	@Column(length = 20)
 	public Long getArchitectureId() {
 		return architectureId;
 	}
@@ -99,6 +105,7 @@ public class Takeoff extends BaseEntity {
 		this.architectureId = architectureId;
 	}
 
+	@Column(length = 20)
 	public Long getEngineerId() {
 		return engineerId;
 	}
@@ -127,8 +134,7 @@ public class Takeoff extends BaseEntity {
 		this.jobAddress = jobAddress;
 	}
 
-	
-
+	@Column(length = 25)
 	public String getProjectNumber() {
 		return projectNumber;
 	}
@@ -161,6 +167,7 @@ public class Takeoff extends BaseEntity {
 		this.dueDate = dueDate;
 	}
 
+	@Column(length = 100)
 	public String getDrawingReceivedFrom() {
 		return drawingReceivedFrom;
 	}
@@ -169,6 +176,7 @@ public class Takeoff extends BaseEntity {
 		this.drawingReceivedFrom = drawingReceivedFrom;
 	}
 
+	@Column(length = 250)
 	public String getTakeOffComment() {
 		return takeOffComment;
 	}
@@ -187,17 +195,17 @@ public class Takeoff extends BaseEntity {
 	public void setBidders(Set<Bidder> bidders) {
 		this.bidders = bidders;
 	}
-	
-	@XmlElement(name = "specs")
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "TAKEOFF_SPEC", joinColumns = @JoinColumn(name = "TAKEOFF") , inverseJoinColumns = @JoinColumn(name = "SPEC") )
+
+	@XmlElement(name = "spec")
+	@OneToOne(optional = false, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "SPECID", unique = false, nullable = false, updatable = true)
 	@NotNull
-	public Set<Spec> getSpecs() {
-		return specs;
+	public Spec getSpec() {
+		return spec;
 	}
 
-	public void setSpecs(Set<Spec> specs) {
-		this.specs = specs;
+	public void setSpec(Spec spec) {
+		this.spec = spec;
 	}
 
 	@XmlElement(name = "generalContractors")
@@ -307,7 +315,7 @@ public class Takeoff extends BaseEntity {
 	public void setCreatedByUserCode(String createdByUserCode) {
 		this.createdByUserCode = createdByUserCode;
 	}
-	
+
 	@Column(nullable = true, length = 10)
 	public String getUpdatedByUserCode() {
 		return updatedByUserCode;
@@ -318,15 +326,31 @@ public class Takeoff extends BaseEntity {
 	}
 
 	@Transient
-	public String[] getSpecIds() {
-		return specIds;
+	public String getSpecId() {
+		return specId;
 	}
 
-	public void setSpecIds(String[] specIds) {
-		this.specIds = specIds;
+	public void setSpecId(String specId) {
+		this.specId = specId;
 	}
-	
-	
-	
+
+	@Column(length = 100)
+	public String getVibrolayin() {
+
+		return vibrolayin;
+	}
+
+	public void setVibrolayin(String vibrolayin) {
+		this.vibrolayin = vibrolayin;
+	}
+
+	@Transient
+	public String getSpecName() {
+		return specName;
+	}
+
+	public void setSpecName(String specName) {
+		this.specName = specName;
+	}
 
 }

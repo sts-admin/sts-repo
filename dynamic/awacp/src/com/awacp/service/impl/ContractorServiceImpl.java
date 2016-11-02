@@ -3,6 +3,7 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implemen
 	public StsResponse<Contractor> listContractors(int pageNumber, int pageSize) {
 		return initAdditionalInfo(listAll(pageNumber, pageSize, Contractor.class.getSimpleName(), getEntityManager()));
 	}
+
 	private StsResponse<Contractor> initAdditionalInfo(StsResponse<Contractor> results) {
 		if (results.getResults() == null)
 			return null;
@@ -52,7 +54,8 @@ public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implemen
 	@Override
 	@Transactional
 	public Contractor saveContractor(Contractor contractor) throws StsDuplicateException {
-		if (isExistsByEmail(contractor.getEmail(), "Contractor", getEntityManager())) {
+		if (StringUtils.isNotEmpty(contractor.getEmail())
+				&& isExistsByEmail(contractor.getEmail(), "Contractor", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
 		}
 		getEntityManager().merge(contractor);
@@ -63,10 +66,13 @@ public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implemen
 	@Override
 	@Transactional
 	public Contractor updateContractor(Contractor contractor) throws StsDuplicateException {
-		Contractor object = getByEmail(contractor.getEmail(), "Contractor", getEntityManager());
-		if (object != null && object.getId() != contractor.getId()) {
-			throw new StsDuplicateException("duplicate_email");
+		if (StringUtils.isNotEmpty(contractor.getEmail())) {
+			Contractor object = getByEmail(contractor.getEmail(), "Contractor", getEntityManager());
+			if (object != null && object.getId() != contractor.getId()) {
+				throw new StsDuplicateException("duplicate_email");
+			}
 		}
+
 		getEntityManager().merge(contractor);
 		getEntityManager().flush();
 		return contractor;

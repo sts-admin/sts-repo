@@ -110,6 +110,7 @@ public class User extends BaseEntity {
 	/**
 	 * @return the middleName
 	 */
+	@Column(length = 20)
 	public String getMiddleName() {
 		return middleName;
 	}
@@ -125,6 +126,7 @@ public class User extends BaseEntity {
 	/**
 	 * @return the lastName
 	 */
+	@Column(length = 20)
 	public String getLastName() {
 		return lastName;
 	}
@@ -172,6 +174,7 @@ public class User extends BaseEntity {
 	/**
 	 * @return the gender
 	 */
+	@Column(length = 10)
 	public String getGender() {
 		return gender;
 	}
@@ -216,6 +219,7 @@ public class User extends BaseEntity {
 		this.firstLogin = firstLogin;
 	}
 
+	@Column(length = 20)
 	public String getContact() {
 		return contact;
 	}
@@ -239,7 +243,7 @@ public class User extends BaseEntity {
 	public void setVerified(boolean verified) {
 		this.verified = verified;
 	}
-
+	@Column(length = 50)
 	public String getPassword() {
 		return password;
 	}
@@ -248,6 +252,7 @@ public class User extends BaseEntity {
 		this.password = password;
 	}
 
+	@Column(length = 10)
 	public String getUserCode() {
 		return userCode;
 	}
@@ -275,6 +280,7 @@ public class User extends BaseEntity {
 		this.permissions = permissions;
 	}
 
+	@Column(length = 20)
 	public String getRole() {
 		return role;
 	}
