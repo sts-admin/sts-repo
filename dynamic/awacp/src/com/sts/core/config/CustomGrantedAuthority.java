@@ -11,13 +11,16 @@ public class CustomGrantedAuthority implements GrantedAuthority {
 	private String loginType;
 	private String userCode;
 	private String userId;
+	private String userDisplayName;
 
-	public CustomGrantedAuthority(String authority, String userName, String loginType, String userCode, String userId) {
+	public CustomGrantedAuthority(String authority, String userName, String loginType, String userCode, String userId,
+			String userDisplayName) {
 		this.authority = authority;
 		this.userName = userName;
 		this.loginType = loginType;
 		this.userCode = userCode;
 		this.userId = userId;
+		this.userDisplayName = userDisplayName;
 	}
 
 	public String getAuthority() {
@@ -58,6 +61,14 @@ public class CustomGrantedAuthority implements GrantedAuthority {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getUserDisplayName() {
+		return userDisplayName;
+	}
+
+	public void setUserDisplayName(String userDisplayName) {
+		this.userDisplayName = userDisplayName;
 	}
 
 	@Override

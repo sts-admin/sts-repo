@@ -3,6 +3,7 @@ package com.sts.core.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -55,9 +56,15 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 				throw new BadCredentialsException("unknown_password");
 			}
 		}
-
+		String userDisplayName = user.getFirstName();
+		if (StringUtils.isNotEmpty(user.getMiddleName())) {
+			userDisplayName = userDisplayName + " " + user.getMiddleName();
+		}
+		if (StringUtils.isNotEmpty(user.getLastName())) {
+			userDisplayName = userDisplayName + " " + user.getLastName();
+		}
 		grantedAuths.add(new CustomGrantedAuthority(role, userNameOrEmail, loginType, user.getUserCode(),
-				user.getId().toString()));
+				user.getId().toString(), userDisplayName));
 		auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
 		return auth;
 	}
