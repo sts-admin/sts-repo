@@ -56,6 +56,11 @@
 				templateUrl:"templates/quotes.html",
 				controller:"QuoteCtrl",
 				controllerAs:"qVm"
+			}).state('quote-search',{
+				url: '/quote/search',
+				templateUrl:"templates/quote-search.html",
+				controller:"QuoteCtrl",
+				controllerAs:"qVm"
 			}).state('takeoff-view',{
 				url: '/takeoffs',
 				templateUrl:"templates/takeoffs.html",
