@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.services')
-	.factory('UserService', function (AjaxUtil, StoreService, $timeout, $rootScope, $state, base) {
+	.factory('UserService', function (AjaxUtil, StoreService, $timeout, $rootScope, $state, base, $window) {
 		return {					
 			login: function (username, password, loginType) {
 				$.support.cors = true;
@@ -43,15 +43,15 @@
 					 dataType : 'json'
 				});
 				$.ajax({url: base+'/logout',type: "POST",data: Math.random(),contentType: "text/plain",crossDomain: true, dataType:"text"})
-				.success(function (data, status, headers, config) {											
-					$state.go("/");
+				.success(function (data, status, headers, config) {	
+					$window.location.href = "/awacp/";
 				}).error(function (jqXHR, textStatus, errorThrown) {
 					if (jqXHR.readyState == 0) {
 						$rootScope.$apply(function(){
 							$rootScope.alert.noService = true;
-						});
-						$state.go("/");
-					}								
+						});						
+					}		
+					$window.location.href = "/awacp/";
 				});
 			},
 			getUserAddress:function(userId, callback){

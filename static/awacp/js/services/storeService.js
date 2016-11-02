@@ -9,14 +9,15 @@
 			getUser:function(){
 				return store.get('awacp_user');
 			},
-			/*
+			
 			userDisplayName:function(){
 				var user = store.get('awacp_user');
 				if(user!=null){
-					return user.firstName + "	" +user.lastName;
+					return user.userDisplayName;
 				}
 				return "";
 			},
+			/*
 			profileImageUrl:function(){	
 				var user = store.get('awacp_user');
 				if(user!=null){

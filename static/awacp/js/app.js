@@ -12,7 +12,8 @@
 				url: '/',
 				templateUrl:"templates/login.html",
 				controller:"UserCtrl",
-				controllerAs:"userVm"
+				controllerAs:"userVm",
+				cache:false
 			}).state('dashboard',{
 				url: '/dashboard',
 				templateUrl:"templates/dashboard.html",
@@ -45,6 +46,11 @@
 				templateUrl:"templates/roles.html",
 				controller:"RoleCtrl",
 				controllerAs:"roleVm"
+			}).state('quote-add',{
+				url: '/quote/make',
+				templateUrl:"templates/quotes-new.html",
+				controller:"QuoteCtrl",
+				controllerAs:"qVm"
 			}).state('quote-view',{
 				url: '/quotes',
 				templateUrl:"templates/quotes.html",
@@ -174,7 +180,7 @@
 			$rootScope.logoutUser =function(){
 				UserService.logout();
 			};			
-			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), userDisplayName:"Administrator"};
+			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), userDisplayName:StoreService.userDisplayName()};
 			$rootScope.alert = {noService:false};
 			
 			$rootScope.setUpUserMenu = function(){
