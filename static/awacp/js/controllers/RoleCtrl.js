@@ -13,9 +13,6 @@
 		roleVm.showUpdateBtn = false;
 		
 		roleVm.initRoles = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
 			roleVm.roles = [];
 			RoleService.listRoles(function(jqXHR, status) {			
 				if("success" === status){

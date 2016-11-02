@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('UserCtrl', UserCtrl);
-	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'RoleService', 'AlertService'];
-	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, RoleService, AlertService){	
+	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'AlertService'];
+	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, AlertService){	
 		var userVm = this;
 		userVm.users = [];
 		userVm.roles = [{name:"Administrator", id:"role_admin"}, {name:"Sub Administrator", id:"role_subadmin"}, {name:"Executive", id:"role_executive"}, {name:"Guest", id:"role_guest"}];
@@ -61,7 +61,7 @@
 		userVm.navigateToAddUser = function(){
 			$state.go('add-user');
 		}
-		userVm.saveUser = function(){			
+		userVm.saveUser = function(){
 			var role = {};
 			role["roleName"] = userVm.user.role.roleName;
 			userVm.user.role = role;
@@ -124,8 +124,11 @@
 			alert("user id = "+ userId);
 		}
 		userVm.getPermissionsGroup = function(){ //All permissions, not role specific.
+			if(!AjaxUtil.isAuthorized(false)){
+				return;
+			}
 			userVm.allPermissionsGroup = [];
-			RoleService.getPermissionsGroup(function(jqXHR, status) {
+			UserService.getPermissionsGroup(function(jqXHR, status) {
 				if("success" === status){
 					$scope.$apply(function(){
 						userVm.allPermissionsGroup = jqXHR;

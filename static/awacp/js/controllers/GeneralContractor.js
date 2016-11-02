@@ -110,9 +110,6 @@
 		}
 		
 		gcVm.getGcs = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
 			gcVm.pageNumber = gcVm.currentPage;
 			AjaxUtil.getData("/awacp/listGcs/"+gcVm.pageNumber+"/"+gcVm.pageSize, Math.random())
 			.success(function(data, status, headers){

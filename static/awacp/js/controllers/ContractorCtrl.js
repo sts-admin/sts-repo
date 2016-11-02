@@ -110,9 +110,6 @@
 		}
 		
 		conVm.getContractors = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
 			conVm.pageNumber = conVm.currentPage;
 			AjaxUtil.getData("/awacp/listContractors/"+conVm.pageNumber+"/"+conVm.pageSize, Math.random())
 			.success(function(data, status, headers){

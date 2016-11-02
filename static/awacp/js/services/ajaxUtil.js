@@ -14,11 +14,16 @@
 					 dataType : 'json'
 				});
 			},
-			isAuthorized: function(){
+			isAuthorized: function(showAlert){
 				var accessToken = StoreService.getAccessToken();
 				if(accessToken != null && accessToken.length > 0){
 					this.initHeaderInfo();
 					return true;
+				}
+				if(!showAlert){
+					StoreService.removeAll();
+					$state.go("/");
+					return false;
 				}
 				AlertService.showAlert(	'AWACP :: Alert!','You are not authorized to perform this operation.')
 				.then(function (){StoreService.removeAll();$state.go("/")},function (){return false;});
@@ -126,7 +131,7 @@
 			},	
 			
 			getData: function (serviceUrl, data) {
-				if(this.isAuthorized()){
+				if(this.isAuthorized(true)){
 					return this.getDataNoSecure(serviceUrl, data);
 				}				
 			},			
@@ -134,7 +139,7 @@
 				return this.submitAJAXRequest(serviceUrl, data, "GET")
 			},			
 			submitData: function (serviceUrl, data) {
-				if(this.isAuthorized()){
+				if(this.isAuthorized(true)){
 					return this.submitDataNoSecure(serviceUrl, data);
 				}
 			},			
@@ -142,7 +147,7 @@
 				return this.submitAJAXRequest(serviceUrl, data, "POST")
 			},
 			deleteData: function (serviceUrl, data) {
-				if(this.isAuthorized()){
+				if(this.isAuthorized(true)){
 					return this.deleteDataNoSecure(serviceUrl, data);
 				}
 			},			
@@ -179,7 +184,7 @@
 				}
 			},			
 			downloadData: function uploadData(serviceUrl, data) {
-				if(this.isAuthorized()){
+				if(this.isAuthorized(true)){
 					$.support.cors = true;
 					return $.ajax({type: "GET",url: base+serviceUrl,crossDomain: true,dataType: "binary",headers:{'Content-Type':'image/png','X-Requested-With':'XMLHttpRequest'},processData: false,});
 				};

@@ -70,9 +70,6 @@
 		}
 		
 		arcVm.getArchitects = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
 			arcVm.architects = [];
 			AjaxUtil.getData("/awacp/listArchitects/"+arcVm.pageNumber+"/"+arcVm.pageSize, Math.random())
 			.success(function(data, status, headers){

@@ -35,6 +35,11 @@
 				templateUrl:"templates/user-add.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
+			}).state('edit-user',{
+				url: '/manage/user/edit/:id',
+				templateUrl:"templates/user-add.html",
+				controller:"UserCtrl",
+				controllerAs:"userVm"
 			}).state('roles',{
 				url: '/manage/roles',
 				templateUrl:"templates/roles.html",

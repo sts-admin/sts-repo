@@ -84,9 +84,6 @@
 		
 		
 		engVm.getEngineers = function(){
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
 			engVm.engineers = [];
 			AjaxUtil.getData("/awacp/listEngineers/"+engVm.currentPage+"/"+engVm.pageSize, Math.random())
 			.success(function(data, status, headers){

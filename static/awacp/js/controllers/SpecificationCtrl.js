@@ -77,9 +77,6 @@
 		
 		specVm.getSpecs = function(){
 			specVm.specs = [];
-			if(!AjaxUtil.isAuthorized()){
-				return;
-			}
 			specVm.pageNumber = specVm.currentPage;
 			AjaxUtil.getData("/awacp/listSpecifications/"+specVm.pageNumber+"/"+specVm.pageSize, Math.random())
 			.success(function(data, status, headers){
