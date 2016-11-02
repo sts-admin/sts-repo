@@ -352,7 +352,7 @@ tr.bg-dark-green td {
     padding: 2px;
 }
 .theme-table td {
-    font-size: 13px;
+    font-size: 12px;
 }
 .bg-4D7373 {
     background: #4d7373 none repeat scroll 0 0;
@@ -361,4 +361,9 @@ tr.bg-dark-green td {
 .bg-7D3549 {
     background: #7D3549;
     color: #FFF;
+}
+.theme-table input {
+    font-size: 1.2em;
+    line-height: 1.5em;
+    width: 100% !important;
 }
