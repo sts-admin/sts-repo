@@ -3,13 +3,68 @@
 <div class="container-fluid">
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
-			<div class="panel-heading form-heading">
-				<label>Search Takeoff Detail</label>				
+			<div class="panel-heading form-heading panel-heading-top">
+				<label>Search Take Off</label>				
 			</div>
 			<div class="panel-body">
 				<form ng-submit="takeVm.saveTakeoff();">
 					<!-- .row -->
+                    
+                    <div class="row"> <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div><!-- .col --> <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30"> <div class="form-group"> <input value="Search" class="submit-btn btn btn-primary" type="submit"> &nbsp;&nbsp;&nbsp; <input value="Reset" class="reset-btn btn btn-info" onclick="this.form.reset();" type="reset"> </div> </div><!-- .col --> </div>
+                    
+                    
 					<div class="row">
+                    
+                    
+                    <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">
+								Date Entered
+							</span>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-9">
+							<div class="form-group">
+							  <input type="date" class="form-control" ng-model="takeVm.takeoff.drawingDate" ng-required="true" />
+							</div>
+						  </div>
+                          
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Usercode</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-9">
+							<div class="form-group">
+							 <select class="form-control"
+								  ng-model="takeVm.takeoff.salesPerson" 
+								  ng-options="user.id as user.customName for user in takeVm.users" ng-required = "true">
+								  <option value="">--- Select ---</option>
+								</select>
+							</div>
+						  </div>
+                          
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Salesman</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-9">
+							<div class="form-group">
+							 <select class="form-control"
+								  ng-model="takeVm.takeoff.salesPerson" 
+								  ng-options="user.id as user.customName for user in takeVm.users" ng-required = "true">
+								  <option value="">--- Select ---</option>
+								</select>
+							</div>
+						  </div>
+                          
+                          
+                    
+                    
+                    
 					 <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
 								Job Name
@@ -40,7 +95,7 @@
 						  </div>
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
-								Job Specification
+								Specification
 							</span>
 							<i class="star red">*</i>
 							<span class="colon">:</span> 
@@ -51,21 +106,7 @@
 								<div placeholder="Select Contractors" ng-dropdown-multiselect="" options="takeVm.specs" selected-model="takeVm.selectedSpecs" extra-settings="takeVm.specSettings"></div>
 							</div>
 						  </div>
-						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">Sales Person</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							 <select class="form-control"
-								  ng-model="takeVm.takeoff.salesPerson" 
-								  ng-options="user.id as user.customName for user in takeVm.users" ng-required = "true">
-								  <option value="">--- Select ---</option>
-								</select>
-							</div>
-						  </div>
+						
 						 <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">Engineer</span>
 							<span class="colon">:</span> 
@@ -148,7 +189,7 @@
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							  <span class="form-label">Drawing Received From</span>
+							  <span class="form-label">Dwgs Rcvd From</span>
 							  <span class="colon">:</span> 
 						 </div>
 						  <!-- .col -->
@@ -188,23 +229,10 @@
 							</div>
 						  </div>
 					</div>
+                    
+                    <div class="row"> <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div><!-- .col --> <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30"> <div class="form-group"> <input value="Search" class="submit-btn btn btn-primary" type="submit"> &nbsp;&nbsp;&nbsp; <input value="Reset" class="reset-btn btn btn-info" onclick="this.form.reset();" type="reset"> </div> </div><!-- .col --> </div>
 					<!-- .row -->
 				   
-					<!-- .row -->
-					<div class="row checkrow">
-					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
-					  <!-- .col -->
-					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-						<input type="submit" value="Add Takeoff" class="submit-btn btn btn-primary">
-						<input type="hidden" name="add" value="add" />
-						&nbsp;&nbsp;
-						<input type="reset" value="Reset" class="reset-btn btn btn-warning" id="takeoff-reset">
-						&nbsp;&nbsp;
-						<input type="button" value="Go Back" class="reset-btn btn btn-info" ng-click="takeVm.cancelTakeoffAction();">
-					  </div>
-					  <!-- .col -->
-					</div>
-					<!-- .row -->
 				</form>
 			</div>
 		</div>

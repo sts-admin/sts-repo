@@ -369,3 +369,32 @@ tr.bg-dark-green td {
     width: 100% !important;
 }
 .pad-none{padding-left:0; padding-right:0;}
+.panel-heading-top{padding:5px 10px;}
+.panel-heading-top > label {
+    font-size: 17px !important;
+}
+
+.colon {
+    float: right;
+    font-weight: bold;
+}
+.form-group{padding:0;}
+.form-label {
+    font-size: 13px;
+    font-weight: bold;
+}
+.form-control{height:30px;}
+.pagination{margin:0;}
+.color-red {
+    color: red;
+    font-size: 12px;
+}
+.color-green {
+    color: green;
+    font-size: 12px;
+}
+.color-blue {
+    color: blue;
+    font-size: 12px;
+}
+.per-page-row{font-size:12px; text-align:left;}

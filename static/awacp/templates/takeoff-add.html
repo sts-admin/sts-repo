@@ -3,8 +3,8 @@
 <div class="container-fluid">
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
-			<div class="panel-heading form-heading">
-				<label>Add Takeoff Detail</label>				
+			<div class="panel-heading form-heading panel-heading-top">
+				<label>New Take Off</label>			
 			</div>
 			<div class="panel-body">
 				<form ng-submit="takeVm.saveTakeoff();">
@@ -118,19 +118,19 @@
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
+						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
 							  <input type="date" class="form-control" ng-model="takeVm.takeoff.drawingDate" ng-required="true" />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
-								Revision Date
+								Revised Date
 							</span>
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
+						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
 							  <input type="date" class="form-control" ng-model="takeVm.takeoff.revisedDate" />
 							</div>
@@ -142,13 +142,15 @@
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
+						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
 							  <input type="date" class="form-control" ng-model="takeVm.takeoff.dueDate" ng-required="true" />
 							</div>
 						  </div>
+                          
+                          
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							  <span class="form-label">Drawing Received From</span>
+							  <span class="form-label">Dwgs Rcvd From</span>
 							  <span class="colon">:</span> 
 						 </div>
 						  <!-- .col -->
@@ -157,6 +159,21 @@
 							  <input type="text" class="form-control" placeholder="Drawing Received From" maxlength="100" oninvalid="this.setCustomValidity('Drawing Received From');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.drawingReceivedFrom" />
 							</div>
 						  </div>
+                          
+                          
+                          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+							  <span class="form-label">VIBRO LAY IN</span>
+							  <span class="colon">:</span> 
+						 </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="VIBRO LAY IN" maxlength="100" oninvalid="this.setCustomValidity('Drawing Received From');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.drawingReceivedFrom" />
+							</div>
+						  </div>
+                          
+                          
+                          
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
 								<span class="form-label">Bidders</span>
 								<span class="colon">:</span> 
@@ -195,7 +212,7 @@
 					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 					  <!-- .col -->
 					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-						<input type="submit" value="Add Takeoff" class="submit-btn btn btn-primary">
+						<input type="submit" value="Submit" class="submit-btn btn btn-primary">
 						<input type="hidden" name="add" value="add" />
 						&nbsp;&nbsp;
 						<input type="reset" value="Reset" class="reset-btn btn btn-warning" id="takeoff-reset">
