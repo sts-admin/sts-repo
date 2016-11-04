@@ -159,19 +159,19 @@
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
+						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
 							  <input type="date" class="form-control" ng-model="takeVm.takeoff.drawingDate" ng-required="true" />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
-								Revision Date
+								Revised Date
 							</span>
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
+						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
 							  <input type="date" class="form-control" ng-model="takeVm.takeoff.revisedDate" />
 							</div>
@@ -183,11 +183,12 @@
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
+						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
 							  <input type="date" class="form-control" ng-model="takeVm.takeoff.dueDate" ng-required="true" />
 							</div>
 						  </div>
+                          
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
 							  <span class="form-label">Dwgs Rcvd From</span>
 							  <span class="colon">:</span> 
@@ -198,36 +199,19 @@
 							  <input type="text" class="form-control" placeholder="Drawing Received From" maxlength="100" oninvalid="this.setCustomValidity('Drawing Received From');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.drawingReceivedFrom" />
 							</div>
 						  </div>
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-								<span class="form-label">Bidders</span>
-								<span class="colon">:</span> 
-							</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-								<div placeholder="Select Bidders" ng-dropdown-multiselect="" options="takeVm.bidders" selected-model="takeVm.selectedBidders" extra-settings="takeVm.biddersSettings"></div>							
-							</div>
-						  </div>
-							<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-								<span class="form-label">General Contractors</span>
-								<span class="colon">:</span> 
-							</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-								<div placeholder="Select Contractors" ng-dropdown-multiselect="" options="takeVm.contractors" selected-model="takeVm.selectedContractors" extra-settings="takeVm.contractorsSettings"></div>
-							</div>
-						  </div>
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							  <span class="form-label">Takeoff Comment</span>
+                          
+                          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+							  <span class="form-label">List of Bidders</span>
 							  <span class="colon">:</span> 
 						 </div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <textarea class="form-control" placeholder="Enter Comment" maxlength="1000"  oninvalid="this.setCustomValidity('Enter Comment');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.takeOffComment"  />
+							  <input type="text" class="form-control" placeholder="List of Bidders" maxlength="100" oninvalid="this.setCustomValidity('Drawing Received From');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.drawingReceivedFrom" />
 							</div>
 						  </div>
+               
+                  
 					</div>
                     
                     <div class="row"> <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div><!-- .col --> <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30"> <div class="form-group"> <input value="Search" class="submit-btn btn btn-primary" type="submit"> &nbsp;&nbsp;&nbsp; <input value="Reset" class="reset-btn btn btn-info" onclick="this.form.reset();" type="reset"> </div> </div><!-- .col --> </div>
