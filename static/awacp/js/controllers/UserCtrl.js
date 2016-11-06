@@ -9,7 +9,7 @@
 		userVm.totalItems = 0;
 		userVm.currentPage = 1;
 		userVm.pageSize = 5;
-		userVm.genders = [{name:"male", title:"Male"}, {name:"female", title:"Female"}];
+		userVm.genders = [{name:"Male", title:"Male"}, {name:"Female", title:"Female"}];
 		userVm.setPage = function (pageNo) {
 			$scope.currentPage = pageNo;
 		};
@@ -161,6 +161,36 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
+		userVm.updateUser = function(){
+			var formData = {};
+			formData["user"] = userVm.user;
+			AjaxUtil.submitData("/awacp/updateUser", formData)
+			.success(function (data, status, headers){
+				AlertService.showAlert(	'AWACP :: Alert!','User Detail updated successfully.')
+				.then(function (){return;},function (){return;});
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UserCtrl::userVm.updateUser::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		userVm.editUser = function(id){
+			userVm.user = [];
+			AjaxUtil.getData("/awacp/getUserWithPermissions/"+id, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.user){
+					userVm.user = data.user;
+				}
+				console.log(userVm.user);
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UserCtrl::userVm.editUser::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		if($state.params && $state.params.id){ //edit user url
+			userVm.editUser($state.params.id);
+		}
 		userVm.getPermissionsGroup();
 	}		
 })();

@@ -38,7 +38,7 @@
 				controllerAs:"userVm"
 			}).state('edit-user',{
 				url: '/manage/user/edit/:id',
-				templateUrl:"templates/user-add.html",
+				templateUrl:"templates/user-edit.html",
 				controller:"UserCtrl",
 				controllerAs:"userVm"
 			}).state('roles',{
