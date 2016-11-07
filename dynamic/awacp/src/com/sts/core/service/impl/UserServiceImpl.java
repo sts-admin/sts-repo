@@ -175,7 +175,8 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 	public void removeUser(Long userId) {
 		User user = findUser(userId);
 		if (user != null) {
-			getEntityManager().remove(user);
+			user.setArchived(true);
+			getEntityManager().merge(user);
 		}
 	}
 
