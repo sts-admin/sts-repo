@@ -59,10 +59,10 @@
                       <td style="padding:5px; color:#FFF;" align="center">S. No.</td>
                       <td style="padding:5px; color:#FFF; text-align:center;">Name</td>
                       <td style="padding:5px; color:#FFF;" align="center">User ID</td>
+					  <td style="padding:5px; color:#FFF;" align="center">Password</td>
                       <td style="padding:5px; color:#FFF;" align="center">User Code</td>
                       <td style="padding:5px; color:#FFF;" align="center">Email</td>
-                      <td style="padding:5px; color:#FFF;" align="center">Gender</td>
-                      <td style="padding:5px; color:#FFF;" align="center">Phone</td>
+                      <td style="padding:5px; color:#FFF;" align="center">Status</td>
                       <td style="padding:5px; color:#FFF;" align="center">Date Created</td>
                       <td style="padding:5px; color:#FFF;" filter="false" align="center"></td>
                     </tr>
@@ -72,13 +72,142 @@
                       <td align="center">{{$index + 1}}</td>
                       <td>{{user.firstName}} &nbsp;{{user.lastName}}</td>
                       <td>{{user.userName}}</td>
+					  <td>{{user.password}}</td>
                       <td align="center">{{user.userCode}}</td>
                       <td align="center">{{user.email}}</td>
-                      <td>{{user.gender}}</td>
-                      <td align="center">{{user.contact}}</td>
+                      <td>{{user.role}}</td>
                       <td>{{user.dateCreated | date:'mediumDate'}}</td>
                       <td align="center">&nbsp; <a href ui-sref="edit-user({id:user.id})"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href ng-click="showUserDetail(user.id)"><img src="images/business_user_info.png" title="show user information" border="0"></a></td>
                     </tr>
+					 <tr id="userdetails_90">
+                  <td colspan="9"><table class="table-responsive theme-table" style="font-size:10px;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                        <tr>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>Take Off</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Add - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>Y<br>
+                            <strong> &nbsp; Search - </strong>Y<br>
+                            <strong> &nbsp; Reports - </strong>N<br>
+                            <strong> &nbsp; TakeOff Login Emails - </strong>Y<br>
+                            &nbsp; </td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>Quote</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Add - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>Y<br>
+                            <strong> &nbsp; Followup - </strong>Y<br>
+                            <strong> &nbsp; Send Followup - </strong>Y<br>
+                            <strong> &nbsp; Make - </strong>Y<br>
+                            <strong> &nbsp; Search - </strong>Y<br>
+                            <strong> &nbsp; Reports - </strong>N<br>
+                            <strong> &nbsp; Quote CC to UC - </strong>Y<br>
+                            <strong> &nbsp; Quote CC to SP - </strong>Y<br>
+                            <strong> &nbsp; Quote Undead - </strong>N<br>
+                            <strong> &nbsp; Quote BCC - </strong>N<br>
+                            <strong> &nbsp; Quote Rev Email - </strong>N<br>
+                            &nbsp; </td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>JobOrder</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Add - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>N<br>
+                            <strong> &nbsp; Search - </strong>Y<br>
+                            <strong> &nbsp; Invoice - </strong>Y<br>
+                            <strong> &nbsp; Reports - </strong>N<br>
+                            <strong> &nbsp; Monday Morning - </strong>N<br>
+                            <strong> &nbsp; Final Job Update - </strong>Y<br>
+                            <strong> &nbsp; Final Job Update Rollback - </strong>N<br>
+                            <strong> &nbsp; Delete Invoice EMail - </strong>N<br>
+                            <strong> &nbsp; Tax - </strong>N<br>
+                            &nbsp; </td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>OrderBook</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Reg - </strong>Y<br>
+                            <strong> &nbsp; AW - </strong>Y<br>
+                            <strong> &nbsp; AWF - </strong>Y<br>
+                            <strong> &nbsp; SBC - </strong>Y<br>
+                            <strong> &nbsp; SPL - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>Y<br>
+                            <strong> &nbsp; ORBF - </strong>Y<br>
+                            <strong> &nbsp; Search - </strong>Y<br>
+                            <strong> &nbsp; Reports - </strong>N<br>
+                            <strong> &nbsp; ShipTo - </strong>Y<br>
+                            <strong> &nbsp; EST Date Reminder - </strong>Y<br>
+                            <strong> &nbsp; Change UC - </strong>N<br>
+                            &nbsp; </td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>Inventory AW</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Add - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>Y<br>
+                            <strong> &nbsp; Admin - </strong>N<br>
+                            &nbsp; </td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>Inventory AWF</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Add - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>Y<br>
+                            <strong> &nbsp; Admin - </strong>N<br>
+                            &nbsp; </td>
+                        </tr>
+                        <tr>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>Inventory SBC</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Add - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>Y<br>
+                            <strong> &nbsp; Admin - </strong>N<br>
+                            &nbsp; </td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>Inventory SPL</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Add - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>Y<br>
+                            <strong> &nbsp; Admin - </strong>N<br>
+                            &nbsp; </td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>Inventory J</u></strong> <br>
+                            <br>
+                            <strong> &nbsp; View - </strong>Y<br>
+                            <strong> &nbsp; Add - </strong>Y<br>
+                            <strong> &nbsp; Edit - </strong>Y<br>
+                            <strong> &nbsp; Delete - </strong>Y<br>
+                            <strong> &nbsp; Admin - </strong>N<br>
+                            &nbsp; </td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>BBT Access</u> - </strong><br>
+                            <br>
+                            <strong> &nbsp; BBT - </strong>Y<br></td>
+                          <td valign="top"><br>
+                            <strong> &nbsp; <u>Allow Marketing</u> - </strong><br>
+                            <br>
+                            <strong> &nbsp; Marketing - </strong>Y<br>
+                            <br>
+                            <strong> &nbsp; Collection - </strong>Y<br>
+                            <strong> &nbsp; Claims - </strong>N<br></td>
+                        </tr>
+                      </tbody>
+                    </table></td>
+                </tr>
                 </table>
                 </td>
                 </tr>

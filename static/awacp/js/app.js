@@ -46,8 +46,8 @@
 				templateUrl:"templates/roles.html",
 				controller:"RoleCtrl",
 				controllerAs:"roleVm"
-			}).state('quote-add',{
-				url: '/quote/make',
+			}).state('quote-new-view',{
+				url: '/quote/add',
 				templateUrl:"templates/quotes-new.html",
 				controller:"QuoteCtrl",
 				controllerAs:"qVm"
