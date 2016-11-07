@@ -196,7 +196,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 	@Override
 	public String[] getNewTakeoffEmails(Long takeoffId) {
 		String[] emails = null;
-		String queryString = "SELECT u.email FROM USER AS u INNER JOIN USER_PERMISSION AS p ON u.ROLE = p.USERID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'takeoff_loginemail'";
+		String queryString = "SELECT u.email FROM USER AS u INNER JOIN USER_PERMISSION AS p ON u.ROLE = p.USERID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'takeoff_new_email'";
 		List<String> results = getEntityManager().createNativeQuery(queryString).getResultList();
 		if (results != null && !results.isEmpty()) {
 			emails = new String[results.size()];

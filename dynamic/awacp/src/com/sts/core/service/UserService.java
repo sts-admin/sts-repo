@@ -37,7 +37,7 @@ public interface UserService {
 
 	public User getUserByUserNameOrEmail(String userNameOrEmail);
 
-	public User updateUser(User user);
+	public User updateUser(User user) throws StsCoreException;
 
 	public Long recordPasswordResetInfo(PasswordResetHistory prh);
 
@@ -66,12 +66,16 @@ public interface UserService {
 	public List<PermissionGroup> groupPermissionsGroup();
 
 	public Permission getPermission(String permissionName);
-	
+
 	public List<Object[]> getUniquePermissionGroups();
 
 	public List<Permission> getAllMatchingPermissions(String keyword);
 
 	public List<Menu> getUserMenu(Long userId);
-	
+
 	public List<Menu> getUserMenu(String userNameOrEmail);
+
+	public User getUserWithPermissions(Long userId);
+
+	public List<User> filterUsers(String name, String userId, String userCode, String email, String status);
 }

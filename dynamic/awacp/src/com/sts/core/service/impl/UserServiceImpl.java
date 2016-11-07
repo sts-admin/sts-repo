@@ -14,6 +14,7 @@ import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysql.jdbc.StringUtils;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.Menu;
@@ -27,6 +28,7 @@ import com.sts.core.entity.Image;
 import com.sts.core.entity.PasswordResetHistory;
 import com.sts.core.entity.Permission;
 import com.sts.core.entity.User;
+import com.sts.core.exception.StsCoreException;
 import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.UserService;
 import com.sts.core.util.ConversionUtil;
@@ -90,6 +92,42 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 			}
 		}
 		return response;
+	}
+
+	@Override
+	@Transactional
+	public User updateUser(User user) throws StsCoreException {
+		User existingUser = findUser(user.getId());
+		if (existingUser.getId() != user.getId()) {
+			if (existingUser.getUserName().equalsIgnoreCase(user.getUserName())) {
+				throw new StsDuplicateException("duplicate_username");
+			}
+			if (existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
+				throw new StsDuplicateException("duplicate_email");
+			}
+			if (existingUser.getUserCode().equalsIgnoreCase(user.getUserCode())) {
+				throw new StsDuplicateException("duplicate_code");
+			}
+		}
+
+		String[] permissionArray = user.getPermissionArray();
+		if (permissionArray != null && permissionArray.length > 0) {
+			Set<Permission> permissions = new HashSet<Permission>();
+			for (String permissionName : permissionArray) {
+				Permission permission = getPermission(permissionName);
+				if (permission != null) {
+					permissions.add(permission);
+				}
+			}
+			user.setPermissions(permissions);
+		} else {
+			user.getPermissions().clear();
+		}
+		user.setPermissionChanged(!user.getPermissions().equals(existingUser.getPermissions()));
+		user.setVersion(existingUser.getVersion());
+		getEntityManager().merge(user);
+		getEntityManager().flush();
+		return user;
 	}
 
 	@Override
@@ -169,27 +207,6 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 			setUserPhotoAndName(user);
 		}
 		return user;
-	}
-
-	@Override
-	public User updateUser(User user) {
-		User existingUser = findUser(user.getId());
-		String[] permissionArray = user.getPermissionArray();
-		if (permissionArray != null && permissionArray.length > 0) {
-			Set<Permission> permissions = new HashSet<Permission>();
-			for (String permissionName : permissionArray) {
-				Permission permission = getPermission(permissionName);
-				if (permission != null) {
-					permissions.add(permission);
-				}
-			}
-			existingUser.setPermissions(permissions);
-		} else {
-			existingUser.getPermissions().clear();
-		}
-		getEntityManager().merge(existingUser);
-		getEntityManager().flush();
-		return existingUser;
 	}
 
 	@Override
@@ -619,6 +636,50 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 
 		items.add(new MenuItem("Manage GCs", "gcs"));
 		return items;
+	}
+
+	@Override
+	public User getUserWithPermissions(Long userId) {
+		User user = findUser(userId);
+		if (user != null) {
+			user.getPermissions();
+		}
+		if (user.getPermissions() != null && !user.getPermissions().isEmpty()) {
+			String[] permissions = new String[user.getPermissions().size()];
+			int i = 0;
+			for (Permission permission : user.getPermissions()) {
+				permissions[i++] = permission.getAuthority();
+			}
+			user.setPermissionArray(permissions);
+		}
+		return user;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> filterUsers(String name, String userId, String userCode, String email, String role) {
+		StringBuffer query = new StringBuffer(
+				"SELECT new com.sts.core.entity.User(u.id, u.firstName, u.lastName, u.userName, u.userCode, u.password, u.email, u.role, u.dateCreated) FROM User u WHERE u.archived = 'false'");
+		if (!StringUtils.isNullOrEmpty(name)) {
+			query.append(" AND u.firstName LIKE %").append(name).append("%").append(" OR u.lastName LIKE %")
+					.append(name).append("%");
+		}
+		if (!StringUtils.isNullOrEmpty(userId)) {
+			query.append(" AND u.userName LIKE %").append(userId).append("%");
+		}
+		if (!StringUtils.isNullOrEmpty(userCode)) {
+			query.append(" AND u.userCode LIKE %").append(userCode).append("%");
+		}
+
+		if (!StringUtils.isNullOrEmpty(email)) {
+			query.append(" AND u.email LIKE %").append(email).append("%");
+		}
+
+		if (!StringUtils.isNullOrEmpty(role)) {
+			query.append(" AND u.role LIKE %").append(role).append("%");
+		}
+		System.err.println("filterUsers, query = " + query.toString());
+		return getEntityManager().createQuery(query.toString()).getResultList();
 	}
 
 }

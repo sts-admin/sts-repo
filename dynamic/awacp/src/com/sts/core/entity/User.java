@@ -1,5 +1,6 @@
 package com.sts.core.entity;
 
+import java.util.Calendar;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -54,11 +55,25 @@ public class User extends BaseEntity {
 
 	// transient attributes
 	private String photoUrl;
-	// Transient attributes
 	private String[] permissionArray;
+	private boolean permissionChanged;
 
 	public User() {
 		super();
+	}
+
+	public User(Long id, String firstName, String lastName, String userName, String userCode, String password, 
+			String email, String role, Calendar dateCreated) {
+		this.setId(id);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userName = userName;
+		this.userCode = userCode;
+		this.password = password;		
+		this.email = email;
+		this.role = role;
+		this.setDateCreated(dateCreated);
+
 	}
 
 	@NotNull
@@ -243,6 +258,7 @@ public class User extends BaseEntity {
 	public void setVerified(boolean verified) {
 		this.verified = verified;
 	}
+
 	@Column(length = 50)
 	public String getPassword() {
 		return password;
@@ -296,6 +312,15 @@ public class User extends BaseEntity {
 
 	public void setPermissionArray(String[] permissionArray) {
 		this.permissionArray = permissionArray;
+	}
+
+	@Transient
+	public boolean isPermissionChanged() {
+		return permissionChanged;
+	}
+
+	public void setPermissionChanged(boolean permissionChanged) {
+		this.permissionChanged = permissionChanged;
 	}
 
 }

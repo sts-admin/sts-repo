@@ -113,11 +113,18 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/get/user/{userId}")
+	@Path("/get/user/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+	public User getUser(@PathParam("id") Long id, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.userService.findUser(id);
+	}
+
+	@GET
+	@Path("/getUserWithPermissions/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User getUserWithPermissions(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.userService.findUser(userId);
+		return this.userService.getUserWithPermissions(id);
 	}
 
 	@GET
@@ -168,6 +175,30 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 		return aUser;
 	}
 
+	@POST
+	@Path("/updateUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User updateUser(User user, @Context HttpServletResponse servletResponse) throws IOException {
+		User aUser = null;
+		try {
+			aUser = this.userService.updateUser(user);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (message.equals(StsCoreConstant.DUPLICATE_CODE.toLowerCase())) {
+				code = 1000;
+			} else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_USERNAME.toLowerCase())) {
+				code = 1001;
+			} else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return aUser;
+	}
+
 	@DELETE
 	@Path("/delete/user/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -194,6 +225,15 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	public List<UserDTO> searchUserByFilter(@QueryParam("filterString") String filterString,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.searchUserByFilter(filterString);
+	}
+
+	@GET
+	@Path("/filterUsers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> filterUsers(@QueryParam("name") String name, @QueryParam("userId") String userId, @QueryParam("userCode") String userCode,
+			@QueryParam("email") String email, @QueryParam("status") String status, @Context HttpServletResponse servletResponse)
+					throws IOException {
+		return this.userService.filterUsers(name, userId, userCode, email, status);
 	}
 
 	@GET

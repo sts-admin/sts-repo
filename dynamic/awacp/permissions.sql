@@ -1,26 +1,30 @@
-
-
 /*Takeoff permission begin*/
 INSERT INTO `awacp`.`permission`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`)
-VALUES('takeoff_c',0,1,CURRENT_TIMESTAMP,NULL,'New Take Off',NULL,1,'Takeoff', 'takeoff-add'),
-('takeoff_r',0,1,CURRENT_TIMESTAMP,NULL,'View Take Off',NULL,1,'Takeoff', 'takeoff-view'),
-('takeoff_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Take Off',NULL,1,'Takeoff', 'takeoff-search'),
+VALUES('takeoff_c',0,1,CURRENT_TIMESTAMP,NULL,'Create New',NULL,1,'Takeoff', 'takeoff-add'),
+('takeoff_r',0,1,CURRENT_TIMESTAMP,NULL,'View Takeoff',NULL,1,'Takeoff', 'takeoff-view'),
+('takeoff_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Takeoff',NULL,1,'Takeoff', 'takeoff-search'),
 ('takeoff_u',0,1,CURRENT_TIMESTAMP,NULL,'Update',NULL,1,'Takeoff', NULL),
 ('takeoff_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Takeoff', NULL),
 ('takeoff_report',0,1,CURRENT_TIMESTAMP,NULL,'Reports',NULL,1,'Takeoff', 'takeoff-reports'),
-('takeoff_loginemail',0,1,CURRENT_TIMESTAMP,NULL,'Login Email',NULL,1,'Takeoff', NULL);
+('takeoff_new_email',0,1,CURRENT_TIMESTAMP,NULL,'New Takeoff Email',NULL,1,'Takeoff', NULL);
 /*Takeoff permission end*/
 
 /*Quote permission begin*/
 INSERT INTO `awacp`.`permission`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`)
-VALUES('quote_c',0,1,CURRENT_TIMESTAMP,NULL,'New Quote',NULL,1,'Quote', 'quote-add'),
+VALUES('quote_new_view',0,1,CURRENT_TIMESTAMP,NULL,'New Quote',NULL,1,'Quote', 'quote-new-view'),
+('quote_c',0,1,CURRENT_TIMESTAMP,NULL,'Make Quote',NULL,1,'Quote', NULL),
 ('quote_r',0,1,CURRENT_TIMESTAMP,NULL,'View Quote',NULL,1,'Quote', 'quote-view'),
 ('quote_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Quote',NULL,1,'Quote', 'quote-search'),
 ('quote_u',0,1,CURRENT_TIMESTAMP,NULL,'Update',NULL,1,'Quote', NULL),
 ('quote_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Quote', NULL),
 ('quote_follow',0,1,CURRENT_TIMESTAMP,NULL,'Follow/Email',NULL,1,'Quote', 'quote-follow'),
+('quote_send_follow',0,1,CURRENT_TIMESTAMP,NULL,'Send Followup',NULL,1,'Quote', null),
 ('quote_report',0,1,CURRENT_TIMESTAMP,NULL,'Reports',NULL,1,'Quote', 'quote-reports'),
-('quote_undead',0,1,CURRENT_TIMESTAMP,NULL,'Undead Quote',NULL,1,'Quote', NULL);
+('quote_undead',0,1,CURRENT_TIMESTAMP,NULL,'Undead Quote',NULL,1,'Quote', NULL),
+('quote_bcc',0,1,CURRENT_TIMESTAMP,NULL,'Quote BCC',NULL,1,'Quote', NULL),
+('quote_cc_uc',0,1,CURRENT_TIMESTAMP,NULL,'Quote CC To UC',NULL,1,'Quote', NULL),
+('quote_cc_sp',0,1,CURRENT_TIMESTAMP,NULL,'Quote CC To SP',NULL,1,'Quote', NULL),
+('quote_rev_email',0,1,CURRENT_TIMESTAMP,NULL,'Quote Rev Email',NULL,1,'Quote', NULL);
 /*Quote permission end*/
 
 /*Job Order permission begin*/
@@ -31,7 +35,10 @@ VALUES('joborder_c',0,1,CURRENT_TIMESTAMP,NULL,'New Job Order',NULL,1,'Job Order
 ('joborder_u',0,1,CURRENT_TIMESTAMP,NULL,'Update/Final',NULL,1,'Job Order', NULL),
 ('joborder_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Job Order', NULL),
 ('joborder_rollback',0,1,CURRENT_TIMESTAMP,NULL,'Roll Back',NULL,1,'Job Order', NULL),
-('joborder_remind',0,1,CURRENT_TIMESTAMP,NULL,'Remind',NULL,1,'Job Order', NULL),
+('joborder_final_update',0,1,CURRENT_TIMESTAMP,NULL,'Job Final Update',NULL,1,'Job Order', NULL),
+('joborder_invoice',0,1,CURRENT_TIMESTAMP,NULL,'Job Invoice',NULL,1,'Job Order', NULL),
+('joborder_delete_invoice_email',0,1,CURRENT_TIMESTAMP,NULL,'Delete Invoice Email',NULL,1,'Job Order', NULL),
+('joborder_monday_remind',0,1,CURRENT_TIMESTAMP,NULL,'Monday Remind',NULL,1,'Job Order', NULL),
 ('joborder_report',0,1,CURRENT_TIMESTAMP,NULL,'Reports',NULL,1,'Job Order', 'joborder-reports'),
 ('joborder_tax',0,1,CURRENT_TIMESTAMP,NULL,'Tax',NULL,1,'Job Order', NULL);
 /*Job Order permission end*/
@@ -39,7 +46,7 @@ VALUES('joborder_c',0,1,CURRENT_TIMESTAMP,NULL,'New Job Order',NULL,1,'Job Order
 /*Order Book permission begin*/
 INSERT INTO `awacp`.`permission`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`)
 VALUES('orderbook_c',0,1,CURRENT_TIMESTAMP,NULL,'New Order',NULL,1,'Order Book', 'orderbook-add'),
-('orderbook_r',0,1,CURRENT_TIMESTAMP,NULL,'View Order',NULL,1,'Order Book', 'orderbook-view'),
+('orderbook_r',0,1,CURRENT_TIMESTAMP,NULL,'View Order Book',NULL,1,'Order Book', 'orderbook-view'),
 ('orderbook_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Order',NULL,1,'Order Book', 'orderbook-search'),
 ('orderbook_u',0,1,CURRENT_TIMESTAMP,NULL,'Update',NULL,1,'Order Book', NULL),
 ('orderbook_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Order Book', NULL),
@@ -47,6 +54,13 @@ VALUES('orderbook_c',0,1,CURRENT_TIMESTAMP,NULL,'New Order',NULL,1,'Order Book',
 ('orderbook_orbf',0,1,CURRENT_TIMESTAMP,NULL,'ORBF',NULL,1,'Order Book', NULL),
 ('orderbook_remind',0,1,CURRENT_TIMESTAMP,NULL,'Est Remind',NULL,1,'Order Book', NULL),
 ('orderbook_report',0,1,CURRENT_TIMESTAMP,NULL,'Reports',NULL,1,'Order Book', 'orderbook-reports'),
+('orderbook_add_reg',0,1,CURRENT_TIMESTAMP,NULL,'Add Reg',NULL,1,'Order Book', NULL),
+('orderbook_add_aw',0,1,CURRENT_TIMESTAMP,NULL,'Add AW',NULL,1,'Order Book', NULL),
+('orderbook_add_awf',0,1,CURRENT_TIMESTAMP,NULL,'Add AWF',NULL,1,'Order Book', NULL),
+('orderbook_add_sbc',0,1,CURRENT_TIMESTAMP,NULL,'Add SBC',NULL,1,'Order Book', NULL),
+('orderbook_add_spl',0,1,CURRENT_TIMESTAMP,NULL,'ADD SPL',NULL,1,'Order Book', NULL),
+('orderbook_add_q',0,1,CURRENT_TIMESTAMP,NULL,'ADD Q',NULL,1,'Order Book', NULL),
+('orderbook_add_j',0,1,CURRENT_TIMESTAMP,NULL,'ADD J',NULL,1,'Order Book', NULL),
 ('orderbook_change',0,1,CURRENT_TIMESTAMP,NULL,'Change UC',NULL,1,'Order Book', NULL);
 /*Order Book permission end*/
 
