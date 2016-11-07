@@ -128,7 +128,7 @@
 		};
 		$scope.htmlPopover = "";
 		userVm.showUserDetail = function(userId){
-			alert("user id = "+ userId);
+			//alert("user id = "+ userId);
 		}
 		userVm.getPermissionsGroup = function(){ //All permissions, not role specific.
 			if(!AjaxUtil.isAuthorized(false)){
