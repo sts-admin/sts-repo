@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('UserCtrl', UserCtrl);
-	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'AlertService'];
-	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, AlertService){	
+	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'AlertService','$sce'];
+	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, AlertService, $sce){	
 		var userVm = this;
 		userVm.users = [];
 		userVm.roles = [{name:"Administrator", id:"role_admin"}, {name:"Sub Administrator", id:"role_subadmin"}, {name:"Executive", id:"role_executive"}, {name:"Guest", id:"role_guest"}];
@@ -40,9 +40,10 @@
 					user["userId"] = data.authorities[0].userId;
 					user["token"] = data.access_token;
 					user["displayName"] = data.authorities[0].userDisplayName;
-					alert(JSON.stringify(user, null, 4));
 					StoreService.setUser(user);
 					$rootScope.setUpUserMenu();
+					$rootScope.user.userDisplayName = StoreService.userDisplayName();
+					$rootScope.user.role = StoreService.getRole();
 					if("role_admin" === user.authority){
 						$state.go("admin");
 					}else{
@@ -121,6 +122,11 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		$scope.dynamicPopover = {
+			templateUrl: 'templates/user-privileges.html',
+			title: 'User Privileges'
+		};
+		$scope.htmlPopover = "";
 		userVm.showUserDetail = function(userId){
 			alert("user id = "+ userId);
 		}
@@ -166,22 +172,42 @@
 			formData["user"] = userVm.user;
 			AjaxUtil.submitData("/awacp/updateUser", formData)
 			.success(function (data, status, headers){
+				if(userVm.user.id == StoreService.getUserId()){
+					$rootScope.setUpUserMenu();
+				}
 				AlertService.showAlert(	'AWACP :: Alert!','User Detail updated successfully.')
-				.then(function (){return;},function (){return;});
+				.then(function (){userVm.cancelUserAction();return;},function (){return;});
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "UserCtrl::userVm.updateUser::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		userVm.deleteUser = function(userId){
+			if(userId == StoreService.getUserId()){
+				AlertService.showAlert(	'AWACP :: Warning!','You can not delete yourself.')
+				.then(function (){return;},function (){return;});
+			}else{
+				AlertService.showConfirm(	'AWACP :: Confirmation!','Are you sure to delete this user?')
+				.then(function (){
+					AjaxUtil.deleteData("/awacp/delete/user/"+userId, Math.random())
+					.success(function(data, status, headers){
+						userVm.getUsers();
+					})
+					.error(function(jqXHR, textStatus, errorThrown){
+						jqXHR.errorSource = "UserCtrl::userVm.deleteUser::Error";
+						AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+					});
+				},function (){return;});
+			}
+		}
 		userVm.editUser = function(id){
 			userVm.user = [];
 			AjaxUtil.getData("/awacp/getUserWithPermissions/"+id, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.user){
-					userVm.user = data.user;
+					userVm.user = data.user;					
 				}
-				console.log(userVm.user);
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "UserCtrl::userVm.editUser::Error";

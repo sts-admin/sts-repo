@@ -15,8 +15,15 @@
  
   <div class="col-lg-3">
 	<div id="top-search" style="margin-top:15px;"> 
-		<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" /><br />
-	  <a href ng-click="logoutUser();" class="logout-inp">Logout</a> 
+		<div ng-show="user.role === 'role_admin'" class="top-search-inp hidden-xss" >
+			<span style="color:white;text-decoration:none;">Logged in as &nbsp;</span>
+			<a href ui-sref="admin" style="color:white;text-decoration:none;">{{user.userDisplayName}}</a> 
+		</div>
+		<div ng-hide="user.role === 'role_admin'">
+			<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" /><br />
+		</div>
+		</br>
+	  <a href ng-click="logoutUser();" class="logout-inp" style="color:white;text-decoration:none;">Logout</a> 
 	</div>
 	
   </div>

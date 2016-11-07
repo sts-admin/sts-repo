@@ -1,19 +1,25 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.services')
-	.factory('StoreService', function (store) {
+	.factory('StoreService', function (store, $rootScope) {
 		return {
 			setUser:function(user){
-				store.set('awacp_user', user);
+				store.set('awacp_user', user);				
 			},
 			getUser:function(){
 				return store.get('awacp_user');
 			},
-			
+			getUserId:function(){
+				var user = store.get('awacp_user');
+				if(user != null){
+					return user.userId;
+				}
+				return "";
+			},
 			userDisplayName:function(){
 				var user = store.get('awacp_user');
-				if(user!=null){
-					return user.userDisplayName;
+				if(user != null){
+					return user.displayName;
 				}
 				return "";
 			},
@@ -62,8 +68,9 @@
 				return user != null;
 			},
 			getRole:function(){
+				var user = this.getUser();
 				if(user !=null){
-					return user.role;
+					return user.authority;
 				}
 				return "";
 			},

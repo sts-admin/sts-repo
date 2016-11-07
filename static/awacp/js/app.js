@@ -185,7 +185,7 @@
 			$rootScope.logoutUser =function(){
 				UserService.logout();
 			};			
-			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), userDisplayName:StoreService.userDisplayName()};
+			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), userDisplayName:StoreService.userDisplayName(), role:StoreService.getRole()};
 			$rootScope.alert = {noService:false};
 			
 			$rootScope.setUpUserMenu = function(){

@@ -1,0 +1,10 @@
+<div style="font-size:8px;max-height:400px;">
+	<div ng-repeat="group in userVm.allPermissionsGroup" >
+		<div class="col-xs-12 col-md-12">
+			<label style="font-weight:bold;font-size:12pt;">{{group.groupName}}</label>
+		</div>
+		<div ng-repeat="permission in group.permissions" style="color:gray; font-size:10pt;" class="col-md-4 col-sm-4 col-xs-12">
+			<span>{{permission.description}}</span>
+		</div>
+	</div>
+</div>
