@@ -44,7 +44,7 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 			String primaryKeyName, EntityManager em) {
 	
 		StsResponse<T> response = new StsResponse<T>();
-		if (pageNumber == 1) {
+		if (pageNumber <= 1) {
 			response.setTotalCount(getTotalRecords(entityClassName, primaryKeyName, em));
 		}
 		Query query = em.createQuery(queryString);
