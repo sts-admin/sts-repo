@@ -36,7 +36,9 @@
 				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
 					if(data.stsResponse.totalCount == 1){
-						tmp.push(data.stsResponse.results);
+						var t = data.stsResponse.results;
+						t.customName = t.userCode + " - "+ t.firstName;
+						tmp.push(t);
 					}else{
 						$.each(data.stsResponse.results, function(k, v){
 							v.customName = v.userCode + " - "+ v.firstName;

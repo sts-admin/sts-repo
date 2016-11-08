@@ -46,11 +46,19 @@
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-								<div placeholder="Select Contractors" ng-dropdown-multiselect="" options="takeVm.specs" selected-model="takeVm.selectedSpecs" extra-settings="takeVm.specSettings"></div>
+						  <div class="col-lg-9 col-md-9 col-sm-8">
+							<div class="form-group" ng-hide="'REVERT' == takeVm.spec_text">								
+								 <select class="form-control"
+								  ng-model="takeVm.takeoff.spec" 
+								  ng-options="spec as spec.detail for spec in takeVm.specs" ng-required = "true">
+								  <option value="">--- Select ---</option>
+								</select>
+							</div>
+							<div class="form-group" ng-hide="'NEW' == takeVm.spec_text">
+								 <input type="text" placeholder="Specification" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Specification');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.specName" ng-required="'REVERT' == takeVm.spec_text" />
 							</div>
 						  </div>
+						  <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewSpec();">{{takeVm.spec_text}}</a>
 						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">Sales Person</span>
 							<i class="star red">*</i>
@@ -71,30 +79,37 @@
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
+						  <div class="col-lg-9 col-md-9 col-sm-8">
+							<div class="form-group" ng-hide="'REVERT' == takeVm.eng_text">
 								<select class="form-control"
 								  ng-model="takeVm.takeoff.engineerId" 
 								  ng-options="engineer.id as engineer.name for engineer in takeVm.engineers" >
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
+							<div class="form-group" ng-hide="'NEW' == takeVm.eng_text">
+								 <input type="text" placeholder="Engineer" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter engineer name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.engineerName" ng-required="'REVERT' == takeVm.eng_text" />
+							</div>
 						  </div>
+						  <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewEng();">{{takeVm.eng_text}}</a>
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
 								<span class="form-label">Architecture</span>
 								<span class="colon">:</span> 
 							</div>
 						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
+						  <div class="col-lg-9 col-md-9 col-sm-8" ng-hide="'REVERT' == takeVm.arc_text">
+							<div class="form-group" ng-hide="'REVERT' == takeVm.arc_text">
 							 <select class="form-control" 
 								  ng-model="takeVm.takeoff.architectureId" 
 								  ng-options="architect.id as architect.name for architect in takeVm.architects" >
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
+							<div class="form-group" ng-hide="'NEW' == takeVm.arc_text">
+								 <input type="text" placeholder="Engineer" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter engineer name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.architectureName" ng-required="'REVERT' == takeVm.arc_text" />
+							</div>
 						  </div>
-						 
+						 <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewArc();">{{takeVm.arc_text}}</a>
 						
 						  
 						   
@@ -168,7 +183,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="VIBRO LAY IN" maxlength="100" oninvalid="this.setCustomValidity('Drawing Received From');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.drawingReceivedFrom" />
+							  <input type="text" class="form-control" placeholder="VIBRO LAY IN" maxlength="100" oninvalid="this.setCustomValidity('Vibrolayin');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.vibrolayin" />
 							</div>
 						  </div>
                           
