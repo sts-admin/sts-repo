@@ -111,25 +111,34 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		User user = userService.getUserByUserNameOrEmail(takeoff.getUserNameOrEmail());
 		if (StringUtils.isNotEmpty(takeoff.getArchitectureName())) { // NEW
 			Architect architect = new Architect();
+			architect.setCreatedByUserCode(takeoff.getCreatedByUserCode());
 			architect.setName(takeoff.getArchitectureName());
 			architect.setSalesPerson(user.getId());
 			getEntityManager().persist(architect);
+			getEntityManager().flush();
 			takeoff.setArchitectureId(architect.getId());
+			System.err.println("new arc id = "+ takeoff.getArchitectureId());
 		}
 		if (StringUtils.isNotEmpty(takeoff.getEngineerName())) { // NEW
 			Engineer engineer = new Engineer();
+			engineer.setCreatedByUserCode(takeoff.getCreatedByUserCode());
 			engineer.setName(takeoff.getEngineerName());
 			engineer.setSalesPerson(user.getId());
 			getEntityManager().persist(engineer);
+			getEntityManager().flush();
 			takeoff.setEngineerId(engineer.getId());
+			System.err.println("engineer id = "+ takeoff.getEngineerId());
 		}
 		if (StringUtils.isNotEmpty(takeoff.getSpecName())) { // NEW
 			Spec spec = new Spec();
+			spec.setCreatedByUserCode(takeoff.getCreatedByUserCode());
 			spec.setDetail(takeoff.getSpecName());
 			spec.setCreatedById(user.getId());
 			spec.setCreatedByUserCode(user.getUserCode());
 			getEntityManager().persist(spec);
+			getEntityManager().flush();
 			takeoff.setSpec(spec);
+			System.err.println("new spec id = "+ takeoff.getSpec().getId());
 		}
 		if (biddersIds != null && biddersIds.length > 0) {
 			Set<Bidder> bidders = new HashSet<Bidder>();

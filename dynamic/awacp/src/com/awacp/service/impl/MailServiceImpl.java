@@ -4,6 +4,8 @@
 package com.awacp.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,8 +49,17 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 		Takeoff takeoff = takeoffService.getTakeoff(takeoffId);
 		User user = userService.findUser(takeoff.getSalesPerson());
 		takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
-		takeoff.setEngineerName(engineerService.getEngineer(takeoff.getEngineerId()).getName());
-		takeoff.setArchitectureName(architectService.getArchitect(takeoff.getArchitectureId()).getName());
+		if(takeoff.getEngineerId() != null ){
+			takeoff.setEngineerName(engineerService.getEngineer(takeoff.getEngineerId()).getName());
+		}else{
+			takeoff.setEngineerName("");
+		}
+		if(takeoff.getArchitectureId() != null ){
+			takeoff.setArchitectureName(architectService.getArchitect(takeoff.getArchitectureId()).getName());
+		}else{
+			takeoff.setArchitectureName("");
+		}
+		
 
 		String dateCreated = takeoff.getDateCreated() == null ? ""
 				: DATE_FORMAT.format(takeoff.getDateCreated().getTime());
@@ -57,35 +68,39 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 		String reviseDate = takeoff.getRevisedDate() == null ? ""
 				: DATE_FORMAT.format(takeoff.getRevisedDate().getTime());
 		String dueDate = takeoff.getDueDate() == null ? "" : DATE_FORMAT.format(takeoff.getDueDate().getTime());
-		StringBuffer bidders = new StringBuffer("");
+		StringBuffer biddersList = new StringBuffer("");
 		if (takeoff.getBidders() != null) {
-			int bidderCounter = 1;
-			for (Bidder b : takeoff.getBidders()) {
-				bidders.append(b.getName());
-				if (bidderCounter != 1 && bidderCounter != takeoff.getBidders().size()) {
-					bidders.append(", ");
-				}
+			int bidderCounter = 0;
+			for (Bidder b : takeoff.getBidders()) {				
+				biddersList.append(b.getName());
 				bidderCounter++;
+				if (bidderCounter != takeoff.getBidders().size()) {
+					biddersList.append(", ");
+				}				
+				
 			}
 		}
 		StringBuffer gcs = new StringBuffer("");
 		if (takeoff.getGeneralContractors() != null) {
-			int contractorCounter = 1;
+			int contractorCounter = 0;
 			for (GeneralContractor gc : takeoff.getGeneralContractors()) {
 				gcs.append(gc.getName());
-				if (contractorCounter != 1 && contractorCounter != takeoff.getGeneralContractors().size()) {
+				contractorCounter++;
+				if (contractorCounter != takeoff.getGeneralContractors().size()) {
 					gcs.append(", ");
 				}
-				contractorCounter++;
+				
 			}
 		}
-		
+		String projectNo = takeoff.getProjectNumber() == null? "":takeoff.getProjectNumber();
+		String drawingReceivedFrom =  takeoff.getDrawingReceivedFrom() == null?"":takeoff.getDrawingReceivedFrom();
+		String comment = takeoff.getTakeOffComment() == null?"":takeoff.getTakeOffComment();
 
 		String content = String.format(AwacpMailTemplate.NEW_TAKEOFF_MAIL_MESSAGE.toString(), dateCreated,
-				takeoff.getSalesPersonName(), takeoff.getUserCode(), takeoff.getTakeoffId(), takeoff.getProjectNumber(),
+				takeoff.getSalesPersonName(), takeoff.getUserCode(), takeoff.getTakeoffId(), projectNo,
 				takeoff.getEngineerName(), takeoff.getArchitectureName(), takeoff.getJobName(), takeoff.getJobAddress(),
-				takeoff.getSpec(), drawingDate, reviseDate, dueDate, takeoff.getDrawingReceivedFrom(),
-				bidders.toString(), gcs, takeoff.getTakeOffComment());
+				takeoff.getSpec().getDetail(), drawingDate, reviseDate, dueDate, drawingReceivedFrom,
+				biddersList.toString(), gcs, comment);
 		boolean status = mailService.sendMail(toAddresses, AppPropConfig.emailNewTakeoff, "AWACP :: New Takeoff Detail",
 				content, "NEW_TAKEOFF", AppPropConfig.emailNewTakeoff, AppPropConfig.emailCommonPassword);
 		return status == true ? "TAKEOFF_MAIL_SUCCESS" : "TAKEOFF_MAIL_FAILED";
@@ -160,6 +175,31 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 	public boolean sendNoReplyMail() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public static void main(String args[]){
+		Takeoff takeoff = new Takeoff();
+		Set<Bidder> bidders = new HashSet<Bidder>();
+		Bidder bidder = new Bidder();
+		bidder.setName("test one");
+		bidders.add(bidder);
+		bidder = new Bidder();
+		bidder.setName("bidder two");
+		bidders.add(bidder);
+		takeoff.setBidders(bidders);
+		StringBuffer biddersList = new StringBuffer("");
+		if (takeoff.getBidders() != null) {
+			int bidderCounter = 0;
+			for (Bidder b : takeoff.getBidders()) {				
+				biddersList.append(b.getName());
+				bidderCounter++;
+				if (bidderCounter != takeoff.getBidders().size()) {
+					biddersList.append(", ");
+				}				
+				
+			}
+		}
+		System.err.println(biddersList.toString());
 	}
 
 }
