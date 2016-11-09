@@ -25,8 +25,8 @@
 					$state.go("/");
 					return false;
 				}
-				AlertService.showAlert(	'AWACP :: Alert!','You are not authorized to perform this operation.')
-				.then(function (){StoreService.removeAll();$state.go("/")},function (){return false;});
+				AlertService.showAlert(	'AWACP :: Alert!','You are not authorized to perform this operation tt.')
+				.then(function (){StoreService.removeAll();alert("go to login");$state.go("/")},function (){return false;});
 				return false;
 			},	
 			saveErrorLog:function(jqXHR, customMsg, showMsgDialog){

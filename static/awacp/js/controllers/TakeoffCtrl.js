@@ -25,21 +25,16 @@
 		takeVm.selectedBidders = [];
 		takeVm.selectedContractors = [];
 		takeVm.setNewArc = function(){
-			if(takeVm.arc_text === 'NEW'){
-				takeVm.arc_text = "REVERT";
-			}else{
-				takeVm.arc_text = "NEW";
-			}
+			takeVm.takeoff.architectureName = "";
+			takeVm.arc_text = takeVm.arc_text === 'NEW'?'REVERT':'NEW';
 		}
 		takeVm.setNewSpec = function(){
-			takeVm.spec_text = takeVm.spec_text === 'NEW'?'REVERT':'NEW';
+			takeVm.takeoff.specName = "";
+			takeVm.spec_text = takeVm.spec_text === 'NEW'?'REVERT':'NEW';			
 		}
 		takeVm.setNewEng = function(){
-			if(takeVm.eng_text === 'NEW'){
-				takeVm.eng_text = "REVERT";
-			}else{
-				takeVm.eng_text = "NEW";
-			}
+			takeVm.takeoff.engineerName = "";
+			takeVm.eng_text = takeVm.eng_text === 'NEW'?'REVERT':'NEW';
 		}
 		takeVm.setPage = function (pageNo) {
 			takeVm.currentPage = pageNo;
