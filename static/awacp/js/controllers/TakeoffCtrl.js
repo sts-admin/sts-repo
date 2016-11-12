@@ -4,6 +4,9 @@
 	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','StoreService'];
 	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var takeVm = this;
+		takeVm.drawingDate = {opened:false};
+		takeVm.revisedDate = {opened:false};
+		takeVm.dueDate = {opened:false};		
 		takeVm.arc_text = "NEW";
 		takeVm.spec_text = "NEW";
 		takeVm.eng_text = "NEW";
@@ -24,6 +27,15 @@
 		takeVm.takeoff = {};
 		takeVm.selectedBidders = [];
 		takeVm.selectedContractors = [];
+		takeVm.drawingDatePicker = function(){
+			takeVm.drawingDate.opened = true;
+		}
+		takeVm.reversedDatePicker = function(){
+			takeVm.revisedDate.opened = true;
+		}
+		takeVm.dueDatePicker = function(){
+			takeVm.dueDate.opened = true;
+		}
 		takeVm.setNewArc = function(){
 			takeVm.takeoff.architectureName = "";
 			takeVm.arc_text = takeVm.arc_text === 'NEW'?'REVERT':'NEW';

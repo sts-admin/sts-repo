@@ -20,7 +20,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Job Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Job Name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobName" ng-required="true" />
+							  <input type="text" placeholder="Job Name" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Job Name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobName" ng-required="true" />
 							</div>
 						  </div>
 
@@ -35,7 +35,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Job Address" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Job Address');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobAddress" ng-required="true" />
+							  <input type="text" placeholder="Job Address" class="form-control" maxlength="250" oninvalid="this.setCustomValidity('Enter Job Address');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobAddress" ng-required="true" />
 							</div>
 						  </div>
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -55,7 +55,7 @@
 								</select>
 							</div>
 							<div class="form-group" ng-hide="'NEW' == takeVm.spec_text">
-								 <input type="text" placeholder="Specification" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Specification');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.specName" ng-required="'REVERT' == takeVm.spec_text" />
+								 <input type="text" placeholder="Specification" class="form-control" maxlength="250" oninvalid="this.setCustomValidity('Specification');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.specName" ng-required="'REVERT' == takeVm.spec_text" />
 							</div>
 						  </div>
 						  <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewSpec();">{{takeVm.spec_text}}</a>
@@ -119,7 +119,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Project Number" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Project Number');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.projectNumber"  />
+							  <input type="text" placeholder="Project Number" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter Project Number');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.projectNumber"  />
 							</div>
 						  </div>
 						  
@@ -132,7 +132,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
-							  <input type="date" class="form-control" ng-model="takeVm.takeoff.drawingDate" ng-required="true" />
+							  <input type="text" class="form-control" placeholder="Drawing Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.drawingDate" is-open="takeVm.drawingDate.opened" data-ng-click="takeVm.drawingDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true" ng-required="true">								 
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -144,7 +144,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
-							  <input type="date" class="form-control" ng-model="takeVm.takeoff.revisedDate" />
+							  <input type="text" class="form-control" placeholder="Revised Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.revisedDate" is-open="takeVm.revisedDate.opened" data-ng-click="takeVm.reversedDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true" ng-required="true">								 
 							</div>
 						  </div>
 						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -156,7 +156,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
-							  <input type="date" class="form-control" ng-model="takeVm.takeoff.dueDate" ng-required="true" />
+							<input type="text" class="form-control" placeholder="Due Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.dueDate" is-open="takeVm.dueDate.opened" data-ng-click="takeVm.dueDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true" ng-required="true">								 
 							</div>
 						  </div>
                           
@@ -191,6 +191,12 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
+							 <ui-select multiple ng-model="takeVm.selectedBidders" theme="bootstrap" ng-disabled="ctrl.disabled" close-on-select="false" style="width: 300px;" title="Choose Bidder(s)">
+								<ui-select-match placeholder="Select Bidder(s)">{{$item}}</ui-select-match>
+								<ui-select-choices repeat="bidder in takeVm.bidders | filter:$select.search">
+								  {{bidder}}
+								</ui-select-choices>
+							  </ui-select>
 								<div placeholder="Select Bidders" ng-dropdown-multiselect="" options="takeVm.bidders" selected-model="takeVm.selectedBidders" extra-settings="takeVm.biddersSettings"></div>							
 							</div>
 						  </div>
