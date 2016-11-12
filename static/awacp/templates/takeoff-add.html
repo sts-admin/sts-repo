@@ -4,13 +4,55 @@
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>New Take Off</label>	
+				<label>New Takeoff</label>	
 			</div>
 			<div class="panel-body">
 				<form ng-submit="takeVm.saveTakeoff();">
 					<!-- .row -->
 					<div class="row">
-					 <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+						<div class="col-lg-2 col-md-2 col-sm-2"> 
+							<span class="form-label">
+								Date Entered
+							</span>
+							<span class="colon">:</span> 
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2">
+							<div class="form-group">
+							  <label>{{currentDate | date:'shortDate'}}</label>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2"> 
+							<span class="form-label">
+								Sales Person
+							</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						<div class="col-lg-2 col-md-2 col-sm-2">
+							<div class="form-group">
+							<select class="form-control"
+								  ng-model="takeVm.takeoff.salesPerson" 
+								  ng-options="user.id as user.customName for user in takeVm.users" ng-required = "true">
+								  <option value="">--- Select ---</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2"> 
+							<span class="form-label">
+								User Code
+							</span>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						<div class="col-lg-2 col-md-2 col-sm-2">
+							<div class="form-label">
+							  <label>{{user.userCode}}</label>
+							</div>
+						</div>
+						
+						
+						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
 								Job Name
 							</span>
@@ -59,21 +101,7 @@
 							</div>
 						  </div>
 						  <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewSpec();">{{takeVm.spec_text}}</a>
-						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">Sales Person</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							 <select class="form-control"
-								  ng-model="takeVm.takeoff.salesPerson" 
-								  ng-options="user.id as user.customName for user in takeVm.users" ng-required = "true">
-								  <option value="">--- Select ---</option>
-								</select>
-							</div>
-						  </div>
+						 
 						 <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">Engineer</span>
 							<span class="colon">:</span> 
