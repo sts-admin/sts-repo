@@ -12,7 +12,6 @@
 		takeVm.eng_text = "NEW";
 		$scope.timers = [];
 		takeVm.specSettings = {displayProp: 'detail', idProp: 'id'};
-		takeVm.biddersSettings = {displayProp: 'name', idProp: 'id'};
 		takeVm.contractorsSettings = {displayProp: 'name', idProp: 'id'};
 		takeVm.totalItems = 0;
 		takeVm.currentPage = 1;

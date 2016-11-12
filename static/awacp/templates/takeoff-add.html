@@ -191,13 +191,12 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							 <ui-select multiple ng-model="takeVm.selectedBidders" theme="bootstrap" ng-disabled="ctrl.disabled" close-on-select="false" style="width: 300px;" title="Choose Bidder(s)">
-								<ui-select-match placeholder="Select Bidder(s)">{{$item}}</ui-select-match>
+							 <ui-select multiple ng-model="takeVm.selectedBidders" theme="bootstrap" style="height:50px;" close-on-select="false" title="Choose Bidder(s)">
+								<ui-select-match placeholder="Select Bidder(s)">{{$item.name}}</ui-select-match>
 								<ui-select-choices repeat="bidder in takeVm.bidders | filter:$select.search">
-								  {{bidder}}
+								  {{bidder.name}}
 								</ui-select-choices>
 							  </ui-select>
-								<div placeholder="Select Bidders" ng-dropdown-multiselect="" options="takeVm.bidders" selected-model="takeVm.selectedBidders" extra-settings="takeVm.biddersSettings"></div>							
 							</div>
 						  </div>
 							<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
@@ -207,7 +206,12 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-								<div placeholder="Select Contractors" ng-dropdown-multiselect="" options="takeVm.contractors" selected-model="takeVm.selectedContractors" extra-settings="takeVm.contractorsSettings"></div>
+								 <ui-select multiple ng-model="takeVm.selectedContractors" style="height:50px;" theme="bootstrap" close-on-select="false" title="Choose General Contractor(s)">
+									<ui-select-match placeholder="Select General Contractor(s)">{{$item.name}}</ui-select-match>
+									<ui-select-choices repeat="contractor in takeVm.contractors | filter:$select.search">
+									  {{contractor.name}}
+									</ui-select-choices>
+								  </ui-select>
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
