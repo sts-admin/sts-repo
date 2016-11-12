@@ -26,6 +26,20 @@
 		takeVm.takeoff = {};
 		takeVm.selectedBidders = [];
 		takeVm.selectedContractors = [];
+		$scope.GcsPopover = {
+			templateUrl: 'templates/takeoff-gc-list.html',
+			title: 'General Contractor(s)'
+		};
+		$scope.bidderPopover = {
+			templateUrl: 'templates/takeoff-bidder-list.html',
+			title: 'Bidder(s)'
+		};
+		takeVm.listGcsByTakeoff = function(takeoffId){
+			alert("takeoffId = "+ takeoffId);
+		}
+		takeVm.listBiddersByTakeoff = function(takeoffId){
+			alert("takeoffId = "+ takeoffId);
+		}
 		takeVm.drawingDatePicker = function(){
 			takeVm.drawingDate.opened = true;
 		}
