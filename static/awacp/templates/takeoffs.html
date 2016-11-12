@@ -85,13 +85,13 @@
 					  <td align="center">{{takeoff.jobAddress}}</td>
 					   <td align="center">{{takeoff.engineerName}}</td>
                       <td align="center">{{takeoff.architectureName}}</td>
-					  <td align="center"></td>
+					  <td align="center"><img popover-placement="left" uib-popover-template="GcsPopover.templateUrl" popover-title="{{GcsPopover.title}}" src="images/gc.png" style="cursor:pointer;" title="General Contractors" ng-click="takeVm.listGcsByTakeoff(takeoff.id)" border="0"></td>
 					  <td align="center">{{takeoff.salesPersonName}}</td>
 					  <td align="center">{{takeoff.userCode}}</td>
-					  <td align="center"></td>
+					  <td align="center">{{takeoff.spec.detail}}</td>
 					  <td align="center">{{takeoff.vibrolayin}}</td>
 					  <td align="center">{{takeoff.projectNumber}}</td>
-                      <td align="center">&nbsp; <a href="" target="_blank"> <img src="images/file_edit.png" title="edit user" border="0"> </a> &nbsp;&nbsp; <a href="" target="_blank"> <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> </a></td>
+                      <td align="center">&nbsp; <img popover-placement="left" uib-popover-template="bidderPopover.templateUrl" popover-title="{{bidderPopover.title}}" src="images/biddrs_ico.png" ng-click="takeVm.listBiddersByTakeoff(takeoff.id)" border="0"></td>
                     </tr>
                 </table>
                 </td>
