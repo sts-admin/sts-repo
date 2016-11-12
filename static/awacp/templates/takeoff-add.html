@@ -9,7 +9,7 @@
 			<div class="panel-body new-tk-bg">
 				<form ng-submit="takeVm.saveTakeoff();">
 					<!-- .row -->
-					<div class="row">
+						<div class="row">
 						<div class="col-lg-2 col-md-2 col-sm-2"> 
 							<span class="form-label">
 								Date Entered
@@ -30,13 +30,11 @@
 						</div>
 						  <!-- .col -->
 						<div class="col-lg-2 col-md-2 col-sm-2">
-							<div class="form-group">
 							<select class="form-control"
 								  ng-model="takeVm.takeoff.salesPerson" 
 								  ng-options="user.id as user.customName for user in takeVm.users" ng-required = "true">
 								  <option value="">--- Select ---</option>
 								</select>
-							</div>
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2"> 
 							<span class="form-label">

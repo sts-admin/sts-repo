@@ -25,6 +25,8 @@
 		takeVm.takeoff = {};
 		takeVm.selectedBidders = [];
 		takeVm.selectedContractors = [];
+		takeVm.takeoffGcs = [];
+		takeVm.takeoffBidders = [];
 		$scope.GcsPopover = {
 			templateUrl: 'templates/takeoff-gc-list.html',
 			title: 'General Contractor(s)'
@@ -34,10 +36,20 @@
 			title: 'Bidder(s)'
 		};
 		takeVm.listGcsByTakeoff = function(takeoffId){
-			alert("takeoffId = "+ takeoffId);
+			for(var i = 0 ; i < takeVm.takeoffs.length; i++){
+				if(takeoffId == takeVm.takeoffs[i].id){
+					takeVm.takeoffGcs = takeVm.takeoffs[i].generalContractors;
+					break;
+				}
+			}
 		}
 		takeVm.listBiddersByTakeoff = function(takeoffId){
-			alert("takeoffId = "+ takeoffId);
+			for(var i = 0 ; i < takeVm.takeoffs.length; i++){
+				if(takeoffId == takeVm.takeoffs[i].id){
+					takeVm.takeoffBidders = takeVm.takeoffs[i].bidders;
+					break;
+				}
+			}
 		}
 		takeVm.drawingDatePicker = function(){
 			takeVm.drawingDate.opened = true;
@@ -160,7 +172,7 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}		
-		takeVm.getContractors = function(){
+		takeVm.getContractors = function(){			
 			takeVm.contractors = [];
 			AjaxUtil.getData("/awacp/listGcs/1/-1", Math.random())
 			.success(function(data, status, headers){
@@ -169,11 +181,11 @@
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){
+						$.each(data.stsResponse.results, function(k, v){							
 							tmp.push(v);
 						});
 					}	
-						takeVm.contractors = tmp;
+					takeVm.contractors = tmp;
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

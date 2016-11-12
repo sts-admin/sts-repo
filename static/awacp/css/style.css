@@ -409,3 +409,14 @@ tr.bg-dark-green td {
     width: -moz-max-content; /* Firefox/Gecko */
     width: -webkit-max-content; /* Chrome */
 }
+
+.custom-list {
+  height: 300px;
+  border: solid 1pt darkblue;
+  border-radius: 15px;
+}
+
+.custom-list .bidder {
+  border-bottom: dashed 1pt darkblue;
+  padding: 5px 5px; 
+}
