@@ -176,6 +176,7 @@
 				}
 				return dayCount; 
 			}
+			$rootScope.currentDate = new Date();
 			$rootScope.resourceReadPath = resourceReadPath;
 			$rootScope.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 			$rootScope.dateFormat = $rootScope.dateFormats[0];
@@ -185,7 +186,7 @@
 			$rootScope.logoutUser =function(){
 				UserService.logout();
 			};			
-			$rootScope.user = {isLoggedIn:StoreService.isLoggedIn(), userDisplayName:StoreService.userDisplayName(), role:StoreService.getRole()};
+			$rootScope.user = {userCode:StoreService.getUserCode(), isLoggedIn:StoreService.isLoggedIn(), userDisplayName:StoreService.userDisplayName(), role:StoreService.getRole()};
 			$rootScope.alert = {noService:false};
 			
 			$rootScope.setUpUserMenu = function(){
