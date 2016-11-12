@@ -369,12 +369,14 @@ tr.bg-dark-green td {
     width: 100% !important;
 }
 .pad-none{padding-left:0; padding-right:0;}
-.panel-heading-top{padding:5px 10px; background-color:#b9e1f3 !important; font-family:sans-serif;}
+.panel-heading-top{padding:5px 10px; font-family:sans-serif;}
 .new-tk-bg{background-color:#d0e9f4 !important;}
+
 .panel-heading-top > label {
     font-size: 18px !important;
 	font-weight:normal;
 }
+.form-group{margin-bottom:5px;}
 
 .colon {
     float: right;
