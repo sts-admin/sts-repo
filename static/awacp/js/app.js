@@ -204,5 +204,6 @@
 			if($rootScope.user.isLoggedIn){
 				$rootScope.setUpUserMenu();
 			}
+			
 		});
 })();

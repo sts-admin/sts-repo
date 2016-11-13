@@ -2,7 +2,7 @@
     overflow: auto !important;
     position: relative;
     -webkit-overflow-scrolling: touch;
-    height: 300px;
+    min-height: 60px;
 }
 .ui-list-view-cell {
     position: absolute;

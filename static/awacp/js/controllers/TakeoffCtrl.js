@@ -4,6 +4,8 @@
 	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','StoreService'];
 	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var takeVm = this;
+		takeVm.openAnother = true;
+		takeVm.selectedTakeoff = {};
 		takeVm.drawingDate = {opened:false};
 		takeVm.revisedDate = {opened:false};
 		takeVm.dueDate = {opened:false};		
@@ -27,11 +29,19 @@
 		takeVm.selectedContractors = [];
 		takeVm.takeoffGcs = [];
 		takeVm.takeoffBidders = [];
-		$scope.GcsPopover = {
+		takeVm.showTakeoffInfo = function(takeoff){
+			takeoff.openInfoBox = true;
+			takeVm.selectedTakeoff =  takeoff;
+		}
+		takeVm.takeoffInfoPopover = {
+			templateUrl: 'templates/takeoff-info.html',
+			title: 'Takeoff Detail'
+		};
+		takeVm.GcsPopover = {
 			templateUrl: 'templates/takeoff-gc-list.html',
 			title: 'General Contractor(s)'
 		};
-		$scope.bidderPopover = {
+		takeVm.bidderPopover = {
 			templateUrl: 'templates/takeoff-bidder-list.html',
 			title: 'Bidder(s)'
 		};
@@ -315,9 +325,11 @@
 					var tmp = [];
 					if($.isArray(data.stsResponse.results)) {
 						$.each(data.stsResponse.results, function(k, v){
+							v.openInfoBox = false;
 							tmp.push(v);
 						});					
 					} else {
+						data.stsResponse.results.openInfoBox = false;
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){

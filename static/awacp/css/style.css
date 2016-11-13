@@ -422,3 +422,13 @@ tr.bg-dark-green td {
   border-bottom: dashed 1pt darkblue;
   padding: 5px 5px; 
 }
+
+.takeoff-red{
+	color:red;
+}
+.takeoff-green{
+	color:green;
+}
+.takeoff-blue{
+	color:blue;
+}
