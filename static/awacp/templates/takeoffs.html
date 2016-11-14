@@ -61,21 +61,24 @@
                       <td align="center">Job Name</td>
                       <td align="center">Address</td>
                       <td align="center">Engineer</td>
-                      <td align="center">Architect</td>
-                      <td align="center">GC</td>
+                      <td align="center">Architect</td>                     
                       <td align="center">SP</td>
                       <td align="center">UC</td>
                       <td align="center">Specs</td>
-                      <td align="center">Vibro</td>
+                      
                       <td align="center">Project#</td>
+					    <td align="center">Vibro</td>
+					   <td align="center">GC</td>
+					 
                       <td align="center">Bidders</td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr height="25" ng-repeat="takeoff in takeVm.takeoffs track by $index" ng-style="{{takeoff.statusStyle}}">					
-					  <td align="center">		
-			  
-						 <img  popover-placement="right" uib-popover-template="takeVm.takeoffInfoPopover.templateUrl" popover-title="{{takeVm.takeoffInfoPopover.title}}" popover-is-open="takeoff.openInfoBox" ng-mouseover="takeVm.showTakeoffInfo(takeoff);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+					  <td align="center">	
+						<img  data-template-url="templates/takeoff-info.html" title="{{takeVm.takeoffInfoPopover.title}}" data-animation="am-flip-x" data-auto-close="1" bs-popover  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+					
+						 <!--<img  popover-placement="right" uib-popover-template="takeVm.takeoffInfoPopover.templateUrl" popover-title="{{takeVm.takeoffInfoPopover.title}}" popover-is-open="takeoff.openInfoBox" ng-mouseover="takeVm.showTakeoffInfo(takeoff);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />-->
 						 &nbsp;
 						 <a ng-show="takeoff.quoteId" href ng-click="takeVm.showTakeoffInfo();"><img src="images/quote_info.png" alt="image" border="0" /></a>
 					  </td>
@@ -94,14 +97,16 @@
 					  <td align="center">{{takeoff.jobAddress}}</td>
 					   <td align="center">{{takeoff.engineerName}}</td>
                       <td align="center">{{takeoff.architectureName}}</td>
-					  <td align="center"><img popover-placement="left" uib-popover-template="takeVm.GcsPopover.templateUrl" popover-title="{{takeVm.GcsPopover.title}}" src="images/gc.png" style="cursor:pointer;" title="General Contractors" ng-click="takeVm.listGcsByTakeoff(takeoff.id)" border="0"></td>
+					 
 					  <td align="center">{{takeoff.salesPersonName}}</td>
 					  <td align="center">{{takeoff.userCode}}</td>
 					  <td align="center">{{takeoff.spec.detail}}</td>
-					  <td align="center">
+					 
+					  <td align="center">{{takeoff.projectNumber}}</td>
+					   <td align="center">
 						<a href ng-click="takeVm.showVibroUpload();"><img src="images/FileUploadIcon.png" alt="image" border="0" /></a>
 					  </td>
-					  <td align="center">{{takeoff.projectNumber}}</td>
+					   <td align="center"><img popover-placement="left" uib-popover-template="takeVm.GcsPopover.templateUrl" popover-title="{{takeVm.GcsPopover.title}}" src="images/gc.png" style="cursor:pointer;" title="General Contractors" ng-click="takeVm.listGcsByTakeoff(takeoff.id)" border="0"></td>
                       <td align="center">&nbsp; <img popover-placement="left" uib-popover-template="takeVm.bidderPopover.templateUrl" popover-title="{{takeVm.bidderPopover.title}}" src="images/bidders_ico.png" ng-click="takeVm.listBiddersByTakeoff(takeoff.id)" border="0"></td>
                     </tr>
                 </tbody>
