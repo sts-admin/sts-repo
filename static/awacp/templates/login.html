@@ -1,39 +1,43 @@
-<div class="container-fluid">
+<div class="login-bg">
+<div class="container">
 	 <div class="content">
-		<div class="table">
 			<div class="text-right">
 				 <form ng-submit="userVm.login();" method="post" style="display: block;">  
 					<div class="row">
-						<div class="col-sm-12">
+						<div class="col-md-6 col-md-offset-3">
 						  <center>
-							<img src="images/awacp_big_logo.png" width="400px;" />
+							<img src="images/awacp_big_logo.png" alt="logo" class="" />
 						  </center>
 						</div>
 					</div>
-					<div class="shadow">
+					<div class="row">
+                    <div class="col-md-6 col-md-offset-3">
 						<div class="head_section">
-							<span style="color: white;">Please Login:-</span>
+							<span style="color: #454646; text-align:center;">Please Login:-</span>
 						</div>
-						<div class="form-group">
+						<div class="form-group login-des">
 							<div class="input-group">
 								<span class="input-group-addon glyphicon glyphicon-user"></span>
-								<input type="text" ng-model="userVm.loginForm.userName" placeholder="Username" class="form-control" maxlength="30" oninvalid="this.setCustomValidity('Please enter username');" onkeypress="this.setCustomValidity('');" ng-required = "true" autofocus />
+								<input type="text" ng-model="userVm.loginForm.userName" placeholder="Username" class="log-hei form-control" maxlength="30" oninvalid="this.setCustomValidity('Please enter username');" onkeypress="this.setCustomValidity('');" ng-required = "true" autofocus />
 							</div>
+                            <br />
 							<div class="input-group">
 								<span class="input-group-addon glyphicon glyphicon-lock"></span>
-								<input type="password" ng-model="userVm.loginForm.password" placeholder="Password" class="form-control" maxlength="30" ng-required = "true" oninvalid="this.setCustomValidity('Please enter password');" onkeypress="this.setCustomValidity('')" />
+								<input type="password" ng-model="userVm.loginForm.password" placeholder="Password" class="log-hei form-control" maxlength="30" ng-required = "true" oninvalid="this.setCustomValidity('Please enter password');" onkeypress="this.setCustomValidity('')" />
 							</div>
 							 
-							<br/>
+							<br />
 							<span id="loading_span" style="padding-left:20px;"></span>
+                            <div class="checkbox pull-left"><label><input type="checkbox" value="">Remember me on this computer</label></div>
 							<div class="btn-group">
-								<input type="submit" value="Login" class="btn btn-primary" id="login-submit" />
-								<input type="reset" value="Reset" class="btn btn-primary" />                                    
-							</div> 
+          
+								<input type="submit" value="Login" class="btn btn-primary login-bnt" id="login-submit" />
+								<!--<input type="reset" value="Reset" class="btn btn-primary" /> -->                                   
+							</div>
 						</div>
-					</div>
+                        <div class="forgot-pass"><p><a href=""><strong>Forgot your password?</strong></a> Click here to reset it.</p></div>
+					</div></div>
 				 </form>
 			</div>
 		</div>
-	</div>
-</div>
+	</div></div>

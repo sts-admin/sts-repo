@@ -3,7 +3,7 @@
 .pop-up-alert-title{margin:0; line-height:0.428571;}
 .pop-up-alert-footer{text-align:center;  padding: 15px;border-top: 1px solid #e5e5e5;}
 
-
+img{max-width:100%; margin:0 auto;}
 .clockdiv {            
   border: #FFF 0px solid;
   color: #FFF;
@@ -66,14 +66,15 @@ html, body{height:100%; margin:0;padding:0}
 		);
 }
 .head_section{
-	text-align: justify;
+	text-align: center;
 	font-size: large;
 	font-weight: bold;
-	padding: 5px;
-	background-image:
-		linear-gradient(
-		#00b8ff, #2c4860
-		);
+	padding: 12px;
+	background-image:linear-gradient(#fff, #edf1f4);
+	border-radius:5px 5px 0px 0px;
+	-moz-border-radius:5px 5px 0px 0px;
+	-webkit-border-radius:5px 5px 0px 0px;
+	border-bottom:1px solid #ccc;
 }
 .login_error_show{
 	display: block;
@@ -260,6 +261,25 @@ html, body{height:100%; margin:0;padding:0}
 }
 .clearfix{clear:both;}
 .admin-mng{}
+.login-bg{background-color:#1ba9d7; overflow:hidden; background-size: cover; }
+.login-des{background: #fff none repeat scroll 0 0; padding:25px !important; border-radius:0 0 5px 5px;}
+.log-hei{height:2.7em !important; font-size:17px !important;}
+.login-bnt {
+    background-image: linear-gradient(#ebf4f9, #e0eff6);
+    border: 1px solid #b2cfcd;
+    border-radius: 20px;
+    box-shadow: 0 0 8px #ccc;
+    color: #507785;
+    padding: 6px 30px;
+	font-size:16px;
+	-webkit-transition: .5s; /* Safari */
+    transition: .5s;
+	
+}
+.login-bnt:hover{background:#1ba9d7; color:#fff; border:1px solid #029acb;}
+.forgot-pass{text-align:center; padding:10px;}
+.forgot-pass p{color:#fff;}
+.forgot-pass a{color:#fff;}
 
 @media (min-width: 992px) and (max-width: 1200px) {
 }
