@@ -261,7 +261,7 @@ html, body{height:100%; margin:0;padding:0}
 }
 .clearfix{clear:both;}
 .admin-mng{}
-.login-bg{background-color:#1ba9d7; overflow:hidden; background-size: cover; }
+.login-bg{overflow:hidden; background-size: cover; background:#18a9d6; background:url(../images/login-bg.jpg) repeat;}
 .login-des{background: #fff none repeat scroll 0 0; padding:25px !important; border-radius:0 0 5px 5px;}
 .log-hei{height:2.7em !important; font-size:17px !important;}
 .login-bnt {
@@ -276,7 +276,7 @@ html, body{height:100%; margin:0;padding:0}
     transition: .5s;
 	
 }
-.login-bnt:hover{background:#1ba9d7; color:#fff; border:1px solid #029acb;}
+.login-bnt:hover, .login-bnt:active, .login-bnt:focus{background:#1ba9d7; color:#fff; border:1px solid #029acb;}
 .forgot-pass{text-align:center; padding:10px;}
 .forgot-pass p{color:#fff;}
 .forgot-pass a{color:#fff;}
