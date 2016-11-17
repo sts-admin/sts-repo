@@ -46,7 +46,7 @@ html, body{height:100%; margin:0;padding:0}
 	width:100%;
 }
 .form-control{
-	margin-top: 1px;
+	margin-top: 2px;
 }
 .error{
 	font-size: 12pt;
