@@ -261,7 +261,7 @@ html, body{height:100%; margin:0;padding:0}
 }
 .clearfix{clear:both;}
 .admin-mng{}
-.login-bg{overflow:hidden; background-size: cover; background:#18a9d6; background:url(../images/login-bg.jpg) repeat;}
+.login-bg{overflow:hidden; background-size: cover; background:#18a9d6; }
 .login-des{background: #fff none repeat scroll 0 0; padding:25px !important; border-radius:0 0 5px 5px;}
 .log-hei{height:2.7em !important; font-size:17px !important;}
 .login-bnt {
