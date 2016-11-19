@@ -27,7 +27,7 @@
 				AjaxUtil.getData("/awacp/groupPermissionsGroup", Math.random())
 				.success(function (data, status, headers) {	
 					if(data && data.permissionGroup && data.permissionGroup.length > 0){
-						$.each(data.permissionGroup, function(k, v){
+						$.each(data.permissionGroup, function(k, v){							
 							if(v.permissions.length === undefined || v.permissions.length === 'undefined'){
 								var tmp = [];
 								tmp.push(v.permissions);

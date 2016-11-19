@@ -122,7 +122,7 @@
 								menus[v.id] = tmp;
 							}else{
 								menus[v.id] = v.items;
-							}							
+							}		
 						});
 					}	
 					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
