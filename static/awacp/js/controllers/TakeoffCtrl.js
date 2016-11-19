@@ -45,20 +45,18 @@
 			templateUrl: 'templates/takeoff-bidder-list.html',
 			title: 'Bidder(s)'
 		};
-		takeVm.listGcsByTakeoff = function(takeoffId){
-			for(var i = 0 ; i < takeVm.takeoffs.length; i++){
-				if(takeoffId == takeVm.takeoffs[i].id){
-					takeVm.takeoffGcs = takeVm.takeoffs[i].generalContractors;
-					break;
-				}
+		takeVm.listGcsByTakeoff = function(takeoff){
+			if(takeoff.generalContractors){
+				takeVm.takeoffGcs = takeoff.generalContractors;
+			}else{
+				takeVm.takeoffGcs  = null;
 			}
 		}
-		takeVm.listBiddersByTakeoff = function(takeoffId){
-			for(var i = 0 ; i < takeVm.takeoffs.length; i++){
-				if(takeoffId == takeVm.takeoffs[i].id){
-					takeVm.takeoffBidders = takeVm.takeoffs[i].bidders;
-					break;
-				}
+		takeVm.listBiddersByTakeoff = function(takeoff){
+			if(takeoff.bidders){
+				takeVm.takeoffBidders = takeoff.bidders;
+			}else{
+				takeVm.takeoffBidders = null;
 			}
 		}
 		takeVm.drawingDatePicker = function(){

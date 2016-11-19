@@ -41,6 +41,7 @@
 					user["token"] = data.access_token;
 					user["displayName"] = data.authorities[0].userDisplayName;
 					StoreService.setUser(user);
+					$rootScope.user.userCode = data.authorities[0].userCode;
 					$rootScope.setUpUserMenu();
 					$rootScope.user.userDisplayName = StoreService.userDisplayName();
 					$rootScope.user.role = StoreService.getRole();
