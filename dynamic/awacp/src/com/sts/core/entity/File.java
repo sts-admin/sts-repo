@@ -14,9 +14,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Image.findAll", query = "Select i from Image i where i.archived = false ORDER BY i.id ASC") })
+		@NamedQuery(name = "File.findAll", query = "SELECT file FROM File file WHERE file.archived = false ORDER BY file.id ASC"),
+		@NamedQuery(name = "File.findAllBySource", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource ORDER BY file.id ASC")})
 @XmlRootElement
-public class Image extends BaseEntity {
+public class File extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	private String createdName;
 	private String originalName;
@@ -24,11 +25,12 @@ public class Image extends BaseEntity {
 	private String size;
 	private String other;
 	private String contentType;
+	private String fileSource;
 
 	// Transient
-	private String imageFileName;
+	private String fileName;
 
-	public Image() {
+	public File() {
 		super();
 	}
 
@@ -37,7 +39,7 @@ public class Image extends BaseEntity {
 	 * @param originalName
 	 * @param extension
 	 */
-	public Image(String createdName, String originalName, String extension, String contentType) {
+	public File(String createdName, String originalName, String extension, String contentType) {
 		super();
 		this.createdName = createdName;
 		this.originalName = originalName;
@@ -107,12 +109,20 @@ public class Image extends BaseEntity {
 	}
 
 	@Transient
-	public String getImageFileName() {
-		return imageFileName;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setImageFileName(String imageFileName) {
-		this.imageFileName = imageFileName;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileSource() {
+		return fileSource;
+	}
+
+	public void setFileSource(String fileSource) {
+		this.fileSource = fileSource;
 	}
 
 }

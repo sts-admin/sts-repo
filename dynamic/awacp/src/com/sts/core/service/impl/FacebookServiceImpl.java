@@ -16,7 +16,7 @@ import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsCoreResponse;
 import com.sts.core.entity.FacebookProfile;
-import com.sts.core.entity.Image;
+import com.sts.core.entity.File;
 import com.sts.core.entity.User;
 import com.sts.core.entity.RoleType;
 import com.sts.core.service.FacebookService;
@@ -98,10 +98,10 @@ public class FacebookServiceImpl implements FacebookService {
 				user = userService.getUserDetails(profile.getEmail());
 			}
 			// update image detail always.
-			Image photo = null;
+			File photo = null;
 			profile.setFacebookToken(accessToken);
 			if (profile.getPhoto() == null) {
-				photo = new Image();
+				photo = new File();
 			} else {
 				photo = profile.getPhoto();
 			}

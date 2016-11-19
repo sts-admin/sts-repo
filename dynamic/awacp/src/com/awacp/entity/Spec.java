@@ -26,7 +26,7 @@ public class Spec extends BaseEntity {
 	}
 
 	@NotNull
-	@Column(nullable = false, length = 200)
+	@Column(nullable = false, length = 250)
 	public String getDetail() {
 		return detail;
 	}

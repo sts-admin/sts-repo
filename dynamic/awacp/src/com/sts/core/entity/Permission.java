@@ -37,6 +37,8 @@ public class Permission {
 	private boolean archived;
 	private String label;
 	private String url;
+	private Integer displayOrder;
+	private Integer hierarchy;
 
 	public Permission() {
 		super();
@@ -142,6 +144,23 @@ public class Permission {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public Integer getDisplayOrder() {
+		return displayOrder;
+	}
+
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
+	}
+	
+
+	public Integer getHierarchy() {
+		return hierarchy;
+	}
+
+	public void setHierarchy(Integer hierarchy) {
+		this.hierarchy = hierarchy;
 	}
 
 	@Override

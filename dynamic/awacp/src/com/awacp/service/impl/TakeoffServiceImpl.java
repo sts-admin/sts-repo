@@ -95,6 +95,8 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 					takeoff.setArchitectureName(arc.getName());
 				}
 			}
+			takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId())?"{'color':'green'}":"{'color':'red'}");
+			takeoff.setStatusStyle(takeoff.isArchived()?"{'background':'#FFCC33'}":"");
 		}
 		return takeoffs;
 	}

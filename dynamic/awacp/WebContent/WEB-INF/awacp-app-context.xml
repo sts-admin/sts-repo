@@ -86,7 +86,7 @@
 			<!-- sts-core-context.xml part 2 start -->
 				<ref bean="userServiceEndpoint" />             
 	            <ref bean="facebookServiceEndpoint" />
-	            <ref bean="imageServiceEndpoint" />
+	            <ref bean="fileServiceEndpoint" />
 	         	<ref bean="emailServiceEndpoint" />
 	            <ref bean="countryServiceEndpoint" />
 	            <ref bean="stateServiceEndpoint" />
@@ -114,7 +114,7 @@
     <bean id="appPropConfig" class="com.sts.core.config.AppPropConfig" />
     <bean id="userService" class="com.sts.core.service.impl.UserServiceImpl" />
     <bean id="facebookService" class="com.sts.core.service.impl.FacebookServiceImpl" />
-    <bean id="imageService" class="com.sts.core.service.impl.ImageServiceImpl" />
+    <bean id="fileService" class="com.sts.core.service.impl.FileServiceImpl" />
     <bean id="awacpMailService" class="com.awacp.service.impl.MailServiceImpl" />
    
    <bean id="mailService" class="com.sts.core.mail.service.impl.MailServiceImpl" />
@@ -134,8 +134,8 @@
     <bean id="facebookServiceEndpoint" class="com.sts.core.rest.endpoint.FacebookServiceEndpoint">
         <property name="facebookService" ref="facebookService" />
     </bean>    
-    <bean id="imageServiceEndpoint" class="com.sts.core.rest.endpoint.ImageServiceEndpoint">
-        <property name="imageService" ref="imageService" />
+    <bean id="fileServiceEndpoint" class="com.sts.core.rest.endpoint.FileServiceEndpoint">
+        <property name="fileService" ref="fileService" />
     </bean>    
     <bean id="emailServiceEndpoint" class="com.sts.core.rest.endpoint.MailServiceEndpoint">
         <property name="mailService" ref="mailService" />

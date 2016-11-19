@@ -41,7 +41,7 @@ public class User extends BaseEntity {
 	private String userName;
 	private String aboutMe;
 	private String gender;
-	private Image photo;
+	private File photo;
 	private String contact;
 	private String verificationCode;
 	private boolean verified;
@@ -89,11 +89,11 @@ public class User extends BaseEntity {
 	@XmlElement(name = "photo")
 	@OneToOne(optional = false, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "PHOTOID", unique = false, nullable = true, updatable = true)
-	public Image getPhoto() {
+	public File getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(Image photo) {
+	public void setPhoto(File photo) {
 		this.photo = photo;
 	}
 

@@ -20,28 +20,28 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sts.core.entity.Image;
-import com.sts.core.service.ImageService;
+import com.sts.core.entity.File;
+import com.sts.core.service.FileService;
 import com.sts.core.util.FileUtils;
 import com.sts.core.web.filter.CrossOriginFilter;
 
-public class ImageServiceEndpoint extends CrossOriginFilter {
+public class FileServiceEndpoint extends CrossOriginFilter {
 	@Autowired
-	private ImageService imageService;
+	private FileService fileService;
 
 	@GET
-	@Path("/image/{imageId}")
+	@Path("/file/{FileId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Image getImage(@PathParam("imageId") Long imageId, @Context HttpServletResponse servletResponse)
+	public File getFile(@PathParam("fileId") Long fileId, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.imageService.findImage(imageId);
+		return this.fileService.findFile(fileId);
 	}
 
 	@POST
 	@Path("/uploadFile")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Image upload(Attachment attachment) throws IOException {
+	public File upload(Attachment attachment) throws IOException {
 		DataHandler dataHandler = attachment.getDataHandler();
 		MultivaluedMap<String, String> map = attachment.getHeaders();
 		String contentType = null;
@@ -56,15 +56,15 @@ public class ImageServiceEndpoint extends CrossOriginFilter {
 		String name = FileUtils.getFileName(map);
 		InputStream is = dataHandler.getInputStream();
 		String baseFolderPath = "";
-		return this.imageService.saveImage(is, name, contentType, baseFolderPath);
+		return this.fileService.saveFile(is, name, contentType, baseFolderPath);
 	}
 
 	@POST
 	@Path("/uploadFiles")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public List<Image> uploadFiles(List<Attachment> attachments) throws IOException {
-		List<Image> fileInfos = new ArrayList<Image>();
+	public List<File> uploadFiles(List<Attachment> attachments) throws IOException {
+		List<File> fileInfos = new ArrayList<File>();
 		if (attachments == null) {
 			return null;
 		}
@@ -85,20 +85,28 @@ public class ImageServiceEndpoint extends CrossOriginFilter {
 			String name = FileUtils.getFileName(map);
 			InputStream is = dataHandler.getInputStream();
 			String baseFolderPath = "";
-			fileInfos.add(this.imageService.saveImage(is, name, contentType, baseFolderPath));
+			fileInfos.add(this.fileService.saveFile(is, name, contentType, baseFolderPath));
 		}
 		return fileInfos;
 	}
 
 	@GET
-	@Path("/listAllImages")
+	@Path("/listAllFiles")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Image> listAllImages(@Context HttpServletResponse servletResponse) throws IOException {
-		return this.imageService.listImages();
+	public List<File> listAllFiles(@Context HttpServletResponse servletResponse) throws IOException {
+		return this.fileService.listFiles();
 	}
 
-	public void setImageService(ImageService imageService) {
-		this.imageService = imageService;
+	@GET
+	@Path("/listAllFilesBySource/{source}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<File> listAllFilesBySource(@PathParam("source") String fileSource,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.fileService.listFiles(fileSource);
+	}
+
+	public void setFileService(FileService fileService) {
+		this.fileService = fileService;
 	}
 
 }

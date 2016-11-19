@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -69,6 +70,8 @@ public class Takeoff extends BaseEntity {
 	private String architectureName;
 	private String engineerName;
 	private String specName;
+	private String idStyle;
+	private String statusStyle;
 
 	private String status;
 
@@ -125,7 +128,7 @@ public class Takeoff extends BaseEntity {
 	}
 
 	@NotNull
-	@Column(nullable = false, length = 200)
+	@Column(nullable = false, length = 250)
 	public String getJobAddress() {
 		return jobAddress;
 	}
@@ -176,7 +179,8 @@ public class Takeoff extends BaseEntity {
 		this.drawingReceivedFrom = drawingReceivedFrom;
 	}
 
-	@Column(length = 250)
+	@Lob
+	@Column(length = 1024)
 	public String getTakeOffComment() {
 		return takeOffComment;
 	}
@@ -352,5 +356,26 @@ public class Takeoff extends BaseEntity {
 	public void setSpecName(String specName) {
 		this.specName = specName;
 	}
+
+	@Transient
+	public String getIdStyle() {
+		return idStyle;
+	}
+
+	public void setIdStyle(String idStyle) {
+		this.idStyle = idStyle;
+	}
+
+	@Transient
+	public String getStatusStyle() {
+		return statusStyle;
+	}
+
+	public void setStatusStyle(String statusStyle) {
+		this.statusStyle = statusStyle;
+	}
+
+	
+	
 
 }
