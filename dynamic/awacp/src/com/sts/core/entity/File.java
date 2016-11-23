@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "File.findAll", query = "SELECT file FROM File file WHERE file.archived = false ORDER BY file.id ASC"),
-		@NamedQuery(name = "File.findAllBySource", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource ORDER BY file.id ASC")})
+		@NamedQuery(name = "File.findAllBySource", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource ORDER BY file.id ASC") })
 @XmlRootElement
 public class File extends BaseEntity {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +26,7 @@ public class File extends BaseEntity {
 	private String other;
 	private String contentType;
 	private String fileSource;
+	private Long fileSourceId;
 
 	// Transient
 	private String fileName;
@@ -123,6 +124,14 @@ public class File extends BaseEntity {
 
 	public void setFileSource(String fileSource) {
 		this.fileSource = fileSource;
+	}
+
+	public Long getFileSourceId() {
+		return fileSourceId;
+	}
+
+	public void setFileSourceId(Long fileSourceId) {
+		this.fileSourceId = fileSourceId;
 	}
 
 }

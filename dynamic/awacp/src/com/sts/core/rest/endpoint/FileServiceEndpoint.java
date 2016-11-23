@@ -13,13 +13,16 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sts.core.config.AppPropConfig;
 import com.sts.core.entity.File;
 import com.sts.core.service.FileService;
 import com.sts.core.util.FileUtils;
@@ -41,7 +44,8 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 	@Path("/uploadFile")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public File upload(Attachment attachment) throws IOException {
+	public File upload(Attachment attachment, @QueryParam("fileSource") String fileSource, @QueryParam("fileSourceId") Long fileSourceId) throws IOException {
+		System.err.println("fileSource = "+ fileSource + ", fileSourceId = "+ fileSourceId);
 		DataHandler dataHandler = attachment.getDataHandler();
 		MultivaluedMap<String, String> map = attachment.getHeaders();
 		String contentType = null;
@@ -55,7 +59,7 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 		}
 		String name = FileUtils.getFileName(map);
 		InputStream is = dataHandler.getInputStream();
-		String baseFolderPath = "";
+		String baseFolderPath = AppPropConfig.resourceWritePath;
 		return this.fileService.saveFile(is, name, contentType, baseFolderPath);
 	}
 

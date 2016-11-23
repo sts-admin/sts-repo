@@ -39,11 +39,11 @@ public class FileServiceImpl implements FileService {
 		File file = new File(modifiedName, name, fileExt, contentType);
 		if (is != null) {
 			// upload File to a directory at resourceReadPath
-			String FileFileName = "" + modifiedName + fileExt;
-			FileUtils.writeBinaryFileContent(basePath, FileFileName, is);
+			String fileName = "" + modifiedName + fileExt;
+			FileUtils.writeBinaryFileContent(basePath, fileName, is);
 			getEntityManager().persist(file); // persist File
 			getEntityManager().flush();
-			file.setFileName(FileFileName);
+			file.setFileName(fileName);
 		}
 		return file;
 	}
