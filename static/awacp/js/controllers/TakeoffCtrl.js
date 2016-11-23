@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('TakeoffCtrl', TakeoffCtrl);
-	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','StoreService'];
-	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
+	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','UploadService','$uibModal'];
+	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, UploadService, $uibModal){
 		var takeVm = this;
 		takeVm.openAnother = true;
 		takeVm.selectedTakeoff = {};
@@ -28,7 +28,10 @@
 		takeVm.selectedBidders = [];
 		takeVm.selectedContractors = [];
 		takeVm.takeoffGcs = [];
-		takeVm.takeoffBidders = [];
+		takeVm.takeoffBidders = [];		
+		takeVm.showFileUpload = function(source, sourceId, title, size){
+			UploadService.showFileUpload(source, sourceId, title, size);
+		}
 		takeVm.showTakeoffInfo = function(takeoff){
 			takeoff.openInfoBox = true;
 			takeVm.selectedTakeoff =  takeoff;
@@ -53,6 +56,7 @@
 			}
 		}
 		takeVm.listBiddersByTakeoff = function(takeoff){
+			takeVm.takeoffBidders = [];
 			if(takeoff.bidders){
 				takeVm.takeoffBidders = takeoff.bidders;
 			}else{

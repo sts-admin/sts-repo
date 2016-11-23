@@ -45,6 +45,7 @@
 					$rootScope.setUpUserMenu();
 					$rootScope.user.userDisplayName = StoreService.userDisplayName();
 					$rootScope.user.role = StoreService.getRole();
+					$rootScope.user.isLoggedIn = StoreService.isLoggedIn();
 					if("role_admin" === user.authority){
 						$state.go("admin");
 					}else{

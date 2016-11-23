@@ -177,8 +177,9 @@
 				);
 			},			
 			uploadData: function uploadData(serviceUrl, data) {
-				var serverUrl = base+serviceUrl;			
-				if(this.authorized()){
+				var serverUrl = base+serviceUrl;		
+				alert("serverUrl = "+ serverUrl);
+				if(this.isAuthorized(true)){
 					$.support.cors = true;
 					return $.ajax({type: "POST",url: serverUrl,data: data,contentType: false,crossDomain: true,	  processData: false,cache : false});
 				}

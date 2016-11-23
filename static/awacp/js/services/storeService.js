@@ -4,7 +4,7 @@
 	.factory('StoreService', function (store, $rootScope) {
 		return {
 			setUser:function(user){
-				store.set('awacp_user', user);				
+				store.set('awacp_user', user);							
 			},
 			getUser:function(){
 				return store.get('awacp_user');

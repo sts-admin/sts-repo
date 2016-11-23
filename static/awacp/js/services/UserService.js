@@ -24,6 +24,11 @@
 				});
 			},
 			logout: function(){
+				if(!StoreService.getAccessToken('awacp_token')){
+					StoreService.removeAll(); 
+					$window.location.href = "/awacp/";
+					return;
+				}
 				var me = this;
 				var accessToken = StoreService.getAccessToken('awacp_token');
 				var headers = {

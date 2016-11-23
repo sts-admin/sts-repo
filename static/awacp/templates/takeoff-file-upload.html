@@ -1,0 +1,25 @@
+<div>
+	 <div class="modal-header pop-up-alert">
+		<h3 class="modal-title pop-up-alert-title" id="modal-title">{{title}}</h3>
+	</div>
+	<div class="modal-body" id="modal-body">
+		<form name="uploadForm" id="uploadForm">
+		<div ng-show="file" style="text-align:center;"> 
+			<a href  ng-click="resetSelection();">Reset selection</a> 
+			<br />
+			<br />
+		</div>
+		  <div style="text-align:center;" ng-show="!file" ngf-select ng-model="file" name="file" ngf-pattern="'{{filePattern}}'"
+			ngf-accept="'{{fileAcceptPattern}}'" ngf-max-size="5MB" >
+				<a href style="text-align:center;">Click to browse file</a>
+			</div> 
+			<div  style="text-align:center;" ng-show="!file"><br />  OR <br /><br /></div>
+			<div ng-show="file"><span  style="font-weight:bold;">Selected File:</span>  {{file.name}}</div>
+		  <div style="text-align:center;height:100px; border:1px dotted green;" ng-show="!file" ngf-drop ng-model="file" class="drop-box"><span style="margin-top:50%;">Drag and Drop file here</span></div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" ng-click="upload()">Upload</button>
+		<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+	</div>
+</div>
