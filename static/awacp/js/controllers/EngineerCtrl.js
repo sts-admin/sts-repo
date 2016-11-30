@@ -149,9 +149,7 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		
 		engVm.editEngineer();
-		
 	}		
 })();
 

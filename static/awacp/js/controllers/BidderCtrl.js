@@ -118,8 +118,7 @@
 			if($state.params.id == undefined){
 			   bidVm.getUsers();
 		    }
-		}
-		
+		}		
 		
 		bidVm.getBidders = function(){
 			bidVm.pageNumber = bidVm.currentPage;

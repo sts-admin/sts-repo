@@ -29,8 +29,9 @@
 		takeVm.selectedContractors = [];
 		takeVm.takeoffGcs = [];
 		takeVm.takeoffBidders = [];		
-		takeVm.showFileUpload = function(source, sourceId, title, size){
-			UploadService.showFileUpload(source, sourceId, title, size);
+		takeVm.showFileListingView = function(source, sourceId, title, size){
+			title = "File Listing [Takeoff]";
+			UploadService.showFileListingView(source, sourceId, title, size);
 		}
 		takeVm.showTakeoffInfo = function(takeoff){
 			takeoff.openInfoBox = true;
