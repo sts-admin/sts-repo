@@ -20,7 +20,6 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.entity.File;
@@ -33,19 +32,27 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 	private FileService fileService;
 
 	@GET
-	@Path("/file/{FileId}")
+	@Path("/file/{fileId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public File getFile(@PathParam("fileId") Long fileId, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		return this.fileService.findFile(fileId);
 	}
 
+	@GET
+	@Path("/updateFileSource")
+	@Produces(MediaType.APPLICATION_JSON)
+	public File updateFileSource(@QueryParam("fileSource") String fileSource,
+			@QueryParam("fileSourceId") Long fileSourceId, @QueryParam("fileId") Long fileId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.fileService.updateFileSource(fileSource, fileSourceId, fileId);
+	}
+
 	@POST
 	@Path("/uploadFile")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public File upload(Attachment attachment, @QueryParam("fileSource") String fileSource, @QueryParam("fileSourceId") Long fileSourceId) throws IOException {
-		System.err.println("fileSource = "+ fileSource + ", fileSourceId = "+ fileSourceId);
+	public File upload(Attachment attachment) throws IOException {
 		DataHandler dataHandler = attachment.getDataHandler();
 		MultivaluedMap<String, String> map = attachment.getHeaders();
 		String contentType = null;
@@ -107,6 +114,14 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 	public List<File> listAllFilesBySource(@PathParam("source") String fileSource,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.fileService.listFiles(fileSource);
+	}
+
+	@GET
+	@Path("/listFilesBySource/{source}/{sourceId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<File> listAllFilesBySource(@PathParam("source") String source, @PathParam("sourceId") Long sourceId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.fileService.listFiles(source, sourceId);
 	}
 
 	public void setFileService(FileService fileService) {

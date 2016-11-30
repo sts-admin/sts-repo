@@ -24,8 +24,26 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public File findFile(Long FileId) {
-		return getEntityManager().find(File.class, FileId);
+	public File findFile(Long fileId) {
+		return getEntityManager().find(File.class, fileId);
+	}
+
+	@Override
+	public File saveFile(String name, String contentType, String basePath, byte[] contents) {
+		String generatedName = ConversionUtil.getAlphaNumeric(System.currentTimeMillis());
+		String modifiedName = generatedName.substring(2).toUpperCase();
+		String fileExt = FileUtils.getExtension(name);
+		// custom modified name, original name, and extension
+		File file = new File(modifiedName, name, fileExt, contentType);
+		if (contents != null) {
+			// upload File to a directory at resourceReadPath
+			String fileName = "" + modifiedName + fileExt;
+			FileUtils.writeBinaryFileContent(basePath, fileName, contents);
+			getEntityManager().persist(file); // persist File
+			getEntityManager().flush();
+			file.setFileName(fileName);
+		}
+		return file;
 	}
 
 	@Override
@@ -71,4 +89,25 @@ public class FileServiceImpl implements FileService {
 		return getEntityManager().createNamedQuery("File.findAllBySource").setParameter("fileSource", fileSource)
 				.getResultList();
 	}
+
+	@Override
+	@Transactional
+	public File updateFileSource(String fileSource, Long fileSourceId, Long fileId) {
+		File file = findFile(fileId);
+		if (file != null) {
+			file.setFileSource(fileSource);
+			file.setFileSourceId(fileSourceId);
+			getEntityManager().merge(file);
+			return file;
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<File> listFiles(String fileSource, Long fileSourceId) {
+		return getEntityManager().createNamedQuery("File.findAllBySourceAndSourceId")
+				.setParameter("fileSource", fileSource).setParameter("fileSourceId", fileSourceId).getResultList();
+	}
+
 }
