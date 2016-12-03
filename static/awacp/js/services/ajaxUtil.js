@@ -176,7 +176,7 @@
 					}
 				);
 			},			
-			uploadData: function uploadData(serviceUrl, data) {
+			uploadData: function(serviceUrl, data) {
 				var serverUrl = base+serviceUrl;		
 				alert("serverUrl = "+ serverUrl);
 				if(this.isAuthorized(true)){
@@ -184,7 +184,7 @@
 					return $.ajax({type: "POST",url: serverUrl,data: data,contentType: false,crossDomain: true,	  processData: false,cache : false});
 				}
 			},			
-			downloadData: function uploadData(serviceUrl, data) {
+			downloadData: function(serviceUrl, data) {
 				if(this.isAuthorized(true)){
 					$.support.cors = true;
 					return $.ajax({type: "GET",url: base+serviceUrl,crossDomain: true,dataType: "binary",headers:{'Content-Type':'image/png','X-Requested-With':'XMLHttpRequest'},processData: false,});

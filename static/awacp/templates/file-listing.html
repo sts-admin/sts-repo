@@ -12,7 +12,7 @@
 			<tbody>
 				<tr ng-repeat="document in documents">
 					<td>
-						{{document.createdName}}{{document.extension}}
+						<a href ng-click="fileDownload(document.fileSource, document.id)">{{document.createdName}}{{document.extension}}</a>
 					</td>
 					<td>
 						User Code

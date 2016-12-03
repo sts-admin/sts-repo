@@ -39,6 +39,17 @@
 								modalInstance.dismiss();
 								defer.reject();
 							};
+							$scope.fileDownload = function(source, fileId){
+								alert("file download source = "+ source + ", sourceId = "+ sourceId);
+								window.location.href = "http://localhost:8080/awacpservices/downloadFile/" + fileId;
+								/*AjaxUtil.downloadData("/awacp/downloadFile/"+sourceId, Math.random())
+								.success(function(data, status, headers){
+									alert("success");
+								})
+								.error(function(jqXHR, textStatus, errorThrown){
+									alert("ERROR: "+ JSON.stringify(jqXHR, null, 4));
+								});*/
+							};
 							$scope.listDocuments($scope.source, $scope.sourceId);
 						}
 					});
@@ -85,20 +96,6 @@
 										jqXHR.errorSource = "UploadService::upload::Error";
 										AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 									});
-									
-									/*Upload.upload({
-										url: 'http://localhost:8080/awacpservices/awacp/uploadFileExample',
-										fields: {'fileSource': $scope.source, 'fileSourceId':$scope.fileSourceId}, // additional data to send
-										withCredentials:true,
-										headers: {'Authorization': 'Bearer ' + StoreService.getAccessToken(), 'Accept' : 'application/json'}, 
-										file: $scope.file
-									}).progress(function (evt) {
-										
-										var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-										console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-									}).success(function (data, status, headers, config) {
-										console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-									});*/
 								}else{
 									modalInstance.dismiss();
 									defer.resolve();
