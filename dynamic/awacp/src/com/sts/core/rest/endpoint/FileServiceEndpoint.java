@@ -1,7 +1,9 @@
 package com.sts.core.rest.endpoint;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -122,6 +125,32 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 	public List<File> listAllFilesBySource(@PathParam("source") String source, @PathParam("sourceId") Long sourceId,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.fileService.listFiles(source, sourceId);
+	}
+
+	@GET
+	@Path("/downloadFile/{fileId}")
+	public void downloadFile(@PathParam("fileId") Long fileId, @Context HttpServletResponse response)
+			throws IOException {
+		System.err.println("fileId = "+ fileId);
+		File awacpFile = fileService.findFile(fileId);
+		String fileName = awacpFile.getCreatedName() + awacpFile.getExtension();
+
+		java.io.File file = new java.io.File(AppPropConfig.resourceWritePath + fileName);
+		try (InputStream fileInputStream = new FileInputStream(file);
+				OutputStream output = response.getOutputStream();) {
+			response.setContentType("application/x-download");
+			response.setContentLength((int) (file.length()));
+			if(file != null){
+				System.err.println("file name = "+ file.getName());
+			}
+			
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
+			IOUtils.copy(fileInputStream, output);
+			output.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
 	}
 
 	public void setFileService(FileService fileService) {
