@@ -51,6 +51,7 @@
  	  	<sec:http pattern="/activateAccount" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
  	  	<sec:http pattern="/accountVerificationMail" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
  	  	<sec:http pattern="/downloadFile/*" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
+ 	  	<sec:http pattern="/get/file/*" security="none" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" access-decision-manager-ref="accessDecisionManager" auto-config="true" use-expressions="true"/>
  
  	  	<sec:http pattern="/**" create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint" use-expressions="true">
 	        <sec:intercept-url pattern="/**" access="isAuthenticated()"/>

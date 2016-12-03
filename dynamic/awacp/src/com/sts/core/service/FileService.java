@@ -21,6 +21,6 @@ public interface FileService {
 
 	public File updateFile(File file);
 
-	public File updateFileSource(String fileSource, Long fileSourceId, Long fileId);
+	public File updateFileSource(Long userId, String fileSource, Long fileSourceId, Long fileId);
 
 }

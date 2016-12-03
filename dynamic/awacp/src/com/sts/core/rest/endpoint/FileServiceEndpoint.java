@@ -19,6 +19,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
@@ -45,10 +47,10 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/updateFileSource")
 	@Produces(MediaType.APPLICATION_JSON)
-	public File updateFileSource(@QueryParam("fileSource") String fileSource,
+	public File updateFileSource(@QueryParam("userId") Long userId, @QueryParam("fileSource") String fileSource,
 			@QueryParam("fileSourceId") Long fileSourceId, @QueryParam("fileId") Long fileId,
 			@Context HttpServletResponse servletResponse) throws IOException {
-		return this.fileService.updateFileSource(fileSource, fileSourceId, fileId);
+		return this.fileService.updateFileSource(userId, fileSource, fileSourceId, fileId);
 	}
 
 	@POST
@@ -126,6 +128,23 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.fileService.listFiles(source, sourceId);
 	}
+	
+	@GET
+	@Path("/get/file/{id}")
+	@Produces("application/pdf")
+	public Response getFile(@PathParam("id") Long id) {
+
+		File awacpFile = fileService.findFile(id);
+		String fileName = awacpFile.getCreatedName() + awacpFile.getExtension();
+		java.io.File file = new java.io.File(AppPropConfig.resourceWritePath + fileName);
+
+		ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition",
+				"attachment; filename=\"" + file.getName() + "\"");
+		return response.build();
+
+	}
+
 
 	@GET
 	@Path("/downloadFile/{fileId}")

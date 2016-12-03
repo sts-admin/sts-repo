@@ -7,16 +7,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sts.core.entity.File;
+import com.sts.core.entity.User;
 import com.sts.core.service.FileService;
+import com.sts.core.service.UserService;
 import com.sts.core.util.ConversionUtil;
 import com.sts.core.util.FileUtils;
 
 public class FileServiceImpl implements FileService {
 
 	private EntityManager entityManager;
+
+	@Autowired
+	UserService userService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -29,6 +35,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
+	@Transactional
 	public File saveFile(String name, String contentType, String basePath, byte[] contents) {
 		String generatedName = ConversionUtil.getAlphaNumeric(System.currentTimeMillis());
 		String modifiedName = generatedName.substring(2).toUpperCase();
@@ -86,15 +93,27 @@ public class FileServiceImpl implements FileService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<File> listFiles(String fileSource) {
-		return getEntityManager().createNamedQuery("File.findAllBySource").setParameter("fileSource", fileSource)
-				.getResultList();
+		List<File> files = getEntityManager().createNamedQuery("File.findAllBySource")
+				.setParameter("fileSource", fileSource).getResultList();
+		if (files != null && !files.isEmpty()) {
+			User user = null;
+			for (File file : files) {
+				file.setUserCode("---");
+				user = userService.findUser(file.getCreatedById());
+				if (user != null) {
+					file.setUserCode(user.getUserCode());
+				}
+			}
+		}
+		return files;
 	}
 
 	@Override
 	@Transactional
-	public File updateFileSource(String fileSource, Long fileSourceId, Long fileId) {
+	public File updateFileSource(Long userId, String fileSource, Long fileSourceId, Long fileId) {
 		File file = findFile(fileId);
 		if (file != null) {
+			file.setCreatedById(userId);
 			file.setFileSource(fileSource);
 			file.setFileSourceId(fileSourceId);
 			getEntityManager().merge(file);

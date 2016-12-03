@@ -16,8 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 		@NamedQuery(name = "File.findAll", query = "SELECT file FROM File file WHERE file.archived = false ORDER BY file.id ASC"),
 		@NamedQuery(name = "File.findAllBySource", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource ORDER BY file.id ASC"),
-		@NamedQuery(name = "File.findAllBySourceAndSourceId", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource AND file.fileSourceId =:fileSourceId ORDER BY file.id ASC")
-})
+		@NamedQuery(name = "File.findAllBySourceAndSourceId", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource AND file.fileSourceId =:fileSourceId ORDER BY file.id ASC") })
 @XmlRootElement
 public class File extends BaseEntity {
 	private static final long serialVersionUID = 1L;
@@ -32,6 +31,7 @@ public class File extends BaseEntity {
 
 	// Transient
 	private String fileName;
+	private String userCode;
 
 	public File() {
 		super();
@@ -111,15 +111,6 @@ public class File extends BaseEntity {
 		this.contentType = contentType;
 	}
 
-	@Transient
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
 	public String getFileSource() {
 		return fileSource;
 	}
@@ -134,6 +125,24 @@ public class File extends BaseEntity {
 
 	public void setFileSourceId(Long fileSourceId) {
 		this.fileSourceId = fileSourceId;
+	}
+
+	@Transient
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	@Transient
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }
