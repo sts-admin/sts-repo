@@ -197,7 +197,7 @@
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService) {
-			$rootScope.fileUploadSource = "templates/file-listing.html";
+			$rootScope.fileViewSource = "templates/file-listing.html";
 			$rootScope.gmtValue = 5.3;
 			$rootScope.dayDiff = function(startdate, enddate) {
 				var dayCount = 0;

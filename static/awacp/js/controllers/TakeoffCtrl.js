@@ -1,10 +1,10 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('TakeoffCtrl', TakeoffCtrl);
-	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','UploadService','$uibModal'];
-	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, UploadService, $uibModal){
+	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal'];
+	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal){
 		var takeVm = this;
-		takeVm.openAnother = true;
+		takeVm.openAnother = true;		
 		takeVm.selectedTakeoff = {};
 		takeVm.drawingDate = {opened:false};
 		takeVm.revisedDate = {opened:false};
@@ -30,8 +30,9 @@
 		takeVm.takeoffGcs = [];
 		takeVm.takeoffBidders = [];		
 		takeVm.showFileListingView = function(source, sourceId, title, size){
-			title = "File Listing [Takeoff]";
-			UploadService.showFileListingView(source, sourceId, title, size);
+			title = "File List";
+			$rootScope.fileViewSource = "templates/file-listing.html";
+			FileService.showFileViewDialog(source, sourceId, title, size);
 		}
 		takeVm.showTakeoffInfo = function(takeoff){
 			takeoff.openInfoBox = true;
