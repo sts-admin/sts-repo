@@ -15,7 +15,7 @@
 						<a href ng-click="fileDownload(document.fileSource, document.id)">{{document.createdName}}{{document.extension}}</a>
 					</td>
 					<td>
-						User Code
+						{{document.userCode}}
 					</td>
 					<td>
 						{{document.dateCreated | date: 'mediumDate'}}

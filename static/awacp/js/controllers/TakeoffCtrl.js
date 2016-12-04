@@ -330,10 +330,31 @@
 					if($.isArray(data.stsResponse.results)) {
 						$.each(data.stsResponse.results, function(k, v){
 							v.openInfoBox = false;
+							if(!$.isArray(v.bidders)) {
+								tmp = [];
+								tmp.push(v.bidders);
+								v["bidders"] = tmp;
+							}
+							//generalContractors
+							if(!$.isArray(v.generalContractors)) {
+								tmp = [];
+								tmp.push(v.generalContractors);
+								v["generalContractors"] = tmp;
+							}
 							tmp.push(v);
 						});					
 					} else {
 						data.stsResponse.results.openInfoBox = false;
+						if(!$.isArray(data.stsResponse.results.bidders)) {
+							tmp = [];
+							tmp.push(data.stsResponse.results.bidders);
+							data.stsResponse.results["bidders"] = tmp;
+						}
+						if(!$.isArray(data.stsResponse.results.generalContractors)) {
+							tmp = [];
+							tmp.push(data.stsResponse.results.generalContractors);
+							data.stsResponse.results["generalContractors"] = tmp;
+						}
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
