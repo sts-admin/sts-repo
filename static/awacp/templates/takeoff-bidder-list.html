@@ -1,5 +1,4 @@
 <div class="container-fluid" style="width:300px;">
-BIDDERS:{{takeVm.takeoffBidders}}
 	<div ng-hide="!takeVm.takeoffBidders" class="ui-list-view-bordered" ui-list-view="bidder in takeVm.takeoffBidders | orderBy:'name'">
 		{{ bidder.name }}
 	</div>

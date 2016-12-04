@@ -330,30 +330,29 @@
 					if($.isArray(data.stsResponse.results)) {
 						$.each(data.stsResponse.results, function(k, v){
 							v.openInfoBox = false;
-							if(!$.isArray(v.bidders)) {
-								tmp = [];
-								tmp.push(v.bidders);
-								v["bidders"] = tmp;
+							if(v.hasOwnProperty('bidders') && !$.isArray(v.bidders)){
+								var b = [];
+								b.push(v.bidders);
+								v["bidders"] = b;
 							}
-							//generalContractors
-							if(!$.isArray(v.generalContractors)) {
-								tmp = [];
-								tmp.push(v.generalContractors);
-								v["generalContractors"] = tmp;
+							if(v.hasOwnProperty('generalContractors') && !$.isArray(v.generalContractors)){
+								var gc = [];
+								gc.push(v.generalContractors);
+								v["generalContractors"] = gc;
 							}
 							tmp.push(v);
 						});					
 					} else {
 						data.stsResponse.results.openInfoBox = false;
-						if(!$.isArray(data.stsResponse.results.bidders)) {
-							tmp = [];
-							tmp.push(data.stsResponse.results.bidders);
-							data.stsResponse.results["bidders"] = tmp;
+						if(data.stsResponse.results.hasOwnProperty('bidders') && !$.isArray(data.stsResponse.results.bidders)){
+							var b = [];
+							b.push(data.stsResponse.results.bidders);
+							data.stsResponse.results["bidders"] = b;
 						}
-						if(!$.isArray(data.stsResponse.results.generalContractors)) {
-							tmp = [];
-							tmp.push(data.stsResponse.results.generalContractors);
-							data.stsResponse.results["generalContractors"] = tmp;
+						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !$.isArray(data.stsResponse.results.generalContractors)){
+							var gc = [];
+							gc.push(data.stsResponse.results.generalContractors);
+							data.stsResponse.results["generalContractors"] = gc;
 						}
 					    tmp.push(data.stsResponse.results);
 					}
