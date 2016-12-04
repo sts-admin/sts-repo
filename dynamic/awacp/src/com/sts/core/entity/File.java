@@ -16,7 +16,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 		@NamedQuery(name = "File.findAll", query = "SELECT file FROM File file WHERE file.archived = false ORDER BY file.id ASC"),
 		@NamedQuery(name = "File.findAllBySource", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource ORDER BY file.id ASC"),
-		@NamedQuery(name = "File.findAllBySourceAndSourceId", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource AND file.fileSourceId =:fileSourceId ORDER BY file.id ASC") })
+		@NamedQuery(name = "File.findAllBySourceAndSourceId", query = "SELECT file FROM File file WHERE file.archived = false AND file.fileSource =:fileSource AND file.fileSourceId =:fileSourceId ORDER BY file.id ASC"),
+		@NamedQuery(name = "File.getCountBySource", query = "SELECT COUNT(file) FROM File file WHERE file.archived = false AND LOWER(file.fileSource) =:fileSource AND file.fileSourceId =:fileSourceId ORDER BY file.id ASC")
+})
 @XmlRootElement
 public class File extends BaseEntity {
 	private static final long serialVersionUID = 1L;

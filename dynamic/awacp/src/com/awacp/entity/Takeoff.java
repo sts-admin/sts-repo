@@ -74,6 +74,10 @@ public class Takeoff extends BaseEntity {
 	private String statusStyle;
 
 	private String status;
+	
+	private int drawingDocCount;
+	private int takeoffDocCount;
+	private int vibroDocCount;
 
 	public Takeoff() {
 		super();
@@ -373,6 +377,33 @@ public class Takeoff extends BaseEntity {
 
 	public void setStatusStyle(String statusStyle) {
 		this.statusStyle = statusStyle;
+	}
+
+	@Transient
+	public int getDrawingDocCount() {
+		return drawingDocCount;
+	}
+
+	public void setDrawingDocCount(int drawingDocCount) {
+		this.drawingDocCount = drawingDocCount;
+	}
+
+	@Transient
+	public int getTakeoffDocCount() {
+		return takeoffDocCount;
+	}
+
+	public void setTakeoffDocCount(int takeoffDocCount) {
+		this.takeoffDocCount = takeoffDocCount;
+	}
+
+	@Transient
+	public int getVibroDocCount() {
+		return vibroDocCount;
+	}
+
+	public void setVibroDocCount(int vibroDocCount) {
+		this.vibroDocCount = vibroDocCount;
 	}
 
 	

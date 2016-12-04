@@ -125,8 +125,36 @@ public class FileServiceImpl implements FileService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<File> listFiles(String fileSource, Long fileSourceId) {
-		return getEntityManager().createNamedQuery("File.findAllBySourceAndSourceId")
+		List<File> files = getEntityManager().createNamedQuery("File.findAllBySourceAndSourceId")
 				.setParameter("fileSource", fileSource).setParameter("fileSourceId", fileSourceId).getResultList();
+		if (files != null && !files.isEmpty()) {
+			User user = null;
+			for (File file : files) {
+				file.setUserCode("---");
+				if(file.getCreatedById() == null){
+					continue;
+				}
+				user = userService.findUser(file.getCreatedById());
+				if (user != null) {
+					file.setUserCode(user.getUserCode());
+				}
+			}
+		}
+		return files;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public int getFileCount(String source, Long sourceId) {
+		List objects = getEntityManager().createNamedQuery("File.getCountBySource")
+				.setParameter("fileSource", source.toLowerCase()).setParameter("fileSourceId", sourceId)
+				.getResultList();
+		if (objects != null && !objects.isEmpty()) {
+			Object o = objects.get(0);
+			if (o != null)
+				return ((Long) o).intValue();
+		}
+		return 0;
 	}
 
 }

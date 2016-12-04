@@ -23,4 +23,6 @@ public interface FileService {
 
 	public File updateFileSource(Long userId, String fileSource, Long fileSourceId, Long fileId);
 
+	public int getFileCount(String source, Long sourceId);
+
 }

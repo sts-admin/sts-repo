@@ -1,6 +1,9 @@
 package com.sts.core.constant;
 
 public class StsCoreConstant {
+	public static final String DOC_TAKEOFF = "TAKEOFF_DOC";
+	public static final String DOC_TAKEOFF_DRAWING = "TAKEOFF_DRAWING_DOC";
+	public static final String DOC_TAKEOFF_VIBRO = "TAKEOFF_VIBRO_DOC";
 	public static final String DUPLICATE_EMAIL = "duplicate_email";
 	public static final String DUPLICATE_USERNAME = "duplicate_username";
 	public static final String DUPLICATE_CODE = "duplicate_code";
@@ -34,29 +37,48 @@ public class StsCoreConstant {
 	public static final String PROFILE_MERGE_SUCCESS = "profile_merged_success";
 	// 1- $s(User Name), 2- $s (email link), 3- $s(Project or Company Name), 4-
 	// $s(Project Team or CompanyName)
-	public static final String SIGNUP_SUCCESS_MAIL_MESSAGE = new StringBuilder("Dear %s,").append(System.lineSeparator()).append(System.lineSeparator()).append(" Please activate your account with %s by clicking the following link: ")
-			.append(System.lineSeparator()).append(System.lineSeparator()).append(" %s ").append(System.lineSeparator()).append(System.lineSeparator()).append(" --- ").append(System.lineSeparator()).append(" With Regards. ")
+	public static final String SIGNUP_SUCCESS_MAIL_MESSAGE = new StringBuilder("Dear %s,")
+			.append(System.lineSeparator()).append(System.lineSeparator())
+			.append(" Please activate your account with %s by clicking the following link: ")
+			.append(System.lineSeparator()).append(System.lineSeparator()).append(" %s ").append(System.lineSeparator())
+			.append(System.lineSeparator()).append(" --- ").append(System.lineSeparator()).append(" With Regards. ")
 			.append(System.lineSeparator()).append(" %s Team.").toString();
 	// 1- $s(User Name), 2- $s (Project Name), 3- $s(write us email), 4-
 	// $s(Project Team or CompanyName)
-	public static final String FACEBOOK_SIGNUP_MESSAGE = new StringBuilder("Dear %s,").append(System.lineSeparator()).append(System.lineSeparator())
-			.append(" This is to inform you that the Facebook account associated with this email was used to signup into %s. ").append(System.lineSeparator()).append(System.lineSeparator()).append(" If this is not you, please write us at ")
-			.append(" %s ").append(System.lineSeparator()).append(System.lineSeparator()).append(" --- ").append(System.lineSeparator()).append(" With Regards. ").append(System.lineSeparator()).append(" %s Team.").toString();
-	// 1- $s(User name), 2- $s(Project or Company Name), 3- $s(OTP), 4- $s(Team name)
-	public static final String PASSWORD_RESET_MAIL_MESSAGE = new StringBuilder("Dear %s,").append(System.lineSeparator()).append(System.lineSeparator())
-			.append("This is to inform you that; we at %s have received password reset request for the account associated with this email.").append(System.lineSeparator())
-			.append("Please verify your email by providing OTP(One Time Password) attached below.").append(System.lineSeparator()).append(System.lineSeparator()).append("OTP:%s").append(System.lineSeparator()).append(System.lineSeparator())
-			.append(System.lineSeparator()).append(" --- ").append(System.lineSeparator()).append(" With Regards. ").append(System.lineSeparator()).append(" %s Team.").toString();
+	public static final String FACEBOOK_SIGNUP_MESSAGE = new StringBuilder("Dear %s,").append(System.lineSeparator())
+			.append(System.lineSeparator())
+			.append(" This is to inform you that the Facebook account associated with this email was used to signup into %s. ")
+			.append(System.lineSeparator()).append(System.lineSeparator())
+			.append(" If this is not you, please write us at ").append(" %s ").append(System.lineSeparator())
+			.append(System.lineSeparator()).append(" --- ").append(System.lineSeparator()).append(" With Regards. ")
+			.append(System.lineSeparator()).append(" %s Team.").toString();
+	// 1- $s(User name), 2- $s(Project or Company Name), 3- $s(OTP), 4- $s(Team
+	// name)
+	public static final String PASSWORD_RESET_MAIL_MESSAGE = new StringBuilder("Dear %s,")
+			.append(System.lineSeparator()).append(System.lineSeparator())
+			.append("This is to inform you that; we at %s have received password reset request for the account associated with this email.")
+			.append(System.lineSeparator())
+			.append("Please verify your email by providing OTP(One Time Password) attached below.")
+			.append(System.lineSeparator()).append(System.lineSeparator()).append("OTP:%s")
+			.append(System.lineSeparator()).append(System.lineSeparator()).append(System.lineSeparator())
+			.append(" --- ").append(System.lineSeparator()).append(" With Regards. ").append(System.lineSeparator())
+			.append(" %s Team.").toString();
 
 	// 1- $s(User name), 2- $s(Project or Company Name), 3- $s(OTP), 4- $s(Team
 	// name)
-	public static final String ACCOUNT_VERIFICATION_MAIL = new StringBuilder("Dear %s,").append(System.lineSeparator()).append(System.lineSeparator())
-			.append("Thanks for Signing Up with %s. Please activate your accout using verification code given below.").append(System.lineSeparator()).append("%s").append(System.lineSeparator()).append(System.lineSeparator()).append("Enjoy Your Social Connection!")
-			.append(System.lineSeparator()).append(System.lineSeparator()).append(" --- ").append(System.lineSeparator()).append(" With Regards. ").append(System.lineSeparator()).append(" %s Team.").toString();
-	
-	public static final String SIGNUP_SUCCESS_OTP_MESSAGE = new StringBuilder("Dear %s,").append(System.lineSeparator()).append(System.lineSeparator()).append(" Please activate your account with %s by entering the following code: ")
-			.append(System.lineSeparator()).append(System.lineSeparator()).append(" %s ").append(System.lineSeparator()).append(System.lineSeparator()).append(" --- ").append(System.lineSeparator()).append(" With Regards. ")
+	public static final String ACCOUNT_VERIFICATION_MAIL = new StringBuilder("Dear %s,").append(System.lineSeparator())
+			.append(System.lineSeparator())
+			.append("Thanks for Signing Up with %s. Please activate your accout using verification code given below.")
+			.append(System.lineSeparator()).append("%s").append(System.lineSeparator()).append(System.lineSeparator())
+			.append("Enjoy Your Social Connection!").append(System.lineSeparator()).append(System.lineSeparator())
+			.append(" --- ").append(System.lineSeparator()).append(" With Regards. ").append(System.lineSeparator())
+			.append(" %s Team.").toString();
+
+	public static final String SIGNUP_SUCCESS_OTP_MESSAGE = new StringBuilder("Dear %s,").append(System.lineSeparator())
+			.append(System.lineSeparator())
+			.append(" Please activate your account with %s by entering the following code: ")
+			.append(System.lineSeparator()).append(System.lineSeparator()).append(" %s ").append(System.lineSeparator())
+			.append(System.lineSeparator()).append(" --- ").append(System.lineSeparator()).append(" With Regards. ")
 			.append(System.lineSeparator()).append(" %s Team.").toString();
-	
-	
+
 }

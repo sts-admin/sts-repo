@@ -27,8 +27,10 @@ import com.awacp.service.GeneralContractorService;
 import com.awacp.service.MailService;
 import com.awacp.service.SpecService;
 import com.awacp.service.TakeoffService;
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
+import com.sts.core.service.FileService;
 import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
@@ -56,6 +58,9 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 
 	@Autowired
 	private SpecService specService;
+
+	@Autowired
+	private FileService fileService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -95,8 +100,11 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 					takeoff.setArchitectureName(arc.getName());
 				}
 			}
-			takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId())?"{'color':'green'}":"{'color':'red'}");
-			takeoff.setStatusStyle(takeoff.isArchived()?"{'background':'#FFCC33'}":"");
+			takeoff.setDrawingDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_DRAWING, takeoff.getId()));
+			takeoff.setTakeoffDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF, takeoff.getId()));
+			takeoff.setVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_VIBRO, takeoff.getId()));
+			takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId()) ? "{'color':'green'}" : "{'color':'red'}");
+			takeoff.setStatusStyle(takeoff.isArchived() ? "{'background':'#FFCC33'}" : "");
 		}
 		return takeoffs;
 	}
@@ -119,7 +127,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			getEntityManager().persist(architect);
 			getEntityManager().flush();
 			takeoff.setArchitectureId(architect.getId());
-			System.err.println("new arc id = "+ takeoff.getArchitectureId());
+			System.err.println("new arc id = " + takeoff.getArchitectureId());
 		}
 		if (StringUtils.isNotEmpty(takeoff.getEngineerName())) { // NEW
 			Engineer engineer = new Engineer();
@@ -129,7 +137,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			getEntityManager().persist(engineer);
 			getEntityManager().flush();
 			takeoff.setEngineerId(engineer.getId());
-			System.err.println("engineer id = "+ takeoff.getEngineerId());
+			System.err.println("engineer id = " + takeoff.getEngineerId());
 		}
 		if (StringUtils.isNotEmpty(takeoff.getSpecName())) { // NEW
 			Spec spec = new Spec();
@@ -140,7 +148,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			getEntityManager().persist(spec);
 			getEntityManager().flush();
 			takeoff.setSpec(spec);
-			System.err.println("new spec id = "+ takeoff.getSpec().getId());
+			System.err.println("new spec id = " + takeoff.getSpec().getId());
 		}
 		if (biddersIds != null && biddersIds.length > 0) {
 			Set<Bidder> bidders = new HashSet<Bidder>();
