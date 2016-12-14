@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('TakeoffCtrl', TakeoffCtrl);
-	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal'];
-	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal){
+	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
+	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var takeVm = this;
 		takeVm.openAnother = true;		
 		takeVm.selectedTakeoff = {};
@@ -243,8 +243,12 @@
 			return (eDate >= sDate);
 		}
 		takeVm.saveTakeoff = function(){
+			$(".takeoff-add-action").attr('disabled','disabled');
+			$("#takeoff-add-spinner").css('display','block');	
 			if(takeVm.takeoff.revisedDate){
 				if(!takeVm.isValidDateRange(takeVm.takeoff.drawingDate, takeVm.takeoff.revisedDate)){
+					$(".takeoff-add-action").removeAttr('disabled');
+					$("#takeoff-add-spinner").css('display','none');
 					 AlertService.showAlert(
 					'AWACP :: Message!',
 					"Drawing date should be greater than or equal to revised date."
@@ -257,6 +261,8 @@
 					return;
 				}
 				if(!takeVm.isValidDateRange(takeVm.takeoff.revisedDate, takeVm.takeoff.dueDate)){
+					$(".takeoff-add-action").removeAttr('disabled');
+					$("#takeoff-add-spinner").css('display','none');
 					 AlertService.showAlert(
 					'AWACP :: Message!',
 					"Due date should be greater than or equal to revised date."
@@ -269,19 +275,23 @@
 					return;
 				}
 			}
-
-			if(!takeVm.isValidDateRange(takeVm.takeoff.drawingDate, takeVm.takeoff.dueDate)){
-				 AlertService.showAlert(
-				'AWACP :: Message!',
-				"Due date should be greater than or equal to drawing date."
-				).then(function (){	
+			if(takeVm.takeoff.dueDate || takeVm.takeoff.drawingDate){
+				if(!takeVm.isValidDateRange(takeVm.takeoff.drawingDate, takeVm.takeoff.dueDate)){
+					$(".takeoff-add-action").removeAttr('disabled');
+					$("#takeoff-add-spinner").css('display','none');
+					 AlertService.showAlert(
+					'AWACP :: Message!',
+					"Due date should be greater than or equal to drawing date."
+					).then(function (){	
+						return;
+					},
+					function (){		
+						return;
+					});
 					return;
-				},
-				function (){		
-					return;
-				});
-				return;
+				}
 			}
+			
 			if(takeVm.selectedBidders.length > 0){
 				var ids = [];
 				$.each(takeVm.selectedBidders, function(k, v){
@@ -307,6 +317,8 @@
 			formData["takeoff"] = takeVm.takeoff;
 			AjaxUtil.submitData("/awacp/saveTakeoff", formData)
 			.success(function(data, status, headers){
+				$(".takeoff-add-action").removeAttr('disabled');
+				$("#takeoff-add-spinner").css('display','none');
 				takeVm.takeoff = {};
 				var message = "New Takeoff Detail Created Successfully, add more?";
 				AlertService.showConfirm(	'AWACP :: Alert!', message)
@@ -314,6 +326,8 @@
 				return;
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
+				$(".takeoff-add-action").removeAttr('disabled');
+				$("#takeoff-add-spinner").css('display','none');
 				jqXHR.errorSource = "TakeoffCtrl::takeVm.saveTakeoff::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});

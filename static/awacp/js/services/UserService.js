@@ -26,7 +26,7 @@
 			logout: function(){
 				if(!StoreService.getAccessToken('awacp_token')){
 					StoreService.removeAll(); 
-					$window.location.href = "/awacp/";
+					$window.location.href = "/";
 					return;
 				}
 				var me = this;
@@ -39,7 +39,6 @@
 				$timeout(function(){
 					$rootScope.$apply(function(){
 						$rootScope.user.isLoggedIn = StoreService.isLoggedIn();
-						/*$rootScope.user.profileImageUrl = StoreService.profileImageUrl()*/
 					});					
 				}, 500);
 				
@@ -49,14 +48,14 @@
 				});
 				$.ajax({url: base+'/logout',type: "POST",data: Math.random(),contentType: "text/plain",crossDomain: true, dataType:"text"})
 				.success(function (data, status, headers, config) {	
-					$window.location.href = "/awacp/";
+					$window.location.href = "/";
 				}).error(function (jqXHR, textStatus, errorThrown) {
 					if (jqXHR.readyState == 0) {
 						$rootScope.$apply(function(){
 							$rootScope.alert.noService = true;
 						});						
 					}		
-					$window.location.href = "/awacp/";
+					$window.location.href = "/";
 				});
 			},
 			getUserAddress:function(userId, callback){

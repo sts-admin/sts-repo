@@ -159,7 +159,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Drawing Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.drawingDate" is-open="takeVm.drawingDate.opened" data-ng-click="takeVm.drawingDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true" ng-required="true">								 
+							  <input type="text" class="form-control" placeholder="Drawing Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.drawingDate" is-open="takeVm.drawingDate.opened" data-ng-click="takeVm.drawingDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">								 
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -171,7 +171,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Revised Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.revisedDate" is-open="takeVm.revisedDate.opened" data-ng-click="takeVm.reversedDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true" ng-required="true">								 
+							  <input type="text" class="form-control" placeholder="Revised Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.revisedDate" is-open="takeVm.revisedDate.opened" data-ng-click="takeVm.reversedDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">								 
 							</div>
 						  </div>
 						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -183,7 +183,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-2 col-md-2 col-sm-9">
 							<div class="form-group">
-							<input type="text" class="form-control" placeholder="Due Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.dueDate" is-open="takeVm.dueDate.opened" data-ng-click="takeVm.dueDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true" ng-required="true">								 
+							<input type="text" class="form-control" placeholder="Due Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.dueDate" is-open="takeVm.dueDate.opened" data-ng-click="takeVm.dueDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">								 
 							</div>
 						  </div>
                           
@@ -259,11 +259,14 @@
 					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 					  <!-- .col -->
 					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-						<input type="submit" value="Submit" class="submit-btn btn btn-primary">
+						<input type="submit" value="Submit" class="takeoff-add-action submit-btn btn btn-primary">
 						&nbsp;&nbsp;
-						<input type="reset" value="Reset" class="reset-btn btn btn-warning" id="takeoff-reset">
+						<input type="reset" value="Reset" class="takeoff-add-action reset-btn btn btn-warning" id="takeoff-reset">
 						&nbsp;&nbsp;
-						<input type="button" value="Go Back" class="reset-btn btn btn-info" ng-click="takeVm.cancelTakeoffAction();">
+						<input type="button" value="Go Back" class="takeoff-add-action reset-btn btn btn-info" ng-click="takeVm.cancelTakeoffAction();">
+						<span id="takeoff-add-spinner" style="display:none;">
+							<img src="images/loading.gif" />
+						</span>
 					  </div>
 					  <!-- .col -->
 					</div>
