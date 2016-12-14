@@ -4,6 +4,8 @@
 	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
 	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var takeVm = this;
+		takeVm.takeoffIds = [{id:"T16-1"}, {id:"T16-2"}, {id:"T16-3"}, {id:"T16-4"}, {id:"T16-5"}];
+		takeVm.selectedTakeoffId;
 		takeVm.openAnother = true;		
 		takeVm.selectedTakeoff = {};
 		takeVm.drawingDate = {opened:false};
@@ -29,6 +31,9 @@
 		takeVm.selectedContractors = [];
 		takeVm.takeoffGcs = [];
 		takeVm.takeoffBidders = [];		
+		takeVm.searchTakeoffIds = function(){
+			return takeVm.takeoffIds;
+		}
 		takeVm.showFileListingView = function(source, sourceId, title, size){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";

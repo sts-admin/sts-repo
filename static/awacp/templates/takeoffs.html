@@ -33,7 +33,18 @@
                       <td></td>
                       <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="takeoff_date" value=""></td>
                       <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="takeoff_due_dt" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_id" value=""></td>
+                      <td align="center">
+						<angucomplete-alt id="takeoff_id_search" 
+						  placeholder="Search Take off ID" 
+						  pause="300" 
+						  selected-object="takeVmselectedTakeoffId" 
+						  local-data="takeVm.takeoffIds" 
+						  local-search="takeVm.searchTakeoffIds" 
+						  title-field="id" 
+						  minlength="3" 
+						  input-class="form-control" 
+						  match-class="highlight" />
+					  </td>
                       <td class="bg-8DB3B3" align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
                       <td class="bg-BD7589" align="center"><input type="text" class="searchtxt" name="takeoff_jobid" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_jobname" value=""></td>
