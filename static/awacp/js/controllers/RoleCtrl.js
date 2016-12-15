@@ -66,8 +66,8 @@
 		}
 		roleVm.checkAll = function() {
 			roleVm.role["permissionArray"] = [];
-			$.each(roleVm.allPermissionsGroup, function(k, v){
-				$.each(v.permissions, function(index, val){
+			jQuery.each(roleVm.allPermissionsGroup, function(k, v){
+				jQuery.each(v.permissions, function(index, val){
 					roleVm.role.permissionArray.push(val.authority);
 				});
 			});

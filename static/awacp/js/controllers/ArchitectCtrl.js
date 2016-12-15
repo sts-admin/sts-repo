@@ -29,7 +29,7 @@
 						t.customName = t.userCode + " - "+ t.firstName;
 						tmp.push(t);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){
+						jQuery.each(data.stsResponse.results, function(k, v){
 							v.customName = v.userCode + " - "+ v.firstName;
 							tmp.push(v);
 						});
@@ -82,8 +82,8 @@
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					if($.isArray(data.stsResponse.results)) {
-						$.each(data.stsResponse.results, function(k, v){
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
 							tmp.push(v);
 						});					
 					} else {

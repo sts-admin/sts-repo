@@ -452,3 +452,8 @@ tr.bg-dark-green td {
 .takeoff-blue{
 	color:blue;
 }
+
+.angucomplete-dropdown {
+    overflow-y: auto;
+    max-height: 200px; // your preference
+}

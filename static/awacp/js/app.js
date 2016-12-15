@@ -3,12 +3,13 @@
 	//Local env
 	var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/awacp/resource/img/";
+	var basePath = "/awacp/";
     'use strict';
 	//prod env
 	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	*/
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt'])
-		.constant("base", base).constant("resourceReadPath", resourceReadPath)
+		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 			$stateProvider				
 			 .state('/',{
@@ -245,7 +246,7 @@
 				}else{
 					if (toState.requireAuth && !$rootScope.user.isLoggedIn) {	
 						StoreService.removeAll();
-						$window.location.href = "/";
+						$window.location.href = basePath;
 					}
 				}				
 			});

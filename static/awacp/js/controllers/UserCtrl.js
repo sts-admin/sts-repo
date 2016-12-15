@@ -109,7 +109,7 @@
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){
+						jQuery.each(data.stsResponse.results, function(k, v){
 							v.customName = v.userCode + " - "+ v.firstName;
 							tmp.push(v);
 						});
@@ -150,8 +150,8 @@
 		}
 		userVm.checkAll = function() {
 			userVm.user["permissionArray"] = [];
-			$.each(userVm.allPermissionsGroup, function(k, v){
-				$.each(v.permissions, function(index, val){
+			jQuery.each(userVm.allPermissionsGroup, function(k, v){
+				jQuery.each(v.permissions, function(index, val){
 					userVm.user.permissionArray.push(val.authority);
 				});
 			});

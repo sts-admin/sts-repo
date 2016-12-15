@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.services')
-	.factory('AjaxUtil', function ($rootScope, $state, base, $timeout, StoreService, $uibModal, AlertService) {
+	.factory('AjaxUtil', function ($rootScope, $state, base, $timeout, StoreService, $uibModal, AlertService, basePath) {
 		return {
 			initHeaderInfo:function(){
 				var accessToken = StoreService.getAccessToken();
@@ -9,7 +9,7 @@
 					'Authorization' : 'Bearer ' + accessToken,
 					'Accept' : 'application/json'
 				};
-				$.ajaxSetup({
+				jQuery.ajaxSetup({
 					'headers' : headers,
 					 dataType : 'json'
 				});
@@ -82,11 +82,11 @@
 			toggleSpinner:function(buttonId, spinnerId, spinnerUrl, action){
 				jQuery.noConflict();				
 				if("disable" === action){
-					$("#"+buttonId).attr('disabled','disabled');
-					$("#"+spinnerId).html(""+spinnerUrl);
+					angular.element("#"+buttonId).attr('disabled','disabled');
+					angular.element("#"+spinnerId).html(""+spinnerUrl);
 				}else{
-					$("#"+buttonId).removeAttr('disabled');
-					$("#"+spinnerId).html("");
+					angular.element("#"+buttonId).removeAttr('disabled');
+					angular.element("#"+spinnerId).html("");
 				}
 			},
 			listCountries:function(callback){
@@ -95,16 +95,16 @@
 				this.getData(url, Math.random())
 				.success(function (data, status, headers) {					
 					if(data && data.country && data.country.length > 0){
-						$.each(data.country, function(k, v){
+						jQuery.each(data.country, function(k, v){
 							countries.push(v);
 						});
-						if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+						if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
 							callback(countries, "success");
 						}
 					}
 				})
 				.error(function (jqXHR, textStatus, errorThrown) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
 						callback(jqXHR, "error");
 					}
 				});
@@ -115,16 +115,16 @@
 				this.getData(url, Math.random())
 				.success(function (data, status, headers) {					
 					if(data && data.state && data.state.length > 0){
-						$.each(data.state, function(k, v){
+						jQuery.each(data.state, function(k, v){
 							states.push(v);
 						});
 					}
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
 						callback(states, "success");
 					}
 				})
 				.error(function (jqXHR, textStatus, errorThrown) {
-					if (typeof callback !== 'undefined' && $.isFunction(callback)) {
+					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
 						callback(jqXHR, "error");
 					}
 				});
@@ -161,8 +161,8 @@
 			},			
 			postAJAXRequest: function (serviceUrl, data, methodType, methodContentType, methodDataType) {
 				var finalServiceUrl = base+serviceUrl;
-				$.support.cors = true;
-				return $.ajax(
+				jQuery.support.cors = true;
+				return jQuery.ajax(
 					{
 						type: methodType, 
 						url: finalServiceUrl, 
@@ -180,14 +180,14 @@
 				var serverUrl = base+serviceUrl;		
 				alert("serverUrl = "+ serverUrl);
 				if(this.isAuthorized(true)){
-					$.support.cors = true;
-					return $.ajax({type: "POST",url: serverUrl,data: data,contentType: false,crossDomain: true,	  processData: false,cache : false});
+					jQuery.support.cors = true;
+					return jQuery.ajax({type: "POST",url: serverUrl,data: data,contentType: false,crossDomain: true,	  processData: false,cache : false});
 				}
 			},			
 			downloadData: function(serviceUrl, data) {
 				if(this.isAuthorized(true)){
-					$.support.cors = true;
-					return $.ajax({type: "GET",url: base+serviceUrl,crossDomain: true,dataType: "binary",headers:{'Content-Type':'image/png','X-Requested-With':'XMLHttpRequest'},processData: false,});
+					jQuery.support.cors = true;
+					return jQuery.ajax({type: "GET",url: base+serviceUrl,crossDomain: true,dataType: "binary",headers:{'Content-Type':'image/png','X-Requested-With':'XMLHttpRequest'},processData: false,});
 				};
 			}
 		};

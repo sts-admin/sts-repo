@@ -109,7 +109,7 @@
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){
+						jQuery.each(data.stsResponse.results, function(k, v){
 							tmp.push(v);
 						});
 					}
@@ -132,7 +132,7 @@
 						t.customName = t.userCode + " - "+ t.firstName;
 						tmp.push(t);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){
+						jQuery.each(data.stsResponse.results, function(k, v){
 							v.customName = v.userCode + " - "+ v.firstName;
 							tmp.push(v);
 						});
@@ -157,7 +157,7 @@
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){
+						jQuery.each(data.stsResponse.results, function(k, v){
 							tmp.push(v);
 						});
 					}	
@@ -179,7 +179,7 @@
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){
+						jQuery.each(data.stsResponse.results, function(k, v){
 							tmp.push(v);
 						});
 					}	
@@ -200,7 +200,7 @@
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){							
+						jQuery.each(data.stsResponse.results, function(k, v){							
 							tmp.push(v);
 						});
 					}	
@@ -221,7 +221,7 @@
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
 					}else{
-						$.each(data.stsResponse.results, function(k, v){
+						jQuery.each(data.stsResponse.results, function(k, v){
 							tmp.push(v);
 						});
 					}	
@@ -299,7 +299,7 @@
 			
 			if(takeVm.selectedBidders.length > 0){
 				var ids = [];
-				$.each(takeVm.selectedBidders, function(k, v){
+				jQuery.each(takeVm.selectedBidders, function(k, v){
 					ids.push(v.id);
 				});
 				if(ids.length > 0){
@@ -308,7 +308,7 @@
 			}
 			if(takeVm.selectedContractors.length > 0){
 				var ids = [];
-				$.each(takeVm.selectedContractors, function(k, v){
+				jQuery.each(takeVm.selectedContractors, function(k, v){
 					ids.push(v.id);
 				});
 				if(ids.length > 0){
@@ -346,8 +346,8 @@
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
-					if($.isArray(data.stsResponse.results)) {
-						$.each(data.stsResponse.results, function(k, v){
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
 							v.openInfoBox = false;
 							if(v.hasOwnProperty('bidders') && !$.isArray(v.bidders)){
 								var b = [];
