@@ -7,16 +7,16 @@
 <div class="container-fluid">
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="gcVm.initGcsMasterInputs()">
-				<div class="panel-heading form-heading">
-					<label>{{gcVm.action}} Genreal Contractor Detail</label>				
+				<div class="panel-heading form-heading panel-heading-top">
+					<label>{{gcVm.action}} GC Detail</label>				
 				</div>
-				<div class="panel-body">
+				<div class="panel-body" style="background:#759DC5;">
 					<form ng-submit="gcVm.addGc();">
 						<!-- .row -->
 						<div class="row">
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
-								Contractor Name
+								Name
 							</span>
 							<i class="star red">*</i>
 							<span class="colon">:</span> 
@@ -137,7 +137,7 @@
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 						  <!-- .col -->
 						  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-							<input type="submit" value="{{gcVm.action}} Contractor" class="submit-btn btn btn-primary">
+							<input type="submit" value="{{gcVm.action}} GC" class="submit-btn btn btn-primary">
 							<input type="hidden" name="add" value="add" />
 							&nbsp;&nbsp;
 							<input type="reset" value="Reset" class="reset-btn btn btn-warning">
