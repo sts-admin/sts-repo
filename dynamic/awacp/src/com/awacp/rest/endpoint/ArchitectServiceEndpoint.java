@@ -1,6 +1,7 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -9,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -36,10 +38,18 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
+	@Path("/filterArchitectByName")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Architect> filterEngineerByName(@QueryParam("name") String name,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.architectService.filter(name);
+	}
+
+	@GET
 	@Path("/getArchitect/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Architect getArchitect(@PathParam("id") Long architectId,
-			@Context HttpServletResponse servletResponse) throws IOException {
+	public Architect getArchitect(@PathParam("id") Long architectId, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		return this.architectService.getArchitect(architectId);
 	}
 

@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "User.findUserByNameOrEmail", query = "SELECT u FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName)"),
 		@NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE lower(u.email) = :email"),
 		@NamedQuery(name = "User.findUserCode", query = "SELECT u FROM User u WHERE lower(u.userCode) = :userCode"),
-		@NamedQuery(name = "User.getCode", query = "SELECT u.userCode FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName)")
+		@NamedQuery(name = "User.getCode", query = "SELECT u.userCode FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName)"),
+		@NamedQuery(name = "User.filterByNameMatch", query = "SELECT new com.sts.core.entity.User(u.id, u.firstName) FROM User u WHERE u.archived = 'false' AND LOWER(u.firstName) LIKE :keyword")
 
 })
 public class User extends BaseEntity {
@@ -60,6 +61,11 @@ public class User extends BaseEntity {
 
 	public User() {
 		super();
+	}
+	
+	public User(Long id, String firstName) {
+		this.setId(id);
+		this.firstName = firstName;
 	}
 
 	public User(Long id, String firstName, String lastName, String userName, String userCode, String password, 

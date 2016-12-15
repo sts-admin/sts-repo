@@ -19,8 +19,9 @@ import com.sts.core.entity.BaseEntity;
 @XmlRootElement
 
 @NamedQueries({ @NamedQuery(name = "Architect.listAll", query = "SELECT a FROM Architect a WHERE a.archived = 'false'"),
-		@NamedQuery(name = "Architect.countAll", query = "SELECT COUNT(a.id) FROM Architect a WHERE a.archived = 'false'") ,
-		@NamedQuery(name = "Architect.getByEmail", query = "SELECT a FROM Architect a WHERE a.archived = 'false' AND LOWER(a.email) = :email")
+		@NamedQuery(name = "Architect.countAll", query = "SELECT COUNT(a.id) FROM Architect a WHERE a.archived = 'false'"),
+		@NamedQuery(name = "Architect.getByEmail", query = "SELECT a FROM Architect a WHERE a.archived = 'false' AND LOWER(a.email) = :email"),
+		@NamedQuery(name = "Architect.filterByNameMatch", query = "SELECT new com.awacp.entity.Architect(a.id, a.name) FROM Architect a WHERE a.archived = 'false' AND LOWER(a.name) LIKE :keyword")
 })
 
 public class Architect extends BaseEntity {
@@ -47,6 +48,12 @@ public class Architect extends BaseEntity {
 	public Architect() {
 		super();
 	}
+
+	public Architect(Long id, String name) {
+		this.setId(id);
+		this.name = name;
+	}
+
 	@NotNull
 	@Column(nullable = false, length = 100)
 	public String getName() {
@@ -176,7 +183,6 @@ public class Architect extends BaseEntity {
 		this.basicSpec = basicSpec;
 	}
 
-	
 	public void setState(String state) {
 		this.state = state;
 	}

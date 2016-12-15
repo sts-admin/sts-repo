@@ -2,6 +2,8 @@ package com.awacp.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,6 +15,10 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
+@NamedQueries({
+		@NamedQuery(name = "Spec.filterByDetailMatch", query = "SELECT new com.awacp.entity.Spec(s.id, s.detail) FROM Spec s WHERE s.archived = 'false' AND LOWER(s.detail) LIKE :keyword")
+
+})
 public class Spec extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +29,11 @@ public class Spec extends BaseEntity {
 
 	public Spec() {
 		super();
+	}
+
+	public Spec(Long id, String detail) {
+		this.setId(id);
+		this.detail = detail;
 	}
 
 	@NotNull

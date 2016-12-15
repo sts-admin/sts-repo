@@ -29,6 +29,14 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	SpecService specService;
 
 	@GET
+	@Path("/filterTakeoffs/{pageNumber}/{pageSize}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<Takeoff> filterTakeoffs(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.takeoffService.listTakeoffs(pageNumber, pageSize);
+	}
+
+	@GET
 	@Path("/listTakeoffs/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<Takeoff> listTakeoffs(@PathParam("pageNumber") int pageNumber,

@@ -228,11 +228,19 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
+	@Path("/filterUsersByName")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> filterUsersByName(@QueryParam("name") String name, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.userService.filterByName(name);
+	}
+
+	@GET
 	@Path("/filterUsers")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<User> filterUsers(@QueryParam("name") String name, @QueryParam("userId") String userId, @QueryParam("userCode") String userCode,
-			@QueryParam("email") String email, @QueryParam("status") String status, @Context HttpServletResponse servletResponse)
-					throws IOException {
+	public List<User> filterUsers(@QueryParam("name") String name, @QueryParam("userId") String userId,
+			@QueryParam("userCode") String userCode, @QueryParam("email") String email,
+			@QueryParam("status") String status, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.filterUsers(name, userId, userCode, email, status);
 	}
 

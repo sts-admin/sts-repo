@@ -42,7 +42,7 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String queryString, String entityClassName,
 			String primaryKeyName, EntityManager em) {
-	
+
 		StsResponse<T> response = new StsResponse<T>();
 		if (pageNumber <= 1) {
 			response.setTotalCount(getTotalRecords(entityClassName, primaryKeyName, em));

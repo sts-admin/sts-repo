@@ -1,6 +1,7 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -9,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -40,6 +42,14 @@ public class EngineerServiceEndpoint extends CrossOriginFilter {
 	public Engineer getEngineer(@PathParam("id") Long engineerId, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		return this.engineerService.getEngineer(engineerId);
+	}
+
+	@GET
+	@Path("/filterEngineerByName")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Engineer> filterEngineerByName(@QueryParam("name") String name,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.engineerService.filter(name);
 	}
 
 	@POST

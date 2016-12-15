@@ -1,4 +1,4 @@
-INSERT INTO `awacp`.`user_permission`(`USERID`,`PERMISSIONID`)
+INSERT INTO `USER_PERMISSION`(`USERID`,`PERMISSIONID`)
 VALUES(1,"aw_c"),
 (1,"aw_d"),
 (1,"aw_orders"),

@@ -227,4 +227,10 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		return emails;
 	}
 
+	@Override
+	public List<Takeoff> filter(String filters, int pageNumber, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

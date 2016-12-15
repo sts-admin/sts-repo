@@ -19,7 +19,9 @@ import com.sts.core.entity.BaseEntity;
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Engineer.listAll", query = "SELECT e FROM Engineer e WHERE e.archived = 'false'"),
 		@NamedQuery(name = "Engineer.countAll", query = "SELECT COUNT(e.id) FROM Engineer e WHERE e.archived = 'false'"),
-		@NamedQuery(name = "Engineer.getByEmail", query = "SELECT e FROM Engineer e WHERE e.archived = 'false' AND LOWER(e.email) = :email") })
+		@NamedQuery(name = "Engineer.getByEmail", query = "SELECT e FROM Engineer e WHERE e.archived = 'false' AND LOWER(e.email) = :email"),
+		@NamedQuery(name = "Engineer.filterByNameMatch", query = "SELECT new com.awacp.entity.Engineer(e.id, e.name) FROM Engineer e WHERE e.archived = 'false' AND LOWER(e.name) LIKE :keyword")
+})
 
 public class Engineer extends BaseEntity {
 
@@ -44,6 +46,10 @@ public class Engineer extends BaseEntity {
 
 	public Engineer() {
 		super();
+	}
+	public Engineer(Long id, String name) {
+		this.setId(id);
+		this.name = name;
 	}
 
 	@NotNull

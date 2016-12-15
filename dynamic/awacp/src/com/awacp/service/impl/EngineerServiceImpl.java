@@ -1,5 +1,7 @@
 package com.awacp.service.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -76,5 +78,14 @@ public class EngineerServiceImpl extends CommonServiceImpl<Engineer>implements E
 		engineer = getEntityManager().merge(engineer);
 		getEntityManager().flush();
 		return engineer;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Engineer> filter(String keyword) {
+		if (keyword == null || keyword.isEmpty())
+			return null;
+		return getEntityManager().createNamedQuery("Engineer.filterByNameMatch")
+				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
 	}
 }

@@ -1,10 +1,13 @@
 package com.awacp.service.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Engineer;
 import com.awacp.entity.Spec;
 import com.awacp.service.SpecService;
 import com.sts.core.dto.StsResponse;
@@ -25,7 +28,7 @@ public class SpecServiceImpl extends CommonServiceImpl<Spec>implements SpecServi
 	@Override
 	public StsResponse<Spec> listSpecs(int pageNumber, int pageSize) {
 		StsResponse<Spec> results = listAll(pageNumber, pageSize, Spec.class.getSimpleName(), getEntityManager());
-		
+
 		return results;
 	}
 
@@ -48,6 +51,15 @@ public class SpecServiceImpl extends CommonServiceImpl<Spec>implements SpecServi
 		spec = getEntityManager().merge(spec);
 		getEntityManager().flush();
 		return spec;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Spec> filter(String keyword) {
+		if (keyword == null || keyword.isEmpty())
+			return null;
+		return getEntityManager().createNamedQuery("Spec.filterByDetailMatch")
+				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
 	}
 
 }

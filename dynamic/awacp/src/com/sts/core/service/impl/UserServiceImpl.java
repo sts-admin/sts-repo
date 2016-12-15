@@ -15,6 +15,7 @@ import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Engineer;
 import com.mysql.jdbc.StringUtils;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
@@ -570,8 +571,8 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 				}
 				if (items != null && !items.isEmpty()) {
 					Collections.sort(items, new MenuItemComparator());
-					int index = items.size()-1;
-					if(items.get(index).getName().equalsIgnoreCase("divider")){
+					int index = items.size() - 1;
+					if (items.get(index).getName().equalsIgnoreCase("divider")) {
 						items.remove(index);
 					}
 					aMenu.setItems(items);
@@ -675,6 +676,22 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 		}
 		System.err.println("filterUsers, query = " + query.toString());
 		return getEntityManager().createQuery(query.toString()).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> filterByName(String name) {
+		if (name == null || name.isEmpty())
+			return null;
+		return getEntityManager().createNamedQuery("Engineer.filterByNameMatch")
+				.setParameter("keyword", "%" + name.toLowerCase() + "%").getResultList();
+
+	}
+
+	@Override
+	public List<User> filterByCode(String code) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

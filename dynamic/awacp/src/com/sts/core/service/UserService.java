@@ -78,4 +78,8 @@ public interface UserService {
 	public User getUserWithPermissions(Long userId);
 
 	public List<User> filterUsers(String name, String userId, String userCode, String email, String status);
+
+	public List<User> filterByName(String name); // match name
+
+	public List<User> filterByCode(String code); // match code
 }

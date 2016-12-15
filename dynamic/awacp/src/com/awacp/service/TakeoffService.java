@@ -1,5 +1,7 @@
 package com.awacp.service;
 
+import java.util.List;
+
 import com.awacp.entity.Takeoff;
 import com.sts.core.dto.StsResponse;
 
@@ -13,4 +15,6 @@ public interface TakeoffService {
 	public Takeoff updateTakeoff(Takeoff takeoff);
 
 	public String[] getNewTakeoffEmails(Long takeoffId);
+
+	public List<Takeoff> filter(String filters, int pageNumber, int pageSize);
 }
