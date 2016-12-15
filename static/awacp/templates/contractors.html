@@ -1,13 +1,13 @@
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
-<div class="container-fluid" style="margin-top:-10px;">
+<div class="container-fluid">
 	<div class="clearfix">
 		<div class="panel panel-default shadow" ng-init="conVm.getContractors();">
-			<div class="panel-heading form-heading">
+			<div class="panel-heading form-heading panel-heading-top">
 				<label>Manage Contractors</label>	
 				<span class="pull-right"><a href ui-sref="contractor-add" >Add Contractor</a></span>
 			</div>
-			<div class="panel-body" style="margin-top:-20px;">
+			<div class="panel-body">
 				<div style="text-align:right;">
 					<ul uib-pagination total-items="conVm.totalItems" items-per-page = "conVm.pageSize" ng-model="conVm.currentPage" ng-change="conVm.pageChanged()"></ul>
 				</div>
@@ -21,36 +21,55 @@
 					  <div class="table-container">
 						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
 						  <thead>
-							<tr style="background:#042F51;">
-							  <td style="padding:5px; color:#FFF;" align="center">S. No.</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Contractor</td>
-							  <td style="padding:5px; color:#FFF;" align="center">City</td>
-							  <td style="padding:5px; color:#FFF;" align="center">State</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Zip</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Phone</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Fax</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Email</td>
-							   <td style="padding:5px; color:#FFF;" align="center">Website</td>
-							  <td style="padding:5px; color:#FFF;" align="center">Sales Person</td>
-							   <td style="padding:5px; color:#FFF;" align="center">Created By(User Code)</td>
-							    <td style="padding:5px; color:#FFF;" align="center">Updated By(User Code)</td>
-							  <td style="padding:5px; color:#FFF;" filter="false" align="center"></td>
+                          <tr style="background:#BB7;">
+                      <td class="center">&nbsp;</td>
+                      <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center">&nbsp;</td>
+                    </tr>
+                    
+							<tr style="background:#808040; color:#000;">
+							  <td style="padding:5px;" align="center">S. No.</td>
+							  <td style="padding:5px;" align="center">Customer</td>
+                              <td style="padding:5px;" align="center">Address</td>
+							  <td style="padding:5px;" align="center">City</td>
+							  <td style="padding:5px;" align="center">State</td>
+							  <td style="padding:5px;" align="center">Zip</td>
+							  <td style="padding:5px;" align="center">Phone</td>
+							  <td style="padding:5px;" align="center">Fax</td>
+							  <td style="padding:5px;" align="center">Email</td>
+							  <td style="padding:5px;" align="center">Website</td>
+							  <td style="padding:5px;" align="center">SP</td>
+							  <td style="padding:5px;" align="center">UC</td>
+							  <td style="padding:5px;" align="center">UC2</td>
+							  <td style="padding:5px;" filter="false" align="center"></td>
 							</tr>
 						  </thead>
 						  <tbody>
 						  <tr id="user_90" height="25" ng-repeat="contractor in conVm.contractors track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td>{{contractor.name}}</td>
-							  <td>{{contractor.city}}</td>
+							  <td align="center">{{contractor.name}}</td>
+                              <td align="center">{{contractor.address}}</td>
+							  <td align="center">{{contractor.city}}</td>
 							  <td align="center">{{contractor.state}}</td>
 							  <td align="center">{{contractor.zip}}</td>
-							   <td align="center">{{contractor.phone}}</td>
-							    <td align="center">{{contractor.fax}}</td>
-							  <td>{{contractor.email}}</td>
-							    <td>{{contractor.website}}</td>
+							  <td align="center">{{contractor.phone}}</td>
+							  <td align="center">{{contractor.fax}}</td>
+							  <td align="center">{{contractor.email}}</td>
+							  <td align="center">{{contractor.website}}</td>
 							  <td align="center">{{contractor.salesPersonName}}</td>
-							   <td align="center">{{contractor.createdByUserCode}}</td>
-							    <td align="center">{{contractor.updatedByUserCode}}</td>
+							  <td align="center">{{contractor.createdByUserCode}}</td>
+							  <td align="center">{{contractor.updatedByUserCode}}</td>
 							  <td align="center">&nbsp; <a ui-sref="contractor-edit({id:contractor.id})"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
 							</tr>					
 						</table>
