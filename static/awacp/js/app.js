@@ -226,6 +226,12 @@
 				controller:"ProductCtrl",
 				controllerAs:"prodVm",
 				requireAuth: true
+			}).state('pndis',{
+				url: '/pdnis',
+				templateUrl:"templates/pdnis.html",
+				controller:"PdniCtrl",
+				controllerAs:"pdniVm",
+				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
