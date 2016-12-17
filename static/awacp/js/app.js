@@ -196,6 +196,30 @@
 				controller:"SpecificationCtrl",
 				controllerAs:"specVm",
 				requireAuth: true
+			}).state('ships',{
+				url: '/ships',
+				templateUrl:"templates/shipto.html",
+				controller:"ShipToCtrl",
+				controllerAs:"shipToVm",
+				requireAuth: true
+			}).state('truckers',{
+				url: '/truckers',
+				templateUrl:"templates/truckers.html",
+				controller:"TruckerCtrl",
+				controllerAs:"truckerVm",
+				requireAuth: true
+			}).state('trucker-edit',{
+				url: '/trucker/edit/:id',
+				templateUrl:"templates/trucker-add.html",
+				controller:"TruckerCtrl",
+				controllerAs:"truckerVm",
+				requireAuth: true
+			}).state('trucker-add',{
+				url: '/trucker/add',
+				templateUrl:"templates/trucker-add.html",
+				controller:"TruckerCtrl",
+				controllerAs:"truckerVm",
+				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
