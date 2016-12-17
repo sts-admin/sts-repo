@@ -7,12 +7,12 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Spec;
-import com.awacp.service.SpecService;
+import com.awacp.entity.Product;
+import com.awacp.service.ProductService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class SpecServiceImpl extends CommonServiceImpl<Spec>implements SpecService {
+public class ProductServiceImpl extends CommonServiceImpl<Product>implements ProductService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -25,39 +25,39 @@ public class SpecServiceImpl extends CommonServiceImpl<Spec>implements SpecServi
 	}
 
 	@Override
-	public StsResponse<Spec> listSpecs(int pageNumber, int pageSize) {
-		StsResponse<Spec> results = listAll(pageNumber, pageSize, Spec.class.getSimpleName(), getEntityManager());
+	public StsResponse<Product> listProducts(int pageNumber, int pageSize) {
+		StsResponse<Product> results = listAll(pageNumber, pageSize, Product.class.getSimpleName(), getEntityManager());
 
 		return results;
 	}
 
 	@Override
-	public Spec getSpec(Long id) {
-		return getEntityManager().find(Spec.class, id);
+	public Product getProduct(Long id) {
+		return getEntityManager().find(Product.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Spec saveSpec(Spec spec) {
-		getEntityManager().persist(spec);
+	public Product saveProduct(Product Product) {
+		getEntityManager().persist(Product);
 		getEntityManager().flush();
-		return spec;
+		return Product;
 	}
 
 	@Override
 	@Transactional
-	public Spec updateSpec(Spec spec) {
-		spec = getEntityManager().merge(spec);
+	public Product updateProduct(Product Product) {
+		Product = getEntityManager().merge(Product);
 		getEntityManager().flush();
-		return spec;
+		return Product;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Spec> filter(String keyword) {
+	public List<Product> filter(String keyword) {
 		if (keyword == null || keyword.isEmpty())
 			return null;
-		return getEntityManager().createNamedQuery("Spec.filterByDetailMatch")
+		return getEntityManager().createNamedQuery("Product.filterByNameMatch")
 				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
 	}
 

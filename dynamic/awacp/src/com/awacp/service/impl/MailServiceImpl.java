@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Bidder;
 import com.awacp.entity.GeneralContractor;
-import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.ArchitectService;
 import com.awacp.service.EngineerService;

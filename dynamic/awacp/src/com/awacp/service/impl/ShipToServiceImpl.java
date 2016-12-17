@@ -7,12 +7,12 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Spec;
-import com.awacp.service.SpecService;
+import com.awacp.entity.ShipTo;
+import com.awacp.service.ShipToService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class SpecServiceImpl extends CommonServiceImpl<Spec>implements SpecService {
+public class ShipToServiceImpl extends CommonServiceImpl<ShipTo>implements ShipToService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -25,39 +25,39 @@ public class SpecServiceImpl extends CommonServiceImpl<Spec>implements SpecServi
 	}
 
 	@Override
-	public StsResponse<Spec> listSpecs(int pageNumber, int pageSize) {
-		StsResponse<Spec> results = listAll(pageNumber, pageSize, Spec.class.getSimpleName(), getEntityManager());
+	public StsResponse<ShipTo> listShipTos(int pageNumber, int pageSize) {
+		StsResponse<ShipTo> results = listAll(pageNumber, pageSize, ShipTo.class.getSimpleName(), getEntityManager());
 
 		return results;
 	}
 
 	@Override
-	public Spec getSpec(Long id) {
-		return getEntityManager().find(Spec.class, id);
+	public ShipTo getShipTo(Long id) {
+		return getEntityManager().find(ShipTo.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Spec saveSpec(Spec spec) {
-		getEntityManager().persist(spec);
+	public ShipTo saveShipTo(ShipTo ShipTo) {
+		getEntityManager().persist(ShipTo);
 		getEntityManager().flush();
-		return spec;
+		return ShipTo;
 	}
 
 	@Override
 	@Transactional
-	public Spec updateSpec(Spec spec) {
-		spec = getEntityManager().merge(spec);
+	public ShipTo updateShipTo(ShipTo ShipTo) {
+		ShipTo = getEntityManager().merge(ShipTo);
 		getEntityManager().flush();
-		return spec;
+		return ShipTo;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Spec> filter(String keyword) {
+	public List<ShipTo> filter(String keyword) {
 		if (keyword == null || keyword.isEmpty())
 			return null;
-		return getEntityManager().createNamedQuery("Spec.filterByDetailMatch")
+		return getEntityManager().createNamedQuery("ShipTo.filterByAddressMatch")
 				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
 	}
 

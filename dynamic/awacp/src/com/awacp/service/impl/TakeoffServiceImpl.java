@@ -233,4 +233,16 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		return null;
 	}
 
+	@Override
+	public List<String> listTakeoffIds(String keword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> listQuoteIds(String keword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

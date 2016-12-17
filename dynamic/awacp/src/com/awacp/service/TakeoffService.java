@@ -17,4 +17,8 @@ public interface TakeoffService {
 	public String[] getNewTakeoffEmails(Long takeoffId);
 
 	public List<Takeoff> filter(String filters, int pageNumber, int pageSize);
+
+	public List<String> listTakeoffIds(String keword);
+	
+	public List<String> listQuoteIds(String keword);
 }

@@ -100,6 +100,9 @@
 			<ref bean="engineerServiceEndpoint" />
 			<ref bean="contractorServiceEndpoint" />
 			<ref bean="specServiceEndpoint" />
+			<ref bean="truckerServiceEndpoint" />
+			<ref bean="shipToServiceEndpoint" />
+			<ref bean="productServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -166,6 +169,21 @@
     <bean id="engineerService" class="com.awacp.service.impl.EngineerServiceImpl" />
      <bean id="engineerServiceEndpoint" class="com.awacp.rest.endpoint.EngineerServiceEndpoint">
         <property name="engineerService" ref="engineerService" />
+    </bean>
+    
+    <bean id="productService" class="com.awacp.service.impl.ProductServiceImpl" />
+     <bean id="productServiceEndpoint" class="com.awacp.rest.endpoint.ProductServiceEndpoint">
+        <property name="productService" ref="productService" />
+    </bean>
+    
+     <bean id="truckerService" class="com.awacp.service.impl.TruckerServiceImpl" />
+     <bean id="truckerServiceEndpoint" class="com.awacp.rest.endpoint.TruckerServiceEndpoint">
+        <property name="truckerService" ref="truckerService" />
+    </bean>
+    
+     <bean id="shipToService" class="com.awacp.service.impl.ShipToServiceImpl" />
+     <bean id="shipToServiceEndpoint" class="com.awacp.rest.endpoint.ShipToServiceEndpoint">
+        <property name="shipToService" ref="shipToService" />
     </bean>
     
     
