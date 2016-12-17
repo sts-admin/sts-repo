@@ -220,6 +220,12 @@
 				controller:"TruckerCtrl",
 				controllerAs:"truckerVm",
 				requireAuth: true
+			}).state('products',{
+				url: '/products',
+				templateUrl:"templates/products.html",
+				controller:"ProductCtrl",
+				controllerAs:"prodVm",
+				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);

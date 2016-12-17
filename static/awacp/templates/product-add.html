@@ -1,0 +1,16 @@
+<div>
+	<div class="modal-header modal-header-css">
+		<h3 class="pop-up-alert-title" id="modal-title">{{title}}</h3>
+	</div>
+	<div class="modal-body" id="modal-body" style="text-align:center;">
+		<div class="row">
+			<div class="form-group">
+			  <input type="text" placeholder="Product" class="form-control" maxlength="150" oninvalid="this.setCustomValidity('Enter Product');" onkeypress="this.setCustomValidity('');" ng-model="productName" ng-required="true" autofocus />
+			</div>
+		</div>
+	</div>
+	<div class="pop-up-alert-footer">
+		 <button type="button" class="btn btn-primary btn-primary alert-ok-button" data-ng-click="save(); $event.stopPropagation()">Save Product</button>
+		 <button type="button" class="btn btn-primary btn-warn alert-ok-button" data-ng-click="cancel(); $event.stopPropagation()">Cancel</button>
+	</div>
+</div>
