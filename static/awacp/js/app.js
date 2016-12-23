@@ -2,13 +2,13 @@
 (function() {
     'use strict';
 	//Local env
-	var base ="http://localhost:8080/awacpservices";
+	/*var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/awacp/resource/img/";
-	var basePath = "/awacp/";
+	var basePath = "/awacp/";*/
 	//prod env
-	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
+	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/";*/
+	var basePath = "/";
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -244,6 +244,12 @@
 				templateUrl:"templates/manufactures.html",
 				controller:"ManufactureCtrl",
 				controllerAs:"manuVm",
+				requireAuth: true
+			}).state('iships',{
+				url: '/iships',
+				templateUrl:"templates/itemships.html",
+				controller:"ItemShipCtrl",
+				controllerAs:"itemVm",
 				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback
