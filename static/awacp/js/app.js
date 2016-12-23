@@ -8,7 +8,7 @@
 	//prod env
 	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/";
+	var basePath = "/awacp/";
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -250,6 +250,18 @@
 				templateUrl:"templates/itemships.html",
 				controller:"ItemShipCtrl",
 				controllerAs:"itemVm",
+				requireAuth: true
+			}).state('vships',{
+				url: '/vships',
+				templateUrl:"templates/shipedvia.html",
+				controller:"ShipedViaCtrl",
+				controllerAs:"shipVm",
+				requireAuth: true
+			}).state('deletefiles',{
+				url: '/deletefiles',
+				templateUrl:"templates/deletefiles.html",
+				controller:"DeleteFileCtrl",
+				controllerAs:"deleteVm",
 				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback
