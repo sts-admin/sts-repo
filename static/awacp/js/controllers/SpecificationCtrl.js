@@ -21,20 +21,35 @@
 				controller: function ($scope, $uibModalInstance){
 					$scope.title = title;
 					$scope.detail = "";
+					$scope.message = "";
 					$scope.save = function (){
-						if($scope.detail.length <= 0)return;
+						if(!$scope.detail || $scope.detail.length <= 0){
+							$scope.message = "Please enter Shipping Address Detail.";
+							return;
+						}
+						jQuery(".actions").attr('disabled','disabled');
+						jQuery(".spinner").css('display','block');	
 						var formData = {}, spec = {};
 						spec["detail"] = $scope.detail;
+						spec["createdById"] = StoreService.getUser().id;
 						spec["createdByUserCode"] = StoreService.getUser().userCode;
 						formData["spec"] = spec;
 						AjaxUtil.submitData("/awacp/saveSpecification", formData)
 						.success(function(data, status, headers){
-							alert("Specification Detail Created Successfully");
-							modalInstance.dismiss();
-							specVm.getSpecs();
+							$scope.message = "Specification Added Successfully";
+							$(".actions").removeAttr('disabled');
+							$(".spinner").css('display','none');
+							$timeout(function(){
+								$scope.message = "";
+								modalInstance.dismiss();
+								specVm.getSpecs();
+							}, 3000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
+							$scope.message = "";
+							$(".actions").removeAttr('disabled');
+							$(".spinner").css('display','none');
 							jqXHR.errorSource = "SpecificationCtrl::conVm.specVm.specVm::Error";
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						});						

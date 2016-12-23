@@ -5,7 +5,7 @@
 		<div class="panel panel-default shadow" ng-init="shipToVm.getShipTos();">
 			<div class="panel-heading form-heading panel-heading-top">
 				<label>Shipping Address Management</label>	
-				<span class="pull-right"><a href ng-click="shipToVm.addShipTo('Add New Shipping Address', 'A message');" >Add Shipping Address</a></span>
+				<span class="pull-right"><a href ng-click="shipToVm.addShipTo('Add New Shipping Address');" >Add Shipping Address</a></span>
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
@@ -41,6 +41,7 @@
 						  </thead>
 						  <tbody>
 							<tr id="user_90" height="25" ng-repeat="ship in shipToVm.shipTos track by $index">
+							{{shipToAddress}}
 							  <td align="center">{{$index + 1}}</td>
 							  <td align="left">{{ship.shipToAddress}}</td>
 							  <td align="center">{{ship.createdByUserCode}}</td>
