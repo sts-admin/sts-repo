@@ -2,14 +2,14 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="specVm.getSpecs();">
+		<div class="panel panel-default shadow" ng-init="itemVm.getItemShippeds();">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>View Specification</label>	
-				<span class="pull-right"><a href ng-click="specVm.addSpec('Add New Specification');" >Add Specification</a></span>
+				<label>View Item Shipping Detail</label>	
+				<span class="pull-right"><a href ng-click="itemVm.addItemShip('Add New Item Shipping Detail');" >Add Item Shipping Detail</a></span>
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
-					<ul uib-pagination total-items="specVm.totalItems" items-per-page = "specVm.pageSize" ng-model="specVm.currentPage" ng-change="specVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="itemVm.totalItems" items-per-page = "itemVm.pageSize" ng-model="itemVm.currentPage" ng-change="itemVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -40,12 +40,12 @@
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25" ng-repeat="spec in specVm.specs track by $index">
+							<tr id="user_90" height="25" ng-repeat="item in itemVm.ItemShippeds track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="left">{{spec.detail}}</td>
-							  <td align="center">{{spec.createdByUserCode}}</td>
-							  <td align="center">{{spec.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "editSpec(spec.id);"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="left">{{item.item}}</td>
+							  <td align="center">{{item.createdByUserCode}}</td>
+							  <td align="center">{{item.updatedByUserCode}}</td>
+							  <td align="center">&nbsp; <a href ng-click = "itemVm.editItemShipped(item.id, 'Edit Item Shipping Detail');"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete item shipping detail" ng-click="itemVm.deleteItemShipped(item.id);" border="0"> &nbsp;&nbsp; </td>
 							</tr>							
 						</table>
 						</td>

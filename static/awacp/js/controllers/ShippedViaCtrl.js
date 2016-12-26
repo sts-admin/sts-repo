@@ -1,49 +1,49 @@
 (function() {
 	'use strict';
-	angular.module('awacpApp.controllers').controller('PdniCtrl', PdniCtrl);
-	PdniCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
-	function PdniCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
-		var pdniVm = this;
-		pdniVm.totalItems = -1;
-		pdniVm.currentPage = 1;
-		pdniVm.pageNumber = 1;
-		pdniVm.pageSize = 1;
+	angular.module('awacpApp.controllers').controller('ShippedViaCtrl', ShippedViaCtrl);
+	ShippedViaCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
+	function ShippedViaCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
+		var shipViaVm = this;
+	    shipViaVm.totalItems = -1;
+		shipViaVm.currentPage = 1;
+		shipViaVm.pageNumber = 1;
+		shipViaVm.pageSize = 1;
 		$scope.timers = [];
-		pdniVm.pdnis= [];
-		pdniVm.pdni = {};
-		pdniVm.action = "Add";
-		pdniVm.addPdni = function (title){
+		shipViaVm.shippedVias= [];
+		shipViaVm.shippedVia = {};
+		shipViaVm.action = "Add";
+		shipViaVm.addShipVia = function (title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({
 				animation: true,
 				size: "md",
-				templateUrl: 'templates/pdni-add.html',
+				templateUrl: 'templates/shippedvia-add.html',
 				windowClass:'alert-zindex ',
 				controller: function ($scope, $uibModalInstance){
 					$scope.title = title;
-					$scope.pdniName = "";
+					$scope.shippedViaAddress = "";
 					$scope.message = "";
 					$scope.save = function (){
-						if(!$scope.pdniName || $scope.pdniName.length <= 0){
-							$scope.message = "Please Enter PDNI Detail.";
+						if(!$scope.shippedViaAddress || $scope.shippedViaAddress.length <= 0){
+							$scope.message = "Please Enter Shipping Via Address Detail.";
 							return;
 						}
 						jQuery(".actions").attr('disabled','disabled');
 						jQuery(".spinner").css('display','block');
-						var formData = {}, pdni = {};
-						pdni["createdById"] = StoreService.getUser().userId;
-						pdni["pdniName"] = $scope.pdniName;
-						pdni["createdByUserCode"] = StoreService.getUser().userCode;
-						formData["pdni"] = pdni;
-						AjaxUtil.submitData("/awacp/savePdni", formData)
+						var formData = {}, shippedVia = {};
+						shippedVia["createdById"] = StoreService.getUser().userId;
+						shippedVia["shippedViaAddress"] = $scope.shippedViaAddress;
+						shippedVia["createdByUserCode"] = StoreService.getUser().userCode;
+						formData["shippedVia"] = shippedVia;
+						AjaxUtil.submitData("/awacp/saveShippedVia", formData)
 						.success(function(data, status, headers){
 							jQuery(".actions").removeAttr('disabled');
 							jQuery(".spinner").css('display','none');
-							$scope.message = "PDNI Detail Added Successfully";
+							$scope.message = "Shipping Via Detail Added Successfully";
 							$timeout(function(){
 								$scope.message = "";
 								modalInstance.dismiss();
-								pdniVm.getPdnis();
+								shipViaVm.getShippedVias();
 							}, 3000);							
 							return;
 						})
@@ -51,7 +51,7 @@
 							$scope.message = "";
 							jQuery(".actions").removeAttr('disabled');
 							jQuery(".spinner").css('display','none');
-							jqXHR.errorSource = "PdniCtrl::pdniVm.addPdni::Error";
+							jqXHR.errorSource = "ShippedViaCtrl::shipViaVm.addShipVia::Error";
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						});						
 					};
@@ -63,60 +63,59 @@
 			});
 			return defer.promise;
 		}		
-		pdniVm.pageChanged = function() {
-			pdniVm.getPdnis();
+		shipViaVm.pageChanged = function() {
+			shipViaVm.getShippedVias();
 		};		
-		pdniVm.cancelPdni = function(){
+		shipViaVm.cancelShippedVia = function(){
 		}
-		pdniVm.deletePdni = function(id){
-			AjaxUtil.getData("/awacp/deletePdni/"+id, Math.random())
+		shipViaVm.deleteShippedVia = function(id){
+			AjaxUtil.getData("/awacp/deleteShippedVia/"+id, Math.random())
 			.success(function(data, status, headers){
-				pdniVm.totalItems = (pdniVm.totalItems - 1);
-				AlertService.showAlert(	'AWACP :: Alert!', 'PDNI Detail Deleted Successfully.')
-					.then(function (){pdniVm.getPdnis();},function (){return false;});
+				AlertService.showAlert(	'AWACP :: Alert!', 'Shipped Via Detail Deleted Successfully.')
+					.then(function (){shipViaVm.getShippedVias();},function (){return false;});
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				if(666666 == jqXHR.status){
-					AlertService.showAlert(	'AWACP :: Error!', "Unable to delete PDNI Detail.")
+					AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete Shipped Via Detail.")
 					.then(function (){return},function (){return});
 					return;
 				}
-				jqXHR.errorSource = "PdniCtrl::pdniVm.editPdni::Error";
+				jqXHR.errorSource = "ShippedViaCtrl::shipViaVm.deleteShippedVia::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			})
 		}		
-		pdniVm.editPdni = function (id, title){
+		shipViaVm.editShippedVia = function (id, title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({
 				animation: true,
 				size: "md",
-				templateUrl: 'templates/pdni-add.html',
+				templateUrl: 'templates/shippedvia-add.html',
 				windowClass:'alert-zindex ',
 				controller: function ($scope, $uibModalInstance){
-					$scope.pdni = {};
+					$scope.shippedVia = {};
 					$scope.title = title;
-					$scope.pdniName = "";
+					$scope.shippedViaAddress = "";
 					$scope.message = "";
 					$scope.save = function (){
-						if(!$scope.pdniName || $scope.pdniName.length <= 0){
-							$scope.message = "Please Enter PDNI Detail.";
+						if(!$scope.shippedViaAddress || $scope.shippedViaAddress.length <= 0){
+							$scope.message = "Please Enter Shipped Via Detail.";
 							return;
 						}
 						jQuery(".actions").attr('disabled','disabled');
 						jQuery(".spinner").css('display','block');
 						var formData = {};
-						$scope.pdni.pdniName = $scope.pdniName;
-						$scope.pdni.updatedByUserCode = StoreService.getUser().userCode;
-						formData["pdni"] = $scope.pdni;
-						AjaxUtil.submitData("/awacp/updatePdni", formData)
+						$scope.shippedVia.shippedViaAddress = $scope.shippedViaAddress;
+						$scope.shippedVia.updatedByUserCode = StoreService.getUser().userCode;
+						formData["shippedVia"] = $scope.shippedVia;
+						AjaxUtil.submitData("/awacp/updateShippedVia", formData)
 						.success(function(data, status, headers){
 							jQuery(".actions").removeAttr('disabled');
 							jQuery(".spinner").css('display','none');
-							$scope.message = "PDNI Detail Updated Successfully";
+							$scope.message = "Shipped Via Detail Updated Successfully";
 							$timeout(function(){
 								$scope.message = "";
 								modalInstance.dismiss();
-								pdniVm.getPdnis();
+								shipViaVm.getShippedVias();
 							}, 3000);							
 							return;
 						})
@@ -124,7 +123,7 @@
 							$scope.message = "";
 							jQuery(".actions").removeAttr('disabled');
 							jQuery(".spinner").css('display','none');
-							jqXHR.errorSource = "PdniCtrl::pdniVm.updatePdni::Error";
+							jqXHR.errorSource = "ShippedViaCtrl::shipViaVm.editShippedVia::Error";
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						});						
 					};
@@ -132,32 +131,33 @@
 						modalInstance.dismiss();
 						defer.reject();
 					};
-					$scope.editPdni = function(id){
-						AjaxUtil.getData("/awacp/getPdni/"+id, Math.random())
+					$scope.editShippedVia = function(id){
+						AjaxUtil.getData("/awacp/getShippedVia/"+id, Math.random())
 						.success(function(data, status, headers){
-							if(data && data.pdni){
-								$scope.pdni = data.pdni;
-								$scope.pdniName = data.pdni.pdniName;
+							if(data && data.shippedVia){
+								$scope.shippedVia = data.shippedVia;
+								$scope.shippedViaAddress = data.shippedVia.shippedViaAddress;
 							} 
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
-							jqXHR.errorSource = "PdniCtrl::pdniVm.editPdni::Error";
+							jqXHR.errorSource = "ShippedViaCtrl::$scope.editShippedVia::Error";
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						})
 					}
-					$scope.editPdni(id);
+					$scope.editShippedVia(id);
 				}
 			});
 			return defer.promise;
 		}	
-		pdniVm.getPdnis = function(){
-			pdniVm.pdnis = [];
-			pdniVm.pageNumber = pdniVm.currentPage;
-			AjaxUtil.getData("/awacp/listPdnis/"+pdniVm.pageNumber+"/"+pdniVm.pageSize, Math.random())
+		shipViaVm.getShippedVias = function(){
+			shipViaVm.shippedVias = [];
+			shipViaVm.pageNumber = shipViaVm.currentPage;
+			AjaxUtil.getData("/awacp/listShippedVias/"+shipViaVm.pageNumber+"/"+shipViaVm.pageSize, Math.random())
 			.success(function(data, status, headers){
+				console.log(data.stsResponse);
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					$scope.$apply(function(){
-						pdniVm.totalItems = data.stsResponse.totalCount;
+						shipViaVm.totalItems = data.stsResponse.totalCount;
 					});
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
@@ -170,12 +170,12 @@
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
-						pdniVm.pdnis = tmp;
+						shipViaVm.shippedVias = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "PdniCtrl::pdniVm.getPdnis::Error";
+				jqXHR.errorSource = "ShippedViaCtrl::shipViaVm.getShippedVias::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}

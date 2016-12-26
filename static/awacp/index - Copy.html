@@ -5,8 +5,11 @@
 <!--[if (gt IE 9)|!(IE)]><!--> 
 <html ng-app="awacpApp"><!--<![endif]-->
 	<head>
+		
+		
+		
 		<meta charset="UTF-8">
-		<base href="/awacp/">
+		<base href="/">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>:: ALBERT WEISS AIR CONDITIONING PRODUCTS INC. ::</title>		
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
@@ -16,12 +19,14 @@
 		<link rel="stylesheet" href="bower_components/angular-ui-clock/dist/angular-clock.css">
 		<link rel="stylesheet" href="node_modules/ui-select/dist/select.css">
 		<link rel="stylesheet" href="bower_components/ui-listView/dist/ui-listView.css">
-		<link rel="stylesheet" href="bower_components/angucomplete-alt/angucomplete-alt.css">
 		<!--<link href="//fonts.googleapis.com/css?family=Syncopate:400,700" rel="stylesheet" type="text/css">-->
 		
-		<script src="lib/jquery/jquery.1.9.1.js"></script>
+		
+		
+		<script src="lib/jquery/jquery.min.js"></script>
 		<script src="lib/bootstrap/bootstrap.min.js"></script>
-		<!--<script src="lib/jquery/jquery-1.7-dependency.js"></script>		-->
+		<script src="lib/jquery/jquery-1.7-dependency.js"></script>
+		
 		<script src="lib/angular/angular.min.js"></script>
 		<script src="lib/angular/angular-ui-router.js"></script>	
 		<script src="lib/angular/angular-storage.min.js"></script>
@@ -44,8 +49,6 @@
 		<!--<script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/v2.3.8/angular-strap.min.js"></script>-->
 		<script src="bower_components/ui-listView/dist/ui-listView.js"></script>
 		<script src="bower_components/ng-file-upload/ng-file-upload-all.min.js"></script>
-		<script src="bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"></script>
-		 
 		
 		
 		
@@ -54,8 +57,8 @@
 		<script src="js/controllers.js"></script>
 		
 		<script src="js/services/AlertService.js"></script>	
-		<script src="js/services/storeService.js"></script>
-		<script src="js/services/ajaxUtil.js"></script>	
+		<script src="js/services/StoreService.js"></script>
+		<script src="js/services/AjaxUtil.js"></script>	
 		<script src="js/services/UserService.js"></script>	
 		<script src="js/services/FileService.js"></script>	
 		
@@ -70,17 +73,9 @@
 		<script src="js/controllers/QuoteCtrl.js"></script>
 		<script src="js/controllers/BidderCtrl.js"></script>
 		<script src="js/controllers/SpecificationCtrl.js"></script>
-		<script src="js/controllers/GeneralContractorCtrl.js"></script>
-		<script src="js/controllers/ShipToCtrl.js"></script>
-		<script src="js/controllers/TruckerCtrl.js"></script>
-		<script src="js/controllers/ProductCtrl.js"></script>
-		<script src="js/controllers/PdniCtrl.js"></script>
-		<script src="js/controllers/QuoteNotesCtrl.js"></script>
-		<script src="js/controllers/ManufactureCtrl.js"></script>
-		<script src="js/controllers/ItemShipCtrl.js"></script>
-		<script src="js/controllers/ShippedViaCtrl.js"></script>
-		<script src="js/controllers/DeleteFileCtrl.js"></script>
+		<script src="js/controllers/GeneralContractor.js"></script>
 		
+	
 	</head>
 	<body>
 		<div id="content" ui-view></div>

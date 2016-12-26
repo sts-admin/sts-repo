@@ -5,7 +5,7 @@
 	<div class="modal-body" id="modal-body" style="text-align:center;">
 		<div class="row">
 			<div class="form-group">
-			  <input ng-keypress="message = '' " type="text" placeholder="Quote Note" class="form-control" maxlength="150" oninvalid="this.setCustomValidity('Enter Quote Note');" onkeypress="this.setCustomValidity('');" ng-model="note" ng-required="true" autofocus />
+			  <input ng-keypress="message = '' " type="text" placeholder="Item Shipped To" class="form-control" maxlength="150" ng-model="item" ng-required="true" autofocus />
 			</div>
 		</div>
 	</div>
@@ -13,9 +13,9 @@
 		{{message}} 
 	</div>
 	<div class="pop-up-alert-footer">
-		 <button type="button" class="actions btn btn-primary btn-primary alert-ok-button" data-ng-click="save(); $event.stopPropagation()">Save Quote Note</button>
+		 <button type="button" class="actions btn btn-primary btn-primary alert-ok-button" data-ng-click="save(); $event.stopPropagation()">Save Shipping Address</button>
 		 <button type="button" class="actions btn btn-primary btn-warn alert-ok-button" data-ng-click="cancel(); $event.stopPropagation()">Cancel</button>
-		  <span style="display:none;" class="spinner">
+		 <span style="display:none;" class="spinner">
 			<image src="images/loading.gif" />
 		 </span>
 	</div>

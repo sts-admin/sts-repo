@@ -2,14 +2,14 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="specVm.getSpecs();">
+		<div class="panel panel-default shadow" ng-init="pdniVm.getPdnis();">
 			<div class="panel-heading form-heading panel-heading-top">
 				<label>View PDNI</label>	
-				<span class="pull-right"><a href ng-click="pdniVm.addPdni('Add New PDNI', 'A message');" >Add PDNI</a></span>
+				<span class="pull-right"><a href ng-click="pdniVm.addPdni('Add New PDNI');" >Add PDNI</a></span>
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
-					<ul uib-pagination total-items="specVm.totalItems" items-per-page = "specVm.pageSize" ng-model="specVm.currentPage" ng-change="specVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="pdniVm.totalItems" items-per-page = "pdniVm.pageSize" ng-model="pdniVm.currentPage" ng-change="pdniVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -40,12 +40,12 @@
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25" ng-repeat="spec in specVm.specs track by $index">
+							<tr id="user_90" height="25" ng-repeat="pdni in pdniVm.pdnis track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="left">{{spec.detail}}</td>
-							  <td align="center">{{spec.createdByUserCode}}</td>
-							  <td align="center">{{spec.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "editSpec(spec.id);"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="left">{{pdni.pdniName}}</td>
+							  <td align="center">{{pdni.createdByUserCode}}</td>
+							  <td align="center">{{pdni.updatedByUserCode}}</td>
+							  <td align="center">&nbsp; <a href ng-click = "$scope.editPdni(pdni.id, 'Edit PDNI Detail');"> <img src="images/file_edit.png" title="edit PDNI" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete PDNI" ng-click="pdniVm.deletePdni(pdni.id);" border="0"> &nbsp;&nbsp; </td>
 							</tr>							
 						</table>
 						</td>

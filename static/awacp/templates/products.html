@@ -2,14 +2,14 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="specVm.getSpecs();">
+		<div class="panel panel-default shadow" ng-init="prodVm.getProducts();">
 			<div class="panel-heading form-heading panel-heading-top">
 				<label>View Products</label>	
-				<span class="pull-right"><a href ng-click="prodVm.addProduct('Add New Product', 'A message');" >Add Product</a></span>
+				<span class="pull-right"><a href ng-click="prodVm.addProduct('Add New Product');" >Add Product</a></span>
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
-					<ul uib-pagination total-items="specVm.totalItems" items-per-page = "specVm.pageSize" ng-model="specVm.currentPage" ng-change="specVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="prodVm.totalItems" items-per-page = "prodVm.pageSize" ng-model="prodVm.currentPage" ng-change="prodVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -33,19 +33,19 @@
                     
 							<tr style="background:#99F; color:#000;">
 							  <td style="padding:5px;" align="center" width="5%">S. No.</td>
-							  <td style="padding:5px;" align="center" width="55%">Specification</td>
+							  <td style="padding:5px;" align="center" width="55%">Product Name</td>
 							  <td style="padding:5px;" align="center" width="15%">UC</td>
 							  <td style="padding:5px;" align="center" width="15%">UC2</td>
 							  <td style="padding:5px;" filter="false" align="center"></td>
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25" ng-repeat="spec in specVm.specs track by $index">
+							<tr id="user_90" height="25" ng-repeat="prod in prodVm.products track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="left">{{spec.detail}}</td>
-							  <td align="center">{{spec.createdByUserCode}}</td>
-							  <td align="center">{{spec.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "editSpec(spec.id);"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="left">{{prod.productName}}</td>
+							  <td align="center">{{prod.createdByUserCode}}</td>
+							  <td align="center">{{prod.updatedByUserCode}}</td>
+							  <td align="center">&nbsp; <a href ng-click = "prodVm.editProduct(prod.id, 'Edit Product Detail');"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete product" ng-click="prodVm.deleteProduct(prod.id)" border="0"> &nbsp;&nbsp; </td>
 							</tr>							
 						</table>
 						</td>

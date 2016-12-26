@@ -7,7 +7,7 @@
 	    specVm.totalItems = -1;
 		specVm.currentPage = 1;
 		specVm.pageNumber = 1;
-		specVm.pageSize = 5;
+		specVm.pageSize = 1;
 		$scope.timers = [];
 		specVm.specs= [];
 		specVm.spec = {};
@@ -24,21 +24,21 @@
 					$scope.message = "";
 					$scope.save = function (){
 						if(!$scope.detail || $scope.detail.length <= 0){
-							$scope.message = "Please enter Shipping Address Detail.";
+							$scope.message = "Please Enter Specification Detail.";
 							return;
 						}
 						jQuery(".actions").attr('disabled','disabled');
 						jQuery(".spinner").css('display','block');	
 						var formData = {}, spec = {};
 						spec["detail"] = $scope.detail;
-						spec["createdById"] = StoreService.getUser().id;
+						spec["createdById"] = StoreService.getUser().userId;
 						spec["createdByUserCode"] = StoreService.getUser().userCode;
 						formData["spec"] = spec;
 						AjaxUtil.submitData("/awacp/saveSpecification", formData)
 						.success(function(data, status, headers){
 							$scope.message = "Specification Added Successfully";
-							$(".actions").removeAttr('disabled');
-							$(".spinner").css('display','none');
+							jQuery(".actions").removeAttr('disabled');
+							jQuery(".spinner").css('display','none');
 							$timeout(function(){
 								$scope.message = "";
 								modalInstance.dismiss();
@@ -48,8 +48,8 @@
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
 							$scope.message = "";
-							$(".actions").removeAttr('disabled');
-							$(".spinner").css('display','none');
+							jQuery(".actions").removeAttr('disabled');
+							jQuery(".spinner").css('display','none');
 							jqXHR.errorSource = "SpecificationCtrl::conVm.specVm.specVm::Error";
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						});						
@@ -64,31 +64,94 @@
 		}
 		
 		specVm.pageChanged = function() {
-			specVm.getContractors();
+			specVm.getSpecs();
 		};
-
 		
 		specVm.cancelSpecAction = function(){
 		}
 		
-		specVm.editSpecification = function(){
-			if($state.params.id != undefined){
-				var formData = {};
-				formData["contractor"] = specVm.contractor;
-				AjaxUtil.getData("/awacp/getSpecification/"+$state.params.id, formData)
-				.success(function(data, status, headers){
-					if(data && data.spec){
-						$scope.$apply(function(){
-							specVm.spec = data.spec;							
+		specVm.deleteSpec = function(id){
+			AjaxUtil.getData("/awacp/deleteSpec/"+id, Math.random())
+			.success(function(data, status, headers){
+				specVm.totalItems = (specVm.totalItems - 1);
+				AlertService.showAlert(	'AWACP :: Alert!', 'Specification Detail Deleted Successfully.')
+					.then(function (){specVm.getSpecs();},function (){return false;});
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				if(666666 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Error!', "Unable to Specification Detail.")
+					.then(function (){return},function (){return});
+					return;
+				}
+				jqXHR.errorSource = "SpecificationToCtrl::specVm.deleteSpec::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			})
+		}		
+		specVm.editSpec = function (id, title){
+			var defer = $q.defer();
+			var modalInstance = $uibModal.open({
+				animation: true,
+				size: "md",
+				templateUrl: 'templates/spec-add.html',
+				windowClass:'alert-zindex ',
+				controller: function ($scope, $uibModalInstance){
+					$scope.spec = {};
+					$scope.title = title;
+					$scope.detail = "";
+					$scope.message = "";
+					$scope.save = function (){
+						if(!$scope.detail || $scope.detail.length <= 0){
+							$scope.message = "Please Enter Specification Detail.";
+							return;
+						}
+						jQuery(".actions").attr('disabled','disabled');
+						jQuery(".spinner").css('display','block');
+						var formData = {};
+						$scope.spec.detail = $scope.detail;
+						$scope.spec.updatedByUserCode = StoreService.getUser().userCode;
+						formData["spec"] = $scope.spec;
+						AjaxUtil.submitData("/awacp/updateSpecification", formData)
+						.success(function(data, status, headers){
+							jQuery(".actions").removeAttr('disabled');
+							jQuery(".spinner").css('display','none');
+							$scope.message = "Specification Detail Updated Successfully";
+							$timeout(function(){
+								$scope.message = "";
+								modalInstance.dismiss();
+								specVm.getSpecs();
+							}, 3000);							
+							return;
+						})
+						.error(function(jqXHR, textStatus, errorThrown){
+							$scope.message = "";
+							jQuery(".actions").removeAttr('disabled');
+							jQuery(".spinner").css('display','none');
+							jqXHR.errorSource = "SpecificationCtrl::specVm.updateSpec::Error";
+							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						});						
+					};
+					$scope.cancel = function (){						
+						modalInstance.dismiss();
+						defer.reject();
+					};
+					$scope.editSpec = function(id){
+						AjaxUtil.getData("/awacp/getSpecification/"+id, Math.random())
+						.success(function(data, status, headers){
+							if(data && data.spec){
+								$scope.spec = data.spec;
+								$scope.detail = data.spec.detail;
+							} 
+						})
+						.error(function(jqXHR, textStatus, errorThrown){
+							jqXHR.errorSource = "SpecificationCtrl::specVm.editSpec::Error";
+							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+						})
 					}
-				})
-				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "SpecificationCtrl::specVm.editSpecification::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				})
-			}
-		}
+					$scope.editSpec(id);
+				}
+			});
+			return defer.promise;
+		}	
 		
 		specVm.getSpecs = function(){
 			specVm.specs = [];

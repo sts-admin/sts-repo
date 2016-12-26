@@ -36,7 +36,7 @@
 							  <td style="padding:5px;" align="center" width="55%">Shipping Address</td>
 							  <td style="padding:5px;" align="center" width="15%">UC</td>
 							  <td style="padding:5px;" align="center" width="15%">UC2</td>
-							  <td style="padding:5px;" filter="false" align="center"></td>
+							  <td style="padding:5px;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
 						  <tbody>
@@ -46,7 +46,7 @@
 							  <td align="left">{{ship.shipToAddress}}</td>
 							  <td align="center">{{ship.createdByUserCode}}</td>
 							  <td align="center">{{ship.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "editSpec(spec.id);"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="center">&nbsp; <a href ng-click="shipToVm.editShipTo(ship.id, 'Edit Shipping Address');"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete Ship To" ng-click="shipToVm.deleteShipTo(ship.id);" border="0"> &nbsp;&nbsp; </td>
 							</tr>							
 						</table>
 						</td>

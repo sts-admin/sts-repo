@@ -2,14 +2,14 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="specVm.getSpecs();">
+		<div class="panel panel-default shadow" ng-init="qnoteVm.getQuoteNotes();">
 			<div class="panel-heading form-heading panel-heading-top">
 				<label>View Quote Notes</label>	
-				<span class="pull-right"><a href ng-click="qnoteVm.addQuoteNote('Add New Quote Note', 'A message');" >Add Quote Note</a></span>
+				<span class="pull-right"><a href ng-click="qnoteVm.addQuoteNote('Add New Quote Note');" >Add Quote Note</a></span>
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
-					<ul uib-pagination total-items="specVm.totalItems" items-per-page = "specVm.pageSize" ng-model="specVm.currentPage" ng-change="specVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="qnoteVm.totalItems" items-per-page = "qnoteVm.pageSize" ng-model="qnoteVm.currentPage" ng-change="qnoteVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -40,12 +40,12 @@
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25" ng-repeat="spec in specVm.specs track by $index">
+							<tr id="user_90" height="25" ng-repeat="note in qnoteVm.quoteNotes track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="left">{{spec.detail}}</td>
-							  <td align="center">{{spec.createdByUserCode}}</td>
-							  <td align="center">{{spec.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "editSpec(spec.id);"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="left">{{note.note}}</td>
+							  <td align="center">{{note.createdByUserCode}}</td>
+							  <td align="center">{{note.updatedByUserCode}}</td>
+							  <td align="center">&nbsp; <a href ng-click = "qnoteVm.editQuoteNote(note.id, 'Edit Quote Note');"> <img src="images/file_edit.png" title="edit quote note" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete quote note" ng-click="qnoteVm.deleteQuoteNote(note.id);" border="0"> &nbsp;&nbsp; </td>
 							</tr>							
 						</table>
 						</td>

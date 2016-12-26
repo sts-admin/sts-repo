@@ -2,14 +2,14 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="shipToVm.getShipTos();">
+		<div class="panel panel-default shadow" ng-init="shipViaVm.getShippedVias();">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>Shipping Address Management</label>	
-				<span class="pull-right"><a href ng-click="shipToVm.addShipTo('Add New Shipping Address');" >Add Shipping Address</a></span>
+				<label>Shipping Via Management</label>	
+				<span class="pull-right"><a href ng-click="shipViaVm.addShipVia('Add New Shipping Via Detail');" >Add Shipping Via</a></span>
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
-					<ul uib-pagination total-items="shipToVm.totalItems" items-per-page = "shipToVm.pageSize" ng-model="shipToVm.currentPage" ng-change="shipToVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="shipViaVm.totalItems" items-per-page = "shipViaVm.pageSize" ng-model="shipViaVm.currentPage" ng-change="shipViaVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -40,13 +40,12 @@
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25" ng-repeat="ship in shipToVm.shipTos track by $index">
-							{{shipToAddress}}
+							<tr id="user_90" height="25" ng-repeat="ship in shipViaVm.shippedVias track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="left">{{ship.shipToAddress}}</td>
+							  <td align="left">{{ship.shippedViaAddress}}</td>
 							  <td align="center">{{ship.createdByUserCode}}</td>
 							  <td align="center">{{ship.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "editSpec(spec.id);"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="center">&nbsp; <a href ng-click = "shipViaVm.editShippedVia(ship.id, 'Edit Shipping Via Detail');"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete shipping via detail" ng-click="shipViaVm.deleteShippedVia(ship.id);" border="0"> &nbsp;&nbsp; </td>
 							</tr>							
 						</table>
 						</td>
