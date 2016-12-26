@@ -7,7 +7,7 @@
 <div class="container-fluid">
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="bidVm.initBidderMasterInputs()">
-				<div class="panel-heading form-heading">
+				<div class="panel-heading panel-heading-top form-heading">
 					<label>{{bidVm.action}} Add Trucker</label>				
 				</div>
 				<div class="panel-body"  style="background:#ccaa46;">
@@ -45,11 +45,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							 <select class="form-control"
-								  ng-model="bidVm.bidder.salesPerson" 
-								  ng-options="user.id as user.customName for user in bidVm.users" ng-required = "true">
-								  <option value="">--- Select ---</option>
-								</select>
+							 <input type="website" class="form-control" placeholder="Enter website" maxlength="100" oninvalid="this.setCustomValidity('Enter Email');" onkeypress="this.setCustomValidity('');" ng-model="bidVm.bidder.email"  ng-required="true" />
 							</div>
 						  </div>					  <!-- .col -->
 						 
