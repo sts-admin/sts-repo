@@ -10,37 +10,42 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: Product
+ * Entity implementation class for Entity: MnD
  *
  */
 @Entity
 @XmlRootElement
 
-@NamedQueries({
-	@NamedQuery(name = "Product.filterByNameMatch", query = "SELECT new com.awacp.entity.Product(s.id, s.productName) FROM Product s WHERE s.archived = 'false' AND LOWER(s.productName) LIKE :keyword"),
-	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p WHERE p.archived = 'false'")
-})
-public class Product extends BaseEntity {
+@NamedQueries({ @NamedQuery(name = "MnD.findAll", query = "SELECT p FROM MnD p WHERE p.archived = 'false'") })
+public class MnD extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	private String productName;
+	private String type;
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
-	public Product() {
+	public MnD() {
 		super();
-	}
-	
-	public Product(Long id, String productName) {
-		this.setId(id);
-		this.productName = productName;
 	}
 
 	@NotNull
 	@Column(nullable = false, length = 100)
 	public String getProductName() {
 		return productName;
+	}
+
+	public void setProduct(String productName) {
+		this.productName = productName;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public void setProductName(String productName) {

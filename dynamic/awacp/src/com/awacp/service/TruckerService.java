@@ -12,5 +12,7 @@ public interface TruckerService {
 	public Trucker getTrucker(Long truckerId);
 
 	public StsResponse<Trucker> listTruckers(int pageNumber, int pageSize);
+	
+	public String delete(Long id);
 
 }

@@ -17,5 +17,7 @@ public interface ArchitectService {
 	public StsResponse<Architect> listArchitects(int pageNumber, int pageSize);
 
 	public List<Architect> filter(String keyword); // match name
+	
+	public String delete(Long id);
 
 }

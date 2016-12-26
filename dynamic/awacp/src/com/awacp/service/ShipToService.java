@@ -16,5 +16,7 @@ public interface ShipToService {
 	public StsResponse<ShipTo> listShipTos(int pageNumber, int pageSize);
 
 	public List<ShipTo> filter(String keyword); // match name
+	
+	public String delete(Long id);
 
 }

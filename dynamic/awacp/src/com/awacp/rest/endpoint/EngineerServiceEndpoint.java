@@ -91,6 +91,19 @@ public class EngineerServiceEndpoint extends CrossOriginFilter {
 		}
 		return object;
 	}
+	
+
+	@GET
+	@Path("/deleteEngineer/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteEngineer(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = engineerService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
+	}
 
 	public void setEngineerService(EngineerService engineerService) {
 		this.engineerService = engineerService;

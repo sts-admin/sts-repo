@@ -1,14 +1,19 @@
 package com.awacp.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 
 import com.sts.core.entity.BaseEntity;
+import com.sts.core.entity.File;
 
 /**
  * Entity implementation class for Entity: Trucker
@@ -22,16 +27,18 @@ import com.sts.core.entity.BaseEntity;
 public class Trucker extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-	private String name;
+	private String name; // required
 	private String code;
 	private String login;
 	private String password;
 	private String trackingUrl;
 	private String phone;
-	private String email;
-	private String website;
+	private String email; // required
+	private String website; // required
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
+
+	private File logo;
 
 	public Trucker() {
 		super();
@@ -127,6 +134,17 @@ public class Trucker extends BaseEntity {
 
 	public void setTrackingUrl(String trackingUrl) {
 		this.trackingUrl = trackingUrl;
+	}
+
+	@XmlElement(name = "logo")
+	@OneToOne(optional = false, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "LOGOOID", unique = false, nullable = true, updatable = true)
+	public File getLogo() {
+		return logo;
+	}
+
+	public void setLogo(File logo) {
+		this.logo = logo;
 	}
 
 	@PrePersist

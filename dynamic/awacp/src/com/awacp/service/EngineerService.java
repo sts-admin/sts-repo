@@ -17,5 +17,7 @@ public interface EngineerService {
 	public Engineer updateEngineer(Engineer engineer) throws StsDuplicateException;
 	
 	public List<Engineer> filter(String keyword); // match name
+	
+	public String delete(Long id);
 
 }

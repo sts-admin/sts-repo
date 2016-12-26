@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Engineer;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.service.GeneralContractorService;
 import com.sts.core.dto.StsResponse;
@@ -74,6 +75,19 @@ public class GeneralContractorServiceImpl extends CommonServiceImpl<GeneralContr
 		getEntityManager().merge(contractor);
 		getEntityManager().flush();
 		return contractor;
+	}
+
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		GeneralContractor entity = getContractor(id);
+		if (entity != null) {
+			entity.setArchived(true);
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
 	}
 
 }

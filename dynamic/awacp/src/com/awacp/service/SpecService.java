@@ -16,5 +16,7 @@ public interface SpecService {
 	public StsResponse<Spec> listSpecs(int pageNumber, int pageSize);
 
 	public List<Spec> filter(String keyword); // match name
+	
+	public String delete(Long id);
 
 }

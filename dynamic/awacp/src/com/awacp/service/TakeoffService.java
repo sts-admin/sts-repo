@@ -21,4 +21,6 @@ public interface TakeoffService {
 	public List<String> listTakeoffIds(String keword);
 	
 	public List<String> listQuoteIds(String keword);
+	
+	public String delete(Long id);
 }

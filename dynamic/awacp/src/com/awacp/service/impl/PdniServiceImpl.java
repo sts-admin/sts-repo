@@ -5,13 +5,13 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Takeoff;
-import com.awacp.entity.Trucker;
-import com.awacp.service.TruckerService;
+import com.awacp.entity.MnD;
+import com.awacp.entity.Pdni;
+import com.awacp.service.PdniService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements TruckerService {
+public class PdniServiceImpl extends CommonServiceImpl<Pdni>implements PdniService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -24,37 +24,37 @@ public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements Tru
 	}
 
 	@Override
-	public StsResponse<Trucker> listTruckers(int pageNumber, int pageSize) {
-		StsResponse<Trucker> results = listAll(pageNumber, pageSize, Trucker.class.getSimpleName(), getEntityManager());
+	public StsResponse<Pdni> listPdnis(int pageNumber, int pageSize) {
+		StsResponse<Pdni> results = listAll(pageNumber, pageSize, Pdni.class.getSimpleName(), getEntityManager());
 
 		return results;
 	}
 
 	@Override
-	public Trucker getTrucker(Long id) {
-		return getEntityManager().find(Trucker.class, id);
+	public Pdni getPdni(Long id) {
+		return getEntityManager().find(Pdni.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Trucker saveTrucker(Trucker Trucker) {
-		getEntityManager().persist(Trucker);
+	public Pdni savePdni(Pdni pdni) {
+		getEntityManager().persist(pdni);
 		getEntityManager().flush();
-		return Trucker;
+		return pdni;
 	}
 
 	@Override
 	@Transactional
-	public Trucker updateTrucker(Trucker Trucker) {
-		Trucker = getEntityManager().merge(Trucker);
+	public Pdni updatePdni(Pdni pdni) {
+		pdni = getEntityManager().merge(pdni);
 		getEntityManager().flush();
-		return Trucker;
+		return pdni;
 	}
 
 	@Override
 	@Transactional
 	public String delete(Long id) {
-		Trucker entity = getTrucker(id);
+		Pdni entity = getPdni(id);
 		if (entity != null) {
 			entity.setArchived(true);
 			getEntityManager().merge(entity);
@@ -63,4 +63,6 @@ public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements Tru
 		}
 		return "fail";
 	}
+
+
 }

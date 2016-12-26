@@ -12,5 +12,7 @@ public interface BidderService {
 	public Bidder saveBidder(Bidder bidder) throws StsDuplicateException;
 
 	public Bidder updateBidder(Bidder bidder) throws StsDuplicateException;
+	
+	public String delete(Long id);
 
 }

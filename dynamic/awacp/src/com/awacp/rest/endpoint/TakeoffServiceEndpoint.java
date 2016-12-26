@@ -45,11 +45,11 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/getTakeoff/{takeoffId}")
+	@Path("/getTakeoff/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Takeoff getTakeoff(@PathParam("takeoffId") Long takeoffId, @Context HttpServletResponse servletResponse)
+	public Takeoff getTakeoff(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.takeoffService.getTakeoff(takeoffId);
+		return this.takeoffService.getTakeoff(id);
 	}
 
 	@POST
@@ -66,6 +66,18 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Takeoff updateTakeoff(Takeoff takeoff, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.takeoffService.updateTakeoff(takeoff);
+	}
+
+	@GET
+	@Path("/deleteTakeoff/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteTakeoff(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = takeoffService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
 	}
 
 	public void setTakeoffService(TakeoffService takeoffService) {

@@ -12,4 +12,6 @@ public interface GeneralContractorService {
 	public GeneralContractor saveContractor(GeneralContractor contractor) throws StsDuplicateException;
 
 	public GeneralContractor updateContractor(GeneralContractor contractor) throws StsDuplicateException;
+	
+	public String delete(Long id);
 }

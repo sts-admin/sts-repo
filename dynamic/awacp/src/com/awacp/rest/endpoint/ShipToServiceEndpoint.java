@@ -27,17 +27,29 @@ public class ShipToServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/listShipTos/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StsResponse<ShipTo> listShipTos(@PathParam("pageNumber") int pageNumber,
-			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+	public StsResponse<ShipTo> listShipTos(@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize,
+			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.shipToService.listShipTos(pageNumber, pageSize);
 	}
 
 	@GET
-	@Path("/getShipTo/{shipToId}")
+	@Path("/getShipTo/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ShipTo getShipTo(@PathParam("shipToId") Long shipToId, @Context HttpServletResponse servletResponse)
+	public ShipTo getShipTo(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.shipToService.getShipTo(shipToId);
+		return this.shipToService.getShipTo(id);
+	}
+
+	@GET
+	@Path("/deleteShipTo/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteShipTo(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = shipToService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
 	}
 
 	@POST

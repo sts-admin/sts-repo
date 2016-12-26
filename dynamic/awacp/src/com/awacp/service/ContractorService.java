@@ -12,4 +12,6 @@ public interface ContractorService {
 	public Contractor saveContractor(Contractor contractor) throws StsDuplicateException;
 
 	public Contractor updateContractor(Contractor contractor) throws StsDuplicateException;
+	
+	public String delete(Long id);
 }

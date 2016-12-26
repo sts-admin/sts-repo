@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Architect;
 import com.awacp.entity.Bidder;
 import com.awacp.service.BidderService;
 import com.sts.core.dto.StsResponse;
@@ -71,4 +72,18 @@ public class BidderServiceImpl extends CommonServiceImpl<Bidder>implements Bidde
 		}
 		return getEntityManager().merge(bidder);
 	}
+
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		Bidder entity = getBidder(id);
+		if (entity != null) {
+			entity.setArchived(true);
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
+	}
+
 }

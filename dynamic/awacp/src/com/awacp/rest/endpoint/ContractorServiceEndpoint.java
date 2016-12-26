@@ -107,6 +107,42 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 		}
 		return object;
 	}
+	
+	@GET
+	@Path("/deleteContractor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteContractor(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = contractorService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
+	}
+	
+	@GET
+	@Path("/deleteGc/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteGc(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = generalContractorService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
+	}
+	
+	@GET
+	@Path("/deleteBidder/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteBidder(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = bidderService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
+	}
 
 	@GET
 	@Path("/getContractor/{id}")

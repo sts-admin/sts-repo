@@ -61,4 +61,16 @@ public class ShipToServiceImpl extends CommonServiceImpl<ShipTo>implements ShipT
 				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
 	}
 
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		ShipTo shipTo = getShipTo(id);
+		if (shipTo != null) {
+			shipTo.setArchived(true);
+			updateShipTo(shipTo);
+			return "success";
+		}
+		return "fail";
+	}
+
 }

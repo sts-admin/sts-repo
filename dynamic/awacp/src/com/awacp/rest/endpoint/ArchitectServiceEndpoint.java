@@ -94,6 +94,18 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 		}
 		return object;
 	}
+	
+	@GET
+	@Path("/deleteArchitect/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteArchitect(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = architectService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
+	}
 
 	public void setArchitectService(ArchitectService architectService) {
 		this.architectService = architectService;

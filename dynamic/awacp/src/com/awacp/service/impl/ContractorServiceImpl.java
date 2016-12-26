@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Bidder;
 import com.awacp.entity.Contractor;
 import com.awacp.service.ContractorService;
 import com.sts.core.dto.StsResponse;
@@ -78,4 +79,16 @@ public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implemen
 		return contractor;
 	}
 
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		Contractor entity = getContractor(id);
+		if (entity != null) {
+			entity.setArchived(true);
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
+	}
 }

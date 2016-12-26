@@ -16,5 +16,7 @@ public interface ProductService {
 	public StsResponse<Product> listProducts(int pageNumber, int pageSize);
 
 	public List<Product> filter(String keyword); // match name
+	
+	public String delete(Long id);
 
 }

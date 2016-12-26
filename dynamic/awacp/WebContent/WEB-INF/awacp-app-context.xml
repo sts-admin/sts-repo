@@ -103,6 +103,11 @@
 			<ref bean="truckerServiceEndpoint" />
 			<ref bean="shipToServiceEndpoint" />
 			<ref bean="productServiceEndpoint" />
+			<ref bean="shippedViaServiceEndpoint" />
+			<ref bean="mnDServiceEndpoint" />
+			<ref bean="itemShippedServiceEndpoint" />
+			<ref bean="quoteNoteServiceEndpoint" />
+			<ref bean="pdniServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -184,6 +189,31 @@
      <bean id="shipToService" class="com.awacp.service.impl.ShipToServiceImpl" />
      <bean id="shipToServiceEndpoint" class="com.awacp.rest.endpoint.ShipToServiceEndpoint">
         <property name="shipToService" ref="shipToService" />
+    </bean>
+    
+     <bean id="pdniService" class="com.awacp.service.impl.PdniServiceImpl" />
+     <bean id="pdniServiceEndpoint" class="com.awacp.rest.endpoint.PdniServiceEndpoint">
+        <property name="pdniService" ref="pdniService" />
+    </bean>
+    
+     <bean id="shippedViaService" class="com.awacp.service.impl.ShippedViaServiceImpl" />
+     <bean id="shippedViaServiceEndpoint" class="com.awacp.rest.endpoint.ShippedViaServiceEndpoint">
+        <property name="shippedViaService" ref="shippedViaService" />
+    </bean>
+    
+    <bean id="itemShippedService" class="com.awacp.service.impl.ItemShippedServiceImpl" />
+     <bean id="itemShippedServiceEndpoint" class="com.awacp.rest.endpoint.ItemShippedServiceEndpoint">
+        <property name="itemShippedService" ref="itemShippedService" />
+    </bean>
+    
+    <bean id="quoteNoteService" class="com.awacp.service.impl.QuoteNoteServiceImpl" />
+     <bean id="quoteNoteServiceEndpoint" class="com.awacp.rest.endpoint.QuoteNoteServiceEndpoint">
+        <property name="quoteNoteService" ref="quoteNoteService" />
+    </bean>
+    
+    <bean id="mnDService" class="com.awacp.service.impl.MnDServiceImpl" />
+     <bean id="mnDServiceEndpoint" class="com.awacp.rest.endpoint.MnDServiceEndpoint">
+        <property name="mnDService" ref="mnDService" />
     </bean>
     
     

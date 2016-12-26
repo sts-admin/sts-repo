@@ -33,11 +33,11 @@ public class TruckerServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/getTrucker/{truckerId}")
+	@Path("/getTrucker/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Trucker getTrucker(@PathParam("truckerId") Long truckerId, @Context HttpServletResponse servletResponse)
+	public Trucker getTrucker(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.truckerService.getTrucker(truckerId);
+		return this.truckerService.getTrucker(id);
 	}
 
 	@POST
@@ -54,6 +54,19 @@ public class TruckerServiceEndpoint extends CrossOriginFilter {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Trucker updateTrucker(Trucker trucker, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.truckerService.updateTrucker(trucker);
+	}
+	
+
+	@GET
+	@Path("/deleteTrucker/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteTrucker(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = truckerService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
 	}
 
 	public void setTruckerService(TruckerService truckerService) {

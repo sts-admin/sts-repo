@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Product;
 import com.awacp.entity.Spec;
 import com.awacp.service.SpecService;
 import com.sts.core.dto.StsResponse;
@@ -59,6 +60,19 @@ public class SpecServiceImpl extends CommonServiceImpl<Spec>implements SpecServi
 			return null;
 		return getEntityManager().createNamedQuery("Spec.filterByDetailMatch")
 				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
+	}
+
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		Spec entity = getSpec(id);
+		if (entity != null) {
+			entity.setArchived(true);
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
 	}
 
 }

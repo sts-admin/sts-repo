@@ -33,11 +33,11 @@ public class SpecServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/getSpecification/{specificationId}")
+	@Path("/getSpecification/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Spec getSpecification(@PathParam("specId") Long specificationId,
+	public Spec getSpecification(@PathParam("id") Long id,
 			@Context HttpServletResponse servletResponse) throws IOException {
-		return this.specService.getSpec(specificationId);
+		return this.specService.getSpec(id);
 	}
 
 	@POST
@@ -54,6 +54,19 @@ public class SpecServiceEndpoint extends CrossOriginFilter {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Spec updateSpecification(Spec spec, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.specService.updateSpec(spec);
+	}
+	
+
+	@GET
+	@Path("/deleteSpec/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteSpec(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = specService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
 	}
 
 	public void setSpecService(SpecService specService) {

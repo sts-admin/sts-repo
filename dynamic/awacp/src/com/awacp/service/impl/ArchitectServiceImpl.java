@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Architect;
+import com.awacp.entity.ItemShipped;
 import com.awacp.service.ArchitectService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
@@ -88,6 +89,19 @@ public class ArchitectServiceImpl extends CommonServiceImpl<Architect>implements
 			return null;
 		return getEntityManager().createNamedQuery("Architect.filterByNameMatch").setParameter("keyword", "%" + keyword.toLowerCase() + "%")
 				.getResultList();
+	}
+
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		Architect entity = getArchitect(id);
+		if (entity != null) {
+			entity.setArchived(true);
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
 	}
 
 }

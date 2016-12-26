@@ -5,13 +5,12 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Takeoff;
-import com.awacp.entity.Trucker;
-import com.awacp.service.TruckerService;
+import com.awacp.entity.ItemShipped;
+import com.awacp.service.ItemShippedService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements TruckerService {
+public class ItemShippedServiceImpl extends CommonServiceImpl<ItemShipped>implements ItemShippedService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -24,43 +23,44 @@ public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements Tru
 	}
 
 	@Override
-	public StsResponse<Trucker> listTruckers(int pageNumber, int pageSize) {
-		StsResponse<Trucker> results = listAll(pageNumber, pageSize, Trucker.class.getSimpleName(), getEntityManager());
+	public StsResponse<ItemShipped> listItemShippeds(int pageNumber, int pageSize) {
+		StsResponse<ItemShipped> results = listAll(pageNumber, pageSize, ItemShipped.class.getSimpleName(),
+				getEntityManager());
 
 		return results;
 	}
 
 	@Override
-	public Trucker getTrucker(Long id) {
-		return getEntityManager().find(Trucker.class, id);
+	public ItemShipped getItemShipped(Long id) {
+		return getEntityManager().find(ItemShipped.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Trucker saveTrucker(Trucker Trucker) {
-		getEntityManager().persist(Trucker);
+	public ItemShipped saveItemShipped(ItemShipped itemShipped) {
+		getEntityManager().persist(itemShipped);
 		getEntityManager().flush();
-		return Trucker;
+		return itemShipped;
 	}
 
 	@Override
 	@Transactional
-	public Trucker updateTrucker(Trucker Trucker) {
-		Trucker = getEntityManager().merge(Trucker);
+	public ItemShipped updateItemShipped(ItemShipped itemShipped) {
+		itemShipped = getEntityManager().merge(itemShipped);
 		getEntityManager().flush();
-		return Trucker;
+		return itemShipped;
 	}
 
 	@Override
 	@Transactional
 	public String delete(Long id) {
-		Trucker entity = getTrucker(id);
+		ItemShipped entity = getItemShipped(id);
 		if (entity != null) {
 			entity.setArchived(true);
-			getEntityManager().merge(entity);
-			getEntityManager().flush();
+			updateItemShipped(entity);
 			return "success";
 		}
 		return "fail";
 	}
+
 }

@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Contractor;
 import com.awacp.entity.Engineer;
 import com.awacp.service.EngineerService;
 import com.sts.core.dto.StsResponse;
@@ -87,5 +88,18 @@ public class EngineerServiceImpl extends CommonServiceImpl<Engineer>implements E
 			return null;
 		return getEntityManager().createNamedQuery("Engineer.filterByNameMatch")
 				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
+	}
+
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		Engineer entity = getEngineer(id);
+		if (entity != null) {
+			entity.setArchived(true);
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
 	}
 }

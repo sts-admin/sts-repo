@@ -5,13 +5,13 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Takeoff;
-import com.awacp.entity.Trucker;
-import com.awacp.service.TruckerService;
+import com.awacp.entity.GeneralContractor;
+import com.awacp.entity.MnD;
+import com.awacp.service.MnDService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements TruckerService {
+public class MnDServiceImpl extends CommonServiceImpl<MnD>implements MnDService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -24,37 +24,37 @@ public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements Tru
 	}
 
 	@Override
-	public StsResponse<Trucker> listTruckers(int pageNumber, int pageSize) {
-		StsResponse<Trucker> results = listAll(pageNumber, pageSize, Trucker.class.getSimpleName(), getEntityManager());
+	public StsResponse<MnD> listMnDs(int pageNumber, int pageSize) {
+		StsResponse<MnD> results = listAll(pageNumber, pageSize, MnD.class.getSimpleName(), getEntityManager());
 
 		return results;
 	}
 
 	@Override
-	public Trucker getTrucker(Long id) {
-		return getEntityManager().find(Trucker.class, id);
+	public MnD getMnD(Long id) {
+		return getEntityManager().find(MnD.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Trucker saveTrucker(Trucker Trucker) {
-		getEntityManager().persist(Trucker);
+	public MnD saveMnD(MnD mnD) {
+		getEntityManager().persist(mnD);
 		getEntityManager().flush();
-		return Trucker;
+		return mnD;
 	}
 
 	@Override
 	@Transactional
-	public Trucker updateTrucker(Trucker Trucker) {
-		Trucker = getEntityManager().merge(Trucker);
+	public MnD updateMnD(MnD mnD) {
+		mnD = getEntityManager().merge(mnD);
 		getEntityManager().flush();
-		return Trucker;
+		return mnD;
 	}
 
 	@Override
 	@Transactional
 	public String delete(Long id) {
-		Trucker entity = getTrucker(id);
+		MnD entity = getMnD(id);
 		if (entity != null) {
 			entity.setArchived(true);
 			getEntityManager().merge(entity);
@@ -63,4 +63,5 @@ public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements Tru
 		}
 		return "fail";
 	}
+
 }

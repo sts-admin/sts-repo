@@ -33,11 +33,11 @@ public class ProductServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/getProduct/{productId}")
+	@Path("/getProduct/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Product getProduct(@PathParam("productId") Long productId, @Context HttpServletResponse servletResponse)
+	public Product getProduct(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.productService.getProduct(productId);
+		return this.productService.getProduct(id);
 	}
 
 	@POST
@@ -54,6 +54,19 @@ public class ProductServiceEndpoint extends CrossOriginFilter {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Product updateProduct(Product product, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.productService.updateProduct(product);
+	}
+	
+
+	@GET
+	@Path("/deleteProduct/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteProduct(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = productService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
 	}
 
 	public void setProductService(ProductService ProductService) {

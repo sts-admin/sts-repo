@@ -10,41 +10,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: Product
+ * Entity implementation class for Entity: Pdni
  *
  */
 @Entity
 @XmlRootElement
 
 @NamedQueries({
-	@NamedQuery(name = "Product.filterByNameMatch", query = "SELECT new com.awacp.entity.Product(s.id, s.productName) FROM Product s WHERE s.archived = 'false' AND LOWER(s.productName) LIKE :keyword"),
-	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p WHERE p.archived = 'false'")
+	@NamedQuery(name = "Pdni.findAll", query = "SELECT p FROM Pdni p WHERE p.archived = 'false'")
 })
-public class Product extends BaseEntity {
+public class Pdni extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private String productName;
+	private String pdniName;
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
-	public Product() {
+	public Pdni() {
 		super();
-	}
-	
-	public Product(Long id, String productName) {
-		this.setId(id);
-		this.productName = productName;
 	}
 
 	@NotNull
 	@Column(nullable = false, length = 100)
-	public String getProductName() {
-		return productName;
+	public String getPdniName() {
+		return pdniName;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setPdniName(String pdniName) {
+		this.pdniName = pdniName;
 	}
 
 	@NotNull

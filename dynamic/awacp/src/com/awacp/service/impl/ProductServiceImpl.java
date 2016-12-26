@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Pdni;
 import com.awacp.entity.Product;
 import com.awacp.service.ProductService;
 import com.sts.core.dto.StsResponse;
@@ -59,6 +60,19 @@ public class ProductServiceImpl extends CommonServiceImpl<Product>implements Pro
 			return null;
 		return getEntityManager().createNamedQuery("Product.filterByNameMatch")
 				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
+	}
+
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		Product entity = getProduct(id);
+		if (entity != null) {
+			entity.setArchived(true);
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
 	}
 
 }

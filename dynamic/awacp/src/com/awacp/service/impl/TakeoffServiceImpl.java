@@ -245,4 +245,18 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		return null;
 	}
 
+	@Override
+	@Transactional
+	public String delete(Long id) {
+		Takeoff entity = getTakeoff(id);
+		if (entity != null) {
+			entity.setArchived(true);
+			getEntityManager().merge(entity);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
+	}
+
+
 }
