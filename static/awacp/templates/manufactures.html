@@ -4,8 +4,8 @@
 	<div class="clearfix">
 		<div class="panel panel-default shadow" ng-init="specVm.getSpecs();">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>View Specification</label>	
-				<span class="pull-right"><a href ng-click="specVm.addSpec('Add New Specification');" >Add Specification</a></span>
+				<label>Manufacture List</label>	
+				<span class="pull-right"><a href ng-click="manuVm.addManufacture('Add Manufacture');" >Add Product</a></span>
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
@@ -22,18 +22,20 @@
 						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
 						  <thead>
                           
-                          <tr style="background:#99C;">
+                          <tr style="background:#02577D;">
                       <td class="center">&nbsp;</td>
                       <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td class="center">&nbsp;</td>
                       <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
                       
                       <td align="center">&nbsp;</td>
                     </tr>
                     
-							<tr style="background:#99F; color:#000;">
+							<tr style="background:#042F51; color:#FFFFFF;">
 							  <td style="padding:5px;" align="center" width="5%">S. No.</td>
-							  <td style="padding:5px;" align="center" width="55%">Specification</td>
+							  <td style="padding:5px;" align="center" width="55%">Product</td>
+                              <td style="padding:5px;" align="center" width="15%">#Types</td>
 							  <td style="padding:5px;" align="center" width="15%">UC</td>
 							  <td style="padding:5px;" align="center" width="15%">UC2</td>
 							  <td style="padding:5px;" filter="false" align="center"></td>
