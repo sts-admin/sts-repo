@@ -2,14 +2,15 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="specVm.getSpecs();">
+		<div class="panel panel-default shadow" ng-init="manuVm.getManufactures();">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>Manufacture List</label>	
-				<span class="pull-right"><a href ng-click="manuVm.addManufacture('Add Manufacture');" >Add Product</a></span>
+				<label>View Manufacture & Description</label>	
+				<span class="pull-right"><a href ng-click="manuVm.addManufacture('Add New Manufacture');" >Add Manufacture & Description</a></span>
+
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
-					<ul uib-pagination total-items="specVm.totalItems" items-per-page = "specVm.pageSize" ng-model="specVm.currentPage" ng-change="specVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="manuVm.totalItems" items-per-page = "manuVm.pageSize" ng-model="manuVm.currentPage" ng-change="manuVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -34,20 +35,21 @@
                     
 							<tr style="background:#042F51; color:#FFFFFF;">
 							  <td style="padding:5px;" align="center" width="5%">S. No.</td>
-							  <td style="padding:5px;" align="center" width="55%">Product</td>
-                              <td style="padding:5px;" align="center" width="15%">#Types</td>
+							  <td style="padding:5px;" align="center" width="40%">Product</td>
+							  <td style="padding:5px;" align="center" width="15%">#Type</td>
 							  <td style="padding:5px;" align="center" width="15%">UC</td>
 							  <td style="padding:5px;" align="center" width="15%">UC2</td>
-							  <td style="padding:5px;" filter="false" align="center"></td>
+							  <td style="padding:5px;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25" ng-repeat="spec in specVm.specs track by $index">
+							<tr id="user_90" height="25" ng-repeat="manu in manuVm.manufactures track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="left">{{spec.detail}}</td>
-							  <td align="center">{{spec.createdByUserCode}}</td>
-							  <td align="center">{{spec.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "editSpec(spec.id);"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="left">{{manu.productName}}</td>
+							   <td align="left"></td>
+							  <td align="center">{{manu.createdByUserCode}}</td>
+							  <td align="center">{{manu.updatedByUserCode}}</td>
+							  <td align="center">&nbsp; <a href ng-click = "manuVm.editManufacture(manu.id, 'Edit Manufacture & Description');"> <img src="images/file_edit.png" title="edit Manufacture & Description" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete Manufacture & Description" ng-click="manuVm.deleteManufacture(manu.id);" border="0"> &nbsp;&nbsp; </td>
 							</tr>							
 						</table>
 						</td>

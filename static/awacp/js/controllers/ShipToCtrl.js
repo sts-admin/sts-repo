@@ -25,7 +25,7 @@
 					$scope.message = "";
 					$scope.save = function (){
 						if(!$scope.shipToAddress || $scope.shipToAddress.length <= 0){
-							$scope.message = "Please enter Shipping Address Detail.";
+							$scope.message = "Please Enter Shipping Address Detail.";
 							return;
 						}
 						jQuery(".actions").attr('disabled','disabled');

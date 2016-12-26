@@ -9,7 +9,7 @@
 		arcVm.totalItems = -1;
 		arcVm.currentPage = 1;
 		arcVm.pageNumber = 1;
-		arcVm.pageSize = 5;
+		arcVm.pageSize = 1;
 		arcVm.architects= [];
 		arcVm.architect = {};
 		arcVm.pageChanged = function() {
@@ -65,14 +65,31 @@
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "ArchitectrCtrl::bidVm.getArchitectrs::Error";
+					jqXHR.errorSource = "ArchitectrCtrl::arcVm.getArchitectrs::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				})
 			}
 		}
-		
+		arcVm.deleteArchitect = function(id){
+			AjaxUtil.getData("/awacp/deleteArchitect/"+id, Math.random())
+			.success(function(data, status, headers){
+				arcVm.totalItems = (arcVm.totalItems - 1);
+				AlertService.showAlert(	'AWACP :: Alert!', 'Architect Detail Deleted Successfully.')
+					.then(function (){arcVm.getArchitects();},function (){return false;});
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				if(666666 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete Architect Detail.")
+					.then(function (){return},function (){return});
+					return;
+				}
+				jqXHR.errorSource = "ArchitectCtrl::arcVm.deleteArchitect::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			})
+		}
 		arcVm.getArchitects = function(){
 			arcVm.architects = [];
+			arcVm.pageNumber = arcVm.currentPage;
 			AjaxUtil.getData("/awacp/listArchitects/"+arcVm.pageNumber+"/"+arcVm.pageSize, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.totalCount){

@@ -5,18 +5,15 @@
 	function EngineerCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var engVm = this;
 		engVm.action = "Add";
-		engVm.totalItems = 0;
+		engVm.totalItems = -1;
 		engVm.currentPage = 1;
-		engVm.pageSize = 5;
+		engVm.pageSize = 1;
+		engVm.pageNumber = 1;
 		$scope.timers = [];
 		engVm.engineers = [];
 		engVm.engineer = {};
-		
-		engVm.setPage = function (pageNo) {
-			engVm.currentPage = pageNo;
-		};
 		engVm.pageChanged = function() {
-			console.log('Page changed to: ' + engVm.currentPage);
+			engVm.getEngineers();
 		};
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
@@ -60,7 +57,23 @@
 		engVm.initEngineerMasterInputs = function(){
 			engVm.getUsers();
 		}
-		
+		engVm.deleteEngineer = function(id){
+			AjaxUtil.getData("/awacp/deleteEngineer/"+id, Math.random())
+			.success(function(data, status, headers){
+				engVm.totalItems = (engVm.totalItems - 1);
+				AlertService.showAlert(	'AWACP :: Alert!', 'Engineer Detail Deleted Successfully.')
+					.then(function (){engVm.getEngineers();},function (){return false;});
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				if(666666 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete Engineer Detail.")
+					.then(function (){return},function (){return});
+					return;
+				}
+				jqXHR.errorSource = "EngineerCtrl::engVm.deleteEngineer::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			})
+		}
 	    engVm.editEngineer = function(){
 			if($state.params.id != undefined){
 				var formData = {};
@@ -78,7 +91,7 @@
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "EngineerCtrl::bidVm.getEngineers::Error";
+					jqXHR.errorSource = "EngineerCtrl::engVm.getEngineers::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				})
 			}
@@ -87,6 +100,7 @@
 		
 		engVm.getEngineers = function(){
 			engVm.engineers = [];
+			engVm.pageNumber = engVm.currentPage;
 			AjaxUtil.getData("/awacp/listEngineers/"+engVm.currentPage+"/"+engVm.pageSize, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.totalCount){

@@ -52,7 +52,7 @@
 							  <td style="padding:5px; color:#FFF;" align="center">SP</td>
 							  <td style="padding:5px; color:#FFF;" align="center">UC</td>
 							  <td style="padding:5px; color:#FFF;" align="center">UC2</td>
-							  <td style="padding:5px; color:#FFF;" filter="false" align="center"></td>
+							  <td style="padding:5px; color:#FFF;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
 						  <tbody>
@@ -70,7 +70,7 @@
 							  <td align="center">{{contractor.salesPersonName}}</td>
 							   <td align="center">{{contractor.createdByUserCode}}</td>
 							    <td align="center">{{contractor.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a ui-sref="gc-edit({id:contractor.id})"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="center">&nbsp; <a ui-sref="gc-edit({id:contractor.id})"> <img src="images/file_edit.png" title="edit GC" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete GC" ng-click="gcVm.deleteGc(contractor.id);" border="0"> &nbsp;&nbsp; </td>
 							</tr>					
 						</table>
 						</td>

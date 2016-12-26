@@ -8,8 +8,7 @@
         <span class="pull-right"><a href ui-sref="engineer-add" >Add Engineer</a></span> </div>
       <div class="panel-body">
         <div style="text-align:right;">
-          <ul uib-pagination total-items="engVm.totalItems" ng-model="engVm.currentPage">
-          </ul>
+          <ul uib-pagination total-items="engVm.totalItems" items-per-page = "engVm.pageSize" ng-model="engVm.currentPage" ng-change="engVm.pageChanged()"></ul>
         </div>
         <!-- .row -->
         <div class="row" id="contents">
@@ -50,7 +49,7 @@
                       <td style="padding:5px;" align="center">SP</td>
                       <td style="padding:5px;" align="center">UC</td>
                       <td style="padding:5px;" align="center">UC2</td>
-                      <td style="padding:5px;" filter="false" align="center"></td>
+                      <td style="padding:5px;" filter="false" align="center">Actions</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -68,7 +67,7 @@
                       <td align="center">{{engineer.salesPersonName}}</td>
                       <td align="center">{{engineer.createdByUserCode}}</td>
                       <td align="center">{{engineer.updatedByUserCode}}</td>
-                      <td align="center">&nbsp; <a ui-sref="engineer-edit({id:engineer.id})"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+                      <td align="center">&nbsp; <a ui-sref="engineer-edit({id:engineer.id})"> <img src="images/file_edit.png" title="edit engineer" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete engineer" ng-click="engVm.deleteEngineer(engineer.id)" border="0"> &nbsp;&nbsp; </td>
                     </tr>
                 </table>
                 </td>

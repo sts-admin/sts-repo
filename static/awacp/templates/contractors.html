@@ -52,7 +52,7 @@
 							  <td style="padding:5px;" align="center">SP</td>
 							  <td style="padding:5px;" align="center">UC</td>
 							  <td style="padding:5px;" align="center">UC2</td>
-							  <td style="padding:5px;" filter="false" align="center"></td>
+							  <td style="padding:5px;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
 						  <tbody>
@@ -70,7 +70,7 @@
 							  <td align="center">{{contractor.salesPersonName}}</td>
 							  <td align="center">{{contractor.createdByUserCode}}</td>
 							  <td align="center">{{contractor.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a ui-sref="contractor-edit({id:contractor.id})"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; </td>
+							  <td align="center">&nbsp; <a ui-sref="contractor-edit({id:contractor.id})"> <img src="images/file_edit.png" title="edit contractor" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete contractor" ng-click="conVm.deleteContractor(contractor.id);" border="0"> &nbsp;&nbsp; </td>
 							</tr>					
 						</table>
 						</td>

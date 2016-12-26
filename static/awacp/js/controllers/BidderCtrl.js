@@ -9,7 +9,7 @@
 		bidVm.totalItems = -1;
 		bidVm.currentPage = 1;
 		bidVm.pageNumber = 1;
-		bidVm.pageSize = 5;
+		bidVm.pageSize = 1;
 		
 		$scope.timers = [];
 		bidVm.bidders= [];
@@ -96,11 +96,11 @@
 				bidVm.bidder = {};
 				if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
-					.then(function (){bidVm.cancelBidderAction();},function (){return false;});
+					.then(function (){bidVm.getBidders();},function (){return false;});
 					return;
 				}else{
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
-					.then(function (){return},function (){bidVm.cancelBidderAction();});
+					.then(function (){return},function (){bidVm.getBidders();});
 					return;
 				}
 			})
@@ -119,8 +119,25 @@
 			   bidVm.getUsers();
 		    }
 		}		
-		
+		bidVm.deleteBidder = function(id){
+			AjaxUtil.getData("/awacp/deleteBidder/"+id, Math.random())
+			.success(function(data, status, headers){
+				bidVm.totalItems = (bidVm.totalItems - 1);
+				AlertService.showAlert(	'AWACP :: Alert!', 'Bidder Detail Deleted Successfully.')
+					.then(function (){bidVm.getBidders();},function (){return false;});
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				if(666666 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete Bidder Detail.")
+					.then(function (){return},function (){return});
+					return;
+				}
+				jqXHR.errorSource = "BidderCtrl::bidVm.deleteBidder::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			})
+		}
 		bidVm.getBidders = function(){
+			bidVm.bidders = [];
 			bidVm.pageNumber = bidVm.currentPage;
 			AjaxUtil.getData("/awacp/listBidders/"+bidVm.pageNumber+"/"+bidVm.pageSize, Math.random())
 			.success(function(data, status, headers){
@@ -149,6 +166,7 @@
 			});
 		}
 		bidVm.editBidder();
+		
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
 				$timeout.cancel($scope.timers[i]);

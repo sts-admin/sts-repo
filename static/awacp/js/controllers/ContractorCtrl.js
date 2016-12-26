@@ -8,7 +8,7 @@
 	    conVm.totalItems = -1;
 		conVm.currentPage = 1;
 		conVm.pageNumber = 1;
-		conVm.pageSize = 5;
+		conVm.pageSize = 1;
 		$scope.timers = [];
 		conVm.contractors= [];
 		conVm.contractor = {};
@@ -110,8 +110,25 @@
 				})
 			}
 		}
-		
+		conVm.deleteContractor = function(id){
+			AjaxUtil.getData("/awacp/deleteContractor/"+id, Math.random())
+			.success(function(data, status, headers){
+				conVm.totalItems = (conVm.totalItems - 1);
+				AlertService.showAlert(	'AWACP :: Alert!', 'Contractor Detail Deleted Successfully.')
+					.then(function (){conVm.getContractors();},function (){return false;});
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				if(666666 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete Contractor Detail.")
+					.then(function (){return},function (){return});
+					return;
+				}
+				jqXHR.errorSource = "ContractorCtrl::conVm.deleteContractor::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			})
+		}
 		conVm.getContractors = function(){
+			conVm.contractors = [];
 			conVm.pageNumber = conVm.currentPage;
 			AjaxUtil.getData("/awacp/listContractors/"+conVm.pageNumber+"/"+conVm.pageSize, Math.random())
 			.success(function(data, status, headers){
