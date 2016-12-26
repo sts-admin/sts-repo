@@ -4,15 +4,11 @@
 	<div class="clearfix">
 		<div class="panel panel-default shadow" ng-init="qnoteVm.getQuoteNotes();">
 			<div class="panel-heading form-heading panel-heading-top">
-<<<<<<< .mine
-				<label>View Notes</label>	
-	<span class="pull-right"><a href ng-click="qnoteVm.addQuoteNote('Add New Quote Note', 'A message');" >View Notes</a></span>
-				<label>View Quote Notes</label>	
-				<span class="pull-right"><a href ng-click="qnoteVm.addQuoteNote('Add New Quote Note', 'A message');" >Add Quote Note</a></span>
 
-				<label>View Quote Notes</label>	
-				<span class="pull-right"><a href ng-click="qnoteVm.addQuoteNote('Add New Quote Note');" >Add Quote Note</a></span>
-			</div>
+				<label>View Notes</label>	
+	<span class="pull-right"><a href ng-click="qnoteVm.addQuoteNote('Add Note');" >Add Notes</a></span>
+				
+		</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
 					<ul uib-pagination total-items="qnoteVm.totalItems" items-per-page = "qnoteVm.pageSize" ng-model="qnoteVm.currentPage" ng-change="qnoteVm.pageChanged()"></ul>
