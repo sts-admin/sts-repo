@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Architect;
 import com.awacp.entity.Bidder;
 import com.awacp.service.BidderService;
 import com.sts.core.dto.StsResponse;

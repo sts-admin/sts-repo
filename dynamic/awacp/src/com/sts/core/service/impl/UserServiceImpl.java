@@ -15,7 +15,6 @@ import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Engineer;
 import com.mysql.jdbc.StringUtils;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.StsCoreConstant;
