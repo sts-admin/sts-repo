@@ -6,6 +6,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.QuoteNote;
+import com.awacp.entity.ShipTo;
 import com.awacp.service.QuoteNoteService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
@@ -53,12 +54,14 @@ public class QuoteNoteServiceImpl extends CommonServiceImpl<QuoteNote>implements
 
 	@Override
 	@Transactional
-	public void delete(Long id) {
-		QuoteNote entity = getQuoteNote(id);
-		if (entity != null) {
-			entity.setArchived(true);
-			updateQuoteNote(entity);
+	public String delete(Long id) {
+		QuoteNote shipTo = getQuoteNote(id);
+		if (shipTo != null) {
+			shipTo.setArchived(true);
+			updateQuoteNote(shipTo);
+			return "success";
 		}
+		return "fail";
 	}
 
 }

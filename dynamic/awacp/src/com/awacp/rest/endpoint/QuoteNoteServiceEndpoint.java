@@ -45,8 +45,11 @@ public class QuoteNoteServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String deleteQuoteNote(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		quoteNoteService.delete(id);
-		return "success";
+		String result = quoteNoteService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
 	}
 
 	@POST

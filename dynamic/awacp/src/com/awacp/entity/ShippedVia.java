@@ -24,7 +24,7 @@ public class ShippedVia extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private String productName;
+	private String shippedViaAddress;
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
@@ -32,19 +32,19 @@ public class ShippedVia extends BaseEntity {
 		super();
 	}
 	
-	public ShippedVia(Long id, String productName) {
+	public ShippedVia(Long id, String shippedViaAddress) {
 		this.setId(id);
-		this.productName = productName;
+		this.shippedViaAddress = shippedViaAddress;
 	}
 
 	@NotNull
 	@Column(nullable = false, length = 100)
-	public String getProductName() {
-		return productName;
+	public String getShippedViaAddress() {
+		return shippedViaAddress;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setShippedViaAddress(String productName) {
+		this.shippedViaAddress = productName;
 	}
 
 	@NotNull

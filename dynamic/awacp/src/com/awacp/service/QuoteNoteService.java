@@ -13,5 +13,5 @@ public interface QuoteNoteService {
 
 	public StsResponse<QuoteNote> listQuoteNotes(int pageNumber, int pageSize);
 
-	public void delete(Long id);
+	public String delete(Long id);
 }
