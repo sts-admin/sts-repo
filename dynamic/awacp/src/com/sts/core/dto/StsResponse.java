@@ -19,11 +19,12 @@ import com.awacp.entity.ShipTo;
 import com.awacp.entity.ShippedVia;
 import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
+import com.awacp.entity.Trucker;
 import com.sts.core.entity.User;
 
 @XmlRootElement
 @XmlSeeAlso({ Bidder.class, Takeoff.class, Architect.class, Engineer.class, Contractor.class, User.class, Spec.class,
-		ShipTo.class, ShippedVia.class, QuoteNote.class, ItemShipped.class, MnD.class, Product.class, GeneralContractor.class, Pdni.class })
+		ShipTo.class, ShippedVia.class, QuoteNote.class, ItemShipped.class, MnD.class, Product.class, GeneralContractor.class, Pdni.class, Trucker.class })
 public class StsResponse<T> {
 	private String status;
 	private String message;

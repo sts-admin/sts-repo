@@ -138,7 +138,7 @@ public class Trucker extends BaseEntity {
 
 	@XmlElement(name = "logo")
 	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "LOGOOID", unique = false, nullable = true, updatable = true)
+	@JoinColumn(name = "LOGOID", unique = false, nullable = true, updatable = true)
 	public File getLogo() {
 		return logo;
 	}

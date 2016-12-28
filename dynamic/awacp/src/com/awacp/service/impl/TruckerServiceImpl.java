@@ -3,12 +3,13 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Takeoff;
 import com.awacp.entity.Trucker;
 import com.awacp.service.TruckerService;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.impl.CommonServiceImpl;
 
 public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements TruckerService {
@@ -37,18 +38,28 @@ public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements Tru
 
 	@Override
 	@Transactional
-	public Trucker saveTrucker(Trucker Trucker) {
-		getEntityManager().persist(Trucker);
+	public Trucker saveTrucker(Trucker trucker) throws StsDuplicateException {
+		if (StringUtils.isNotEmpty(trucker.getEmail())
+				&& isExistsByEmail(trucker.getEmail(), "Trucker", getEntityManager())) {
+			throw new StsDuplicateException("duplicate_email");
+		}
+		getEntityManager().persist(trucker);
 		getEntityManager().flush();
-		return Trucker;
+		return trucker;
 	}
 
 	@Override
 	@Transactional
-	public Trucker updateTrucker(Trucker Trucker) {
-		Trucker = getEntityManager().merge(Trucker);
+	public Trucker updateTrucker(Trucker trucker) throws StsDuplicateException {
+		if (StringUtils.isNotEmpty(trucker.getEmail())) {
+			Trucker object = getByEmail(trucker.getEmail(), "Trucker", getEntityManager());
+			if (object != null && object.getId() != trucker.getId()) {
+				throw new StsDuplicateException("duplicate_email");
+			}
+		}
+		getEntityManager().merge(trucker);
 		getEntityManager().flush();
-		return Trucker;
+		return trucker;
 	}
 
 	@Override

@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Trucker;
 import com.awacp.service.TruckerService;
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class TruckerServiceEndpoint extends CrossOriginFilter {
@@ -45,7 +47,19 @@ public class TruckerServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Trucker saveTrucker(Trucker trucker, @Context HttpServletResponse servletResponse) throws Exception {
-		return this.truckerService.saveTrucker(trucker);
+		Trucker object = null;
+		try {
+			object = this.truckerService.updateTrucker(trucker);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
 	@POST
@@ -53,7 +67,19 @@ public class TruckerServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Trucker updateTrucker(Trucker trucker, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.truckerService.updateTrucker(trucker);
+		Trucker object = null;
+		try {
+			object = this.truckerService.updateTrucker(trucker);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
+				code = 1002;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 	
 
