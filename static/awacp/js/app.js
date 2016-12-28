@@ -204,7 +204,7 @@
 				controllerAs:"shipToVm",
 				requireAuth: true
 			}).state('truckers',{
-				url: '/truckers/:pageNumber',
+				url: '/truckers',
 				templateUrl:"templates/truckers.html",
 				controller:"TruckerCtrl",
 				controllerAs:"truckerVm",

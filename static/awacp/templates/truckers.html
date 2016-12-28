@@ -2,14 +2,14 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="bidVm.getBidders();">
+		<div class="panel panel-default shadow" ng-init="truckerVm.getTruckers();">
 			<div class="panel-heading form-heading panel-heading-top">
 				<label>Manage Truckers</label>				
 				<span class="pull-right"><a href ui-sref="trucker-add" >Add Trucker</a></span>	
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
-					<ul uib-pagination total-items="bidVm.totalItems" items-per-page = "bidVm.pageSize" ng-model="bidVm.currentPage" ng-change="bidVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="truckerVm.totalItems" items-per-page = "truckerVm.pageSize" ng-model="truckerVm.currentPage" ng-change="truckerVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -37,7 +37,7 @@
                     </tr>
                     
 							<tr style="background:#ccbb46; color:#000;">
-							  <td style="padding:5px;" align="center">S. No.</td>
+							  <td style="padding:5px;" align="center">SR. No.</td>
 							  <td style="padding:5px;" align="center">Trucker</td>
 							  <td style="padding:5px;" align="center">Email</td>
 							  <td style="padding:5px;" align="center">Website</td>
@@ -47,27 +47,27 @@
 							  <td style="padding:5px;" align="center">Code</td>
 							  <td style="padding:5px;" align="center">UC</td>
 							  <td style="padding:5px;" align="center">UC2</td>
-							  <td style="padding:5px;" filter="false" align="center"></td>
+							  <td style="padding:5px;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr height="25" ng-repeat="bidder in bidVm.bidders track by $index">
+							<tr height="25" ng-repeat="trucker in truckerVm.truckers track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="center">{{bidder.trucker}}</td>
-                              <td align="center">{{bidder.email}}</td>
-							  <td align="center">{{bidder.website}}</td>
-							  <td align="center">{{bidder.phone}}</td>
-							  <td align="center">{{bidder.login}}</td>
-							  <td align="center">{{bidder.password}}</td>
-							  <td align="center">{{bidder.code}}</td>
-							  <td align="center">{{bidder.createdByUserCode}}</td>
-							  <td align="center">{{bidder.updatedByUserCode}}</td>
+							  <td align="center">{{trucker.name}} <br /> <img style="width:50px;height:50px;" ng-src="resource/img/{{trucker.logo.createdName}}{{trucker.logo.extension}}" /></td>
+                              <td align="center">{{trucker.email}}</td>
+							  <td align="center">{{trucker.website}}</td>
+							  <td align="center">{{trucker.phone}}</td>
+							  <td align="center">{{trucker.login}}</td>
+							  <td align="center">{{trucker.password}}</td>
+							  <td align="center">{{trucker.code}}</td>
+							  <td align="center">{{trucker.createdByUserCode}}</td>
+							  <td align="center">{{trucker.updatedByUserCode}}</td>
 							  <td align="center">&nbsp; 
-								<a href ui-sref="bidder-edit({id:bidder.id})"> 
-									<img src="images/file_edit.png" title="edit user" border="0">
+								<a href ui-sref="trucker-edit({id:trucker.id})"> 
+									<img src="images/file_edit.png" title="edit trucker" border="0">
 								</a> 
 									&nbsp;&nbsp; 
-									<img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)">
+									<img src="images/file_delete.png" style="cursor:pointer;" title="delete trucker" ng-click="truckerVm.deleteTrucker(trucker.id);" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)">
 									
 								</a>
 							  </td>

@@ -48,6 +48,7 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		
 		conVm.addContractor = function(){
 			var message = "Contractor Detail Created Successfully, add more?";
 			var url = "/awacp/saveContractor";

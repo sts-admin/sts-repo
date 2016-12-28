@@ -150,9 +150,10 @@
 					AlertService.showAlert(	'AWACP :: Alert!', "An Architect with this email ID already exist, please use a different email ID.")
 					.then(function (){return},function (){return});
 					return;
+				}else{
+					jqXHR.errorSource = "ArchitectCtrl::arcVm.addArchitect::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				}
-				jqXHR.errorSource = "ArchitectCtrl::arcVm.addArchitect::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		$scope.$on("$destroy", function(){
