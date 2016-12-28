@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Contractor;
 import com.awacp.entity.Engineer;
 import com.awacp.service.EngineerService;
 import com.sts.core.dto.StsResponse;

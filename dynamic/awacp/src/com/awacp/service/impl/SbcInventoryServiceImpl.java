@@ -5,12 +5,12 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Pdni;
-import com.awacp.service.PdniService;
+import com.awacp.entity.SbcInventory;
+import com.awacp.service.SbcInventoryService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class PdniServiceImpl extends CommonServiceImpl<Pdni>implements PdniService {
+public class SbcInventoryServiceImpl extends CommonServiceImpl<SbcInventory>implements SbcInventoryService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -23,37 +23,37 @@ public class PdniServiceImpl extends CommonServiceImpl<Pdni>implements PdniServi
 	}
 
 	@Override
-	public StsResponse<Pdni> listPdnis(int pageNumber, int pageSize) {
-		StsResponse<Pdni> results = listAll(pageNumber, pageSize, Pdni.class.getSimpleName(), getEntityManager());
+	public StsResponse<SbcInventory> listSbcInventories(int pageNumber, int pageSize) {
+		StsResponse<SbcInventory> results = listAll(pageNumber, pageSize, SbcInventory.class.getSimpleName(), getEntityManager());
 
 		return results;
 	}
 
 	@Override
-	public Pdni getPdni(Long id) {
-		return getEntityManager().find(Pdni.class, id);
+	public SbcInventory getSbcInventory(Long id) {
+		return getEntityManager().find(SbcInventory.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Pdni savePdni(Pdni pdni) {
-		getEntityManager().persist(pdni);
+	public SbcInventory saveSbcInventory(SbcInventory SbcInventory)  {
+		getEntityManager().persist(SbcInventory);
 		getEntityManager().flush();
-		return pdni;
+		return SbcInventory;
 	}
 
 	@Override
 	@Transactional
-	public Pdni updatePdni(Pdni pdni) {
-		pdni = getEntityManager().merge(pdni);
+	public SbcInventory updateSbcInventory(SbcInventory SbcInventory)  {
+		getEntityManager().merge(SbcInventory);
 		getEntityManager().flush();
-		return pdni;
+		return SbcInventory;
 	}
 
 	@Override
 	@Transactional
 	public String delete(Long id) {
-		Pdni entity = getPdni(id);
+		SbcInventory entity = getSbcInventory(id);
 		if (entity != null) {
 			entity.setArchived(true);
 			getEntityManager().merge(entity);
@@ -62,6 +62,4 @@ public class PdniServiceImpl extends CommonServiceImpl<Pdni>implements PdniServi
 		}
 		return "fail";
 	}
-
-
 }

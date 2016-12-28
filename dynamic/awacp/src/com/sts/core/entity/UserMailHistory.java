@@ -8,8 +8,6 @@ import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.sts.core.entity.BaseEntity;
-
 /**
  * Entity implementation class for Entity: UserMailHistory
  *

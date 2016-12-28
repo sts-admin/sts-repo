@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.QuoteNote;
-import com.awacp.entity.ShipTo;
 import com.awacp.service.QuoteNoteService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;

@@ -108,6 +108,7 @@
 			<ref bean="itemShippedServiceEndpoint" />
 			<ref bean="quoteNoteServiceEndpoint" />
 			<ref bean="pdniServiceEndpoint" />
+			<ref bean="inventoryServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -214,6 +215,19 @@
     <bean id="mnDService" class="com.awacp.service.impl.MnDServiceImpl" />
      <bean id="mnDServiceEndpoint" class="com.awacp.rest.endpoint.MnDServiceEndpoint">
         <property name="mnDService" ref="mnDService" />
+    </bean>
+    
+    <bean id="awInventoryService" class="com.awacp.service.impl.AwInventoryServiceImpl" />
+    <bean id="awfInventoryService" class="com.awacp.service.impl.AwfInventoryServiceImpl" />
+    <bean id="sbcInventoryService" class="com.awacp.service.impl.SbcInventoryServiceImpl" />
+    <bean id="splInventoryService" class="com.awacp.service.impl.SplInventoryServiceImpl" />
+    <bean id="jInventoryService" class="com.awacp.service.impl.JInventoryServiceImpl" />
+     <bean id="inventoryServiceEndpoint" class="com.awacp.rest.endpoint.InventoryServiceEndpoint">
+        <property name="awInventoryService" ref="awInventoryService" />
+        <property name="awfInventoryService" ref="awfInventoryService" />
+        <property name="sbcInventoryService" ref="sbcInventoryService" />
+        <property name="splInventoryService" ref="splInventoryService" />
+        <property name="jInventoryService" ref="jInventoryService" />
     </bean>
     
     

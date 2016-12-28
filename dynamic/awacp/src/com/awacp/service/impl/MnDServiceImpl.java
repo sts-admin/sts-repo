@@ -5,7 +5,6 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.MnD;
 import com.awacp.service.MnDService;
 import com.sts.core.dto.StsResponse;

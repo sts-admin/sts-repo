@@ -5,12 +5,12 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Pdni;
-import com.awacp.service.PdniService;
+import com.awacp.entity.AwfInventory;
+import com.awacp.service.AwfInventoryService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class PdniServiceImpl extends CommonServiceImpl<Pdni>implements PdniService {
+public class AwfInventoryServiceImpl extends CommonServiceImpl<AwfInventory>implements AwfInventoryService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -23,37 +23,38 @@ public class PdniServiceImpl extends CommonServiceImpl<Pdni>implements PdniServi
 	}
 
 	@Override
-	public StsResponse<Pdni> listPdnis(int pageNumber, int pageSize) {
-		StsResponse<Pdni> results = listAll(pageNumber, pageSize, Pdni.class.getSimpleName(), getEntityManager());
+	public StsResponse<AwfInventory> listAwfInventories(int pageNumber, int pageSize) {
+		StsResponse<AwfInventory> results = listAll(pageNumber, pageSize, AwfInventory.class.getSimpleName(),
+				getEntityManager());
 
 		return results;
 	}
 
 	@Override
-	public Pdni getPdni(Long id) {
-		return getEntityManager().find(Pdni.class, id);
+	public AwfInventory getAwfInventory(Long id) {
+		return getEntityManager().find(AwfInventory.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Pdni savePdni(Pdni pdni) {
-		getEntityManager().persist(pdni);
+	public AwfInventory saveAwfInventory(AwfInventory AwfInventory) {
+		getEntityManager().persist(AwfInventory);
 		getEntityManager().flush();
-		return pdni;
+		return AwfInventory;
 	}
 
 	@Override
 	@Transactional
-	public Pdni updatePdni(Pdni pdni) {
-		pdni = getEntityManager().merge(pdni);
+	public AwfInventory updateAwfInventory(AwfInventory AwfInventory) {
+		getEntityManager().merge(AwfInventory);
 		getEntityManager().flush();
-		return pdni;
+		return AwfInventory;
 	}
 
 	@Override
 	@Transactional
 	public String delete(Long id) {
-		Pdni entity = getPdni(id);
+		AwfInventory entity = getAwfInventory(id);
 		if (entity != null) {
 			entity.setArchived(true);
 			getEntityManager().merge(entity);
@@ -62,6 +63,4 @@ public class PdniServiceImpl extends CommonServiceImpl<Pdni>implements PdniServi
 		}
 		return "fail";
 	}
-
-
 }

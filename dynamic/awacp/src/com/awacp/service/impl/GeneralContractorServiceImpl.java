@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Engineer;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.service.GeneralContractorService;
 import com.sts.core.dto.StsResponse;

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Architect;
-import com.awacp.entity.ItemShipped;
 import com.awacp.service.ArchitectService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;

@@ -7,7 +7,6 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.Pdni;
 import com.awacp.entity.Product;
 import com.awacp.service.ProductService;
 import com.sts.core.dto.StsResponse;
