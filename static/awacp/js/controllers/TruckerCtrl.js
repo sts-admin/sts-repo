@@ -66,8 +66,6 @@
 			}
 			var formData = {};
 			formData["trucker"] = truckerVm.trucker;
-			//alert(JSON.stringify(truckerVm.trucker, null, 4));
-			//return;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
 				jQuery(".actions").removeAttr('disabled');
@@ -100,7 +98,7 @@
 			if($state.params.id != undefined){
 				var formData = {};
 				formData["trucker"] = truckerVm.trucker;
-				AjaxUtil.getData("/awacp/getTrucker/"+$state.params.id, formData)
+				AjaxUtil.getData("/awacp/getTrucker/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.trucker){
 						$scope.$apply(function(){

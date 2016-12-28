@@ -1,0 +1,118 @@
+
+<!-- ************************************************************************************************************************************-->
+
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+
+<div class="container-fluid">
+	<div class="clearfix">
+		<div class="panel panel-default">
+				<div class="panel-heading panel-heading-top form-heading">
+					<label>{{jinvVm.action}} J Inventory</label>				
+				</div>
+				<div class="panel-body"  style="background:#ccaa46;">
+					<form name="jInventoryAddForm" ng-submit="jinvVm.addOrUpdateJInventory();">
+						<!-- .row -->
+						<div class="row">
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">
+								Item Description
+							</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" placeholder="Item Description" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Item Description');" onkeypress="this.setCustomValidity('');" ng-model="jinvVm.jInventory.item" ng-required="true" autofocus />
+							</div>
+						  </div>
+						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Quantity</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="email" class="form-control" placeholder="Enter Quantity" maxlength="100" oninvalid="this.setCustomValidity('Enter Quantity');" onkeypress="this.setCustomValidity('');" ng-model="jinvVm.jInventory.quantity"  ng-required="true" />
+							</div>
+						  </div>
+						  	   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+							<span class="form-label">Reorder Quantity</span>
+							<i class="star red">*</i>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							 <input type="text" class="form-control" placeholder="Enter Reorder Quantity" maxlength="150" oninvalid="this.setCustomValidity('Enter Reorder Quantity');" onkeypress="this.setCustomValidity('');" ng-model="jinvVm.jInventory.reorderQuantity"  ng-required="true" />
+							</div>
+						  </div>					  <!-- .col -->
+						 
+						  <!-- .col -->
+						  <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+							<span class="form-label">Size</span>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter Size" maxlength="50" oninvalid="this.setCustomValidity('Enter Size');" onkeypress="this.setCustomValidity('');" ng-model="jinvVm.jInventory.size" ng-required="true" />
+							</div>
+						  </div>
+						  <!-- .col -->
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+						  <span class="form-label">Unit Price</span>
+						  <span class="colon">:</span> 
+						 </div>
+						  <!-- .col -->
+						  <div class="col-lg-10 col-md-10 col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter Unit Price" maxlength="20" oninvalid="this.setCustomValidity('Enter Unit Price');" onkeypress="this.setCustomValidity('');" ng-model="jinvVm.jInventory.unitPrice" ng-required="true" />
+							</div>
+						  </div>
+
+						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+					  <span class="form-label">Billable Price</span>
+					  <span class="colon">:</span> 
+					 </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter Billable Price" maxlength="15" oninvalid="this.setCustomValidity('Enter Login');" onkeypress="this.setCustomValidity('');" ng-model="jinvVm.jInventory.billableCost" />
+						</div>
+					  </div>
+
+					  
+					  
+						 
+						  
+				
+					   <br />
+						<!-- .row -->
+						<div class="row checkrow">
+						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+						  <!-- .col -->
+						  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+							<input type="submit" value="{{jinvVm.action}} J Inventory" class="actions submit-btn btn btn-primary">
+							&nbsp;&nbsp;
+							<input type="reset" value="Reset" class="actions reset-btn btn btn-warning">
+							&nbsp;&nbsp;
+							<input type="button" value="Go Back" class="actions reset-btn btn btn-info" ng-click="jinvVm.cancelJInventoryAction();">
+							<span class=".spinner" style="display:none;">
+							<img src="images/loading.gif" />
+						</span>
+						  </div>
+						  <!-- .col -->
+						</div>
+						<!-- .row -->
+					</form>
+				</div>
+			</div>
+	</div>
+</div>
+<div style="clear:both;height:50px;"></div>
+<div ng-include="'templates/footer.html'" ></div>
+
+

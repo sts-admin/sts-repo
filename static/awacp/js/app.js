@@ -257,6 +257,42 @@
 				controller:"ShippedViaCtrl",
 				controllerAs:"shipViaVm",
 				requireAuth: true
+			}).state('j-view',{
+				url: '/j-view',
+				templateUrl:"templates/jinventories.html",
+				controller:"JInventoryCtrl",
+				controllerAs:"jinvVm",
+				requireAuth: true
+			}).state('j-add',{
+				url: '/j-add',
+				templateUrl:"templates/jinventory-add.html",
+				controller:"JInventoryCtrl",
+				controllerAs:"jinvVm",
+				requireAuth: true
+			}).state('j-orders',{
+				url: '/j-orders',
+				templateUrl:"templates/jinventory-orders.html",
+				controller:"JInventoryCtrl",
+				controllerAs:"jinvVm",
+				requireAuth: true
+			}).state('spl-view',{
+				url: '/spl-view',
+				templateUrl:"templates/spl-inventories.html",
+				controller:"SplInventoryCtrl",
+				controllerAs:"splInvVm",
+				requireAuth: true
+			}).state('spl-add',{
+				url: '/spl-add',
+				templateUrl:"templates/spl-inventory-add.html",
+				controller:"SplInventoryCtrl",
+				controllerAs:"splInvVm",
+				requireAuth: true
+			}).state('spl-orders',{
+				url: '/spl-orders',
+				templateUrl:"templates/spl-inventory-orders.html",
+				controller:"SplInventoryCtrl",
+				controllerAs:"splInvVm",
+				requireAuth: true
 			}).state('deletefiles',{
 				url: '/deletefiles',
 				templateUrl:"templates/deletefiles.html",
