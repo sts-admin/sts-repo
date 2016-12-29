@@ -8,6 +8,9 @@
         <span class="pull-right"><a href ui-sref="engineer-add" >Add Engineer</a></span> </div>
       <div class="panel-body">
         <div style="text-align:right;">
+        <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">Per page Rows <select class="styledselect_pages" id="num_of_records" style="outline:none;" onchange="setRecPage(this.value, 'takeoff', 'takeoff_view_form')"> <option value="25" selected="selected">25</option> <option value="50">50</option> <option value="75">75</option> <option value="100">100</option> <option value="125">125</option> <option value="150">150</option> </select></div>
+<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 dashboard-content"> <a href="javascript:void(0);" onclick="ClearSearch('engineers');" class="btn btn-primary width-full">Clear Search</a> </div>
+
           <ul uib-pagination total-items="engVm.totalItems" items-per-page = "engVm.pageSize" ng-model="engVm.currentPage" ng-change="engVm.pageChanged()"></ul>
         </div>
         <!-- .row -->
