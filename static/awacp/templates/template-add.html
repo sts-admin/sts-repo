@@ -1,282 +1,86 @@
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid">
-	<div class="clearfix">
-		<div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
-			<div class="panel-heading form-heading panel-heading-top">
-				<label>New Takeoff</label>	
-			</div>
-			<div class="panel-body new-tk-bg">
-				<div class="container"><form ng-submit="takeVm.saveTakeoff();">
-					<!-- .row -->
-						<div class="row">
-						<div class="col-lg-2 col-md-2 col-sm-2"> 
-							<span class="form-label">
-								Date Entered
-							</span>
-							<span class="colon">:</span> 
-						</div>
-						<div class="col-lg-2 col-md-2 col-sm-2">
-							<div class="form-group">
-							  <label>{{currentDate | date:'shortDate'}}</label>
-							</div>
-						</div>
-						<div class="col-lg-2 col-md-2 col-sm-2"> 
-							<span class="form-label">
-								Sales Person
-							</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						<div class="col-lg-2 col-md-2 col-sm-2">
-							<select class="form-control"
-								  ng-model="takeVm.takeoff.salesPerson" 
-								  ng-options="user.id as user.customName for user in takeVm.users" ng-required = "true">
-								  <option value="">--- Select ---</option>
-								</select>
-						</div>
-						<div class="col-lg-2 col-md-2 col-sm-2"> 
-							<span class="form-label">
-								User Code
-							</span>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						<div class="col-lg-2 col-md-2 col-sm-2">
-							<div class="form-label">
-							  <label>{{user.userCode}}</label>
-							</div>
-						</div>
-						
-						</div>
-                        <div class="row">
-						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">
-								Job Name
-							</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							  <input type="text" placeholder="Job Name" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Job Name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobName" ng-required="true" />
-							</div>
-						  </div>
-
-						
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">
-								Job Address
-							</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							  <input type="text" placeholder="Job Address" class="form-control" style="height:50px;" maxlength="250" oninvalid="this.setCustomValidity('Enter Job Address');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobAddress" ng-required="true" />
-							</div>
-						  </div>
-						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">
-								Job Specification
-							</span>
-							<i class="star red">*</i>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-9 col-md-9 col-sm-8">
-							<div class="form-group" ng-hide="'REVERT' == takeVm.spec_text">								
-								 <select class="form-control"
-								  ng-model="takeVm.takeoff.spec" 
-								  ng-options="spec as spec.detail for spec in takeVm.specs" ng-required="'NEW' == takeVm.spec_text">
-								  <option value="">--- Select ---</option>
-								</select>
-							</div>
-							<div class="form-group" ng-hide="'NEW' == takeVm.spec_text">
-								 <input type="text" placeholder="Specification" class="form-control" maxlength="250" oninvalid="this.setCustomValidity('Specification');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.specName" ng-required="'REVERT' == takeVm.spec_text" />
-							</div>
-						  </div>
-						  <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewSpec();">{{takeVm.spec_text}}</a>
-						 
-						 <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">Engineer</span>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-9 col-md-9 col-sm-8">
-							<div class="form-group" ng-hide="'REVERT' == takeVm.eng_text">
-								<select class="form-control"
-								  ng-model="takeVm.takeoff.engineerId" 
-								  ng-options="engineer.id as engineer.name for engineer in takeVm.engineers" >
-								  <option value="">--- Select ---</option>
-								</select>
-							</div>
-							<div class="form-group" ng-hide="'NEW' == takeVm.eng_text">
-								 <input type="text" placeholder="Engineer" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter engineer name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.engineerName" ng-required="'REVERT' == takeVm.eng_text" />
-							</div>
-						  </div>
-						  <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewEng();">{{takeVm.eng_text}}</a>
-						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-								<span class="form-label">Architecture</span>
-								<span class="colon">:</span> 
-							</div>
-						  <!-- .col -->
-						  <div class="col-lg-9 col-md-9 col-sm-8">
-							<div class="form-group" ng-hide="'REVERT' == takeVm.arc_text">
-							 <select class="form-control" 
-								  ng-model="takeVm.takeoff.architectureId" 
-								  ng-options="architect.id as architect.name for architect in takeVm.architects" >
-								  <option value="">--- Select ---</option>
-								</select>
-							</div>
-							<div class="form-group" ng-hide="'NEW' == takeVm.arc_text">
-								 <input type="text" placeholder="Architecture" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter architecture name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.architectureName" ng-required="'REVERT' == takeVm.arc_text" />
-							</div>
-						  </div>
-						 <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewArc();">{{takeVm.arc_text}}</a>
-						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">
-								Project Number
-							</span>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							  <input type="text" placeholder="Project Number" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter Project Number');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.projectNumber"  />
-							</div>
-						  </div>
-						  
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">
-								Drawing Date
-							</span>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-2 col-md-2 col-sm-9">
-							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Drawing Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.drawingDate" is-open="takeVm.drawingDate.opened" data-ng-click="takeVm.drawingDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">								 
-							</div>
-						  </div>
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">
-								Revised Date
-							</span>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-2 col-md-2 col-sm-9">
-							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Revised Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.revisedDate" is-open="takeVm.revisedDate.opened" data-ng-click="takeVm.reversedDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">								 
-							</div>
-						  </div>
-						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
-							<span class="form-label">
-								Due Date
-							</span>
-							<span class="colon">:</span> 
-						</div>
-						  <!-- .col -->
-						  <div class="col-lg-2 col-md-2 col-sm-9">
-							<div class="form-group">
-							<input type="text" class="form-control" placeholder="Due Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.dueDate" is-open="takeVm.dueDate.opened" data-ng-click="takeVm.dueDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">								 
-							</div>
-						  </div>
-                          
-                          
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							  <span class="form-label">Dwgs Rcvd From</span>
-							  <span class="colon">:</span> 
-						 </div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Drawing Received From" maxlength="100" oninvalid="this.setCustomValidity('Drawing Received From');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.drawingReceivedFrom" />
-							</div>
-						  </div>
-                          
-                          
-                          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							  <span class="form-label">VIBRO LAY IN</span>
-							  <span class="colon">:</span> 
-						 </div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="VIBRO LAY IN" maxlength="100" oninvalid="this.setCustomValidity('Vibrolayin');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.vibrolayin" />
-							</div>
-						  </div>  
-                          
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-								<span class="form-label">Bidders</span>
-								<span class="colon">:</span> 
-							</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							 <ui-select multiple ng-model="takeVm.selectedBidders" theme="bootstrap" style="height:50px;" close-on-select="false" title="Choose Bidder(s)">
-								<ui-select-match placeholder="Select Bidder(s)">{{$item.name}}</ui-select-match>
-								<ui-select-choices repeat="bidder in takeVm.bidders | filter:$select.search">
-								  {{bidder.name}}
-								</ui-select-choices>
-							  </ui-select>
-							</div>
-						  </div>
-							<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-								<span class="form-label">General Contractors</span>
-								<span class="colon">:</span> 
-							</div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-								 <ui-select multiple ng-model="takeVm.selectedContractors" style="height:50px;" theme="bootstrap" close-on-select="false" title="Choose General Contractor(s)">
-									<ui-select-match placeholder="Select General Contractor(s)">{{$item.name}}</ui-select-match>
-									<ui-select-choices repeat="contractor in takeVm.contractors | filter:$select.search">
-									  {{contractor.name}}
-									</ui-select-choices>
-								  </ui-select>
-							</div>
-						  </div>
-						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							  <span class="form-label">Takeoff Comment</span>
-							  <span class="colon">:</span> 
-						 </div>
-						  <!-- .col -->
-						  <div class="col-lg-10 col-md-10 col-sm-9">
-							<div class="form-group">
-							  <textarea class="form-control" placeholder="Enter Comment" maxlength="1000"  oninvalid="this.setCustomValidity('Enter Comment');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.takeOffComment"  />
-							</div>
-						  </div>
-					</div>
-					<!-- .row -->
-				   
-					<!-- .row -->
-					<div class="row checkrow">
-					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
-					  <!-- .col -->
-					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-						<input type="submit" value="Submit" class="takeoff-add-action submit-btn btn btn-primary">
-						&nbsp;&nbsp;
-						<input type="reset" value="Reset" class="takeoff-add-action reset-btn btn btn-warning" id="takeoff-reset">
-						&nbsp;&nbsp;
-						<input type="button" value="Go Back" class="takeoff-add-action reset-btn btn btn-info" ng-click="takeVm.cancelTakeoffAction();">
-						<span id="takeoff-add-spinner" style="display:none;">
-							<img src="images/loading.gif" />
-						</span>
-					  </div>
-					  <!-- .col -->
-					</div>
-					<!-- .row -->
-				</form></div>
-			</div>
-		</div>
-	</div>
+  <div class="clearfix">
+    <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+      <div class="panel-heading form-heading panel-heading-top">
+        <label>New Template</label>
+      </div>
+      <div class="panel-body new-tk-bg">
+        <div class="container">
+          <form ng-submit="takeVm.saveTakeoff();">
+          <form name="add_template" id="add_template" method="post" action="" class="formular">
+            <div class="theme-form" style="background:#6CF;">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+                  <!-- .col -->
+                  <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30">
+                    <div class="form-group">
+                      <input value="Submit" class="submit-btn btn btn-primary" type="submit">
+                      &nbsp;&nbsp;&nbsp;
+                      <input value="Reset" class="reset-btn btn btn-warning" onclick="this.form.reset();" type="reset">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Template name:</span><span class="colon">:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-9">
+                    <div class="form-group">
+                      <input class="form-control" name="template_name" id="template_name" value="" type="text">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Email Subject</span><span class="colon">:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-9">
+                    <div class="form-group">
+                      <input class="form-control" name="email_subject" id="email_subject" value="" type="text">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>HTML</span><span class="colon">:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-9">
+                    <div class="form-group">
+                      <input class="form-control" name="email_subject" id="email_subject" value="" type="text">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+                  <!-- .col -->
+                  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+                    <input name="add" value="add" type="hidden">
+                    <input value="Submit" class="submit-btn btn btn-primary" type="submit">
+                    &nbsp;&nbsp;&nbsp;
+                    <input value="Reset" class="reset-btn btn btn-warning" onclick="this.form.reset();" type="reset">
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+              </div>
+              <!-- .container -->
+            </div>
+            <!-- .bg-d0e9f4 -->
+          </form>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div style="clear:both;height:50px;"></div>
 <div ng-include="'templates/footer.html'" ></div>
-
-
