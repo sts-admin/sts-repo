@@ -4,141 +4,112 @@
   <div class="clearfix">
     <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
       <div class="panel-heading form-heading panel-heading-top">
-        <label>Take Off Reports</label>
+        <label>Send Email</label>
       </div>
       <div class="panel-body new-tk-bg">
         <form ng-submit="takeVm.saveTakeoff();">
-          <!-- .row -->
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">From:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-3 col-md-3 col-sm-2">
-                <div class="form-group">
-                  <input class="form-control datepicker" name="report_start_date" value="" type="text">
+        <!-- .row -->
+        <div class="container">
+        <div class="row">
+        <form name="send_email" id="send_email" method="post" action="" class="formular">
+          <div class="theme-form" style="background:#6CF;">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+                <!-- .col -->
+                <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30">
+                  <div class="form-group">
+                    <input value="Submit" class="submit-btn btn btn-primary" type="submit">
+                    &nbsp;&nbsp;&nbsp;
+                    <input value="Reset" class="reset-btn btn btn-warning" onclick="this.form.reset();" type="reset">
+                  </div>
+                </div>
+                <!-- .col -->
+              </div>
+              <!-- .row -->
+              <!-- .row -->
+              <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Template to be Send:</span><span class="colon">:</span> </div>
+                <!-- .col -->
+                <div class="col-lg-5 col-md-5 col-sm-5">
+                  <div class="form-group">
+                    <select name="template_name" id="template_name" class="form-control">
+                      <option value="">Select Template</option>
+                      <option value="2"> JF Test </option>
+                      <option value="3"> Yanni B. Template </option>
+                      <option value="4"> Vijay's Template </option>
+                      <option value="5"> Template Including Vibro Acoustics </option>
+                    </select>
+                  </div>
+                </div>
+                <!-- .col -->
+              </div>
+              <!-- .row -->
+              <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Salesman</span><span class="colon">:</span> </div>
+                <!-- .col -->
+                <div class="col-lg-5 col-md-5 col-sm-5">
+                  <div class="form-group">
+                    <select name="salesman" id="salesman" class="form-control" onchange="GetRecievers(this.value)">
+                      <option value="">--</option>
+                      <option value="AD">Abhishek Rastogi</option>
+                      
+                    </select>
+                  </div>
+                </div>
+                <!-- .col -->
+              </div>
+              <!-- .row -->
+              <div class="row" style="" id="rec_div">
+                <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><strong>Recievers</strong></span><span class="colon">:</span> </div>
+                <!-- .col -->
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                  <input class="form-control" name="email" id="email" placeholder="Enter email to send" type="text">
+                </div>
+                <!-- .col -->
+                <div class="col-lg-12 col-md-12 col-sm-12">Press ctrl + clicks to select multiple options</div>
+                <!-- .col -->
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <input name="bidders" id="bidders" value="yes" checked="checked" type="checkbox">
+                    Bidders </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <input name="architect" id="architect" value="yes" checked="checked" type="checkbox">
+                    Architects </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <input name="engineers" id="engineers" value="yes" checked="checked" type="checkbox">
+                    Engineers </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3">
+                    <input name="customer" id="customer" value="yes" checked="checked" type="checkbox">
+                    Customers </div>
                 </div>
               </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">To:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-3 col-md-3 col-sm-2">
-                <div class="form-group">
-                  <input class="form-control datepicker" name="report_end_date" value="" type="text">
+              <!-- .row -->
+              <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+                <!-- .col -->
+                <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+                  <input name="action" value="send" type="hidden">
+                  <input value="Submit" class="submit-btn btn btn-primary" type="submit">
+                  &nbsp;&nbsp;&nbsp;
+                  <input value="Reset" class="reset-btn btn btn-warning" onclick="this.form.reset();" type="reset">
                 </div>
+                
               </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 hidden-lg hidden-md col-sm-1 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 hidden-md hidden-lg hidden-xs hidden-sm col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 hidden-xs col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date From:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-3 col-md-3 col-sm-2">
-                <div class="form-group">
-                  <input class="form-control datepicker" name="due_start_date" value="" type="text">
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date To:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-3 col-md-3 col-sm-2">
-                <div class="form-group">
-                  <input class="form-control datepicker" name="due_end_date" value="" type="text">
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <hr>
-              </div>
-              <!-- .col -->
+              
             </div>
-            <!-- .row -->
-            <div class="row">
-              <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                <div class="form-group">
-                  <select name="year" class="form-control">
-                    <option value="">--</option>
-                    
-                    <option value="16">2016</option>
-                  </select>
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                <div class="form-group">
-                  <select name="salesman" class="form-control">
-                    <option value="">--</option>
-                    
-                    <option value="YB">YB - YANNI BANASIOS</option>
-                  </select>
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                <div class="form-group">
-                  <select name="usercode" class="form-control">
-                    <option value="">--</option>
-                    
-                    <option value="YB">YB - YANNI BANASIOS</option>
-                  </select>
-                </div>
-              </div>
-              <!-- .col -->
-            </div>
-            <!-- .row -->
-            <div class="row">
-              <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
-              <!-- .col -->
-              <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-                <div class="form-group">
-                  <select name="engineer" class="form-control">
-                    <option value="">--</option>
-                   
-                    <option value="ZEHNDER">ZEHNDER</option>
-                  </select>
-                </div>
-              </div>
-              <!-- .col -->
-            </div>
-            <!-- .row -->
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <hr>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-                <input value="Generate" class="submit-btn btn btn-primary" type="submit">
-                &nbsp;&nbsp;&nbsp;
-                <input value="Reset" class="reset-btn btn btn-info" onclick="this.form.reset();" type="reset">
-                <input name="searched" value="searched" type="hidden">
-              </div>
-              <!-- .col -->
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <hr>
-              </div>
-              <!-- .col -->
-            </div>
-            <!-- .row -->
+            
           </div>
-          <!-- .row -->
-          <!-- .row -->
-          <div class="row checkrow">
-          </div>
-          <!-- .row -->
+          
         </form>
       </div>
     </div>
+    <div class="row checkrow"> </div>
+    
+    </form>
   </div>
+</div>
+</div>
 </div>
 <div style="clear:both;height:50px;"></div>
 <div ng-include="'templates/footer.html'" ></div>
