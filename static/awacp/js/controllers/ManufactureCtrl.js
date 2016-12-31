@@ -4,14 +4,32 @@
 	ManufactureCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
 	function ManufactureCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var manuVm = this;
-	    manuVm.totalItems = -1;
-		manuVm.currentPage = 1;
-		manuVm.pageNumber = 1;
-		manuVm.pageSize = 1;
+	   
 		$scope.timers = [];
 		manuVm.manufactures= [];
 		manuVm.manufacture = {};
 		manuVm.action = "Add";
+		manuVm.totalItems = -1;
+		manuVm.currentPage = 1;
+		manuVm.pageNumber = 1;
+		manuVm.pageSize = 20;
+		manuVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		manuVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("M&D", size, function(status, size){
+				if("success" === status){
+					manuVm.pageSize = size;
+					manuVm.pageChanged();
+				}
+			});
+		}
+		
+		manuVm.getPageSize = function(){
+			AjaxUtil.getPageSize("M&D", function(status, size){
+				if("success" === status){
+					manuVm.pageSize = size;
+				}
+			});
+		}
 		manuVm.addManufacture = function (title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({

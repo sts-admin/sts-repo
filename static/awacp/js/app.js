@@ -269,6 +269,12 @@
 				controller:"JInventoryCtrl",
 				controllerAs:"jinvVm",
 				requireAuth: true
+			}).state('j-edit',{
+				url: '/j-edit/:id',
+				templateUrl:"templates/jinventory-add.html",
+				controller:"JInventoryCtrl",
+				controllerAs:"jinvVm",
+				requireAuth: true
 			}).state('j-orders',{
 				url: '/j-orders',
 				templateUrl:"templates/jinventory-orders.html",
@@ -287,11 +293,71 @@
 				controller:"SplInventoryCtrl",
 				controllerAs:"splInvVm",
 				requireAuth: true
+			}).state('spl-edit',{
+				url: '/spl-edit/:id',
+				templateUrl:"templates/spl-inventory-add.html",
+				controller:"SplInventoryCtrl",
+				controllerAs:"splInvVm",
+				requireAuth: true
 			}).state('spl-orders',{
 				url: '/spl-orders',
 				templateUrl:"templates/spl-inventory-orders.html",
 				controller:"SplInventoryCtrl",
 				controllerAs:"splInvVm",
+				requireAuth: true
+			}).state('sbc-view',{
+				url: '/sbc-view',
+				templateUrl:"templates/sbc-inventories.html",
+				controller:"SbcInventoryCtrl",
+				controllerAs:"sbcInvVm",
+				requireAuth: true
+			}).state('sbc-add',{
+				url: '/sbc-add',
+				templateUrl:"templates/sbc-inventory-add.html",
+				controller:"SbcInventoryCtrl",
+				controllerAs:"sbcInvVm",
+				requireAuth: true
+			}).state('sbc-edit',{
+				url: '/sbc-edit/:id',
+				templateUrl:"templates/sbc-inventory-add.html",
+				controller:"SbcInventoryCtrl",
+				controllerAs:"sbcInvVm",
+				requireAuth: true
+			}).state('awf-view',{
+				url: '/awf-view',
+				templateUrl:"templates/awf-inventories.html",
+				controller:"AwfInventoryCtrl",
+				controllerAs:"awfInvVm",
+				requireAuth: true
+			}).state('awf-add',{
+				url: '/awf-add',
+				templateUrl:"templates/awf-inventory-add.html",
+				controller:"AwfInventoryCtrl",
+				controllerAs:"awfInvVm",
+				requireAuth: true
+			}).state('awf-edit',{
+				url: '/awf-edit/:id',
+				templateUrl:"templates/awf-inventory-add.html",
+				controller:"AwfInventoryCtrl",
+				controllerAs:"awfInvVm",
+				requireAuth: true
+			}).state('aw-view',{
+				url: '/aw-view',
+				templateUrl:"templates/aw-inventories.html",
+				controller:"AwInventoryCtrl",
+				controllerAs:"awInvVm",
+				requireAuth: true
+			}).state('aw-add',{
+				url: '/aw-add',
+				templateUrl:"templates/aw-inventory-add.html",
+				controller:"AwInventoryCtrl",
+				controllerAs:"awInvVm",
+				requireAuth: true
+			}).state('aw-edit',{
+				url: '/aw-edit/:id',
+				templateUrl:"templates/aw-inventory-add.html",
+				controller:"AwInventoryCtrl",
+				controllerAs:"awInvVm",
 				requireAuth: true
 			}).state('deletefiles',{
 				url: '/deletefiles',

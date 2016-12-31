@@ -6,16 +6,32 @@
 		var bidVm = this;
 		bidVm.action = "Add";
 		bidVm.spinnerUrl = "<img src='images/loading.gif' />";
-		bidVm.totalItems = -1;
-		bidVm.currentPage = 1;
-		bidVm.pageNumber = 1;
-		bidVm.pageSize = 1;
-		
 		$scope.timers = [];
 		bidVm.bidders= [];
 		bidVm.bidder = {};
 		bidVm.users = [];
 		
+		bidVm.totalItems = -1;
+		bidVm.currentPage = 1;
+		bidVm.pageNumber = 1;
+		bidVm.pageSize = 20;
+		bidVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		bidVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("BIDDER", size, function(status, size){
+				if("success" === status){
+					bidVm.pageSize = size;
+					bidVm.pageChanged();
+				}
+			});
+		}
+		
+		bidVm.getPageSize = function(){
+			AjaxUtil.getPageSize("BIDDER", function(status, size){
+				if("success" === status){
+					bidVm.pageSize = size;
+				}
+			});
+		}
 		bidVm.pageChanged = function() {
 			bidVm.getBidders();
 		};

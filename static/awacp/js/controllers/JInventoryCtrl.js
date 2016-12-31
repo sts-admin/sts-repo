@@ -5,23 +5,41 @@
 	function JInventoryCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var jinvVm = this;
 		jinvVm.action = "Add";
-	    jinvVm.totalItems = -1;
-		jinvVm.currentPage = 1;
-		jinvVm.pageNumber = 1;
-		jinvVm.pageSize = 1;
+	   
 		$scope.timers = [];
 		jinvVm.jinvs= [];
-		jinvVm.jinv = {};
+		jinvVm.jInventory = {};
+		jinvVm.totalItems = -1;
+		jinvVm.currentPage = 1;
+		jinvVm.pageNumber = 1;
+		jinvVm.pageSize = 20;
+		jinvVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		jinvVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("J_INV", size, function(status, size){
+				if("success" === status){
+					jinvVm.pageSize = size;
+					jinvVm.pageChanged();
+				}
+			});
+		}
 		
+		jinvVm.getPageSize = function(){
+			AjaxUtil.getPageSize("J_INV", function(status, size){
+				if("success" === status){
+					jinvVm.pageSize = size;
+				}
+			});
+		}
 		jinvVm.pageChanged = function() {
 			jinvVm.getJInventories();
 		}		
 		jinvVm.cancelJInventoryAction = function(){
-			$state.go("jinvs");		
+			$state.go("j-view");		
 		}
 		jinvVm.addOrUpdateJInventory = function(){
 			jQuery(".actions").attr('disabled','disabled');
 			jQuery(".spinner").css('display','block');
+			jinvVm.addJInventory();
 		}
 		
 		
@@ -29,17 +47,17 @@
 			var message = "J Inventory Detail Created Successfully, add more?";
 			var url = "/awacp/saveJInventory";
 			var update = false;
-			if(jinvVm.jinv && jinvVm.jinv.id){
+			if(jinvVm.jInventory && jinvVm.jInventory.id){
 				message = "J Inventory Detail Updated Successfully";
-				jinvVm.jinv.updatedByUserCode = StoreService.getUser().userCode;
+				jinvVm.jInventory.updatedByUserCode = StoreService.getUser().userCode;
 				url = "/awacp/updateJInventory";
 				update = true;
 			}else{
-				jinvVm.jinv.createdById = StoreService.getUser().userId;
-				jinvVm.jinv.createdByUserCode = StoreService.getUser().userCode;
+				jinvVm.jInventory.createdById = StoreService.getUser().userId;
+				jinvVm.jInventory.createdByUserCode = StoreService.getUser().userCode;
 			}
 			var formData = {};
-			formData["jinv"] = jinvVm.jinv;
+			formData["jInventory"] = jinvVm.jInventory;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
 				jQuery(".actions").removeAttr('disabled');
@@ -65,13 +83,13 @@
 		jinvVm.editJInventory = function(){
 			if($state.params.id != undefined){
 				var formData = {};
-				formData["jinv"] = jinvVm.jinv;
+				formData["jInventory"] = jinvVm.jInventory;
 				AjaxUtil.getData("/awacp/getJInventory/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
-					if(data && data.jinv){
+					if(data && data.jInventory){
 						$scope.$apply(function(){
-							jinvVm.jinv = data.jinv;	
-							jinvVm.action = jinvVm.jinv && jinvVm.jinv.id?"Update":"Add";							
+							jinvVm.jInventory = data.jInventory;	
+							jinvVm.action = jinvVm.jInventory && jinvVm.jInventory.id?"Update":"Add";							
 						});
 					}
 				})

@@ -5,103 +5,123 @@
 	function SplInventoryCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var splInvVm = this;
 		splInvVm.action = "Add";
-	    splInvVm.totalItems = -1;
+	    
+		$scope.timers = [];
+		splInvVm.splInventories= [];
+		splInvVm.splInventory = {};
+		
+		splInvVm.totalItems = -1;
 		splInvVm.currentPage = 1;
 		splInvVm.pageNumber = 1;
-		splInvVm.pageSize = 1;
-		$scope.timers = [];
-		splInvVm.jinvs= [];
-		splInvVm.jinv = {};
+		splInvVm.pageSize = 20;
+		splInvVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		splInvVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("SPL_INV", size, function(status, size){
+				if("success" === status){
+					splInvVm.pageSize = size;
+					splInvVm.pageChanged();
+				}
+			});
+		}
+		
+		splInvVm.getPageSize = function(){
+			AjaxUtil.getPageSize("SPL_INV", function(status, size){
+				if("success" === status){
+					splInvVm.pageSize = size;
+				}
+			});
+		}
 		
 		splInvVm.pageChanged = function() {
-			splInvVm.getJInventories();
+			splInvVm.getSplInventories();
 		}		
-		splInvVm.cancelJInventoryAction = function(){
-			$state.go("jinvs");		
+		splInvVm.cancelSplInventoryAction = function(){
+			$state.go("spl-view");		
 		}
-		splInvVm.addOrUpdateJInventory = function(){
+		splInvVm.addOrUpdateSplInventory = function(){
 			jQuery(".actions").attr('disabled','disabled');
 			jQuery(".spinner").css('display','block');
+			splInvVm.addSplInventory();
 		}
 		
 		
-		splInvVm.addJInventory = function(){
-			var message = "J Inventory Detail Created Successfully, add more?";
-			var url = "/awacp/saveJInventory";
+		splInvVm.addSplInventory = function(){
+			var message = "SPL Inventory Detail Created Successfully, add more?";
+			var url = "/awacp/saveSplInventory";
 			var update = false;
-			if(splInvVm.jinv && splInvVm.jinv.id){
-				message = "J Inventory Detail Updated Successfully";
-				splInvVm.jinv.updatedByUserCode = StoreService.getUser().userCode;
-				url = "/awacp/updateJInventory";
+			if(splInvVm.splInventory && splInvVm.splInventory.id){
+				message = "SPL Inventory Detail Updated Successfully";
+				splInvVm.splInventory.updatedByUserCode = StoreService.getUser().userCode;
+				url = "/awacp/updateSplInventory";
 				update = true;
 			}else{
-				splInvVm.jinv.createdById = StoreService.getUser().userId;
-				splInvVm.jinv.createdByUserCode = StoreService.getUser().userCode;
+				splInvVm.splInventory.createdById = StoreService.getUser().userId;
+				splInvVm.splInventory.createdByUserCode = StoreService.getUser().userCode;
 			}
 			var formData = {};
-			formData["jinv"] = splInvVm.jinv;
+			formData["splInventory"] = splInvVm.splInventory;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
 				if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
-					.then(function (){splInvVm.cancelJInventoryAction();},function (){return false;});
+					.then(function (){splInvVm.cancelSplInventoryAction();},function (){return false;});
 					return;
 				}else{
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
-					.then(function (){return},function (){splInvVm.cancelJInventoryAction();});
+					.then(function (){return},function (){splInvVm.cancelSplInventoryAction();});
 					return;
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
-				jqXHR.errorSource = "SplInventoryCtrl.js::splInvVm.addJInventory::Error";
+				jqXHR.errorSource = "SplInventoryCtrl::splInvVm.addSplInventory::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		
-		splInvVm.editJInventory = function(){
+		splInvVm.editSplInventory = function(){
 			if($state.params.id != undefined){
 				var formData = {};
-				formData["jinv"] = splInvVm.jinv;
-				AjaxUtil.getData("/awacp/getJInventory/"+$state.params.id, Math.random())
+				formData["splInventory"] = splInvVm.splInventory;
+				AjaxUtil.getData("/awacp/getSplInventory/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
-					if(data && data.jinv){
+					if(data && data.splInventory){
 						$scope.$apply(function(){
-							splInvVm.jinv = data.jinv;	
-							splInvVm.action = splInvVm.jinv && splInvVm.jinv.id?"Update":"Add";							
+							splInvVm.splInventory = data.splInventory;	
+							splInvVm.action = splInvVm.splInventory && splInvVm.splInventory.id?"Update":"Add";							
 						});
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "SplInventoryCtrl.js::splInvVm.editJInventory::Error";
+					jqXHR.errorSource = "SplInventoryCtrl::splInvVm.editSplInventory::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				})
 			}
 		}
-		splInvVm.deleteJInventory = function(id){
-			AjaxUtil.getData("/awacp/deleteJInventory/"+id, Math.random())
+		splInvVm.deleteSplInventory = function(id){
+			AjaxUtil.getData("/awacp/deleteSplInventory/"+id, Math.random())
 			.success(function(data, status, headers){
 				splInvVm.totalItems = (splInvVm.totalItems - 1);
-				AlertService.showAlert(	'AWACP :: Alert!', 'J Inventory Detail Deleted Successfully.')
-					.then(function (){splInvVm.getJInventories();},function (){return false;});
+				AlertService.showAlert(	'AWACP :: Alert!', 'SPL Inventory Detail Deleted Successfully.')
+					.then(function (){splInvVm.getSplInventories();},function (){return false;});
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				if(666666 == jqXHR.status){
-					AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete J Inventory Detail.")
+					AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete SPL Inventory Detail.")
 					.then(function (){return},function (){return});
 					return;
 				}
-				jqXHR.errorSource = "SplInventoryCtrl.js::splInvVm.deleteJInventory::Error";
+				jqXHR.errorSource = "SplInventoryCtrl.js::splInvVm.deleteSplInventory::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			})
 		}
-		splInvVm.getJInventories = function(){
-			splInvVm.jinvs = [];
+		splInvVm.getSplInventories = function(){
+			splInvVm.splInventories = [];
 			splInvVm.pageNumber = splInvVm.currentPage;
-			AjaxUtil.getData("/awacp/listJInventories/"+splInvVm.pageNumber+"/"+splInvVm.pageSize, Math.random())
+			AjaxUtil.getData("/awacp/listSplInventories/"+splInvVm.pageNumber+"/"+splInvVm.pageSize, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					$scope.$apply(function(){
@@ -118,12 +138,12 @@
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
-						splInvVm.jinvs = tmp;
+						splInvVm.splInventories = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "UserCtrl::splInvVm.getJInventories::Error";
+				jqXHR.errorSource = "SplInventoryCtrl::splInvVm.getSplInventories::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -132,7 +152,7 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
-		splInvVm.editJInventory();
+		splInvVm.editSplInventory();
 	}		
 })();
 

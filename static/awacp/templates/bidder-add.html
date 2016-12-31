@@ -129,12 +129,14 @@
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 						  <!-- .col -->
 						  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-							<input type="submit" value="{{bidVm.action}} Bidder" class="submit-btn btn btn-primary">
-							<input type="hidden" name="add" value="add" />
+							<input type="submit" value="{{bidVm.action}} Bidder" class="actions submit-btn btn btn-primary">
 							&nbsp;&nbsp;
-							<input type="reset" value="Reset" class="reset-btn btn btn-warning">
+							<input type="reset" value="Reset" class="actions reset-btn btn btn-warning">
 							&nbsp;&nbsp;
-							<input type="button" value="Go Back" class="reset-btn btn btn-info" ng-click="bidVm.cancelBidderAction();">
+							<input type="button" value="Go Back" class="actions reset-btn btn btn-info" ng-click="bidVm.cancelBidderAction();">
+							<span class="spinner" style="display:none;">
+								<img src="images/loading.gif" />
+							</span>
 						  </div>
 						  <!-- .col -->
 						</div>

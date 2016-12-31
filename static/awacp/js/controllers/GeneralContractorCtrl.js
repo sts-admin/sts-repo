@@ -5,15 +5,32 @@
 	function GeneralContractorCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var gcVm = this;
 		gcVm.action = "Add";
-	    gcVm.totalItems = -1;
-		gcVm.currentPage = 1;
-		gcVm.pageNumber = 1;
-		gcVm.pageSize = 1;
-		$scope.timers = [];
+	   	$scope.timers = [];
 		gcVm.generalContractors= [];
 		gcVm.generalContractor = {};
 		gcVm.users = [];
 		
+		gcVm.totalItems = -1;
+		gcVm.currentPage = 1;
+		gcVm.pageNumber = 1;
+		gcVm.pageSize = 20;
+		gcVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		gcVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("GC", size, function(status, size){
+				if("success" === status){
+					gcVm.pageSize = size;
+					gcVm.pageChanged();
+				}
+			});
+		}
+		
+		gcVm.getPageSize = function(){
+			AjaxUtil.getPageSize("GC", function(status, size){
+				if("success" === status){
+					gcVm.pageSize = size;
+				}
+			});
+		}
 		gcVm.pageChanged = function() {
 			gcVm.getGcs();
 		};

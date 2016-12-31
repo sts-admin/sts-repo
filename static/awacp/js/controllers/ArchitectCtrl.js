@@ -4,14 +4,31 @@
 	ArchitectCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService'];
 	function ArchitectCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var arcVm = this;
+		arcVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
 		arcVm.action = "Add";
 		$scope.timers = [];
 		arcVm.totalItems = -1;
 		arcVm.currentPage = 1;
 		arcVm.pageNumber = 1;
-		arcVm.pageSize = 1;
+		arcVm.pageSize = 20;
 		arcVm.architects= [];
 		arcVm.architect = {};
+		arcVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("ARCHITECT", size, function(status, size){
+				if("success" === status){
+					arcVm.pageSize = size;
+					arcVm.pageChanged();
+				}
+			});
+		}
+		
+		arcVm.getPageSize = function(){
+			AjaxUtil.getPageSize("ARCHITECT", function(status, size){
+				if("success" === status){
+					arcVm.pageSize = size;
+				}
+			});
+		}
 		arcVm.pageChanged = function() {
 			arcVm.getArchitects();
 		};		
@@ -40,7 +57,7 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "TakeoffCtrl::arcVm.getUsers::Error";
+				jqXHR.errorSource = "ArchitectCtrl::arcVm.getUsers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -163,6 +180,7 @@
 		});
 		
 		arcVm.editArchitect();
+		arcVm.getPageSize();
 	}		
 })();
 

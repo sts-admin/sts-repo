@@ -89,6 +89,39 @@
 					angular.element("#"+spinnerId).html("");
 				}
 			},
+			setPageSize: function(viewName, size, callback){
+				var defaultSize = 20;
+				this.getData("/awacp/setPageSizeByView?viewName="+viewName+"&size="+size, Math.random())
+				.success(function(data, status, headers){
+					if(data){
+						if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+							callback("success", size);
+						}
+					}					
+				})
+				.error(function(jqXHR, textStatus, errorThrown){	
+					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+						callback("fail", defaultSize);
+					}
+				});
+			},
+			getPageSize: function(viewName, callback){
+				var size = 20;
+				this.getData("/awacp/getSiteSettingByView?viewName="+viewName, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.SiteSetting){
+						size = data.SiteSetting.pageSize;
+					}
+					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+						callback("success", size);
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){	
+					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+						callback("fail", size);
+					}
+				});
+			},
 			listCountries:function(callback){
 				var countries = [];
 				var url = "/awacp/listCountries";

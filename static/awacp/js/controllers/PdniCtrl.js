@@ -4,14 +4,32 @@
 	PdniCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
 	function PdniCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var pdniVm = this;
-		pdniVm.totalItems = -1;
-		pdniVm.currentPage = 1;
-		pdniVm.pageNumber = 1;
-		pdniVm.pageSize = 1;
+		
 		$scope.timers = [];
 		pdniVm.pdnis= [];
 		pdniVm.pdni = {};
 		pdniVm.action = "Add";
+		pdniVm.totalItems = -1;
+		pdniVm.currentPage = 1;
+		pdniVm.pageNumber = 1;
+		pdniVm.pageSize = 20;
+		pdniVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		pdniVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("PNDI", size, function(status, size){
+				if("success" === status){
+					pdniVm.pageSize = size;
+					pdniVm.pageChanged();
+				}
+			});
+		}
+		
+		pdniVm.getPageSize = function(){
+			AjaxUtil.getPageSize("PNDI", function(status, size){
+				if("success" === status){
+					pdniVm.pageSize = size;
+				}
+			});
+		}
 		pdniVm.addPdni = function (title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({

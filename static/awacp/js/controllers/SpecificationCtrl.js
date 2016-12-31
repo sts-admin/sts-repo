@@ -4,13 +4,31 @@
 	SpecificationCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
 	function SpecificationCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var specVm = this;
-	    specVm.totalItems = -1;
-		specVm.currentPage = 1;
-		specVm.pageNumber = 1;
-		specVm.pageSize = 1;
+	    
 		$scope.timers = [];
 		specVm.specs= [];
 		specVm.spec = {};
+		specVm.totalItems = -1;
+		specVm.currentPage = 1;
+		specVm.pageNumber = 1;
+		specVm.pageSize = 20;
+		specVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		specVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("SPEC", size, function(status, size){
+				if("success" === status){
+					specVm.pageSize = size;
+					specVm.pageChanged();
+				}
+			});
+		}
+		
+		specVm.getPageSize = function(){
+			AjaxUtil.getPageSize("SPEC", function(status, size){
+				if("success" === status){
+					specVm.pageSize = size;
+				}
+			});
+		}
 		specVm.addSpec = function (title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({
@@ -50,7 +68,7 @@
 							$scope.message = "";
 							jQuery(".actions").removeAttr('disabled');
 							jQuery(".spinner").css('display','none');
-							jqXHR.errorSource = "SpecificationCtrl::conVm.specVm.specVm::Error";
+							jqXHR.errorSource = "SpecificationCtrl::specVm.specVm.specVm::Error";
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						});						
 					};

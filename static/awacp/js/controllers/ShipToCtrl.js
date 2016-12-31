@@ -4,14 +4,32 @@
 	ShipToCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
 	function ShipToCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var shipToVm = this;
-	    shipToVm.totalItems = -1;
-		shipToVm.currentPage = 1;
-		shipToVm.pageNumber = 1;
-		shipToVm.pageSize = 1;
+	    
 		$scope.timers = [];
 		shipToVm.shipTos= [];
 		shipToVm.shipTo = {};
 		shipToVm.action = "Add";
+		shipToVm.totalItems = -1;
+		shipToVm.currentPage = 1;
+		shipToVm.pageNumber = 1;
+		shipToVm.pageSize = 20;
+		shipToVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		shipToVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("SHIP_TO", size, function(status, size){
+				if("success" === status){
+					shipToVm.pageSize = size;
+					shipToVm.pageChanged();
+				}
+			});
+		}
+		
+		shipToVm.getPageSize = function(){
+			AjaxUtil.getPageSize("SHIP_TO", function(status, size){
+				if("success" === status){
+					shipToVm.pageSize = size;
+				}
+			});
+		}
 		shipToVm.addShipTo = function (title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({

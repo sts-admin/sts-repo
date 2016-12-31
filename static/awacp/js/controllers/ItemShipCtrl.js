@@ -4,14 +4,32 @@
 	ItemShipCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
 	function ItemShipCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var itemVm = this;
-	    itemVm.totalItems = -1;
-		itemVm.currentPage = 1;
-		itemVm.pageNumber = 1;
-		itemVm.pageSize = 1;
+	    
 		$scope.timers = [];
 		itemVm.ItemShippeds= [];
 		itemVm.ItemShipped = {};
 		itemVm.action = "Add";
+		itemVm.totalItems = -1;
+		itemVm.currentPage = 1;
+		itemVm.pageNumber = 1;
+		itemVm.pageSize = 20;
+		itemVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		itemVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("ITEM_SHIPPED", size, function(status, size){
+				if("success" === status){
+					itemVm.pageSize = size;
+					itemVm.pageChanged();
+				}
+			});
+		}
+		
+		itemVm.getPageSize = function(){
+			AjaxUtil.getPageSize("ITEM_SHIPPED", function(status, size){
+				if("success" === status){
+					itemVm.pageSize = size;
+				}
+			});
+		}
 		itemVm.addItemShip = function (title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({

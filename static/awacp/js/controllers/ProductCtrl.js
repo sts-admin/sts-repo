@@ -4,14 +4,32 @@
 	ProductCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
 	function ProductCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var prodVm = this;
-	    prodVm.totalItems = -1;
-		prodVm.currentPage = 1;
-		prodVm.pageNumber = 1;
-		prodVm.pageSize = 1;
+	   
 		$scope.timers = [];
 		prodVm.products= [];
 		prodVm.product = {};
 		prodVm.action = "Add";
+		prodVm.totalItems = -1;
+		prodVm.currentPage = 1;
+		prodVm.pageNumber = 1;
+		prodVm.pageSize = 20;
+		prodVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		prodVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("PRODUCT", size, function(status, size){
+				if("success" === status){
+					prodVm.pageSize = size;
+					prodVm.pageChanged();
+				}
+			});
+		}
+		
+		prodVm.getPageSize = function(){
+			AjaxUtil.getPageSize("PRODUCT", function(status, size){
+				if("success" === status){
+					prodVm.pageSize = size;
+				}
+			});
+		}
 		prodVm.addProduct = function (title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({

@@ -8,10 +8,10 @@
 	<div class="clearfix">
 		<div class="panel panel-default">
 				<div class="panel-heading panel-heading-top form-heading">
-					<label>{{splInvVm.action}} SPL Inventory</label>				
+					<label>{{awfInvVm.action}} AWF Inventory</label>				
 				</div>
 				<div class="panel-body"  style="background:#ccaa46;">
-					<form name="jInventoryAddForm" ng-submit="splInvVm.addOrUpdateSplInventory();">
+					<form name="awfInventoryAddForm" ng-submit="awfInvVm.addOrUpdateAwfInventory();">
 						<!-- .row -->
 						<div class="row">
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -24,7 +24,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Item Description" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Item Description');" onkeypress="this.setCustomValidity('');" ng-model="splInvVm.splInventory.item" ng-required="true" autofocus />
+							  <input type="text" placeholder="Item Description" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Item Description');" onkeypress="this.setCustomValidity('');" ng-model="awfInvVm.awfInventory.item" ng-required="true" autofocus />
 							</div>
 						  </div>
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -34,7 +34,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Quantity" maxlength="100" oninvalid="this.setCustomValidity('Enter Quantity');" onkeypress="this.setCustomValidity('');" ng-model="splInvVm.splInventory.quantity"  ng-required="true" />
+							  <input type="text" class="form-control" placeholder="Enter Quantity" maxlength="100" oninvalid="this.setCustomValidity('Enter Quantity');" onkeypress="this.setCustomValidity('');" ng-model="awfInvVm.awfInventory.quantity"  ng-required="true" />
 							</div>
 						  </div>
 						  	   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -45,7 +45,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							 <input type="text" class="form-control" placeholder="Enter Reorder Quantity" maxlength="150" oninvalid="this.setCustomValidity('Enter Reorder Quantity');" onkeypress="this.setCustomValidity('');" ng-model="splInvVm.splInventory.reorderQuantity"  ng-required="true" />
+							 <input type="text" class="form-control" placeholder="Enter Reorder Quantity" maxlength="150" oninvalid="this.setCustomValidity('Enter Reorder Quantity');" onkeypress="this.setCustomValidity('');" ng-model="awfInvVm.awfInventory.reorderQuantity"  ng-required="true" />
 							</div>
 						  </div>					  <!-- .col -->
 						 
@@ -58,7 +58,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Size" maxlength="50" oninvalid="this.setCustomValidity('Enter Size');" onkeypress="this.setCustomValidity('');" ng-model="splInvVm.splInventory.size" ng-required="true" />
+							  <input type="text" class="form-control" placeholder="Enter Size" maxlength="50" oninvalid="this.setCustomValidity('Enter Size');" onkeypress="this.setCustomValidity('');" ng-model="awfInvVm.awfInventory.size" ng-required="true" />
 							</div>
 						  </div>
 						  <!-- .col -->
@@ -69,7 +69,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" class="form-control" placeholder="Enter Unit Price" maxlength="20" oninvalid="this.setCustomValidity('Enter Unit Price');" onkeypress="this.setCustomValidity('');" ng-model="splInvVm.splInventory.unitPrice" ng-required="true" />
+							  <input type="text" class="form-control" placeholder="Enter Unit Price" maxlength="20" oninvalid="this.setCustomValidity('Enter Unit Price');" onkeypress="this.setCustomValidity('');" ng-model="awfInvVm.awfInventory.unitPrice" ng-required="true" />
 							</div>
 						  </div>
 
@@ -80,7 +80,7 @@
 					  <!-- .col -->
 					  <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
-						  <input type="text" class="form-control" placeholder="Enter Billable Price" maxlength="15" oninvalid="this.setCustomValidity('Enter Login');" onkeypress="this.setCustomValidity('');" ng-model="splInvVm.splInventory.billableCost" />
+						  <input type="text" class="form-control" placeholder="Enter Billable Price" maxlength="15" oninvalid="this.setCustomValidity('Enter Login');" onkeypress="this.setCustomValidity('');" ng-model="awfInvVm.awfInventory.billableCost" />
 						</div>
 					  </div>
 
@@ -95,11 +95,11 @@
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 						  <!-- .col -->
 						  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-							<input type="submit" value="{{splInvVm.action}} SPL Inventory" class="actions submit-btn btn btn-primary">
+							<input type="submit" value="{{awfInvVm.action}} AWF Inventory" class="actions submit-btn btn btn-primary">
 							&nbsp;&nbsp;
 							<input type="reset" value="Reset" class="actions reset-btn btn btn-warning">
 							&nbsp;&nbsp;
-							<input type="button" value="Go Back" class="actions reset-btn btn btn-info" ng-click="splInvVm.cancelSplInventoryAction();">
+							<input type="button" value="Go Back" class="actions reset-btn btn btn-info" ng-click="awfInvVm.cancelAwfInventoryAction();">
 							<span class=".spinner" style="display:none;">
 							<img src="images/loading.gif" />
 						</span>

@@ -3,27 +3,43 @@
 	angular.module('awacpApp.controllers').controller('ContractorCtrl', ContractorCtrl);
 	ContractorCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService'];
 	function ContractorCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
-		var conVm = this;
-		conVm.action = "Add";
-	    conVm.totalItems = -1;
-		conVm.currentPage = 1;
-		conVm.pageNumber = 1;
-		conVm.pageSize = 1;
+		var truckerVm = this;
+		truckerVm.action = "Add";
 		$scope.timers = [];
-		conVm.contractors= [];
-		conVm.contractor = {};
-		conVm.users = [];
+		truckerVm.contractors= [];
+		truckerVm.contractor = {};
+		truckerVm.users = [];
+		truckerVm.totalItems = -1;
+		truckerVm.currentPage = 1;
+		truckerVm.pageNumber = 1;
+		truckerVm.pageSize = 20;
+		truckerVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		truckerVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("CONTRACTOR", size, function(status, size){
+				if("success" === status){
+					truckerVm.pageSize = size;
+					truckerVm.pageChanged();
+				}
+			});
+		}
 		
-		conVm.pageChanged = function() {
-			conVm.getContractors();
+		truckerVm.getPageSize = function(){
+			AjaxUtil.getPageSize("CONTRACTOR", function(status, size){
+				if("success" === status){
+					truckerVm.pageSize = size;
+				}
+			});
+		}
+		truckerVm.pageChanged = function() {
+			truckerVm.getContractors();
 		};
 
 		
-		conVm.cancelContractorAction = function(){
+		truckerVm.cancelContractorAction = function(){
 			$state.go("contractors");
 		}
-		conVm.getUsers = function(){
-			conVm.users = [];
+		truckerVm.getUsers = function(){
+			truckerVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.results){
@@ -39,39 +55,39 @@
 						});
 					}	
 					$scope.$apply(function(){
-						conVm.users = tmp;
+						truckerVm.users = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "TakeoffCtrl::conVm.getUsers::Error";
+				jqXHR.errorSource = "TakeoffCtrl::truckerVm.getUsers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		
-		conVm.addContractor = function(){
+		truckerVm.addContractor = function(){
 			var message = "Contractor Detail Created Successfully, add more?";
 			var url = "/awacp/saveContractor";
 			var update = false;
-			if(conVm.contractor && conVm.contractor.id){
+			if(truckerVm.contractor && truckerVm.contractor.id){
 				message = "Contractor Detail Updated Successfully";
-				conVm.contractor.updatedByUserCode = StoreService.getUser().userCode;
+				truckerVm.contractor.updatedByUserCode = StoreService.getUser().userCode;
 				url = "/awacp/updateContractor";
 				update = true;
 			}else{
-				conVm.contractor.createdByUserCode = StoreService.getUser().userCode;
+				truckerVm.contractor.createdByUserCode = StoreService.getUser().userCode;
 			}
 			var formData = {};
-			formData["contractor"] = conVm.contractor;
+			formData["contractor"] = truckerVm.contractor;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
 				if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
-					.then(function (){conVm.cancelContractorAction();},function (){return false;});
+					.then(function (){truckerVm.cancelContractorAction();},function (){return false;});
 					return;
 				}else{
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
-					.then(function (){return},function (){conVm.cancelContractorAction();});
+					.then(function (){return},function (){truckerVm.cancelContractorAction();});
 					return;
 				}
 			})
@@ -81,42 +97,42 @@
 					.then(function (){return},function (){return});
 					return;
 				}
-				jqXHR.errorSource = "ContractorCtrl::conVm.addContractor::Error";
+				jqXHR.errorSource = "ContractorCtrl::truckerVm.addContractor::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		conVm.initContractorMasterInputs = function(){
-			conVm.getUsers();
+		truckerVm.initContractorMasterInputs = function(){
+			truckerVm.getUsers();
 		}
 		
-		conVm.editContractor = function(){
+		truckerVm.editContractor = function(){
 			if($state.params.id != undefined){
 				var formData = {};
-				formData["contractor"] = conVm.contractor;
+				formData["contractor"] = truckerVm.contractor;
 				AjaxUtil.getData("/awacp/getContractor/"+$state.params.id, formData)
 				.success(function(data, status, headers){
 					if(data && data.contractor){
 						data.contractor.customName = data.contractor.userCode + " - "+ data.contractor.firstName;
 						$scope.$apply(function(){
-							conVm.contractor = data.contractor;	
-							conVm.action = conVm.contractor && conVm.contractor.id?"Update":"Add";							
+							truckerVm.contractor = data.contractor;	
+							truckerVm.action = truckerVm.contractor && truckerVm.contractor.id?"Update":"Add";							
 						});
-						conVm.getUsers();
+						truckerVm.getUsers();
 						
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "ContractorCtrl::conVm.editContractor::Error";
+					jqXHR.errorSource = "ContractorCtrl::truckerVm.editContractor::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				})
 			}
 		}
-		conVm.deleteContractor = function(id){
+		truckerVm.deleteContractor = function(id){
 			AjaxUtil.getData("/awacp/deleteContractor/"+id, Math.random())
 			.success(function(data, status, headers){
-				conVm.totalItems = (conVm.totalItems - 1);
+				truckerVm.totalItems = (truckerVm.totalItems - 1);
 				AlertService.showAlert(	'AWACP :: Alert!', 'Contractor Detail Deleted Successfully.')
-					.then(function (){conVm.getContractors();},function (){return false;});
+					.then(function (){truckerVm.getContractors();},function (){return false;});
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				if(666666 == jqXHR.status){
@@ -124,18 +140,18 @@
 					.then(function (){return},function (){return});
 					return;
 				}
-				jqXHR.errorSource = "ContractorCtrl::conVm.deleteContractor::Error";
+				jqXHR.errorSource = "ContractorCtrl::truckerVm.deleteContractor::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			})
 		}
-		conVm.getContractors = function(){
-			conVm.contractors = [];
-			conVm.pageNumber = conVm.currentPage;
-			AjaxUtil.getData("/awacp/listContractors/"+conVm.pageNumber+"/"+conVm.pageSize, Math.random())
+		truckerVm.getContractors = function(){
+			truckerVm.contractors = [];
+			truckerVm.pageNumber = truckerVm.currentPage;
+			AjaxUtil.getData("/awacp/listContractors/"+truckerVm.pageNumber+"/"+truckerVm.pageSize, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					$scope.$apply(function(){
-						conVm.totalItems = data.stsResponse.totalCount;
+						truckerVm.totalItems = data.stsResponse.totalCount;
 					});
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
@@ -148,12 +164,12 @@
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
-						conVm.contractors = tmp;
+						truckerVm.contractors = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "UserCtrl::conVm.getContractors::Error";
+				jqXHR.errorSource = "UserCtrl::truckerVm.getContractors::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -162,7 +178,7 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
-		conVm.editContractor();
+		truckerVm.editContractor();
 	}		
 })();
 

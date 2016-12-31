@@ -4,14 +4,32 @@
 	QuoteNotesCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
 	function QuoteNotesCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var qnoteVm = this;
-	    qnoteVm.totalItems = -1;
-		qnoteVm.currentPage = 1;
-		qnoteVm.pageNumber = 1;
-		qnoteVm.pageSize = 1;
+	   
 		$scope.timers = [];
 		qnoteVm.quoteNotes= [];
 		qnoteVm.quoteNote = {};
 		qnoteVm.action = "Add";
+		qnoteVm.totalItems = -1;
+		qnoteVm.currentPage = 1;
+		qnoteVm.pageNumber = 1;
+		qnoteVm.pageSize = 20;
+		qnoteVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		qnoteVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("QUOTE_NOTE", size, function(status, size){
+				if("success" === status){
+					qnoteVm.pageSize = size;
+					qnoteVm.pageChanged();
+				}
+			});
+		}
+		
+		qnoteVm.getPageSize = function(){
+			AjaxUtil.getPageSize("QUOTE_NOTE", function(status, size){
+				if("success" === status){
+					qnoteVm.pageSize = size;
+				}
+			});
+		}
 		qnoteVm.addQuoteNote = function (title){
 			var defer = $q.defer();
 			var modalInstance = $uibModal.open({

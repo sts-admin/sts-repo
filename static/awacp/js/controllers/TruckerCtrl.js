@@ -5,14 +5,33 @@
 	function TruckerCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
 		var truckerVm = this;
 		truckerVm.action = "Add";
-	    truckerVm.totalItems = -1;
-		truckerVm.currentPage = 1;
-		truckerVm.pageNumber = 1;
-		truckerVm.pageSize = 1;
+	    
 		$scope.timers = [];
 		truckerVm.truckers= [];
 		truckerVm.trucker = {};
 		truckerVm.users = [];
+		
+		truckerVm.totalItems = -1;
+		truckerVm.currentPage = 1;
+		truckerVm.pageNumber = 1;
+		truckerVm.pageSize = 20;
+		truckerVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		truckerVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("TRUCKER", size, function(status, size){
+				if("success" === status){
+					truckerVm.pageSize = size;
+					truckerVm.pageChanged();
+				}
+			});
+		}
+		
+		truckerVm.getPageSize = function(){
+			AjaxUtil.getPageSize("TRUCKER", function(status, size){
+				if("success" === status){
+					truckerVm.pageSize = size;
+				}
+			});
+		}
 		
 		truckerVm.pageChanged = function() {
 			truckerVm.getTruckers();

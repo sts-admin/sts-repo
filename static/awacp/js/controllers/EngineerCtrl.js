@@ -4,14 +4,32 @@
 	EngineerCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService'];
 	function EngineerCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var engVm = this;
+		
 		engVm.action = "Add";
 		engVm.totalItems = -1;
 		engVm.currentPage = 1;
-		engVm.pageSize = 1;
+		engVm.pageSize = 20;
 		engVm.pageNumber = 1;
 		$scope.timers = [];
 		engVm.engineers = [];
 		engVm.engineer = {};
+		engVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		engVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("ENGINEER", size, function(status, size){
+				if("success" === status){
+					engVm.pageSize = size;
+					engVm.pageChanged();
+				}
+			});
+		}
+		
+		engVm.getPageSize = function(){
+			AjaxUtil.getPageSize("ENGINEER", function(status, size){
+				if("success" === status){
+					engVm.pageSize = size;
+				}
+			});
+		}
 		engVm.pageChanged = function() {
 			engVm.getEngineers();
 		};
