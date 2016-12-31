@@ -176,6 +176,38 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 	public JInventory updateJInventory(JInventory jInventory, @Context HttpServletResponse servletResponse) {
 		return this.jInventoryService.updateJInventory(jInventory);
 	}
+	
+	@POST
+	@Path("/updateSplInventory")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public SplInventory updateSplInventory(SplInventory splInventory, @Context HttpServletResponse servletResponse) {
+		return this.splInventoryService.updateSplInventory(splInventory);
+	}
+	
+	@POST
+	@Path("/updateSbcInventory")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public SbcInventory updateSbcInventory(SbcInventory sbcInventory, @Context HttpServletResponse servletResponse) {
+		return this.sbcInventoryService.updateSbcInventory(sbcInventory);
+	}
+	
+	@POST
+	@Path("/updateAwfInventory")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public AwfInventory updateAwfInventory(AwfInventory awfInventory, @Context HttpServletResponse servletResponse) {
+		return this.awfInventoryService.updateAwfInventory(awfInventory);
+	}
+	
+	@POST
+	@Path("/updateAwInventory")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public AwInventory updateAwInventory(AwInventory awInventory, @Context HttpServletResponse servletResponse) {
+		return this.awInventoryService.updateAwInventory(awInventory);
+	}
 
 	@GET
 	@Path("/deleteAwInventory/{id}")

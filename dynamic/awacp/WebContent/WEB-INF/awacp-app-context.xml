@@ -109,6 +109,7 @@
 			<ref bean="quoteNoteServiceEndpoint" />
 			<ref bean="pdniServiceEndpoint" />
 			<ref bean="inventoryServiceEndpoint" />
+			<ref bean="siteSettingServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -213,8 +214,10 @@
     </bean>
     
     <bean id="mnDService" class="com.awacp.service.impl.MnDServiceImpl" />
+    <bean id="mnDTypeService" class="com.awacp.service.impl.MnDTypeServiceImpl" />
      <bean id="mnDServiceEndpoint" class="com.awacp.rest.endpoint.MnDServiceEndpoint">
         <property name="mnDService" ref="mnDService" />
+        <property name="mnDTypeService" ref="mnDTypeService" />
     </bean>
     
     <bean id="awInventoryService" class="com.awacp.service.impl.AwInventoryServiceImpl" />
@@ -231,6 +234,10 @@
     </bean>
     
     
+     <bean id="siteSettingService" class="com.awacp.service.impl.SiteSettingServiceImpl" />
+     <bean id="siteSettingServiceEndpoint" class="com.awacp.rest.endpoint.SiteSettingServiceEndpoint">
+        <property name="siteSettingService" ref="siteSettingService" />
+    </bean>
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
         <property name="produceMediaTypes" ref="jsonTypes" />

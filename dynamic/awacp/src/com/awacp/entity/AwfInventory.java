@@ -20,6 +20,9 @@ public class AwfInventory extends BaseEntity {
 	private Double size; // required
 	private Double unitPrice; // required
 	private Double billableCost;
+	
+	private String createdByUserCode; // Code of the User created this record.
+	private String updatedByUserCode; // Code of the user update this record.
 
 	public AwfInventory() {
 		super();
@@ -73,4 +76,19 @@ public class AwfInventory extends BaseEntity {
 		this.billableCost = billableCost;
 	}
 
+	public String getCreatedByUserCode() {
+		return createdByUserCode;
+	}
+
+	public void setCreatedByUserCode(String createdByUserCode) {
+		this.createdByUserCode = createdByUserCode;
+	}
+
+	public String getUpdatedByUserCode() {
+		return updatedByUserCode;
+	}
+
+	public void setUpdatedByUserCode(String updatedByUserCode) {
+		this.updatedByUserCode = updatedByUserCode;
+	}
 }

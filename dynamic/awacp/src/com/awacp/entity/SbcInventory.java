@@ -21,6 +21,9 @@ public class SbcInventory extends BaseEntity {
 	private Double unitPrice; // required
 	private Double billableCost;
 
+	private String createdByUserCode; // Code of the User created this record.
+	private String updatedByUserCode; // Code of the user update this record.
+
 	public SbcInventory() {
 		super();
 	}
@@ -71,6 +74,22 @@ public class SbcInventory extends BaseEntity {
 
 	public void setBillableCost(Double billableCost) {
 		this.billableCost = billableCost;
+	}
+
+	public String getCreatedByUserCode() {
+		return createdByUserCode;
+	}
+
+	public void setCreatedByUserCode(String createdByUserCode) {
+		this.createdByUserCode = createdByUserCode;
+	}
+
+	public String getUpdatedByUserCode() {
+		return updatedByUserCode;
+	}
+
+	public void setUpdatedByUserCode(String updatedByUserCode) {
+		this.updatedByUserCode = updatedByUserCode;
 	}
 
 }
