@@ -32,7 +32,7 @@ public class MnDTypeServiceImpl extends CommonServiceImpl<MnDType>implements MnD
 		if (pageNumber <= 1) {
 			response.setTotalCount(getTotalRecords(MnDType.class.getSimpleName(), "id", getEntityManager()));
 		}
-		Query query = getEntityManager().createNamedQuery("MnD.findAllByMndId").setParameter("mndId", mndId);
+		Query query = getEntityManager().createNamedQuery("MnDType.findAllByMndId").setParameter("mndId", mndId);
 		if (pageNumber > 0 && pageSize > 0) {
 			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
 		}
@@ -80,7 +80,7 @@ public class MnDTypeServiceImpl extends CommonServiceImpl<MnDType>implements MnD
 		MnDType type = getMnDType(id);
 		if (type != null) {
 			type.setMessage(message);
-			getEntityManager().persist(type);
+			getEntityManager().merge(type);
 			return "success";
 		}
 		return "fail";
