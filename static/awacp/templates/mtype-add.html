@@ -1,0 +1,30 @@
+<div>
+	<div class="modal-header modal-header-css">
+		<h3 class="pop-up-alert-title" id="modal-title">{{title}}</h3>
+	</div>
+	<div class="modal-body" id="modal-body" style="text-align:center;">
+		<div class="row">
+			<div class="form-group">
+			  <input ng-keypress="message = '' " type="text" placeholder="M & D Type" class="form-control" maxlength="150" oninvalid="this.setCustomValidity('Enter Product Type');" onkeypress="this.setCustomValidity('');" ng-model="productName" ng-required="true" autofocus />
+			</div>
+			<div class="form-group">
+			  <input ng-keypress="message = '' " type="text" placeholder="Model" class="form-control" maxlength="150" ng-model="model" ng-required="true" autofocus />
+			</div>
+			<div class="form-group">
+			  <input ng-keypress="message = '' " type="text" placeholder="Range 1" class="form-control" maxlength="150" ng-model="rangeOne" ng-required="true" autofocus />
+			  <input ng-keypress="message = '' " type="text" placeholder="Range 2" class="form-control" maxlength="150" ng-model="rangeTwo" ng-required="true" autofocus />
+			  <input ng-keypress="message = '' " type="text" placeholder="Range 3" class="form-control" maxlength="150" ng-model="rangeThree" ng-required="true" autofocus />
+			</div>
+		</div>
+	</div>
+	<div ng-show="message != ''" style="text-align:center; color:red;">
+		{{message}} 
+	</div>
+	<div class="pop-up-alert-footer">
+		 <button type="button" class="actions btn btn-primary btn-primary alert-ok-button" data-ng-click="save(); $event.stopPropagation()">Save Product Type</button>
+		 <button type="button" class="actions btn btn-primary btn-warn alert-ok-button" data-ng-click="cancel(); $event.stopPropagation()">Cancel</button>
+		 <span style="display:none;" class="spinner">
+			<image src="images/loading.gif" />
+		 </span>
+	</div>
+</div>

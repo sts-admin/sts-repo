@@ -57,7 +57,15 @@
 							   <td align="left"></td>
 							  <td align="center">{{manu.createdByUserCode}}</td>
 							  <td align="center">{{manu.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "manuVm.editManufacture(manu.id, 'Edit Manufacture & Description');"> <img src="images/file_edit.png" title="edit Manufacture & Description" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete Manufacture & Description" ng-click="manuVm.deleteManufacture(manu.id);" border="0"> &nbsp;&nbsp; </td>
+							  <td align="center">
+								&nbsp; 
+								<a href ng-click = "manuVm.editManufacture(manu.id, 'Edit Manufacture & Description');">
+								<img src="images/file_edit.png" title="edit Manufacture & Description" border="0"></a> 
+								&nbsp;
+								<img src="images/file_delete.png" style="cursor:pointer;" title="delete Manufacture & Description" ng-click="manuVm.deleteManufacture(manu.id);" border="0"> 
+								&nbsp
+								<img src="images/view.png" style="cursor:pointer;" title="show M & D Type List" ui-sref="mtypes({id:manu.id})" border="0"> 
+							</td>
 							</tr>							
 						</table>
 						</td>

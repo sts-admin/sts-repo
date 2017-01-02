@@ -245,6 +245,12 @@
 				controller:"ManufactureCtrl",
 				controllerAs:"manuVm",
 				requireAuth: true
+			}).state('mtypes',{
+				url: '/mtypes/:id',
+				templateUrl:"templates/mtypes.html",
+				controller:"MTypeCtrl",
+				controllerAs:"mTypeVm",
+				requireAuth: true
 			}).state('iships',{
 				url: '/iships',
 				templateUrl:"templates/itemships.html",

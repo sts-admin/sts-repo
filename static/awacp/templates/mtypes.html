@@ -1,0 +1,104 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+	<div class="clearfix">
+		<div class="panel panel-default shadow">
+			<div class="panel-heading form-heading panel-heading-top">
+				<label>View Manufacturing Type List</label>	
+				<span class="pull-right"><a href ng-click="mTypeVm.addMType(mTypeVm.mndId, 'Add New Manufacturing Type');" >Add Manufacturing Type</a></span>
+
+			</div>
+			<div class="panel-body">
+				<div style="text-align:right;">
+                <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
+					Per page Rows 
+					<select ng-class="styledselect_pages" style="outline:none;"
+						ng-model="mTypeVm.pageSize" 
+						ng-options="size for size in mTypeVm.pageSizeList" ng-change="mTypeVm.setCurrentPageSize(mTypeVm.pageSize);" >
+					</select>
+			</div>
+				<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 dashboard-content"> <a href="javascript:void(0);" onclick="ClearSearch('engineers');" class="btn btn-primary width-full">Clear Search</a> </div>
+					<ul uib-pagination total-items="mTypeVm.totalItems" items-per-page = "mTypeVm.pageSize" ng-model="mTypeVm.currentPage" ng-change="mTypeVm.pageChanged()"></ul>
+				</div>
+  
+				<!-- .row -->
+				<div class="row" id="contents">
+				 
+				  <!-- .col -->
+				  <div class="col-lg-12">
+					<form id="users_view_form" class="table-container" action="" method="post">
+					  <div class="table-container">
+						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+						  <thead>
+                          
+                          <tr style="background:#02577D;">
+							  <td class="center">&nbsp;</td>
+							  <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td class="center">&nbsp;</td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  
+							  <td align="center">&nbsp;</td>
+							  <td align="center">&nbsp;</td>
+							  <td align="center">&nbsp;</td>
+							  <td align="center">&nbsp;</td>
+							  <td align="center">&nbsp;</td>
+							  <td align="center">&nbsp;</td>
+							</tr>
+                    
+							<tr style="background:#042F51; color:#FFFFFF;">
+							  <td style="padding:5px;" align="center" width="5%">S. No.</td>
+							  <td style="padding:5px;" align="center" width="30%">Product Description</td>
+							  <td style="padding:5px;" align="center" width="10%">Model</td>
+							  <td style="padding:5px;" align="center" width="5%">Range 1 ($1- $3000)</td>
+							  <td style="padding:5px;" align="center" width="5%">Range 2 ($3001- $25K)</td>
+							  <td style="padding:5px;" align="center" width="5%">Range 3 ($25K+)</td>
+							  <td style="padding:5px;" align="center" width="10%">UC</td>
+							  <td style="padding:5px;" align="center" width="10%">UC2</td>
+							  <td style="padding:5px;" align="center" width="10%">Message</td>
+							  <td style="padding:5px;" align="center" width="5%">Actions</td>
+							  <td style="padding:5px;" align="center" width="5%">Flag</td>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr height="25" ng-repeat="mType in mTypeVm.mTypes track by $index">
+							  <td align="center">{{$index + 1}}</td>
+							  <td align="left">{{mType.productName}}</td>
+							  <td align="left">{{mType.model}}</td>
+							  <td align="center">{{mType.rangeOne}}</td>
+							  <td align="center">{{mType.rangeTwo}}</td>
+							  <td align="center">{{mType.rangeThree}}</td>
+							  <td align="center">{{mType.createdByUserCode}}</td>
+							  <td align="center">{{mType.updatedByUserCode}}</td>
+							  <td align="center">
+								<a href ng-click="mTypeVm.setMessage(mType.id, mType.mndId, 'Edit Message');">
+									{{mType.message?mType.message:'SET YOUR MESSAGE'}}
+								</a>
+							  </td>
+							  <td align="center">
+								&nbsp; 
+								<a href ng-click = "mTypeVm.editMType(mType.id, mType.mndId, 'Edit Message Type Detail');">
+								<img src="images/file_edit.png" title="Edit Manufacture & Description" border="0"></a> 
+								&nbsp;
+								<img src="images/file_delete.png" style="cursor:pointer;" title="Delete Manufacture & Description" ng-click="mTypeVm.deleteMnDType(mType.id, mType.mndId);" border="0"> 
+								
+								</td>
+								<td align="center">
+									<input type="checkbox" ng-model="mType.flag" ng-click="mTypeVm.updateFlag(mType.id, mType.flag)" />
+								</td>
+							</tr>							
+						</table>
+						</td>
+						</tr>
+						</tbody>
+						</table>
+					  </div>
+					</form>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</div>
+</div>
+
+<div ng-include="'templates/footer.html'" ></div>
