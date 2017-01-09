@@ -258,5 +258,11 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		return "fail";
 	}
 
+	@Override
+	public List<Takeoff> listNewTakeoffsForQuote() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

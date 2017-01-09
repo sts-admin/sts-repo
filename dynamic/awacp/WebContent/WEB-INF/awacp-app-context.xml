@@ -110,6 +110,7 @@
 			<ref bean="pdniServiceEndpoint" />
 			<ref bean="inventoryServiceEndpoint" />
 			<ref bean="siteSettingServiceEndpoint" />
+			<ref bean="templateServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -237,6 +238,11 @@
      <bean id="siteSettingService" class="com.awacp.service.impl.SiteSettingServiceImpl" />
      <bean id="siteSettingServiceEndpoint" class="com.awacp.rest.endpoint.SiteSettingServiceEndpoint">
         <property name="siteSettingService" ref="siteSettingService" />
+    </bean>
+    
+    <bean id="marketingTemplateService" class="com.awacp.service.impl.MarketingTemplateServiceImpl" />
+     <bean id="templateServiceEndpoint" class="com.awacp.rest.endpoint.MarketingTemplateServiceEndpoint">
+        <property name="marketingTemplateService" ref="marketingTemplateService" />
     </bean>
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">

@@ -22,5 +22,7 @@ public interface TakeoffService {
 	
 	public List<String> listQuoteIds(String keword);
 	
+	public List<Takeoff> listNewTakeoffsForQuote();
+	
 	public String delete(Long id);
 }

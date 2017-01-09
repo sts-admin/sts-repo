@@ -14,6 +14,7 @@ import com.awacp.entity.Engineer;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.ItemShipped;
 import com.awacp.entity.JInventory;
+import com.awacp.entity.MarketingTemplate;
 import com.awacp.entity.MnD;
 import com.awacp.entity.MnDType;
 import com.awacp.entity.Pdni;
@@ -30,7 +31,9 @@ import com.sts.core.entity.User;
 
 @XmlRootElement
 @XmlSeeAlso({ Bidder.class, Takeoff.class, Architect.class, Engineer.class, Contractor.class, User.class, Spec.class,
-		ShipTo.class, ShippedVia.class, QuoteNote.class, ItemShipped.class, MnD.class, MnDType.class, Product.class, GeneralContractor.class, Pdni.class, Trucker.class, JInventory.class, SbcInventory.class, SplInventory.class, AwfInventory.class, AwInventory.class })
+		ShipTo.class, ShippedVia.class, QuoteNote.class, ItemShipped.class, MnD.class, MnDType.class, Product.class,
+		GeneralContractor.class, Pdni.class, Trucker.class, JInventory.class, SbcInventory.class, SplInventory.class,
+		AwfInventory.class, AwInventory.class, MarketingTemplate.class })
 public class StsResponse<T> {
 	private String status;
 	private String message;

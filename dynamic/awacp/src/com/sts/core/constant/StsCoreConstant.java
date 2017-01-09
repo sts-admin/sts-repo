@@ -5,6 +5,7 @@ public class StsCoreConstant {
 	public static final String DOC_TAKEOFF_DRAWING = "TAKEOFF_DRAWING_DOC";
 	public static final String DOC_TAKEOFF_VIBRO = "TAKEOFF_VIBRO_DOC";
 	public static final String DUPLICATE_EMAIL = "duplicate_email";
+	public static final String DUPLICATE_TEMPLATE = "duplicate_template";
 	public static final String DUPLICATE_USERNAME = "duplicate_username";
 	public static final String DUPLICATE_CODE = "duplicate_code";
 	public static final String ACCOUNT_NOT_ACTIVE = "account_not_active";
