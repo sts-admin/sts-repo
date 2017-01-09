@@ -1,0 +1,73 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+	<div class="clearfix">
+		<div class="panel panel-default shadow" ng-init="mktTmpVm.getMarketingTemplates();">
+			<div class="panel-heading form-heading panel-heading-top">
+				<label>Manage Marketing Templates</label>				
+				<span class="pull-right"><a href ui-sref="marketing-template-add" >Add New Template</a></span>	
+			</div>
+			<div class="panel-body">
+				<div style="text-align:right;">
+                <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
+					Per page Rows 
+					<select ng-class="styledselect_pages" style="outline:none;"
+					  ng-model="mktTmpVm.pageSize" 
+					  ng-options="size for size in mktTmpVm.pageSizeList" ng-change="mktTmpVm.setCurrentPageSize(mktTmpVm.pageSize);" >
+					</select>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 dashboard-content"> 
+						<a href="javascript:void(0);" onclick="ClearSearch('engineers');" class="btn btn-primary width-full">Clear Search</a> </div>
+					<ul uib-pagination total-items="mktTmpVm.totalItems" items-per-page = "mktTmpVm.pageSize" ng-model="mktTmpVm.currentPage" ng-change="mktTmpVm.pageChanged()"></ul>
+				</div>
+  
+				<!-- .row -->
+				<div class="row" id="contents">
+				 
+				  <!-- .col -->
+				  <div class="col-lg-12">
+					<form id="users_view_form" class="table-container" action="" method="post">
+					  <div class="table-container">
+						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+						  <thead>
+                          <tr style="background:#C08181;">
+                      <td class="center">&nbsp;</td>
+                      <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td align="center">&nbsp;</td>
+                    </tr>
+                    
+							<tr style="background:#804040;">
+							  <td style="padding:5px; color:#FFF;" align="center">S. No.</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Template Name</td>
+							  <td style="padding:5px; color:#FFF;" align="center">User Code</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Preview</td>
+							  <td style="padding:5px; color:#FFF;" filter="false" align="center">Actions</td>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr height="25" ng-repeat="mTemplate in mktTmpVm.marketingTemplates track by $index">
+							  <td align="center">{{$index + 1}}</td>
+							  <td align="center">{{mTemplate.templateName}}</td>
+							  <td align="center">{{mTemplate.createdByUserCode}}</td>
+							  <td align="center"><div ng-bind-html="mTemplate.contentHtml"></div></td>
+							  <td align="center">&nbsp; 
+								<a ui-sref = "marketing-template-edit({id:mTemplate.id})"> <img src="images/file_edit.png" title="edit mTemplate" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete mTemplate" ng-click="mktTmpVm.deleteMarketingTemplate(mTemplate.id);" border="0"> &nbsp;&nbsp; 
+							  </td>
+							</tr>							
+						</table>
+						</td>
+						</tr>
+						</tbody>
+						</table>
+					  </div>
+					</form>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</div>
+</div>
+
+<div ng-include="'templates/footer.html'" ></div>

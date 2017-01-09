@@ -1,0 +1,76 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid">
+	<div class="clearfix">
+		<div class="panel panel-default">
+			<div class="panel-heading form-heading panel-heading-top">
+				<label>{{mktTmpVm.action}} New Template</label>				
+			</div>
+			<div class="panel-body" style="background:#C08181;">
+				<form ng-submit="mktTmpVm.addMarketingTemplate();">
+					<!-- .row -->
+					<div class="row">
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+						<span class="form-label">
+							Template Name
+						</span>
+						<i class="star red">*</i>
+						<span class="colon">:</span> 
+					</div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" placeholder="Template Name" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Template Name');" onkeypress="this.setCustomValidity('');" ng-model="mktTmpVm.marketingTemplate.templateName" ng-required="true" autofocus />
+						</div>
+					  </div>
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+						<span class="form-label">Email Subject</span>
+						<i class="star red">*</i>
+						<span class="colon">:</span> </div>
+					  <!-- .col -->
+					  <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <input type="text" class="form-control" placeholder="Enter Email Subject" maxlength="100" oninvalid="this.setCustomValidity('Enter Email Subject');" onkeypress="this.setCustomValidity('');" ng-model="mktTmpVm.marketingTemplate.subject" ng-required="true" />
+						</div>
+					  </div>
+					   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+						<span class="form-label">Email Content</span>
+						<i class="star red">*</i>
+						<span class="colon">:</span> 
+					</div>
+					 <div class="col-lg-10 col-md-10 col-sm-9">
+						<div class="form-group">
+						  <textarea ui-tinymce ng-model="mktTmpVm.editorContent"></textarea>
+						</div>
+					  </div>
+					
+					 
+					</div>
+					<!-- .row -->
+				   
+					<!-- .row -->
+					<div class="row checkrow">
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+					  <!-- .col -->
+					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+						<input type="submit" value="{{mktTmpVm.action}} Template" class="actions submit-btn btn btn-primary">
+						&nbsp;&nbsp;
+						<input type="reset" value="Reset" class="actions reset-btn btn btn-warning">
+						&nbsp;&nbsp;
+						<input type="button" value="Go Back" class="actions reset-btn btn btn-info" ng-click="mktTmpVm.cancelMarketingTemplateAction();">
+						<span class="spinner" style="display:none;">
+							<img src="images/loading.gif" />
+						</span>
+					  </div>
+					  <!-- .col -->
+					</div>
+					<!-- .row -->
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="clear:both;height:50px;"></div>
+<div ng-include="'templates/footer.html'" ></div>
+
+

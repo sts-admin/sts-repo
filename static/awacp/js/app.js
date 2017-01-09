@@ -9,7 +9,7 @@
 	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
 	var basePath = "/";*/
-    angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt'])
+    angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 			$stateProvider				
@@ -370,6 +370,24 @@
 				templateUrl:"templates/deletefiles.html",
 				controller:"DeleteFileCtrl",
 				controllerAs:"deleteVm",
+				requireAuth: true
+			}).state('marketing-templates',{
+				url: '/marketing-templates',
+				templateUrl:"templates/marketing-templates.html",
+				controller:"MarketingTemplateCtrl",
+				controllerAs:"mktTmpVm",
+				requireAuth: true
+			}).state('marketing-template-add',{
+				url: '/marketing-template-add',
+				templateUrl:"templates/marketing-template-add.html",
+				controller:"MarketingTemplateCtrl",
+				controllerAs:"mktTmpVm",
+				requireAuth: true
+			}).state('marketing-template-edit',{
+				url: '/marketing-template-edit/:id',
+				templateUrl:"templates/marketing-template-add.html",
+				controller:"MarketingTemplateCtrl",
+				controllerAs:"mktTmpVm",
 				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback

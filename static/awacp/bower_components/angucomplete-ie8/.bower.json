@@ -1,0 +1,44 @@
+{
+  "name": "angucomplete-ie8",
+  "version": "0.1.2",
+  "homepage": "http://ghiden.github.io/angucomplete-ie8/",
+  "authors": [
+    "Hidenari Nozaki <hidenari@gmail.com>"
+  ],
+  "description": "Autocomplete directive for people who still need to suffer",
+  "keywords": [
+    "autocomplete",
+    "typeahead",
+    "angularjs"
+  ],
+  "license": "MIT",
+  "main": [
+    "./angucomplete-ie8.js",
+    "./angucomplete-ie8.css"
+  ],
+  "ignore": [
+    "example",
+    "bower_components",
+    "node_modules",
+    "**/.*",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.0",
+    "jquery": "~2.1.0"
+  },
+  "_release": "0.1.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.2",
+    "commit": "58b964a65803fa426ac8d7ae7e464c07e0bd4ee5"
+  },
+  "_source": "https://github.com/ghiden/angucomplete-ie8.git",
+  "_target": "^0.1.2",
+  "_originalSource": "angucomplete-ie8",
+  "_direct": true
+}
