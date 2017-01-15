@@ -2,7 +2,7 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="takeVm.listQuotes();">
+		<div class="panel panel-default shadow" ng-init="qVm.listQuotes();">
 			<div class="panel-heading panel-heading-top form-heading">
 				<label>View Quotes</label>
 			</div>
@@ -14,7 +14,7 @@
       <div class="col-lg-3 col-md-3 col-sm-6 per-page-row text-right">Per page Rows <select class="styledselect_pages" id="num_of_records" style="outline:none;" onchange="setRecPage(this.value, 'takeoff', 'takeoff_view_form')"> <option value="25" selected="selected">25</option> <option value="50">50</option> <option value="75">75</option> <option value="100">100</option> <option value="125">125</option> <option value="150">150</option> </select></div>
    
 				<div class="col-lg-12 col-md-12 col-sm-12" style="text-align:right;">
-					<ul uib-pagination total-items="takeVm.totalItems" ng-model="takeVm.currentPage" ng-change="takeVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="qVm.totalItems" ng-model="qVm.currentPage" ng-change="qVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -72,24 +72,27 @@
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr height="25" ng-repeat="takeoff in takeVm.takeoffs track by $index">
-							  <td align="center">{{$index + 1}}</td>
-							   <td align="center">{{$index + 1}}</td>
-							  <td align="center">{{takeoff.jobName}}</td>
-							  <td align="center">{{takeoff.salesPersonName}}</td>
-							  <td align="center">{{takeoff.engineerName}}</td>
-							  <td align="center">{{takeoff.architectureName}}</td>
-							  <td align="center">{{takeoff.drawingDate | date:'mediumDate'}}</td>
-							  <td align="center">{{takeoff.dueDate | date:'mediumDate'}}</td>
-							  <td align="center">
-								&nbsp; 
-								<a href="" target="_blank"> 
-									<img src="images/file_edit.png" title="edit user" border="0">
-								</a> &nbsp;&nbsp; 
-								<a href="" target="_blank"> 
-									<img src="images/file_delete.png" style="cursor:pointer;" title="delete user" onclick="ModifyUserStatus('deleted','90')" border="0">
-								</a>
-							  </td>
+							<tr height="25" ng-repeat="quote in qVm.quotes track by $index">
+							  <td align="center"></td>
+							  <td align="center"></td>
+							  <td align="center"></td>
+							  <td align="center"></td>
+							  <td align="center"></td>
+							  <td align="center">{{quote.dateCreated | date: 'short'}}</td>
+							  <td align="center">{{quote.takeoffId}}</td>
+							  <td align="center">{{quote.quoteId}}</td>
+							  <td align="center">{{quote.jobId}}</td>
+							  <td align="center">{{quote.jobName}}</td>
+							  <td align="center">{{quote.jobAddress}}</td>
+							  <td align="center">{{quote.engineerName}}</td>
+							  <td align="center">{{quote.architectureName}}</td>
+							  <td align="center">{{quote.amount}}</td>
+							  <td align="center">{{quote.spec.detail}}</td>
+							  <td align="center">{{quote.userCode}}</td>
+							  <td align="center"></td>
+							  <td align="center"></td>
+							   <td align="center"></td>
+							     <td align="center"></td>
 							</tr>							
 						</table>
 						</td>

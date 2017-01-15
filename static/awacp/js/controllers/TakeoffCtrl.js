@@ -31,6 +31,7 @@
 		takeVm.selectedContractors = [];
 		takeVm.takeoffGcs = [];
 		takeVm.takeoffBidders = [];		
+		takeVm.action = "Add New";
 		takeVm.searchTakeoffIds = function(){
 			return takeVm.takeoffIds;
 		}
@@ -247,9 +248,44 @@
 			var eDate = new Date(lDate);
 			return (eDate >= sDate);
 		}
+		takeVm.editTakeoff = function(){
+			if($state.params.id != undefined){
+				var formData = {};
+				AjaxUtil.getData("/awacp/getTakeoff/"+$state.params.id, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.takeoff){
+						$scope.$apply(function(){
+							takeVm.takeoff = data.takeoff;	
+							if(takeVm.takeoff.bidders){
+								if(jQuery.isArray(takeVm.takeoff.bidders)) {
+									takeVm.selectedBidders = takeVm.takeoff.bidders;
+								}else{
+									takeVm.selectedBidders = [];
+									takeVm.selectedBidders.push(takeVm.takeoff.bidders);
+								}								
+							}
+							if(takeVm.takeoff.generalContractors){
+								if(jQuery.isArray(takeVm.takeoff.generalContractors)) {
+									takeVm.selectedContractors = takeVm.takeoff.generalContractors;
+								}else{
+									takeVm.selectedContractors = [];
+									takeVm.selectedContractors.push(takeVm.takeoff.generalContractors);
+								}								
+							}
+							takeVm.action = takeVm.takeoff && takeVm.takeoff.id?"Update":"Add New";							
+						});
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "TakeoffCtrl::takeVm.editTakeoff::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				})
+			}
+		}
 		takeVm.saveTakeoff = function(){
 			jQuery(".takeoff-add-action").attr('disabled','disabled');
 			jQuery("#takeoff-add-spinner").css('display','block');	
+			var update = false;
 			if(takeVm.takeoff.revisedDate){
 				if(!takeVm.isValidDateRange(takeVm.takeoff.drawingDate, takeVm.takeoff.revisedDate)){
 					jQuery(".takeoff-add-action").removeAttr('disabled');
@@ -315,20 +351,31 @@
 					takeVm.takeoff.contractorsIds = ids;
 				}
 			}
-			
+			var message = "New Takeoff Detail Created Successfully, add more?";
+			if(takeVm.takeoff && takeVm.takeoff.id){
+				message = "Takeoff Detail Updated Successfully";
+				takeVm.takeoff.updatedByUserCode = StoreService.getUser().userCode;
+				update = true;
+			}else{
+				takeVm.takeoff.createdByUserCode = StoreService.getUser().userCode;
+			}
 			var formData = {};
 			takeVm.takeoff.userNameOrEmail = StoreService.getUserName();
-			takeVm.takeoff["createdByUserCode"] = StoreService.getUser().userCode;
 			formData["takeoff"] = takeVm.takeoff;
 			AjaxUtil.submitData("/awacp/saveTakeoff", formData)
 			.success(function(data, status, headers){
 				jQuery(".takeoff-add-action").removeAttr('disabled');
 				jQuery("#takeoff-add-spinner").css('display','none');
 				takeVm.takeoff = {};
-				var message = "New Takeoff Detail Created Successfully, add more?";
-				AlertService.showConfirm(	'AWACP :: Alert!', message)
-				.then(function (){return},function (){takeVm.cancelTakeoffAction();});
-				return;
+				if(update){
+					AlertService.showAlert(	'AWACP :: Alert!', message)
+					.then(function (){takeVm.cancelTakeoffAction();},function (){return false;});
+					return;
+				}else{
+					AlertService.showConfirm(	'AWACP :: Alert!', message)
+					.then(function (){return},function (){takeVm.cancelTakeoffAction();});
+					return;
+				}				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".takeoff-add-action").removeAttr('disabled');
@@ -349,12 +396,12 @@
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
 							v.openInfoBox = false;
-							if(v.hasOwnProperty('bidders') && !$.isArray(v.bidders)){
+							if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
 								var b = [];
 								b.push(v.bidders);
 								v["bidders"] = b;
 							}
-							if(v.hasOwnProperty('generalContractors') && !$.isArray(v.generalContractors)){
+							if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
 								var gc = [];
 								gc.push(v.generalContractors);
 								v["generalContractors"] = gc;
@@ -363,12 +410,12 @@
 						});					
 					} else {
 						data.stsResponse.results.openInfoBox = false;
-						if(data.stsResponse.results.hasOwnProperty('bidders') && !$.isArray(data.stsResponse.results.bidders)){
+						if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
 							var b = [];
 							b.push(data.stsResponse.results.bidders);
 							data.stsResponse.results["bidders"] = b;
 						}
-						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !$.isArray(data.stsResponse.results.generalContractors)){
+						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
 							var gc = [];
 							gc.push(data.stsResponse.results.generalContractors);
 							data.stsResponse.results["generalContractors"] = gc;
@@ -391,6 +438,7 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
+		takeVm.editTakeoff();
 	}		
 })();
 

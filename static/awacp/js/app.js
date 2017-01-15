@@ -88,6 +88,12 @@
 				controller:"TakeoffCtrl",
 				controllerAs:"takeVm",
 				requireAuth: true
+			}).state('takeoff-edit',{
+				url: '/takeoff/edit/:id',
+				templateUrl:"templates/takeoff-add.html",
+				controller:"TakeoffCtrl",
+				controllerAs:"takeVm",
+				requireAuth: true
 			}).state('takeoff-search',{
 				url: '/takeoff/search',
 				templateUrl:"templates/takeoff-search.html",

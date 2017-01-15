@@ -4,7 +4,7 @@
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>New Takeoff</label>	
+				<label>{{takeVm.action}} Takeoff</label>	
 			</div>
 			<div class="panel-body new-tk-bg">
 				<div class="container"><form ng-submit="takeVm.saveTakeoff();">
@@ -90,8 +90,8 @@
 						  <div class="col-lg-9 col-md-9 col-sm-8">
 							<div class="form-group" ng-hide="'REVERT' == takeVm.spec_text">								
 								 <select class="form-control"
-								  ng-model="takeVm.takeoff.spec" 
-								  ng-options="spec as spec.detail for spec in takeVm.specs" ng-required="'NEW' == takeVm.spec_text">
+								  ng-model="takeVm.takeoff.specId" 
+								  ng-options="spec.id as spec.detail for spec in takeVm.specs" ng-required="'NEW' == takeVm.spec_text">
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
@@ -259,7 +259,7 @@
 					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 					  <!-- .col -->
 					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-						<input type="submit" value="Submit" class="takeoff-add-action submit-btn btn btn-primary">
+						<input type="submit" value="{{takeVm.action}} Takeoff" class="takeoff-add-action submit-btn btn btn-primary">
 						&nbsp;&nbsp;
 						<input type="reset" value="Reset" class="takeoff-add-action reset-btn btn btn-warning" id="takeoff-reset">
 						&nbsp;&nbsp;

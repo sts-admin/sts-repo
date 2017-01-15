@@ -11,8 +11,13 @@
 		qVm.currentPage = 1;
 		qVm.pageNumber = 1;
 		qVm.pageSize = 20;
+		qVm.newQuotes = [];
+		qVm.quotes = [];
 		qVm.architects= [];
 		qVm.architect = {};
+		
+		qVm.selectedNewQuote = {};
+		
 		qVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("NEW_QUOTES", size, function(status, size){
 				if("success" === status){
@@ -34,6 +39,132 @@
 		};		
 		qVm.cancelQuoteAction = function(){
 			$state.go("quotes");
+		}
+		qVm.showNewQuoteInfo = function(quote){
+			qVm.openInfoBox = true;
+			qVm.selectedNewQuote =  quote;
+		}
+		qVm.newQuotePopover = {
+			templateUrl: 'templates/quote-info.html',
+			title: 'New Quote Detail'
+		};
+		qVm.makeQuote = function(id){
+			AjaxUtil.getData("/awacp/makeQuote/"+id, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.result){
+					var msg = "Unable to make quote.";
+					if("quote_create_success" === data.result){
+						msg = "Quote created successfully.";
+					}else if("quote_already_created" === data.result){
+						msg = "Quote already created.";
+					}
+					AlertService.showAlert(	'AWACP :: Message!', msg)
+					.then(function (){qVm.listNewTakeoffsForQuote(); return;},function (){return});
+					return;
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "QuoteCtrl::qVm.makeQuote::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		qVm.listQuotes = function(){
+			qVm.quotes = [];
+			qVm.pageNumber = qVm.currentPage;
+			AjaxUtil.getData("/awacp/listTakeoffsForView/"+qVm.pageNumber+"/"+qVm.pageSize, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					$scope.$apply(function(){
+						qVm.totalItems = data.stsResponse.totalCount;
+					});
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
+								var b = [];
+								b.push(v.bidders);
+								v["bidders"] = b;
+							}
+							if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
+								var gc = [];
+								gc.push(v.generalContractors);
+								v["generalContractors"] = gc;
+							}
+							tmp.push(v);
+						});					
+					} else {
+						if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
+							var b = [];
+							b.push(data.stsResponse.results.bidders);
+							data.stsResponse.results["bidders"] = b;
+						}
+						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
+							var gc = [];
+							gc.push(data.stsResponse.results.generalContractors);
+							data.stsResponse.results["generalContractors"] = gc;
+						}
+					    tmp.push(data.stsResponse.results);
+					}
+					$scope.$apply(function(){
+						qVm.quotes  = tmp;
+					});
+				}		
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "QuoteCtrl::qVm.listNewTakeoffsForQuote::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		qVm.listNewTakeoffsForQuote = function(){
+			qVm.newQuotes = [];
+			qVm.pageNumber = qVm.currentPage;
+			AjaxUtil.getData("/awacp/listNewTakeoffsForQuote/"+qVm.pageNumber+"/"+qVm.pageSize, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					$scope.$apply(function(){
+						qVm.totalItems = data.stsResponse.totalCount;
+					});
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
+								var b = [];
+								b.push(v.bidders);
+								v["bidders"] = b;
+							}
+							if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
+								var gc = [];
+								gc.push(v.generalContractors);
+								v["generalContractors"] = gc;
+							}
+							tmp.push(v);
+						});					
+					} else {
+						if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
+							var b = [];
+							b.push(data.stsResponse.results.bidders);
+							data.stsResponse.results["bidders"] = b;
+						}
+						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
+							var gc = [];
+							gc.push(data.stsResponse.results.generalContractors);
+							data.stsResponse.results["generalContractors"] = gc;
+						}
+					    tmp.push(data.stsResponse.results);
+					}
+					$scope.$apply(function(){
+						qVm.newQuotes = tmp;
+					});
+				}		
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "QuoteCtrl::qVm.listNewTakeoffsForQuote::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
 		}
 		qVm.getUsers = function(){
 			qVm.users = [];

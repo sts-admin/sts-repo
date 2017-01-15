@@ -79,7 +79,7 @@
 						data.bidder.customName = data.bidder.userCode + " - "+ data.bidder.firstName;
 						$scope.$apply(function(){
 							bidVm.bidder = data.bidder;		
-							bidVm.action = bidVm.bidder && bidVm.bidder.id?"Update":"Add";	
+							bidVm.action = bidVm.bidder && bidVm.bidder.id?"Update":"Add New";	
 						});
 						bidVm.getUsers();
 						
@@ -112,11 +112,11 @@
 				bidVm.bidder = {};
 				if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
-					.then(function (){bidVm.getBidders();},function (){return false;});
+					.then(function (){bidVm.cancelBidderAction();},function (){return false;});
 					return;
 				}else{
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
-					.then(function (){return},function (){bidVm.getBidders();});
+					.then(function (){return},function (){bidVm.cancelBidderAction();});
 					return;
 				}
 			})
