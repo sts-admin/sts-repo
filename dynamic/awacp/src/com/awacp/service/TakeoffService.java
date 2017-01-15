@@ -9,6 +9,8 @@ public interface TakeoffService {
 	public StsResponse<Takeoff> listTakeoffs(int pageNumber, int pageSize);
 
 	public Takeoff getTakeoff(Long takeoffId);
+	
+	public  String makeQuote(Long takeoffId);
 
 	public Takeoff saveTakeoff(Takeoff takeoff) throws Exception;
 
@@ -22,7 +24,9 @@ public interface TakeoffService {
 	
 	public List<String> listQuoteIds(String keword);
 	
-	public List<Takeoff> listNewTakeoffsForQuote();
+	public StsResponse<Takeoff> listNewTakeoffsForQuote(int pageNumber, int pageSize);
+	
+	public StsResponse<Takeoff> listTakeoffsForView(int pageNumber, int pageSize);
 	
 	public String delete(Long id);
 }

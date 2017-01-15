@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +112,11 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 
 	@Override
 	public Takeoff getTakeoff(Long takeoffId) {
-		return getEntityManager().find(Takeoff.class, takeoffId);
+		Takeoff takeoff = getEntityManager().find(Takeoff.class, takeoffId);
+		if (takeoff != null && takeoff.getSpec() != null) {
+			takeoff.setSpecId(String.valueOf(takeoff.getSpec().getId()));
+		}
+		return takeoff;
 	}
 
 	@Override
@@ -127,7 +132,6 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			getEntityManager().persist(architect);
 			getEntityManager().flush();
 			takeoff.setArchitectureId(architect.getId());
-			System.err.println("new arc id = " + takeoff.getArchitectureId());
 		}
 		if (StringUtils.isNotEmpty(takeoff.getEngineerName())) { // NEW
 			Engineer engineer = new Engineer();
@@ -137,7 +141,6 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			getEntityManager().persist(engineer);
 			getEntityManager().flush();
 			takeoff.setEngineerId(engineer.getId());
-			System.err.println("engineer id = " + takeoff.getEngineerId());
 		}
 		if (StringUtils.isNotEmpty(takeoff.getSpecName())) { // NEW
 			Spec spec = new Spec();
@@ -148,7 +151,6 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			getEntityManager().persist(spec);
 			getEntityManager().flush();
 			takeoff.setSpec(spec);
-			System.err.println("new spec id = " + takeoff.getSpec().getId());
 		}
 		if (biddersIds != null && biddersIds.length > 0) {
 			Set<Bidder> bidders = new HashSet<Bidder>();
@@ -180,19 +182,24 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			takeoff.setUserCode(code);
 		}
 		takeoff.setUserCode(userService.getUserCode(takeoff.getUserNameOrEmail()));
-		getEntityManager().persist(takeoff);
-		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
-													// digits
-		getEntityManager().flush();
-		String takeoffId = new StringBuffer("T").append(df.format(Calendar.getInstance().getTime())).append("-")
-				.append(takeoff.getId()).toString();
-		System.out.println(takeoffId);
-		takeoff.setTakeoffId(takeoffId);
-		getEntityManager().merge(takeoff);
+		if (takeoff.getId() != null && takeoff.getId() > 0) { // update
+			getEntityManager().merge(takeoff);
+		} else {
+			getEntityManager().persist(takeoff);
+			getEntityManager().flush();
+			DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
+														// digits
 
-		// Takeoff mail
-		String status = awacpMailService.sendNewTakeoffMail(takeoff.getId());
-		takeoff.setStatus(status);
+			String takeoffId = new StringBuffer("T").append(df.format(Calendar.getInstance().getTime())).append("-")
+					.append(takeoff.getId()).toString();
+			takeoff.setTakeoffId(takeoffId);
+			getEntityManager().merge(takeoff);
+
+			// Takeoff mail
+			String status = awacpMailService.sendNewTakeoffMail(takeoff.getId());
+			takeoff.setStatus(status);
+		}
+
 		return takeoff;
 	}
 
@@ -202,13 +209,6 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		takeoff = getEntityManager().merge(takeoff);
 		getEntityManager().flush();
 		return takeoff;
-	}
-
-	public static void main(String args[]) {
-		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
-													// digits
-		String formattedDate = df.format(Calendar.getInstance().getTime());
-		System.out.println(formattedDate);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -258,11 +258,92 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		return "fail";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Takeoff> listNewTakeoffsForQuote() {
-		// TODO Auto-generated method stub
-		return null;
+	public StsResponse<Takeoff> listNewTakeoffsForQuote(int pageNumber, int pageSize) {
+		int totalRecordsCount = getTotalRecords(
+				"SELECT COUNT(entity.id) FROM Takeoff entity WHERE entity.archived = 'false' AND FUNC('ISNULL', entity.quoteId)",
+				getEntityManager());
+		Query query = getEntityManager().createNamedQuery("Takeoff.listNewTakeoffsForQuote");
+		if (pageNumber > 0 && pageSize > 0) {
+			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
+		}
+		List<Takeoff> takeoffs = query.getResultList();
+		StsResponse<Takeoff> responses = null;
+		if (totalRecordsCount > 0) {
+			responses = new StsResponse<>();
+			responses.setTotalCount(totalRecordsCount);
+			responses.setResults(initWithDetailForNewQuote(takeoffs));
+		}
+		return responses;
 	}
 
+	private List<Takeoff> initWithDetailForNewQuote(List<Takeoff> takeoffs) {
+		if (takeoffs == null || takeoffs.isEmpty()) {
+			return null;
+		}
+
+		for (Takeoff takeoff : takeoffs) {
+			User user = userService.findUser(takeoff.getSalesPerson());
+			if (user != null) {
+				takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
+			}
+			if (takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0) {
+				Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
+				if (eng != null) {
+					takeoff.setEngineerName(eng.getName());
+				}
+			}
+			if (takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0) {
+				Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
+				if (arc != null) {
+					takeoff.setArchitectureName(arc.getName());
+				}
+			}
+		}
+		return takeoffs;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public StsResponse<Takeoff> listTakeoffsForView(int pageNumber, int pageSize) {
+		int totalRecordsCount = getTotalRecords(
+				"SELECT COUNT(entity.id) FROM Takeoff entity WHERE entity.archived = 'false' AND NOT FUNC('ISNULL', entity.quoteId)",
+				getEntityManager());
+		Query query = getEntityManager().createNamedQuery("Takeoff.listTakeoffsForView");
+		if (pageNumber > 0 && pageSize > 0) {
+			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
+		}
+		List<Takeoff> takeoffs = query.getResultList();
+		StsResponse<Takeoff> responses = null;
+		if (totalRecordsCount > 0) {
+			responses = new StsResponse<>();
+			responses.setTotalCount(totalRecordsCount);
+			responses.setResults(takeoffs);
+		}
+		return responses;
+
+	}
+
+	@Override
+	@Transactional
+	public String makeQuote(Long takeoffId) {
+		Takeoff takeoff = getTakeoff(takeoffId);
+		if (takeoff != null) {
+			if (takeoff.getQuoteId() != null && takeoff.getQuoteId().trim().length() > 0) {
+				return "quote_already_created";
+			} else {
+				DateFormat df = new SimpleDateFormat("yy");
+
+				String id = new StringBuffer("Q").append(df.format(Calendar.getInstance().getTime())).append("-")
+						.append(takeoff.getId()).toString();
+				takeoff.setQuoteId(id);
+				getEntityManager().merge(takeoff);
+				return "quote_create_success";
+			}
+		}
+
+		return "quote_create_fail";
+	}
 
 }

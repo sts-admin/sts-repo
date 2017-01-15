@@ -12,6 +12,8 @@ public interface CommonService<T> {
 
 	public StsResponse<T> listAll(String entityClassName, EntityManager em);
 
+	public StsResponse<T> listAll(String namedQuery, int pageNumber, int pageSize, EntityManager em);
+
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String entityClassName, EntityManager em);
 
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String queryString, String entityClassName,

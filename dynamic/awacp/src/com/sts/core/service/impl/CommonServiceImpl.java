@@ -73,4 +73,10 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 		return results == null || results.isEmpty() ? null : results.get(0);
 	}
 
+	@Override
+	public StsResponse<T> listAll(String namedQuery, int pageNumber, int pageSize, EntityManager em) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

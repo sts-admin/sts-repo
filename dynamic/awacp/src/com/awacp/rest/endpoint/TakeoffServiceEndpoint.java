@@ -37,6 +37,22 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
+	@Path("/listTakeoffsForView/{pageNumber}/{pageSize}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<Takeoff> listTakeoffsForView(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.takeoffService.listTakeoffsForView(pageNumber, pageSize);
+	}
+
+	@GET
+	@Path("/listNewTakeoffsForQuote/{pageNumber}/{pageSize}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<Takeoff> listNewTakeoffsForQuote(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.takeoffService.listNewTakeoffsForQuote(pageNumber, pageSize);
+	}
+
+	@GET
 	@Path("/listTakeoffs/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<Takeoff> listTakeoffs(@PathParam("pageNumber") int pageNumber,
@@ -50,6 +66,14 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	public Takeoff getTakeoff(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		return this.takeoffService.getTakeoff(id);
+	}
+
+	@GET
+	@Path("/makeQuote/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String makeQuote(@PathParam("id") Long id, @Context HttpServletResponse servletResponse) throws IOException {
+		String result = this.takeoffService.makeQuote(id);
+		return "{\"result\":\"" + result + "\"}";
 	}
 
 	@POST
