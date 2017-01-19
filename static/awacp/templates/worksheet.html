@@ -1,0 +1,886 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+  <div class="clearfix">
+    <div class="panel panel-default shadow" ng-init="takeVm.listTakeoffs();">
+      
+      <div class="panel-body">
+        <section>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 dashboard-content">
+                <h1>Worksheet</h1>
+              </div>
+              <!-- .col -->
+              <div class="col-lg-12 col-md-12 visible-xs clearfix col-sm-12"> </div>
+              <!-- .col -->
+            </div>
+            <!-- .row -->
+            <div class="row">
+              <div class="col-lg-12">
+                <table class="table-responsive theme-table differentTable" width="100%">
+                  <tbody>
+                    <tr>
+                      <td colspan="4" style="background:#EEE; padding:10px;" align="center"><h1>OFFICE WORK SHEET</h1></td>
+                    </tr>
+                    <tr>
+                      <td width="9%"><div class="pad5"><strong>Project</strong></div></td>
+                      <td width="44%"><div class="pad5">108 CHAMBERS STREET</div></td>
+                      <td width="6%"><div class="pad5"><strong>Date</strong></div></td>
+                      <td width="41%"><div class="pad5"><strong>01/18/17</strong></div></td>
+                    </tr>
+                    <tr>
+                      <td><div class="pad5"><b>Address</b></div></td>
+                      <td><div class="pad5">108 CHAMBERS STREET CELLAR-ROOF FL NY</div></td>
+                      <td><div class="pad5"><b>Quote No.</b></div></td>
+                      <td><div class="pad5"> Q17-0262 </div></td>
+                    </tr>
+                    <tr>
+                      <td><div class="pad5"><b>Salesman</b></div></td>
+                      <td><div class="pad5">JK</div></td>
+                      <td><div class="pad5"><b>Plan Date</b></div></td>
+                      <td><div class="pad5">12/29/16</div></td>
+                    </tr>
+                    <tr>
+                      <td><div class="pad5"><b>Engineer</b></div></td>
+                      <td><div class="pad5">ETTINGER</div></td>
+                      <td><div class="pad5"><b>Usercode</b></div></td>
+                      <td><div class="pad5">PD</div></td>
+                    </tr>
+                    <tr>
+                      <td><div class="pad5"><b>Architect</b></div></td>
+                      <td><div class="pad5">NA</div></td>
+                      <td><div class="pad5"><b>Spec.</b></div></td>
+                      <td><div class="pad5">TITUS A/O, GREENHECK EDH</div></td>
+                    </tr>
+                    <tr>
+                      <td><div class="pad5"><b>Bidders</b></div></td>
+                      <td colspan="3" align="left"><div class="pad5">B&amp;G MECH LLC- FELIX GRUMAN</div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- .row -->
+            <div class="row pad_top_30">
+              <div class="col-lg-12">
+                <form action="" method="post" name="worksheet_form">
+                  <input name="tlp_perc" id="tlp_perc" value="27" type="hidden">
+                  <center>
+                    <input name="Save" value="Save this Worksheet" class="submit-btn btn btn-success" type="submit">
+                  </center>
+                  <br>
+                  <br>
+                  <div id="content_desc1">
+                    <table class="table-responsive theme-table" width="100%" border="0">
+                      <tbody>
+                        <tr>
+                          <td width="10%"><div class="pad5"><strong>Manufacturer</strong></div></td>
+                          <td id="manuf_1" width="70%"><select name="head1" class="form-control" id="head1" onchange="javascript:LoadType(this.value,'1');">
+                              <option value="">--</option>
+                              <option value="129"></option>
+                              <option value="128"></option>
+                              <option value="126"></option>
+                              <option value="125"></option>
+                              <option value="124"></option>
+                              <option value="127">AIR BALANCE INC.</option>
+                              <option value="72">AIR CONCEPTS INC.- AIR DISTRIBUTION PRODUCTS</option>
+                              <option value="1">ANEMOSTAT - A MESTEK COMPANY</option>
+                              <option value="107">ARROW UNITED INDUSTRIES</option>
+                              <option value="109">CESCO PRODUCTS -ARROW UNITED INDUSTRIES</option>
+                              <option value="17">ELECTRIC HEATERS INC.</option>
+                              <option value="58">KEES MANUFACTURING - K</option>
+                              <option value="89">LINEAR EQUALIZING DEFLECTOR</option>
+                              <option value="4">TROX USA</option>
+                              <option value="99">TUTTLE AND BAILEY</option>
+                              <option value="79">VIBRO ACOUSTICS</option>
+                              <option value="57">YOUNG REGULATOR COMPANY</option>
+                            </select></td>
+                          <td id="add_maunf_1" width="20%" align="left">&nbsp; <a href="javascript:void(0);" onclick="javascript:AddNewManuf('head1',1);"><strong>New</strong></a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <input name="tlp_perc1" id="tlp_perc1" value="0" type="hidden">
+                    <table class="table-responsive differentTable theme-table" style="margin-top:15px;" width="100%">
+                      <tbody>
+                        <tr>
+                          <td width="10%"><div class="pad5"><b>Quantity</b></div></td>
+                          <td width="70%"><div class="pad5"><b>Type</b></div></td>
+                          <td width="10%"><div class="pad5"><b>List</b></div></td>
+                          <td width="10%"><div class="pad5"><b>Net</b></div></td>
+                        </tr>
+                        <tr id="1pro1_row1">
+                          <td align="center"><div class="pad5">
+                              <input name="qty1[]" class="form-control" style="width:80%" type="text">
+                            </div></td>
+                          <td id="type1_1"><div class="pad5" style="display:inline-block; width:80%;">
+                              <select name="type1[]" id="type1" class="form-control" style="width:80%">
+                                <option value="">--</option>
+                              </select>
+                            </div>
+                            <div class="pad5" style="display:inline-block;"><a href="javascript:void(0);" onclick="javascript:AddNewType('type1_1',1);"><strong>New</strong></a></div></td>
+                          <td align="center"><div class="pad5">
+                              <input name="list1[]" id="list1_1" class="form-control" style="width:80%" onblur="javascript:MakeSum('list','1');" type="text">
+                            </div></td>
+                          <td align="center"><div class="pad5">
+                              <input name="net1[]" id="net1_1" class="form-control" style="width:80%" onblur="javascript:MakeSum('net','1');" type="text">
+                            </div></td>
+                        </tr>
+                        <tr>
+                          <th colspan="3">&nbsp;</th>
+                          <td id="add_row_1" align="center"><div class="pad5"><a href="javascript:void(0);" onclick="javascript:AddProRow(1,1);"><strong>+ Add new item</strong></a></div></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" align="right"><div class="pad5"><b>Total</b>&nbsp;&nbsp;</div></td>
+                          <td align="center"><div class="pad5">
+                              <input name="list_total1" id="list_total1" class="form-control" style="width:80%" value="0" type="text">
+                            </div></td>
+                          <td align="center"><div class="pad5">
+                              <input name="net_total1" id="net_total1" class="form-control" style="width:80%" value="0" type="text">
+                            </div></td>
+                        </tr>
+                        <tr>
+                          <th colspan="4" valign="top"> <table width="100%" border="0">
+                              <tbody>
+                                <tr>
+                                  <th width="12%" align="center">&nbsp;</th>
+                                  <th id="multiplier1" width="11%" align="center"></th>
+                                  <th width="12%" align="center"><div class="pad5"><b>MULT</b></div></th>
+                                  <th width="11%" align="center"><div class="pad5"><b>=</b></div></th>
+                                  <th width="12%" align="center"><div class="pad5"><b>NETS</b></div></th>
+                                  <th width="19%" align="center"><div class="pad5"><b>FRT</b></div></th>
+                                  <th width="12%">&nbsp;</th>
+                                  <th width="11%"><b>TTL</b></th>
+                                </tr>
+                                <tr>
+                                  <th><div class="pad5"><b>TLP</b></div></th>
+                                  <th><input class="form-control" readonly="readonly" id="total_1" name="total_1" value="0" type="text"></th>
+                                  <th> <div class="pad5">
+                                      <select name="multi1" id="multi1" class="form-control" onchange="javascript:AgainCheck(1,1);" style="width:100px;">
+                                        <option value="">--</option>
+                                        <option value="0.01">0.01</option>
+                                        <option value="0.02">0.02</option>
+                                        <option value="0.03">0.03</option>
+                                        <option value="0.04">0.04</option>
+                                        <option value="0.05">0.05</option>
+                                        <option value="0.06">0.06</option>
+                                        <option value="0.07">0.07</option>
+                                        <option value="0.08">0.08</option>
+                                        <option value="0.09">0.09</option>
+                                        <option value="0.1">0.1</option>
+                                        <option value="0.11">0.11</option>
+                                        <option value="0.12">0.12</option>
+                                        <option value="0.13">0.13</option>
+                                        <option value="0.14">0.14</option>
+                                        <option value="0.15">0.15</option>
+                                        <option value="0.16">0.16</option>
+                                        <option value="0.17">0.17</option>
+                                        <option value="0.18">0.18</option>
+                                        <option value="0.19">0.19</option>
+                                        <option value="0.2">0.2</option>
+                                        <option value="0.21">0.21</option>
+                                        <option value="0.22">0.22</option>
+                                        <option value="0.23">0.23</option>
+                                        <option value="0.24">0.24</option>
+                                        <option value="0.25">0.25</option>
+                                        <option value="0.26">0.26</option>
+                                        <option value="0.27">0.27</option>
+                                        <option value="0.28">0.28</option>
+                                        <option value="0.29">0.29</option>
+                                        <option value="0.3">0.3</option>
+                                        <option value="0.31">0.31</option>
+                                        <option value="0.32">0.32</option>
+                                        <option value="0.33">0.33</option>
+                                        <option value="0.34">0.34</option>
+                                        <option value="0.35">0.35</option>
+                                        <option value="0.36">0.36</option>
+                                        <option value="0.37">0.37</option>
+                                        <option value="0.38">0.38</option>
+                                        <option value="0.39">0.39</option>
+                                        <option value="0.4">0.4</option>
+                                        <option value="0.41">0.41</option>
+                                        <option value="0.42">0.42</option>
+                                        <option value="0.43">0.43</option>
+                                        <option value="0.44">0.44</option>
+                                        <option value="0.45">0.45</option>
+                                        <option value="0.46">0.46</option>
+                                        <option value="0.47">0.47</option>
+                                        <option value="0.48">0.48</option>
+                                        <option value="0.49">0.49</option>
+                                        <option value="0.5">0.5</option>
+                                        <option value="0.51">0.51</option>
+                                        <option value="0.52">0.52</option>
+                                        <option value="0.53">0.53</option>
+                                        <option value="0.54">0.54</option>
+                                        <option value="0.55">0.55</option>
+                                        <option value="0.56">0.56</option>
+                                        <option value="0.57">0.57</option>
+                                        <option value="0.58">0.58</option>
+                                        <option value="0.59">0.59</option>
+                                        <option value="0.6">0.6</option>
+                                        <option value="0.61">0.61</option>
+                                        <option value="0.62">0.62</option>
+                                        <option value="0.63">0.63</option>
+                                        <option value="0.64">0.64</option>
+                                        <option value="0.65">0.65</option>
+                                        <option value="0.66">0.66</option>
+                                        <option value="0.67">0.67</option>
+                                        <option value="0.68">0.68</option>
+                                        <option value="0.69">0.69</option>
+                                        <option value="0.7">0.7</option>
+                                        <option value="0.71">0.71</option>
+                                        <option value="0.72">0.72</option>
+                                        <option value="0.73">0.73</option>
+                                        <option value="0.74">0.74</option>
+                                        <option value="0.75">0.75</option>
+                                        <option value="0.76">0.76</option>
+                                        <option value="0.77">0.77</option>
+                                        <option value="0.78">0.78</option>
+                                        <option value="0.79">0.79</option>
+                                        <option value="0.8">0.8</option>
+                                        <option value="0.81">0.81</option>
+                                        <option value="0.82">0.82</option>
+                                        <option value="0.83">0.83</option>
+                                        <option value="0.84">0.84</option>
+                                        <option value="0.85">0.85</option>
+                                        <option value="0.86">0.86</option>
+                                        <option value="0.87">0.87</option>
+                                        <option value="0.88">0.88</option>
+                                        <option value="0.89">0.89</option>
+                                        <option value="0.9">0.9</option>
+                                        <option value="0.91">0.91</option>
+                                        <option value="0.92">0.92</option>
+                                        <option value="0.93">0.93</option>
+                                        <option value="0.94">0.94</option>
+                                        <option value="0.95">0.95</option>
+                                        <option value="0.96">0.96</option>
+                                        <option value="0.97">0.97</option>
+                                        <option value="0.98">0.98</option>
+                                        <option value="0.99">0.99</option>
+                                      </select>
+                                    </div>
+                                  </th>
+                                  <th><div class="pad5">
+                                      <input name="subtotal1" id="subtotal1" readonly="readonly" class="form-control" value="0" style="width:80%" type="text">
+                                    </div></th>
+                                  <th><div class="pad5">
+                                      <div id="netsth1" style="display:none;">
+                                        <input name="nets1" id="nets1" readonly="readonly" class="form-control" value="0" style="width:80%" type="text">
+                                      </div>
+                                    </div></th>
+                                  <th><div class="pad5">
+                                      <div id="frieghtth1" style="display:none;">
+                                        <input name="frieght1" id="frieght1" class="form-control" value="0" style="width:80%" onblur="javascript:AgainCheck(1);" type="text">
+                                      </div>
+                                    </div></th>
+                                  <th></th>
+                                  <th><div class="pad5">
+                                      <input name="grand1" id="grand1" readonly="readonly" class="form-control" value="0" style="width:80%" type="text">
+                                    </div></th>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </th>
+                        </tr>
+                        <tr>
+                          <td valign="middle" align="left"><div class="pad5"><b>P.D.N.I.</b></div></td>
+                          <td colspan="3" align="left"><div id="pdn_cntnr1">
+                              <div class="pad5" style="display:inline-block; width:80%">
+                                <select name="pdni1[]" class="form-control" id="pdni11" style="width:90%;">
+                                  <option value="">--</option>
+                                  <option value=" PRICE BASED ON TAGGING ON THE MECHANICAL PLAN"> PRICE BASED ON TAGGING ON THE MECHANICAL PLAN</option>
+                                  <option value="-">-</option>
+                                  <option value="1 Additional Grille in each enclosed office">1 ADDITIONAL GRILLE IN EACH ENCLOSED OFFICE</option>
+                                  <option value="1 INCH ACOUSTIC LINED ELBOW FOR RETURN GRILLES">1 INCH ACOUSTIC LINED ELBOW FOR RETURN GRILLES</option>
+                                  <option value="14 GA. GALVANIZED STEEL FRAMES">14 GA. GALVANIZED STEEL FRAMES</option>
+                                  <option value="16 Guage 1inx12in Metal Piece For Each Grilles">16 GUAGE 1INX12IN METAL PIECE FOR EACH GRILLES</option>
+                                  <option value="2 FT INACTIVE CHILLED BEAM SECTIONS FOR CONTINUOUS LOOK. IF REQUIRED ADD $100/FT">2 FT INACTIVE CHILLED BEAM SECTIONS FOR CONTINUOUS LOOK. IF REQUIRED ADD $100/FT</option>
+                                  <option value="2 WAY WATER CONTROL VALVE BY OTHER">2 WAY WATER CONTROL VALVE BY OTHER</option>
+                                  <option value="2x2 GRILLE IN EACH ENCLOSED OFFICE">2X2 GRILLE IN EACH ENCLOSED OFFICE</option>
+                                  <option value="3.5INCHES WIDE SLOT LINEAR DIFFUSERS FOR MOUNTING AIR CURTAINS">3.5INCHES WIDE SLOT LINEAR DIFFUSERS FOR MOUNTING AIR CURTAINS</option>
+                                  <option value="4 INCH LINING FOR SOUND ATTENUATION ">4 INCH LINING FOR SOUND ATTENUATION </option>
+                                  <option value="4 INCH WIDTH LINEAR RETURN SLOTS">4 INCH WIDTH LINEAR RETURN SLOTS</option>
+                                  <option value="48X6 CR FOR ALL FLOORS">48X6 CR FOR ALL FLOORS</option>
+                                  <option value="50 FT X 2FT ARCHITETCURAL GRILLE IN THEATRE">50 FT X 2FT ARCHITETCURAL GRILLE IN THEATRE</option>
+                                  <option value="80/20A WIRE WITH ELECTRIC DUCT HEATER ">80/20A WIRE WITH ELECTRIC DUCT HEATER </option>
+                                  <option value="access doors">ACCESS DOORS</option>
+                                  <option value="ACCOUSTIC CAP FOR TRANSFER GRILLS">ACCOUSTIC CAP FOR TRANSFER GRILLS</option>
+                                  <option value="Acoustic Light Shields for Linear Diffusers">ACOUSTIC LIGHT SHIELDS FOR LINEAR DIFFUSERS</option>
+                                  <option value="ACOUSTIC LINED RETURN ELBOW FOR FAN POWERED BOXES">ACOUSTIC LINED RETURN ELBOW FOR FAN POWERED BOXES</option>
+                                  <option value="ACOUSTIC LINED RETURN HOOD FOR LINEAR DIFFUSERS">ACOUSTIC LINED RETURN HOOD FOR LINEAR DIFFUSERS</option>
+                                  <option value="Acoustically Lined Boot For Return Grilles">ACOUSTICALLY LINED BOOT FOR RETURN GRILLES</option>
+                                  <option value="Adjustable Damper In Face For Linear Diffusers">ADJUSTABLE DAMPER IN FACE FOR LINEAR DIFFUSERS</option>
+                                  <option value="AHU RETURN ACCESS PANEL W/GRILLE">AHU RETURN ACCESS PANEL W/GRILLE</option>
+                                  <option value="Air Baseboard Diffuser (by Trueaire)">AIR BASEBOARD DIFFUSER (BY TRUEAIRE)</option>
+                                  <option value="AIR BYPASS DAMPER">AIR BYPASS DAMPER</option>
+                                  <option value="Air Extractors">AIR EXTRACTORS</option>
+                                  <option value="AIR OUTLETS">AIR OUTLETS</option>
+                                  <option value="AIR OUTLETS BY VOCAL BOOTH MANUFACTURER">AIR OUTLETS BY VOCAL BOOTH MANUFACTURER</option>
+                                  <option value="Air Outlets shown on Architectural Plans.">AIR OUTLETS SHOWN ON ARCHITECTURAL PLANS.</option>
+                                  <option value="Air Sensors For Return Grilles">AIR SENSORS FOR RETURN GRILLES</option>
+                                  <option value="Airflow Measuring Devices">AIRFLOW MEASURING DEVICES</option>
+                                  <option value="Airflow proving switch &amp; high temp shut off switch for VAV Boxes">AIRFLOW PROVING SWITCH &amp; HIGH TEMP SHUT OFF SWITCH FOR VAV BOXES</option>
+                                  <option value="AJ Manufacturing Lattice Floor Grille">AJ MANUFACTURING LATTICE FLOOR GRILLE</option>
+                                  <option value="ALDES Dampers">ALDES DAMPERS</option>
+                                  <option value="Aldes Exhaust CVR Units &amp; Associated Grilles">ALDES EXHAUST CVR UNITS &amp; ASSOCIATED GRILLES</option>
+                                  <option value="ALDES ZONE CONTROL TERMINALS">ALDES ZONE CONTROL TERMINALS</option>
+                                  <option value="ALDES-CONSTANT VOLUME SUPPLY AND EXHAUST AIR ZONE CONTROL BOXES ">ALDES-CONSTANT VOLUME SUPPLY AND EXHAUST AIR ZONE CONTROL BOXES </option>
+                                  <option value="All Controls, Valves, Thermostats For Trox Displacement Diffusers Are By Others">ALL CONTROLS, VALVES, THERMOSTATS FOR TROX DISPLACEMENT DIFFUSERS ARE BY OTHERS</option>
+                                  <option value="All Diffuser, Grilles and Registers are Aluminum Construction.">ALL DIFFUSER, GRILLES AND REGISTERS ARE ALUMINUM CONSTRUCTION.</option>
+                                  <option value="ALUMINUM/SILVER PAINT FINISH FOR AIR OUTLETS">ALUMINUM/SILVER PAINT FINISH FOR AIR OUTLETS</option>
+                                  <option value="ANEMOSTAT/ TROX FACTORY SERVICE REPRESENTATIVE">ANEMOSTAT/ TROX FACTORY SERVICE REPRESENTATIVE</option>
+                                  <option value="Arch/metal grille:scroll (R tag), Advance Arch Grilles (AG tag), Crown Arch Slots (C tag)">ARCH/METAL GRILLE:SCROLL (R TAG), ADVANCE ARCH GRILLES (AG TAG), CROWN ARCH SLOTS (C TAG)</option>
+                                  <option value="ARCHITECTURAL CEILING DIFFUSERS">ARCHITECTURAL CEILING DIFFUSERS</option>
+                                  <option value="Architectural Enclosure Grilles">ARCHITECTURAL ENCLOSURE GRILLES</option>
+                                  <option value="ARCHITECTURAL FLOOR GRILLES">ARCHITECTURAL FLOOR GRILLES</option>
+                                  <option value="Architectural Floor Grilles serving EFTR in floor trench">ARCHITECTURAL FLOOR GRILLES SERVING EFTR IN FLOOR TRENCH</option>
+                                  <option value="Architectural Grilles">ARCHITECTURAL GRILLES</option>
+                                  <option value="ARCHITECTURAL LOUVERS">ARCHITECTURAL LOUVERS</option>
+                                  <option value="ARCHITECTURAL RETURN SLOTS">ARCHITECTURAL RETURN SLOTS</option>
+                                  <option value="ARCHITECTURAL RETURN SLOTS &lt;B&gt;(EXCEPT WHERE NOTED)&lt;/B&gt;">ARCHITECTURAL RETURN SLOTS (EXCEPT WHERE NOTED)</option>
+                                  <option value="Architectural Slots">ARCHITECTURAL SLOTS</option>
+                                  <option value="Architectural Slots and Architectural Perforated Return Grilles">ARCHITECTURAL SLOTS AND ARCHITECTURAL PERFORATED RETURN GRILLES</option>
+                                  <option value="Architectural Slots/Openings">ARCHITECTURAL SLOTS/OPENINGS</option>
+                                  <option value="AUTOMATIC LOUVER DAMPER">AUTOMATIC LOUVER DAMPER</option>
+                                  <option value="Auxiliary Contactor">AUXILIARY CONTACTOR</option>
+                                  <option value="BACK DRAFT DAMPERS">BACK DRAFT DAMPERS</option>
+                                  <option value="Back Pan Insulation">BACK PAN INSULATION</option>
+                                  <option value="BACK PANS ON DIFFUSERS">BACK PANS ON DIFFUSERS</option>
+                                  <option value="BAROMETRIC BY PASS DAMPER">BAROMETRIC BY PASS DAMPER</option>
+                                  <option value="BAROMETRIC DAMPERS">BAROMETRIC DAMPERS</option>
+                                  <option value="BARRIER GRILLES">BARRIER GRILLES</option>
+                                  <option value="BASEBOARD HEATER GRILLES (ARCHITECTURAL)">BASEBOARD HEATER GRILLES (ARCHITECTURAL)</option>
+                                  <option value="BATHROOM EXHAUST GRILLE (BE) &amp; EXHAUST GRILLE (EG)">BATHROOM EXHAUST GRILLE (BE) &amp; EXHAUST GRILLE (EG)</option>
+                                  <option value="BELIMO CONTROL VALVES">BELIMO CONTROL VALVES</option>
+                                  <option value="BLACK BACKING FOR ALL DIFFUSERS">BLACK BACKING FOR ALL DIFFUSERS</option>
+                                  <option value="Black Mesh Screen for Linear Diffusers and Ceiling Returns">BLACK MESH SCREEN FOR LINEAR DIFFUSERS AND CEILING RETURNS</option>
+                                  <option value="BLANK OFF BAFFLES AND PLENUMS FOR LINEAR DIFFUSERS.">BLANK OFF BAFFLES AND PLENUMS FOR LINEAR DIFFUSERS.</option>
+                                  <option value="BLANK OFF BAFFLES FOR EXISTING LINEAR DIFFUSERS">BLANK OFF BAFFLES FOR EXISTING LINEAR DIFFUSERS</option>
+                                  <option value="Blank off Baffles for Linear Bar Grilles">BLANK OFF BAFFLES FOR LINEAR BAR GRILLES</option>
+                                  <option value="Blank off Baffles for Linear Diffusers">BLANK OFF BAFFLES FOR LINEAR DIFFUSERS</option>
+                                  <option value="BLANK OFF HOODS">BLANK OFF HOODS</option>
+                                  <option value="BLANK OFF PLATES &amp; PLENUMS FOR LINEAR DIFFUSERS">BLANK OFF PLATES &amp; PLENUMS FOR LINEAR DIFFUSERS</option>
+                                  <option value="Blank Off Plates For Linear Diffusers">BLANK OFF PLATES FOR LINEAR DIFFUSERS</option>
+                                  <option value="Blank off plates for Linear Diffusers/Grilles">BLANK OFF PLATES FOR LINEAR DIFFUSERS/GRILLES</option>
+                                  <option value="BLANK OFF PLATES/LIGHT SHIELDS FOR ARCHITECTURAL SLOTS">BLANK OFF PLATES/LIGHT SHIELDS FOR ARCHITECTURAL SLOTS</option>
+                                  <option value="BLANK-OFF BAFFLES FOR LINEAR DIFFUSERS/ARCHITECTURAL SLOTS">BLANK-OFF BAFFLES FOR LINEAR DIFFUSERS/ARCHITECTURAL SLOTS</option>
+                                  <option value="Blank-offs for Dummy Louvers">BLANK-OFFS FOR DUMMY LOUVERS</option>
+                                  <option value="Bubble Tight Isolation Damper Model HBTR-151 by Greenheck">BUBBLE TIGHT ISOLATION DAMPER MODEL HBTR-151 BY GREENHECK</option>
+                                  <option value="BYPASS DAMPER">BYPASS DAMPER</option>
+                                  <option value="Cable Dampers serving Pharmagel Diffusers (unit already has a damper built in)">CABLE DAMPERS SERVING PHARMAGEL DIFFUSERS (UNIT ALREADY HAS A DAMPER BUILT IN)</option>
+                                  <option value="Cable Operated Dampers for Existing Linear Diffusers">CABLE OPERATED DAMPERS FOR EXISTING LINEAR DIFFUSERS</option>
+                                  <option value="CABLE OPERATED DAMPERS- IF REQUIRED ADD $75/EA">CABLE OPERATED DAMPERS- IF REQUIRED ADD $75/EA</option>
+                                  <option value="CAR DAMPERS">CAR DAMPERS</option>
+                                  <option value="CARR DAMPER ASSEMBLY">CARR DAMPER ASSEMBLY</option>
+                                  <option value="CEILING LIGHTING SYSTEM DUMMY DIFFUSERS">CEILING LIGHTING SYSTEM DUMMY DIFFUSERS</option>
+                                  <option value="CEILING RADIATION DAMPER BOOT">CEILING RADIATION DAMPER BOOT</option>
+                                  <option value="CEILING RETURN OPENING">CEILING RETURN OPENING</option>
+                                  <option value="CLASS 1 DAMPER">CLASS 1 DAMPER</option>
+                                  <option value="CO2 &amp; BALANCER BY OTHERS">CO2 &amp; BALANCER BY OTHERS</option>
+                                  <option value="CO2 Sensing Not Available with Analog Stand Alone Control">CO2 SENSING NOT AVAILABLE WITH ANALOG STAND ALONE CONTROL</option>
+                                  <option value="CO2 Sensors">CO2 SENSORS</option>
+                                  <option value="COMBUSTION AIR GRILLE WITH BAROMETRIC DAMPER">COMBUSTION AIR GRILLE WITH BAROMETRIC DAMPER</option>
+                                  <option value="Computer Room Floor Registers">COMPUTER ROOM FLOOR REGISTERS</option>
+                                  <option value="Concealed Fan Coil Unit Architectural Enclosure Linear Grilles">CONCEALED FAN COIL UNIT ARCHITECTURAL ENCLOSURE LINEAR GRILLES</option>
+                                  <option value="Constant Air Flow Regulator">CONSTANT AIR FLOW REGULATOR</option>
+                                  <option value="Constant AirFlow Regulator">CONSTANT AIRFLOW REGULATOR</option>
+                                  <option value="CONVECTOR UNIT GRILLES">CONVECTOR UNIT GRILLES</option>
+                                  <option value="Cooling Tower Sound Attenuator">COOLING TOWER SOUND ATTENUATOR</option>
+                                  <option value="COVE LIGHT">COVE LIGHT</option>
+                                  <option value="COVE SLOTS">COVE SLOTS</option>
+                                  <option value="CRAC UNIT SUPPLY/RETURN GRILLES">CRAC UNIT SUPPLY/RETURN GRILLES</option>
+                                  <option value="Cross-Braced Angle Supports">CROSS-BRACED ANGLE SUPPORTS</option>
+                                  <option value="Custom Architectural Grilles">CUSTOM ARCHITECTURAL GRILLES</option>
+                                  <option value="Custom Architectural Returns">CUSTOM ARCHITECTURAL RETURNS</option>
+                                  <option value="CUSTOM FINISH BY OTHER">CUSTOM FINISH BY OTHER</option>
+                                  <option value="CUSTOM GRILLE BY ARCHITECT">CUSTOM GRILLE BY ARCHITECT</option>
+                                  <option value="CUSTOM GRILLES FOR FIN-TUBE ELEMENTS">CUSTOM GRILLES FOR FIN-TUBE ELEMENTS</option>
+                                  <option value="CUSTOM PAINT BY OTHERS">CUSTOM PAINT BY OTHERS</option>
+                                  <option value="Custom Punch Metal Grilles">CUSTOM PUNCH METAL GRILLES</option>
+                                  <option value="Custom/Decorative Architectural Grilles">CUSTOM/DECORATIVE ARCHITECTURAL GRILLES</option>
+                                  <option value="CV Sound Absorbers">CV SOUND ABSORBERS</option>
+                                  <option value="DAIKIN VAV BOXES">DAIKIN VAV BOXES</option>
+                                  <option value="DECORATIVE GRILLES (BY OTHERS)">DECORATIVE GRILLES (BY OTHERS)</option>
+                                  <option value="DECORATIVE RETURN GRILL WITH LINEAR DIFFUSER">DECORATIVE RETURN GRILL WITH LINEAR DIFFUSER</option>
+                                  <option value="Diffuser Boots">DIFFUSER BOOTS</option>
+                                  <option value="Diffuser Cap &amp; Perforated Equalizing Grid">DIFFUSER CAP &amp; PERFORATED EQUALIZING GRID</option>
+                                  <option value="DIFFUSER GUARDS">DIFFUSER GUARDS</option>
+                                  <option value="Diffuser Insulation">DIFFUSER INSULATION</option>
+                                  <option value="Diffuser Insulation">DIFFUSER INSULATION</option>
+                                  <option value="Diffuser Insulation">DIFFUSER INSULATION</option>
+                                  <option value="Diffuser Thermal Insulating Blanket (unknown requirement)">DIFFUSER THERMAL INSULATING BLANKET (UNKNOWN REQUIREMENT)</option>
+                                  <option value="Diffuser Transitions">DIFFUSER TRANSITIONS</option>
+                                  <option value="DIFFUSER WIRE GUARDS">DIFFUSER WIRE GUARDS</option>
+                                  <option value="DIFFUSERS &amp; GRILLES ASSOCIATED WITH AHU#1 AND EF-1 UNIT">DIFFUSERS &amp; GRILLES ASSOCIATED WITH AHU#1 AND EF-1 UNIT</option>
+                                  <option value="Diffusers and Registers by TITUS">DIFFUSERS AND REGISTERS BY TITUS</option>
+                                  <option value="DIFFUSERS AND REGISTERS FOR BATHROOMS. AS NO INFORMATION AVAILABLE.">DIFFUSERS AND REGISTERS FOR BATHROOMS. AS NO INFORMATION AVAILABLE.</option>
+                                  <option value="DISCHARGE GRILLE ASSOCIATED WITH HOT WATER FIN TUBE RADIATORS">DISCHARGE GRILLE ASSOCIATED WITH HOT WATER FIN TUBE RADIATORS</option>
+                                  <option value="DISCHARGE GRILLE FOR RF-1">DISCHARGE GRILLE FOR RF-1</option>
+                                  <option value="Disconnect Switches for VAV Boxes. To be provided by Electrician">DISCONNECT SWITCHES FOR VAV BOXES. TO BE PROVIDED BY ELECTRICIAN</option>
+                                  <option value="Door Grilles">DOOR GRILLES</option>
+                                  <option value="Door Louvers">DOOR LOUVERS</option>
+                                  <option value="DOOR LOUVERS, FIRE DAMPERS, FUSIBLE LINK DAMPERS">DOOR LOUVERS, FIRE DAMPERS, FUSIBLE LINK DAMPERS</option>
+                                  <option value="DOOR SWITCH FOR ELECTRIC DUCT HEATERS">DOOR SWITCH FOR ELECTRIC DUCT HEATERS</option>
+                                  <option value="Dual Inlet &amp; Outlet Silencer">DUAL INLET &amp; OUTLET SILENCER</option>
+                                  <option value="Duct Penetration Security Barriers">DUCT PENETRATION SECURITY BARRIERS</option>
+                                  <option value="DUCT SILENCERS (DS-B) IN ALL RETURN SHAFTS IN THE MECHANICAL ROOM FOR 2ND &amp; 3RD FL">DUCT SILENCERS (DS-B) IN ALL RETURN SHAFTS IN THE MECHANICAL ROOM FOR 2ND &amp; 3RD FL</option>
+                                  <option value="DUCT TRANSITION PIECE, FLAT OVAL TO RECTANGULAR">DUCT TRANSITION PIECE, FLAT OVAL TO RECTANGULAR</option>
+                                  <option value="DUMMY GRILLES">DUMMY GRILLES</option>
+                                  <option value="Earthquake Loops">EARTHQUAKE LOOPS</option>
+                                  <option value="EARTHQUAKE TABS">EARTHQUAKE TABS</option>
+                                  <option value="EGG CRATE ( GRID CORE ) GRILLES">EGG CRATE ( GRID CORE ) GRILLES</option>
+                                  <option value="EGG CRATE ( GRID CORE ) REGISTERS">EGG CRATE ( GRID CORE ) REGISTERS</option>
+                                  <option value="EGG CRATE IN MILLWORK">EGG CRATE IN MILLWORK</option>
+                                  <option value="EGG CRATE RETURN OPENING">EGG CRATE RETURN OPENING</option>
+                                  <option value="ELECTRIC DUCT HEATER">ELECTRIC DUCT HEATER</option>
+                                  <option value="ELECTRIC DUCT HEATER (MISSING INFO.)">ELECTRIC DUCT HEATER (MISSING INFO.)</option>
+                                  <option value="ELECTRIC DUCT HEATER (NO SIZES PROVIDED)">ELECTRIC DUCT HEATER (NO SIZES PROVIDED)</option>
+                                  <option value="ELECTRIC DUCT HEATER AS THE SIZE WAS NOT MENTIONED">ELECTRIC DUCT HEATER AS THE SIZE WAS NOT MENTIONED</option>
+                                  <option value="ELECTRIC DUCT HEATERS (FINNED TUBULAR)">ELECTRIC DUCT HEATERS (FINNED TUBULAR)</option>
+                                  <option value="Electric Heater With Air Curtains">ELECTRIC HEATER WITH AIR CURTAINS</option>
+                                  <option value="Electric Reheat Coils">ELECTRIC REHEAT COILS</option>
+                                  <option value="ELECTRIC WALL HEATERS">ELECTRIC WALL HEATERS</option>
+                                  <option value="ELECTRICAL ISOLATION PROTECTION">ELECTRICAL ISOLATION PROTECTION</option>
+                                  <option value="ELEVATOR HOISTWAY VENT ROOF MOUNTED GRILLES (PROVIDED BY ARCHITECT)">ELEVATOR HOISTWAY VENT ROOF MOUNTED GRILLES (PROVIDED BY ARCHITECT)</option>
+                                  <option value="EXHAUST FAN GRILLE/S">EXHAUST FAN GRILLE/S</option>
+                                  <option value="Existing &amp; Relocated Air Outlets">EXISTING &amp; RELOCATED AIR OUTLETS</option>
+                                  <option value="Existing Air Outlets">EXISTING AIR OUTLETS</option>
+                                  <option value="EXISTING FLOOR DIFFUSERS. NOT ENOUGH INFO PROVIDED FOR PRICING.">EXISTING FLOOR DIFFUSERS. NOT ENOUGH INFO PROVIDED FOR PRICING.</option>
+                                  <option value="FAN COIL UNIT GRILLES (BY MANUFACTURER)">FAN COIL UNIT GRILLES (BY MANUFACTURER)</option>
+                                  <option value="Fan Coil Units">FAN COIL UNITS</option>
+                                  <option value="FAN POWERED BOX HOT WATER COIL ENCLOSURE &amp; COIL PIPING ASSEMBLIES">FAN POWERED BOX HOT WATER COIL ENCLOSURE &amp; COIL PIPING ASSEMBLIES</option>
+                                  <option value="FAN POWERED BOX INDUCTION BOOTS">FAN POWERED BOX INDUCTION BOOTS</option>
+                                  <option value="FAN RELAY">FAN RELAY</option>
+                                  <option value="FANS for Dual Duct Terminals">FANS FOR DUAL DUCT TERMINALS</option>
+                                  <option value="Fantech Silencer.">FANTECH SILENCER.</option>
+                                  <option value="Fantom Fan Powered Box By Titus">FANTOM FAN POWERED BOX BY TITUS</option>
+                                  <option value="FCU Bottom Returns">FCU BOTTOM RETURNS</option>
+                                  <option value="FCU Plaque Return/Access Panels">FCU PLAQUE RETURN/ACCESS PANELS</option>
+                                  <option value="FCU SUPPLY &amp; RETURN GRILLES (BY MFGR)">FCU SUPPLY &amp; RETURN GRILLES (BY MFGR)</option>
+                                  <option value="Field Fabricated Pencil Rod Actuators">FIELD FABRICATED PENCIL ROD ACTUATORS</option>
+                                  <option value="Film Lining/bagging">FILM LINING/BAGGING</option>
+                                  <option value="FILTER FOR FILTER GRILLES BY OTHERS">FILTER FOR FILTER GRILLES BY OTHERS</option>
+                                  <option value="FILTER GRILLE ASSOCIATED WITH DWELLING UNITS">FILTER GRILLE ASSOCIATED WITH DWELLING UNITS</option>
+                                  <option value="FILTERS">FILTERS</option>
+                                  <option value="FILTERS FOR SECURITY GRILLES">FILTERS FOR SECURITY GRILLES</option>
+                                  <option value="FIN TUBE BASE BOARD HEATER">FIN TUBE BASE BOARD HEATER</option>
+                                  <option value="Finned Tube Radiator Enclosure Architectural Grilles">FINNED TUBE RADIATOR ENCLOSURE ARCHITECTURAL GRILLES</option>
+                                  <option value="FINNED TUBE RADIATOR HEAVY DUTY GRILLES">FINNED TUBE RADIATOR HEAVY DUTY GRILLES</option>
+                                  <option value="Fire Dampers ">FIRE DAMPERS </option>
+                                  <option value="FIRE DAMPERS U.O.N.">FIRE DAMPERS U.O.N.</option>
+                                  <option value="FIRE DAMPERS, DOOR LOUVERS, FUSIBLE LINK DAMPERS">FIRE DAMPERS, DOOR LOUVERS, FUSIBLE LINK DAMPERS</option>
+                                  <option value="FIRE DAMPERS, FUSIBLE LINK DAMPERS, DOOR LOUVERS">FIRE DAMPERS, FUSIBLE LINK DAMPERS, DOOR LOUVERS</option>
+                                  <option value="FIRE SMOKE DAMPER">FIRE SMOKE DAMPER</option>
+                                  <option value="Flanges">FLANGES</option>
+                                  <option value="FLOOR MOUNTED GRILLES">FLOOR MOUNTED GRILLES</option>
+                                  <option value="Floor Registers">FLOOR REGISTERS</option>
+                                  <option value="FLOOR SUPPLY TILES (BY OTHERS)">FLOOR SUPPLY TILES (BY OTHERS)</option>
+                                  <option value="Fume Extraction Arm In LPS Moisture Lab">FUME EXTRACTION ARM IN LPS MOISTURE LAB</option>
+                                  <option value="FUME HOODS">FUME HOODS</option>
+                                  <option value="Fusible-Link Dampers">FUSIBLE-LINK DAMPERS</option>
+                                  <option value="FUSION GRILLE">FUSION GRILLE</option>
+                                  <option value="GAS VENT GRILLES">GAS VENT GRILLES</option>
+                                  <option value="GFRG ACCESS DOOR">GFRG ACCESS DOOR</option>
+                                  <option value="Gravity Damper">GRAVITY DAMPER</option>
+                                  <option value="GRID CORE ( EGG CRATE ) GRILLES">GRID CORE ( EGG CRATE ) GRILLES</option>
+                                  <option value="GRID CORE ( EGG CRATE ) REGISTERS">GRID CORE ( EGG CRATE ) REGISTERS</option>
+                                  <option value="Grille Indoor for Air Intake">GRILLE INDOOR FOR AIR INTAKE</option>
+                                  <option value="GRILLES ASSOCIATED WITH FIRE DAMPERS">GRILLES ASSOCIATED WITH FIRE DAMPERS</option>
+                                  <option value="GRILLES ASSOCIATED WITH PTAC UNIT">GRILLES ASSOCIATED WITH PTAC UNIT</option>
+                                  <option value="GRILLES ASSOCIATED WITH THE TRANSFER EXHAUST(TX-1, TX-2 &amp; TX-3) ON MECHANICAL PLAN M-101">GRILLES ASSOCIATED WITH THE TRANSFER EXHAUST(TX-1, TX-2 &amp; TX-3) ON MECHANICAL PLAN M-101</option>
+                                  <option value="GRILLES BY ERV MANUFACTURER">GRILLES BY ERV MANUFACTURER</option>
+                                  <option value="GRILLES FOR CRAC UNITS">GRILLES FOR CRAC UNITS</option>
+                                  <option value="GRILLES FOR FAN">GRILLES FOR FAN</option>
+                                  <option value="GRILLES FOR FAN (TRF-5-1, TRF-5-2, &amp; TRF-5-3)">GRILLES FOR FAN (TRF-5-1, TRF-5-2, &amp; TRF-5-3)</option>
+                                  <option value="GRILLES FOR TOILET EXHAUST FANS (PROVIDED BY FAN MANUFACTURER) ">GRILLES FOR TOILET EXHAUST FANS (PROVIDED BY FAN MANUFACTURER) </option>
+                                  <option value="Grilles for transfer duct">GRILLES FOR TRANSFER DUCT</option>
+                                  <option value="HALTON KITCHEN DIFFUSERS, VAV Boxes">HALTON KITCHEN DIFFUSERS, VAV BOXES</option>
+                                  <option value="Hangar Brackets for By-Pass Dampers">HANGAR BRACKETS FOR BY-PASS DAMPERS</option>
+                                  <option value="HANGERS/SUPPORTS FOR VAV BOXES">HANGERS/SUPPORTS FOR VAV BOXES</option>
+                                  <option value="Heat Pump Unit Custom Grilles">HEAT PUMP UNIT CUSTOM GRILLES</option>
+                                  <option value="heat pump unit grilles (by manufacturer)">HEAT PUMP UNIT GRILLES (BY MANUFACTURER)</option>
+                                  <option value="Heat Pump Unit return grille/access panel">HEAT PUMP UNIT RETURN GRILLE/ACCESS PANEL</option>
+                                  <option value="HEATING CONVECTOR FLOOR GRILLES">HEATING CONVECTOR FLOOR GRILLES</option>
+                                  <option value="Heavy Gauge and/or stainless steel construction">HEAVY GAUGE AND/OR STAINLESS STEEL CONSTRUCTION</option>
+                                  <option value="HEPA FILTER DIFFUSERS">HEPA FILTER DIFFUSERS</option>
+                                  <option value="HEPA FILTERS">HEPA FILTERS</option>
+                                  <option value="Hi-Rise FCU Architectural Return Access Panel/Doors">HI-RISE FCU ARCHITECTURAL RETURN ACCESS PANEL/DOORS</option>
+                                  <option value="High Transmission Loss Casing">HIGH TRANSMISSION LOSS CASING</option>
+                                  <option value="HONEYWELL SPYDER CONTROLLER">HONEYWELL SPYDER CONTROLLER</option>
+                                  <option value="Hoods">HOODS</option>
+                                  <option value="Hot Water Coils By AEROFIN">HOT WATER COILS BY AEROFIN</option>
+                                  <option value="HOT WATER HEATING COIL">HOT WATER HEATING COIL</option>
+                                  <option value="HOT WATER REHEAT COIL VALVES">HOT WATER REHEAT COIL VALVES</option>
+                                  <option value="HOT WATER VALVES AND HOT WATER VALVE PACKAGES">HOT WATER VALVES AND HOT WATER VALVE PACKAGES</option>
+                                  <option value="Induction Unit Grilles">INDUCTION UNIT GRILLES</option>
+                                  <option value="INLET SOUND ATTENUATING ELBOW FOR FAN-POWERED BOXES">INLET SOUND ATTENUATING ELBOW FOR FAN-POWERED BOXES</option>
+                                  <option value="INSTALLATION &amp; WIRING OF ROOM SENSORS">INSTALLATION &amp; WIRING OF ROOM SENSORS</option>
+                                  <option value="Insulated Back Pan">INSULATED BACK PAN</option>
+                                  <option value="Insulated Light Shields for Linear Diffusers">INSULATED LIGHT SHIELDS FOR LINEAR DIFFUSERS</option>
+                                  <option value="Insulated Sheet Metal Plenum Boxes">INSULATED SHEET METAL PLENUM BOXES</option>
+                                  <option value="Intake / Exhaust Louvers">INTAKE / EXHAUST LOUVERS</option>
+                                  <option value="Intake and Discharge Sound Attenuators on Fan Powered Boxes">INTAKE AND DISCHARGE SOUND ATTENUATORS ON FAN POWERED BOXES</option>
+                                  <option value="Integral Heat Pump Supply Grilles (by mfgr)">INTEGRAL HEAT PUMP SUPPLY GRILLES (BY MFGR)</option>
+                                  <option value="Integral Sound Attenuators">INTEGRAL SOUND ATTENUATORS</option>
+                                  <option value="Integrated Dampers By ALDES">INTEGRATED DAMPERS BY ALDES</option>
+                                  <option value="INTERNAL BAFFLES">INTERNAL BAFFLES</option>
+                                  <option value="ISOLATION DAMPERS">ISOLATION DAMPERS</option>
+                                  <option value="KITCHEN FLOOR GRILLES">KITCHEN FLOOR GRILLES</option>
+                                  <option value="LIGHT COVE SLOTS">LIGHT COVE SLOTS</option>
+                                  <option value="LIGHT SHIELD BOXES/RETURN HOODS">LIGHT SHIELD BOXES/RETURN HOODS</option>
+                                  <option value="Light Shield for Ceiling Diffusers used as Return">LIGHT SHIELD FOR CEILING DIFFUSERS USED AS RETURN</option>
+                                  <option value="LIGHT SHIELD FOR CEILING DIFFUSERS USED RETURN AIR">LIGHT SHIELD FOR CEILING DIFFUSERS USED RETURN AIR</option>
+                                  <option value="LIGHT SHIELD FOR LINEAR BAR GRILLS">LIGHT SHIELD FOR LINEAR BAR GRILLS</option>
+                                  <option value="LIGHT SHIELD FOR LINEAR DIFFUSERS &amp; LINEAR GRILLES">LIGHT SHIELD FOR LINEAR DIFFUSERS &amp; LINEAR GRILLES</option>
+                                  <option value="LIGHT SHIELD FOR LINEAR DIFFUSERS &amp; LINEAR GRILLES (BY OTHERS)">LIGHT SHIELD FOR LINEAR DIFFUSERS &amp; LINEAR GRILLES (BY OTHERS)</option>
+                                  <option value="Light Shields for Linear Diffusers">LIGHT SHIELDS FOR LINEAR DIFFUSERS</option>
+                                  <option value="LIGHT SHIELDS FOR LINEAR DIFFUSERS/ ARCH. SLOT">LIGHT SHIELDS FOR LINEAR DIFFUSERS/ ARCH. SLOT</option>
+                                  <option value="Light Shields for Non-Ducted Return Grilles">LIGHT SHIELDS FOR NON-DUCTED RETURN GRILLES</option>
+                                  <option value="Light Shields for Return Grilles">LIGHT SHIELDS FOR RETURN GRILLES</option>
+                                  <option value="LIGHT SHIELDS FOR RETURN LINEAR DIFFUSERS">LIGHT SHIELDS FOR RETURN LINEAR DIFFUSERS</option>
+                                  <option value="Light Shields For Return Registers">LIGHT SHIELDS FOR RETURN REGISTERS</option>
+                                  <option value="Light shields for sidewall mounted linear grilles (by others)">LIGHT SHIELDS FOR SIDEWALL MOUNTED LINEAR GRILLES (BY OTHERS)</option>
+                                  <option value="Linear Bar Grille return blank off plates/insulation">LINEAR BAR GRILLE RETURN BLANK OFF PLATES/INSULATION</option>
+                                  <option value="LINEAR BAR GRILLES - BY OTHERS">LINEAR BAR GRILLES - BY OTHERS</option>
+                                  <option value="LINEAR DIFFUSERS">LINEAR DIFFUSERS</option>
+                                  <option value="LINEAR UPLIGHTS">LINEAR UPLIGHTS</option>
+                                  <option value="Louvers">LOUVERS</option>
+                                  <option value="Louvers &amp; Wire Mesh Screens">LOUVERS &amp; WIRE MESH SCREENS</option>
+                                  <option value="Manual Dampers">MANUAL DAMPERS</option>
+                                  <option value="Manual Dampers (per sheet metal contractors scope of work)">MANUAL DAMPERS (PER SHEET METAL CONTRACTORS SCOPE OF WORK)</option>
+                                  <option value="MECHANICAL GRILLES FOR FIN TUBE RADIATORS">MECHANICAL GRILLES FOR FIN TUBE RADIATORS</option>
+                                  <option value="MODULATING ZONE DAMPERS">MODULATING ZONE DAMPERS</option>
+                                  <option value="Motorized Dampers">MOTORIZED DAMPERS</option>
+                                  <option value="NAILOR BYPASS BOXES">NAILOR BYPASS BOXES</option>
+                                  <option value="NEPTRONIC ELECTRIC DUCT HEATER">NEPTRONIC ELECTRIC DUCT HEATER</option>
+                                  <option value="NO ARCHITECTURAL BACKGROUND PROVIDED. IF CABLE OPERATED DAMPERS ARE REQUIRED, ADD $150/EA">NO ARCHITECTURAL BACKGROUND PROVIDED. IF CABLE OPERATED DAMPERS ARE REQUIRED, ADD $150/EA</option>
+                                  <option value="NO ARCHITECTURAL BACKGROUND PROVIDED. IF CABLE OPERATED DAMPERS ARE REQUIRED, ADD $75/EA">NO ARCHITECTURAL BACKGROUND PROVIDED. IF CABLE OPERATED DAMPERS ARE REQUIRED, ADD $75/EA</option>
+                                  <option value="NO ARCHITECTURAL BACKGROUND PROVIDED. IF ROUND CABLE OPERATED DAMPERS ARE REQUIRED, ADD $75/EA">NO ARCHITECTURAL BACKGROUND PROVIDED. IF ROUND CABLE OPERATED DAMPERS ARE REQUIRED, ADD $75/EA</option>
+                                  <option value="NO BID ELECTRIC DUCT HEATER">NO BID ELECTRIC DUCT HEATER</option>
+                                  <option value="No Bid Electric Duct Heater (Information Not Available)">NO BID ELECTRIC DUCT HEATER (INFORMATION NOT AVAILABLE)</option>
+                                  <option value="NO BID TERMINAL BOX (ZRT-PDIL) BY ALDES">NO BID TERMINAL BOX (ZRT-PDIL) BY ALDES</option>
+                                  <option value="NO BID VAV DIFFUSERS">NO BID VAV DIFFUSERS</option>
+                                  <option value="One (1) Additional Grille in each enclosed office">ONE (1) ADDITIONAL GRILLE IN EACH ENCLOSED OFFICE</option>
+                                  <option value="Outside / Mixing Plenums">OUTSIDE / MIXING PLENUMS</option>
+                                  <option value="PAINT BY OTHERS TO MATCH WALL COLOR">PAINT BY OTHERS TO MATCH WALL COLOR</option>
+                                  <option value="PAINT ON ECO GRILLES">PAINT ON ECO GRILLES</option>
+                                  <option value="Paint-Grip Finish">PAINT-GRIP FINISH</option>
+                                  <option value="Painted Light Shields (linear return grilles)">PAINTED LIGHT SHIELDS (LINEAR RETURN GRILLES)</option>
+                                  <option value="PERFORATED FLOOR TILES">PERFORATED FLOOR TILES</option>
+                                  <option value="PHOENIX VALVES">PHOENIX VALVES</option>
+                                  <option value="Plaster Rings">PLASTER RINGS</option>
+                                  <option value="PLASTER RINGS/SAFETY CHAINS FOR DIFFUSERS">PLASTER RINGS/SAFETY CHAINS FOR DIFFUSERS</option>
+                                  <option value="Plastic Grilles for Toilet Exhaust Fans">PLASTIC GRILLES FOR TOILET EXHAUST FANS</option>
+                                  <option value="PLASTIC LAMINATE PROTECTION">PLASTIC LAMINATE PROTECTION</option>
+                                  <option value="PLASTIC LAMINATE PROTECTION FOR FLOOR OUTLETS">PLASTIC LAMINATE PROTECTION FOR FLOOR OUTLETS</option>
+                                  <option value="PLENUM BOOTS">PLENUM BOOTS</option>
+                                  <option value="PLENUM BOX/LIGHT SHIELD FOR RETURN GRILLES">PLENUM BOX/LIGHT SHIELD FOR RETURN GRILLES</option>
+                                  <option value="PLENUM SLOT DIFFUSERS">PLENUM SLOT DIFFUSERS</option>
+                                  <option value="Plenums Boxes">PLENUMS BOXES</option>
+                                  <option value="PLENUMS FOR ARCHITECTURAL SLOTS">PLENUMS FOR ARCHITECTURAL SLOTS</option>
+                                  <option value="PLENUMS FOR EXISTING LINEAR DIFFUSERS">PLENUMS FOR EXISTING LINEAR DIFFUSERS</option>
+                                  <option value="Plenums for Linear Bar Grilles">PLENUMS FOR LINEAR BAR GRILLES</option>
+                                  <option value="Plenums for Linear Diffusers">PLENUMS FOR LINEAR DIFFUSERS</option>
+                                  <option value="PLENUMS FOR LINEAR DIFFUSERS/ARCHITECTURAL SLOTS">PLENUMS FOR LINEAR DIFFUSERS/ARCHITECTURAL SLOTS</option>
+                                  <option value="Plenums for Linear Diffusers/Grilles">PLENUMS FOR LINEAR DIFFUSERS/GRILLES</option>
+                                  <option value="Plenums for Linear Registers/Grilles">PLENUMS FOR LINEAR REGISTERS/GRILLES</option>
+                                  <option value="PLENUMS FOR STANDARD LINEAR DIFFUSERS">PLENUMS FOR STANDARD LINEAR DIFFUSERS</option>
+                                  <option value="PLENUMS FOR T-BAR LINEAR DIFFUSERS.">PLENUMS FOR T-BAR LINEAR DIFFUSERS.</option>
+                                  <option value="Plenums w/Light Shields for return Linear Diffusers">PLENUMS W/LIGHT SHIELDS FOR RETURN LINEAR DIFFUSERS</option>
+                                  <option value="Plenums/" vision="" proof"="" for="" linear="" diffusers"="">PLENUMS/"VISION PROOF" FOR LINEAR DIFFUSERS</option>
+                                  <option value="PRESSURE INDEPENDENT AIR VALVE">PRESSURE INDEPENDENT AIR VALVE</option>
+                                  <option value="PRESSURE RELIEF DAMPERS">PRESSURE RELIEF DAMPERS</option>
+                                  <option value="PRESSURE/VELOCITY CONTROL DAMPER.">PRESSURE/VELOCITY CONTROL DAMPER.</option>
+                                  <option value="PRESSURE/VELOCITY CONTROL DAMPERS">PRESSURE/VELOCITY CONTROL DAMPERS</option>
+                                  <option value="PRICE DOES NOT INCLUDED INTEGRAL SOUND ATTENUATOR IN ALL BOXES">PRICE DOES NOT INCLUDED INTEGRAL SOUND ATTENUATOR IN ALL BOXES</option>
+                                  <option value="Protective Screens">PROTECTIVE SCREENS</option>
+                                  <option value="PTAC Enclosure Grilles">PTAC ENCLOSURE GRILLES</option>
+                                  <option value="Pull Boxes">PULL BOXES</option>
+                                  <option value="PUNCHED METAL GRILLES">PUNCHED METAL GRILLES</option>
+                                  <option value="R-7 Insulated Backing For Diffusers">R-7 INSULATED BACKING FOR DIFFUSERS</option>
+                                  <option value="R-8 INSULATED BACKING FOR PARAGON DIFFUSERS">R-8 INSULATED BACKING FOR PARAGON DIFFUSERS</option>
+                                  <option value="Radiator Enclosure Grilles">RADIATOR ENCLOSURE GRILLES</option>
+                                  <option value="REGGIO GRILLES">REGGIO GRILLES</option>
+                                  <option value="REGGIO GRILLES REGISTER COMPANY">REGGIO GRILLES REGISTER COMPANY</option>
+                                  <option value="Reheat Coils">REHEAT COILS</option>
+                                  <option value="RELIEF DUCT AND BACK DRAFT DAMPERS WITH 24X24 GRID CORE RETURN GRILLES">RELIEF DUCT AND BACK DRAFT DAMPERS WITH 24X24 GRID CORE RETURN GRILLES</option>
+                                  <option value="RELOCATED CEILING DIFFUSERS">RELOCATED CEILING DIFFUSERS</option>
+                                  <option value="REMOTE DAMPER OPERATOR">REMOTE DAMPER OPERATOR</option>
+                                  <option value="Removable Splitters">REMOVABLE SPLITTERS</option>
+                                  <option value="Replacement of all existing diffusers &amp; registers; unknown quantities">REPLACEMENT OF ALL EXISTING DIFFUSERS &amp; REGISTERS; UNKNOWN QUANTITIES</option>
+                                  <option value="RESIN GRILLES">RESIN GRILLES</option>
+                                  <option value="Return Air Boots">RETURN AIR BOOTS</option>
+                                  <option value="RETURN AIR GRILLE BY ARCHITECT">RETURN AIR GRILLE BY ARCHITECT</option>
+                                  <option value="Return Air Grilles By Architect">RETURN AIR GRILLES BY ARCHITECT</option>
+                                  <option value="Return Air Hoods">RETURN AIR HOODS</option>
+                                  <option value="Return Air Plenums for Grilles">RETURN AIR PLENUMS FOR GRILLES</option>
+                                  <option value="RETURN AIR SLOT">RETURN AIR SLOT</option>
+                                  <option value="Return Air- Panel Boot">RETURN AIR- PANEL BOOT</option>
+                                  <option value="RETURN COLLARS">RETURN COLLARS</option>
+                                  <option value="Return Grille Sheet Metal Boxes with dampers">RETURN GRILLE SHEET METAL BOXES WITH DAMPERS</option>
+                                  <option value="RETURN GRILLES">RETURN GRILLES</option>
+                                  <option value="Return Hoods/Light Shields for Linear Diffusers">RETURN HOODS/LIGHT SHIELDS FOR LINEAR DIFFUSERS</option>
+                                  <option value="Return in base of cabinetry">RETURN IN BASE OF CABINETRY</option>
+                                  <option value="Return Outlet Sound Box">RETURN OUTLET SOUND BOX</option>
+                                  <option value="RETURN SLOT BY CARPENTERS">RETURN SLOT BY CARPENTERS</option>
+                                  <option value="Return Slots by GC">RETURN SLOTS BY GC</option>
+                                  <option value="RHC Coils by HEATCRAFT">RHC COILS BY HEATCRAFT</option>
+                                  <option value="Round Cable Operated Dampers, If required, add $120/ea">ROUND CABLE OPERATED DAMPERS, IF REQUIRED, ADD $120/EA</option>
+                                  <option value="RTU Concentric Diffusers/Grilles">RTU CONCENTRIC DIFFUSERS/GRILLES</option>
+                                  <option value="RUSKIN DIFFUSERS">RUSKIN DIFFUSERS</option>
+                                  <option value="RUSKIN LOUVERS">RUSKIN LOUVERS</option>
+                                  <option value="Safety Chains">SAFETY CHAINS</option>
+                                  <option value="SALES TAX">SALES TAX</option>
+                                  <option value="SCR Controls for Electric Duct Heaters">SCR CONTROLS FOR ELECTRIC DUCT HEATERS</option>
+                                  <option value="Seismic Restraints or Supports">SEISMIC RESTRAINTS OR SUPPORTS</option>
+                                  <option value="SILENCERS">SILENCERS</option>
+                                  <option value="Sill Mounted Grille">SILL MOUNTED GRILLE</option>
+                                  <option value="SILL REGISTERS">SILL REGISTERS</option>
+                                  <option value="SINGLE RELIEF DAMPER">SINGLE RELIEF DAMPER</option>
+                                  <option value="SLEEVE THROUGH WALL FOR TRANSFER GRILLES">SLEEVE THROUGH WALL FOR TRANSFER GRILLES</option>
+                                  <option value="SMOKE DETECTOR">SMOKE DETECTOR</option>
+                                  <option value="SMOKE PURGE SYSTEM SLOT">SMOKE PURGE SYSTEM SLOT</option>
+                                  <option value="SMOKE PURGE WITH GRILLES">SMOKE PURGE WITH GRILLES</option>
+                                  <option value="Solid Sheet Metal Return Air Light Shield for Linear Diffusers">SOLID SHEET METAL RETURN AIR LIGHT SHIELD FOR LINEAR DIFFUSERS</option>
+                                  <option value="SOUND ATTENUATING ELBOW FOR FAN-POWERED BOXES">SOUND ATTENUATING ELBOW FOR FAN-POWERED BOXES</option>
+                                  <option value="SOUND ATTENUATING PLENUM FOR FAN-POWERED BOXES">SOUND ATTENUATING PLENUM FOR FAN-POWERED BOXES</option>
+                                  <option value="Sound Attenuation Boot ">SOUND ATTENUATION BOOT </option>
+                                  <option value="Sound Barrier Blankets">SOUND BARRIER BLANKETS</option>
+                                  <option value="Sound Boots">SOUND BOOTS</option>
+                                  <option value="SOUND ELBOW FOR FPB">SOUND ELBOW FOR FPB</option>
+                                  <option value="Sound Seal Wrapping for Terminal Units">SOUND SEAL WRAPPING FOR TERMINAL UNITS</option>
+                                  <option value="SOUND SEAL WRAPPING WRAPPING FOR EXPOSED EXHAUST BOXES">SOUND SEAL WRAPPING WRAPPING FOR EXPOSED EXHAUST BOXES</option>
+                                  <option value="SOUND TRAPS FOR TRANSFER DUCT">SOUND TRAPS FOR TRANSFER DUCT</option>
+                                  <option value="Soundlined Return Air Duct For Return Grilles">SOUNDLINED RETURN AIR DUCT FOR RETURN GRILLES</option>
+                                  <option value="Special Epoxy Paint on Silencers by others">SPECIAL EPOXY PAINT ON SILENCERS BY OTHERS</option>
+                                  <option value="SPLITTER DAMPER">SPLITTER DAMPER</option>
+                                  <option value="SQUARE TO ROUND ADAPTER FOR GRID CORE REGISTERS">SQUARE TO ROUND ADAPTER FOR GRID CORE REGISTERS</option>
+                                  <option value="SQUARE TO ROUND ADAPTERS BY OTHER">SQUARE TO ROUND ADAPTERS BY OTHER</option>
+                                  <option value="SQUARE TO ROUND ADAPTERS FOR SWIRL DIFFUSERS">SQUARE TO ROUND ADAPTERS FOR SWIRL DIFFUSERS</option>
+                                  <option value="STAINLESS STEEL CONSTRUCTION FOR AIR OUTLETS">STAINLESS STEEL CONSTRUCTION FOR AIR OUTLETS</option>
+                                  <option value="Stainless Steel Grilles With 30X18 Existing Duct">STAINLESS STEEL GRILLES WITH 30X18 EXISTING DUCT</option>
+                                  <option value="STAIR PRESSURISATION TAP W/ VAV">STAIR PRESSURISATION TAP W/ VAV</option>
+                                  <option value="STAIR PRESSURIZATION RELIEF ASSEMBLIES">STAIR PRESSURIZATION RELIEF ASSEMBLIES</option>
+                                  <option value="Static Pressure Sensor">STATIC PRESSURE SENSOR</option>
+                                  <option value="STEAM COIL">STEAM COIL</option>
+                                  <option value="STEEL ELEMENT RACK FOR ELECTRIC DUCT HEATERS">STEEL ELEMENT RACK FOR ELECTRIC DUCT HEATERS</option>
+                                  <option value="sub-duct boots">SUB-DUCT BOOTS</option>
+                                  <option value="Supply Air Grilles By Interior Designer">SUPPLY AIR GRILLES BY INTERIOR DESIGNER</option>
+                                  <option value="SUPPLY AIR OUTLET PLENUMS">SUPPLY AIR OUTLET PLENUMS</option>
+                                  <option value="SUPPLY DIFFUSERS WITH MAKEUP AIR UNIT.">SUPPLY DIFFUSERS WITH MAKEUP AIR UNIT.</option>
+                                  <option value="SUPPLY GRILLE ASSOCIATED WITH HEAT PUMP TO BE INSTALLED TO ARCHITECTS SPECIFICATION">SUPPLY GRILLE ASSOCIATED WITH HEAT PUMP TO BE INSTALLED TO ARCHITECTS SPECIFICATION</option>
+                                  <option value="SUPPLY GRILLES WITH ELECTRIC WALL HEATERS">SUPPLY GRILLES WITH ELECTRIC WALL HEATERS</option>
+                                  <option value="SUPPLY GRILLES FOR AIR CURTAIN ASSEMBLY">SUPPLY GRILLES FOR AIR CURTAIN ASSEMBLY</option>
+                                  <option value="Suspension Hooks or Lugs">SUSPENSION HOOKS OR LUGS</option>
+                                  <option value="Suspension Hooks/Lugs">SUSPENSION HOOKS/LUGS</option>
+                                  <option value="TATE FLOOR GRILLES">TATE FLOOR GRILLES</option>
+                                  <option value="Tempmaster Linear Diffusers">TEMPMASTER LINEAR DIFFUSERS</option>
+                                  <option value="TERMINAL UNITS">TERMINAL UNITS</option>
+                                  <option value="Thermafuser Diffusers">THERMAFUSER DIFFUSERS</option>
+                                  <option value="THERMALLY INSULATED BLANKET AS PER NOTE NUMBER 8">THERMALLY INSULATED BLANKET AS PER NOTE NUMBER 8</option>
+                                  <option value="Thermostat">THERMOSTAT</option>
+                                  <option value="THERMOSTAT FOR ELECTRIC DUCT HEATERS">THERMOSTAT FOR ELECTRIC DUCT HEATERS</option>
+                                  <option value="Thermostat for Pneumatic Boxes">THERMOSTAT FOR PNEUMATIC BOXES</option>
+                                  <option value="TOILET EXHAUST BOOTS">TOILET EXHAUST BOOTS</option>
+                                  <option value="Toilet Exhaust Fan Grilles (integral by mfgr.)">TOILET EXHAUST FAN GRILLES (INTEGRAL BY MFGR.)</option>
+                                  <option value="Transfer Air Boot">TRANSFER AIR BOOT</option>
+                                  <option value="TRANSFER AIR DUCT">TRANSFER AIR DUCT</option>
+                                  <option value="Transfer Duct grilles (above ceilings)">TRANSFER DUCT GRILLES (ABOVE CEILINGS)</option>
+                                  <option value="Transfer Fan">TRANSFER FAN</option>
+                                  <option value="TRANSFER GRILLES WITH FIRE DAMPERS">TRANSFER GRILLES WITH FIRE DAMPERS</option>
+                                  <option value="TRANSITION BY OTHERS.">TRANSITION BY OTHERS.</option>
+                                  <option value="TRANSITIONS">TRANSITIONS</option>
+                                  <option value="Trench Grilles">TRENCH GRILLES</option>
+                                  <option value="UNDER FLOOR SUPPLY REGISTERS">UNDER FLOOR SUPPLY REGISTERS</option>
+                                  <option value="UNDERFLOOR DIFFUSERS W/TAF-D PLENUM">UNDERFLOOR DIFFUSERS W/TAF-D PLENUM</option>
+                                  <option value="VAV BOX - DDC CONTROLS BY OTHERS, FACTORY MOUNTING BY ANEMOSTAT. DDC CONTROL, ACTUATORS, VALVES &amp; ROOM SENSORS ARE BY ATC. FIELD CALIBRATION AND TESTING OF CONTROLS ARE BY ATC. 24V TRANSFORMER INCLUDED. ELECTRIC REHEAT COIL">VAV BOX - DDC CONTROLS BY OTHERS, FACTORY MOUNTING BY ANEMOSTAT. DDC CONTROL, ACTUATORS, VALVES &amp; ROOM SENSORS ARE BY ATC. FIELD CALIBRATION AND TESTING OF CONTROLS ARE BY ATC. 24V TRANSFORMER INCLUDED. ELECTRIC REHEAT COIL</option>
+                                  <option value="VAV Box Electric Coils (no indication on drawings of coil)">VAV BOX ELECTRIC COILS (NO INDICATION ON DRAWINGS OF COIL)</option>
+                                  <option value="VAV Box rubber isolation pads">VAV BOX RUBBER ISOLATION PADS</option>
+                                  <option value="VAV Box Sound Seal Wrapping">VAV BOX SOUND SEAL WRAPPING</option>
+                                  <option value="VAV Boxes">VAV BOXES</option>
+                                  <option value="VAV Boxes -- DDC by Others, Factory mounting by Anemostat NO Factory Calibration and NO Field Inspection Included DDC Controls, Actuators, Valves &amp; Room Sensors are by ATC Field Calibration and Testing of Controls are by ATC 24V Transformer Included">VAV BOXES -- DDC BY OTHERS, FACTORY MOUNTING BY ANEMOSTAT NO FACTORY CALIBRATION AND NO FIELD INSPECTION INCLUDED DDC CONTROLS, ACTUATORS, VALVES &amp; ROOM SENSORS ARE BY ATC FIELD CALIBRATION AND TESTING OF CONTROLS ARE BY ATC 24V TRANSFORMER INCLUDED</option>
+                                  <option value="VAV BOXES (BY TRANE)">VAV BOXES (BY TRANE)</option>
+                                  <option value="VAV BOXES, BUILDING STANDARD IS JCI">VAV BOXES, BUILDING STANDARD IS JCI</option>
+                                  <option value="VAV DAMPERS">VAV DAMPERS</option>
+                                  <option value="VAV DIFFUSERS">VAV DIFFUSERS</option>
+                                  <option value="VAV Electric Heating Coils (none indicated)">VAV ELECTRIC HEATING COILS (NONE INDICATED)</option>
+                                  <option value="VAV Heating Coils">VAV HEATING COILS</option>
+                                  <option value="VAV KILL SWITCHES OR CLEAR LOCKING T STAT COVERS">VAV KILL SWITCHES OR CLEAR LOCKING T STAT COVERS</option>
+                                  <option value="VAV Sound Absorbers">VAV SOUND ABSORBERS</option>
+                                  <option value="VAV T'Stat">VAV T'STAT</option>
+                                  <option value="VAV Transformer (no required for pneumatic units)">VAV TRANSFORMER (NO REQUIRED FOR PNEUMATIC UNITS)</option>
+                                  <option value="VENTILATION GRILLES">VENTILATION GRILLES</option>
+                                  <option value="VIBRATION ISOLATORS">VIBRATION ISOLATORS</option>
+                                  <option value="VISION SCREEN">VISION SCREEN</option>
+                                  <option value="Volume Box">VOLUME BOX</option>
+                                  <option value="Wall openings">WALL OPENINGS</option>
+                                  <option value="WALL SLEEVE GRILLES">WALL SLEEVE GRILLES</option>
+                                  <option value="Window Soffit Return Air Slots">WINDOW SOFFIT RETURN AIR SLOTS</option>
+                                  <option value="Wire Mesh Screen">WIRE MESH SCREEN</option>
+                                  <option value="Wood Diffusers">WOOD DIFFUSERS</option>
+                                  <option value="WOOD GRILLES">WOOD GRILLES</option>
+                                  <option value="Zone Dampers">ZONE DAMPERS</option>
+                                  <option value="ZONE TEMERATURE SENSOR FOR VAV BOXES">ZONE TEMERATURE SENSOR FOR VAV BOXES</option>
+                                </select>
+                              </div>
+                              <div class="pad5" style="display:inline-block;"> <a href="javascript:void(0);" onclick="javascript:AppendPDNI(1);"><strong>+ Add PDNI</strong></a>
+                                <input id="pdni_counter1" value="1" type="hidden">
+                              </div>
+                            </div></td>
+                        </tr>
+                        <tr>
+                          <td valign="middle"><div class="pad5"><b>Comments</b></div></td>
+                          <td colspan="3" valign="top"><div class="pad5">
+                              <textarea name="comments1" class="form-control"></textarea>
+                            </div></td>
+                        </tr>
+                      <input id="cur_row1" name="cur_row1" value="1" type="hidden">
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="pad5" style="font-size:12px;" align="right"><strong><a href="javascript:AddNewItem();">+ Add another manufacturer</a></strong></div>
+                  <table class="table-responsive theme-table" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td colspan="3" height="50">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td width="11%" valign="top" align="left"><strong>Add Notes</strong></td>
+                        <td width="80%" align="left"><select name="notes[]" id="notes1" class="form-control" style="width:80%">
+                            <option value="">--</option>
+                            <option value=" CABLE-OPERATED DAMPERS PROVIDED ONLY FOR LINEAR DIFFUSERS AND GYP. BOARD CEILING. IF REQUIRED ELSEWHERE ADD $ 75.EA"> CABLE-OPERATED DAMPERS PROVIDED ONLY FOR LINEAR DIFFUSERS AND GYP. BOARD CEILING. IF REQUIRED ELSEWHERE ADD $ 75.EA</option>
+                            <option value="1: MITERED CORNERS PROVIDED ONLY WHERE SHOWN ON MECHANICAL PLANS.">1: MITERED CORNERS PROVIDED ONLY WHERE SHOWN ON MECHANICAL PLANS.</option>
+                            <option value="ADD $125 EACH CABLE OPERATED DAMPER IF/WHERE REQUIRED">ADD $125 EACH CABLE OPERATED DAMPER IF/WHERE REQUIRED</option>
+                            <option value="ADD $225 EACH YOUNG REGULATOR MODEL 830A-CC CABLE DAMPER IF/WHERE REQUIRED">ADD $225 EACH YOUNG REGULATOR MODEL 830A-CC CABLE DAMPER IF/WHERE REQUIRED</option>
+                            <option value="ADD $75 EACH CABLE OPERATED DAMPER IF/WHERE REQUIRED">ADD $75 EACH CABLE OPERATED DAMPER IF/WHERE REQUIRED</option>
+                            <option value="ADD ALTERNATE :- $700 IF ANALOG CONTROLS ARE USED FOR VAV BOXES IN LIEU OF DDC CONTROLS.">ADD ALTERNATE :- $700 IF ANALOG CONTROLS ARE USED FOR VAV BOXES IN LIEU OF DDC CONTROLS.</option>
+                            <option value="ALL ALUMINUM CONSTRUCTION">ALL ALUMINUM CONSTRUCTION</option>
+                            <option value="ALL CONTROLS,CONTROL VALVES,SHUT-OFF VALVES,ETC BY OTHERS,FIELD MOUNTED">ALL CONTROLS,CONTROL VALVES,SHUT-OFF VALVES,ETC BY OTHERS,FIELD MOUNTED</option>
+                            <option value="ALL DIFFUSERS, GRILLES AND REGISTERS ARE ALUMINUM CONSTRUCTION.">ALL DIFFUSERS, GRILLES AND REGISTERS ARE ALUMINUM CONSTRUCTION.</option>
+                            <option value="ALL SHIPMENTS ARE MADE BULKHEAD">ALL SHIPMENTS ARE MADE BULKHEAD</option>
+                            <option value="ALTERNATE ADD AS PER NOTE-2 ON MECHANICAL PLAN M-100 IS $ 550">ALTERNATE ADD AS PER NOTE-2 ON MECHANICAL PLAN M-100 IS $ 550</option>
+                            <option value="ALUMINUM CONSTRUCTION AS PER SCHEDULE">ALUMINUM CONSTRUCTION AS PER SCHEDULE</option>
+                            <option value="ALUMINUM RETURN REGISTERS FOR TOILETS">ALUMINUM RETURN REGISTERS FOR TOILETS</option>
+                            <option value="Based on M-302 (15th floor) ONLY. No 11th floor (M-301) drawing is available.">BASED ON M-302 (15TH FLOOR) ONLY. NO 11TH FLOOR (M-301) DRAWING IS AVAILABLE.</option>
+                            <option value="BYPASS BOXES DDC CONTROLS BY OTHERS, FACTORY MOUNTING BY ANEMOSTAT DDC CONTROLS, ACTUATORS, VALVES &amp; ROOM SENSORS ARE BY ATC FIELD CALIBRATION AND TESTING OF CONTROLS ARE BY ATC 24V TRANSFORMER INCLUDED">BYPASS BOXES DDC CONTROLS BY OTHERS, FACTORY MOUNTING BY ANEMOSTAT DDC CONTROLS, ACTUATORS, VALVES &amp; ROOM SENSORS ARE BY ATC FIELD CALIBRATION AND TESTING OF CONTROLS ARE BY ATC 24V TRANSFORMER INCLUDED</option>
+                            <option value="Cable Dampers not provided for accessible (2x2) ceilings">CABLE DAMPERS NOT PROVIDED FOR ACCESSIBLE (2X2) CEILINGS</option>
+                            <option value="CABLE OPERATED DAMPERS PROVIDED ONLY FOR LINEAR DIFFUSERS. NO ARCHITECTURAL BACKGROUNDS PROVIDED. iF CABLE OPERATED DAMPERS ARE REQUIRED, ADD $75/EA ">CABLE OPERATED DAMPERS PROVIDED ONLY FOR LINEAR DIFFUSERS. NO ARCHITECTURAL BACKGROUNDS PROVIDED. IF CABLE OPERATED DAMPERS ARE REQUIRED, ADD $75/EA </option>
+                            <option value="CABLE-OPERATED DAMPERS PROVIDED ONLY FOR LINEAR DIFFUSERS AND WHERE SPECIFIED. IF REQUIRED ELSEWHERE ADD $ 75.EA">CABLE-OPERATED DAMPERS PROVIDED ONLY FOR LINEAR DIFFUSERS AND WHERE SPECIFIED. IF REQUIRED ELSEWHERE ADD $ 75.EA</option>
+                            <option value="CABLE-OPERATED DAMPERS PROVIDED ONLY FOR LINEAR DIFFUSERS. IF REQUIRED ELSEWHERE ADD $ 75.EA">CABLE-OPERATED DAMPERS PROVIDED ONLY FOR LINEAR DIFFUSERS. IF REQUIRED ELSEWHERE ADD $ 75.EA</option>
+                            <option value="CEILINGS UNKNOWN; ADD $75 EACH CABLE OPERATED DAMPER IF/WHERE REQUIRED">CEILINGS UNKNOWN; ADD $75 EACH CABLE OPERATED DAMPER IF/WHERE REQUIRED</option>
+                            <option value="CONTRACTOR MUST FURNISH BALANCING DAMPERS UPSTREAM OF BYPASS BOXES">CONTRACTOR MUST FURNISH BALANCING DAMPERS UPSTREAM OF BYPASS BOXES</option>
+                            <option value="Fan Powered Boxes -- DDC by Others, Factory mounting by Anemostat NO Factory Calibration and NO Field Inspection Included DDC Controls, Actuators, Valves &amp; Room Sensors are by ATC Field Calibration and Testing of Controls are by ATC 24V Transformer Included, Disconnect Switch Included, 1 ROW HOT WATER COIL">FAN POWERED BOXES -- DDC BY OTHERS, FACTORY MOUNTING BY ANEMOSTAT NO FACTORY CALIBRATION AND NO FIELD INSPECTION INCLUDED DDC CONTROLS, ACTUATORS, VALVES &amp; ROOM SENSORS ARE BY ATC FIELD CALIBRATION AND TESTING OF CONTROLS ARE BY ATC 24V TRANSFORMER INCLUDED, DISCONNECT SWITCH INCLUDED, 1 ROW HOT WATER COIL</option>
+                            <option value="FAN POWERED BOXES -- DDC BY OTHERS, FACTORY MOUNTING BY ANEMOSTAT NO FACTORY CALIBRATION AND NO FIELD INSPECTION INCLUDED DDC CONTROLS, ACTUATORS, VALVES &amp; ROOM SENSORS ARE BY ATC FIELD CALIBRATION AND TESTING OF CONTROLS ARE BY ATC 24V TRANSFORMER INCLUDED, DISCONNECT SWITCH INCLUDED, ELECTRIC REHEAT COIL INCLUDED">FAN POWERED BOXES -- DDC BY OTHERS, FACTORY MOUNTING BY ANEMOSTAT NO FACTORY CALIBRATION AND NO FIELD INSPECTION INCLUDED DDC CONTROLS, ACTUATORS, VALVES &amp; ROOM SENSORS ARE BY ATC FIELD CALIBRATION AND TESTING OF CONTROLS ARE BY ATC 24V TRANSFORMER INCLUDED, DISCONNECT SWITCH INCLUDED, ELECTRIC REHEAT COIL INCLUDED</option>
+                            <option value="Flag Note #3 on Mech Dwg. M-100">FLAG NOTE #3 ON MECH DWG. M-100</option>
+                            <option value="GALVANIZED STEEL CONSTRUCTION WITH POWDER COATED FINISH">GALVANIZED STEEL CONSTRUCTION WITH POWDER COATED FINISH</option>
+                            <option value="GRILLES BASED ON ANEMOSTAT MODEL SELECTIONS ONLY. MODEL AL-25, FH BORDER WITH CABLE DAMPERS IN THE BRANCH TAP. ">GRILLES BASED ON ANEMOSTAT MODEL SELECTIONS ONLY. MODEL AL-25, FH BORDER WITH CABLE DAMPERS IN THE BRANCH TAP. </option>
+                            <option value="HEAVY DUTY GRILLES">HEAVY DUTY GRILLES</option>
+                            <option value="IAC ATTENUATORS ARE FABRICATED BY LOCAL 28">IAC ATTENUATORS ARE FABRICATED BY LOCAL 28</option>
+                            <option value="LEAD TIME FOR MANUFACTURING 6 WEEKS.">LEAD TIME FOR MANUFACTURING 6 WEEKS.</option>
+                            <option value="LENGTH FOR ALL LINEARS ARE BASED ON SCHEDULE SIZES AND CFM ONLY">LENGTH FOR ALL LINEARS ARE BASED ON SCHEDULE SIZES AND CFM ONLY</option>
+                            <option value="LINEAR BAR GRILLES PRICED BASED OFF NOTE ON DWG. M-101 FOR CABINET HEATER D (CH-D). NO OTHER BAR GRILLES PROVIDED.">LINEAR BAR GRILLES PRICED BASED OFF NOTE ON DWG. M-101 FOR CABINET HEATER D (CH-D). NO OTHER BAR GRILLES PROVIDED.</option>
+                            <option value="LINEAR DIFFUSERS PRICED BASED ON LENGTHS SHOWN ON MECHANICAL PLANS.">LINEAR DIFFUSERS PRICED BASED ON LENGTHS SHOWN ON MECHANICAL PLANS.</option>
+                            <option value="LINEAR GRILLS">LINEAR GRILLS</option>
+                            <option value="LINEAR IS BASED ON THE ACTIVE SECTIONS SHOWN">LINEAR IS BASED ON THE ACTIVE SECTIONS SHOWN</option>
+                            <option value="MITERED CORNERS PROVIDED ONLY WHERE SHOWN ON MECHANICAL PLANS.">MITERED CORNERS PROVIDED ONLY WHERE SHOWN ON MECHANICAL PLANS.</option>
+                            <option value="Natural / Anodize Finish">NATURAL / ANODIZE FINISH</option>
+                            <option value="NO BID FOR LAMINAR HEPA DIFFUSERS">NO BID FOR LAMINAR HEPA DIFFUSERS</option>
+                            <option value="NO BID UNDER FLOOR AIR-OUTLETS (YORK)">NO BID UNDER FLOOR AIR-OUTLETS (YORK)</option>
+                            <option value="NO BID UNDER FLOOR FAN POWERED BOX (YORK)">NO BID UNDER FLOOR FAN POWERED BOX (YORK)</option>
+                            <option value="NO BID WOOD DIFFUSERS">NO BID WOOD DIFFUSERS</option>
+                            <option value="NO SPEC BOOK AVAILABLE">NO SPEC BOOK AVAILABLE</option>
+                            <option value="PRICE &amp; QUANTITY AS PER THE NOTE GIVEN ON THE MECHANICAL PLAN">PRICE &amp; QUANTITY AS PER THE NOTE GIVEN ON THE MECHANICAL PLAN</option>
+                            <option value="PRICE BASED ON BOLD LINE CONSTRUCTION ONLY.">PRICE BASED ON BOLD LINE CONSTRUCTION ONLY.</option>
+                            <option value="PRICE BASED ON ENGINEERING SCHEDULE PROVIDED">PRICE BASED ON ENGINEERING SCHEDULE PROVIDED</option>
+                            <option value="PRICE BASED ON FAX SENT TO US.">PRICE BASED ON FAX SENT TO US.</option>
+                            <option value="PRICE BASED ON GRILLE SCHEDULE PROVIDED BY HEATHER OF NORDIC CUSTOM BUILDERS">PRICE BASED ON GRILLE SCHEDULE PROVIDED BY HEATHER OF NORDIC CUSTOM BUILDERS</option>
+                            <option value="PRICE BASED ON GRILLE SCHEDULE PROVIDED BY THE CONTRACTOR">PRICE BASED ON GRILLE SCHEDULE PROVIDED BY THE CONTRACTOR</option>
+                            <option value="PRICE BASED ON MECHANICAL PLANS ONLY">PRICE BASED ON MECHANICAL PLANS ONLY</option>
+                            <option value="PRICE BASED ON POINT OF NEW CONNECTION AND BOLD LINE CONSTRUCTION ONLY.">PRICE BASED ON POINT OF NEW CONNECTION AND BOLD LINE CONSTRUCTION ONLY.</option>
+                            <option value="PRICE BASED ON RCP PLAN DRAWING A-130 ONLY.">PRICE BASED ON RCP PLAN DRAWING A-130 ONLY.</option>
+                            <option value="PRICE BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES.">PRICE BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES.</option>
+                            <option value="PRICE BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES; NO SCHEDULE AND SPECIFICATION GIVEN.">PRICE BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES; NO SCHEDULE AND SPECIFICATION GIVEN.</option>
+                            <option value="PRICE BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES; NO SCHEDULE GIVEN.">PRICE BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES; NO SCHEDULE GIVEN.</option>
+                            <option value="PRICE BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES; NO SPECIFICATION GIVEN.">PRICE BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES; NO SPECIFICATION GIVEN.</option>
+                            <option value="PRICE BASED ON TAGGING AS PER SCHEDULE">PRICE BASED ON TAGGING AS PER SCHEDULE</option>
+                            <option value="PRICE DOES NOT INCLUDE APPLICABLE SALES TAX.">PRICE DOES NOT INCLUDE APPLICABLE SALES TAX.</option>
+                            <option value="PRICE DOES NOT INCLUDED TROX HOSES">PRICE DOES NOT INCLUDED TROX HOSES</option>
+                            <option value="PRICE FOR AIR OUTLETS BASED ON ANEMOSTAT ONLY">PRICE FOR AIR OUTLETS BASED ON ANEMOSTAT ONLY</option>
+                            <option value="PRICE FOR AIR OUTLETS BASED ON AS PER MECHANICAL PLAN M-107 AND M-402">PRICE FOR AIR OUTLETS BASED ON AS PER MECHANICAL PLAN M-107 AND M-402</option>
+                            <option value="PRICE FOR AIR OUTLETS BASED ON BOLD LINE CONSTRUCTION ONLY.">PRICE FOR AIR OUTLETS BASED ON BOLD LINE CONSTRUCTION ONLY.</option>
+                            <option value="PRICE FOR AIR OUTLETS BASED ON POINT OF NEW CONNECTION AND BOLD LINE CONSTRUCTION ONLY.">PRICE FOR AIR OUTLETS BASED ON POINT OF NEW CONNECTION AND BOLD LINE CONSTRUCTION ONLY.</option>
+                            <option value="PRICE FOR AIR OUTLETS BASED ON POINT OF NEW CONNECTION ONLY.">PRICE FOR AIR OUTLETS BASED ON POINT OF NEW CONNECTION ONLY.</option>
+                            <option value="PRICE FOR AIR OUTLETS BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES.">PRICE FOR AIR OUTLETS BASED ON STANDARD ANEMOSTAT MODEL NUMBER AND SIZES.</option>
+                            <option value="PRICE FOR ROUND CABLE DAMPER BASED ON STANDARD YOUNG REGULATOR MODEL NUMBER 800 AWR">PRICE FOR ROUND CABLE DAMPER BASED ON STANDARD YOUNG REGULATOR MODEL NUMBER 800 AWR</option>
+                            <option value="PRICE IS BASED ON 14 PCS MODEL ECO SIZE 24X4 WHITE FINISH.">PRICE IS BASED ON 14 PCS MODEL ECO SIZE 24X4 WHITE FINISH.</option>
+                            <option value="PRICE IS BASED ON ARCHITECTURAL PLANS AND PANEL SPECIFICATIONS ONLY">PRICE IS BASED ON ARCHITECTURAL PLANS AND PANEL SPECIFICATIONS ONLY</option>
+                            <option value="PRICE IS BASED ON BLUE LABEL UNION FABRICATION">PRICE IS BASED ON BLUE LABEL UNION FABRICATION</option>
+                            <option value="PRICE IS BASED ON MECHANICAL PLANS AND SPECIFICATIONS ONLY" selected="selected">PRICE IS BASED ON MECHANICAL PLANS AND SPECIFICATIONS ONLY</option>
+                            <option value="PRICE IS BASED ON MECHANICAL PLANS ONLY">PRICE IS BASED ON MECHANICAL PLANS ONLY</option>
+                            <option value="PRICE IS BASED ON MECHANICAL PLANS, SCHEDULE AND SPECIFICATIONS ONLY">PRICE IS BASED ON MECHANICAL PLANS, SCHEDULE AND SPECIFICATIONS ONLY</option>
+                            <option value="PRICE IS BASED ON MECHANICAL SKETCH ONLY">PRICE IS BASED ON MECHANICAL SKETCH ONLY</option>
+                            <option value="PRICE IS BASED ON MECHANICAL, REVISED ARCHITECTURAL PLANS AND SPECIFICATIONS ONLY">PRICE IS BASED ON MECHANICAL, REVISED ARCHITECTURAL PLANS AND SPECIFICATIONS ONLY</option>
+                            <option value="PRICE IS BASED ON SCHEDULE DWG NO. 504978-00 ONLY">PRICE IS BASED ON SCHEDULE DWG NO. 504978-00 ONLY</option>
+                            <option value="PRICE IS BASED ON SUBMITTAL.">PRICE IS BASED ON SUBMITTAL.</option>
+                            <option value="PRICE IS BASED ON THE LIST SENT TO US.">PRICE IS BASED ON THE LIST SENT TO US.</option>
+                            <option value="PRICE IS BASED ON YOUR BILL OF MATERIALS REQUEST.">PRICE IS BASED ON YOUR BILL OF MATERIALS REQUEST.</option>
+                            <option value="PRICE OF LINEAR DIFFUSERS BASED ON TAGGING ONLY LD AND LR">PRICE OF LINEAR DIFFUSERS BASED ON TAGGING ONLY LD AND LR</option>
+                            <option value="PRICE OF LINEAR DIFFUSERS BASED ON TAGGING ONLY LD-A LR-A">PRICE OF LINEAR DIFFUSERS BASED ON TAGGING ONLY LD-A LR-A</option>
+                            <option value="PRICE OF LINEARS DIFFUSERS BASED ON TAGGING ONLY ALD ALDR">PRICE OF LINEARS DIFFUSERS BASED ON TAGGING ONLY ALD ALDR</option>
+                            <option value="PRICED ANEMOSTAT CIRCULAR DIFFUSER FOR ROUND DIFFUSERS IN EXPOSED AREA AS PER NOTE ON THE MECHANICAL PLAN M-400">PRICED ANEMOSTAT CIRCULAR DIFFUSER FOR ROUND DIFFUSERS IN EXPOSED AREA AS PER NOTE ON THE MECHANICAL PLAN M-400</option>
+                            <option value="PRICES ARE BASED ON STANDARD FACTORY LEAD TIME ONLY. ALL PREMIUMS MUST BE AUTHORIZED.">PRICES ARE BASED ON STANDARD FACTORY LEAD TIME ONLY. ALL PREMIUMS MUST BE AUTHORIZED.</option>
+                            <option value="PRICES ARE VALID FOR 30 DAYS ONLY">PRICES ARE VALID FOR 30 DAYS ONLY</option>
+                            <option value="PRICING BASED OFF OF DRAWINGS M-100">PRICING BASED OFF OF DRAWINGS M-100</option>
+                            <option value="RETURN REGISTER - GRID CORE">RETURN REGISTER - GRID CORE</option>
+                            <option value="SALES TAX NOT INCLUDED.">SALES TAX NOT INCLUDED.</option>
+                            <option value="Satin Aluminum Finish.">SATIN ALUMINUM FINISH.</option>
+                            <option value="SATIN POLISH FINISH">SATIN POLISH FINISH</option>
+                            <option value="SEPARATE PRICE FOR 32FT LINEAR DIFFUSERS (FREE-FLO) &amp;6PCS CABLE DAMPERS (800AW) FOR ALTERNATE SCOPE OF WORK AS PER MECHANICAL PLAN M-300 IS :- $ 1,350">SEPARATE PRICE FOR 32FT LINEAR DIFFUSERS (FREE-FLO) &amp;6PCS CABLE DAMPERS (800AW) FOR ALTERNATE SCOPE OF WORK AS PER MECHANICAL PLAN M-300 IS :- $ 1,350</option>
+                            <option value="STANDARD ALUMINUM CONSTRUCTION">STANDARD ALUMINUM CONSTRUCTION</option>
+                            <option value="STANDARD LEAD TIME IS 6 WEEKS.">STANDARD LEAD TIME IS 6 WEEKS.</option>
+                            <option value="STANDARD STEEL CONSTRUCTION">STANDARD STEEL CONSTRUCTION</option>
+                            <option value="STANDARD WHITE FINISH">STANDARD WHITE FINISH</option>
+                            <option value="STANDARD WHITE FINISH U.O.N.">STANDARD WHITE FINISH U.O.N.</option>
+                            <option value="TROX CONSTANT VOLUME REGULATORS BASED ON QUANTITIES SHOWN ON MECHANICAL PLANS.">TROX CONSTANT VOLUME REGULATORS BASED ON QUANTITIES SHOWN ON MECHANICAL PLANS.</option>
+                            <option value="TROX VFL CONSTANT VOLUME REGULATOR ASSEMBLIES- NO FIRE DAMPERS ">TROX VFL CONSTANT VOLUME REGULATOR ASSEMBLIES- NO FIRE DAMPERS </option>
+                            <option value="TROX VFL CONSTANT VOLUME REGULATOR ASSEMBLIES- WITH FIRE DAMPERS">TROX VFL CONSTANT VOLUME REGULATOR ASSEMBLIES- WITH FIRE DAMPERS</option>
+                            <option value="VAV BOXES ABC DIGITAL CONTROLS PACKAGE ">VAV BOXES ABC DIGITAL CONTROLS PACKAGE </option>
+                          </select></td>
+                        <td width="9%" valign="top" align="left"><a href="javascript:void(0);" onclick="AddNote();"><strong>+ Add new note</strong></a></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td id="added_notes" style="display:inline-block;" align="left"></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" height="25">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td valign="top" align="left"><strong>Special Notes</strong></td>
+                        <td colspan="2" align="left"><textarea name="special_notes" id="special_notes" class="form-control" style="width:865px; height:100px;"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" height="50">&nbsp;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <center>
+                    <input name="tot_item" id="tot_item" value="1" type="hidden">
+                    <input name="notes_row" id="notes_row" value="1" type="hidden">
+                    <input name="toid" id="toid" value="74036" type="hidden">
+                    <input name="Save" value="Save this Worksheet" class="submit-btn btn btn-success" type="submit">
+                    <input name="act" value="add" type="hidden">
+                  </center>
+                </form>
+              </div>
+            </div>
+            <!-- .row -->
+          </div>
+          <!-- .container -->
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>
