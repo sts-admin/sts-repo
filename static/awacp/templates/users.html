@@ -5,7 +5,7 @@
     <div class="panel panel-default shadow">
       <div class="panel-heading form-heading panel-heading-top">
         <label>User Management</label>
-        <span class="pull-right"><a href ui-sref="add-user" >Add User</a></span> </div>
+        <!--<span class="pull-right"><a href ui-sref="add-user" >Add User</a></span>--> </div>
       <div class="panel-body" ng-init="userVm.getUsers();">
       
         
@@ -13,7 +13,7 @@
         
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="javascript:void(0);" class="btn btn-two btn-primary width-full" onclick="ClearSearch('users');">Clear Search</a> </div>
         
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="" class="btn btn-two btn-info width-full">Add User</a> </div>
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="" ui-sref="add-user" class="btn btn-two btn-info width-full">Add User</a> </div>
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="javascript:void(0);" onclick="users_mode('deleted')" id="status_users" class="btn btn-two btn-danger width-full">Deleted User</a> </div>
         
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content text-right per-page-row"> Per page Rows
