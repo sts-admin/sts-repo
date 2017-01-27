@@ -111,6 +111,7 @@
 			<ref bean="inventoryServiceEndpoint" />
 			<ref bean="siteSettingServiceEndpoint" />
 			<ref bean="templateServiceEndpoint" />
+			<ref bean="worksheetServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -226,12 +227,14 @@
     <bean id="sbcInventoryService" class="com.awacp.service.impl.SbcInventoryServiceImpl" />
     <bean id="splInventoryService" class="com.awacp.service.impl.SplInventoryServiceImpl" />
     <bean id="jInventoryService" class="com.awacp.service.impl.JInventoryServiceImpl" />
+    <bean id="invMultiplierService" class="com.awacp.service.impl.InvMultiplierServiceImpl" />
      <bean id="inventoryServiceEndpoint" class="com.awacp.rest.endpoint.InventoryServiceEndpoint">
         <property name="awInventoryService" ref="awInventoryService" />
         <property name="awfInventoryService" ref="awfInventoryService" />
         <property name="sbcInventoryService" ref="sbcInventoryService" />
         <property name="splInventoryService" ref="splInventoryService" />
         <property name="jInventoryService" ref="jInventoryService" />
+        <property name="invMultiplierService" ref="invMultiplierService" />
     </bean>
     
     
@@ -243,6 +246,11 @@
     <bean id="marketingTemplateService" class="com.awacp.service.impl.MarketingTemplateServiceImpl" />
      <bean id="templateServiceEndpoint" class="com.awacp.rest.endpoint.MarketingTemplateServiceEndpoint">
         <property name="marketingTemplateService" ref="marketingTemplateService" />
+    </bean>
+	
+	<bean id="worksheetService" class="com.awacp.service.impl.WorksheetServiceImpl" />
+     <bean id="worksheetServiceEndpoint" class="com.awacp.rest.endpoint.WorksheetServiceEndpoint">
+        <property name="worksheetService" ref="worksheetService" />
     </bean>
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">

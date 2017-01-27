@@ -30,14 +30,16 @@ import com.sts.core.entity.BaseEntity;
 @NamedQueries({ @NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'"),
 		@NamedQuery(name = "Takeoff.countAll", query = "SELECT COUNT(t.id) FROM Takeoff t WHERE t.archived = 'false'"),
 		@NamedQuery(name = "Takeoff.listNewTakeoffsForQuote", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND FUNC('ISNULL', t.quoteId)"),
-		@NamedQuery(name = "Takeoff.listTakeoffsForView", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND NOT FUNC('ISNULL', t.quoteId)")
-})
+		@NamedQuery(name = "Takeoff.listTakeoffsForView", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND NOT FUNC('ISNULL', t.quoteId)") })
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	private String takeoffId;
 	private String quoteId;
+	private Calendar quoteDate;
+	private String quoteUserCode;
+	private String quoteComment;
 	private String jobId;
 
 	private Long salesPerson; // User id //required
@@ -57,6 +59,10 @@ public class Takeoff extends BaseEntity {
 
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
+
+	private boolean wsCreated; // Work sheet created or not
+
+	private Calendar wsDate; // Date of work sheet creation
 
 	private Set<Bidder> bidders;
 	private Set<GeneralContractor> generalContractors;
@@ -78,7 +84,7 @@ public class Takeoff extends BaseEntity {
 	private String statusStyle;
 
 	private String status;
-	
+
 	private int drawingDocCount;
 	private int takeoffDocCount;
 	private int vibroDocCount;
@@ -410,7 +416,46 @@ public class Takeoff extends BaseEntity {
 		this.vibroDocCount = vibroDocCount;
 	}
 
-	
-	
+	public Calendar getQuoteDate() {
+		return quoteDate;
+	}
+
+	public void setQuoteDate(Calendar quoteDate) {
+		this.quoteDate = quoteDate;
+	}
+
+	public String getQuoteUserCode() {
+		return quoteUserCode;
+	}
+
+	public void setQuoteUserCode(String quoteUserCode) {
+		this.quoteUserCode = quoteUserCode;
+	}
+
+	@Lob
+	@Column(length = 1024)
+	public String getQuoteComment() {
+		return quoteComment;
+	}
+
+	public void setQuoteComment(String quoteComment) {
+		this.quoteComment = quoteComment;
+	}
+
+	public boolean isWsCreated() {
+		return wsCreated;
+	}
+
+	public void setWsCreated(boolean wsCreated) {
+		this.wsCreated = wsCreated;
+	}
+
+	public Calendar getWsDate() {
+		return wsDate;
+	}
+
+	public void setWsDate(Calendar wsDate) {
+		this.wsDate = wsDate;
+	}
 
 }

@@ -16,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.AwInventory;
 import com.awacp.entity.AwfInventory;
+import com.awacp.entity.InvMultiplier;
 import com.awacp.entity.JInventory;
 import com.awacp.entity.SbcInventory;
 import com.awacp.entity.SplInventory;
 import com.awacp.service.AwInventoryService;
 import com.awacp.service.AwfInventoryService;
+import com.awacp.service.InvMultiplierService;
 import com.awacp.service.JInventoryService;
 import com.awacp.service.SbcInventoryService;
 import com.awacp.service.SplInventoryService;
@@ -43,6 +45,9 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	JInventoryService jInventoryService;
+
+	@Autowired
+	InvMultiplierService invMultiplierService;
 
 	@GET
 	@Path("/listAwfInventories/{pageNumber}/{pageSize}")
@@ -176,7 +181,7 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 	public JInventory updateJInventory(JInventory jInventory, @Context HttpServletResponse servletResponse) {
 		return this.jInventoryService.updateJInventory(jInventory);
 	}
-	
+
 	@POST
 	@Path("/updateSplInventory")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -184,7 +189,7 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 	public SplInventory updateSplInventory(SplInventory splInventory, @Context HttpServletResponse servletResponse) {
 		return this.splInventoryService.updateSplInventory(splInventory);
 	}
-	
+
 	@POST
 	@Path("/updateSbcInventory")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -192,7 +197,7 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 	public SbcInventory updateSbcInventory(SbcInventory sbcInventory, @Context HttpServletResponse servletResponse) {
 		return this.sbcInventoryService.updateSbcInventory(sbcInventory);
 	}
-	
+
 	@POST
 	@Path("/updateAwfInventory")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -200,7 +205,7 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 	public AwfInventory updateAwfInventory(AwfInventory awfInventory, @Context HttpServletResponse servletResponse) {
 		return this.awfInventoryService.updateAwfInventory(awfInventory);
 	}
-	
+
 	@POST
 	@Path("/updateAwInventory")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -267,6 +272,56 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 			servletResponse.sendError(666666, "delete_error");
 		}
 		return "{\"result\":\"" + result + "\"}";
+	}
+
+	@GET
+	@Path("/listInvMultipliers/{pageNumber}/{pageSize}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<InvMultiplier> listInvMultipliers(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.invMultiplierService.listInvMultipliers(pageNumber, pageSize);
+	}
+
+	@GET
+	@Path("/getInvMultiplier/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public InvMultiplier getInvMultiplier(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.invMultiplierService.getInvMultiplier(id);
+	}
+
+	@POST
+	@Path("/saveInvMultiplier")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public InvMultiplier saveInvMultiplier(InvMultiplier invMultiplier, @Context HttpServletResponse servletResponse)
+			throws Exception {
+		return this.invMultiplierService.saveInvMultiplier(invMultiplier);
+	}
+
+	@POST
+	@Path("/updateInvMultiplier")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public InvMultiplier updateInvMultipliern(InvMultiplier invMultiplier, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.invMultiplierService.updateInvMultiplier(invMultiplier);
+	}
+
+	@GET
+	@Path("/deleteInvMultiplier/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteInvMultiplier(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = invMultiplierService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
+	}
+
+	public void setInvMultiplierService(InvMultiplierService invMultiplierService) {
+		this.invMultiplierService = invMultiplierService;
 	}
 
 	public void setAwInventoryService(AwInventoryService awInventoryService) {

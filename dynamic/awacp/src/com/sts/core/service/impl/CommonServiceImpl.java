@@ -30,6 +30,13 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	public StsResponse<T> listAll(String entityClassName, EntityManager em) {
 		return listAll(-1, -1, entityClassName, em);
 	}
+	
+	@Override
+	public StsResponse<T> listAllArchived(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
+		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
+				.append(" entity WHERE entity.archived = 'true'");
+		return listAll(pageNumber, pageSize, sb.toString(), entityClassName, "id", em);
+	}
 
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
@@ -78,5 +85,7 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

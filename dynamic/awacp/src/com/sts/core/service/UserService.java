@@ -28,10 +28,16 @@ public interface UserService {
 	public User findUser(Long userId);
 
 	public StsResponse<User> listUser(int pageNumber, int pageSize);
+	
+	public StsResponse<User> listArchivedUser(int pageNumber, int pageSize);
 
 	public User saveUser(User user) throws StsCoreException;
 
-	public void removeUser(Long userId);
+	public String removeUser(Long userId) throws StsCoreException;
+	
+	public String archiveUser(Long userId) throws StsCoreException;
+	
+	public String activateUser(Long userId) throws StsCoreException;
 
 	public User getUserDetail(String userNameOrEmail, String loginType, boolean verified);
 

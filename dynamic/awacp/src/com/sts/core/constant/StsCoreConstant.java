@@ -8,6 +8,7 @@ public class StsCoreConstant {
 	public static final String DUPLICATE_TEMPLATE = "duplicate_template";
 	public static final String DUPLICATE_USERNAME = "duplicate_username";
 	public static final String DUPLICATE_CODE = "duplicate_code";
+	public static final String SINGLE_USER = "single_user";
 	public static final String ACCOUNT_NOT_ACTIVE = "account_not_active";
 	public static final String MULTIPLE_ACCOUNT_FOUND = "multiple_account_found";
 	public static final String ACCOUNT_ACTIVATION_SUCCESS = "account_activation_success";

@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u WHERE u.archived = 'false' ORDER BY u.dateCreated DESC"),
+		@NamedQuery(name = "User.findAllDeletedUsers", query = "SELECT u FROM User u WHERE u.archived = 'true' ORDER BY u.dateCreated DESC"),
 		@NamedQuery(name = "User.Login", query = "SELECT u FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName) AND u.verified = :verified "),
 		@NamedQuery(name = "User.findUserByNameOrEmail", query = "SELECT u FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName)"),
 		@NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE lower(u.email) = :email"),
@@ -51,6 +52,7 @@ public class User extends BaseEntity {
 	private String role;
 	private boolean firstLogin;
 	private boolean online;
+	private boolean deleted;
 
 	private Set<Permission> permissions;
 
@@ -62,20 +64,20 @@ public class User extends BaseEntity {
 	public User() {
 		super();
 	}
-	
+
 	public User(Long id, String firstName) {
 		this.setId(id);
 		this.firstName = firstName;
 	}
 
-	public User(Long id, String firstName, String lastName, String userName, String userCode, String password, 
+	public User(Long id, String firstName, String lastName, String userName, String userCode, String password,
 			String email, String role, Calendar dateCreated) {
 		this.setId(id);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.userCode = userCode;
-		this.password = password;		
+		this.password = password;
 		this.email = email;
 		this.role = role;
 		this.setDateCreated(dateCreated);
@@ -327,6 +329,14 @@ public class User extends BaseEntity {
 
 	public void setPermissionChanged(boolean permissionChanged) {
 		this.permissionChanged = permissionChanged;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }

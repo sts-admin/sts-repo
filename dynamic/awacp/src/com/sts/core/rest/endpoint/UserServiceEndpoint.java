@@ -144,6 +144,14 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
+	@Path("/listArchivedUser/{pageNumber}/{pageSize}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<User> listDeletedUser(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.userService.listArchivedUser(pageNumber, pageSize);
+	}
+
+	@GET
 	@Path("/listUsersByKeyword")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> listUser(@QueryParam("keyword") String keyword, @Context HttpServletResponse servletResponse)
@@ -200,13 +208,64 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@DELETE
+	@Path("/archive/user/{userId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String archiveUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String status = "fail";
+		try {
+			status = this.userService.archiveUser(userId);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (message.equals(StsCoreConstant.SINGLE_USER.toLowerCase())) {
+				code = 11111;
+			}
+			servletResponse.sendError(code, message);
+		}
+
+		return "{\"status\":\"" + status + "\"}";
+	}
+
+	@DELETE
 	@Path("/delete/user/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String deleteUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		this.userService.removeUser(userId);
-		return "{\"Id\":\"" + userId + "\"}";
+		String status = "fail";
+		try {
+			status = this.userService.removeUser(userId);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (message.equals(StsCoreConstant.SINGLE_USER.toLowerCase())) {
+				code = 11111;
+			}
+			servletResponse.sendError(code, message);
+		}
+		return "{\"status\":\"" + status + "\"}";
+	}
+	
+	@DELETE
+	@Path("/activate/user/{userId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String activateUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String status = "fail";
+		try {
+			status = this.userService.removeUser(userId);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (message.equals(StsCoreConstant.SINGLE_USER.toLowerCase())) {
+				code = 11111;
+			}
+			servletResponse.sendError(code, message);
+		}
+		return "{\"status\":\"" + status + "\"}";
 	}
 
 	@GET

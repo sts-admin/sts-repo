@@ -90,7 +90,8 @@ public class MailServiceImpl implements MailService {
 		javaMailProperties.put("mail.smtp.starttls.enable", true);
 		javaMailProperties.put("mail.smtp.quitwait", false);
 		javaMailProperties.put("mail.debug", true);
-		emailSender.setHost("smtp.gmail.com");
+		//emailSender.setHost("smtp.gmail.com");
+		emailSender.setHost("mail.skilledsoftech.com");
 		emailSender.setPort(587);
 		emailSender.setProtocol("smtp");
 		emailSender.setJavaMailProperties(javaMailProperties);

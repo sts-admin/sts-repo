@@ -100,7 +100,7 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 	@Transactional
 	public User updateUser(User user) throws StsCoreException {
 		User existingUser = findUser(user.getId());
-		if (existingUser.getId() != user.getId()) {
+		if (existingUser.getId() != user.getId() && !existingUser.isDeleted()) {
 			if (existingUser.getUserName().equalsIgnoreCase(user.getUserName())) {
 				throw new StsDuplicateException("duplicate_username");
 			}
@@ -136,7 +136,7 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 	@Transactional
 	public User saveUser(User user) throws StsDuplicateException {
 		User existingUser = getUserDetails(user.getEmail(), user.getUserName());
-		if (existingUser != null) {
+		if (existingUser != null && !existingUser.isDeleted()) {
 			if (existingUser.getUserName().equalsIgnoreCase(user.getUserName())) {
 				throw new StsDuplicateException("duplicate_username");
 			}
@@ -144,7 +144,7 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 				throw new StsDuplicateException("duplicate_email");
 			}
 		}
-		if (getByUserCode(user.getUserCode()) != null) {
+		if (getByUserCode(user.getUserCode()) != null && !existingUser.isDeleted()) {
 			throw new StsDuplicateException("duplicate_code");
 		}
 
@@ -174,12 +174,47 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 
 	@Override
 	@Transactional
-	public void removeUser(Long userId) {
+	public String removeUser(Long userId) throws StsCoreException {
+		int total = getTotalRecords(User.class.getSimpleName(), "id", getEntityManager());
+		if (total <= 1) {
+			throw new StsCoreException("single_user");
+		}
+		User user = findUser(userId);
+		if (user != null) {
+			user.setArchived(true);
+			user.setDeleted(true);
+			getEntityManager().merge(user);
+			return "success";
+		}
+		return "fail";
+	}
+
+	@Override
+	@Transactional
+	public String archiveUser(Long userId) throws StsCoreException {
+		int total = getTotalRecords(User.class.getSimpleName(), "id", getEntityManager());
+		if (total <= 1) {
+			throw new StsCoreException("single_user");
+		}
+
 		User user = findUser(userId);
 		if (user != null) {
 			user.setArchived(true);
 			getEntityManager().merge(user);
+			return "success";
 		}
+		return "fail";
+	}
+	
+	@Override
+	public String activateUser(Long userId) throws StsCoreException {
+		User user = findUser(userId);
+		if (user != null) {
+			user.setArchived(false);
+			getEntityManager().merge(user);
+			return "success";
+		}
+		return "fail";
 	}
 
 	private void setUserPhotoAndName(User user) {
@@ -692,5 +727,19 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public StsResponse<User> listArchivedUser(int pageNumber, int pageSize) {
+		StsResponse<User> response = listAllArchived(pageNumber, pageSize, User.class.getSimpleName(),
+				getEntityManager());
+		if (response.getResults() != null && !response.getResults().isEmpty()) {
+			for (User user : response.getResults()) {
+				setUserPhotoAndName(user);
+			}
+		}
+		return response;
+	}
+
+	
 
 }

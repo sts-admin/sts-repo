@@ -1,16 +1,17 @@
 package com.awacp.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
-import com.sts.core.entity.Country;
-import com.sts.core.entity.State;
 
 /**
  * Entity implementation class for Entity: Worksheet
@@ -22,128 +23,94 @@ public class Worksheet extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private String placeId;
-	private String street;
-	private String appartment;
-	private String city;
-	private State state;
-	private Country country;
-	private String zipCode;
-	private Long userId;
-	private Double longitude;
-	private Double latitude;
+	private Long takeoffId; // Not null
+	private Double grandTotal;
+	private List<QuoteNote> notes;
+	private List<WorksheetItemInfo> workseetItemInfos;
+	private String specialNotes;
+	private String createdByUserCode; // Code of the User created this record.
+	private String updatedByUserCode; // Code of the user update this record.
+	
+	//Transient
+	
+	private Takeoff takeoff;
 
 	public Worksheet() {
 		super();
 	}
 
-	public String getPlaceId() {
-		return placeId;
+	public Long getTakeoffId() {
+		return takeoffId;
 	}
 
-	public void setPlaceId(String placeId) {
-		this.placeId = placeId;
+	public void setTakeoffId(Long takeoffId) {
+		this.takeoffId = takeoffId;
 	}
 
-	public String getStreet() {
-		return street;
+	@XmlElement(name = "notes")
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "WORKSHEET_NOTE", joinColumns = @JoinColumn(name = "WORKSHEET") , inverseJoinColumns = @JoinColumn(name = "NOTE") )
+
+	public List<QuoteNote> getNotes() {
+		return notes;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setNotes(List<QuoteNote> notes) {
+		this.notes = notes;
 	}
 
-	public String getCity() {
-		return city;
+	public String getSpecialNotes() {
+		return specialNotes;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setSpecialNotes(String specialNotes) {
+		this.specialNotes = specialNotes;
 	}
 
-	@XmlElement(name = "state")
-	@OneToOne(optional = false, cascade = { CascadeType.DETACH })
-	@JoinColumn(name = "STATEID", unique = false, nullable = false, updatable = true)
-	public State getState() {
-		return state;
+	public String getCreatedByUserCode() {
+		return createdByUserCode;
 	}
 
-	public void setState(State state) {
-		this.state = state;
+	public void setCreatedByUserCode(String createdByUserCode) {
+		this.createdByUserCode = createdByUserCode;
 	}
 
-	@XmlElement(name = "country")
-	@OneToOne(optional = false, cascade = { CascadeType.DETACH })
-	@JoinColumn(name = "COUNTRYID", unique = false, nullable = false, updatable = true)
-	public Country getCountry() {
-		return country;
+	public String getUpdatedByUserCode() {
+		return updatedByUserCode;
 	}
 
-	public void setCountry(Country country) {
-		this.country = country;
+	public void setUpdatedByUserCode(String updatedByUserCode) {
+		this.updatedByUserCode = updatedByUserCode;
 	}
 
-	public String getZipCode() {
-		return zipCode;
+	public Double getGrandTotal() {
+		return grandTotal;
 	}
 
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
+	public void setGrandTotal(Double grandTotal) {
+		this.grandTotal = grandTotal;
 	}
 
-	public Long getUserId() {
-		return userId;
+	@XmlElement(name = "workseetItemInfos")
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "WORKSHEET_ITEMINFO", joinColumns = @JoinColumn(name = "WORKSHEET") , inverseJoinColumns = @JoinColumn(name = "ITEMINFO") )
+	public List<WorksheetItemInfo> getWorkseetItemInfos() {
+		return workseetItemInfos;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setWorkseetItemInfos(List<WorksheetItemInfo> workseetItemInfos) {
+		this.workseetItemInfos = workseetItemInfos;
 	}
 
-	/**
-	 * @return the longitude
-	 */
-	@Column(precision = 9, scale = 6)
-	public Double getLongitude() {
-		return longitude;
+	@Transient
+	public Takeoff getTakeoff() {
+		return takeoff;
 	}
 
-	/**
-	 * @param longitude
-	 *            the longitude to set
-	 */
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
+	public void setTakeoff(Takeoff takeoff) {
+		this.takeoff = takeoff;
 	}
-
-	/**
-	 * @return the latitude
-	 */
-	@Column(precision = 9, scale = 6)
-	public Double getLatitude() {
-		return latitude;
-	}
-
-	/**
-	 * @param latitude
-	 *            the latitude to set
-	 */
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
-
-	/**
-	 * @return the apartment
-	 */
-	public String getAppartment() {
-		return appartment;
-	}
-
-	/**
-	 * @param appartment
-	 *            the apartment to set
-	 */
-	public void setAppartment(String appartment) {
-		this.appartment = appartment;
-	}
+	
+	
 
 }

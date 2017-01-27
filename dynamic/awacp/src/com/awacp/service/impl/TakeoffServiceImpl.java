@@ -319,7 +319,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		if (totalRecordsCount > 0) {
 			responses = new StsResponse<>();
 			responses.setTotalCount(totalRecordsCount);
-			responses.setResults(takeoffs);
+			responses.setResults(initWithDetailForNewQuote(takeoffs));
 		}
 		return responses;
 
