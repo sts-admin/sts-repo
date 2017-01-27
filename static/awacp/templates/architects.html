@@ -9,15 +9,16 @@
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
-                <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
-					Per page Rows 
-					<select ng-class="styledselect_pages" style="outline:none;"
-					  ng-model="arcVm.pageSize" 
-					  ng-options="size for size in arcVm.pageSizeList" ng-change="arcVm.setCurrentPageSize(arcVm.pageSize);" >
-					</select>
+					<div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
+						Per page Rows 
+						<select ng-class="styledselect_pages" style="outline:none;"
+						  ng-model="arcVm.pageSize" 
+						  ng-options="size for size in arcVm.pageSizeList" ng-change="arcVm.setCurrentPageSize(arcVm.pageSize);" >
+						</select>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 dashboard-content"> 
-						<a href="javascript:void(0);" onclick="ClearSearch('engineers');" class="btn btn-primary width-full">Clear Search</a> </div>
+						<a href="javascript:void(0);" onclick="ClearSearch('engineers');" class="btn btn-primary width-full">Clear Search</a> 
+					</div>
 					<ul uib-pagination total-items="arcVm.totalItems" items-per-page = "arcVm.pageSize" ng-model="arcVm.currentPage" ng-change="arcVm.pageChanged()"></ul>
 				</div>
   

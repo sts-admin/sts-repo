@@ -150,7 +150,7 @@
 						modalInstance.dismiss();
 						defer.reject();
 					};
-					$scope.editPdni = function(id){
+					$scope.getPdniDetail = function(id){
 						AjaxUtil.getData("/awacp/getPdni/"+id, Math.random())
 						.success(function(data, status, headers){
 							if(data && data.pdni){
@@ -163,7 +163,7 @@
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						})
 					}
-					$scope.editPdni(id);
+					$scope.getPdniDetail(id);
 				}
 			});
 			return defer.promise;

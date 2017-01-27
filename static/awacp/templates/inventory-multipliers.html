@@ -2,22 +2,22 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-init="pdniVm.getPdnis();">
+		<div class="panel panel-default shadow" ng-init="invMultiVm.getInvMultipliers();">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>View PDNI</label>	
-				<span class="pull-right"><a href ng-click="pdniVm.addPdni('Add New PDNI');" >Add PDNI</a></span>
+				<label>View Inventory Multiplier</label>	
+				<span class="pull-right"><a href ng-click="invMultiVm.addInvMultiplier('Add New Multiplier');" >Add Inventory Multiplier</a></span>
 			</div>
 			<div class="panel-body">
 				<div style="text-align:right;">
                 <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
 					Per page Rows 
 					<select ng-class="styledselect_pages" style="outline:none;"
-						ng-model="pdniVm.pageSize" 
-						ng-options="size for size in pdniVm.pageSizeList" ng-change="pdniVm.setCurrentPageSize(pdniVm.pageSize);" >
+						ng-model="invMultiVm.pageSize" 
+						ng-options="size for size in invMultiVm.pageSizeList" ng-change="invMultiVm.setCurrentPageSize(invMultiVm.pageSize);" >
 					</select>
 			</div>
 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 dashboard-content"> <a href="javascript:void(0);" onclick="ClearSearch('engineers');" class="btn btn-primary width-full">Clear Search</a> </div>
-					<ul uib-pagination total-items="pdniVm.totalItems" items-per-page = "pdniVm.pageSize" ng-model="pdniVm.currentPage" ng-change="pdniVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="invMultiVm.totalItems" items-per-page = "invMultiVm.pageSize" ng-model="invMultiVm.currentPage" ng-change="invMultiVm.pageChanged()"></ul>
 				</div>
   
 				<!-- .row -->
@@ -30,7 +30,7 @@
 						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
 						  <thead>
                           
-                          <tr style="background:#CCC;">
+                          <tr style="background:#99C;">
                       <td class="center">&nbsp;</td>
                       <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
@@ -39,21 +39,21 @@
                       <td align="center">&nbsp;</td>
                     </tr>
                     
-							<tr style="background:#999; color:#000;">
+							<tr style="background:#99F; color:#000;">
 							  <td style="padding:5px;" align="center" width="5%">S. No.</td>
-							  <td style="padding:5px;" align="center" width="55%">Specification</td>
+							  <td style="padding:5px;" align="center" width="55%">Multiplier Name</td>
 							  <td style="padding:5px;" align="center" width="15%">UC</td>
 							  <td style="padding:5px;" align="center" width="15%">UC2</td>
-							  <td style="padding:5px;" filter="false" align="center"></td>
+							  <td style="padding:5px;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
 						  <tbody>
-							<tr id="user_90" height="25" ng-repeat="pdni in pdniVm.pdnis track by $index">
+							<tr id="user_90" height="25" ng-repeat="prod in invMultiVm.invMultipliers track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="left">{{pdni.pdniName}}</td>
-							  <td align="center">{{pdni.createdByUserCode}}</td>
-							  <td align="center">{{pdni.updatedByUserCode}}</td>
-							  <td align="center">&nbsp; <a href ng-click = "pdniVm.editPdni(pdni.id, 'Edit PDNI Detail');"> <img src="images/file_edit.png" title="edit PDNI" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete PDNI" ng-click="pdniVm.deletePdni(pdni.id);" border="0"> &nbsp;&nbsp; </td>
+							  <td align="left">{{prod.inventoryName}}</td>
+							  <td align="center">{{prod.createdByUserCode}}</td>
+							  <td align="center">{{prod.updatedByUserCode}}</td>
+							  <td align="center">&nbsp; <a href ng-click = "invMultiVm.editInvMultiplier(prod.id, 'Edit Inventory Multiplier Detail');"> <img src="images/file_edit.png" title="edit user" border="0"></a> &nbsp;&nbsp; <img src="images/file_delete.png" style="cursor:pointer;" title="delete product" ng-click="invMultiVm.deleteInvMultiplier(prod.id)" border="0"> &nbsp;&nbsp; </td>
 							</tr>							
 						</table>
 						</td>

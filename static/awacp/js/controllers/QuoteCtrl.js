@@ -17,6 +17,9 @@
 		qVm.architect = {};
 		
 		qVm.selectedNewQuote = {};
+		qVm.selectedTakeoff = {};
+		
+		qVm.selectedQuote = {};
 		
 		qVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("NEW_QUOTES", size, function(status, size){
@@ -45,9 +48,26 @@
 			qVm.selectedNewQuote =  quote;
 		}
 		qVm.newQuotePopover = {
-			templateUrl: 'templates/quote-info.html',
+			templateUrl: 'templates/new-quote-info.html',
 			title: 'New Quote Detail'
 		};
+		qVm.showQuoteInfo = function(quote){
+			qVm.openInfoBox = true;
+			qVm.selectedQuote =  quote;
+		}
+		qVm.quotePopover = {
+			templateUrl: 'templates/quote-info.html',
+			title: 'Quote Detail'
+		};
+		qVm.showTakeoffInfo = function(takeoff){
+			qVm.openInfoBox = true;
+			qVm.selectedTakeoff =  takeoff;
+		}
+		qVm.takeoffPopover = {
+			templateUrl: 'templates/quote-takeoff-info.html',
+			title: 'Takeoff Detail'
+		};
+		
 		qVm.makeQuote = function(id){
 			AjaxUtil.getData("/awacp/makeQuote/"+id, Math.random())
 			.success(function(data, status, headers){

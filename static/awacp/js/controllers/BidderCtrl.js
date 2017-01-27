@@ -71,9 +71,7 @@
 		}
 		bidVm.editBidder = function(){
 			if($state.params.id != undefined){
-				var formData = {};
-				formData["bidder"] = bidVm.bidder;
-				AjaxUtil.getData("/awacp/getBidder/"+$state.params.id, formData)
+				AjaxUtil.getData("/awacp/getBidder/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.bidder){
 						data.bidder.customName = data.bidder.userCode + " - "+ data.bidder.firstName;

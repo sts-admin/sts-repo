@@ -4,30 +4,32 @@
   <div class="clearfix">
     <div class="panel panel-default shadow">
       <div class="panel-heading form-heading panel-heading-top">
-        <label>User Management</label>
-        <!--<span class="pull-right"><a href ui-sref="add-user" >Add User</a></span>--> </div>
-      <div class="panel-body" ng-init="userVm.getUsers();">
+        <label>Deleted User Management</label>
+      <div class="panel-body" ng-init="userVm.getDeletedUsers();">
       
         
         
         
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="javascript:void(0);" class="btn btn-two btn-primary width-full">Clear Search</a> </div>
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="javascript:void(0);" class="btn btn-two btn-primary width-full" onclick="ClearSearch('users');">Clear Search</a> </div>
         
-
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="" ui-sref="add-user" class="btn btn-two btn-info width-full">Add User</a> </div>
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="javascript:void(0);" onclick="users_mode('deleted')" id="status_users" class="btn btn-two btn-danger width-full">Deleted User</a> </div>
-
+      
+       <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content text-right per-page-row"> Per page Rows
+          <select class="styledselect_pages" id="num_of_records" style="outline:none;" onchange="setRecPage(this.value, 'users', 'users_view_form')">
+            <option value="50" selected="selected">50</option>
+            <option value="100">100</option>
+            <option value="150">150</option>
+            <option value="200">200</option>
+            <option value="250">250</option>
+            <option value="300">300</option>
+          </select>
+        </div>
         
-				<div style="text-align:right;">
-					<div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
-						Per page Rows 
-						<select ng-class="styledselect_pages" style="outline:none;"
-						  ng-model="userVm.pageSize" 
-						  ng-options="size for size in userVm.pageSizeList" ng-change="userVm.setCurrentPageSize(userVm.pageSize);" >
-						</select>
-					</div>
-					<ul uib-pagination total-items="userVm.totalItems" items-per-page = "userVm.pageSize" ng-model="userVm.currentPage" ng-change="userVm.pageChanged()"></ul>
-				</div>
+        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-6 dashboard-content text-left">
+        <div style="text-align:right;">
+          <ul uib-pagination total-items="userVm.totalItems" ng-model="userVm.currentPage" ng-change="userVm.pageChanged()">
+          </ul>
+        </div>
+        </div>
         
         <div class="top-buffer">&nbsp;</div>
         
@@ -59,27 +61,21 @@
                       <td style="padding:5px; color:#FFF;" align="center">Email</td>
                       <td style="padding:5px; color:#FFF;" align="center">Status</td>
                       <td style="padding:5px; color:#FFF;" align="center">Date Created</td>
-                      <td style="padding:5px; color:#FFF;" filter="false" align="center"></td>
+                      <td style="padding:5px; color:#FFF;" filter="false" align="center">Action</td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr id="user_90" height="25" ng-repeat="user in userVm.users track by $index">
+                    <tr id="user_90" height="25" ng-repeat="user in userVm.deletedUsers track by $index">
                       <td align="center">{{$index + 1}}</td>
                       <td>{{user.firstName}} &nbsp;{{user.lastName}}</td>
                       <td>{{user.userName}}</td>
 					  <td>{{user.password}}</td>
                       <td align="center">{{user.userCode}}</td>
                       <td align="center">{{user.email}}</td>
-                      <td>{{user.role}}</td>
+                      <td>De-activated</td>
                       <td>{{user.dateCreated | date:'mediumDate'}}</td>
-                      <td align="center">&nbsp; 
-						<a href ui-sref="edit-user({id:user.id})"> 
-							<img src="images/file_edit.png" title="edit user" border="0">
-						</a> &nbsp;&nbsp; 
-						<img src="images/file_delete.png" style="cursor:pointer;" title="delete user" ng-click="userVm.archiveUser(user.id)" border="0"> &nbsp;&nbsp; 
-						<a href ng-click="userVm.showUserDetail(user.id)">
-							<img popover-placement="left" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" src="images/business_user_info.png" title="show user information" border="0">
-						</a>
+					  <td>
+					
 					  </td>
                     </tr>					
                 </table>

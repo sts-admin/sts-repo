@@ -2,68 +2,68 @@
 	<table width="500" cellpadding="5" cellspacing="5" border="1" bordercolor="#999999">
 		<tr>
 			<td width="155">&nbsp;<strong>Date: </strong></td>
-			<td>{{qVm.selectedQuote.dateCreated | date:'shortDate'}}</td>
+			<td>{{qVm.selectedTakeoff.dateCreated | date:'shortDate'}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>JobName: </strong></td>
-			<td>{{qVm.selectedQuote.jobName}}</td>
+			<td>{{qVm.selectedTakeoff.jobName}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>JobAddress: </strong></td>
-			<td>{{qVm.selectedQuote.jobAddress}}</td>
+			<td>{{qVm.selectedTakeoff.jobAddress}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Salesman: </strong></td>
-			<td>{{qVm.selectedQuote.salesPersonName}}</td>
+			<td>{{qVm.selectedTakeoff.salesPersonName}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Usercode: </strong></td>
-			<td>{{qVm.selectedQuote.createdByUserCode}}</td>
+			<td>{{qVm.selectedTakeoff.createdByUserCode}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Engineer: </strong></td>
-			<td>{{qVm.selectedQuote.engineerName}}</td>
+			<td>{{qVm.selectedTakeoff.engineerName}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Architect: </strong></td>
-			<td>{{qVm.selectedQuote.architectureName}}</td>
+			<td>{{qVm.selectedTakeoff.architectureName}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Specs: </strong></td>
-			<td>{{qVm.selectedQuote.spec.detail}}</td>
+			<td>{{qVm.selectedTakeoff.spec.detail}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Bidders: </strong></td>
 			<td>
-				<div ng-hide="!qVm.selectedQuote.bidders" class="ui-list-view-bordered" ui-list-view="bidder in qVm.selectedQuote.bidders | orderBy:'name'">
+				<div ng-hide="!qVm.selectedTakeoff.bidders" class="ui-list-view-bordered" ui-list-view="bidder in qVm.selectedTakeoff.bidders | orderBy:'name'">
 					{{ bidder.name }}
 				</div>
 			</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Drawing Date: </strong></td>
-			<td>{{qVm.selectedQuote.drawingDate | date: 'shortDate'}}</td>
+			<td>{{qVm.selectedTakeoff.drawingDate | date: 'shortDate'}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Due Date: </strong></td>
-			<td>{{qVm.selectedQuote.dueDate | date: 'shortDate'}}</td>
+			<td>{{qVm.selectedTakeoff.dueDate | date: 'shortDate'}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Revise Date: </strong></td>
-			<td>{{qVm.selectedQuote.revisedDate | date: 'shortDate'}}</td>
+			<td>{{qVm.selectedTakeoff.revisedDate | date: 'shortDate'}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>Dwgs Rcvd From: </strong></td>
-			<td>{{qVm.selectedQuote.drawingReceivedFrom}}</td>
+			<td>{{qVm.selectedTakeoff.drawingReceivedFrom}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>TakeOff Comments: </strong></td>
-			<td>{{qVm.selectedQuote.takeOffComment}}</td>
+			<td>{{qVm.selectedTakeoff.takeOffComment}}</td>
 		</tr>
 		<tr>
 			<td>&nbsp;<strong>GC List: </strong></td>
 			<td>
-				<div ng-hide="!qVm.selectedQuote.generalContractors" class="ui-list-view-bordered" ui-list-view="gc in qVm.selectedQuote.generalContractors | orderBy:'name'">
+				<div ng-hide="!qVm.selectedTakeoff.generalContractors" class="ui-list-view-bordered" ui-list-view="gc in qVm.selectedTakeoff.generalContractors | orderBy:'name'">
 					{{ gc.name }}
 				</div>
 			</td>

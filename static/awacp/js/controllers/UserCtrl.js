@@ -5,6 +5,7 @@
 	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, AlertService, $sce){	
 		var userVm = this;
 		userVm.users = [];
+		userVm.deletedUsers = [];
 		userVm.roles = [{name:"Administrator", id:"role_admin"}, {name:"Sub Administrator", id:"role_subadmin"}, {name:"Executive", id:"role_executive"}, {name:"Guest", id:"role_guest"}];
 		userVm.totalItems = 0;
 		userVm.currentPage = 1;
@@ -124,6 +125,33 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		userVm.getDeletedUsers = function(){
+			userVm.deletedUsers = [];
+			AjaxUtil.getData("/awacp/listArchivedUser/"+userVm.currentPage+"/"+userVm.pageSize, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					userVm.totalItems = data.stsResponse.totalCount;
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						jQuery.each(data.stsResponse.results, function(k, v){
+							v.customName = v.userCode + " - "+ v.firstName;
+							tmp.push(v);
+						});
+					}					
+					$scope.$apply(function(){
+						userVm.deletedUsers = tmp;
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UserCtrl::userVm.getUsers::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		$scope.dynamicPopover = {
 			templateUrl: 'templates/user-privileges.html',
 			title: 'User Privileges'
@@ -197,11 +225,60 @@
 						userVm.getUsers();
 					})
 					.error(function(jqXHR, textStatus, errorThrown){
+						var message = "";
+						if(11111 == jqXHR.status){
+							message = "Unable to delete, there is only one user";
+						}
+						if(message.length > 0){
+							AlertService.showAlert(	'AWACP :: Warning!', message)
+							.then(function (){return},function (){return});
+							return;
+						}
 						jqXHR.errorSource = "UserCtrl::userVm.deleteUser::Error";
 						AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 					});
 				},function (){return;});
 			}
+		}
+		userVm.archiveUser = function(userId){
+			if(userId == StoreService.getUserId()){
+				AlertService.showAlert(	'AWACP :: Warning!','You can not delete yourself.')
+				.then(function (){return;},function (){return;});
+			}else{
+				AlertService.showConfirm(	'AWACP :: Confirmation!','Are you sure to delete this user?')
+				.then(function (){
+					AjaxUtil.deleteData("/awacp/archive/user/"+userId, Math.random())
+					.success(function(data, status, headers){
+						userVm.getUsers();
+					})
+					.error(function(jqXHR, textStatus, errorThrown){
+						var message = "";
+						if(11111 == jqXHR.status){
+							message = "Unable to delete, there is only one user";
+						}
+						if(message.length > 0){
+							AlertService.showAlert(	'AWACP :: Warning!', message)
+							.then(function (){return},function (){return});
+							return;
+						}
+						jqXHR.errorSource = "UserCtrl::userVm.archiveUser::Error";
+						AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+					});
+				},function (){return;});
+			}
+		}
+		userVm.editUser = function(id){
+			userVm.user = [];
+			AjaxUtil.getData("/awacp/getUserWithPermissions/"+id, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.user){
+					userVm.user = data.user;					
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UserCtrl::userVm.editUser::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
 		}
 		userVm.editUser = function(id){
 			userVm.user = [];

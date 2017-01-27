@@ -94,9 +94,7 @@
 		}
 	    engVm.editEngineer = function(){
 			if($state.params.id != undefined){
-				var formData = {};
-				formData["engineer"] = engVm.engineer;
-				AjaxUtil.getData("/awacp/getEngineer/"+$state.params.id, formData)
+				AjaxUtil.getData("/awacp/getEngineer/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.engineer){
 						data.engineer.customName = data.engineer.userCode + " - "+ data.engineer.firstName;

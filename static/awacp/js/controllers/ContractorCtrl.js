@@ -107,9 +107,7 @@
 		
 		truckerVm.editContractor = function(){
 			if($state.params.id != undefined){
-				var formData = {};
-				formData["contractor"] = truckerVm.contractor;
-				AjaxUtil.getData("/awacp/getContractor/"+$state.params.id, formData)
+				AjaxUtil.getData("/awacp/getContractor/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.contractor){
 						data.contractor.customName = data.contractor.userCode + " - "+ data.contractor.firstName;

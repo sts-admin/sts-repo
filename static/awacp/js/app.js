@@ -52,11 +52,24 @@
 				controller:"UserCtrl",
 				controllerAs:"userVm",
 				requireAuth: true
+			}).state('users-deleted',{
+				url: '/manage/users/deleted',
+				templateUrl:"templates/deleted-users.html",
+				controller:"UserCtrl",
+				controllerAs:"userVm",
+				cache:false,
+				requireAuth: true
 			}).state('roles',{
 				url: '/manage/roles',
 				templateUrl:"templates/roles.html",
 				controller:"RoleCtrl",
 				controllerAs:"roleVm",
+				requireAuth: true
+			}).state('invmultipliers',{
+				url: '/invmultipliers',
+				templateUrl:"templates/inventory-multipliers.html",
+				controller:"InvMultiplierCtrl",
+				controllerAs:"invMultiVm",
 				requireAuth: true
 			}).state('quote-new-view',{
 				url: '/quote/add',
