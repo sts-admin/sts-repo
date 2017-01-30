@@ -17,29 +17,29 @@ import com.sts.core.entity.BaseEntity;
 @XmlRootElement
 
 @NamedQueries({
-	@NamedQuery(name = "InvMultiplier.findByInvName", query = "SELECT new com.awacp.entity.InvMultiplier(s.id, s.inventoryName) FROM InvMultiplier s WHERE s.archived = 'false' AND LOWER(s.inventoryName) LIKE :keyword"),
-	@NamedQuery(name = "InvMultiplier.findAll", query = "SELECT p FROM InvMultiplier p WHERE p.archived = 'false'")
-})
+		@NamedQuery(name = "InvMultiplier.findByInvName", query = "SELECT new com.awacp.entity.InvMultiplier(s.id, s.inventoryName, s.multiplierValue) FROM InvMultiplier s WHERE s.archived = 'false' AND LOWER(s.inventoryName) = :invName"),
+		@NamedQuery(name = "InvMultiplier.findAll", query = "SELECT p FROM InvMultiplier p WHERE p.archived = 'false'") })
 public class InvMultiplier extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	private String inventoryName;
+	private Double multiplierValue;
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
 	public InvMultiplier() {
 		super();
 	}
-	
-	public InvMultiplier(Long id, String inventoryName) {
+
+	public InvMultiplier(Long id, String inventoryName, Double multiplierValue) {
 		this.setId(id);
 		this.inventoryName = inventoryName;
+		this.multiplierValue = multiplierValue;
 	}
 
 	@NotNull
-	@Column(nullable = false, 
-	length = 100)
+	@Column(nullable = false, length = 100)
 	public String getInventoryName() {
 		return inventoryName;
 	}
@@ -65,6 +65,14 @@ public class InvMultiplier extends BaseEntity {
 
 	public void setUpdatedByUserCode(String updatedByUserCode) {
 		this.updatedByUserCode = updatedByUserCode;
+	}
+
+	public Double getMultiplierValue() {
+		return multiplierValue;
+	}
+
+	public void setMultiplierValue(Double multiplierValue) {
+		this.multiplierValue = multiplierValue;
 	}
 
 }

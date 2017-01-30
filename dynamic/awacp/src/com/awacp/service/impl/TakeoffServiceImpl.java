@@ -85,22 +85,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			return null;
 
 		for (Takeoff takeoff : takeoffs) {
-			User user = userService.findUser(takeoff.getSalesPerson());
-			if (user != null) {
-				takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
-			}
-			if (takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0) {
-				Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
-				if (eng != null) {
-					takeoff.setEngineerName(eng.getName());
-				}
-			}
-			if (takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0) {
-				Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
-				if (arc != null) {
-					takeoff.setArchitectureName(arc.getName());
-				}
-			}
+			initWithDetail(takeoff);
 			takeoff.setDrawingDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_DRAWING, takeoff.getId()));
 			takeoff.setTakeoffDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF, takeoff.getId()));
 			takeoff.setVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_VIBRO, takeoff.getId()));
@@ -108,6 +93,27 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			takeoff.setStatusStyle(takeoff.isArchived() ? "{'background':'#FFCC33'}" : "");
 		}
 		return takeoffs;
+	}
+
+	private void initWithDetail(Takeoff takeoff) {
+		if (takeoff == null)
+			return;
+		User user = userService.findUser(takeoff.getSalesPerson());
+		if (user != null) {
+			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
+		}
+		if (takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0) {
+			Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
+			if (eng != null) {
+				takeoff.setEngineerName(eng.getName());
+			}
+		}
+		if (takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0) {
+			Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
+			if (arc != null) {
+				takeoff.setArchitectureName(arc.getName());
+			}
+		}
 	}
 
 	@Override
@@ -344,6 +350,15 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		}
 
 		return "quote_create_fail";
+	}
+
+	@Override
+	public Takeoff getTakeoffWithDetail(Long id) {
+		Takeoff takeoff = getTakeoff(id);
+		if (takeoff != null) {
+			initWithDetail(takeoff);
+		}
+		return takeoff;
 	}
 
 }

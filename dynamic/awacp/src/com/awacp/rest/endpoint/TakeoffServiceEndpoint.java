@@ -67,6 +67,14 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 			throws IOException {
 		return this.takeoffService.getTakeoff(id);
 	}
+	
+	@GET
+	@Path("/getTakeoffWithDetail/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Takeoff getTakeoffWithDetail(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.takeoffService.getTakeoffWithDetail(id);
+	}
 
 	@GET
 	@Path("/makeQuote/{id}")

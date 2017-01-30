@@ -2,13 +2,8 @@ package com.awacp.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -26,14 +21,16 @@ public class Worksheet extends BaseEntity {
 	private Long takeoffId; // Not null
 	private Double grandTotal;
 	private List<QuoteNote> notes;
-	private List<WorksheetItemInfo> workseetItemInfos;
+	private List<WsManufacturerInfo> manufacturerItems;
 	private String specialNotes;
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
-	
-	//Transient
-	
+
+	// Transient
+
 	private Takeoff takeoff;
+	private String[] manufacturerArray;
+	private String[] quoteArray;
 
 	public Worksheet() {
 		super();
@@ -47,10 +44,7 @@ public class Worksheet extends BaseEntity {
 		this.takeoffId = takeoffId;
 	}
 
-	@XmlElement(name = "notes")
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "WORKSHEET_NOTE", joinColumns = @JoinColumn(name = "WORKSHEET") , inverseJoinColumns = @JoinColumn(name = "NOTE") )
-
+	@Transient
 	public List<QuoteNote> getNotes() {
 		return notes;
 	}
@@ -91,17 +85,6 @@ public class Worksheet extends BaseEntity {
 		this.grandTotal = grandTotal;
 	}
 
-	@XmlElement(name = "workseetItemInfos")
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "WORKSHEET_ITEMINFO", joinColumns = @JoinColumn(name = "WORKSHEET") , inverseJoinColumns = @JoinColumn(name = "ITEMINFO") )
-	public List<WorksheetItemInfo> getWorkseetItemInfos() {
-		return workseetItemInfos;
-	}
-
-	public void setWorkseetItemInfos(List<WorksheetItemInfo> workseetItemInfos) {
-		this.workseetItemInfos = workseetItemInfos;
-	}
-
 	@Transient
 	public Takeoff getTakeoff() {
 		return takeoff;
@@ -110,7 +93,33 @@ public class Worksheet extends BaseEntity {
 	public void setTakeoff(Takeoff takeoff) {
 		this.takeoff = takeoff;
 	}
+
 	
-	
+	@Transient
+	public List<WsManufacturerInfo> getManufacturerItems() {
+		return manufacturerItems;
+	}
+
+	public void setManufacturerItems(List<WsManufacturerInfo> manufacturerItems) {
+		this.manufacturerItems = manufacturerItems;
+	}
+
+	@Transient
+	public String[] getManufacturerArray() {
+		return manufacturerArray;
+	}
+
+	public void setManufacturerArray(String[] manufacturerArray) {
+		this.manufacturerArray = manufacturerArray;
+	}
+
+	@Transient
+	public String[] getQuoteArray() {
+		return quoteArray;
+	}
+
+	public void setQuoteArray(String[] quoteArray) {
+		this.quoteArray = quoteArray;
+	}
 
 }

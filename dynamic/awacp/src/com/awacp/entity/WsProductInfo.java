@@ -10,31 +10,31 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: WorksheetItem
+ * Entity implementation class for Entity: WsProductInfo
  *
  */
 @Entity
 @XmlRootElement
-public class WorksheetItem extends BaseEntity {
+public class WsProductInfo extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long worksheetInfoId; // Not null
+	private Long wsManufacturerId; // Not null
 	private Integer quantity;
 	private Product product;
-	private Integer list;
-	private Double net;
+	private Double listAmount;
+	private Double netAmount;
 
-	public WorksheetItem() {
+	public WsProductInfo() {
 		super();
 	}
 
-	public Long getWorksheetInfoId() {
-		return worksheetInfoId;
+	public Long getWsManufacturerId() {
+		return wsManufacturerId;
 	}
 
-	public void setWorksheetInfoId(Long worksheetInfoId) {
-		this.worksheetInfoId = worksheetInfoId;
+	public void setWsManufacturerId(Long wsManufacturerId) {
+		this.wsManufacturerId = wsManufacturerId;
 	}
 
 	public Integer getQuantity() {
@@ -56,20 +56,20 @@ public class WorksheetItem extends BaseEntity {
 		this.product = product;
 	}
 
-	public Integer getList() {
-		return list;
+	public Double getListAmount() {
+		return listAmount;
 	}
 
-	public void setList(Integer list) {
-		this.list = list;
+	public void setListAmount(Double listAmount) {
+		this.listAmount = listAmount;
 	}
 
-	public Double getNet() {
-		return net;
+	public Double getNetAmount() {
+		return netAmount;
 	}
 
-	public void setNet(Double net) {
-		this.net = net;
+	public void setNetAmount(Double netAmount) {
+		this.netAmount = netAmount;
 	}
 
 }

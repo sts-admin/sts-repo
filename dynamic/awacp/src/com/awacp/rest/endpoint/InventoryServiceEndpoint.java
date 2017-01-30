@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.AwInventory;
 import com.awacp.entity.AwfInventory;
+import com.awacp.entity.Engineer;
 import com.awacp.entity.InvMultiplier;
 import com.awacp.entity.JInventory;
 import com.awacp.entity.SbcInventory;
@@ -26,7 +27,9 @@ import com.awacp.service.InvMultiplierService;
 import com.awacp.service.JInventoryService;
 import com.awacp.service.SbcInventoryService;
 import com.awacp.service.SplInventoryService;
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class InventoryServiceEndpoint extends CrossOriginFilter {
@@ -296,7 +299,20 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public InvMultiplier saveInvMultiplier(InvMultiplier invMultiplier, @Context HttpServletResponse servletResponse)
 			throws Exception {
-		return this.invMultiplierService.saveInvMultiplier(invMultiplier);
+		InvMultiplier object = null;
+		try {
+			object = this.invMultiplierService.saveInvMultiplier(invMultiplier);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_MULTIPLIER.toLowerCase())) {
+				code = 1200;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
+
 	}
 
 	@POST
@@ -305,7 +321,19 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public InvMultiplier updateInvMultipliern(InvMultiplier invMultiplier, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.invMultiplierService.updateInvMultiplier(invMultiplier);
+		InvMultiplier object = null;
+		try {
+			object = this.invMultiplierService.updateInvMultiplier(invMultiplier);
+		} catch (StsCoreException e) {
+			Integer code = 500;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_MULTIPLIER.toLowerCase())) {
+				code = 1200;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
 	@GET
