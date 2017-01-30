@@ -20,8 +20,7 @@ html, body{height:100%; margin:0;padding:0}
 	vertical-align: middle;
 	padding-top: 100px;
 }
-.table {               
-	width: 30%;
+.table {         
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -460,3 +459,33 @@ tr.bg-dark-green td {
     overflow-y: auto;
     max-height: 200px; // your preference
 }
+.worksheet{ 
+	width:100%;margin-top:5px;border:2px solid #ccc;padding:10px;
+}
+.actions{cursor:pointer;}
+.worksheet select{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px;}
+.worksheet-textarea{ 
+	width:100%;margin-top:5px;
+}
+.worksheet-info{
+	width:100%;margin-top:5px;border:2px solid #ccc;padding:10px;
+}
+.worksheet-info select{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px;}
+.worksheet-info input{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px;}
+
+.worksheet-textarea textarea{width:100%; display:inline-block; height:75px; border:2px solid #ccc; text-indent:10px;}
+.product-row{display:inline-block; padding:8px 0px; margin:0px 0px 8px 0px;}
+.product-row label{display:block; font:normal 15px ralewayregular;}
+.product-row input[type="text"]{display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;}
+.product-row select{display:inline-block; height:40px; border-radius:5px; border:1px solid #ccc;}
+
+.add-product-row{display:inline-block; width:100%; padding:8px 0px; margin:0px 0px 8px 0px;}
+.add-product-row label{display:block; font:normal 15px ralewayregular;}
+.add-product-row input[type="text"]{width:100%; display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;}
+.add-product-row select{width:100%; display:inline-block; height:40px; border-radius:5px; border:1px solid #ccc;}
+.add-product-row textarea{width:100%; display:inline-block; height:150px; border-radius:5px; padding:5px;}
+.add-product-row ul{margin:0; padding:0; list-style:none;}
+.add-product-row ul li{position:relative; display:block; float:left; width:25%; margin:8px 0px 0px 0px;}
+.add-product-row ul li input[type="checkbox"]{margin:0px 10px 0px 0px;}
+.add-product-row input[type="submit"]{display:inline-block; padding:6px 12px; border-radius:5px; text-indent:5px; border:1px solid #ccc; font-size:18px; background:#333; color:#fff;}
+.add-product-row th{display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;}

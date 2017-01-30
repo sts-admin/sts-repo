@@ -5,7 +5,10 @@
 	<div class="modal-body" id="modal-body" style="text-align:center;">
 		<div class="row">
 			<div class="form-group">
-			  <input ng-keypress="message = '' " type="text" placeholder="Multiplier" class="form-control" maxlength="150" oninvalid="this.setCustomValidity('Enter Multiplier');" onkeypress="this.setCustomValidity('');" ng-model="inventoryName" ng-required="true" autofocus />
+			  <input ng-keypress="message = '' " type="text" placeholder="Multiplier" class="form-control" maxlength="90" oninvalid="this.setCustomValidity('Enter Multiplier');" onkeypress="this.setCustomValidity('');" ng-model="inventoryName" ng-required="true" autofocus />
+			</div>
+			<div class="form-group">
+			  <input ng-keypress="message = '' " type="number" placeholder="Multiplier Value" class="form-control" oninvalid="this.setCustomValidity('Enter Multiplier Value');" onkeypress="this.setCustomValidity('');" ng-model="multiplierValue" ng-required="true" />
 			</div>
 		</div>
 	</div>

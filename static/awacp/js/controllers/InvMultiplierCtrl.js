@@ -40,6 +40,7 @@
 				controller: function ($scope, $uibModalInstance){
 					$scope.title = title;
 					$scope.inventoryName = "";
+					$scope.multiplierValue = "";
 					$scope.value = "";
 					$scope.message = "";
 					$scope.save = function (){
@@ -47,11 +48,16 @@
 							$scope.message = "Please Enter Multiplier Detail.";
 							return;
 						}
+						if(!$scope.multiplierValue || $scope.multiplierValue.length <= 0){
+							$scope.message = "Please Enter Multiplier Value.";
+							return;
+						}
 						jQuery(".actions").attr('disabled','disabled');
 						jQuery(".spinner").css('display','block');
 						var formData = {}, invMultiplier = {};
 						invMultiplier["createdById"] = StoreService.getUser().userId;
 						invMultiplier["inventoryName"] = $scope.inventoryName;
+						invMultiplier["multiplierValue"] = $scope.multiplierValue;
 						invMultiplier["createdByUserCode"] = StoreService.getUser().userCode;
 						formData["invMultiplier"] = invMultiplier;
 						AjaxUtil.submitData("/awacp/saveInvMultiplier", formData)
@@ -67,11 +73,16 @@
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
-							$scope.message = "";
 							jQuery(".actions").removeAttr('disabled');
-							jQuery(".spinner").css('display','none');
-							jqXHR.errorSource = "InvMultiplierCtrl::invMultiVm.addInvMultiplier::Error";
-							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+							jQuery(".spinner").css('display','none');	
+							if(1200 == jqXHR.status){
+								$scope.message = "Duplicate Multiplier";
+							}else{
+								$scope.message = "";
+								qXHR.errorSource = "InvMultiplierCtrl::invMultiVm.editInvMultiplier::Error";
+								AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+							}
+							
 						});						
 					};
 					$scope.cancel = function (){						
@@ -116,15 +127,21 @@
 					$scope.title = title;
 					$scope.inventoryName = "";
 					$scope.message = "";
+					$scope.multiplierValue = "";
 					$scope.save = function (){
 						if(!$scope.inventoryName || $scope.inventoryName.length <= 0){
 							$scope.message = "Please Enter Multiplier Address Detail.";
+							return;
+						}
+						if(!$scope.multiplierValue || $scope.multiplierValue.length <= 0){
+							$scope.message = "Please Enter Multiplier Value.";
 							return;
 						}
 						jQuery(".actions").attr('disabled','disabled');
 						jQuery(".spinner").css('display','block');
 						var formData = {};
 						$scope.invMultiplier.inventoryName = $scope.inventoryName;
+						$scope.invMultiplier.multiplierValue = $scope.multiplierValue;
 						$scope.invMultiplier.updatedByUserCode = StoreService.getUser().userCode;
 						formData["invMultiplier"] = $scope.invMultiplier;
 						AjaxUtil.submitData("/awacp/updateInvMultiplier", formData)
@@ -139,12 +156,17 @@
 							}, 3000);							
 							return;
 						})
-						.error(function(jqXHR, textStatus, errorThrown){
-							$scope.message = "";
-							jQuery(".actions").removeAttr('disabled');
-							jQuery(".spinner").css('display','none');
-							jqXHR.errorSource = "InvMultiplierCtrl::invMultiVm.updateInvMultiplier::Error";
-							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+						.error(function(jqXHR, textStatus, errorThrown){		
+								jQuery(".actions").removeAttr('disabled');
+								jQuery(".spinner").css('display','none');							
+							if(1200 == jqXHR.status){
+								$scope.message = "Duplicate Multiplier";
+							}else{
+								$scope.message = "";
+								qXHR.errorSource = "InvMultiplierCtrl::invMultiVm.editInvMultiplier::Error";
+								AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+							}
+							
 						});						
 					};
 					$scope.cancel = function (){						
@@ -157,6 +179,7 @@
 							if(data && data.invMultiplier){
 								$scope.invMultiplier = data.invMultiplier;
 								$scope.inventoryName = data.invMultiplier.inventoryName;
+								$scope.multiplierValue = data.invMultiplier.multiplierValue;
 							} 
 						})
 						.error(function(jqXHR, textStatus, errorThrown){

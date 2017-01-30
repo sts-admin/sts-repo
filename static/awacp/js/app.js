@@ -408,6 +408,12 @@
 				controller:"MarketingTemplateCtrl",
 				controllerAs:"mktTmpVm",
 				requireAuth: true
+			}).state('worksheet-new',{
+				url: '/worksheet-new/:takeoffId',
+				templateUrl:"templates/worksheet.html",
+				controller:"WorksheetCtrl",
+				controllerAs:"wsVm",
+				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
