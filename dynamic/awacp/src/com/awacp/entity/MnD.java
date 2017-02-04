@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,6 +24,7 @@ public class MnD extends BaseEntity {
 
 	private String productName;
 	private String type;
+	private Double wsMultiplier;
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
@@ -69,6 +71,21 @@ public class MnD extends BaseEntity {
 
 	public void setUpdatedByUserCode(String updatedByUserCode) {
 		this.updatedByUserCode = updatedByUserCode;
+	}
+
+	public Double getWsMultiplier() {
+		return wsMultiplier;
+	}
+
+	public void setWsMultiplier(Double wsMultiplier) {
+		this.wsMultiplier = wsMultiplier;
+	}
+
+	@PrePersist
+	public void setDefaults() {
+		if (getWsMultiplier() == null || getWsMultiplier() < 0) {
+			setWsMultiplier(0.0);
+		}
 	}
 
 }

@@ -2,8 +2,13 @@ package com.awacp.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -44,7 +49,9 @@ public class Worksheet extends BaseEntity {
 		this.takeoffId = takeoffId;
 	}
 
-	@Transient
+	@XmlElement(name = "notes")
+	@ManyToMany(cascade = {CascadeType.DETACH })
+	@JoinTable(name = "WS_NOTE", joinColumns = @JoinColumn(name = "WS") , inverseJoinColumns = @JoinColumn(name = "NOTE") )
 	public List<QuoteNote> getNotes() {
 		return notes;
 	}
@@ -95,7 +102,9 @@ public class Worksheet extends BaseEntity {
 	}
 
 	
-	@Transient
+	@XmlElement(name = "manufacturerItems")
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "WS_MND", joinColumns = @JoinColumn(name = "WS") , inverseJoinColumns = @JoinColumn(name = "MND") )
 	public List<WsManufacturerInfo> getManufacturerItems() {
 		return manufacturerItems;
 	}

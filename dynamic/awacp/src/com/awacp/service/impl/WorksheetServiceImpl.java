@@ -3,7 +3,6 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,23 +27,30 @@ public class WorksheetServiceImpl implements WorksheetService {
 
 	@Override
 	@Transactional
-	public Worksheet updateWorksheet(Worksheet Worksheet){
-		return null;
+	public Worksheet updateWorksheet(Worksheet worksheet) {
+		Worksheet eWorksheet = getWorksheet(worksheet.getId());
+		eWorksheet.setUpdatedByUserCode(worksheet.getUpdatedByUserCode());
+		eWorksheet.setSpecialNotes(worksheet.getSpecialNotes());
+		eWorksheet.setGrandTotal(worksheet.getGrandTotal());
+		if (worksheet.getNotes() == null || worksheet.getNotes().isEmpty()) {
+			eWorksheet.getNotes().clear();
+		}
+		if (worksheet.getManufacturerItems() == null || worksheet.getManufacturerItems().isEmpty()) {
+			eWorksheet.getManufacturerItems().clear();
+		}
+		getEntityManager().merge(eWorksheet);
+		return eWorksheet;
 	}
 
 	@Override
 	@Transactional
-	public Worksheet saveWorksheet(Worksheet worksheet){
-		if(worksheet.getId() != null && worksheet.getId() > 0){
+	public Worksheet saveWorksheet(Worksheet worksheet) {
+		if (worksheet.getId() != null && worksheet.getId() > 0) {
 			return updateWorksheet(worksheet);
 		}
-		String[] manufacturers = worksheet.getManufacturerArray();
-		if(manufacturers != null && manufacturers.length > 0){
-			for(String mIdString: manufacturers){
-				Long mId = Long.valueOf(mIdString);
-			}
-		}
-		return null;
+		getEntityManager().persist(worksheet);
+		getEntityManager().flush();
+		return worksheet;
 	}
 
 	@Override

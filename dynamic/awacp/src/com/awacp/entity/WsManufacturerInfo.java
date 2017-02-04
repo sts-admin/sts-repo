@@ -6,9 +6,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,8 +24,6 @@ import com.sts.core.entity.BaseEntity;
 public class WsManufacturerInfo extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-
-	private Long worksheetId; // Not null
 	private MnD manufacturer;
 	private Double listTotal;
 	private Double netTotal;
@@ -40,14 +39,6 @@ public class WsManufacturerInfo extends BaseEntity {
 
 	public WsManufacturerInfo() {
 		super();
-	}
-
-	public Long getWorksheetId() {
-		return worksheetId;
-	}
-
-	public void setWorksheetId(Long worksheetId) {
-		this.worksheetId = worksheetId;
 	}
 
 	@XmlElement(name = "manufacturer")
@@ -77,7 +68,9 @@ public class WsManufacturerInfo extends BaseEntity {
 		this.netTotal = netTotal;
 	}
 
-	@Transient
+	@XmlElement(name = "pdnis")
+	@ManyToMany(cascade = { CascadeType.DETACH })
+	@JoinTable(name = "WS_MND_PDNI", joinColumns = @JoinColumn(name = "MND") , inverseJoinColumns = @JoinColumn(name = "PDNI") )
 	public List<Pdni> getPdnis() {
 		return pdnis;
 	}
@@ -143,8 +136,10 @@ public class WsManufacturerInfo extends BaseEntity {
 	public void setPercent(Double percent) {
 		this.percent = percent;
 	}
-	
-	@Transient
+
+	@XmlElement(name = "productItems")
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "WS_MND_PRODUCT", joinColumns = @JoinColumn(name = "MND") , inverseJoinColumns = @JoinColumn(name = "PRODUCT") )
 	public List<WsProductInfo> getProductItems() {
 		return productItems;
 	}

@@ -18,8 +18,6 @@ import com.sts.core.entity.BaseEntity;
 public class WsProductInfo extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-
-	private Long wsManufacturerId; // Not null
 	private Integer quantity;
 	private Product product;
 	private Double listAmount;
@@ -27,14 +25,6 @@ public class WsProductInfo extends BaseEntity {
 
 	public WsProductInfo() {
 		super();
-	}
-
-	public Long getWsManufacturerId() {
-		return wsManufacturerId;
-	}
-
-	public void setWsManufacturerId(Long wsManufacturerId) {
-		this.wsManufacturerId = wsManufacturerId;
 	}
 
 	public Integer getQuantity() {
