@@ -40,6 +40,7 @@
 				controller: function ($scope, $uibModalInstance){
 					$scope.title = title;
 					$scope.productName = "";
+					$scope.wsMultiplier = "";
 					$scope.message = "";
 					$scope.save = function (){
 						if(!$scope.productName || $scope.productName.length <= 0){
@@ -51,6 +52,7 @@
 						var formData = {}, mnD = {};
 						mnD["createdById"] = StoreService.getUser().userId;
 						mnD["productName"] = $scope.productName;
+						mnD["wsMultiplier"] = $scope.wsMultiplier;
 						mnD["createdByUserCode"] = StoreService.getUser().userCode;
 						formData["mnD"] = mnD;
 						AjaxUtil.submitData("/awacp/saveMnD", formData)
@@ -113,7 +115,8 @@
 				controller: function ($scope, $uibModalInstance){
 					$scope.manufacture = {};
 					$scope.title = title;
-					$scope.productName = "";
+					$scope.productName = 
+					$scope.wsMultiplier = "";
 					$scope.message = "";
 					$scope.save = function (){
 						if(!$scope.productName || $scope.productName.length <= 0){
@@ -124,6 +127,7 @@
 						jQuery(".spinner").css('display','block');
 						var formData = {};
 						$scope.manufacture.productName = $scope.productName;
+						$scope.manufacture.wsMultiplier = $scope.wsMultiplier;
 						$scope.manufacture.updatedByUserCode = StoreService.getUser().userCode;
 						formData["mnD"] = $scope.manufacture;
 						AjaxUtil.submitData("/awacp/updateMnD", formData)
@@ -156,6 +160,7 @@
 							if(data && data.mnD){
 								$scope.manufacture = data.mnD;
 								$scope.productName = data.mnD.productName;
+								$scope.wsMultiplier = data.mnD.wsMultiplier;
 							} 
 						})
 						.error(function(jqXHR, textStatus, errorThrown){

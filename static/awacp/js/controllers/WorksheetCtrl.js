@@ -6,37 +6,53 @@
 		var wsVm = this;
 		wsVm.action = "Add";
 		$scope.timers = [];
-		wsVm.disableAction = false;
-		wsVm.specialCase = true;
-		wsVm.specialMultiplier = 27;
 		
 		wsVm.manufacturers = [];
 		wsVm.quoteNotes = [];
 		wsVm.products = [];
 		wsVm.pdnis = [];
 		wsVm.multipliers = [];
-		
+		wsVm.mndMultipliers = {};
 		
 		wsVm.productItems = [] //Used to collect selected Products
 		wsVm.sPdnis = [{}] //Used to collect selected Pdnis
 		wsVm.sNotes = [{}] //Used to collect selected Notes
 		
 		wsVm.quote = {};
-		wsVm.manufacturerItems = [{id:1}];
 		wsVm.worksheet = {};
 		
 		wsVm.wsAction = "Save Worksheet";
+		
 		wsVm.saveOrUpdateWorksheet = function(){
 			alert(JSON.stringify(wsVm.worksheet, null, 4));
 		}
+		
+		wsVm.getAppliedPercent = function(manufacturerId){
+			var percent = 0;
+			if(!wsVm.mndMultipliers || wsVm.mndMultipliers.length <= 0) return 0;
+			angular.forEach(wsVm.mndMultipliers, function(v, k){
+				if(v.id == manufacturerId){
+					percent = v.wsMultiplier;
+					return false;
+				}
+			});
+			return percent;
+		}
+		
 		wsVm.listManufaturers = function(){
 			wsVm.manufacturers = [];
+			wsVm.mndMultipliers = {};
 			AjaxUtil.getData("/awacp/listMnDs/-1/-1", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
+							var mult = 0;
+							if(v.wsMultiplier){
+								mult = v.wsMultiplier;
+							}
+							wsVm.mndMultipliers[v.id] = {id:v.id, wsMultiplier:mult};
 							tmp.push(v);
 						});					
 					} else {
@@ -121,50 +137,39 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		wsVm.addPdni = function(){
-			wsVm.sPdnis.push({});
+		wsVm.addPdni = function(pdnis){
+			pdnis.push({});
 		}
-		wsVm.removePdni = function(){
-			if(wsVm.sPdnis.length <= 0) return;
-			wsVm.sPdnis.splice(wsVm.sPdnis.length-1, 1);
+		wsVm.removePdni = function(index, pdnis){
+			pdnis.splice(index, 1);
 		}
-		wsVm.addNewProduct = function(index, blockId){
-			var manufacturerItems, productItems;
-			if(!wsVm.worksheet.manufacturerItems){	
-				wsVm.worksheet["manufacturerItems"] = {};
-				wsVm.worksheet.manufacturerItems[blockId]={};		
-				wsVm.worksheet.manufacturerItems[blockId].productItems={};
-			}
-			wsVm.worksheet.manufacturerItems[blockId].productItems[index] = {quantity:0, listAmount:0, netAmount:0};	
-			wsVm.productItems.push({});
-			/*wsVm.doCalculation(blockId, wsVm.productItems);*/
+		wsVm.addNewProduct = function(productItems){			
+			productItems.push({quantity:1, listAmount:0, netAmount:0});	
 		}
-		wsVm.removeNewProduct = function(index, blockId){
-			if(wsVm.productItems.length <= 0) return;
-			wsVm.productItems.splice(index, 1);
-			var tmp = {};
-			var ind = -1;
-			angular.forEach(wsVm.worksheet.manufacturerItems[blockId].productItems, function(v, k){
-				if(index != k){
-					tmp[++ind] = v;
-				}
-			});
-			wsVm.worksheet.manufacturerItems[blockId].productItems = tmp;
-			wsVm.doCalculation(blockId);			
+		wsVm.removeProduct = function(index, manufacturerItem, productItems){
+			productItems.splice(index, 1);
+			wsVm.doCalculation(manufacturerItem);			
 		}
 		wsVm.addWorksheetInfoBlock = function(){
-			wsVm.manufacturerItems.push({});
+			var length = (!wsVm.worksheet.manufacturerItems)? 0 : wsVm.worksheet.manufacturerItems.length;
+			if(length <= 0){
+				wsVm.worksheet["specialNotes"] = "";
+				wsVm.worksheet["notes"] = [];
+				wsVm.worksheet["manufacturerItems"] = [];	
+				length = wsVm.worksheet.manufacturerItems.length;
+			}
+			wsVm.worksheet["notes"].push({});
+			wsVm.worksheet["manufacturerItems"].push({multiplier: 0.5, freight:0, "pdnis": [{}], "productItems": [{quantity:1, listAmount:0, netAmount:0}]});
 		}
-		wsVm.removeWorksheetInfoBlock = function(){
-			if(wsVm.manufacturerItems.length <= 0) return;
-			wsVm.manufacturerItems.splice(wsVm.manufacturerItems.length-1, 1);
+		wsVm.removeWorksheetInfoBlock = function(index){
+			if(wsVm.worksheet.manufacturerItems.length <= 0) return;
+			wsVm.worksheet.manufacturerItems.splice(index, 1);
 		}
-		wsVm.addWorksheetNote = function(){
-			wsVm.sNotes.push({});
+		wsVm.addWorksheetNote = function(notes){
+			notes.push({});
 		}
-		wsVm.removeWorksheetNote = function(){
-			if(wsVm.sNotes.length <= 0) return;
-			wsVm.sNotes.splice(wsVm.sNotes.length-1, 1);
+		wsVm.removeWorksheetNote = function(notes){
+			notes.splice(notes.length-1, 1);
 		}
 		wsVm.cancelWorksheetAction = function(){
 			$state.go("quotes");
@@ -183,33 +188,48 @@
 				})
 			}
 		}
-		wsVm.sumListAmount = function(blockId, arr){			
+		wsVm.sumListAmount = function(blockIndex, manufacturerItem){
 			var amount = 0, tmp;
-			angular.forEach(wsVm.worksheet.manufacturerItems[blockId].productItems, function(value, key){
+			angular.forEach(manufacturerItem.productItems, function(value, key){
 				tmp = Number(value.listAmount);
 				if(tmp === 'NaN'){
 					return false;
 				}
 				amount = amount + Number(value.listAmount) ; 
 			});
-			angular.element("#listTotal-"+blockId).val(amount);
-			angular.element("#percentAmount-"+blockId).val(amount);
+			manufacturerItem.listTotal = amount;
+			manufacturerItem.multPercentAmount = amount;
+			manufacturerItem.multiplier = wsVm.getMultiplier(amount);
+			var percent = 0, pAmount = 0;
+			if(manufacturerItem.manufacturer){
+				percent =wsVm.getAppliedPercent(manufacturerItem.manufacturer.id);
+				manufacturerItem.percentAmount = (manufacturerItem.listTotal + (manufacturerItem.listTotal * percent / 100));
+			}else{
+				manufacturerItem.percentAmount = manufacturerItem.listTotal;
+			}
+			manufacturerItem.multPercentAmount = manufacturerItem.percentAmount * manufacturerItem.multiplier;
 		}
-		wsVm.sumNetAmount = function(blockId, arr){			
+		
+		wsVm.sumNetAmount = function(blockIndex, manufacturerItem){			
 			var amount = 0, tmp;
-			angular.forEach(wsVm.worksheet.manufacturerItems[blockId].productItems, function(value, key){
+			angular.forEach( manufacturerItem.productItems, function(value, key){
 				tmp = Number(value.netAmount);
 				if(tmp === 'NaN'){
 					return false;
 				}
 				amount = amount + Number(value.netAmount) ; 
 			});
-			angular.element("#netTotal-"+blockId).val(amount);
-			angular.element("#netTotal2-"+blockId).val(amount);
+			manufacturerItem.netTotal = amount;		
+			var mp = 0, np = 0, fp = 0;
+			mp = Number(manufacturerItem.multPercentAmount);
+			np = Number(manufacturerItem.netTotal);
+			fp = Number(manufacturerItem.freight);
+			manufacturerItem.totalPrice = mp + np + fp;			
 		}
-		wsVm.doCalculation = function(blockId){
-			wsVm.sumListAmount(blockId);
-			wsVm.sumNetAmount(blockId);
+		
+		wsVm.doCalculation = function(blockIndex, manufacturerItem){
+			wsVm.sumListAmount(blockIndex, manufacturerItem);
+			wsVm.sumNetAmount(blockIndex, manufacturerItem);			
 		}
 		wsVm.getMultiplier = function(amount){
 			if(Number(amount) === 'NaN'){
@@ -234,7 +254,9 @@
 		}
 		
 		wsVm.initWorksheet = function(){
-			wsVm.addNewProduct(0, 0);
+			if(!wsVm.worksheet.manufacturerItems){
+				wsVm.addWorksheetInfoBlock();
+			}
 			
 			wsVm.getQuoteDetail();	
 			wsVm.listManufaturers();
@@ -248,6 +270,7 @@
 			for(var i = 1; i <= 99; i++){
 				wsVm.multipliers.push({multiplier:i/100});
 			}
+			wsVm.worksheet.manufacturerItems[0].multiplier = 0.5;
 		}
 		
 		wsVm.editWorksheet = function(){
@@ -290,39 +313,31 @@
 			var message = "Worksheet Detail Created Successfully";
 			var url = "/awacp/saveWorksheet";
 			var update = false;
-			if(wsVm.Worksheet && wsVm.Worksheet.id){
+			if(wsVm.worksheet && wsVm.worksheet.id){
 				message = "Worksheet Detail Updated Successfully";
-				wsVm.Worksheet.updatedByUserCode = StoreService.getUser().userCode;
+				wsVm.worksheet.updatedByUserCode = StoreService.getUser().userCode;
 				url = "/awacp/updateWorksheet";
 				update = true;
 			}else{
-				wsVm.Worksheet.createdByUserCode = StoreService.getUser().userCode;
+				wsVm.worksheet.createdByUserCode = StoreService.getUser().userCode;
 			}
 			var formData = {};			
-			formData["worksheet"] = wsVm.worksheet;
-			
+			formData["worksheet"] = wsVm.worksheet;			
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
 				if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
-					.then(function (){wsVm.cancelWorksheetAction();},function (){return false;});
+					.then(function (){$state.go("quote-view");},function (){return false;});
 					return;
 				}else{
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
-					.then(function (){return},function (){wsVm.cancelWorksheetAction();});
+					.then(function (){return},function (){$state.go("quote-view");});
 					return;
-				}
-				
+				}				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				if(1002 == jqXHR.status){
-					AlertService.showAlert(	'AWACP :: Alert!', "An Worksheet with this email ID already exist, please use a different email ID.")
-					.then(function (){return},function (){return});
-					return;
-				}else{
-					jqXHR.errorSource = "WorksheetCtrl::wsVm.addWorksheet::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				}
+				jqXHR.errorSource = "WorksheetCtrl::wsVm.addWorksheet::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		$scope.$on("$destroy", function(){
@@ -330,8 +345,7 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});		
-		wsVm.initWorksheet();
-		
+		wsVm.initWorksheet();		
 	}		
 })();
 

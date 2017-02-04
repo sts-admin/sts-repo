@@ -7,7 +7,7 @@
 				<label>Worksheet</label>				
 			</div>
 			<div class="panel-body">
-				<form name="worksheetForm" ng-submit="wsVm.saveOrUpdateWorksheet();" >
+				<form name="worksheetForm" ng-submit="wsVm.addWorksheet();" >
 				  <table class="table-responsive worksheet">
 					<tr style="background-color:silver;">
 						<th colspan="4" style="text-align:center;">
@@ -50,23 +50,24 @@
 					</tr>
 				  </table>
 				  <div>
-					  <div style="width:100%;background-color:silver;margin-top:10px;border:1px solid red;text-align:center;">
+					 
+					<div class="worksheet-info container" ng-repeat="manufacturerItem in wsVm.worksheet.manufacturerItems track by $index">
+					 <div style="width:100%;background-color:silver;text-align:center;">
 						Manufacturer and product detail
 						<span class="pull-right">
 							<span class="actions" ng-click="wsVm.addWorksheetInfoBlock();" style="padding-right:10px;color:white;">Add [+] </span>
-							|
-							<span class="actions" ng-click="wsVm.removeWorksheetInfoBlock();" style="padding-left:10px;color:white;">Remove [-] </span>
-						</span>
-						
+							
+							<span ng-hide="$index == 0" class="actions" ng-click="wsVm.removeWorksheetInfoBlock($index);" style="padding-left:10px;color:white;">| Remove [-] </span>
+						</span>						
 					</div>
-					<div class="worksheet-info container" ng-repeat="manufacturerItem in wsVm.manufacturerItems track by $index">
+					Index :: {{$index}}
 						<div class="manufacture-row row">
 							<div class="col-sm-2">
 							  Select Manufacturer
 							</div>
 							<div class="col-sm-10">
-								<select ng-required="true" 
-								  ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].manufacturer.id" 
+								<select ng-required="true" ng-change="wsVm.doCalculation($index, manufacturerItem);" 
+								  ng-model="wsVm.worksheet.manufacturerItems[$index].manufacturer.id" 
 								  ng-options="manu.id as manu.productName for manu in wsVm.manufacturers" 
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
 								</select>
@@ -86,28 +87,28 @@
 								Net Amount
 							</div>
 						</div>
-						<div class="product-row-input row" ng-repeat="productItem in wsVm.productItems track by $index" style="padding-bottom:5px;">
+						<div class="product-row-input row" ng-repeat="productItem in manufacturerItem.productItems track by $index" style="padding-bottom:5px;">
 							<div class="col-sm-2"> 
-								<input type="number" name="quantity" ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].productItems[$index].quantity" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input type="number" name="quantity" ng-model="manufacturerItem.productItems[$index].quantity" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div> 
 							<div class="col-sm-5">
 								<select ng-required="true" 
-								  ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].productItems[$index].id" 
+								  ng-model="manufacturerItem.productItems[$index].product.id" 
 								  ng-options="prod.id as prod.productName for prod in wsVm.products" 
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
 								</select>
 							</div> 
 							<div class="col-sm-2"> 
-								<input  ng-change="wsVm.doCalculation(manufacturerItem.id-1);" ng-required="true" type="number" name="listAmount"  ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].productItems[$index].listAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem);" ng-required="true" type="number" name="listAmount"  ng-model="manufacturerItem.productItems[$index].listAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div> 
 							<div class="col-sm-2">
-								<input  ng-change="wsVm.doCalculation(manufacturerItem.id-1);" type="number" name="netAmount"  ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].productItems[$index].netAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem);" type="number" name="netAmount"  ng-model="manufacturerItem.productItems[$index].netAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div>		
 							<div class="col-sm-1">
 								<span ng-show="$index == 0">
-									<span class="actions" ng-click="wsVm.addNewProduct(wsVm.productItems.length, manufacturerItem.id-1);" style="padding-right:10px;">Add [+] </span>
+									<span ng-hide="!manufacturerItem.manufacturer" class="actions" ng-click="wsVm.addNewProduct(manufacturerItem.productItems);" style="padding-right:10px;">Add [+] </span>
 								</span>
-								<span ng-show="$index > 0" class="actions" ng-click="wsVm.removeNewProduct($index, manufacturerItem.id-1);" style="padding-right:10px;">Remove [-] </span>								
+								<span ng-show="$index > 0" class="actions" ng-click="wsVm.removeProduct($index, manufacturerItem, manufacturerItem.productItems);" style="padding-right:10px;">Remove [-] </span>								
 							</div>
 						</div>
 						<div class="productItem-row-total row">
@@ -115,10 +116,10 @@
 								Total :
 							</div> 
 							<div class="col-sm-2"> 
-								<input  ng-required="true" type="number" name="listTotal" id="listTotal-{{manufacturerItem.id-1}}"  ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].listTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
+								<input  ng-required="true" type="number" name="listTotal" id="listTotal-{{$index}}"  ng-model="manufacturerItem.listTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
 							</div> 
 							<div class="col-sm-2">
-								<input  type="number" name="netTotal"  id="netTotal-{{manufacturerItem.id-1}}" ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].netTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
+								<input  type="number" name="netTotal"  id="netTotal-{{$index}}" ng-model="manufacturerItem.netTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
 							</div>
 							<div class="col-sm-1">
 								
@@ -126,8 +127,8 @@
 						</div>
 						<div class="productItem-row-grand-total row">
 							<div class="col-sm-2">
-								<span ng-show="wsVm.specialCase">List total + {{wsVm.specialMultiplier}} %</span>
-								<span ng-show="!wsVm.specialCase">Total list amount</span>
+								<span ng-show="manufacturerItem.manufacturer.wsMultiplier > 0">List total + {{manufacturerItem.manufacturer.wsMultiplier}} %</span>
+								<span ng-hide="manufacturerItem.manufacturer.wsMultiplier <= 0">List total</span>
 							</div> 
 							<div class="col-sm-1">
 							</div>
@@ -147,14 +148,14 @@
 						</div>
 						<div class="productItem-row-grand-total row">
 							<div class="col-sm-2">
-								<input  type="number" name="percentAmount" id="percentAmount-{{manufacturerItem.id-1}}" ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].percentAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
+								<input  type="number" name="percentAmount" id="percentAmount-{{$index}}" ng-model="manufacturerItem.percentAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
 							</div> 
 							<div class="col-sm-1">
 								<span> X </span>
 							</div>
 							<div class="col-sm-1">
-								<select ng-required="true" 
-								  ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].multiplier" 
+								<select ng-required="true" ng-disabled="!manufacturerItem.manufacturer"
+								  ng-model="manufacturerItem.multiplier" 
 								  ng-options="multiplier.multiplier as multiplier.multiplier for multiplier in wsVm.multipliers" 
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
 								</select>
@@ -163,47 +164,47 @@
 								<span> = </span>
 							</div>
 							<div class="col-sm-1">
-								<input  ng-required="true" type="number" id="multPercentAmount-{{manufacturerItem.id-1}}" name="multPercentAmount" ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].multPercentAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
+								<input  ng-required="true" type="number" id="multPercentAmount-{{$index}}" name="multPercentAmount" ng-model="manufacturerItem.multPercentAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
 							</div> 
 							<div class="col-sm-1">
 								<span> + </span>
 							</div>
 							<div class="col-sm-1">
-								<input  type="number" name="netTotal" id="netTotal2-{{manufacturerItem.id-1}}" ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].netTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
+								<input  type="number" name="netTotal" id="netTotal2-{{$index}}" ng-model="manufacturerItem.netTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
 							</div> 
 							<div class="col-sm-1">
 								<span> + </span>
 							</div>
 							<div class="col-sm-1">
-								<input  ng-change="wsVm.doCalculation(manufacturerItem.id-1);" type="text" name="freight" ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].freight" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($index, manufacturerItem);" type="text" name="freight" ng-model="manufacturerItem.freight" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div> 
 							<div class="col-sm-1">
 								<span> = </span>
 							</div>
 							<div class="col-sm-1">
-								<input  ng-required="true" type="number" name="totalPrice" id="totalPrice-{{manufacturerItem.id-1}}" ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].totalPrice" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true"  />
+								<input  ng-required="true" type="number" name="totalPrice" id="totalPrice-{{$index}}" ng-model="manufacturerItem.totalPrice" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true"  />
 							</div> 
 						</div>
-						<div class="productItem-row-pdni row" style="padding-bottom:5px;padding-top:5px;" ng-repeat="pdni in wsVm.sPdnis track by $index">
+						<div class="productItem-row-pdni row" style="padding-bottom:5px;padding-top:5px;" ng-repeat="pdni in manufacturerItem.pdnis track by $index">
 							<div class="col-sm-1">P.D.N.I</div> 
 							<div class="col-sm-10">
 								<select  ng-required="true" 
-								  ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].pdnis[$index].id" 
+								  ng-model="manufacturerItem.pdnis[$index].id" 
 								  ng-options="pd.id as pd.pdniName for pd in wsVm.pdnis" 
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
 								</select>
 							</div> 
-							<div class="col-sm-1">
+							<div class="col-sm-1" ng-show="wsVm.pdnis.length > 1">
 								<span ng-show="$index == 0">
-									<span class="actions" ng-click="wsVm.addPdni();">Add [+] </span>
+									<span  class="actions" ng-click="wsVm.addPdni(manufacturerItem.pdnis);">Add [+] </span>
 								</span>
-								<span ng-show="$index > 0" class="actions" ng-click="wsVm.removePdni();">Remove [-] </span>
+								<span ng-show="$index > 0" class="actions" ng-click="wsVm.removePdni($index, manufacturerItem.pdnis);">Remove [-] </span>
 							</div>
 						</div>
 						<div class="productItem-row-comment row" style="padding-bottom:5px;padding-top:5px;">
 							<div class="col-sm-1">Comment</div> 
 							<div class="col-sm-11">
-								<input  ng-required="true" type="text" name="comments" ng-model="wsVm.worksheet.manufacturerItems[(manufacturerItem.id-1)].comments" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input  ng-required="true" type="text" name="comments" ng-model="manufacturerItem.comments" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div> 
 						</div>
 					</div>
@@ -212,13 +213,13 @@
 					<tr style="background-color:silver;">
 						<th colspan="4" style="text-align:center;">
 							Worksheet Notes
-							<span class="pull-right">
-								<span class="actions" ng-click="wsVm.addWorksheetNote();" style="padding-right:10px;color:white;">Add [+] </span> |
-								<span class="pull-right actions" ng-click="wsVm.removeWorksheetNote();" style="padding-left:10px;color:white;">Remove [-] </span>
+							<span class="pull-right" ng-show="wsVm.quoteNotes.length > 1" >
+								<span class="actions" ng-click="wsVm.addWorksheetNote(wsVm.worksheet.notes);" style="padding-right:10px;color:white;">Add [+] </span> |
+								<span class="pull-right actions" ng-click="wsVm.removeWorksheetNote(wsVm.worksheet.notes);" style="padding-left:10px;color:white;">Remove [-] </span>
 							</span>
 						</th>
 					</tr>
-					<tr ng-repeat="note in wsVm.sNotes track by $index">
+					<tr ng-repeat="note in wsVm.worksheet.notes track by $index">
 						<td colspan="4">
 							<select  ng-required="true" 
 							  ng-model="wsVm.worksheet.notes[$index].id" 
@@ -235,7 +236,7 @@
 						</tr>
 						<tr>
 							<td colspan="4">
-								<textarea name="specialNotes" ng-model="worksheet.specialNotes" />
+								<textarea name="specialNotes" ng-model="wsVm.worksheet.specialNotes" />
 							</td>
 						</tr>				
 				  </table>

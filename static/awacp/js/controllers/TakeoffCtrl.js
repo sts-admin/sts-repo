@@ -388,6 +388,7 @@
 			takeVm.takeoffs = [];
 			AjaxUtil.getData("/awacp/listTakeoffs/"+takeVm.currentPage+"/"+takeVm.pageSize, Math.random())
 			.success(function(data, status, headers){
+				alert(JSON.stringify(data, null, 4));
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					takeVm.totalItems = 	data.stsResponse.totalCount;
 				}
