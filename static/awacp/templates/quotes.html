@@ -79,11 +79,13 @@
 								  <img  popover-placement="right" uib-popover-template="qVm.quotePopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qVm.quotePopover.title}}"  ng-click="qVm.showQuoteInfo(quote);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
 							  </td>
 							  <td align="center">
-								<a href ui-sref="worksheet-new({takeoffId:quote.id})">
-									<img ng-show="!quote.wsCreated" src="images/worksheet_new.png" />
+								<a ng-show="!quote.wsCreated" href ui-sref="worksheet-new({takeoffId:quote.id})">
+									<img  src="images/worksheet_new.png" />
 								</a>
-
-								<img ng-show="quote.wsCreated" src="images/worksheet_edit.png" />
+								<a ng-show="quote.wsCreated" href ui-sref="worksheet-edit({worksheetId:quote.worksheetId})">
+									<img src="images/worksheet_edit.png" />
+								</a>
+								
 							</td>
 							  <td align="center"></td>
 							  <td align="center"></td>
