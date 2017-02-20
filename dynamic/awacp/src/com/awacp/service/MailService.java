@@ -3,6 +3,8 @@ package com.awacp.service;
 public interface MailService {
 
 	public String sendNewTakeoffMail(Long takeoffId) throws Exception;
+	
+	public boolean sendQuoteMailToBidders(Long takeoffId, String fileName, String quotePdfFilePath) throws Exception;
 
 	public boolean sendTakeoffMail();
 

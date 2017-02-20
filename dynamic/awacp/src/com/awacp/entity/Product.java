@@ -38,7 +38,7 @@ public class Product extends BaseEntity {
 	}
 
 	@NotNull
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 255)
 	public String getProductName() {
 		return productName;
 	}

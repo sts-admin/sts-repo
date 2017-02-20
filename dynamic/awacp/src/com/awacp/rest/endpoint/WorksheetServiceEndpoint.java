@@ -24,6 +24,15 @@ public class WorksheetServiceEndpoint extends CrossOriginFilter {
 	private WorksheetService worksheetService;
 
 	@GET
+	@Path("/sendEmailToBidders/{worksheetId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String sendEmailToBidders(@PathParam("worksheetId") Long worksheetId,
+			@Context HttpServletResponse servletResponse) throws Exception {
+		boolean status = this.worksheetService.sendEmailToBidders(worksheetId);
+		return "{\"status\":\"" + status + "\"}";
+	}
+
+	@GET
 	@Path("/getWorksheet/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Worksheet getWorksheet(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
@@ -48,7 +57,7 @@ public class WorksheetServiceEndpoint extends CrossOriginFilter {
 			throws IOException {
 		return this.worksheetService.updateWorksheet(worksheet);
 	}
-	
+
 	@GET
 	@Path("/deleteWorksheet/{id}")
 	@Produces(MediaType.APPLICATION_JSON)

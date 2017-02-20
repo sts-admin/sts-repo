@@ -1,6 +1,6 @@
 package com.awacp.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,8 +25,8 @@ public class Worksheet extends BaseEntity {
 
 	private Long takeoffId; // Not null
 	private Double grandTotal;
-	private List<QuoteNote> notes;
-	private List<WsManufacturerInfo> manufacturerItems;
+	private Set<QuoteNote> notes;
+	private Set<WsManufacturerInfo> manufacturerItems;
 	private String specialNotes;
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
@@ -50,13 +50,13 @@ public class Worksheet extends BaseEntity {
 	}
 
 	@XmlElement(name = "notes")
-	@ManyToMany(cascade = {CascadeType.DETACH })
+	@ManyToMany(cascade = { CascadeType.DETACH })
 	@JoinTable(name = "WS_NOTE", joinColumns = @JoinColumn(name = "WS") , inverseJoinColumns = @JoinColumn(name = "NOTE") )
-	public List<QuoteNote> getNotes() {
+	public Set<QuoteNote> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(List<QuoteNote> notes) {
+	public void setNotes(Set<QuoteNote> notes) {
 		this.notes = notes;
 	}
 
@@ -101,15 +101,14 @@ public class Worksheet extends BaseEntity {
 		this.takeoff = takeoff;
 	}
 
-	
 	@XmlElement(name = "manufacturerItems")
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "WS_MND", joinColumns = @JoinColumn(name = "WS") , inverseJoinColumns = @JoinColumn(name = "MND") )
-	public List<WsManufacturerInfo> getManufacturerItems() {
+	public Set<WsManufacturerInfo> getManufacturerItems() {
 		return manufacturerItems;
 	}
 
-	public void setManufacturerItems(List<WsManufacturerInfo> manufacturerItems) {
+	public void setManufacturerItems(Set<WsManufacturerInfo> manufacturerItems) {
 		this.manufacturerItems = manufacturerItems;
 	}
 

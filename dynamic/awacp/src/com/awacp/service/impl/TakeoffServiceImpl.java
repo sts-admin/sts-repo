@@ -344,6 +344,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 				String id = new StringBuffer("Q").append(df.format(Calendar.getInstance().getTime())).append("-")
 						.append(takeoff.getId()).toString();
 				takeoff.setQuoteId(id);
+				takeoff.setQuoteDate(Calendar.getInstance());
 				getEntityManager().merge(takeoff);
 				return "quote_create_success";
 			}
@@ -359,6 +360,18 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			initWithDetail(takeoff);
 		}
 		return takeoff;
+	}
+
+	@Override
+	@Transactional
+	public void setWorksheetCreated(Long takeoffId, Long worksheetId) {
+		Takeoff takeoff = getTakeoff(takeoffId);
+		takeoff.setWsCreated(true);
+		takeoff.setWsDate(Calendar.getInstance());
+		takeoff.setWorksheetId(worksheetId);
+		getEntityManager().merge(takeoff);
+		getEntityManager().flush();
+
 	}
 
 }

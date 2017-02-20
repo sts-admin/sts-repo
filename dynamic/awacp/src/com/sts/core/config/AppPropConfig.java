@@ -11,11 +11,13 @@ public class AppPropConfig {
 	public static String appName;
 	public static String projectTeamName;
 	public static String emailVerificationUrl;
-	
+
 	public static String emailCommonPassword;
 	public static String emailNewTakeoff;
 	public static String emailTakeoff;
 	public static String emailQuoteFollowup;
+	public static String quoteMailToBidder;
+	public static String quoteMailToBidderPassword;
 	public static String emailFinalUpdate;
 	public static String emailMondayReminder;
 	public static String emailDeleteInvoice;
@@ -27,7 +29,6 @@ public class AppPropConfig {
 	public static String emailLowinventoryJ;
 	public static String emailOrderConfirmation;
 	public static String emailNoReply;
-	
 
 	/**
 	 * @param appBaseUrl
@@ -46,7 +47,7 @@ public class AppPropConfig {
 	public void setFileAccessPath(String fileAccessPath) {
 		AppPropConfig.resourceWritePath = fileAccessPath;
 	}
-	
+
 	/**
 	 * @param appImageUrl
 	 *            the appImageUrl to set
@@ -176,7 +177,15 @@ public class AppPropConfig {
 	public void setEmailNoReply(String emailNoReply) {
 		AppPropConfig.emailNoReply = emailNoReply;
 	}
-	
-	
+
+	@Value("${quoteMailToBidder}")
+	public void setQuoteMailToBidder(String quoteMailToBidder) {
+		AppPropConfig.quoteMailToBidder = quoteMailToBidder;
+	}
+
+	@Value("${quoteMailToBidderPassword}")
+	public void setQuoteMailToBidderPassword(String quoteMailToBidderPassword) {
+		AppPropConfig.quoteMailToBidderPassword = quoteMailToBidderPassword;
+	}
 
 }

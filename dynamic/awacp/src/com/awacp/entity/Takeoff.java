@@ -61,7 +61,7 @@ public class Takeoff extends BaseEntity {
 	private String updatedByUserCode; // Code of the user update this record.
 
 	private boolean wsCreated; // Work sheet created or not
-
+	private Long worksheetId;
 	private Calendar wsDate; // Date of work sheet creation
 
 	private Set<Bidder> bidders;
@@ -82,6 +82,8 @@ public class Takeoff extends BaseEntity {
 	private String specName;
 	private String idStyle;
 	private String statusStyle;
+	
+	private boolean hasBidders;
 
 	private String status;
 
@@ -457,5 +459,24 @@ public class Takeoff extends BaseEntity {
 	public void setWsDate(Calendar wsDate) {
 		this.wsDate = wsDate;
 	}
+
+	public Long getWorksheetId() {
+		return worksheetId;
+	}
+
+	public void setWorksheetId(Long worksheetId) {
+		this.worksheetId = worksheetId;
+	}
+
+	@Transient
+	public boolean isHasBidders() {
+		return hasBidders;
+	}
+
+	public void setHasBidders(boolean hasBidders) {
+		this.hasBidders = hasBidders;
+	}
+	
+	
 
 }

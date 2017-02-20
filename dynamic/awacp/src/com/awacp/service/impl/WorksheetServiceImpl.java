@@ -1,13 +1,20 @@
 package com.awacp.service.impl;
 
+import java.util.Calendar;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Takeoff;
 import com.awacp.entity.Worksheet;
+import com.awacp.service.MailService;
+import com.awacp.service.TakeoffService;
 import com.awacp.service.WorksheetService;
+import com.awacp.util.QuotePdfGenerator;
+import com.sts.core.config.AppPropConfig;
 import com.sts.core.service.UserService;
 
 public class WorksheetServiceImpl implements WorksheetService {
@@ -15,6 +22,12 @@ public class WorksheetServiceImpl implements WorksheetService {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	TakeoffService takeoffService;
+	
+	@Autowired
+	MailService mailService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -50,6 +63,7 @@ public class WorksheetServiceImpl implements WorksheetService {
 		}
 		getEntityManager().persist(worksheet);
 		getEntityManager().flush();
+		takeoffService.setWorksheetCreated(worksheet.getTakeoffId(), worksheet.getId());
 		return worksheet;
 	}
 
@@ -69,6 +83,18 @@ public class WorksheetServiceImpl implements WorksheetService {
 			return "success";
 		}
 		return "fail";
+	}
+
+	@Override
+	public boolean sendEmailToBidders(Long worksheetId) throws Exception {
+		Worksheet worksheet = getWorksheet(worksheetId);
+		worksheet.setTakeoff(getEntityManager().find(Takeoff.class, worksheet.getTakeoffId()));
+		String fileName = "quote-" + Calendar.getInstance().getTimeInMillis()
+				+ ".pdf";
+		String pdfFilePath = AppPropConfig.resourceWritePath + fileName; 
+		String logoPath = AppPropConfig.resourceWritePath + "awacp_big_logo.png";
+		new QuotePdfGenerator(pdfFilePath, logoPath, worksheet).generate();
+		return mailService.sendQuoteMailToBidders(worksheet.getTakeoffId(), fileName, pdfFilePath);
 	}
 
 }

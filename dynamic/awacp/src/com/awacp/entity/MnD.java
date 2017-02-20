@@ -38,7 +38,7 @@ public class MnD extends BaseEntity {
 		return productName;
 	}
 
-	public void setProduct(String productName) {
+	public void setProductName(String productName) {
 		this.productName = productName;
 	}
 
@@ -48,10 +48,6 @@ public class MnD extends BaseEntity {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
 	}
 
 	@NotNull

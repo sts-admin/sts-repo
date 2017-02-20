@@ -16,9 +16,8 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 
-@NamedQueries({	
-	@NamedQuery(name = "QuoteNote.findAll", query = "SELECT p FROM QuoteNote p WHERE p.archived = 'false'")
-})
+@NamedQueries({
+		@NamedQuery(name = "QuoteNote.findAll", query = "SELECT p FROM QuoteNote p WHERE p.archived = 'false'") })
 public class QuoteNote extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +29,7 @@ public class QuoteNote extends BaseEntity {
 	public QuoteNote() {
 		super();
 	}
+
 	@NotNull
 	@Column(nullable = false, length = 100)
 	public String getNote() {
@@ -57,6 +57,31 @@ public class QuoteNote extends BaseEntity {
 
 	public void setUpdatedByUserCode(String updatedByUserCode) {
 		this.updatedByUserCode = updatedByUserCode;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QuoteNote other = (QuoteNote) obj;
+		if (getId() == null) {
+			if (other.getId() != null)
+				return false;
+		} else if (getId().intValue() != other.getId().intValue())
+			return false;
+		return true;
 	}
 
 }

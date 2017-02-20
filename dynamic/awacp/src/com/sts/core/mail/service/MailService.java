@@ -1,5 +1,6 @@
 package com.sts.core.mail.service;
 
+import java.io.File;
 import java.util.List;
 
 import com.sts.core.entity.UserMailHistory;
@@ -15,6 +16,5 @@ public interface MailService {
 	public List<UserMailHistory> getUserMailHistory(String email, String eventName);
 
 	public boolean sendMail(String[] toAddresses, String fromAddres, String mailSubject, String content, String event,
-			String userName, String password) throws Exception;
-
+			String userName, String password, String fileName, File file) throws Exception;
 }

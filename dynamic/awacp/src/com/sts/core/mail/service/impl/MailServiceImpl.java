@@ -3,6 +3,7 @@
  */
 package com.sts.core.mail.service.impl;
 
+import java.io.File;
 import java.util.List;
 import java.util.Properties;
 
@@ -65,7 +66,7 @@ public class MailServiceImpl implements MailService {
 			throws Exception {
 		String[] addresses = { toAddress };
 		return sendMail(addresses, fromAddress, mailSubject, content, event, AppPropConfig.emailNewTakeoff,
-				AppPropConfig.emailCommonPassword);
+				AppPropConfig.emailCommonPassword, null, null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -80,7 +81,7 @@ public class MailServiceImpl implements MailService {
 
 	@Override
 	public boolean sendMail(String[] toAddresses, String fromAddress, String mailSubject, String content, String event,
-			String userName, String password) throws Exception {
+			String userName, String password, String fileName, File file) throws Exception {
 		logger.info("Email being send to " + toAddresses + ", from " + fromAddress);
 		// UserMailHistory userMailHistory = new UserMailHistory(toAddresses,
 		// content, event);
@@ -100,10 +101,19 @@ public class MailServiceImpl implements MailService {
 		MimeMessage mimeMessage = emailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
 		mimeMessage.setContent(content, "text/html");
+		
+		
 
 		helper.setFrom(fromAddress);
 		helper.setTo(toAddresses);
 		helper.setSubject(mailSubject);
+		
+		//set attachment if any
+		if(file != null){
+			String attachmentFileName = fileName != null && !fileName.isEmpty()?fileName: file.getName();
+			helper.addAttachment(attachmentFileName, file);
+		}
+		
 		mimeMessage.setFrom(fromAddress);
 
 		boolean mailSendSuccess = false;

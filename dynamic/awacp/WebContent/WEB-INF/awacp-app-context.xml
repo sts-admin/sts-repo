@@ -265,6 +265,4 @@
     <util:list id="jsonTypes">
         <value>application/json</value>
     </util:list>
-    
-    
 </beans>

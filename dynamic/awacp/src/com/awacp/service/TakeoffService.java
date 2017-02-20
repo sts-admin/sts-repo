@@ -15,6 +15,8 @@ public interface TakeoffService {
 	public Takeoff saveTakeoff(Takeoff takeoff) throws Exception;
 
 	public Takeoff updateTakeoff(Takeoff takeoff);
+	
+	public void setWorksheetCreated(Long takeoffId, Long worksheetId);
 
 	public String[] getNewTakeoffEmails(Long takeoffId);
 

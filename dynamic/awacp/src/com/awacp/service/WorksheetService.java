@@ -1,7 +1,6 @@
 package com.awacp.service;
 
 import com.awacp.entity.Worksheet;
-import com.sts.core.exception.StsDuplicateException;
 
 public interface WorksheetService {
 
@@ -13,4 +12,7 @@ public interface WorksheetService {
 
 	public String delete(Long id);
 
+	public boolean sendEmailToBidders(Long worksheetId) throws Exception;
+
 }
+

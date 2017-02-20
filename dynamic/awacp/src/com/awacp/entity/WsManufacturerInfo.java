@@ -1,6 +1,6 @@
 package com.awacp.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,8 +33,8 @@ public class WsManufacturerInfo extends BaseEntity {
 	private Double freight;
 	private Double totalAmount;
 	private Double percent;
-	private List<Pdni> pdnis;
-	private List<WsProductInfo> productItems;
+	private Set<Pdni> pdnis;
+	private Set<WsProductInfo> productItems;
 	private String comments;
 
 	public WsManufacturerInfo() {
@@ -71,11 +71,11 @@ public class WsManufacturerInfo extends BaseEntity {
 	@XmlElement(name = "pdnis")
 	@ManyToMany(cascade = { CascadeType.DETACH })
 	@JoinTable(name = "WS_MND_PDNI", joinColumns = @JoinColumn(name = "MND") , inverseJoinColumns = @JoinColumn(name = "PDNI") )
-	public List<Pdni> getPdnis() {
+	public Set<Pdni> getPdnis() {
 		return pdnis;
 	}
 
-	public void setPdnis(List<Pdni> pdnis) {
+	public void setPdnis(Set<Pdni> pdnis) {
 		this.pdnis = pdnis;
 	}
 
@@ -140,12 +140,36 @@ public class WsManufacturerInfo extends BaseEntity {
 	@XmlElement(name = "productItems")
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "WS_MND_PRODUCT", joinColumns = @JoinColumn(name = "MND") , inverseJoinColumns = @JoinColumn(name = "PRODUCT") )
-	public List<WsProductInfo> getProductItems() {
+	public Set<WsProductInfo> getProductItems() {
 		return productItems;
 	}
 
-	public void setProductItems(List<WsProductInfo> productItems) {
+	public void setProductItems(Set<WsProductInfo> productItems) {
 		this.productItems = productItems;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WsManufacturerInfo other = (WsManufacturerInfo) obj;
+		if (getId() == null) {
+			if (other.getId() != null)
+				return false;
+		} else if (getId().intValue() != other.getId().intValue())
+			return false;
+		return true;
+	}
 }
