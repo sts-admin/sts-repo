@@ -1,0 +1,149 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+  <div class="clearfix">
+    <div class="panel panel-default shadow" ng-init="takeVm.listTakeoffs();">
+      <div class="panel-heading form-heading panel-heading-top">
+        <label>View Takeoff</label>
+        <span class="pull-right"><a href ui-sref="takeoff-add" >Add Takeoff</a></span> </div>
+      <div class="panel-body">
+      
+      <div class="col-lg-7 col-md-7 col-sm-6"> <a href="javascript:void(0);" onclick="takeoff_color('red')" class="color-red">RED = Takeoff Needs to be Quoted</a> / <a href="javascript:void(0);" onclick="takeoff_color('green')" class="color-green">GREEN = Already Quoted </a> / <a href="javascript:void(0);" onclick="takeoff_color('')" class="color-blue">All = green + red</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" class="btn btn-primary" onclick="ClearSearch('takeoff');">Clear Search</a> <br> <span id="tophead" style="font-size:12px;">Total rows found for Year 2016 - 7,396</span> </div>
+      
+      <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">Per page Rows <select class="styledselect_pages" id="num_of_records" style="outline:none;" onchange="setRecPage(this.value, 'takeoff', 'takeoff_view_form')"> <option value="25" selected="selected">25</option> <option value="50">50</option> <option value="75">75</option> <option value="100">100</option> <option value="125">125</option> <option value="150">150</option> </select></div>
+      
+      
+      <div class="col-lg-3 col-md-3 col-sm-12">
+        <div style="text-align:right;">
+          <ul uib-pagination total-items="takeVm.totalItems" ng-model="takeVm.currentPage" ng-change="takeVm.pageChanged()">
+          </ul>
+        </div></div>
+        
+        <!-- .row -->
+        <div class="row" id="contents" style="margin-top:25px; float:left;">
+          <!-- .col -->
+          <div class="col-lg-12 pad-none">
+            <form id="users_view_form" class="table-container" action="" method="post">
+              <div class="table-container">
+                <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+                  <thead>
+                    <tr class="theme-row">
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="takeoff_date" value=""></td>
+                      <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="takeoff_due_dt" value=""></td>
+                      <td align="center">
+						<angucomplete-alt id="takeoff_id_search" 
+						  placeholder="Search Take off ID" 
+						  pause="300" 
+						  selected-object="takeVmselectedTakeoffId" 
+						  local-data="takeVm.takeoffIds" 
+						  local-search="takeVm.searchTakeoffIds" 
+						  title-field="id" 
+						  minlength="3" 
+						  input-class="form-control" 
+						  match-class="highlight" />
+					  </td>
+                      <td class="bg-8DB3B3" align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+                      <td class="bg-BD7589" align="center"><input type="text" class="searchtxt" name="takeoff_jobid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_jobname" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_address" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_engineer" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_architect" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="takeoff_gc" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="takeoff_sp" maxlength="2" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="takeoff_uc" maxlength="2" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_specs" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_vibro_lay_in" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="project_num" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="takeoff_bidders" value=""></td>
+                    </tr>
+                    
+                    <tr class="bg-dark-green">
+                      <td align="center" style="min-width:50px;">Info Icon</td>
+                      <td align="center">DWGS</td>
+                      <td align="center">TCKOFF</td>
+                      <td align="center">Login Date</td>
+                      <td align="center">Due Date</td>
+                      <td align="center">Takeoff ID</td>
+                      <td class="bg-4D7373" align="center">Quote ID</td>
+                      <td class="c10 bg-7D3549" align="center">Job ID</td>
+                      <td align="center">Job Name</td>
+                      <td align="center">Address</td>
+                      <td align="center">Engineer</td>
+                      <td align="center">Architect</td>                     
+                      <td align="center">SP</td>
+                      <td align="center">UC</td>
+                      <td align="center">Specs</td>
+                      
+                      <td align="center">Project#</td>
+					    <td align="center">Vibro</td>
+					   <td align="center">GC</td>
+					 
+                      <td align="center">Bidders</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr height="25" ng-repeat="takeoff in takeVm.takeoffs track by $index" ng-style="{{takeoff.statusStyle}}">					
+					  <td align="center">						
+						 <img  popover-placement="right" uib-popover-template="takeVm.takeoffInfoPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{takeVm.takeoffInfoPopover.title}}"  ng-click="takeVm.showTakeoffInfo(takeoff);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+						 &nbsp;
+						 <a ng-show="takeoff.quoteId" href ng-click="takeVm.showTakeoffInfo();"><img src="images/quote_info.png" alt="image" border="0" /></a>
+					  </td>
+					  <td align="center">
+							<a href ng-click="takeVm.showFileListingView('takeoff_drawing_doc', takeoff.id);">
+								<span class="badge">{{takeoff.drawingDocCount}}</span>
+								<img src="images/FileUploadIcon.png" alt="image" border="0" />
+							</a>
+					  </td>
+					   <td align="center">
+							<a href ng-click="takeVm.showFileListingView('takeoff_doc', takeoff.id);">
+								<span class="badge">{{takeoff.takeoffDocCount}}</span>
+								<img src="images/FileUploadIcon.png" alt="image" border="0" />
+							</a>
+					   </td>
+					  <td align="center">{{takeoff.dateCreated | date:'shortDate'}}</td>
+					  <td align="center">{{takeoff.dueDate | date:'shortDate'}}</td>
+                      <td align="center" ng-style="{{takeoff.idStyle}}">{{takeoff.takeoffId}}</td>					 
+                      <td align="center">{{takeoff.quoteId}}</td>
+					   <td align="center">{{takeoff.jobId}}</td>
+                      <td align="center">{{takeoff.jobName}}</td>
+					  <td align="center">{{takeoff.jobAddress}}</td>
+					   <td align="center">{{takeoff.engineerName}}</td>
+                      <td align="center">{{takeoff.architectureName}}</td>
+					 
+					  <td align="center">{{takeoff.salesPersonName}}</td>
+					  <td align="center">{{takeoff.userCode}}</td>
+					  <td align="center">{{takeoff.spec.detail}}</td>
+					 
+					  <td align="center">{{takeoff.projectNumber}}</td>
+					   <td align="center">	
+							<a href ng-click="takeVm.showFileListingView('takeoff_vibro_doc', takeoff.id);">
+								<span class="badge">{{takeoff.vibroDocCount}}</span>
+								<img src="images/FileUploadIcon.png" alt="image" border="0" />
+							</a>
+					  </td>
+					   <td align="center"><img popover-placement="left" uib-popover-template="takeVm.GcsPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{takeVm.GcsPopover.title}}" src="images/gc.png" style="cursor:pointer;" title="General Contractors" ng-click="takeVm.listGcsByTakeoff(takeoff)" border="0"></td>
+                      <td align="center">&nbsp; <img popover-placement="left" uib-popover-template="takeVm.bidderPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{takeVm.bidderPopover.title}}" src="images/bidders_ico.png" ng-click="takeVm.listBiddersByTakeoff(takeoff)" border="0"></td>
+                    </tr>
+                </tbody>
+                </table>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <div class="col-lg-12"> <div class="table-container"> <form name="add_followup" action="" method="post"> <table class="table-responsive theme-table" style="margin-top:15px;" cellspacing="0" cellpadding="0" border="1" width="100%"> <tbody><tr style="background:#C8F2DD;"> <td style="color:#408080; width:200px; font-size:20px;" align="center">Date</td> <td style="color:#408080; font-size:20px;" align="center">New Follow up Details</td> </tr> </tbody><tbody> <tr> <td align="center">02/20/17</td> <td valign="middle"> <textarea name="followup" class="form-control" rows="5"></textarea> </td> </tr> <tr> <td colspan="2" align="center"> <div class="col-lg-6 col-md-6 col-sm-6 text-right"> <a href="javascript:void(0);" onclick="disp_confirm('are you sure, you want to make dead this Quote?','http://www.awacp.org/quote/dead/72770');" class="btn btn-danger">Quote is Dead</a> </div> <div class="col-lg-2 col-md-2 col-sm-2"> <input name="followup_button" value="Add Followup Quote" class="submit-btn btn btn-primary" type="submit"> <input name="toid" value="72770" type="hidden"> </div> </td> </tr> </tbody> </table> </form> </div> </div>
+        
+        <div class="col-lg-12"> <div class="table-container"> <table class="table-responsive theme-table" cellspacing="0" cellpadding="0" border="1" width="100%"> <thead> <tr style="background:#AED7FF;"> <td width="15%"><strong>Date</strong></td> <td align="center" width="5%"><strong>UC</strong></td> <td><strong>Previous Follow up Details</strong></td> </tr> </thead> <tbody> <tr> <td> 02/20/17 08:29:50 am </td> <td align="center">DA</td> <td>INSTUB DONE (TOTAL INSTUB COST = $549 FRT NOT INCLUDED) NOTES :- (1) NECK DAMPERS(DOB) QUOTED FOR DIFFUSERS; WE SUBMITTED DIFFUSERS WITH NOTE #2. (2) QUOTE/TAKEOFF WAS ACCURATE.</td> </tr> </tbody> </table> </div> </div>
+        
+        
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>
