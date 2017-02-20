@@ -23,6 +23,18 @@
 		
 		wsVm.wsAction = "Save Worksheet";
 		
+		wsVm.sendQuoteToBidders = function(worksheetId){
+			AjaxUtil.getData("/awacp/sendEmailToBidders/"+worksheetId, Math.random())
+			.success(function(data, status, headers){
+				AlertService.showAlert(	'AWACP :: Alert!', 'Quote sent to bidders successfully.')
+					.then(function (){return false;},function (){return false;});
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "WorksheetCtrl::wsVm.sendQuoteToBidders::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		
 		wsVm.getAppliedPercent = function(manufacturerId){
 			var percent = 0;
 			if(!wsVm.mndMultipliers || wsVm.mndMultipliers.length <= 0) return 0;
@@ -60,7 +72,7 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "ManufactureCtrl::wsVm.listManufaturers::Error";
+				jqXHR.errorSource = "WorksheetCtrl::wsVm.listManufaturers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -83,7 +95,7 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "QuoteNoteCtrl::wsVm.getQuoteNotes::Error";
+				jqXHR.errorSource = "WorksheetCtrl::wsVm.listNotes::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -106,7 +118,7 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "ProductCtrl::wsVm.listProducts::Error";
+				jqXHR.errorSource = "WorksheetCtrl::wsVm.listProducts::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -129,7 +141,7 @@
 				}				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "PdniCtrl::wsVm.listProducts::Error";
+				jqXHR.errorSource = "WorksheetCtrl::wsVm.listProducts::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}

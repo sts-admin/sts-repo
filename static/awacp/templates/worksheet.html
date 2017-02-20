@@ -48,6 +48,12 @@
 						<th>Bidders</th>
 						<td colspan="3"></td>
 					</tr>
+					<tr>
+						<th>
+							<input ng-click="wsVm.sendQuoteToBidders(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.bidders" class="btn btn-primary" type="button" value="Send Quote to Bidders" />
+						</th>
+						<td colspan="3"></td>
+					</tr>
 				  </table>
 				  <div>
 					 
