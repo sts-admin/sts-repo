@@ -421,6 +421,13 @@
 				controllerAs:"wsVm",
 				requireAuth: true,
 				cache:false
+			}).state('quote-followup',{
+				url: '/quote-followup/:takeoffId/:worksheetId',
+				templateUrl:"templates/quote-followup.html",
+				controller:"QuoteFollowupCtrl",
+				controllerAs:"qfVm",
+				requireAuth: true,
+				cache:false
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);

@@ -1,0 +1,130 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+	<div class="clearfix">
+		<div class="panel panel-default shadow">
+			<div class="panel-heading panel-heading-top form-heading">
+				<label>Follow up Quote</label>
+			</div>
+			<div class="panel-body">
+   
+				
+  
+				<!-- .row -->
+				<div class="row" id="contents">
+				 
+				  <!-- .col -->
+				  <div class="col-lg-12">
+					  <div class="table-container">
+						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+						  <thead>						
+							<tr style="background:#8db3b3;">
+							  <td style="padding:5px; color:#FFF;" align="center">Info Icon</td>
+							  <td style="padding:5px; color:#FFF;" align="center">WKSHT</td>
+							  <td style="padding:5px; color:#FFF;" align="center">DOC</td>
+							  <td style="padding:5px; color:#FFF;" align="center">PDF</td>
+							  <td style="padding:5px; color:#FFF;" align="center">XLS</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Date</td>
+							  <td style="padding:5px; color:#FFF; background:#02577d;" align="center">Takeoff ID</td>
+							  <td style="padding:5px; color:#FFF; background:#4d7373;" align="center">Quote ID</td>
+                              <td style="padding:5px; color:#FFF; background:#7d3549;" align="center">Job ID</td>
+                              <td style="padding:5px; color:#FFF;" align="center">Job Name</td>
+                              <td style="padding:5px; color:#FFF;" align="center">Address</td>
+                              <td style="padding:5px; color:#FFF;" align="center">Engineer</td>
+                              <td style="padding:5px; color:#FFF;" align="center">Architect</td>
+                              <td style="padding:5px; color:#FFF;" align="center">Amount</td>
+                              <td style="padding:5px; color:#FFF;" align="center">Specs</td>
+                              <td style="padding:5px; color:#FFF;" align="center">UC</td>
+                              <td style="padding:5px; color:#FFF;" align="center">Bidders</td>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr height="25">
+							  <td align="center">						
+								 <img  popover-placement="right" uib-popover-template="qVm.takeoffPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qVm.takeoffPopover.title}}"  ng-click="qfVm.showTakeoffInfo(quote);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+								 &nbsp;
+								  <img  popover-placement="right" uib-popover-template="qfVm.quotePopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qfVm.quotePopover.title}}"  ng-click="qfVm.showQuoteInfo(quote);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
+							  </td>
+							  <td align="center">
+								<a ng-show="!quote.wsCreated" href ui-sref="worksheet-new({takeoffId:quote.id})">
+									<img  src="images/worksheet_new.png" />
+								</a>
+								<a ng-show="quote.wsCreated" href ui-sref="worksheet-edit({worksheetId:quote.worksheetId})">
+									<img src="images/worksheet_edit.png" />
+								</a>
+								
+							</td>
+							  <td align="center"></td>
+							  <td align="center"></td>
+							  <td align="center"></td>
+							  <td align="center">{{qfVm.quote.dateCreated | date: 'short'}}</td>
+							   <td align="center"><a ui-sref = "takeoff-edit({id:qfVm.quote.id})">{{qfVm.quote.takeoffId}}</a></td>
+							  <td align="center">{{qfVm.quote.quoteId}}</td>
+							  <td align="center">{{qfVm.quote.jobId}}</td>
+							  <td align="center">{{qfVm.quote.jobName}}</td>
+							  <td align="center">{{qfVm.quote.jobAddress}}</td>
+							  <td align="center">{{qfVm.quote.engineerName}}</td>
+							  <td align="center">{{qfVm.quote.architectureName}}</td>
+							  <td align="center">{{qfVm.quote.amount}}</td>
+							  <td align="center">{{qfVm.quote.spec.detail}}</td>
+							  <td align="center">{{qfVm.quote.userCode}}</td>
+							  <td align="center"></td>
+							</tr>		
+							</tbody>
+						</table>
+					  </div>
+					  <div class="table-container" style="margin-top:20px;">
+						<form ng-submit="qfVm.addQuoteFollowup();">
+							<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+							  <thead>
+								<tr style="background:#8db3b3;">
+								  <td style="padding:5px; color:#FFF;" align="center" colspan="2">Add new follow up detail</td>
+								</tr>		
+							</thead>
+							<tbody>
+								<tr>
+								  <td width="20%;" style="padding:5px;" align="center">
+									Followup Comment:
+								  </td>
+								   <td style="padding:5px; color:#FFF;" align="center">
+									  <textarea class="form-control" placeholder="Enter Comment" maxlength="1000"  oninvalid="this.setCustomValidity('Enter Comment');" onkeypress="this.setCustomValidity('');" ng-model="qfVm.quoteFollowup.followupText" ng-required="true"  />
+								 </td>
+								</tr>
+								<tr>
+								  <td style="padding:5px;" align="center" colspan="2">
+									<div style="text-align:center">
+										<input type="submit" class="btn btn-primary" value="Send follow up detail" />
+									</div>								
+								  </td>
+								</tr>
+							 </tbody>
+							</table>
+						</form>
+					  </div>
+					  <div class="table-container" style="margin-top:20px;">
+						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+						  <thead>						
+							<tr style="background:#8db3b3;">
+							  <td style="padding:5px; color:#FFF;" align="center">Date followed</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Followed by (User)</td>
+							  <td style="padding:5px; color:#FFF;" align="center">Follow up Comment</td>
+							</tr>
+						  </thead>
+						  <tbody>						
+							<tr ng-repeat=" follow in qfVm.quoteFollowups">
+							  <td style="padding:5px;" align="center">{{follow.dateCreated  | date: 'short'}}</td>
+							  <td style="padding:5px;" align="center">{{follow.createdByUserCode}}</td>
+							  <td style="padding:5px;" align="center">{{follow.followupText}}</td>
+							</tr>
+						  </tbody>
+						</table>
+						
+					  </div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</div>
+</div>
+
+<div ng-include="'templates/footer.html'" ></div>

@@ -31,7 +31,6 @@
                               <td align="center" style="padding:5px;">&nbsp;</td>
                               <td align="center" style="padding:5px;">&nbsp;</td>
                               <td align="center" style="padding:5px;">&nbsp;</td>
-                              <td align="center" style="padding:5px;">&nbsp;</td>
 							  <td align="center" style="padding:5px;"><input type="date" class="searchtxt form-control" name="user_name" value="" /></td>
 							  <td align="center" style="padding:5px; background:#42a6d3;"><input type="text" class="searchtxt form-control" name="user_name" value="" /></td>
 							  <td align="center" style="padding:5px; background:#8db3b3;"><input type="text" class="searchtxt form-control" name="user_password" value="" /></td>
@@ -47,6 +46,7 @@
                               <td align="center" style="padding:5px;"><input type="text" class="searchtxt form-control" name="status" id="status" value="" /></td>
                               <td align="center" style="padding:5px;"><input type="text" class="searchtxt form-control" name="status" id="status" value="" /></td>
                               <td align="center" style="padding:5px;"><input type="text" class="searchtxt form-control" name="status" id="status" value="" /></td>
+							  <td align="center" style="padding:5px;"><input type="text" class="searchtxt form-control" name="status" id="status" value="" /></td>
 							</tr>
 							<tr style="background:#8db3b3;">
 							  <td style="padding:5px; color:#FFF;" align="center">Info Icon</td>
@@ -94,7 +94,16 @@
 							   <td align="center"><a ui-sref = "takeoff-edit({id:quote.id})">{{quote.takeoffId}}</a></td>
 							  <td align="center">{{quote.quoteId}}</td>
 							  <td align="center">{{quote.jobId}}</td>
-							  <td align="center">{{quote.jobName}}</td>
+							  <td align="center">
+								<span ng-show="quote.worksheetId != null && quote.worksheetId  != undefined">
+									<a href ui-sref="quote-followup({takeoffId:quote.id, worksheetId:quote.worksheetId})">
+										{{quote.jobName}}
+									</a>
+								</span>
+								<span ng-show ="quote.worksheetId == null ||   quote.worksheetId == undefined">
+									{{quote.jobName}}
+								</span>
+							</td>
 							  <td align="center">{{quote.jobAddress}}</td>
 							  <td align="center">{{quote.engineerName}}</td>
 							  <td align="center">{{quote.architectureName}}</td>
@@ -103,8 +112,7 @@
 							  <td align="center">{{quote.userCode}}</td>
 							  <td align="center"></td>
 							  <td align="center"></td>
-							   <td align="center"></td>
-							     <td align="center"></td>
+							  <td align="center"></td>
 							</tr>							
 						</table>
 						</td>
