@@ -210,8 +210,7 @@
 				);
 			},			
 			uploadData: function(serviceUrl, data) {
-				var serverUrl = base+serviceUrl;		
-				alert("serverUrl = "+ serverUrl);
+				var serverUrl = base+serviceUrl;
 				if(this.isAuthorized(true)){
 					jQuery.support.cors = true;
 					return jQuery.ajax({type: "POST",url: serverUrl,data: data,contentType: false,crossDomain: true,	  processData: false,cache : false});

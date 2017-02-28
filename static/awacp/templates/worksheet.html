@@ -104,10 +104,10 @@
 								</select>
 							</div> 
 							<div class="col-sm-2"> 
-								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem);" ng-required="true" type="number" name="listAmount"  ng-model="manufacturerItem.productItems[$index].listAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem, 0);" ng-required="true" type="number" name="listAmount"  ng-model="manufacturerItem.productItems[$index].listAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div> 
 							<div class="col-sm-2">
-								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem);" type="number" name="netAmount"  ng-model="manufacturerItem.productItems[$index].netAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem, 0);" type="number" name="netAmount"  ng-model="manufacturerItem.productItems[$index].netAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div>		
 							<div class="col-sm-1">
 								<span ng-show="$index == 0">
@@ -161,7 +161,7 @@
 							<div class="col-sm-1">
 								<select ng-required="true" ng-disabled="!manufacturerItem.manufacturer"
 								  ng-model="manufacturerItem.multiplier" 
-								  ng-options="multiplier.multiplier as multiplier.multiplier for multiplier in wsVm.multipliers" 
+								  ng-options="multiplier.multiplier as multiplier.multiplier for multiplier in wsVm.multipliers" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem, manufacturerItem.multiplier);"
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
 								</select>
 							</div> 

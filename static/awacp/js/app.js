@@ -428,6 +428,13 @@
 				controllerAs:"qfVm",
 				requireAuth: true,
 				cache:false
+			}).state('tax-entries',{
+				url: '/tax-entries',
+				templateUrl:"templates/tax-entries.html",
+				controller:"TaxCtrl",
+				controllerAs:"taxVm",
+				requireAuth: true,
+				cache:false
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);

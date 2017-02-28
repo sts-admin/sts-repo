@@ -156,7 +156,7 @@
 		}
 		wsVm.removeProduct = function(index, manufacturerItem, productItems){
 			productItems.splice(index, 1);
-			wsVm.doCalculation(manufacturerItem);			
+			wsVm.doCalculation(index, indexmanufacturerItem);			
 		}
 		wsVm.addWorksheetInfoBlock = function(){
 			var length = (!wsVm.worksheet.manufacturerItems)? 0 : wsVm.worksheet.manufacturerItems.length;
@@ -195,7 +195,7 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			})
 		}
-		wsVm.sumListAmount = function(blockIndex, manufacturerItem){
+		wsVm.sumListAmount = function(blockIndex, manufacturerItem, multiplier){
 			var amount = 0, tmp;
 			angular.forEach(manufacturerItem.productItems, function(value, key){
 				tmp = Number(value.listAmount);
@@ -205,8 +205,11 @@
 				amount = amount + Number(value.listAmount) ; 
 			});
 			manufacturerItem.listTotal = amount;
-			manufacturerItem.multPercentAmount = amount;
+			/*manufacturerItem.multPercentAmount = amount;*/
 			manufacturerItem.multiplier = wsVm.getMultiplier(amount);
+			if(multiplier && multiplier > 0){
+				manufacturerItem.multiplier = multiplier;
+			}
 			var percent = 0, pAmount = 0;
 			if(manufacturerItem.manufacturer){
 				percent =wsVm.getAppliedPercent(manufacturerItem.manufacturer.id);
@@ -235,8 +238,8 @@
 			manufacturerItem.totalAmount = mp + np + fp;			
 		}
 		
-		wsVm.doCalculation = function(blockIndex, manufacturerItem){			
-			wsVm.sumListAmount(blockIndex, manufacturerItem);
+		wsVm.doCalculation = function(blockIndex, manufacturerItem, multiplier){	
+			wsVm.sumListAmount(blockIndex, manufacturerItem, multiplier);
 			wsVm.sumNetAmount(blockIndex, manufacturerItem);			
 		}
 		wsVm.getMultiplier = function(amount){
