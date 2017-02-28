@@ -19,6 +19,7 @@ import com.awacp.entity.Architect;
 import com.awacp.entity.Bidder;
 import com.awacp.entity.Engineer;
 import com.awacp.entity.GeneralContractor;
+import com.awacp.entity.QuoteFollowup;
 import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.ArchitectService;
@@ -85,35 +86,9 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			return null;
 
 		for (Takeoff takeoff : takeoffs) {
-			initWithDetail(takeoff);
-			takeoff.setDrawingDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_DRAWING, takeoff.getId()));
-			takeoff.setTakeoffDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF, takeoff.getId()));
-			takeoff.setVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_VIBRO, takeoff.getId()));
-			takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId()) ? "{'color':'green'}" : "{'color':'red'}");
-			takeoff.setStatusStyle(takeoff.isArchived() ? "{'background':'#FFCC33'}" : "");
+			enrichTakeoff(takeoff);
 		}
 		return takeoffs;
-	}
-
-	private void initWithDetail(Takeoff takeoff) {
-		if (takeoff == null)
-			return;
-		User user = userService.findUser(takeoff.getSalesPerson());
-		if (user != null) {
-			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
-		}
-		if (takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0) {
-			Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
-			if (eng != null) {
-				takeoff.setEngineerName(eng.getName());
-			}
-		}
-		if (takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0) {
-			Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
-			if (arc != null) {
-				takeoff.setArchitectureName(arc.getName());
-			}
-		}
 	}
 
 	@Override
@@ -122,6 +97,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		if (takeoff != null && takeoff.getSpec() != null) {
 			takeoff.setSpecId(String.valueOf(takeoff.getSpec().getId()));
 		}
+		enrichTakeoff(takeoff);
 		return takeoff;
 	}
 
@@ -219,7 +195,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String[] getNewTakeoffEmails(Long takeoffId) {
+	public String[] getNewTakeoffEmails() {
 		String[] emails = null;
 		String queryString = "SELECT u.email FROM USER AS u INNER JOIN USER_PERMISSION AS p ON u.ID = p.USERID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'takeoff_new_email'";
 		List<String> results = getEntityManager().createNativeQuery(queryString).getResultList();
@@ -288,26 +264,34 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		if (takeoffs == null || takeoffs.isEmpty()) {
 			return null;
 		}
-
 		for (Takeoff takeoff : takeoffs) {
-			User user = userService.findUser(takeoff.getSalesPerson());
-			if (user != null) {
-				takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
-			}
-			if (takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0) {
-				Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
-				if (eng != null) {
-					takeoff.setEngineerName(eng.getName());
-				}
-			}
-			if (takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0) {
-				Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
-				if (arc != null) {
-					takeoff.setArchitectureName(arc.getName());
-				}
-			}
+			enrichTakeoff(takeoff);
 		}
 		return takeoffs;
+	}
+
+	private void enrichTakeoff(Takeoff takeoff) {
+		User user = userService.findUser(takeoff.getSalesPerson());
+		if (user != null) {
+			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
+		}
+		if (takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0) {
+			Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
+			if (eng != null) {
+				takeoff.setEngineerName(eng.getName());
+			}
+		}
+		if (takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0) {
+			Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
+			if (arc != null) {
+				takeoff.setArchitectureName(arc.getName());
+			}
+		}
+		takeoff.setDrawingDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_DRAWING, takeoff.getId()));
+		takeoff.setTakeoffDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF, takeoff.getId()));
+		takeoff.setVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_VIBRO, takeoff.getId()));
+		takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId()) ? "{'color':'green'}" : "{'color':'red'}");
+		takeoff.setStatusStyle(takeoff.isArchived() ? "{'background':'#FFCC33'}" : "");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -357,21 +341,62 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 	public Takeoff getTakeoffWithDetail(Long id) {
 		Takeoff takeoff = getTakeoff(id);
 		if (takeoff != null) {
-			initWithDetail(takeoff);
+			enrichTakeoff(takeoff);
 		}
 		return takeoff;
 	}
 
 	@Override
 	@Transactional
-	public void setWorksheetCreated(Long takeoffId, Long worksheetId) {
+	public void updateWorksheetInfo(Long takeoffId, Long worksheetId, Double amount) {
 		Takeoff takeoff = getTakeoff(takeoffId);
-		takeoff.setWsCreated(true);
-		takeoff.setWsDate(Calendar.getInstance());
-		takeoff.setWorksheetId(worksheetId);
+		if (!takeoff.isWsCreated()) {
+			takeoff.setWsCreated(true);
+		}
+		if (takeoff.getWsDate() == null) {
+			takeoff.setWsDate(Calendar.getInstance());
+		}
+		if (takeoff.getWorksheetId() == null) {
+			takeoff.setWorksheetId(worksheetId);
+		}
+
+		takeoff.setAmount(amount);
 		getEntityManager().merge(takeoff);
 		getEntityManager().flush();
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String[] getQuoteFollowupEmails() {
+		String[] emails = null;
+		String queryString = "SELECT u.email FROM USER AS u INNER JOIN USER_PERMISSION AS p ON u.ID = p.USERID AND u.ARCHIVED = 'false' AND p.PERMISSIONID = 'quote_follow'";
+		List<String> results = getEntityManager().createNativeQuery(queryString).getResultList();
+		if (results != null && !results.isEmpty()) {
+			emails = new String[results.size()];
+			int index = 0;
+			for (String email : results) {
+				emails[index++] = email;
+			}
+		}
+		return emails;
+	}
+
+	@Override
+	@Transactional
+	public Long saveQuoteFollowup(QuoteFollowup quoteFollowup) throws Exception {
+		getEntityManager().persist(quoteFollowup);
+		getEntityManager().flush();
+		boolean status = awacpMailService.sendQuoteFollowupMail(quoteFollowup.getTakeoffId());
+		quoteFollowup.setMailSent(status);
+		return quoteFollowup.getId();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<QuoteFollowup> getAllQuoteFollowups(Long takeoffId) {
+		return getEntityManager().createNamedQuery("QuoteFollowup.findAll").setParameter("takeoffId", takeoffId)
+				.getResultList();
 	}
 
 }

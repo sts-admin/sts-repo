@@ -32,7 +32,7 @@ public class WsManufacturerInfo extends BaseEntity {
 	private Double multPercentAmount;
 	private Double freight;
 	private Double totalAmount;
-	private Double percent;
+	private Double percent; // Allowed percent
 	private Set<Pdni> pdnis;
 	private Set<WsProductInfo> productItems;
 	private String comments;

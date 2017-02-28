@@ -56,6 +56,8 @@ public class QuotePdfGenerator {
 		addFooter();
 		document.close();
 		pdfWriter.close();
+		
+		
 	}
 
 	private void writeMetaInformation() {

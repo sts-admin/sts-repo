@@ -1,14 +1,16 @@
 package com.awacp.service;
 
+import com.awacp.entity.Worksheet;
+
 public interface MailService {
 
 	public String sendNewTakeoffMail(Long takeoffId) throws Exception;
 	
-	public boolean sendQuoteMailToBidders(Long takeoffId, String fileName, String quotePdfFilePath) throws Exception;
+	public boolean sendQuoteMailToBidders(Worksheet worksheet, String fileName, String quotePdfFilePath) throws Exception;
 
 	public boolean sendTakeoffMail();
 
-	public boolean sendQuoteFollowupMail();
+	public boolean sendQuoteFollowupMail(Long takeoffId) throws Exception;
 
 	public boolean sendFinalUpdateMail();
 

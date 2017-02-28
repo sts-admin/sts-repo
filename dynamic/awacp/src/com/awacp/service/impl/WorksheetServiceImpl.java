@@ -15,6 +15,7 @@ import com.awacp.service.TakeoffService;
 import com.awacp.service.WorksheetService;
 import com.awacp.util.QuotePdfGenerator;
 import com.sts.core.config.AppPropConfig;
+import com.sts.core.entity.User;
 import com.sts.core.service.UserService;
 
 public class WorksheetServiceImpl implements WorksheetService {
@@ -25,7 +26,7 @@ public class WorksheetServiceImpl implements WorksheetService {
 
 	@Autowired
 	TakeoffService takeoffService;
-	
+
 	@Autowired
 	MailService mailService;
 
@@ -52,6 +53,7 @@ public class WorksheetServiceImpl implements WorksheetService {
 			eWorksheet.getManufacturerItems().clear();
 		}
 		getEntityManager().merge(eWorksheet);
+		takeoffService.updateWorksheetInfo(worksheet.getTakeoffId(), worksheet.getId(), worksheet.getGrandTotal());
 		return eWorksheet;
 	}
 
@@ -63,7 +65,7 @@ public class WorksheetServiceImpl implements WorksheetService {
 		}
 		getEntityManager().persist(worksheet);
 		getEntityManager().flush();
-		takeoffService.setWorksheetCreated(worksheet.getTakeoffId(), worksheet.getId());
+		takeoffService.updateWorksheetInfo(worksheet.getTakeoffId(), worksheet.getId(), worksheet.getGrandTotal());
 		return worksheet;
 	}
 
@@ -88,13 +90,20 @@ public class WorksheetServiceImpl implements WorksheetService {
 	@Override
 	public boolean sendEmailToBidders(Long worksheetId) throws Exception {
 		Worksheet worksheet = getWorksheet(worksheetId);
-		worksheet.setTakeoff(getEntityManager().find(Takeoff.class, worksheet.getTakeoffId()));
-		String fileName = "quote-" + Calendar.getInstance().getTimeInMillis()
-				+ ".pdf";
-		String pdfFilePath = AppPropConfig.resourceWritePath + fileName; 
+		Takeoff takeoff = getEntityManager().find(Takeoff.class, worksheet.getTakeoffId());
+		User user = userService.findUser(takeoff.getSalesPerson());
+		if (user != null) {
+			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
+		}
+		worksheet.setTakeoff(takeoff);
+
+		String fileName = "quote-" + Calendar.getInstance().getTimeInMillis() + ".pdf";
+		String pdfFilePath = AppPropConfig.resourceWritePath + fileName;
 		String logoPath = AppPropConfig.resourceWritePath + "awacp_big_logo.png";
 		new QuotePdfGenerator(pdfFilePath, logoPath, worksheet).generate();
-		return mailService.sendQuoteMailToBidders(worksheet.getTakeoffId(), fileName, pdfFilePath);
+		return mailService.sendQuoteMailToBidders(worksheet, fileName, pdfFilePath);
 	}
+
+	
 
 }

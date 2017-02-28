@@ -1,6 +1,7 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.awacp.entity.QuoteFollowup;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.SpecService;
 import com.awacp.service.TakeoffService;
@@ -27,6 +29,24 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	SpecService specService;
+	
+	@GET
+	@Path("/getAllQuoteFollowups/{takeoffId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<QuoteFollowup> getAllQuoteFollowups(@PathParam("takeoffId") Long takeoffId, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.takeoffService.getAllQuoteFollowups(takeoffId);
+	}
+	
+	@POST
+	@Path("/saveQuoteFollowup")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String saveQuoteFollowup(QuoteFollowup quoteFollowup, @Context HttpServletResponse servletResponse)
+			throws Exception {
+		Long id =  this.takeoffService.saveQuoteFollowup(quoteFollowup);
+		return "{\"id\":\"" + id + "\"}";
+	}
 
 	@GET
 	@Path("/filterTakeoffs/{pageNumber}/{pageSize}")

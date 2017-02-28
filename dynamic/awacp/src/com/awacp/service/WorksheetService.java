@@ -14,5 +14,6 @@ public interface WorksheetService {
 
 	public boolean sendEmailToBidders(Long worksheetId) throws Exception;
 
-}
+	
 
+}

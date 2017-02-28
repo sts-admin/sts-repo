@@ -16,6 +16,7 @@ public class AppPropConfig {
 	public static String emailNewTakeoff;
 	public static String emailTakeoff;
 	public static String emailQuoteFollowup;
+	public static String emailQuoteFollowupPassword;
 	public static String quoteMailToBidder;
 	public static String quoteMailToBidderPassword;
 	public static String emailFinalUpdate;
@@ -187,5 +188,12 @@ public class AppPropConfig {
 	public void setQuoteMailToBidderPassword(String quoteMailToBidderPassword) {
 		AppPropConfig.quoteMailToBidderPassword = quoteMailToBidderPassword;
 	}
+
+	@Value("${emailQuoteFollowupPassword}")
+	public void setEmailQuoteFollowupPassword(String emailQuoteFollowupPassword) {
+		AppPropConfig.emailQuoteFollowupPassword = emailQuoteFollowupPassword;
+	}
+	
+	
 
 }

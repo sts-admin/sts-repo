@@ -2,6 +2,7 @@ package com.awacp.service;
 
 import java.util.List;
 
+import com.awacp.entity.QuoteFollowup;
 import com.awacp.entity.Takeoff;
 import com.sts.core.dto.StsResponse;
 
@@ -15,10 +16,12 @@ public interface TakeoffService {
 	public Takeoff saveTakeoff(Takeoff takeoff) throws Exception;
 
 	public Takeoff updateTakeoff(Takeoff takeoff);
-	
-	public void setWorksheetCreated(Long takeoffId, Long worksheetId);
 
-	public String[] getNewTakeoffEmails(Long takeoffId);
+	public void updateWorksheetInfo(Long takeoffId, Long worksheetId, Double amount);
+
+	public String[] getNewTakeoffEmails();
+
+	public String[] getQuoteFollowupEmails();
 
 	public List<Takeoff> filter(String filters, int pageNumber, int pageSize);
 
@@ -33,4 +36,8 @@ public interface TakeoffService {
 	public String delete(Long id);
 
 	public Takeoff getTakeoffWithDetail(Long id);
+
+	public Long saveQuoteFollowup(QuoteFollowup quoteFollowup) throws Exception;
+
+	public List<QuoteFollowup> getAllQuoteFollowups(Long takeoffId);
 }

@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -99,10 +100,10 @@ public class MailServiceImpl implements MailService {
 		emailSender.setUsername(userName);
 		emailSender.setPassword(password);
 		MimeMessage mimeMessage = emailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8");
+		
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+		
 		mimeMessage.setContent(content, "text/html");
-		
-		
 
 		helper.setFrom(fromAddress);
 		helper.setTo(toAddresses);
@@ -111,7 +112,8 @@ public class MailServiceImpl implements MailService {
 		//set attachment if any
 		if(file != null){
 			String attachmentFileName = fileName != null && !fileName.isEmpty()?fileName: file.getName();
-			helper.addAttachment(attachmentFileName, file);
+			helper.addAttachment(attachmentFileName, new FileSystemResource(file), "application/pdf");
+			/*helper.addAttachment(attachmentFileName, new FileSystemResource(new File("C:/Projects/Book1.xlsx")));*/
 		}
 		
 		mimeMessage.setFrom(fromAddress);

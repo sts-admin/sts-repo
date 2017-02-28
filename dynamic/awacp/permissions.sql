@@ -20,11 +20,12 @@ VALUES('quote_new_view',0,1,CURRENT_TIMESTAMP,NULL,'New Quote',NULL,1,'Quote', '
 ('quote_u',0,1,CURRENT_TIMESTAMP,NULL,'Update',NULL,1,'Quote', NULL, 7, 1),
 ('quote_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Quote', NULL, 8, 1),
 ('quote_send_follow',0,1,CURRENT_TIMESTAMP,NULL,'Send Followup',NULL,1,'Quote', NULL, 9, 1),
-('quote_undead',0,1,CURRENT_TIMESTAMP,NULL,'Undead Quote',NULL,1,'Quote', NULL, 10, 1),
-('quote_bcc',0,1,CURRENT_TIMESTAMP,NULL,'Quote BCC',NULL,1,'Quote', NULL, 11, 1),
-('quote_cc_uc',0,1,CURRENT_TIMESTAMP,NULL,'Quote CC To UC',NULL,1,'Quote', NULL, 12, 1),
-('quote_cc_sp',0,1,CURRENT_TIMESTAMP,NULL,'Quote CC To SP',NULL,1,'Quote', NULL, 13, 1),
-('quote_rev_email',0,1,CURRENT_TIMESTAMP,NULL,'Quote Rev Email',NULL,1,'Quote', NULL, 14, 1);
+('quote_dead',0,1,CURRENT_TIMESTAMP,NULL,'Dead Quote',NULL,1,'Quote', NULL, 10, 1),
+('quote_undead',0,1,CURRENT_TIMESTAMP,NULL,'Undead Quote',NULL,1,'Quote', NULL, 11, 1),
+('quote_bcc',0,1,CURRENT_TIMESTAMP,NULL,'Quote BCC',NULL,1,'Quote', NULL, 12, 1),
+('quote_cc_uc',0,1,CURRENT_TIMESTAMP,NULL,'Quote CC To UC',NULL,1,'Quote', NULL, 13, 1),
+('quote_cc_sp',0,1,CURRENT_TIMESTAMP,NULL,'Quote CC To SP',NULL,1,'Quote', NULL, 14, 1),
+('quote_rev_email',0,1,CURRENT_TIMESTAMP,NULL,'Quote Rev Email',NULL,1,'Quote', NULL, 15, 1);
 /*Quote PERMISSION end*/
 
 /*Job Order PERMISSION begin*/

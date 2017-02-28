@@ -69,6 +69,7 @@ public class Takeoff extends BaseEntity {
 	private Spec spec;
 
 	private String vibrolayin;
+	private Double amount;
 	// VIBRO LAY IN
 
 	// Transient
@@ -82,7 +83,7 @@ public class Takeoff extends BaseEntity {
 	private String specName;
 	private String idStyle;
 	private String statusStyle;
-	
+
 	private boolean hasBidders;
 
 	private String status;
@@ -476,7 +477,13 @@ public class Takeoff extends BaseEntity {
 	public void setHasBidders(boolean hasBidders) {
 		this.hasBidders = hasBidders;
 	}
-	
-	
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
 
 }
