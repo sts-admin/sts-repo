@@ -1,0 +1,987 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+  <div class="clearfix">
+    <div class="panel panel-default shadow" ng-init="qVm.listQuotes();">
+      <div class="panel-heading panel-heading-top form-heading">
+        <label>View Quotes</label>
+      </div>
+      <div class="panel-body">
+        <div class="col-lg-7 col-md-4 col-sm-7 col-xs-12 dashboard-content">
+          <p class="line-height">Revise Quote - Click Quote Number / <span class="text-danger">Quote Followup - Click JobName </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total rows found for Year - 25</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6"><a href="javascript:void(0);" class="btn btn-primary" onclick="ClearSearch('takeoff');">Clear Search</a> </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 per-page-row text-right">Per page Rows
+          <select class="styledselect_pages" id="num_of_records" style="outline:none;" onchange="setRecPage(this.value, 'takeoff', 'takeoff_view_form')">
+            <option value="25" selected="selected">25</option>
+            <option value="50">50</option>
+            <option value="75">75</option>
+            <option value="100">100</option>
+            <option value="125">125</option>
+            <option value="150">150</option>
+          </select>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12" style="text-align:right;">
+          <ul uib-pagination total-items="qVm.totalItems" ng-model="qVm.currentPage" ng-change="qVm.pageChanged()">
+          </ul>
+        </div>
+        <!-- .row -->
+        <div class="row" id="contents">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xss-12 dashboard-content">
+              <h1>Make Invoice for JobID: J17-0565</h1>
+              <br>
+            </div>
+            <!-- .col -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xss-12">
+              <ul id="myTab" class="nav nav-tabs">
+                <li class="active"> <a href="#joborder" data-toggle="tab"> Joborder : J17-0565 </a> </li>
+                <li class=""><a href="#profit_sheet" data-toggle="tab">Profit Sheet</a></li>
+              </ul>
+            </div>
+            <!-- .col -->
+            <div class="col-lg-12">
+              <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="joborder">
+                  <form name="MakeInvoice" method="post" action="" id="MakeInvoice">
+                    <div class="row" style="margin:0;">
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xss-12">
+                        <div class="row allColPaddingRemove">
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderHeading"><strong>Customer PO #</strong></span> </div>
+                          <!-- .col -->
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderContent"><strong>NOT ENTERED </strong>
+                            <input type="hidden" name="custpo" value="">
+                            </span> </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xss-12">
+                        <div class="row allColPaddingRemove">
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderHeading"><strong>Contractor Name</strong></span> </div>
+                          <!-- .col -->
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderContent"><strong>KABACK </strong>
+                            <input type="hidden" name="contractor_name" value="KABACK">
+                            </span> </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xss-12">
+                        <div class="row allColPaddingRemove">
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderHeading"><strong>AW Order Numbers</strong></span> </div>
+                          <!-- .col -->
+                          <div class="col-lg-12" style="text-align:center; height:90px; overflow-y:scroll;"> <span class="jobOrderContent">
+                            <input type="checkbox" name="ordernum[]" value="17AW-1295RPL" checked="checked">
+                            17AW-1295RPL <br>
+                            </span>
+                            <input type="hidden" name="all_orders" value="17AW-1295RPL,">
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xss-12">
+                        <div class="row allColPaddingRemove">
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderHeading"><strong>Billing Amount</strong></span> </div>
+                          <!-- .col -->
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderContent"> <strong>$165.00 </strong>
+                            <input type="hidden" name="jobamt" value="165">
+                            </span> </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xss-12">
+                        <div class="row allColPaddingRemove">
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderHeading"><strong>Salesman</strong></span> </div>
+                          <!-- .col -->
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderContent"> <strong>VB </strong>
+                            <input type="hidden" name="usercode" value="VB">
+                            </span> </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xss-12">
+                        <div class="row allColPaddingRemove">
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderHeading"><strong>Ship To</strong></span> </div>
+                          <!-- .col -->
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderContent"> PICK UP AT AWACP OFFICE </span>
+                            <input type="hidden" name="shipto" value="PICK UP AT AWACP OFFICE">
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xss-12">
+                        <div class="row allColPaddingRemove">
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderHeading"><strong>Job Name</strong></span> </div>
+                          <!-- .col -->
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderContent"> <strong>1359 BROADWAY SUITE 600 </strong>
+                            <input type="hidden" name="job_name" value="1359 BROADWAY SUITE 600">
+                            </span> </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xss-12">
+                        <div class="row allColPaddingRemove">
+                          <div class="col-lg-12"> <span class="jobOrderHeading">&nbsp;</span> </div>
+                          <!-- .col -->
+                          <div class="col-lg-12" style="text-align:center;"> <span class="jobOrderContent"> <a href="http://www.awacp.org/joborder/edit/22451" style="color:blue; text-decoration:underline;">Edit This JobOrder</a><br>
+                            <br>
+                            <a href="http://www.awacp.org/orderbook" style="color:blue; text-decoration:underline;" target="_blank">Link Order/s to this JobOrder</a> </span> </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .col -->
+                    </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="nextSection">
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xss-12" style="text-align:center;">
+                            <div class="fieldCol" style="color:#FF0000;">Customer PO # is required.<br>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Fill in the following fields</div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Tax Rate</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="">
+                              <select name="salestax" id="salestax" class="form-control">
+                                <option value="">%</option>
+                                <option value="8.875">NY (8.875)</option>
+                                <option value="8.375">ROCKLAND COUNTY (8.375)</option>
+                                <option value="0.000">TAX EXEMPT (0.000)</option>
+                                <option value="8.625">SUFFOLK (8.625)</option>
+                                <option value="8.625">NY/NASSAU (8.625)</option>
+                                <option value="7.000">NJ (7.000)</option>
+                                <option value="6.000">PA/PITTSBURGH (6.000)</option>
+                                <option value="8.375">OLD NY TAX RATE (8.375)</option>
+                                <option value="7.375">WESCHESTER COUNTY (7.375)</option>
+                                <option value="0.000">RE-SALE (NEW YORK) (0.000)</option>
+                                <option value="6.000">OXEN HILL, MARYLAND - PRINCE GEORGE'S COUNTY (6.000)</option>
+                                <option value="6.000">MIAMI, FLORIDA (6.000)</option>
+                                <option value="7.500">BAL HARBOUR, FLORIDA (7.500)</option>
+                                <option value="8.125">ORANGE COUNTY (8.125)</option>
+                                <option value="6.500">PALM BEACH, FLORIDA (6.500)</option>
+                                <option value="6.000">CORAL SPRINGS (BROWARD), FLORIDA (6.000)</option>
+                                <option value="6.000">CORAL SPRINGS (BROWARD), FLORIDA (6.000)</option>
+                                <option value="7.000">DADE COUNTY, FL (7.000)</option>
+                                <option value="7.000">POOLER, GA (CHATHAM COUNTY) (7.000)</option>
+                                <option value="8.375">PUTNAM (8.375)</option>
+                                <option value="0.000">DIRECT PAYMENT (0.000)</option>
+                                <option value="5.750">WASHINGTON , DC (5.750)</option>
+                                <option value="0.000">CUSTOMER RESPONSIBLE TO PAY (0.000)</option>
+                                <option value="7.375">CORTLANDT MANOR, NY (7.375)</option>
+                                <option value="6.000">WASHINGTON DC (6.000)</option>
+                                <option value="8.250">TEXAS TX (8.250)</option>
+                              </select>
+                            </div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol"> <a href="http://www.awacp.org/tax" target="_blank">[Add/Modify Tax Rate]</a> </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Ship date</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="">
+                              <input type="text" class="form-control datepicker" name="ship_date">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol"> &nbsp; </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Shipment</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 col-xss-12">
+                            <div class="">
+                              <select class="form-control" style="width:200px; display:inline-block;" name="ship_part" id="ship_part" onchange="ShowHidePayment(this.value,165)">
+                                <option value="FULL">FULL</option>
+                                <option value="PARTIAL">PARTIAL</option>
+                              </select>
+                              &nbsp; <span id="partial_span" style="display:none;"> <font color="#800040" size="2"> <b>Partial Amount</b> </font>&nbsp;
+                              <input type="text" class="form-control" name="in_partial_amount" id="in_partial_amount" style="width:150px; display:inline-block;" value="165">
+                              &nbsp;&nbsp; <font color="#000000" style="font-weight:normal;">(Numeric, no decimals)</font> </span> &nbsp;&nbsp; <font color="#800040" size="2"> <b>Billing Amount</b> </font> &nbsp;&nbsp;<span style="font-weight: bold; color: #006600; font-size: 12px">$165.00</span> </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Shipped Via</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" " id="best_method1">
+                              <select class="form-control" name="ship_via" id="ship_via" style="width:760px;">
+                                <option value="10-24X4;1-36X8 TL-1N">10-24X4;1-36X8 TL-1N</option>
+                                <option value="AIR FRT">AIR FRT</option>
+                                <option value="ANEMOSTAT ACCESS DOORS">ANEMOSTAT ACCESS DOORS</option>
+                                <option value="BEST METHOD" selected="selected">BEST METHOD</option>
+                                <option value="BULLET">BULLET</option>
+                                <option value="DAYLIGHT TRK">DAYLIGHT TRK</option>
+                                <option value="DELIVERED BY ADRIAN">DELIVERED BY ADRIAN</option>
+                                <option value="FEDERAL EXPRESS">FEDERAL EXPRESS</option>
+                                <option value="JACK KAPUR TRUCKING">JACK KAPUR TRUCKING</option>
+                                <option value="NEMF">NEMF</option>
+                                <option value="PENN">PENN</option>
+                                <option value="PICKUP">PICKUP</option>
+                                <option value="RADIANT GLOBAL LOGISTIC">RADIANT GLOBAL LOGISTIC</option>
+                                <option value="UPS">UPS</option>
+                                <option value="UPS BLUE">UPS BLUE</option>
+                                <option value="VISE VISION EXPRESS">VISE VISION EXPRESS</option>
+                                <option value="YRC FREIGHT">YRC FREIGHT</option>
+                              </select>
+                            </div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol" id="best_method1_new"> <a href="javascript:void(0);" onclick="ChangeInvBoxes('best_method1','ship_via')" style="color:blue;">New</a> </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Items Shipped - 1</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" " id="line_item1_1">
+                              <select class="form-control" name="lineitem1" id="lineitem1" style="width:760px;">
+                                <option value="">--</option>
+                                <option value="$1000 GOODWILL CREDIT GIVEN ON THIS INVOICE">$1000 GOODWILL CREDIT GIVEN ON THIS INVOICE</option>
+                                <option value="1-ALUMINUM FILTER GRILLE NO FILTER, 3- 10X10 GRILLES W/ OB, STEEL">1-ALUMINUM FILTER GRILLE NO FILTER, 3- 10X10 GRILLES W/ OB, STEEL</option>
+                                <option value="1-KMC ACTUATOR / CONTROLLER">1-KMC ACTUATOR / CONTROLLER</option>
+                                <option value="10X10 ALUMINUM RETURN GRILLE QTY 1">10X10 ALUMINUM RETURN GRILLE QTY 1</option>
+                                <option value="2- 724 CORNER PULLEYS">2- 724 CORNER PULLEYS</option>
+                                <option value="2-ANEMOSTAT CSP-5001 CONTROLLERS">2-ANEMOSTAT CSP-5001 CONTROLLERS</option>
+                                <option value="26TH, 27TH FLOORS">26TH, 27TH FLOORS</option>
+                                <option value="3010.79+267.21(TAX) PRE-PAYMENT BY CREDIT CARD">3010.79+267.21(TAX) PRE-PAYMENT BY CREDIT CARD</option>
+                                <option value="3010.80+267.20(TAX) PRE-PAYMENT BY CREDIT CARD">3010.80+267.20(TAX) PRE-PAYMENT BY CREDIT CARD</option>
+                                <option value="60 SPOT DIFFUSERS">60 SPOT DIFFUSERS</option>
+                                <option value="A CHANGE ORDER ID J14-0026 MUST BE BILLED WITH THIS PROJECT. ALL MATERIAL IS RELEASED WITH BASE JOBID.">A CHANGE ORDER ID J14-0026 MUST BE BILLED WITH THIS PROJECT. ALL MATERIAL IS RELEASED WITH BASE JOBID.</option>
+                                <option value="AIR CONCEPT">AIR CONCEPT</option>
+                                <option value="AIR OUTLETS">AIR OUTLETS</option>
+                                <option value="AIR OUTLETS &amp; IAC">AIR OUTLETS &amp; IAC</option>
+                                <option value="AIR OUTLETS EXCEPT LINEAR DIFFUSERS IN SHOWROOM">AIR OUTLETS EXCEPT LINEAR DIFFUSERS IN SHOWROOM</option>
+                                <option value="AIR OUTLETS EXCEPT LINEAR IN SHOWROOM">AIR OUTLETS EXCEPT LINEAR IN SHOWROOM</option>
+                                <option value="ANEMOSTAT">ANEMOSTAT</option>
+                                <option value="ANEMOSTAT &amp; IAC &amp; YOUNG REGULATOR">ANEMOSTAT &amp; IAC &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT &amp; METALAIRE AIR OUTLETS">ANEMOSTAT &amp; METALAIRE AIR OUTLETS</option>
+                                <option value="ANEMOSTAT &amp; METALAIRE AIR OUTLETS AND YOUNG REGULATOR DAMPERS">ANEMOSTAT &amp; METALAIRE AIR OUTLETS AND YOUNG REGULATOR DAMPERS</option>
+                                <option value="ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR">ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR; SILENCER WAS NOT RELEASED AND NOT BILLED">ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR; SILENCER WAS NOT RELEASED AND NOT BILLED</option>
+                                <option value="ANEMOSTAT AIR OUTLETS">ANEMOSTAT AIR OUTLETS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; AIR TERMINAL UNITS">ANEMOSTAT AIR OUTLETS &amp; AIR TERMINAL UNITS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; ELECTRIC DUCT HEATERS">ANEMOSTAT AIR OUTLETS &amp; ELECTRIC DUCT HEATERS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; IAC">ANEMOSTAT AIR OUTLETS &amp; IAC</option>
+                                <option value="ANEMOSTAT AIR OUTLETS, AIR TERMINAL &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR">ANEMOSTAT AIR OUTLETS, AIR TERMINAL &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLETS, AIR TERMINAL UNITS &amp; YOUNG REGULATOR">ANEMOSTAT AIR OUTLETS, AIR TERMINAL UNITS &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLETS; TROX CONSTANT VOLUME FLOW RATE CONTROLLER ">ANEMOSTAT AIR OUTLETS; TROX CONSTANT VOLUME FLOW RATE CONTROLLER </option>
+                                <option value="ANEMOSTAT AIR TERMINAL &amp; IAC SOUND ATTENUATOR">ANEMOSTAT AIR TERMINAL &amp; IAC SOUND ATTENUATOR</option>
+                                <option value="ANEMOSTAT AIR TERMINAL &amp; METALAIRE AIR OUTLETS">ANEMOSTAT AIR TERMINAL &amp; METALAIRE AIR OUTLETS</option>
+                                <option value="ANEMOSTAT CONTROLLER/TSTATS/TRANSFORMERS">ANEMOSTAT CONTROLLER/TSTATS/TRANSFORMERS</option>
+                                <option value="ANEMOSTAT CONTROLLERS">ANEMOSTAT CONTROLLERS</option>
+                                <option value="ANEMOSTAT DRUM LOUVERS">ANEMOSTAT DRUM LOUVERS</option>
+                                <option value="ANEMOSTAT LINEAR &amp; TROX RN">ANEMOSTAT LINEAR &amp; TROX RN</option>
+                                <option value="ANEMOSTAT LINEAR BAR GRILLES">ANEMOSTAT LINEAR BAR GRILLES</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS">ANEMOSTAT LINEAR DIFFUSERS</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS FOR SHOW ROOM">ANEMOSTAT LINEAR DIFFUSERS FOR SHOW ROOM</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS MODEL FFX">ANEMOSTAT LINEAR DIFFUSERS MODEL FFX</option>
+                                <option value="ANEMOSTAT TERMINAL UNITS">ANEMOSTAT TERMINAL UNITS</option>
+                                <option value="ANEMOSTAT TERMINAL UNITS &amp; YOUNG REGULATORS">ANEMOSTAT TERMINAL UNITS &amp; YOUNG REGULATORS</option>
+                                <option value="ANEMOSTAT VAV BOXES">ANEMOSTAT VAV BOXES</option>
+                                <option value="ANEMOSTAT VAV MOTOR">ANEMOSTAT VAV MOTOR</option>
+                                <option value="ANEMOSTAT- ROUND PLAQUE DIFFUSERS">ANEMOSTAT- ROUND PLAQUE DIFFUSERS</option>
+                                <option value="ANEMOSTAT-DF32- AIR OUTLETS">ANEMOSTAT-DF32- AIR OUTLETS</option>
+                                <option value="ANEMOSTAT: 10TH FL AIR OUTLETS ">ANEMOSTAT: 10TH FL AIR OUTLETS </option>
+                                <option value="AUTHORISED BY ADRIAN VALDIVIA">AUTHORISED BY ADRIAN VALDIVIA</option>
+                                <option value="AUTHORISED BY ALEX KAKZANOV">AUTHORISED BY ALEX KAKZANOV</option>
+                                <option value="AUTHORISED BY ANTHONY SAPUTO">AUTHORISED BY ANTHONY SAPUTO</option>
+                                <option value="AUTHORISED BY ARKADIY KAKZANOV">AUTHORISED BY ARKADIY KAKZANOV</option>
+                                <option value="AUTHORISED BY CHRISTOPHER O'TOOLE">AUTHORISED BY CHRISTOPHER O'TOOLE</option>
+                                <option value="AUTHORISED BY COLLINS KELLLY">AUTHORISED BY COLLINS KELLLY</option>
+                                <option value="AUTHORISED BY COLON KELLY">AUTHORISED BY COLON KELLY</option>
+                                <option value="AUTHORISED BY DINO PAPAYANNAKOS">AUTHORISED BY DINO PAPAYANNAKOS</option>
+                                <option value="AUTHORISED BY DONALD LANG">AUTHORISED BY DONALD LANG</option>
+                                <option value="AUTHORISED BY FRANCO TODISCO">AUTHORISED BY FRANCO TODISCO</option>
+                                <option value="AUTHORISED BY FRANK">AUTHORISED BY FRANK</option>
+                                <option value="AUTHORISED BY GREG LONGO">AUTHORISED BY GREG LONGO</option>
+                                <option value="AUTHORISED BY IONELA BALAN">AUTHORISED BY IONELA BALAN</option>
+                                <option value="AUTHORISED BY JOE TRAMONTANO">AUTHORISED BY JOE TRAMONTANO</option>
+                                <option value="AUTHORISED BY JOHN KELLY">AUTHORISED BY JOHN KELLY</option>
+                                <option value="AUTHORISED BY KEVIN">AUTHORISED BY KEVIN</option>
+                                <option value="AUTHORISED BY KEVIN MCGOWAN">AUTHORISED BY KEVIN MCGOWAN</option>
+                                <option value="AUTHORISED BY KIN LAU">AUTHORISED BY KIN LAU</option>
+                                <option value="AUTHORISED BY MICHAEL ACEVEDO">AUTHORISED BY MICHAEL ACEVEDO</option>
+                                <option value="AUTHORISED BY MICHAEL GARONE">AUTHORISED BY MICHAEL GARONE</option>
+                                <option value="AUTHORISED BY MONROE">AUTHORISED BY MONROE</option>
+                                <option value="AUTHORISED BY NINA LILPERT">AUTHORISED BY NINA LILPERT</option>
+                                <option value="AUTHORISED BY ORLANDO">AUTHORISED BY ORLANDO</option>
+                                <option value="AUTHORISED BY OSCAR">AUTHORISED BY OSCAR</option>
+                                <option value="AUTHORISED BY OSCAR ROJAS">AUTHORISED BY OSCAR ROJAS</option>
+                                <option value="AUTHORISED BY ROBERT ALMEIDA">AUTHORISED BY ROBERT ALMEIDA</option>
+                                <option value="AUTHORISED BY RUBEN LUCERO">AUTHORISED BY RUBEN LUCERO</option>
+                                <option value="AUTHORISED BY SHANE MCCRACKEN">AUTHORISED BY SHANE MCCRACKEN</option>
+                                <option value="AUTHORISED BY STAN">AUTHORISED BY STAN</option>
+                                <option value="AUTHORIZED BY AFTAB">AUTHORIZED BY AFTAB</option>
+                                <option value="AUTHORIZED BY ANDREW FERRAIOLO ">AUTHORIZED BY ANDREW FERRAIOLO </option>
+                                <option value="AUTHORIZED BY ANIL ROY">AUTHORIZED BY ANIL ROY</option>
+                                <option value="AUTHORIZED BY CHRISTOPHER CLANCY">AUTHORIZED BY CHRISTOPHER CLANCY</option>
+                                <option value="AUTHORIZED BY DIANNA YACEK">AUTHORIZED BY DIANNA YACEK</option>
+                                <option value="AUTHORIZED BY ELIAS ABUD">AUTHORIZED BY ELIAS ABUD</option>
+                                <option value="AUTHORIZED BY ERIK">AUTHORIZED BY ERIK</option>
+                                <option value="AUTHORIZED BY HARI">AUTHORIZED BY HARI</option>
+                                <option value="AUTHORIZED BY JOHN">AUTHORIZED BY JOHN</option>
+                                <option value="AUTHORIZED BY JOHN MALLIN">AUTHORIZED BY JOHN MALLIN</option>
+                                <option value="AUTHORIZED BY KATE PIEKARSKI">AUTHORIZED BY KATE PIEKARSKI</option>
+                                <option value="AUTHORIZED BY KEN KIRK">AUTHORIZED BY KEN KIRK</option>
+                                <option value="AUTHORIZED BY KEN LEE">AUTHORIZED BY KEN LEE</option>
+                                <option value="AUTHORIZED BY MIKE">AUTHORIZED BY MIKE</option>
+                                <option value="AUTHORIZED BY NINA LILPERT">AUTHORIZED BY NINA LILPERT</option>
+                                <option value="AUTHORIZED BY ORLANDO MOONSAMMY">AUTHORIZED BY ORLANDO MOONSAMMY</option>
+                                <option value="AUTHORIZED BY ROBERT">AUTHORIZED BY ROBERT</option>
+                                <option value="AUTHORIZED BY STANLEY">AUTHORIZED BY STANLEY</option>
+                                <option value="AUTHORIZED BY STEVEN DRIZIS">AUTHORIZED BY STEVEN DRIZIS</option>
+                                <option value="AUTHORIZED BY THOMAS HENDERSON ">AUTHORIZED BY THOMAS HENDERSON </option>
+                                <option value="AUTHORIZED BY TONY MARTINELLI ">AUTHORIZED BY TONY MARTINELLI </option>
+                                <option value="CABE DAMPER RELEASE #1">CABE DAMPER RELEASE #1</option>
+                                <option value="CABLE DAMPERS">CABLE DAMPERS</option>
+                                <option value="CPEP SECURITY SCREWS">CPEP SECURITY SCREWS</option>
+                                <option value="DIFFUSER BAFFLES QTY 20 NO CHARGE">DIFFUSER BAFFLES QTY 20 NO CHARGE</option>
+                                <option value="DOW JONES -7TH FL AIR OUTLETS / BULLETIN #1">DOW JONES -7TH FL AIR OUTLETS / BULLETIN #1</option>
+                                <option value="DUAL DUCT BOX 10">DUAL DUCT BOX 10</option>
+                                <option value="ELECTRIC HEATERS INC">ELECTRIC HEATERS INC</option>
+                                <option value="IAC ONLY">IAC ONLY</option>
+                                <option value="INDUSTRIAL ACOUSTICS CO. SOUND ATTENUATORS">INDUSTRIAL ACOUSTICS CO. SOUND ATTENUATORS</option>
+                                <option value="ITEMS SHIPPED - 4">ITEMS SHIPPED - 4</option>
+                                <option value="LUCKY ZONE- 36X18 RETURN GRILLES">LUCKY ZONE- 36X18 RETURN GRILLES</option>
+                                <option value="MATERIAL SHIPPED AND DELIVERED AS PER BULLETIN #1">MATERIAL SHIPPED AND DELIVERED AS PER BULLETIN #1</option>
+                                <option value="METALAIRE AIR OUTLETS">METALAIRE AIR OUTLETS</option>
+                                <option value="ORIG PO# AMOUNT $12,700 + BULLETIN #2 $820 MINUS CREDIT FOR VAV BOXES $875.00 =$12,645">ORIG PO# AMOUNT $12,700 + BULLETIN #2 $820 MINUS CREDIT FOR VAV BOXES $875.00 =$12,645</option>
+                                <option value="PAYMENT MADE BY CHEQUE #000129 IN THE AMOUNT OF $7403.50">PAYMENT MADE BY CHEQUE #000129 IN THE AMOUNT OF $7403.50</option>
+                                <option value="PAYMENT MADE BY CREDIT CARD ON FILE">PAYMENT MADE BY CREDIT CARD ON FILE</option>
+                                <option value="PLASTER FRAMES ONLY">PLASTER FRAMES ONLY</option>
+                                <option value="PLEASE GET TAX EXEMPT">PLEASE GET TAX EXEMPT</option>
+                                <option value="PLEASE NOTE : THIS INVOICE DOES NOT INCLUDE COST FOR EXPEDITING THE MATERIAL. TO BE BILLED SEPARATELY. ">PLEASE NOTE : THIS INVOICE DOES NOT INCLUDE COST FOR EXPEDITING THE MATERIAL. TO BE BILLED SEPARATELY. </option>
+                                <option value="RITA GETS TAX EXEMPT 116174">RITA GETS TAX EXEMPT 116174</option>
+                                <option value="SOUND TRAPS">SOUND TRAPS</option>
+                                <option value="SOUND TRAPS ONLY">SOUND TRAPS ONLY</option>
+                                <option value="T&amp;B AIR OUTLETS">T&amp;B AIR OUTLETS</option>
+                                <option value="THERMOSTAT ONLY">THERMOSTAT ONLY</option>
+                                <option value="TROX AIR OUTLETS">TROX AIR OUTLETS</option>
+                                <option value="TROX AIR TERMINAL">TROX AIR TERMINAL</option>
+                                <option value="TROX AIR TERMINALS">TROX AIR TERMINALS</option>
+                                <option value="TROX CHILLED BEAMS">TROX CHILLED BEAMS</option>
+                                <option value="TROX LVS">TROX LVS</option>
+                                <option value="TROX ROUND GRILLES">TROX ROUND GRILLES</option>
+                                <option value="TUTCO DISCONNECT SWITCH">TUTCO DISCONNECT SWITCH</option>
+                                <option value="TUTTLE AND BAILEY AIR OUTLETS">TUTTLE AND BAILEY AIR OUTLETS</option>
+                                <option value="TUTTLE AND BAILEY AIR TERMINALS">TUTTLE AND BAILEY AIR TERMINALS</option>
+                                <option value="VIBRO ACOUSTIC SOUND TRAPS">VIBRO ACOUSTIC SOUND TRAPS</option>
+                                <option value="YOUNG REGULATOR">YOUNG REGULATOR</option>
+                                <option value="YOUNG REGULATOR 800AW CABLE OPERATED DAMPERS">YOUNG REGULATOR 800AW CABLE OPERATED DAMPERS</option>
+                                <option value="YOUNG REGULATOR 800AWR- CABLE-OPERATED DAMPERS- ROUND">YOUNG REGULATOR 800AWR- CABLE-OPERATED DAMPERS- ROUND</option>
+                                <option value="YOUNG REGULATOR CO.">YOUNG REGULATOR CO.</option>
+                                <option value="YOUNG REGULATOR, AIR TERMINAL UNITS &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR">YOUNG REGULATOR, AIR TERMINAL UNITS &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR</option>
+                              </select>
+                            </div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol" id="line_item1_1_new"> <a href="javascript:void(0);" onclick="ChangeInvBoxes('line_item1_1','lineitem1')" style="color:blue;">New</a> </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Items Shipped - 2</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" " id="line_item2_1">
+                              <select class="form-control" name="lineitem2" id="lineitem2" style="width:760px;">
+                                <option value="">--</option>
+                                <option value="$1000 GOODWILL CREDIT GIVEN ON THIS INVOICE">$1000 GOODWILL CREDIT GIVEN ON THIS INVOICE</option>
+                                <option value="1-ALUMINUM FILTER GRILLE NO FILTER, 3- 10X10 GRILLES W/ OB, STEEL">1-ALUMINUM FILTER GRILLE NO FILTER, 3- 10X10 GRILLES W/ OB, STEEL</option>
+                                <option value="1-KMC ACTUATOR / CONTROLLER">1-KMC ACTUATOR / CONTROLLER</option>
+                                <option value="10X10 ALUMINUM RETURN GRILLE QTY 1">10X10 ALUMINUM RETURN GRILLE QTY 1</option>
+                                <option value="2- 724 CORNER PULLEYS">2- 724 CORNER PULLEYS</option>
+                                <option value="2-ANEMOSTAT CSP-5001 CONTROLLERS">2-ANEMOSTAT CSP-5001 CONTROLLERS</option>
+                                <option value="26TH, 27TH FLOORS">26TH, 27TH FLOORS</option>
+                                <option value="3010.79+267.21(TAX) PRE-PAYMENT BY CREDIT CARD">3010.79+267.21(TAX) PRE-PAYMENT BY CREDIT CARD</option>
+                                <option value="3010.80+267.20(TAX) PRE-PAYMENT BY CREDIT CARD">3010.80+267.20(TAX) PRE-PAYMENT BY CREDIT CARD</option>
+                                <option value="60 SPOT DIFFUSERS">60 SPOT DIFFUSERS</option>
+                                <option value="A CHANGE ORDER ID J14-0026 MUST BE BILLED WITH THIS PROJECT. ALL MATERIAL IS RELEASED WITH BASE JOBID.">A CHANGE ORDER ID J14-0026 MUST BE BILLED WITH THIS PROJECT. ALL MATERIAL IS RELEASED WITH BASE JOBID.</option>
+                                <option value="AIR CONCEPT">AIR CONCEPT</option>
+                                <option value="AIR OUTLETS">AIR OUTLETS</option>
+                                <option value="AIR OUTLETS &amp; IAC">AIR OUTLETS &amp; IAC</option>
+                                <option value="AIR OUTLETS EXCEPT LINEAR DIFFUSERS IN SHOWROOM">AIR OUTLETS EXCEPT LINEAR DIFFUSERS IN SHOWROOM</option>
+                                <option value="AIR OUTLETS EXCEPT LINEAR IN SHOWROOM">AIR OUTLETS EXCEPT LINEAR IN SHOWROOM</option>
+                                <option value="ANEMOSTAT">ANEMOSTAT</option>
+                                <option value="ANEMOSTAT &amp; IAC &amp; YOUNG REGULATOR">ANEMOSTAT &amp; IAC &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT &amp; METALAIRE AIR OUTLETS">ANEMOSTAT &amp; METALAIRE AIR OUTLETS</option>
+                                <option value="ANEMOSTAT &amp; METALAIRE AIR OUTLETS AND YOUNG REGULATOR DAMPERS">ANEMOSTAT &amp; METALAIRE AIR OUTLETS AND YOUNG REGULATOR DAMPERS</option>
+                                <option value="ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR">ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR; SILENCER WAS NOT RELEASED AND NOT BILLED">ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR; SILENCER WAS NOT RELEASED AND NOT BILLED</option>
+                                <option value="ANEMOSTAT AIR OUTLETS">ANEMOSTAT AIR OUTLETS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; AIR TERMINAL UNITS">ANEMOSTAT AIR OUTLETS &amp; AIR TERMINAL UNITS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; ELECTRIC DUCT HEATERS">ANEMOSTAT AIR OUTLETS &amp; ELECTRIC DUCT HEATERS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; IAC">ANEMOSTAT AIR OUTLETS &amp; IAC</option>
+                                <option value="ANEMOSTAT AIR OUTLETS, AIR TERMINAL &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR">ANEMOSTAT AIR OUTLETS, AIR TERMINAL &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLETS, AIR TERMINAL UNITS &amp; YOUNG REGULATOR">ANEMOSTAT AIR OUTLETS, AIR TERMINAL UNITS &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLETS; TROX CONSTANT VOLUME FLOW RATE CONTROLLER ">ANEMOSTAT AIR OUTLETS; TROX CONSTANT VOLUME FLOW RATE CONTROLLER </option>
+                                <option value="ANEMOSTAT AIR TERMINAL &amp; IAC SOUND ATTENUATOR">ANEMOSTAT AIR TERMINAL &amp; IAC SOUND ATTENUATOR</option>
+                                <option value="ANEMOSTAT AIR TERMINAL &amp; METALAIRE AIR OUTLETS">ANEMOSTAT AIR TERMINAL &amp; METALAIRE AIR OUTLETS</option>
+                                <option value="ANEMOSTAT CONTROLLER/TSTATS/TRANSFORMERS">ANEMOSTAT CONTROLLER/TSTATS/TRANSFORMERS</option>
+                                <option value="ANEMOSTAT CONTROLLERS">ANEMOSTAT CONTROLLERS</option>
+                                <option value="ANEMOSTAT DRUM LOUVERS">ANEMOSTAT DRUM LOUVERS</option>
+                                <option value="ANEMOSTAT LINEAR &amp; TROX RN">ANEMOSTAT LINEAR &amp; TROX RN</option>
+                                <option value="ANEMOSTAT LINEAR BAR GRILLES">ANEMOSTAT LINEAR BAR GRILLES</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS">ANEMOSTAT LINEAR DIFFUSERS</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS FOR SHOW ROOM">ANEMOSTAT LINEAR DIFFUSERS FOR SHOW ROOM</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS MODEL FFX">ANEMOSTAT LINEAR DIFFUSERS MODEL FFX</option>
+                                <option value="ANEMOSTAT TERMINAL UNITS">ANEMOSTAT TERMINAL UNITS</option>
+                                <option value="ANEMOSTAT TERMINAL UNITS &amp; YOUNG REGULATORS">ANEMOSTAT TERMINAL UNITS &amp; YOUNG REGULATORS</option>
+                                <option value="ANEMOSTAT VAV BOXES">ANEMOSTAT VAV BOXES</option>
+                                <option value="ANEMOSTAT VAV MOTOR">ANEMOSTAT VAV MOTOR</option>
+                                <option value="ANEMOSTAT- ROUND PLAQUE DIFFUSERS">ANEMOSTAT- ROUND PLAQUE DIFFUSERS</option>
+                                <option value="ANEMOSTAT-DF32- AIR OUTLETS">ANEMOSTAT-DF32- AIR OUTLETS</option>
+                                <option value="ANEMOSTAT: 10TH FL AIR OUTLETS ">ANEMOSTAT: 10TH FL AIR OUTLETS </option>
+                                <option value="AUTHORISED BY ADRIAN VALDIVIA">AUTHORISED BY ADRIAN VALDIVIA</option>
+                                <option value="AUTHORISED BY ALEX KAKZANOV">AUTHORISED BY ALEX KAKZANOV</option>
+                                <option value="AUTHORISED BY ANTHONY SAPUTO">AUTHORISED BY ANTHONY SAPUTO</option>
+                                <option value="AUTHORISED BY ARKADIY KAKZANOV">AUTHORISED BY ARKADIY KAKZANOV</option>
+                                <option value="AUTHORISED BY CHRISTOPHER O'TOOLE">AUTHORISED BY CHRISTOPHER O'TOOLE</option>
+                                <option value="AUTHORISED BY COLLINS KELLLY">AUTHORISED BY COLLINS KELLLY</option>
+                                <option value="AUTHORISED BY COLON KELLY">AUTHORISED BY COLON KELLY</option>
+                                <option value="AUTHORISED BY DINO PAPAYANNAKOS">AUTHORISED BY DINO PAPAYANNAKOS</option>
+                                <option value="AUTHORISED BY DONALD LANG">AUTHORISED BY DONALD LANG</option>
+                                <option value="AUTHORISED BY FRANCO TODISCO">AUTHORISED BY FRANCO TODISCO</option>
+                                <option value="AUTHORISED BY FRANK">AUTHORISED BY FRANK</option>
+                                <option value="AUTHORISED BY GREG LONGO">AUTHORISED BY GREG LONGO</option>
+                                <option value="AUTHORISED BY IONELA BALAN">AUTHORISED BY IONELA BALAN</option>
+                                <option value="AUTHORISED BY JOE TRAMONTANO">AUTHORISED BY JOE TRAMONTANO</option>
+                                <option value="AUTHORISED BY JOHN KELLY">AUTHORISED BY JOHN KELLY</option>
+                                <option value="AUTHORISED BY KEVIN">AUTHORISED BY KEVIN</option>
+                                <option value="AUTHORISED BY KEVIN MCGOWAN">AUTHORISED BY KEVIN MCGOWAN</option>
+                                <option value="AUTHORISED BY KIN LAU">AUTHORISED BY KIN LAU</option>
+                                <option value="AUTHORISED BY MICHAEL ACEVEDO">AUTHORISED BY MICHAEL ACEVEDO</option>
+                                <option value="AUTHORISED BY MICHAEL GARONE">AUTHORISED BY MICHAEL GARONE</option>
+                                <option value="AUTHORISED BY MONROE">AUTHORISED BY MONROE</option>
+                                <option value="AUTHORISED BY NINA LILPERT">AUTHORISED BY NINA LILPERT</option>
+                                <option value="AUTHORISED BY ORLANDO">AUTHORISED BY ORLANDO</option>
+                                <option value="AUTHORISED BY OSCAR">AUTHORISED BY OSCAR</option>
+                                <option value="AUTHORISED BY OSCAR ROJAS">AUTHORISED BY OSCAR ROJAS</option>
+                                <option value="AUTHORISED BY ROBERT ALMEIDA">AUTHORISED BY ROBERT ALMEIDA</option>
+                                <option value="AUTHORISED BY RUBEN LUCERO">AUTHORISED BY RUBEN LUCERO</option>
+                                <option value="AUTHORISED BY SHANE MCCRACKEN">AUTHORISED BY SHANE MCCRACKEN</option>
+                                <option value="AUTHORISED BY STAN">AUTHORISED BY STAN</option>
+                                <option value="AUTHORIZED BY AFTAB">AUTHORIZED BY AFTAB</option>
+                                <option value="AUTHORIZED BY ANDREW FERRAIOLO ">AUTHORIZED BY ANDREW FERRAIOLO </option>
+                                <option value="AUTHORIZED BY ANIL ROY">AUTHORIZED BY ANIL ROY</option>
+                                <option value="AUTHORIZED BY CHRISTOPHER CLANCY">AUTHORIZED BY CHRISTOPHER CLANCY</option>
+                                <option value="AUTHORIZED BY DIANNA YACEK">AUTHORIZED BY DIANNA YACEK</option>
+                                <option value="AUTHORIZED BY ELIAS ABUD">AUTHORIZED BY ELIAS ABUD</option>
+                                <option value="AUTHORIZED BY ERIK">AUTHORIZED BY ERIK</option>
+                                <option value="AUTHORIZED BY HARI">AUTHORIZED BY HARI</option>
+                                <option value="AUTHORIZED BY JOHN">AUTHORIZED BY JOHN</option>
+                                <option value="AUTHORIZED BY JOHN MALLIN">AUTHORIZED BY JOHN MALLIN</option>
+                                <option value="AUTHORIZED BY KATE PIEKARSKI">AUTHORIZED BY KATE PIEKARSKI</option>
+                                <option value="AUTHORIZED BY KEN KIRK">AUTHORIZED BY KEN KIRK</option>
+                                <option value="AUTHORIZED BY KEN LEE">AUTHORIZED BY KEN LEE</option>
+                                <option value="AUTHORIZED BY MIKE">AUTHORIZED BY MIKE</option>
+                                <option value="AUTHORIZED BY NINA LILPERT">AUTHORIZED BY NINA LILPERT</option>
+                                <option value="AUTHORIZED BY ORLANDO MOONSAMMY">AUTHORIZED BY ORLANDO MOONSAMMY</option>
+                                <option value="AUTHORIZED BY ROBERT">AUTHORIZED BY ROBERT</option>
+                                <option value="AUTHORIZED BY STANLEY">AUTHORIZED BY STANLEY</option>
+                                <option value="AUTHORIZED BY STEVEN DRIZIS">AUTHORIZED BY STEVEN DRIZIS</option>
+                                <option value="AUTHORIZED BY THOMAS HENDERSON ">AUTHORIZED BY THOMAS HENDERSON </option>
+                                <option value="AUTHORIZED BY TONY MARTINELLI ">AUTHORIZED BY TONY MARTINELLI </option>
+                                <option value="CABE DAMPER RELEASE #1">CABE DAMPER RELEASE #1</option>
+                                <option value="CABLE DAMPERS">CABLE DAMPERS</option>
+                                <option value="CPEP SECURITY SCREWS">CPEP SECURITY SCREWS</option>
+                                <option value="DIFFUSER BAFFLES QTY 20 NO CHARGE">DIFFUSER BAFFLES QTY 20 NO CHARGE</option>
+                                <option value="DOW JONES -7TH FL AIR OUTLETS / BULLETIN #1">DOW JONES -7TH FL AIR OUTLETS / BULLETIN #1</option>
+                                <option value="DUAL DUCT BOX 10">DUAL DUCT BOX 10</option>
+                                <option value="ELECTRIC HEATERS INC">ELECTRIC HEATERS INC</option>
+                                <option value="IAC ONLY">IAC ONLY</option>
+                                <option value="INDUSTRIAL ACOUSTICS CO. SOUND ATTENUATORS">INDUSTRIAL ACOUSTICS CO. SOUND ATTENUATORS</option>
+                                <option value="ITEMS SHIPPED - 4">ITEMS SHIPPED - 4</option>
+                                <option value="LUCKY ZONE- 36X18 RETURN GRILLES">LUCKY ZONE- 36X18 RETURN GRILLES</option>
+                                <option value="MATERIAL SHIPPED AND DELIVERED AS PER BULLETIN #1">MATERIAL SHIPPED AND DELIVERED AS PER BULLETIN #1</option>
+                                <option value="METALAIRE AIR OUTLETS">METALAIRE AIR OUTLETS</option>
+                                <option value="ORIG PO# AMOUNT $12,700 + BULLETIN #2 $820 MINUS CREDIT FOR VAV BOXES $875.00 =$12,645">ORIG PO# AMOUNT $12,700 + BULLETIN #2 $820 MINUS CREDIT FOR VAV BOXES $875.00 =$12,645</option>
+                                <option value="PAYMENT MADE BY CHEQUE #000129 IN THE AMOUNT OF $7403.50">PAYMENT MADE BY CHEQUE #000129 IN THE AMOUNT OF $7403.50</option>
+                                <option value="PAYMENT MADE BY CREDIT CARD ON FILE">PAYMENT MADE BY CREDIT CARD ON FILE</option>
+                                <option value="PLASTER FRAMES ONLY">PLASTER FRAMES ONLY</option>
+                                <option value="PLEASE GET TAX EXEMPT">PLEASE GET TAX EXEMPT</option>
+                                <option value="PLEASE NOTE : THIS INVOICE DOES NOT INCLUDE COST FOR EXPEDITING THE MATERIAL. TO BE BILLED SEPARATELY. ">PLEASE NOTE : THIS INVOICE DOES NOT INCLUDE COST FOR EXPEDITING THE MATERIAL. TO BE BILLED SEPARATELY. </option>
+                                <option value="RITA GETS TAX EXEMPT 116174">RITA GETS TAX EXEMPT 116174</option>
+                                <option value="SOUND TRAPS">SOUND TRAPS</option>
+                                <option value="SOUND TRAPS ONLY">SOUND TRAPS ONLY</option>
+                                <option value="T&amp;B AIR OUTLETS">T&amp;B AIR OUTLETS</option>
+                                <option value="THERMOSTAT ONLY">THERMOSTAT ONLY</option>
+                                <option value="TROX AIR OUTLETS">TROX AIR OUTLETS</option>
+                                <option value="TROX AIR TERMINAL">TROX AIR TERMINAL</option>
+                                <option value="TROX AIR TERMINALS">TROX AIR TERMINALS</option>
+                                <option value="TROX CHILLED BEAMS">TROX CHILLED BEAMS</option>
+                                <option value="TROX LVS">TROX LVS</option>
+                                <option value="TROX ROUND GRILLES">TROX ROUND GRILLES</option>
+                                <option value="TUTCO DISCONNECT SWITCH">TUTCO DISCONNECT SWITCH</option>
+                                <option value="TUTTLE AND BAILEY AIR OUTLETS">TUTTLE AND BAILEY AIR OUTLETS</option>
+                                <option value="TUTTLE AND BAILEY AIR TERMINALS">TUTTLE AND BAILEY AIR TERMINALS</option>
+                                <option value="VIBRO ACOUSTIC SOUND TRAPS">VIBRO ACOUSTIC SOUND TRAPS</option>
+                                <option value="YOUNG REGULATOR">YOUNG REGULATOR</option>
+                                <option value="YOUNG REGULATOR 800AW CABLE OPERATED DAMPERS">YOUNG REGULATOR 800AW CABLE OPERATED DAMPERS</option>
+                                <option value="YOUNG REGULATOR 800AWR- CABLE-OPERATED DAMPERS- ROUND">YOUNG REGULATOR 800AWR- CABLE-OPERATED DAMPERS- ROUND</option>
+                                <option value="YOUNG REGULATOR CO.">YOUNG REGULATOR CO.</option>
+                                <option value="YOUNG REGULATOR, AIR TERMINAL UNITS &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR">YOUNG REGULATOR, AIR TERMINAL UNITS &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR</option>
+                              </select>
+                            </div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol" id="line_item2_1_new"> <a href="javascript:void(0);" onclick="ChangeInvBoxes('line_item2_1','lineitem2')" style="color:blue;">New</a> </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Items Shipped - 3</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" " id="line_item3_1">
+                              <select class="form-control" name="lineitem3" id="lineitem3" style="width:760px;">
+                                <option value="">--</option>
+                                <option value="$1000 GOODWILL CREDIT GIVEN ON THIS INVOICE">$1000 GOODWILL CREDIT GIVEN ON THIS INVOICE</option>
+                                <option value="1-ALUMINUM FILTER GRILLE NO FILTER, 3- 10X10 GRILLES W/ OB, STEEL">1-ALUMINUM FILTER GRILLE NO FILTER, 3- 10X10 GRILLES W/ OB, STEEL</option>
+                                <option value="1-KMC ACTUATOR / CONTROLLER">1-KMC ACTUATOR / CONTROLLER</option>
+                                <option value="10X10 ALUMINUM RETURN GRILLE QTY 1">10X10 ALUMINUM RETURN GRILLE QTY 1</option>
+                                <option value="2- 724 CORNER PULLEYS">2- 724 CORNER PULLEYS</option>
+                                <option value="2-ANEMOSTAT CSP-5001 CONTROLLERS">2-ANEMOSTAT CSP-5001 CONTROLLERS</option>
+                                <option value="26TH, 27TH FLOORS">26TH, 27TH FLOORS</option>
+                                <option value="3010.79+267.21(TAX) PRE-PAYMENT BY CREDIT CARD">3010.79+267.21(TAX) PRE-PAYMENT BY CREDIT CARD</option>
+                                <option value="3010.80+267.20(TAX) PRE-PAYMENT BY CREDIT CARD">3010.80+267.20(TAX) PRE-PAYMENT BY CREDIT CARD</option>
+                                <option value="60 SPOT DIFFUSERS">60 SPOT DIFFUSERS</option>
+                                <option value="A CHANGE ORDER ID J14-0026 MUST BE BILLED WITH THIS PROJECT. ALL MATERIAL IS RELEASED WITH BASE JOBID.">A CHANGE ORDER ID J14-0026 MUST BE BILLED WITH THIS PROJECT. ALL MATERIAL IS RELEASED WITH BASE JOBID.</option>
+                                <option value="AIR CONCEPT">AIR CONCEPT</option>
+                                <option value="AIR OUTLETS">AIR OUTLETS</option>
+                                <option value="AIR OUTLETS &amp; IAC">AIR OUTLETS &amp; IAC</option>
+                                <option value="AIR OUTLETS EXCEPT LINEAR DIFFUSERS IN SHOWROOM">AIR OUTLETS EXCEPT LINEAR DIFFUSERS IN SHOWROOM</option>
+                                <option value="AIR OUTLETS EXCEPT LINEAR IN SHOWROOM">AIR OUTLETS EXCEPT LINEAR IN SHOWROOM</option>
+                                <option value="ANEMOSTAT">ANEMOSTAT</option>
+                                <option value="ANEMOSTAT &amp; IAC &amp; YOUNG REGULATOR">ANEMOSTAT &amp; IAC &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT &amp; METALAIRE AIR OUTLETS">ANEMOSTAT &amp; METALAIRE AIR OUTLETS</option>
+                                <option value="ANEMOSTAT &amp; METALAIRE AIR OUTLETS AND YOUNG REGULATOR DAMPERS">ANEMOSTAT &amp; METALAIRE AIR OUTLETS AND YOUNG REGULATOR DAMPERS</option>
+                                <option value="ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR">ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR; SILENCER WAS NOT RELEASED AND NOT BILLED">ANEMOSTAT AIR OUTLET &amp; YOUNG REGULATOR; SILENCER WAS NOT RELEASED AND NOT BILLED</option>
+                                <option value="ANEMOSTAT AIR OUTLETS">ANEMOSTAT AIR OUTLETS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; AIR TERMINAL UNITS">ANEMOSTAT AIR OUTLETS &amp; AIR TERMINAL UNITS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; ELECTRIC DUCT HEATERS">ANEMOSTAT AIR OUTLETS &amp; ELECTRIC DUCT HEATERS</option>
+                                <option value="ANEMOSTAT AIR OUTLETS &amp; IAC">ANEMOSTAT AIR OUTLETS &amp; IAC</option>
+                                <option value="ANEMOSTAT AIR OUTLETS, AIR TERMINAL &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR">ANEMOSTAT AIR OUTLETS, AIR TERMINAL &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLETS, AIR TERMINAL UNITS &amp; YOUNG REGULATOR">ANEMOSTAT AIR OUTLETS, AIR TERMINAL UNITS &amp; YOUNG REGULATOR</option>
+                                <option value="ANEMOSTAT AIR OUTLETS; TROX CONSTANT VOLUME FLOW RATE CONTROLLER ">ANEMOSTAT AIR OUTLETS; TROX CONSTANT VOLUME FLOW RATE CONTROLLER </option>
+                                <option value="ANEMOSTAT AIR TERMINAL &amp; IAC SOUND ATTENUATOR">ANEMOSTAT AIR TERMINAL &amp; IAC SOUND ATTENUATOR</option>
+                                <option value="ANEMOSTAT AIR TERMINAL &amp; METALAIRE AIR OUTLETS">ANEMOSTAT AIR TERMINAL &amp; METALAIRE AIR OUTLETS</option>
+                                <option value="ANEMOSTAT CONTROLLER/TSTATS/TRANSFORMERS">ANEMOSTAT CONTROLLER/TSTATS/TRANSFORMERS</option>
+                                <option value="ANEMOSTAT CONTROLLERS">ANEMOSTAT CONTROLLERS</option>
+                                <option value="ANEMOSTAT DRUM LOUVERS">ANEMOSTAT DRUM LOUVERS</option>
+                                <option value="ANEMOSTAT LINEAR &amp; TROX RN">ANEMOSTAT LINEAR &amp; TROX RN</option>
+                                <option value="ANEMOSTAT LINEAR BAR GRILLES">ANEMOSTAT LINEAR BAR GRILLES</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS">ANEMOSTAT LINEAR DIFFUSERS</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS FOR SHOW ROOM">ANEMOSTAT LINEAR DIFFUSERS FOR SHOW ROOM</option>
+                                <option value="ANEMOSTAT LINEAR DIFFUSERS MODEL FFX">ANEMOSTAT LINEAR DIFFUSERS MODEL FFX</option>
+                                <option value="ANEMOSTAT TERMINAL UNITS">ANEMOSTAT TERMINAL UNITS</option>
+                                <option value="ANEMOSTAT TERMINAL UNITS &amp; YOUNG REGULATORS">ANEMOSTAT TERMINAL UNITS &amp; YOUNG REGULATORS</option>
+                                <option value="ANEMOSTAT VAV BOXES">ANEMOSTAT VAV BOXES</option>
+                                <option value="ANEMOSTAT VAV MOTOR">ANEMOSTAT VAV MOTOR</option>
+                                <option value="ANEMOSTAT- ROUND PLAQUE DIFFUSERS">ANEMOSTAT- ROUND PLAQUE DIFFUSERS</option>
+                                <option value="ANEMOSTAT-DF32- AIR OUTLETS">ANEMOSTAT-DF32- AIR OUTLETS</option>
+                                <option value="ANEMOSTAT: 10TH FL AIR OUTLETS ">ANEMOSTAT: 10TH FL AIR OUTLETS </option>
+                                <option value="AUTHORISED BY ADRIAN VALDIVIA">AUTHORISED BY ADRIAN VALDIVIA</option>
+                                <option value="AUTHORISED BY ALEX KAKZANOV">AUTHORISED BY ALEX KAKZANOV</option>
+                                <option value="AUTHORISED BY ANTHONY SAPUTO">AUTHORISED BY ANTHONY SAPUTO</option>
+                                <option value="AUTHORISED BY ARKADIY KAKZANOV">AUTHORISED BY ARKADIY KAKZANOV</option>
+                                <option value="AUTHORISED BY CHRISTOPHER O'TOOLE">AUTHORISED BY CHRISTOPHER O'TOOLE</option>
+                                <option value="AUTHORISED BY COLLINS KELLLY">AUTHORISED BY COLLINS KELLLY</option>
+                                <option value="AUTHORISED BY COLON KELLY">AUTHORISED BY COLON KELLY</option>
+                                <option value="AUTHORISED BY DINO PAPAYANNAKOS">AUTHORISED BY DINO PAPAYANNAKOS</option>
+                                <option value="AUTHORISED BY DONALD LANG">AUTHORISED BY DONALD LANG</option>
+                                <option value="AUTHORISED BY FRANCO TODISCO">AUTHORISED BY FRANCO TODISCO</option>
+                                <option value="AUTHORISED BY FRANK">AUTHORISED BY FRANK</option>
+                                <option value="AUTHORISED BY GREG LONGO">AUTHORISED BY GREG LONGO</option>
+                                <option value="AUTHORISED BY IONELA BALAN">AUTHORISED BY IONELA BALAN</option>
+                                <option value="AUTHORISED BY JOE TRAMONTANO">AUTHORISED BY JOE TRAMONTANO</option>
+                                <option value="AUTHORISED BY JOHN KELLY">AUTHORISED BY JOHN KELLY</option>
+                                <option value="AUTHORISED BY KEVIN">AUTHORISED BY KEVIN</option>
+                                <option value="AUTHORISED BY KEVIN MCGOWAN">AUTHORISED BY KEVIN MCGOWAN</option>
+                                <option value="AUTHORISED BY KIN LAU">AUTHORISED BY KIN LAU</option>
+                                <option value="AUTHORISED BY MICHAEL ACEVEDO">AUTHORISED BY MICHAEL ACEVEDO</option>
+                                <option value="AUTHORISED BY MICHAEL GARONE">AUTHORISED BY MICHAEL GARONE</option>
+                                <option value="AUTHORISED BY MONROE">AUTHORISED BY MONROE</option>
+                                <option value="AUTHORISED BY NINA LILPERT">AUTHORISED BY NINA LILPERT</option>
+                                <option value="AUTHORISED BY ORLANDO">AUTHORISED BY ORLANDO</option>
+                                <option value="AUTHORISED BY OSCAR">AUTHORISED BY OSCAR</option>
+                                <option value="AUTHORISED BY OSCAR ROJAS">AUTHORISED BY OSCAR ROJAS</option>
+                                <option value="AUTHORISED BY ROBERT ALMEIDA">AUTHORISED BY ROBERT ALMEIDA</option>
+                                <option value="AUTHORISED BY RUBEN LUCERO">AUTHORISED BY RUBEN LUCERO</option>
+                                <option value="AUTHORISED BY SHANE MCCRACKEN">AUTHORISED BY SHANE MCCRACKEN</option>
+                                <option value="AUTHORISED BY STAN">AUTHORISED BY STAN</option>
+                                <option value="AUTHORIZED BY AFTAB">AUTHORIZED BY AFTAB</option>
+                                <option value="AUTHORIZED BY ANDREW FERRAIOLO ">AUTHORIZED BY ANDREW FERRAIOLO </option>
+                                <option value="AUTHORIZED BY ANIL ROY">AUTHORIZED BY ANIL ROY</option>
+                                <option value="AUTHORIZED BY CHRISTOPHER CLANCY">AUTHORIZED BY CHRISTOPHER CLANCY</option>
+                                <option value="AUTHORIZED BY DIANNA YACEK">AUTHORIZED BY DIANNA YACEK</option>
+                                <option value="AUTHORIZED BY ELIAS ABUD">AUTHORIZED BY ELIAS ABUD</option>
+                                <option value="AUTHORIZED BY ERIK">AUTHORIZED BY ERIK</option>
+                                <option value="AUTHORIZED BY HARI">AUTHORIZED BY HARI</option>
+                                <option value="AUTHORIZED BY JOHN">AUTHORIZED BY JOHN</option>
+                                <option value="AUTHORIZED BY JOHN MALLIN">AUTHORIZED BY JOHN MALLIN</option>
+                                <option value="AUTHORIZED BY KATE PIEKARSKI">AUTHORIZED BY KATE PIEKARSKI</option>
+                                <option value="AUTHORIZED BY KEN KIRK">AUTHORIZED BY KEN KIRK</option>
+                                <option value="AUTHORIZED BY KEN LEE">AUTHORIZED BY KEN LEE</option>
+                                <option value="AUTHORIZED BY MIKE">AUTHORIZED BY MIKE</option>
+                                <option value="AUTHORIZED BY NINA LILPERT">AUTHORIZED BY NINA LILPERT</option>
+                                <option value="AUTHORIZED BY ORLANDO MOONSAMMY">AUTHORIZED BY ORLANDO MOONSAMMY</option>
+                                <option value="AUTHORIZED BY ROBERT">AUTHORIZED BY ROBERT</option>
+                                <option value="AUTHORIZED BY STANLEY">AUTHORIZED BY STANLEY</option>
+                                <option value="AUTHORIZED BY STEVEN DRIZIS">AUTHORIZED BY STEVEN DRIZIS</option>
+                                <option value="AUTHORIZED BY THOMAS HENDERSON ">AUTHORIZED BY THOMAS HENDERSON </option>
+                                <option value="AUTHORIZED BY TONY MARTINELLI ">AUTHORIZED BY TONY MARTINELLI </option>
+                                <option value="CABE DAMPER RELEASE #1">CABE DAMPER RELEASE #1</option>
+                                <option value="CABLE DAMPERS">CABLE DAMPERS</option>
+                                <option value="CPEP SECURITY SCREWS">CPEP SECURITY SCREWS</option>
+                                <option value="DIFFUSER BAFFLES QTY 20 NO CHARGE">DIFFUSER BAFFLES QTY 20 NO CHARGE</option>
+                                <option value="DOW JONES -7TH FL AIR OUTLETS / BULLETIN #1">DOW JONES -7TH FL AIR OUTLETS / BULLETIN #1</option>
+                                <option value="DUAL DUCT BOX 10">DUAL DUCT BOX 10</option>
+                                <option value="ELECTRIC HEATERS INC">ELECTRIC HEATERS INC</option>
+                                <option value="IAC ONLY">IAC ONLY</option>
+                                <option value="INDUSTRIAL ACOUSTICS CO. SOUND ATTENUATORS">INDUSTRIAL ACOUSTICS CO. SOUND ATTENUATORS</option>
+                                <option value="ITEMS SHIPPED - 4">ITEMS SHIPPED - 4</option>
+                                <option value="LUCKY ZONE- 36X18 RETURN GRILLES">LUCKY ZONE- 36X18 RETURN GRILLES</option>
+                                <option value="MATERIAL SHIPPED AND DELIVERED AS PER BULLETIN #1">MATERIAL SHIPPED AND DELIVERED AS PER BULLETIN #1</option>
+                                <option value="METALAIRE AIR OUTLETS">METALAIRE AIR OUTLETS</option>
+                                <option value="ORIG PO# AMOUNT $12,700 + BULLETIN #2 $820 MINUS CREDIT FOR VAV BOXES $875.00 =$12,645">ORIG PO# AMOUNT $12,700 + BULLETIN #2 $820 MINUS CREDIT FOR VAV BOXES $875.00 =$12,645</option>
+                                <option value="PAYMENT MADE BY CHEQUE #000129 IN THE AMOUNT OF $7403.50">PAYMENT MADE BY CHEQUE #000129 IN THE AMOUNT OF $7403.50</option>
+                                <option value="PAYMENT MADE BY CREDIT CARD ON FILE">PAYMENT MADE BY CREDIT CARD ON FILE</option>
+                                <option value="PLASTER FRAMES ONLY">PLASTER FRAMES ONLY</option>
+                                <option value="PLEASE GET TAX EXEMPT">PLEASE GET TAX EXEMPT</option>
+                                <option value="PLEASE NOTE : THIS INVOICE DOES NOT INCLUDE COST FOR EXPEDITING THE MATERIAL. TO BE BILLED SEPARATELY. ">PLEASE NOTE : THIS INVOICE DOES NOT INCLUDE COST FOR EXPEDITING THE MATERIAL. TO BE BILLED SEPARATELY. </option>
+                                <option value="RITA GETS TAX EXEMPT 116174">RITA GETS TAX EXEMPT 116174</option>
+                                <option value="SOUND TRAPS">SOUND TRAPS</option>
+                                <option value="SOUND TRAPS ONLY">SOUND TRAPS ONLY</option>
+                                <option value="T&amp;B AIR OUTLETS">T&amp;B AIR OUTLETS</option>
+                                <option value="THERMOSTAT ONLY">THERMOSTAT ONLY</option>
+                                <option value="TROX AIR OUTLETS">TROX AIR OUTLETS</option>
+                                <option value="TROX AIR TERMINAL">TROX AIR TERMINAL</option>
+                                <option value="TROX AIR TERMINALS">TROX AIR TERMINALS</option>
+                                <option value="TROX CHILLED BEAMS">TROX CHILLED BEAMS</option>
+                                <option value="TROX LVS">TROX LVS</option>
+                                <option value="TROX ROUND GRILLES">TROX ROUND GRILLES</option>
+                                <option value="TUTCO DISCONNECT SWITCH">TUTCO DISCONNECT SWITCH</option>
+                                <option value="TUTTLE AND BAILEY AIR OUTLETS">TUTTLE AND BAILEY AIR OUTLETS</option>
+                                <option value="TUTTLE AND BAILEY AIR TERMINALS">TUTTLE AND BAILEY AIR TERMINALS</option>
+                                <option value="VIBRO ACOUSTIC SOUND TRAPS">VIBRO ACOUSTIC SOUND TRAPS</option>
+                                <option value="YOUNG REGULATOR">YOUNG REGULATOR</option>
+                                <option value="YOUNG REGULATOR 800AW CABLE OPERATED DAMPERS">YOUNG REGULATOR 800AW CABLE OPERATED DAMPERS</option>
+                                <option value="YOUNG REGULATOR 800AWR- CABLE-OPERATED DAMPERS- ROUND">YOUNG REGULATOR 800AWR- CABLE-OPERATED DAMPERS- ROUND</option>
+                                <option value="YOUNG REGULATOR CO.">YOUNG REGULATOR CO.</option>
+                                <option value="YOUNG REGULATOR, AIR TERMINAL UNITS &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR">YOUNG REGULATOR, AIR TERMINAL UNITS &amp; INDUSTRIAL ACCOUSTICS SOUND ATTENUATOR</option>
+                              </select>
+                            </div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol" id="line_item3_1_new"> <a href="javascript:void(0);" onclick="ChangeInvBoxes('line_item3_1','lineitem3')" style="color:blue;">New</a> </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Items Shipped - 4</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" ">
+                              <input type="text" class="form-control" name="lineitem4" id="lineitem4" style="width:800px;">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Items Shipped - 5</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" ">
+                              <input type="text" class="form-control" name="lineitem5" id="lineitem5" style="width:800px;">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Items Shipped - 6</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" ">
+                              <input type="text" class="form-control" name="lineitem6" id="lineitem6" style="width:800px;">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Items Shipped - 7</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" ">
+                              <input type="text" class="form-control" name="lineitem7" id="lineitem7" style="width:800px;">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Items Shipped - 8</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" ">
+                              <input type="text" class="form-control" name="lineitem8" id="lineitem8" style="width:800px;">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Tax Exempt Number</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" ">
+                              <input type="text" class="form-control" name="tax_exempt" id="tax_exempt" style="width:800px;">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Prepay Check Number</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" ">
+                              <input type="text" class="form-control" name="prepay_check" id="prepay_check" style="width:800px;">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-xss-12">
+                            <div class="fieldCol c">Prepay Amount $</div>
+                          </div>
+                          <!-- .col -->
+                          <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-xss-12">
+                            <div class=" ">
+                              <input type="text" class="form-control" name="prepay_amt" id="prepay_amt" value="" style="width:800px;">
+                            </div>
+                          </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                        <div class="row">
+                          <div class="col-lg-2 col-md-2 col-sm-2 col-sm-offset-5 col-xs-12 col-xss-12"> </div>
+                          <!-- .col -->
+                        </div>
+                        <!-- .row -->
+                      </div>
+                      <!-- .nextSection -->
+                    </div>
+                    <!-- .row -->
+                  </form>
+                </div>
+                <div class="tab-pane fade " id="profit_sheet">
+                  <div id="tabs-2" style="padding: 0px; border: 1px solid rgb(189, 117, 137); display: block;" aria-labelledby="ui-id-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="true" aria-hidden="false">
+                    <form method="post" action="http://www.awacp.org/joborder/costsheet">
+                      <table width="97%" border="0" style="margin:20px; border:1px solid #D4A3B1; font-size:12px;">
+                        <tbody>
+                          <tr>
+                            <td colspan="9">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td colspan="9" valign="top" align="left"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="line-height:20px; font-weight:normal; font-size:12px;">
+                                <tbody>
+                                  <tr>
+                                    <td width="2%">&nbsp;</td>
+                                    <td width="17%"><b>AWACP Cost Sheet for JobID</b></td>
+                                    <td width="1%">:</td>
+                                    <td width="40%">J17-0565</td>
+                                    <td width="11%"><b>Contractor</b></td>
+                                    <td width="1%">:</td>
+                                    <td width="28%">KABACK</td>
+                                  </tr>
+                                  <tr>
+                                    <td></td>
+                                    <td><b>Job Name</b></td>
+                                    <td>:</td>
+                                    <td>1359 BROADWAY SUITE 600 </td>
+                                    <td><b>Job Address</b></td>
+                                    <td>:</td>
+                                    <td>1359 BROADWAY 6TH FL NY</td>
+                                  </tr>
+                                  <tr>
+                                    <td></td>
+                                    <td><b>Salesman</b></td>
+                                    <td>:</td>
+                                    <td>VB</td>
+                                    <td><b>Billing Amount</b></td>
+                                    <td>:</td>
+                                    <td><b>$165</b></td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="7"><hr></td>
+                                  </tr>
+                                  <tr>
+                                    <td>&nbsp;</td>
+                                    <td colspan="6">FREIGHT ON ORDERBOOK IS <b>0</b> FOR <b>17AW-1295RPL</b>. | <a href="javascript:void(0);">CLICK HERE</a> to update them it on cost sheet.<br></td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="7"><hr></td>
+                                  </tr>
+                                </tbody>
+                              </table></td>
+                          </tr>
+                          <tr style="background:#BD7589;">
+                            <td width="10%" align="center" style="padding:2px; color:#FFF;"><strong>AWACP PO#</strong></td>
+                            <td width="23%" align="center" style="padding:2px; color:#FFF; border-left:1px solid #D4A3B1;"><strong>ORBF</strong></td>
+                            <td width="8%" align="center" style="padding:2px; color:#FFF; border-left:1px solid #D4A3B1;"><strong>FAC INV</strong></td>
+                            <td width="7%" align="center" style="padding:2px; color:#FFF; border-left:1px solid #D4A3B1;"><strong>INV AMT</strong></td>
+                            <td width="7%" align="center" style="padding:2px; color:#FFF; border-left:1px solid #D4A3B1;"><strong>FRT</strong></td>
+                            <td width="5%" align="center" style="padding:2px; color:#FFF; border-left:1px solid #D4A3B1;"><strong>SP</strong></td>
+                            <td width="5%" align="center" style="padding:2px; color:#FFF; border-left:1px solid #D4A3B1;"><strong>UC</strong></td>
+                            <td width="5%" align="center" style="padding:2px; color:#FFF; border-left:1px solid #D4A3B1;"><strong>UC2</strong></td>
+                            <td width="28%" align="center" style="padding:2px; color:#FFF; border-left:1px solid #D4A3B1;"><strong>COMMENT-MODEL NUMBER</strong></td>
+                          </tr>
+                          <tr>
+                            <td colspan="8">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"><input type="text" name="po[]" style="width:90%;" value="17AW-1295RPL" readonly="readonly"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"><input type="text" name="orbf[]" style="width:90%; " value=""></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"><input type="text" name="fact[]" style="width:90%;" value=""></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"> $
+                              <input type="text" name="inv_amt[]" style="width:80%;" value="68.42"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"> $
+                              <input type="text" name="frgt[]" style="width:80%;" value="0.00"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"> VB </td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"> PR </td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"></td>
+                            <td align="left" style="padding:2px; border:1px solid #D4A3B1;"><input type="text" name="comment[]" style="width:90%;" value="1- MS-2000-BT TSTAT">
+                              <input type="hidden" name="id[]" value="50363">
+                              <a href="javascript:void(0);" onclick="disp_confirm('Do you want to delete this record?','http://www.awacp.org/joborder/delrecord/50363/22451/17-0565')" style="color:red;">X</a></td>
+                          </tr>
+                          <tr id="extra_rows">
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"><input type="text" name="po[]" style="width:90%"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"><input type="text" name="orbf[]" style="width:90%"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"><input type="text" name="fact[]" style="width:90%"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"> $
+                              <input type="text" name="inv_amt[]" style="width:80%"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"> $
+                              <input type="text" name="frgt[]" style="width:80%"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"> VB </td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"> PR </td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"></td>
+                            <td align="center" style="padding:2px; border:1px solid #D4A3B1;"><input type="text" name="comment[]" style="width:90%"></td>
+                          </tr>
+                          <tr>
+                            <td colspan="9">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td colspan="9" align="right"><a href="javascript:void(0);" onclick="AppendCostSheetRows();" style="color:blue;">+ Add new Order &nbsp;&nbsp;</a></td>
+                          </tr>
+                          <tr>
+                            <td colspan="9">&nbsp;</td>
+                          </tr>
+                          <tr style="background:#F7EDF0">
+                            <td class="table-header-repeat line-left minwidth-1" style="border:3px solid #D4A3B1; background:#BD7589; padding:5px; color:#FFFFFF;"><strong>Total Cost $</strong></td>
+                            <td class="table-header-repeat line-left minwidth-1" style="border:3px solid #D4A3B1; padding:5px;"><input type="text" name="total" style="width:90%" value="68.42"></td>
+                            <td class="table-header-repeat line-left minwidth-1" style="border:3px solid #D4A3B1;background:#BD7589; padding:5px; color:#FFFFFF;"><strong>Total Profit $</strong></td>
+                            <td class="table-header-repeat line-left minwidth-1" style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFFFFF;"> 96.58 </td>
+                            <td class="table-header-repeat line-left minwidth-1" style="border:3px solid #D4A3B1;background:#BD7589; padding:5px; color:#FFFFFF;"><strong>Profit %</strong></td>
+                            <td class="table-header-repeat line-left minwidth-1" style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFFFFF;">58.53</td>
+                            <td colspan="3" align="center"><input type="submit" value="Update" class="btn btn-primary">
+                              <input type="hidden" name="orderid" value="22451">
+                              <input type="hidden" name="jobid" value="17-0565">
+                              <input type="hidden" name="sp" value="VB">
+                              <input type="hidden" name="act" value="costsheet">
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.awacp.org/joborder/viewcostsheet/22451/17-0565" target="_blank"><img src="http://www.awacp.org/resources/images/print_icon.png" border="0" align="absmiddle"></a></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- tab-content -->
+            </div>
+            <!-- .col -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>
