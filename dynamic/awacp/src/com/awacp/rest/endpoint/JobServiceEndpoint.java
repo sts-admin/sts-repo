@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.JobOrder;
 import com.awacp.service.JobService;
+import com.sts.core.constant.StsErrorCode;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsResourceNotFoundException;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class JobServiceEndpoint extends CrossOriginFilter {
@@ -30,6 +32,23 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 	public StsResponse<JobOrder> listJobOrders(@PathParam("pageNumber") int pageNumber,
 			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.jobService.listJobOrders(pageNumber, pageSize);
+	}
+
+	@GET
+	@Path("/searchQuoteForJobOrder/{quoteId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JobOrder searchQuoteForJobOrder(@PathParam("quoteId") String quoteId,
+			@Context HttpServletResponse servletResponse) throws Exception {
+		JobOrder object = null;
+		Integer code = StsErrorCode.DEFAULT_CODE;
+		try {
+			object = this.jobService.searchQuoteForJobOrder(quoteId);
+		} catch (StsResourceNotFoundException e) {
+			final String message = e.getMessage().toLowerCase();
+			code = StsErrorCode.RESOURCE_NOT_FOUND;
+			servletResponse.sendError(code, message);
+		}
+		return object;
 	}
 
 	@GET
@@ -55,7 +74,6 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 	public JobOrder updateJobOrder(JobOrder jobOrder, @Context HttpServletResponse servletResponse) throws Exception {
 		return this.jobService.updateJobOrder(jobOrder);
 	}
-	
 
 	@GET
 	@Path("/deleteJobOrder/{id}")

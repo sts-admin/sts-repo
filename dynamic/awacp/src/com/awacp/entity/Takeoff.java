@@ -27,10 +27,13 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 
-@NamedQueries({ @NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'"),
+@NamedQueries({ 
+		@NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'"),
 		@NamedQuery(name = "Takeoff.countAll", query = "SELECT COUNT(t.id) FROM Takeoff t WHERE t.archived = 'false'"),
 		@NamedQuery(name = "Takeoff.listNewTakeoffsForQuote", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND FUNC('ISNULL', t.quoteId)"),
-		@NamedQuery(name = "Takeoff.listTakeoffsForView", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND NOT FUNC('ISNULL', t.quoteId)") })
+		@NamedQuery(name = "Takeoff.listTakeoffsForView", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND NOT FUNC('ISNULL', t.quoteId)"),
+		@NamedQuery(name = "Takeoff.getTakeoffByQuoteId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.quoteId =:quoteId")
+})
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

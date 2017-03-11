@@ -113,6 +113,7 @@
 			<ref bean="templateServiceEndpoint" />
 			<ref bean="worksheetServiceEndpoint" />
 			<ref bean="taxServiceEndpoint" />
+			<ref bean="jobServiceEndpoint" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -257,6 +258,11 @@
     <bean id="taxService" class="com.awacp.service.impl.TaxServiceImpl" />
      <bean id="taxServiceEndpoint" class="com.awacp.rest.endpoint.TaxServiceEndpoint">
         <property name="taxService" ref="taxService" />
+    </bean>
+    
+    <bean id="jobService" class="com.awacp.service.impl.JobServiceImpl" />
+     <bean id="jobServiceEndpoint" class="com.awacp.rest.endpoint.JobServiceEndpoint">
+        <property name="jobService" ref="jobService" />
     </bean>
     
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">

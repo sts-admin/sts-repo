@@ -3,6 +3,7 @@ package com.awacp.entity;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -30,12 +31,19 @@ public class JobOrder extends BaseEntity {
 	private String comments;
 	private Calendar dateEntered;
 	private String quoteId;
-
-	// Transient
-	private String salesPersonName;
+	private Long takeoffId;
+	
 	private String contractorName;
 	private String engineerName;
 	private String architectureName;
+
+	// Transient
+	private String salesPersonName;
+
+	private String userNameOrEmail;
+
+	private String createdByUserCode; // Code of the User created this record.
+	private String updatedByUserCode; // Code of the user update this record.
 
 	public JobOrder() {
 		super();
@@ -183,6 +191,39 @@ public class JobOrder extends BaseEntity {
 
 	public void setArchitectureName(String architectureName) {
 		this.architectureName = architectureName;
+	}
+
+	@Transient
+	public String getUserNameOrEmail() {
+		return userNameOrEmail;
+	}
+
+	public void setUserNameOrEmail(String userNameOrEmail) {
+		this.userNameOrEmail = userNameOrEmail;
+	}
+
+	public String getCreatedByUserCode() {
+		return createdByUserCode;
+	}
+
+	public void setCreatedByUserCode(String createdByUserCode) {
+		this.createdByUserCode = createdByUserCode;
+	}
+
+	public String getUpdatedByUserCode() {
+		return updatedByUserCode;
+	}
+
+	public void setUpdatedByUserCode(String updatedByUserCode) {
+		this.updatedByUserCode = updatedByUserCode;
+	}
+
+	public Long getTakeoffId() {
+		return takeoffId;
+	}
+
+	public void setTakeoffId(Long takeoffId) {
+		this.takeoffId = takeoffId;
 	}
 
 }

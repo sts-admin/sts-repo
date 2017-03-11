@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Takeoff;
 import com.awacp.entity.Worksheet;
+import com.awacp.entity.WsManufacturerInfo;
 import com.awacp.service.MailService;
 import com.awacp.service.TakeoffService;
 import com.awacp.service.WorksheetService;
@@ -60,9 +61,15 @@ public class WorksheetServiceImpl implements WorksheetService {
 	@Override
 	@Transactional
 	public Worksheet saveWorksheet(Worksheet worksheet) {
+		double grandTotal = 0D;
+		for(WsManufacturerInfo info : worksheet.getManufacturerItems()){
+			grandTotal = (grandTotal + (info.getQuoteAmount() == null? 0 : info.getQuoteAmount()));
+		}
+		worksheet.setGrandTotal(grandTotal);
 		if (worksheet.getId() != null && worksheet.getId() > 0) {
 			return updateWorksheet(worksheet);
 		}
+		
 		getEntityManager().persist(worksheet);
 		getEntityManager().flush();
 		takeoffService.updateWorksheetInfo(worksheet.getTakeoffId(), worksheet.getId(), worksheet.getGrandTotal());

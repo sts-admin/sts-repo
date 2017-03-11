@@ -51,15 +51,6 @@ public class WorksheetServiceEndpoint extends CrossOriginFilter {
 		return this.worksheetService.saveWorksheet(worksheet);
 	}
 
-	@POST
-	@Path("/updateWorksheet")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Worksheet updateWorksheet(Worksheet worksheet, @Context HttpServletResponse servletResponse)
-			throws IOException {
-		return this.worksheetService.updateWorksheet(worksheet);
-	}
-
 	@GET
 	@Path("/deleteWorksheet/{id}")
 	@Produces(MediaType.APPLICATION_JSON)

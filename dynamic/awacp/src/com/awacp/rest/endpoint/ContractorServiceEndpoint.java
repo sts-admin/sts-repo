@@ -21,6 +21,7 @@ import com.awacp.service.BidderService;
 import com.awacp.service.ContractorService;
 import com.awacp.service.GeneralContractorService;
 import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.constant.StsErrorCode;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
@@ -43,7 +44,7 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.contractorService.listContractors(pageNumber, pageSize);
 	}
-	
+
 	@GET
 	@Path("/listGcs/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -76,10 +77,10 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.bidderService.saveBidder(bidder);
 		} catch (StsCoreException e) {
-			Integer code = 500;
+			Integer code = StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
 			}
 			servletResponse.sendError(code, message);
 
@@ -97,17 +98,17 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.bidderService.updateBidder(bidder);
 		} catch (StsCoreException e) {
-			Integer code = 500;
+			Integer code = StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
 			}
 			servletResponse.sendError(code, message);
 
 		}
 		return object;
 	}
-	
+
 	@GET
 	@Path("/deleteContractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -115,23 +116,22 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 			throws IOException {
 		String result = contractorService.delete(id);
 		if ("fail".equalsIgnoreCase(result)) {
-			servletResponse.sendError(666666, "delete_error");
+			servletResponse.sendError(StsErrorCode.RESOURCE_DELETE, "delete_error");
 		}
 		return "{\"result\":\"" + result + "\"}";
 	}
-	
+
 	@GET
 	@Path("/deleteGc/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String deleteGc(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
-			throws IOException {
+	public String deleteGc(@PathParam("id") Long id, @Context HttpServletResponse servletResponse) throws IOException {
 		String result = generalContractorService.delete(id);
 		if ("fail".equalsIgnoreCase(result)) {
-			servletResponse.sendError(666666, "delete_error");
+			servletResponse.sendError(StsErrorCode.RESOURCE_DELETE, "delete_error");
 		}
 		return "{\"result\":\"" + result + "\"}";
 	}
-	
+
 	@GET
 	@Path("/deleteBidder/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -139,7 +139,7 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 			throws IOException {
 		String result = bidderService.delete(id);
 		if ("fail".equalsIgnoreCase(result)) {
-			servletResponse.sendError(666666, "delete_error");
+			servletResponse.sendError(StsErrorCode.RESOURCE_DELETE, "delete_error");
 		}
 		return "{\"result\":\"" + result + "\"}";
 	}
@@ -147,15 +147,16 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/getContractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Contractor getContractor(@PathParam("id") Long contractorId,
-			@Context HttpServletResponse servletResponse) throws IOException {
+	public Contractor getContractor(@PathParam("id") Long contractorId, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		return this.contractorService.getContractor(contractorId);
 	}
+
 	@GET
 	@Path("/getGc/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public GeneralContractor getGc(@PathParam("id") Long contractorId,
-			@Context HttpServletResponse servletResponse) throws IOException {
+	public GeneralContractor getGc(@PathParam("id") Long contractorId, @Context HttpServletResponse servletResponse)
+			throws IOException {
 		return this.generalContractorService.getContractor(contractorId);
 	}
 
@@ -169,10 +170,10 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.contractorService.saveContractor(contractor);
 		} catch (StsCoreException e) {
-			Integer code = 500;
+			Integer code = StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
 			}
 			servletResponse.sendError(code, message);
 
@@ -190,10 +191,10 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.contractorService.updateContractor(contractor);
 		} catch (StsCoreException e) {
-			Integer code = 500;
+			Integer code = StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
 			}
 			servletResponse.sendError(code, message);
 
@@ -211,10 +212,10 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.generalContractorService.updateContractor(generalContractor);
 		} catch (StsCoreException e) {
-			Integer code = 500;
+			Integer code = StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
 			}
 			servletResponse.sendError(code, message);
 
@@ -232,10 +233,10 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.generalContractorService.updateContractor(generalContractor);
 		} catch (StsCoreException e) {
-			Integer code = 500;
+			Integer code = StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
 			}
 			servletResponse.sendError(code, message);
 

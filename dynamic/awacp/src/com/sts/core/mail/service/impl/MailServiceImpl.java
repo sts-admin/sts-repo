@@ -83,7 +83,7 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public boolean sendMail(String[] toAddresses, String fromAddress, String mailSubject, String content, String event,
 			String userName, String password, String fileName, File file) throws Exception {
-		logger.info("Email being send to " + toAddresses + ", from " + fromAddress);
+		System.err.println("EMAIL EVENT :: "+event+" :: Email being send to " + toAddresses + ", from " + fromAddress + " , USER ANEM :"+ userName + ", Password: "+ password);
 		// UserMailHistory userMailHistory = new UserMailHistory(toAddresses,
 		// content, event);
 		JavaMailSenderImpl emailSender = new JavaMailSenderImpl();
@@ -103,17 +103,18 @@ public class MailServiceImpl implements MailService {
 		
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 		
-		mimeMessage.setContent(content, "text/html");
+		/*mimeMessage.setContent(content, "text/html");*/
 
 		helper.setFrom(fromAddress);
 		helper.setTo(toAddresses);
 		helper.setSubject(mailSubject);
+		helper.setText(content, true);
 		
 		//set attachment if any
 		if(file != null){
-			String attachmentFileName = fileName != null && !fileName.isEmpty()?fileName: file.getName();
-			helper.addAttachment(attachmentFileName, new FileSystemResource(file), "application/pdf");
-			/*helper.addAttachment(attachmentFileName, new FileSystemResource(new File("C:/Projects/Book1.xlsx")));*/
+			FileSystemResource attachment = new FileSystemResource(file);
+			String attachmentFileName = fileName != null && !fileName.isEmpty()?fileName: attachment.getFilename();
+			helper.addAttachment(attachmentFileName, attachment, "application/pdf");
 		}
 		
 		mimeMessage.setFrom(fromAddress);

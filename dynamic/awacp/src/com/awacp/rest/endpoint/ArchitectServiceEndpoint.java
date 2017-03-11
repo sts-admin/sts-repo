@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.awacp.entity.Architect;
 import com.awacp.service.ArchitectService;
 import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.constant.StsErrorCode;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
@@ -63,10 +64,10 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.architectService.saveArchitect(architect);
 		} catch (StsCoreException e) {
-			Integer code = 500;
+			Integer code = StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
 			}
 			servletResponse.sendError(code, message);
 
@@ -84,10 +85,10 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.architectService.updateArchitect(architect);
 		} catch (StsCoreException e) {
-			Integer code = 500;
+			Integer code =  StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
 			}
 			servletResponse.sendError(code, message);
 

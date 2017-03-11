@@ -40,4 +40,6 @@ public interface TakeoffService {
 	public Long saveQuoteFollowup(QuoteFollowup quoteFollowup) throws Exception;
 
 	public List<QuoteFollowup> getAllQuoteFollowups(Long takeoffId);
+
+	public Takeoff getTakeoffByQuoteId(String quoteId);
 }

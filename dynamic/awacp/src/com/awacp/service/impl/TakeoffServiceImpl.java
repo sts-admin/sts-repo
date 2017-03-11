@@ -270,7 +270,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		return takeoffs;
 	}
 
-	private void enrichTakeoff(Takeoff takeoff) {
+	private Takeoff enrichTakeoff(Takeoff takeoff) {
 		User user = userService.findUser(takeoff.getSalesPerson());
 		if (user != null) {
 			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
@@ -292,6 +292,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		takeoff.setVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_VIBRO, takeoff.getId()));
 		takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId()) ? "{'color':'green'}" : "{'color':'red'}");
 		takeoff.setStatusStyle(takeoff.isArchived() ? "{'background':'#FFCC33'}" : "");
+		return takeoff;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -397,6 +398,14 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 	public List<QuoteFollowup> getAllQuoteFollowups(Long takeoffId) {
 		return getEntityManager().createNamedQuery("QuoteFollowup.findAll").setParameter("takeoffId", takeoffId)
 				.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Takeoff getTakeoffByQuoteId(String quoteId) {
+		List<Takeoff> takeoffs = getEntityManager().createNamedQuery("Takeoff.getTakeoffByQuoteId")
+				.setParameter("quoteId", quoteId).getResultList();
+		return takeoffs == null || takeoffs.isEmpty() ? null : enrichTakeoff(takeoffs.get(0));
 	}
 
 }

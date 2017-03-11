@@ -89,7 +89,7 @@ public class AwacpMailTemplate {
 			+ "<p style='font-size:12px;'><span style='font-weight:bold; font-size:14px;'>REGARDS</span>,<br />PAT</p>"
 			+ "<p style='font-size:12px; text-align:left'>ALBERT WEISS AIR CONDITIONING PRODUCTS INC.<br />"
 			+ "270 MADISON AVENUE, SUITE 1805, NEW YORK, N.Y. 10016.<br />"
-			+ "EMAIL: <a href='#'>edwgs@awacp.com</a></p>" + "</div></div>");
+			+ "EMAIL: <a href='#'>edwgs@awacp.org</a></p>" + "</div></div>");
 
 	public static final StringBuffer QUOTE_EMAIL_TO_BIDDERS_TEMPLATE = new StringBuffer(
 			"<div style='font-family:verdana;'>"
@@ -156,11 +156,11 @@ public class AwacpMailTemplate {
 		+"<div style='margin: 0 auto; max-width: 730px;'>"
 				+"ALBERT WEISS AIR CONDITIONING PRODUCTS INC., <br />"
 				+"270 MADISON AVENUE, SUITE 1805, NEW YORK, N.Y. 10016. <br />"
-				+"Email: edwgs@awacp.com"
+				+"Email: edwgs@awacp.org"
 		+"</div>"
 		+"<div style='margin: 0 auto; max-width: 730px;'> <br />"
 			+"<pre>"
-					+"<b>Note:-</b> Kindly send all bid and quote requests to: edwgs@awacp.com. To view all previously quoted <br /> projects to you, please <a href=\"http://www.awacp.org/index.php/bidderlogin\">CLICK HERE</a> and login with your exclusive email, your password is:\"awacp\"."
+					+"<b>Note:-</b> Kindly send all bid and quote requests to: edwgs@awacp.org. To view all previously quoted <br /> projects to you, please <a href=\"http://www.awacp.org/index.php/bidderlogin\">CLICK HERE</a> and login with your exclusive email, your password is:\"awacp\"."
 						+"</pre>"
 		+"</div>"
 	+ "<div style='margin: 0 auto; max-width: 730px;'>"
@@ -278,7 +278,7 @@ public class AwacpMailTemplate {
 		+"<p style='font-size:12px;'><span style='font-weight:bold; font-size:14px;'>REGARDS</span>,<br />%s</p>"
 		+"<p style='font-size:12px; text-align:left'>ALBERT WEISS AIR CONDITIONING PRODUCTS INC.<br />"
 		+"270 MADISON AVENUE, SUITE 1805, NEW YORK, N.Y. 10016.<br />"
-		+"EMAIL: <a href='#'>edwgs@awacp.com</a></p>"
+		+"EMAIL: <a href='#'>edwgs@awacp.org</a></p>"
 	+"</div>"
 +"</div>");
 }

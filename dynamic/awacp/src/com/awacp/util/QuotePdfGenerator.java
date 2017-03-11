@@ -111,14 +111,14 @@ public class QuotePdfGenerator {
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Website:  www.awacp.com", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+		cell = new PdfPCell(new Phrase("Website:  www.awacp.org", FontFactory.getFont(FontFactory.HELVETICA, 8)));
 		cell.setColspan(2);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setGrayFill(GRAY_FILL);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Email: edwgs@awacp.com", FontFactory.getFont(FontFactory.HELVETICA, 8)));
+		cell = new PdfPCell(new Phrase("Email: edwgs@awacp.org", FontFactory.getFont(FontFactory.HELVETICA, 8)));
 		cell.setColspan(2);
 		cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		cell.setGrayFill(GRAY_FILL);

@@ -1,10 +1,9 @@
 package com.awacp.service;
 
-import java.util.List;
-
 import com.awacp.entity.JobOrder;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.exception.StsDuplicateException;
+import com.sts.core.exception.StsResourceNotFoundException;
 
 public interface JobService {
 
@@ -16,8 +15,8 @@ public interface JobService {
 
 	public JobOrder updateJobOrder(JobOrder jobOrder) throws StsDuplicateException;
 
-	public List<JobOrder> filter(String keyword); // match name
-
 	public String delete(Long id);
+
+	public JobOrder searchQuoteForJobOrder(String quoteId) throws StsResourceNotFoundException;
 
 }
