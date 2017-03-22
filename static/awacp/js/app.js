@@ -435,6 +435,25 @@
 				controllerAs:"taxVm",
 				requireAuth: true,
 				cache:false
+			}).state('joborder-add',{
+				url: '/joborder-add',
+				templateUrl:"templates/joborder-add.html",
+				controller:"JobOrderCtrl",
+				controllerAs:"jobVm",
+				requireAuth: true
+			}).state('joborder-edit',{
+				url: '/joborder-edit/:id',
+				templateUrl:"templates/joborder-add.html",
+				controller:"JobOrderCtrl",
+				controllerAs:"jobVm",
+				requireAuth: true,
+				cache:false
+			}).state('joborder-view',{
+				url: '/joborders',
+				templateUrl:"templates/job-orders.html",
+				controller:"JobOrderCtrl",
+				controllerAs:"jobVm",
+				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);

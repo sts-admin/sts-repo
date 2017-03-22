@@ -131,7 +131,7 @@
 							</div>
 						</div>
 						<div class="productItem-row-grand-total row">
-							<div class="col-sm-2">
+							<div class="col-sm-1">
 								<span ng-show="manufacturerItem.manufacturer.wsMultiplier && manufacturerItem.manufacturer.wsMultiplier > 0">List total + {{manufacturerItem.manufacturer.wsMultiplier}} %</span>
 								<span ng-hide="manufacturerItem.manufacturer.wsMultiplier && manufacturerItem.manufacturer.wsMultiplier > 0">List total</span>
 							</div> 
@@ -150,9 +150,10 @@
 							<div class="col-sm-1">
 							</div>
 							<div class="col-sm-1">Total Price</div> 
+							<div class="col-sm-1">Quote Price</div> 
 						</div>
 						<div class="productItem-row-grand-total row">
-							<div class="col-sm-2">
+							<div class="col-sm-1">
 								<input  type="number" name="percent" id="percent-{{$index}}" ng-model="manufacturerItem.percent" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
 							</div> 
 							<div class="col-sm-1">
@@ -188,6 +189,9 @@
 							</div>
 							<div class="col-sm-1">
 								<input  ng-required="true" type="number" name="totalAmount" id="totalAmount-{{$index}}" ng-model="manufacturerItem.totalAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true"  />
+							</div> 
+							<div class="col-sm-1">
+								<input  ng-required="true" type="number" name="quoteAmount" id="quoteAmount{{$index}}" ng-model="manufacturerItem.quoteAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true"  />
 							</div> 
 						</div>
 						<div class="productItem-row-pdni row" style="padding-bottom:5px;padding-top:5px;" ng-repeat="pdni in manufacturerItem.pdnis track by $index">

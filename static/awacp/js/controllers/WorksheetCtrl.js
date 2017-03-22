@@ -235,7 +235,8 @@
 			mp = Number(manufacturerItem.multPercentAmount);
 			np = Number(manufacturerItem.netTotal);
 			fp = Number(manufacturerItem.freight);
-			manufacturerItem.totalAmount = mp + np + fp;			
+			manufacturerItem.totalAmount = mp + np + fp;	
+			manufacturerItem.quoteAmount = manufacturerItem.totalAmount;
 		}
 		
 		wsVm.doCalculation = function(blockIndex, manufacturerItem, multiplier){	
@@ -327,6 +328,7 @@
 			AjaxUtil.getData("/awacp/getWorksheet/"+worksheetId, Math.random())
 			.success(function(data, status, headers){				
 				if(data && data.worksheet){	
+					wsVm.worksheet.id = data.worksheet.id;
 					wsVm.worksheet.takeoffId = data.worksheet.takeoffId;
 					if(data.worksheet.grandTotal){
 						wsVm.worksheet.grandTotal = data.worksheet.grandTotal;
@@ -450,7 +452,6 @@
 			if(wsVm.worksheet && wsVm.worksheet.id){
 				message = "Worksheet Detail Updated Successfully";
 				wsVm.worksheet.updatedByUserCode = StoreService.getUser().userCode;
-				url = "/awacp/updateWorksheet";
 				update = true;
 			}else{
 				wsVm.worksheet.createdByUserCode = StoreService.getUser().userCode;
