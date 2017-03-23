@@ -11,6 +11,7 @@ import com.awacp.entity.AwfInventory;
 import com.awacp.entity.Bidder;
 import com.awacp.entity.Contractor;
 import com.awacp.entity.Engineer;
+import com.awacp.entity.Factory;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.InvMultiplier;
 import com.awacp.entity.ItemShipped;
@@ -19,6 +20,7 @@ import com.awacp.entity.JobOrder;
 import com.awacp.entity.MarketingTemplate;
 import com.awacp.entity.MnD;
 import com.awacp.entity.MnDType;
+import com.awacp.entity.OrderBook;
 import com.awacp.entity.Pdni;
 import com.awacp.entity.Product;
 import com.awacp.entity.QuoteNote;
@@ -36,7 +38,8 @@ import com.sts.core.entity.User;
 @XmlSeeAlso({ Bidder.class, Takeoff.class, Architect.class, Engineer.class, Contractor.class, User.class, Spec.class,
 		ShipTo.class, ShippedVia.class, QuoteNote.class, ItemShipped.class, MnD.class, MnDType.class, Product.class,
 		GeneralContractor.class, Pdni.class, Trucker.class, JInventory.class, SbcInventory.class, SplInventory.class,
-		AwfInventory.class, AwInventory.class, MarketingTemplate.class, InvMultiplier.class, TaxEntry.class, JobOrder.class })
+		AwfInventory.class, AwInventory.class, MarketingTemplate.class, InvMultiplier.class, TaxEntry.class,
+		JobOrder.class, OrderBook.class, Factory.class })
 public class StsResponse<T> {
 	private String status;
 	private String message;
