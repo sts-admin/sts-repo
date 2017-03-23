@@ -454,6 +454,12 @@
 				controller:"JobOrderCtrl",
 				controllerAs:"jobVm",
 				requireAuth: true
+			}).state('factories',{
+				url: '/factories',
+				templateUrl:"templates/factories.html",
+				controller:"FactoryCtrl",
+				controllerAs:"facVm",
+				requireAuth: true
 			});
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
