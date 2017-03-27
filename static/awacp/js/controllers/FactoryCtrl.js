@@ -178,7 +178,7 @@
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 						})
 					}
-					$scope.editfactory(id);
+					$scope.editFactory(id);
 				}
 			});
 			return defer.promise;
@@ -218,6 +218,10 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
+		facVm.initFactories = function(){
+			facVm.getFactories();
+			facVm.getPageSize();
+		}
 	}		
 })();
 
