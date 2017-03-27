@@ -11,8 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awacp.entity.Factory;
 import com.awacp.service.FactoryService;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.service.impl.CommonServiceImpl;
 
-public class FactoryServiceImpl implements FactoryService {
+public class FactoryServiceImpl extends CommonServiceImpl<Factory> implements FactoryService {
 
 	private EntityManager entityManager;
 
@@ -45,8 +46,7 @@ public class FactoryServiceImpl implements FactoryService {
 
 	@Override
 	public StsResponse<Factory> listFactories(int pageNumber, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+		return listAll(pageNumber, pageSize, Factory.class.getSimpleName(), getEntityManager());
 	}
 
 	@Override
