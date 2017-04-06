@@ -62,8 +62,8 @@
 			.success(function(data, status, headers){
 				jobVm.jobOrder = {};
 				if(data && data.jobOrder){
-					var tmp = [];
 					jobVm.jobOrder = data.jobOrder;
+					$scope.$digest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

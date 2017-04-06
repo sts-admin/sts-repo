@@ -60,6 +60,7 @@
 			formData["jInventory"] = jinvVm.jInventory;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
+				jinvVm.jInventory = {};
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
 				if(update){

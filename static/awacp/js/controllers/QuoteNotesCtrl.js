@@ -62,7 +62,7 @@
 								$scope.message = "";
 								modalInstance.dismiss();
 								qnoteVm.getQuoteNotes();
-							}, 3000);							
+							}, 2000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){

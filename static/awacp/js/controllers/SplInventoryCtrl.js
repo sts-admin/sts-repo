@@ -62,6 +62,7 @@
 			formData["splInventory"] = splInvVm.splInventory;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
+				splInvVm.splInventory = {};
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
 				if(update){

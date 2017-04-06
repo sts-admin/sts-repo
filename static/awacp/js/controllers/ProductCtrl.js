@@ -59,10 +59,10 @@
 							jQuery(".spinner").css('display','none');
 							$scope.message = "Product Detail Added Successfully";
 							$timeout(function(){
-								$scope.message = "";
 								modalInstance.dismiss();
 								prodVm.getProducts();
-							}, 3000);							
+								$scope.message = "";								
+							}, 2000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
@@ -132,10 +132,10 @@
 							jQuery(".spinner").css('display','none');
 							$scope.message = "Product Detail Updated Successfully";
 							$timeout(function(){
-								$scope.message = "";
 								modalInstance.dismiss();
 								prodVm.getProducts();
-							}, 3000);							
+								$scope.message = "";								
+							}, 2000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){

@@ -2,13 +2,13 @@
 (function() {
     'use strict';
 	//Local env
-	var base ="http://localhost:8080/awacpservices";
+	/*var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/awacp/resource/img/";
-	var basePath = "/awacp/";
+	var basePath = "/static/tutorial/";*/
 	//prod env
-	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
+	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/";*/
+	var basePath = "/";
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -459,6 +459,26 @@
 				templateUrl:"templates/factories.html",
 				controller:"FactoryCtrl",
 				controllerAs:"facVm",
+				requireAuth: true,
+				cache:false
+			}).state('orderbook-view',{
+				url: '/orderbooks',
+				templateUrl:"templates/order-books.html",
+				controller:"OrderBookCtrl",
+				controllerAs:"obVm",
+				requireAuth: true,
+				cache:false
+			}).state('orderbook-add',{
+				url: '/orderbook-add',
+				templateUrl:"templates/orderbook-add.html",
+				controller:"OrderBookCtrl",
+				controllerAs:"obVm",
+				requireAuth: true
+			}).state('orderbook-edit',{
+				url: '/orderbook-edit/:id',
+				templateUrl:"templates/orderbook-add.html",
+				controller:"OrderBookCtrl",
+				controllerAs:"obVm",
 				requireAuth: true,
 				cache:false
 			});

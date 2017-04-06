@@ -61,10 +61,10 @@
 							jQuery(".spinner").css('display','none');
 							$scope.message = "Manufacture Detail Added Successfully";
 							$timeout(function(){
-								$scope.message = "";
 								modalInstance.dismiss();
 								manuVm.getManufactures();
-							}, 3000);							
+								$scope.message = "";
+							}, 2000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
@@ -136,10 +136,10 @@
 							jQuery(".spinner").css('display','none');
 							$scope.message = "Manufacture Detail Updated Successfully";
 							$timeout(function(){
-								$scope.message = "";
 								modalInstance.dismiss();
 								manuVm.getManufactures();
-							}, 3000);							
+								$scope.message = "";								
+							}, 2000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){

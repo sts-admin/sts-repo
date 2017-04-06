@@ -65,10 +65,10 @@
 							jQuery(".spinner").css('display','none');
 							$scope.message = "Tax Detail Added Successfully";
 							$timeout(function(){
-								$scope.message = "";
 								modalInstance.dismiss();
 								taxVm.getTaxEntries();
-							}, 3000);							
+								$scope.message = "";								
+							}, 2000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
@@ -144,9 +144,9 @@
 							jQuery(".spinner").css('display','none');
 							$scope.message = "Tax Detail Updated Successfully";
 							$timeout(function(){
-								$scope.message = "";
 								modalInstance.dismiss();
 								taxVm.getTaxEntries();
+								$scope.message = "";								
 							}, 2000);							
 							return;
 						})

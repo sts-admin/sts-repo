@@ -62,6 +62,7 @@
 			formData["sbcInventory"] = sbcInvVm.sbcInventory;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
+				sbcInvVm.sbcInventory = {};
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
 				if(update){

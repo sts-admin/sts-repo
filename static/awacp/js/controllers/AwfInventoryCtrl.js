@@ -62,6 +62,7 @@
 			formData["awfInventory"] = awfInvVm.awfInventory;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
+				awfInvVm.awfInventory = {};
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
 				if(update){
