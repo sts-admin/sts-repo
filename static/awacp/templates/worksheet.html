@@ -121,6 +121,7 @@
 								Total :
 							</div> 
 							<div class="col-sm-2"> 
+								
 								<input  ng-required="true" type="number" name="listTotal" id="listTotal-{{$index}}"  ng-model="manufacturerItem.listTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
 							</div> 
 							<div class="col-sm-2">
@@ -188,10 +189,10 @@
 								<span> = </span>
 							</div>
 							<div class="col-sm-1">
-								<input  ng-required="true" type="number" name="totalAmount" id="totalAmount-{{$index}}" ng-model="manufacturerItem.totalAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true"  />
+								<input type="number" name="totalAmount" placeholder="Total Amount" ng-model="manufacturerItem.totalAmount" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="any" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" ng-required="true" />								
 							</div> 
 							<div class="col-sm-1">
-								<input  ng-required="true" type="number" name="quoteAmount" id="quoteAmount{{$index}}" ng-model="manufacturerItem.quoteAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true"  />
+								<input  type="number" name="quoteAmount" placeholder="Quote Amount" id="quoteAmount-{{$index}}" ng-model="manufacturerItem.quoteAmount" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="any" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" ng-required="true"  />
 							</div> 
 						</div>
 						<div class="productItem-row-pdni row" style="padding-bottom:5px;padding-top:5px;" ng-repeat="pdni in manufacturerItem.pdnis track by $index">

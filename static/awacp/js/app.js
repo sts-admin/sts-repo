@@ -4,7 +4,7 @@
 	//Local env
 	/*var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/awacp/resource/img/";
-	var basePath = "/static/tutorial/";*/
+	var basePath = "/tutorial/";*/
 	//prod env
 	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
@@ -434,6 +434,20 @@
 				controller:"TaxCtrl",
 				controllerAs:"taxVm",
 				requireAuth: true,
+				cache:false
+			}).state('invoice-add',{
+				url: '/invoice-add/:jobId/:orderNumber',
+				templateUrl:"templates/invoice-add.html",
+				controller:"InvoiceCtrl",
+				controllerAs:"invoiceVm",
+				requireAuth: true, 
+				cache:false
+			}).state('invoice-edit',{
+				url: '/invoice-edit/:jobId/:orderNumber/:invoiceId',
+				templateUrl:"templates/invoice-add.html",
+				controller:"InvoiceCtrl",
+				controllerAs:"invoiceVm",
+				requireAuth: true, 
 				cache:false
 			}).state('joborder-add',{
 				url: '/joborder-add',

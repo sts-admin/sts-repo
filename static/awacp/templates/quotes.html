@@ -79,11 +79,11 @@
 								  <img  popover-placement="right" uib-popover-template="qVm.quotePopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qVm.quotePopover.title}}"  ng-click="qVm.showQuoteInfo(quote);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
 							  </td>
 							  <td align="center">
-								<a ng-show="!quote.wsCreated" href ui-sref="worksheet-new({takeoffId:quote.id})">
-									<img  src="images/worksheet_new.png" />
+								<a ng-show="!quote.wsCreated" href ui-sref="worksheet-new({takeoffId:quote.id})"  >
+									<img  src="images/worksheet_new.png" alt="Create New Worksheet" />
 								</a>
 								<a ng-show="quote.wsCreated" href ui-sref="worksheet-edit({worksheetId:quote.worksheetId})">
-									<img src="images/worksheet_edit.png" />
+									<img src="images/worksheet_edit.png"  alt="Edit Worksheet" />
 								</a>
 								
 							</td>
@@ -93,7 +93,7 @@
 							  <td align="center">{{quote.dateCreated | date: 'short'}}</td>
 							   <td align="center"><a ui-sref = "takeoff-edit({id:quote.id})">{{quote.takeoffId}}</a></td>
 							  <td align="center">{{quote.quoteId}}</td>
-							  <td align="center">{{quote.jobId}}</td>
+							  <td align="center">{{quote.jobOrderNumber}}</td>
 							  <td align="center">
 								<span ng-show="quote.worksheetId != null && quote.worksheetId  != undefined">
 									<a href ui-sref="quote-followup({takeoffId:quote.id, worksheetId:quote.worksheetId})">

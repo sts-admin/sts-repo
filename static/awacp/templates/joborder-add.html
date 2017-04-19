@@ -22,7 +22,7 @@
 								</div>
 							</div>
 							<div class="col-lg-2 col-md-2 col-sm-1"> 
-								<input ng-click="jobVm.searchQuoteForJobOrder();" type="button" value="Search Quote" class="jobOrder-add-action reset-btn btn btn-warning" id="jobOrder-search">
+								<input ng-click="jobVm.jobOrder.quoteId != undefined && jobVm.searchQuoteForJobOrder();" type="button" value="Search Quote" class="jobOrder-add-action reset-btn btn btn-warning" id="jobOrder-search">
 							</div>
 						
 						</div>
@@ -48,7 +48,7 @@
 						  <!-- .col -->
 						<div class="col-lg-2 col-md-2 col-sm-2">
 							<select class="form-control"
-								  ng-model="jobVm.jobOrder.salesPersonId" 
+								  ng-model="jobVm.jobOrder.salesPersonId"  
 								  ng-options="user.id as user.customName for user in jobVm.users" ng-required = "true">
 								  <option value="">--- Select ---</option>
 								</select>
@@ -77,7 +77,7 @@
 						  <!-- .col -->
 							  <div class="col-lg-10 col-md-10 col-sm-9">
 								<div class="form-group">
-								  <input type="text" placeholder="Purchage Order" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter PO Numner');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.poName" />
+								  <input  placeholder="Purchage Order" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter PO Numner');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.poName" />
 								</div>
 							  </div>
 							 </div>
@@ -92,7 +92,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Job Name" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Job Name');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.jobName" ng-required="true" />
+							  <input  type="text" placeholder="Job Name" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Job Name');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.jobName" ng-required="true" />
 							</div>
 						  </div>
 
@@ -107,7 +107,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Job Address" class="form-control" style="height:50px;" maxlength="250" oninvalid="this.setCustomValidity('Enter Job Address');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.jobAddress" ng-required="true" />
+							  <input  type="text" placeholder="Job Address" class="form-control" style="height:50px;" maxlength="250" oninvalid="this.setCustomValidity('Enter Job Address');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.jobAddress" ng-required="true" />
 							</div>
 						  </div>
 						
@@ -120,14 +120,14 @@
 						  <!-- .col -->
 						  <div class="col-lg-9 col-md-9 col-sm-8">
 							<div class="form-group" ng-hide="'REVERT' == jobVm.cont_text">
-								<select class="form-control" ng-required="'NEW' == jobVm.eng_text"
+								<select class="form-control" ng-required="'NEW' == jobVm.cont_text"  
 								  ng-model="jobVm.jobOrder.contractorName" 
 								  ng-options="contractor.id as contractor.name for contractor in jobVm.contractors" >
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
 							<div class="form-group" ng-hide="'NEW' == jobVm.cont_text">
-								 <input type="text" placeholder="Contractor" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Contractor name');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.contractorName" ng-required="'REVERT' == jobVm.cont_text" />
+								 <input  type="text" placeholder="Contractor" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter Contractor name');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.contractorName" ng-required="'REVERT' == jobVm.cont_text" />
 							</div>
 						  </div>
 						 <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="jobVm.setNewCont();">{{jobVm.cont_text}}</a>
@@ -138,7 +138,8 @@
 						  <!-- .col -->
 						  <div class="col-lg-9 col-md-9 col-sm-8">
 							<div class="form-group" ng-hide="'REVERT' == jobVm.eng_text">
-								<select class="form-control"
+								<select class="form-control" 
+								   
 								  ng-model="jobVm.jobOrder.engineerId" 
 								  ng-options="engineer.id as engineer.name for engineer in jobVm.engineers" >
 								  <option value="">--- Select ---</option>
@@ -157,13 +158,14 @@
 						  <div class="col-lg-9 col-md-9 col-sm-8">
 							<div class="form-group" ng-hide="'REVERT' == jobVm.arc_text">
 							 <select class="form-control" 
+							      
 								  ng-model="jobVm.jobOrder.architectureId" 
 								  ng-options="architect.id as architect.name for architect in jobVm.architects" >
 								  <option value="">--- Select ---</option>
 								</select>
 							</div>
 							<div class="form-group" ng-hide="'NEW' == jobVm.arc_text">
-								 <input type="text" placeholder="Architecture" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter architecture name');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.architectureName" ng-required="'REVERT' == jobVm.arc_text" />
+								 <input  type="text" placeholder="Architecture" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter architecture name');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.architectureName" ng-required="'REVERT' == jobVm.arc_text" />
 							</div>
 						  </div>
 						 <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="jobVm.setNewArc();">{{jobVm.arc_text}}</a>
@@ -176,19 +178,20 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Quoted Amount" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter Quoted Amount');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.quotedAmount"  />
+							  <input  type="text" placeholder="Quoted Amount" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter Quoted Amount');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.quotedAmount"  />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
 								 Billing Amount$
 							</span>
+							<i class="star red">*</i>
 							<span class="colon">:</span> 
 						</div>
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Billing Amount" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter Billing Amount');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.billingAmount"  />
+							  <input  type="text" placeholder="Billing Amount" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter Billing Amount');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.billingAmount" ng-required="true"  />
 							</div>
 						  </div>
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
@@ -200,7 +203,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="VAV Controls" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter VAV Controls');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.vavControls"  />
+							  <input  type="text" placeholder="VAV Controls" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter VAV Controls');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.vavControls"  />
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
@@ -210,7 +213,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <textarea class="form-control" placeholder="Enter Comment" maxlength="1000"  oninvalid="this.setCustomValidity('Enter Comment');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.comments"  />
+							  <textarea  class="form-control" placeholder="Enter Comment" maxlength="1000"  oninvalid="this.setCustomValidity('Enter Comment');" onkeypress="this.setCustomValidity('');" ng-model="jobVm.jobOrder.comments"  />
 							</div>
 						  </div>
 					</div>
@@ -221,7 +224,7 @@
 					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 					  <!-- .col -->
 					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-						<input type="submit" value="{{jobVm.action}} Job Order" class="jobOrder-add-action submit-btn btn btn-primary">
+						<input  type="submit" value="{{jobVm.action}} Job Order" class="jobOrder-add-action submit-btn btn btn-primary">
 						&nbsp;&nbsp;
 						<input type="reset" value="Reset" class="jobOrder-add-action reset-btn btn btn-warning" id="jobOrder-reset">
 						&nbsp;&nbsp;

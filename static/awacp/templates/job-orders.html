@@ -3,9 +3,10 @@
 <div class="container-fluid" style="margin-top:-10px;">
   <div class="clearfix">
     <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders();">
-      <div class="panel-heading form-heading panel-heading-top">
-        <label>View Job Orders</label>
-        <span class="pull-right"><a href ui-sref="joborder-add" >Add Job Order</a></span> </div>
+		<div class="panel-heading form-heading panel-heading-top">
+			<label>View Job Orders</label>
+			<span class="pull-right"><a href ui-sref="joborder-add" >Add Job Order</a></span> 
+		</div>
       <div class="panel-body">
       
       <div style="text-align:right;">
@@ -106,7 +107,10 @@
                       <td align="center">{{jobOrder.dateCreated | date:'shortDate'}}</td>
 					 
 					  <td align="center">{{jobOrder.quoteId}}</td>
-					  <td align="center">{{jobOrder.orderId}}</td>
+						<td align="center">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a>
+							<a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a>
+						</td>
 					  <td align="center">{{jobOrder.jobName}}</td>
 					 
 					  <td align="center">{{jobOrder.jobAddress}}</td>

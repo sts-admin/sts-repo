@@ -166,7 +166,7 @@
 				wsVm.worksheet["manufacturerItems"] = [];	
 				length = wsVm.worksheet.manufacturerItems.length;
 			}
-			wsVm.worksheet["notes"].push({});
+			/*wsVm.worksheet["notes"].push({});*/
 			wsVm.worksheet["manufacturerItems"].push({multiplier: 0.5, freight:0, "pdnis": [{}], "productItems": [{quantity:1, listAmount:0, netAmount:0}]});
 			
 		}
@@ -183,17 +183,19 @@
 		wsVm.cancelWorksheetAction = function(){
 			$state.go("quotes");
 		}
-		wsVm.getQuoteDetail = function(takeoffId){		
+		wsVm.getQuoteDetail = function(takeoffId){	
 			AjaxUtil.getData("/awacp/getTakeoffWithDetail/"+takeoffId, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.takeoff){
 					wsVm.quote = data.takeoff;
+					$scope.$digest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "WorksheetrCtrl::wsVm.getQuoteDetail::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			})
+			});
+			
 		}
 		wsVm.sumListAmount = function(blockIndex, manufacturerItem, multiplier){
 			var amount = 0, tmp;
@@ -235,7 +237,7 @@
 			mp = Number(manufacturerItem.multPercentAmount);
 			np = Number(manufacturerItem.netTotal);
 			fp = Number(manufacturerItem.freight);
-			manufacturerItem.totalAmount = mp + np + fp;	
+			manufacturerItem.totalAmount = mp + np + fp;
 			manufacturerItem.quoteAmount = manufacturerItem.totalAmount;
 		}
 		
@@ -268,22 +270,18 @@
 		wsVm.initWorksheet = function(){
 			if($state.params.takeoffId != undefined){
 				wsVm.getQuoteDetail($state.params.takeoffId);	
+				wsVm.worksheet.takeoffId = $state.params.takeoffId;
+				wsVm.addWorksheetInfoBlock(); // new worksheet: add empty worksheet info block to add data.
+				wsVm.worksheet.manufacturerItems[0].multiplier = 0.5;
 			}
 			
 			wsVm.listManufaturers();
 			wsVm.listPdnis();
 			wsVm.listProducts();
 			wsVm.listNotes();
-			if($state.params.takeoffId){
-				wsVm.worksheet.takeoffId = $state.params.takeoffId;
-			}
-			if($state.params.worksheetId != undefined){
+			
+			if($state.params.worksheetId != undefined){ //Open worksheet in edit mode with data pre-populated.
 				wsVm.editWorksheet($state.params.worksheetId);
-			}else{
-				if(!wsVm.worksheet.manufacturerItems){
-					wsVm.addWorksheetInfoBlock();
-				}
-				wsVm.worksheet.manufacturerItems[0].multiplier = 0.5;
 			}
 			wsVm.multipliers = [];			
 			for(var i = 1; i <= 99; i++){
@@ -339,7 +337,7 @@
 					if(data.worksheet.updatedByUserCode){
 						wsVm.worksheet.updatedByUserCode = data.worksheet.updatedByUserCode;
 					}
-				
+					
 					wsVm.getQuoteDetail(data.worksheet.takeoffId);
 					if(data.worksheet.specialNotes){
 						wsVm.worksheet.specialNotes = data.worksheet.specialNotes;
@@ -363,12 +361,14 @@
 						wsVm.worksheet.notes.push(data.worksheet.notes);
 					}
 					wsVm.wsAction = "Update Worksheet";
+					$scope.$digest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "WorksheetrCtrl::wsVm.editWorksheet::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			})
+			});
+			
 		}
 		wsVm.deleteWorksheet = function(id){
 			AjaxUtil.getData("/awacp/deleteWorksheet/"+id, Math.random())
@@ -455,9 +455,12 @@
 				update = true;
 			}else{
 				wsVm.worksheet.createdByUserCode = StoreService.getUser().userCode;
+				wsVm.worksheet.createdById = StoreService.getUserId();
 			}
 			var formData = {};			
 			formData["worksheet"] = wsVm.worksheet;
+			console.log(JSON.stringify(formData.worksheet.manufacturerItems, null, 4));
+			//return;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
 				AlertService.showAlert(	'AWACP :: Alert!', message)

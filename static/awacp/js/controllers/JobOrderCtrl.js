@@ -4,7 +4,14 @@
 	JobOrderCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
 	function JobOrderCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var jobVm = this;
-		jobVm.selectedjobOrderId;
+		jobVm.selectedJobId = "";
+		jobVm.selectedOrderNumber = "";
+		if($state.params.jobId != undefined){
+			jobVm.selectedJobId = $state.params.jobId;
+		}
+		if($state.params.orderNumber != undefined){
+			jobVm.selectedOrderNumber = $state.params.orderNumber;
+		}
 		jobVm.openAnother = true;		
 		jobVm.selectedjobOrder = {};
 		jobVm.drawingDate = {opened:false};
@@ -62,8 +69,14 @@
 			.success(function(data, status, headers){
 				jobVm.jobOrder = {};
 				if(data && data.jobOrder){
-					jobVm.jobOrder = data.jobOrder;
-					$scope.$digest();
+					if(data.jobOrder.id){
+						AlertService.showAlert(	'AWACP :: Information!', "A Job with #Job Number: "+ data.jobOrder.orderNumber + " already exits for this quote.")
+						.then(function (){return false},function (){return false});
+						return;
+					}else{
+						jobVm.jobOrder = data.jobOrder;
+						$scope.$digest();
+					}
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -77,7 +90,7 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		jobVm.searchjobOrderIds = function(){
+		jobVm.searchJobOrderIds = function(){
 			return jobVm.jobOrderIds;
 		}
 		jobVm.showFileListingView = function(source, sourceId, title, size){
@@ -85,7 +98,7 @@
 			$rootScope.fileViewSource = "templates/file-listing.html";
 			FileService.showFileViewDialog(source, sourceId, title, size);
 		}
-		jobVm.showjobOrderInfo = function(jobOrder){
+		jobVm.showJobOrderInfo = function(jobOrder){
 			jobOrder.openInfoBox = true;
 			jobVm.selectedjobOrder =  jobOrder;
 		}
@@ -126,14 +139,17 @@
 			jobVm.dueDate.opened = true;
 		}
 		jobVm.setNewArc = function(){
+			if(!jobVm.jobOrder.takeoffId || jobVm.jobOrder.takeoffId == undefined){return;}
 			jobVm.jobOrder.architectureName = "";
 			jobVm.arc_text = jobVm.arc_text === 'NEW'?'REVERT':'NEW';
 		}
 		jobVm.setNewCont = function(){
+			if(!jobVm.jobOrder.takeoffId || jobVm.jobOrder.takeoffId == undefined){return;}
 			jobVm.jobOrder.contractorName = "";
 			jobVm.cont_text = jobVm.cont_text === 'NEW'?'REVERT':'NEW';			
 		}
 		jobVm.setNewEng = function(){
+			if(!jobVm.jobOrder.takeoffId || jobVm.jobOrder.takeoffId == undefined){return;}
 			jobVm.jobOrder.engineerName = "";
 			jobVm.eng_text = jobVm.eng_text === 'NEW'?'REVERT':'NEW';
 		}
@@ -293,6 +309,7 @@
 				update = true;
 			}else{
 				jobVm.jobOrder.createdByUserCode = StoreService.getUser().userCode;
+				jobVm.jobOrder.createdById = StoreService.getUserId();
 			}
 			var formData = {};
 			jobVm.jobOrder.userNameOrEmail = StoreService.getUserName();

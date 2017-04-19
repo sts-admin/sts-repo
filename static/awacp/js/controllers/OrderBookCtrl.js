@@ -14,8 +14,6 @@
 		obVm.jobOrder = {};
 		obVm.tmpFactories = [];
 		
-		
-		
 		obVm.openAnother = true;		
 		obVm.selectedJobOrder = {};
 		$scope.timers = [];
@@ -37,17 +35,24 @@
 			obVm.listInvItems(obInvType);
 		}
 		
-		obVm.getJobByOrderId = function(orderId){
+		obVm.getJobByOrderId = function(orderNumber){
 			obVm.jobOrder = {};
-			AjaxUtil.getData("/awacp/getJobOrderByOrderId/"+orderId, Math.random())
+			AjaxUtil.getData("/awacp/getJobOrderByOrderNumber/"+orderNumber, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.jobOrder){
 					obVm.jobOrder = data.jobOrder;
 					obVm.orderBook.jobId = obVm.jobOrder.id;
+					obVm.orderBook.jobOrderNumber = obVm.jobOrder.orderNumber;
 					obVm.orderBook.jobName = obVm.jobOrder.jobName;
 					obVm.orderBook.jobAddress = obVm.jobOrder.jobAddress;
 					obVm.orderBook.contractorId = obVm.jobOrder.contractorId;
+					obVm.orderBook.quoteId = obVm.jobOrder.quoteId;
+					obVm.orderBook.takeoffId = obVm.jobOrder.takeoffId;
 					$scope.$digest();
+				}else{
+					AlertService.showAlert(	'AWACP :: Alert!', "No job order detail found.")
+					.then(function (){return false;},function (){return false;});
+					return;
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -253,8 +258,24 @@
 				update = true;
 			}else{
 				obVm.orderBook.createdByUserCode = StoreService.getUser().userCode;
+				obVm.orderBook.createdById = StoreService.getUserId();
 			}
-			//filter inventory items for which order quantity input provided.
+			var noInvItems = true;
+			if(obVm.orderBook.invItems && obVm.orderBook.invItems.length > 0){
+				jQuery.each(obVm.orderBook.invItems, function(k, d){
+					if(d.orderQty && d.orderQty.length > 0){
+						noInvItems = false;
+						return false;
+					}
+				});
+			}
+			if(noInvItems && obVm.orderBook.obCategory != 'REGULAR' ){
+				jQuery(".orderBook-add-action").removeAttr('disabled');
+				jQuery("#orderBook-add-spinner").css('display','none');
+				AlertService.showAlert(	'AWACP :: Alert!', "Please select inventory item detail.")
+				.then(function (){return false;},function (){return false;});
+				return;
+			}
 			
 			var formData = {};
 			obVm.orderBook.userNameOrEmail = StoreService.getUserName();
