@@ -45,13 +45,17 @@
 							<tr style="background:#1e7d44; color:#fff;">
 							  <td style="padding:5px;" align="center">SR. No.</td>
 							  <td style="padding:5px;" align="center">Item Description</td>
-							  <td style="padding:5px;" align="center">Quantity</td>
+							  <td style="padding:5px;" align="center">Quantity in Stock</td>
 							  <td style="padding:5px;" align="center">Re-order Quantity</td>
                               <td style="padding:5px;" align="center">Size</td>
                               <td style="padding:5px;" align="center">Unit Price</td>
-                              <td style="padding:5px;" align="center">Billable Price</td>
+                              <td style="padding:5px;" align="center">Billable Cost</td>
+							  <td style="padding:5px;" align="center">Net Price</td>
+							  <td style="padding:5px;" align="center">Minimum Order Qty</td>
+							  <td style="padding:5px;" align="center">Qty in Order</td>
 							  <td style="padding:5px;" align="center">UC</td>
 							  <td style="padding:5px;" align="center">UC2</td>
+							  <td style="padding:5px;" align="center">Image</td>
 							  <td style="padding:5px;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
@@ -64,6 +68,9 @@
 							  <td align="center">{{awInv.size}}</td>
 							  <td align="center">{{awInv.unitPrice}}</td>
 							  <td align="center">{{awInv.billableCost}}</td>
+							  <td align="center">{{awInv.quantity * awInv.unitPrice}}</td>
+							    <td align="center">{{awInv.quantity * awInv.unitPrice}}</td>
+								  <td align="center">{{awInv.quantity * awInv.unitPrice}}</td>
 							  <td align="center">{{awInv.createdByUserCode}}</td>
 							  <td align="center">{{awInv.updatedByUserCode}}</td>
 							  <td align="center">&nbsp; 
