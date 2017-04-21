@@ -87,9 +87,24 @@
 								</a>
 								
 							</td>
-							  <td align="center"></td>
-							  <td align="center"></td>
-							  <td align="center"></td>
+							  <td align="center">
+								<a href ng-click="qVm.showFileListingView('QUOTE_DOC', quote.id, 'Quote', 'large', '.pdf');">
+									<span class="badge">{{quote.quoteDocCount}}</span>
+									<img src="images/FileUploadIcon.png" alt="image" border="0" />
+								</a>
+							  </td>
+							  <td align="center">
+								<a href ng-click="qVm.showFileListingView('QUOTE_PDF_DOC', quote.id, 'Quote', 'large', '.pdf');">
+									<span class="badge">{{quote.quotePdfDocCount}}</span>
+									<img src="images/FileUploadIcon.png" alt="image" border="0" />
+								</a>
+							  </td>
+							  <td align="center">
+								<a href ng-click="qVm.showFileListingView('QUOTE_XLS_DOC', quote.id, 'Quote', 'large', '.xls');">
+									<span class="badge">{{quote.quoteXlsDocCount}}</span>
+									<img src="images/FileUploadIcon.png" alt="image" border="0" />
+								</a>
+							  </td>
 							  <td align="center">{{quote.dateCreated | date: 'short'}}</td>
 							   <td align="center"><a ui-sref = "takeoff-edit({id:quote.id})">{{quote.takeoffId}}</a></td>
 							  <td align="center">{{quote.quoteId}}</td>
@@ -113,7 +128,12 @@
 							  <td align="center"></td>
 							  <td align="center"></td>
 							  <td align="center"></td>
-							  <td align="center"></td>
+							  <td align="center">
+								<a href ng-click="qVm.showFileListingView('QUOTE_VIBRO_DOC', quote.id, 'Quote', 'large', '.pdf');">
+									<span class="badge">{{quote.quoteVibroDocCount}}</span>
+									<img src="images/FileUploadIcon.png" alt="image" border="0" />
+								</a>
+							  </td>
 							</tr>							
 						</table>
 						</td>
