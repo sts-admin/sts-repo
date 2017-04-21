@@ -92,13 +92,13 @@
 						 <a ng-show="takeoff.quoteId" href ng-click="takeVm.showTakeoffInfo();"><img src="images/quote_info.png" alt="image" border="0" /></a>
 					  </td>
 					  <td align="center">
-							<a href ng-click="takeVm.showFileListingView('takeoff_drawing_doc', takeoff.id);">
+							<a href ng-click="takeVm.showFileListingView('takeoff_drawing_doc', takeoff.id, 'Quote', 'large', '.pdf');">
 								<span class="badge">{{takeoff.drawingDocCount}}</span>
 								<img src="images/FileUploadIcon.png" alt="image" border="0" />
 							</a>
 					  </td>
 					   <td align="center">
-							<a href ng-click="takeVm.showFileListingView('takeoff_doc', takeoff.id);">
+							<a href ng-click="takeVm.showFileListingView('takeoff_doc', takeoff.id, 'Quote', 'large', '.pdf');">
 								<span class="badge">{{takeoff.takeoffDocCount}}</span>
 								<img src="images/FileUploadIcon.png" alt="image" border="0" />
 							</a>
@@ -119,7 +119,7 @@
 					 
 					  <td align="center">{{takeoff.projectNumber}}</td>
 					   <td align="center">	
-							<a href ng-click="takeVm.showFileListingView('takeoff_vibro_doc', takeoff.id);">
+							<a href ng-click="takeVm.showFileListingView('takeoff_vibro_doc', takeoff.id, 'Quote', 'large', '.pdf');">
 								<span class="badge">{{takeoff.vibroDocCount}}</span>
 								<img src="images/FileUploadIcon.png" alt="image" border="0" />
 							</a>
