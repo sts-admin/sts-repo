@@ -3,7 +3,7 @@
 	angular.module('awacpApp.services')
 		.factory("FileService",["$q", "$uibModal", "AjaxUtil", "Upload", "StoreService", "$rootScope", "AlertService", function ($q, $uibModal, AjaxUtil, Upload, StoreService, $rootScope, AlertService){
 			return {
-				showFileViewDialog:function(source, sourceId, sourceTitle, size){
+				showFileViewDialog:function(source, sourceId, sourceTitle, size, filePattern){
 					var defer = $q.defer();
 					var modalInstance = $uibModal.open({
 						animation: true,
@@ -14,8 +14,8 @@
 						controller: function ($scope, $uibModalInstance){
 							$scope.uploadForm = {};
 							$scope.file = null;
-							$scope.filePattern = ".pdf";
-							$scope.fileAcceptPattern = ".pdf";
+							$scope.filePattern = filePattern;
+							$scope.fileAcceptPattern = filePattern;
 							$scope.title = sourceTitle;
 							$scope.source = source;
 							$scope.sourceId = sourceId;
@@ -25,7 +25,6 @@
 							
 							//resetSelection:start
 							$scope.resetSelection = function(){
-								alert("reset selection");
 								$scope.file = null;
 								$scope.hasFile = false;
 							};
@@ -47,11 +46,12 @@
 								$scope.documents = [];
 								AjaxUtil.getData("/awacp/listFilesBySource/"+ source + "/"+sourceId, Math.random())
 								.success(function(data, status, headers){
-									if(data && data.file && data.file.length > 0){				
+									if(data && data.file && data.file.length > 0){										
 										$.each(data.file, function(k, v){
 											$scope.documents.push(v);
 										});
 									}
+									$scope.$digest();
 								})
 								.error(function(jqXHR, textStatus, errorThrown){
 									jqXHR.errorSource = "UploadService::listDocuments::Error";
