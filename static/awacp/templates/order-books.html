@@ -7,17 +7,16 @@
         <label>View Order Books</label>
         <span class="pull-right"><a href ui-sref="orderbook-add" >Add Order Book</a></span> </div>
       <div class="panel-body">
-      
-      <div style="text-align:right;">
-		<div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
-			Per page Rows 
-			<select ng-class="styledselect_pages" style="outline:none;"
+        <div style="text-align:right;">
+          <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left"> Per page Rows
+            <select ng-class="styledselect_pages" style="outline:none;"
 			  ng-model="obVm.pageSize" 
 			  ng-options="size for size in obVm.pageSizeList" ng-change="obVm.setCurrentPageSize(obVm.pageSize);" >
-			</select>
-		</div>
-		<ul uib-pagination total-items="obVm.totalItems" items-per-page = "obVm.pageSize" ng-model="obVm.currentPage" ng-change="obVm.pageChanged()"></ul>
-	</div>
+            </select>
+          </div>
+          <ul uib-pagination total-items="obVm.totalItems" items-per-page = "obVm.pageSize" ng-model="obVm.currentPage" ng-change="obVm.pageChanged()">
+          </ul>
+        </div>
         <!-- .row -->
         <div class="row" id="contents" style="margin-top:25px; float:left;">
           <!-- .col -->
@@ -26,26 +25,15 @@
               <div class="table-container">
                 <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
                   <thead>
-                    <tr class="theme-row">
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="orderBook_date" value=""></td>
-                      <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="orderBook_due_dt" value=""></td>
-                      <td align="center">
-						<angucomplete-alt id="orderBook_id_search" 
-						  placeholder="Search Take off ID" 
-						  pause="300" 
-						  selected-object="obVmselectedorderBookId" 
-						  local-data="obVm.orderBookIds" 
-						  local-search="obVm.searchorderBookIds" 
-						  title-field="id" 
-						  minlength="3" 
-						  input-class="form-control" 
-						  match-class="highlight" />
-					  </td>
-                      <td class="bg-8DB3B3" align="center"><input type="text" class="searchtxt form-control-2 form-control" name="orderBook_quoteid" value=""></td>
-                      <td class="bg-BD7589" align="center"><input type="text" class="searchtxt" name="orderBook_jobid" value=""></td>
+                    <tr style="background:#CFAC92;">
+                      <td align="center" style="color:#fff;"></td>
+                      <td align="center" style="color:#fff;">DOC</td>
+                      <td align="center" style="color:#fff;">XLS</td>
+                      <td align="center" style="color:#fff;">PDF</td>
+                      <td align="center" style="color:#fff;">PDF</td>
+                      <td align="center" style="color:#fff;">Link</td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="orderBook_quoteid" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt" name="orderBook_jobid" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="orderBook_jobname" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="orderBook_address" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="orderBook_engineer" value=""></td>
@@ -56,70 +44,52 @@
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="orderBook_specs" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="orderBook_vibro_lay_in" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="project_num" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2" name="orderBook_bidders" value=""></td>
-					  <td align="center"><input type="text" class="searchtxt form-control-2" name="orderBook_bidders" value=""></td>
+                      
                     </tr>
-                    
-                    <tr class="bg-dark-green">
+                    <tr style="background:#9B6944; color:#FFF;">
                       <td align="center" style="min-width:50px;">Info Icon</td>
-					  <td align="center">1</td>
-					  <td align="center">2</td>
-					  <td align="center">3</td>
-					  <td align="center">4</td>
-					  <td align="center">5</td>
-					  <td align="center">XLS</td>
-                      <td align="center">DOC</td>
-                      <td align="center">TAX</td>
-                      <td align="center">PO</td>
-                      <td align="center">IU</td>
-                      <td align="center">Start Date</td>
-                      <td class="bg-4D7373" align="center">Quote ID</td>
-                      <td class="c10 bg-7D3549" align="center">Job ID</td>
+                      <td align="center">A</td>
+                      <td align="center">Y,I</td>
+                      <td align="center">ACK</td>
+                      <td align="center">FRT</td>
+                      <td align="center">POD</td>
+                      <td align="center">Release Date</td>
+                      <td align="center" style="color:#FFF; background:#7D3549;">Job ID</td>
+                      <td align="center">AWACP PO#</td>
+                      <td align="center">ORBF</td>
+                      <td align="center">EST Date</td>
+                      <td align="center">Contractor Name</td>
+                      <td align="center">ShipTo</td>
                       <td align="center">Job Name</td>
-                      <td align="center">Address</td>
-                      <td align="center">Contractor</td>                     
+                      <td align="center">Job Address</td>
                       <td align="center">SP</td>
                       <td align="center">UC</td>
-                      <td align="center">Billing Amount</td>
+                      <td align="center">Comments Model Number</td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr height="25" ng-repeat="orderBook in obVm.orderBooks track by $index" ng-style="{{orderBook.statusStyle}}">					
-					  <td align="center">	
-					  </td>
-					  <td align="center">
-					  </td>
-					   <td align="center">
-					   </td>
-					  <td align="center"></td>
-					  <td align="center"></td>
-                      <td align="center"></td>					 
+                    <tr height="25" ng-repeat="orderBook in obVm.orderBooks track by $index" ng-style="{{orderBook.statusStyle}}">
+                     
                       <td align="center"></td>
-					   <td align="center"></td>
                       <td align="center"></td>
-					  <td align="center"></td>
-					   <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
                       <td align="center">{{orderBook.dateCreated | date:'shortDate'}}</td>
-					 
-					  <td align="center">{{orderBook.quoteId}}</td>
-					  <td align="center">{{orderBook.jobOrderNumber}}</td>
-					  <td align="center">{{orderBook.jobName}}</td>
-					 
-					  <td align="center">{{orderBook.jobAddress}}</td>
-					   <td align="center">	
-							{{orderBook.contractorName}}
-					  </td>
-					  <td align="center">	
-							{{orderBook.salesPersonName}}
-					  </td>
-					  <td align="center">	
-							{{orderBook.createdByUserCode}}
-					  </td>
-					  <td align="center">	
-							{{orderBook.billingAmount}}
-					  </td>
-					</tr>
-                </tbody>
+                      <td align="center">{{orderBook.quoteId}}</td>
+                      <td align="center">{{orderBook.jobOrderNumber}}</td>
+                      <td align="center">{{orderBook.jobName}}</td>
+                      <td align="center">{{orderBook.jobAddress}}</td>
+                      <td align="center"> {{orderBook.contractorName}} </td>
+                      <td align="center"> {{orderBook.salesPersonName}} </td>
+                      <td align="center"> {{orderBook.createdByUserCode}} </td>
+                      <td align="center"> {{orderBook.billingAmount}} </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </form>

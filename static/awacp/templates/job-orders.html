@@ -3,26 +3,20 @@
 <div class="container-fluid" style="margin-top:-10px;">
   <div class="clearfix">
     <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders();">
-		<div class="panel-heading form-heading panel-heading-top">
-			<label>View Job Orders</label>
-			<span class="pull-right"><a href ui-sref="joborder-add" >Add Job Order</a></span> 
-		</div>
+      <div class="panel-heading form-heading panel-heading-top">
+        <label>View Job Orders</label>
+        <span class="pull-right"><a href ui-sref="joborder-add" >Add Job Order</a></span> </div>
       <div class="panel-body">
-      
-      <div style="text-align:right;">
-		<div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
-			Per page Rows 
-			<select ng-class="styledselect_pages" style="outline:none;"
+        <div style="text-align:right;">
+          <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left"> Per page Rows
+            <select ng-class="styledselect_pages" style="outline:none;"
 			  ng-model="jobVm.pageSize" 
 			  ng-options="size for size in jobVm.pageSizeList" ng-change="jobVm.setCurrentPageSize(jobVm.pageSize);" >
-			</select>
-		</div>
-		<ul uib-pagination total-items="jobVm.totalItems" items-per-page = "jobVm.pageSize" ng-model="jobVm.currentPage" ng-change="jobVm.pageChanged()"></ul>
-	</div>
-      
-      
-     
-        
+            </select>
+          </div>
+          <ul uib-pagination total-items="jobVm.totalItems" items-per-page = "jobVm.pageSize" ng-model="jobVm.currentPage" ng-change="jobVm.pageChanged()">
+          </ul>
+        </div>
         <!-- .row -->
         <div class="row" id="contents" style="margin-top:25px; float:left;">
           <!-- .col -->
@@ -31,29 +25,22 @@
               <div class="table-container">
                 <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
                   <thead>
-                    <tr class="theme-row">
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="jobOrder_date" value=""></td>
-                      <td align="center"><input type="text" class="datepicker c1 searchtxt form-control-2" name="jobOrder_due_dt" value=""></td>
+                    <tr style="background-color:#bd7589">
+                      <td align="center">&nbsp;</td>
+                      <td align="center">A</td>
+                      <td align="center">V</td>
+                      <td align="center">E</td>
+                      <td align="center">T</td>
+                      <td align="center">Y</td>
+                      <td align="center">X</td>
+                      <td align="center"></td>
+                      <td class="" align="center"></td>
+                      <td class="bg-BD7589" align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
                       <td align="center">
-						<angucomplete-alt id="jobOrder_id_search" 
-						  placeholder="Search Take off ID" 
-						  pause="300" 
-						  selected-object="jobVmselectedjobOrderId" 
-						  local-data="jobVm.jobOrderIds" 
-						  local-search="jobVm.searchjobOrderIds" 
-						  title-field="id" 
-						  minlength="3" 
-						  input-class="form-control" 
-						  match-class="highlight" />
-					  </td>
-                      <td class="bg-8DB3B3" align="center"><input type="text" class="searchtxt form-control-2 form-control" name="jobOrder_quoteid" value=""></td>
-                      <td class="bg-BD7589" align="center"><input type="text" class="searchtxt" name="jobOrder_jobid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_jobname" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_address" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_engineer" value=""></td>
+                      <select onchange="joborder_dropdown($('#final_update').val())" style="width:82px; height:30px; color:#000000;" class="searchtxt form-control" name="joborder_inv"> <option value="">--</option> <option style="color:#FF0000;" value="bill">BILL</option> <option style="color:#006600;" value="inv">INV</option> <option style="color:#FF6600;" value="ptl">PTL</option> </select>
+                      </td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_architect" value=""></td>
                       <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="jobOrder_gc" value=""></td>
                       <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="jobOrder_sp" maxlength="2" value=""></td>
@@ -62,72 +49,59 @@
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_vibro_lay_in" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="project_num" value=""></td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_bidders" value=""></td>
-					  <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_bidders" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_bidders" value=""></td>
                     </tr>
-                    
-                    <tr class="bg-dark-green">
+                    <tr style="background-color:#7d3549; color:#fff">
                       <td align="center" style="min-width:50px;">Info Icon</td>
-					  <td align="center">1</td>
-					  <td align="center">2</td>
-					  <td align="center">3</td>
-					  <td align="center">4</td>
-					  <td align="center">5</td>
-					  <td align="center">XLS</td>
+                      <td align="center">1</td>
+                      <td align="center">2</td>
+                      <td align="center">3</td>
+                      <td align="center">4</td>
+                      <td align="center">5</td>
+                      <td align="center">6</td>
+                      <td align="center">XLS</td>
                       <td align="center">DOC</td>
                       <td align="center">TAX</td>
                       <td align="center">PO</td>
                       <td align="center">IU</td>
+                      <td align="center">ViewINV</td>
                       <td align="center">Start Date</td>
                       <td class="bg-4D7373" align="center">Quote ID</td>
                       <td class="c10 bg-7D3549" align="center">Job ID</td>
                       <td align="center">Job Name</td>
                       <td align="center">Address</td>
-                      <td align="center">Contractor</td>                     
+                      <td align="center">Contractor</td>
                       <td align="center">SP</td>
                       <td align="center">UC</td>
                       <td align="center">Billing Amount</td>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr height="25" ng-repeat="jobOrder in jobVm.jobOrders track by $index" ng-style="{{jobOrder.statusStyle}}">					
-					  <td align="center">	
-					  </td>
-					  <td align="center">
-					  </td>
-					   <td align="center">
-					   </td>
-					  <td align="center"></td>
-					  <td align="center"></td>
-                      <td align="center"></td>					 
+                    <tr height="25" ng-repeat="jobOrder in jobVm.jobOrders track by $index" ng-style="{{jobOrder.statusStyle}}">
                       <td align="center"></td>
-					   <td align="center"></td>
                       <td align="center"></td>
-					  <td align="center"></td>
-					   <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"><a target="_blank" href="http://www.awacp.org/joborder/showinvoice/21815"><img border="0" src="http://www.awacp.org/resources/images/inv.png"></a></td>
                       <td align="center">{{jobOrder.dateCreated | date:'shortDate'}}</td>
-					 
-					  <td align="center">{{jobOrder.quoteId}}</td>
-						<td align="center">
-							<a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a>
-							<a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a>
-						</td>
-					  <td align="center">{{jobOrder.jobName}}</td>
-					 
-					  <td align="center">{{jobOrder.jobAddress}}</td>
-					   <td align="center">	
-							{{jobOrder.contractorName}}
-					  </td>
-					  <td align="center">	
-							{{jobOrder.salesPersonName}}
-					  </td>
-					  <td align="center">	
-							{{jobOrder.createdByUserCode}}
-					  </td>
-					  <td align="center">	
-							{{jobOrder.billingAmount}}
-					  </td>
-					</tr>
-                </tbody>
+                      <td align="center">{{jobOrder.quoteId}}</td>
+                      <td align="center"><a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> <a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a></td>
+                      <td align="center">{{jobOrder.jobName}}</td>
+                      <td align="center">{{jobOrder.jobAddress}}</td>
+                      <td align="center"> {{jobOrder.contractorName}} </td>
+                      <td align="center"> {{jobOrder.salesPersonName}} </td>
+                      <td align="center"> {{jobOrder.createdByUserCode}} </td>
+                      <td align="center"> {{jobOrder.billingAmount}} </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </form>
