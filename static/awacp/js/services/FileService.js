@@ -70,8 +70,7 @@
 								if(!file){
 									return;
 								}
-								
-								if (file) {
+								if(file){
 									var fileData = new FormData();
 									fileData.append('attachment', file);
 									AjaxUtil.uploadData("/awacp/uploadFile", fileData)
@@ -112,7 +111,9 @@
 									alert("ERROR: "+ JSON.stringify(jqXHR, null, 4));
 								});
 							}; //fileDownload :end
-							$scope.listDocuments($scope.source, $scope.sourceId);
+							if($rootScope.fileViewSource === 'templates/file-listing.html'){
+								$scope.listDocuments($scope.source, $scope.sourceId);
+							}							
 						}
 					});
 					return defer.promise;

@@ -24,6 +24,42 @@
 			});
 		}
 		
+		splInvVm.documents = [];
+		
+		splInvVm.listDocuments = function (source, sourceId){
+			splInvVm.documents = [];
+			AjaxUtil.getData("/awacp/listFilesBySource/"+ source + "/"+sourceId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.file && data.file.length > 0){										
+					$.each(data.file, function(k, v){
+						splInvVm.documents.push(v);
+					});
+				}
+				$scope.$digest();
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UploadService::listDocuments::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		};
+		
+		splInvVm.toggleImageContainer = function(invId){
+			splInvVm.listDocuments("inv_aw_image_doc", invId);
+			for(var i = 0; i < splInvVm.awInventories.length; i++){
+				if(splInvVm.awInventories[i].id == invId){
+					splInvVm.awInventories[i].openImageContainer = !splInvVm.awInventories[i].openImageContainer;
+				}else{
+					splInvVm.awInventories[i].openImageContainer = false;
+				}
+			}
+		}
+		
+		splInvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+			title = "AW Inventory Item Image Upload";
+			$rootScope.fileViewSource = "templates/file-upload.html";
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+		}
+		
 		splInvVm.getPageSize = function(){
 			AjaxUtil.getPageSize("SPL_INV", function(status, size){
 				if("success" === status){

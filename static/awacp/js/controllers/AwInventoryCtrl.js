@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('AwInventoryCtrl', AwInventoryCtrl);
-	AwInventoryCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
-	function AwInventoryCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
+	AwInventoryCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService', 'FileService'];
+	function AwInventoryCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService, FileService){
 		var awInvVm = this;
 		awInvVm.action = "Add";
 	    
@@ -15,6 +15,43 @@
 		awInvVm.pageNumber = 1;
 		awInvVm.pageSize = 20;
 		awInvVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		
+		awInvVm.documents = [];
+		
+		awInvVm.listDocuments = function (source, sourceId){
+			awInvVm.documents = [];
+			AjaxUtil.getData("/awacp/listFilesBySource/"+ source + "/"+sourceId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.file && data.file.length > 0){										
+					$.each(data.file, function(k, v){
+						awInvVm.documents.push(v);
+					});
+				}
+				$scope.$digest();
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UploadService::listDocuments::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		};
+		
+		awInvVm.toggleImageContainer = function(invId){
+			awInvVm.listDocuments("inv_aw_image_doc", invId);
+			for(var i = 0; i < awInvVm.awInventories.length; i++){
+				if(awInvVm.awInventories[i].id == invId){
+					awInvVm.awInventories[i].openImageContainer = !awInvVm.awInventories[i].openImageContainer;
+				}else{
+					awInvVm.awInventories[i].openImageContainer = false;
+				}
+			}
+		}
+		
+		awInvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+			title = "AW Inventory Item Image Upload";
+			$rootScope.fileViewSource = "templates/file-upload.html";
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+		}
+		
 		awInvVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("AW_INV", size, function(status, size){
 				if("success" === status){
@@ -133,9 +170,11 @@
 					var tmp = [];
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
+							v.openImageContainer = false;
 							tmp.push(v);
 						});					
 					} else {
+						data.stsResponse.results.openImageContainer = false;
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
