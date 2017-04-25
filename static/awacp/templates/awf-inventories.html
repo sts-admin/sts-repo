@@ -29,34 +29,38 @@
 						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
 						  <thead>
 							<tr style="background:#f5e6ff;">
-                      <td class="center">&nbsp;</td>
-                      <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      
-                    </tr>
+							  <td class="center">&nbsp;</td>
+							  <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  
+							</tr>
                     
 							<tr style="background:#f5e6ff; color:#000;">
 							  <td style="padding:5px;" align="center">SR. No.</td>
 							  <td style="padding:5px;" align="center">Item Description</td>
-							  <td style="padding:5px;" align="center">Quantity</td>
+							  <td style="padding:5px;" align="center">Quantity in Stock</td>
 							  <td style="padding:5px;" align="center">Re-order Quantity</td>
                               <td style="padding:5px;" align="center">Size</td>
                               <td style="padding:5px;" align="center">Unit Price</td>
-                              <td style="padding:5px;" align="center">Billable Price</td>
+                              <td style="padding:5px;" align="center">Billable Cost</td>
+							  <td style="padding:5px;" align="center">Net Price</td>
+							  <td style="padding:5px;" align="center">Minimum Stock Level</td>
+							  <td style="padding:5px;" align="center">Order Number With Qty</td>
 							  <td style="padding:5px;" align="center">UC</td>
 							  <td style="padding:5px;" align="center">UC2</td>
+							  <td style="padding:5px;" align="center">Image</td>
 							  <td style="padding:5px;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
-						  <tbody>
-							<tr height="25" ng-repeat="awfInv in awfInvVm.awfInventories track by $index">
+						  <tbody ng-repeat="awfInv in awfInvVm.awfInventories track by $index">
+							<tr height="25">
 							  <td align="center">{{$index + 1}}</td>
 							  <td align="center">{{awfInv.item}} <br /></td>
                               <td align="center">{{awfInv.quantity}}</td>
@@ -64,8 +68,19 @@
 							  <td align="center">{{awfInv.size}}</td>
 							  <td align="center">{{awfInv.unitPrice}}</td>
 							  <td align="center">{{awfInv.billableCost}}</td>
+							  <td align="center">{{awfInv.quantity * awfInv.unitPrice}}</td>
+							  <td align="center">{{awfInv.minStockLevel}}</td>
+							  <td align="center">{{awfInv.orderNumberWithQty}}</td>
 							  <td align="center">{{awfInv.createdByUserCode}}</td>
 							  <td align="center">{{awfInv.updatedByUserCode}}</td>
+							  <td align="center">
+								<a href ng-click="awfInvVm.showFileListingView('inv_awf_image_doc', awfInv.id, 'AWF Inventory Images', 'large', '.png');">
+									<span class="badge">{{awfInv.imageCount}}</span>
+									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
+								</a>
+								<br>
+								<img style ="cursor:pointer;" src="images/inv_image.png" alt="image" border="0" ng-click="awfInvVm.toggleImageContainer(awfInv.id);" />
+							  </td>
 							  <td align="center">&nbsp; 
 								<a href ui-sref="awf-edit({id:awfInv.id})"> 
 									<img src="images/file_edit.png" title="edit awfInv" border="0">
@@ -75,11 +90,15 @@
 									
 								</a>
 							  </td>
-							</tr>							
-						</table>
-						</td>
-						</tr>
-						</tbody>
+							</tr>
+							<tr ng-show="awfInv.openImageContainer">
+								<td colspan="14">
+									<div ng-repeat="image in awfInvVm.documents" style="display:table-cell;max-width:150px;padding: 5px 5px 5px 5px;">
+										<img  ng-src="{{resourceReadPath}}{{image.createdName}}{{image.extension}}" />
+									</div>
+								</td>
+							</tr>
+							</tbody>							
 						</table>
 						</div>
 					  </div>

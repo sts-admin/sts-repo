@@ -28,18 +28,18 @@
 						<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
 						  <thead>
 							<tr style="background:#1e7d44;">
-                      <td class="center">&nbsp;</td>
-                      <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
-                      <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td class="center">&nbsp;</td>
+							  <td class="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
+							  <td align="center"><input type="text" class="searchtxt form-control-2 form-control" name="takeoff_quoteid" value=""></td>
                       
-                    </tr>
+							</tr>
                     
 							<tr style="background:#1e7d44; color:#fff;">
 							  <td style="padding:5px;" align="center">SR. No.</td>
@@ -78,7 +78,7 @@
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
 								</a>
 								<br>
-								<img src="images/inv_image.png" alt="image" border="0" ng-click="awInvVm.toggleImageContainer(awInv.id);" />
+								<img style ="cursor:pointer;" src="images/inv_image.png" alt="image" border="0" ng-click="awInvVm.toggleImageContainer(awInv.id);" />
 							  </td>
 							  <td align="center">&nbsp; 
 								<a href ui-sref="aw-edit({id:awInv.id})"> 
@@ -90,19 +90,15 @@
 								</a>
 							  </td>
 							</tr>	
-							<tr ng-show="awInv.openImageContainer" height="25">
+							<tr ng-show="awInv.openImageContainer">
 								<td colspan="14">
-									<div ng-repeat="image in awInvVm.documents">
-										<img ng-src="{{resourceReadPath}}{{image.createdName}}{{image.extension}}" />
+									<div ng-repeat="image in awInvVm.documents" style="display:table-cell;max-width:150px;padding: 5px 5px 5px 5px;">
+										<img  ng-src="{{resourceReadPath}}{{image.createdName}}{{image.extension}}" />
 									</div>
-								</div>
+								</td>
 							</tr>
+							</tbody>
 						</table>
-						</td>
-						</tr>
-						</tbody>
-						</table>
-						</div>
 					  </div>
 					</form>
 				  </div>

@@ -43,20 +43,24 @@
                     </tr>
                     
 							<tr style="background:#ff8d40; color:#000;">
-							  <td style="padding:5px;" align="center">SR. No.</td>
+							 <td style="padding:5px;" align="center">SR. No.</td>
 							  <td style="padding:5px;" align="center">Item Description</td>
-							  <td style="padding:5px;" align="center">Quantity</td>
+							  <td style="padding:5px;" align="center">Quantity in Stock</td>
 							  <td style="padding:5px;" align="center">Re-order Quantity</td>
                               <td style="padding:5px;" align="center">Size</td>
                               <td style="padding:5px;" align="center">Unit Price</td>
-                              <td style="padding:5px;" align="center">Billable Price</td>
+                              <td style="padding:5px;" align="center">Billable Cost</td>
+							  <td style="padding:5px;" align="center">Net Price</td>
+							  <td style="padding:5px;" align="center">Minimum Stock Level</td>
+							  <td style="padding:5px;" align="center">Order Number With Qty</td>
 							  <td style="padding:5px;" align="center">UC</td>
 							  <td style="padding:5px;" align="center">UC2</td>
+							  <td style="padding:5px;" align="center">Image</td>
 							  <td style="padding:5px;" filter="false" align="center">Actions</td>
 							</tr>
 						  </thead>
-						  <tbody>
-							<tr height="25" ng-repeat="sbcInv in sbcInvVm.sbcInventories track by $index">
+						  <tbody ng-repeat="sbcInv in sbcInvVm.sbcInventories track by $index">
+							<tr height="25" >
 							  <td align="center">{{$index + 1}}</td>
 							  <td align="center">{{sbcInv.item}} <br /></td>
                               <td align="center">{{sbcInv.quantity}}</td>
@@ -64,8 +68,19 @@
 							  <td align="center">{{sbcInv.size}}</td>
 							  <td align="center">{{sbcInv.unitPrice}}</td>
 							  <td align="center">{{sbcInv.billableCost}}</td>
+							  <td align="center">{{sbcInv.quantity * sbcInv.unitPrice}}</td>
+							  <td align="center">{{sbcInv.minStockLevel}}</td>
+							  <td align="center">{{sbcInv.orderNumberWithQty}}</td>
 							  <td align="center">{{sbcInv.createdByUserCode}}</td>
 							  <td align="center">{{sbcInv.updatedByUserCode}}</td>
+							  <td align="center">
+								<a href ng-click="sbcInvVm.showFileListingView('inv_sbc_image_doc', sbcInv.id, 'SBC Inventory Images', 'large', '.png');">
+									<span class="badge">{{sbcInv.imageCount}}</span>
+									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
+								</a>
+								<br>
+								<img style ="cursor:pointer;" src="images/inv_image.png" alt="image" border="0" ng-click="sbcInvVm.toggleImageContainer(sbcInv.id);" />
+							  </td>
 							  <td align="center">&nbsp; 
 								<a href ui-sref="sbc-edit({id:sbcInv.id})"> 
 									<img src="images/file_edit.png" title="edit sbcInv" border="0">
@@ -75,6 +90,13 @@
 									
 								</a>
 							  </td>
+							</tr>	
+							<tr ng-show="sbcInv.openImageContainer">
+								<td colspan="14">
+									<div ng-repeat="image in sbcInvVm.documents" style="display:table-cell;max-width:150px;padding: 5px 5px 5px 5px;">
+										<img  ng-src="{{resourceReadPath}}{{image.createdName}}{{image.extension}}" />
+									</div>
+								</td>
 							</tr>							
 						</table>
 						</td>

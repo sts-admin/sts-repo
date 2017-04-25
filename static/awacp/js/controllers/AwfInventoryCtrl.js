@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('AwfInventoryCtrl', AwfInventoryCtrl);
-	AwfInventoryCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
-	function AwfInventoryCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
+	AwfInventoryCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService', 'FileService'];
+	function AwfInventoryCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService, FileService){
 		var awfInvVm = this;
 		awfInvVm.action = "Add";
 	    
@@ -15,6 +15,42 @@
 		awfInvVm.pageNumber = 1;
 		awfInvVm.pageSize = 20;
 		awfInvVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		
+		awfInvVm.documents = [];
+		
+		awfInvVm.listDocuments = function (source, sourceId){
+			awfInvVm.documents = [];
+			AjaxUtil.getData("/awacp/listFilesBySource/"+ source + "/"+sourceId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.file && data.file.length > 0){										
+					$.each(data.file, function(k, v){
+						awfInvVm.documents.push(v);
+					});
+				}
+				$scope.$digest();
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "UploadService::listDocuments::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		};
+		
+		awfInvVm.toggleImageContainer = function(invId){
+			awfInvVm.listDocuments("inv_awf_image_doc", invId);
+			for(var i = 0; i < awfInvVm.awfInventories.length; i++){
+				if(awfInvVm.awfInventories[i].id == invId){
+					awfInvVm.awfInventories[i].openImageContainer = !awfInvVm.awfInventories[i].openImageContainer;
+				}else{
+					awfInvVm.awfInventories[i].openImageContainer = false;
+				}
+			}
+		}
+		
+		awfInvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+			$rootScope.fileViewSource = "templates/file-upload.html";
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+		}
+		
 		awfInvVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("AWF_INV", size, function(status, size){
 				if("success" === status){
@@ -133,9 +169,11 @@
 					var tmp = [];
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
+							v.openImageContainer = false;
 							tmp.push(v);
 						});					
 					} else {
+						data.stsResponse.results.openImageContainer = false;
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){

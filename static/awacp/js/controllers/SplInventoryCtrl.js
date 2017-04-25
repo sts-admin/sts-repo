@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('SplInventoryCtrl', SplInventoryCtrl);
-	SplInventoryCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
-	function SplInventoryCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
+	SplInventoryCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService', 'FileService'];
+	function SplInventoryCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService, FileService){
 		var splInvVm = this;
 		splInvVm.action = "Add";
 	    
@@ -44,18 +44,17 @@
 		};
 		
 		splInvVm.toggleImageContainer = function(invId){
-			splInvVm.listDocuments("inv_aw_image_doc", invId);
-			for(var i = 0; i < splInvVm.awInventories.length; i++){
-				if(splInvVm.awInventories[i].id == invId){
-					splInvVm.awInventories[i].openImageContainer = !splInvVm.awInventories[i].openImageContainer;
+			splInvVm.listDocuments("inv_spl_image_doc", invId);
+			for(var i = 0; i < splInvVm.splInventories.length; i++){
+				if(splInvVm.splInventories[i].id == invId){
+					splInvVm.splInventories[i].openImageContainer = !splInvVm.splInventories[i].openImageContainer;
 				}else{
-					splInvVm.awInventories[i].openImageContainer = false;
+					splInvVm.splInventories[i].openImageContainer = false;
 				}
 			}
 		}
 		
 		splInvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
-			title = "AW Inventory Item Image Upload";
 			$rootScope.fileViewSource = "templates/file-upload.html";
 			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
 		}
@@ -169,9 +168,11 @@
 					var tmp = [];
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
+							v.openImageContainer = false;
 							tmp.push(v);
 						});					
 					} else {
+						data.stsResponse.results.openImageContainer = false;
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
