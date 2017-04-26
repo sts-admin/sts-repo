@@ -2,8 +2,12 @@ package com.awacp.entity;
 
 import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -14,10 +18,12 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
+@NamedQueries({
+		@NamedQuery(name = "JobOrder.getByOrderId", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.orderNumber) = :orderNumber") })
 public class JobOrder extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-	private String orderId;
+	private String orderNumber;
 	private String poName;
 	private String jobName;
 	private Long salesPersonId;
@@ -32,10 +38,12 @@ public class JobOrder extends BaseEntity {
 	private Calendar dateEntered;
 	private String quoteId;
 	private Long takeoffId;
-	
+	private Long invoiceId;
+
 	private String contractorName;
 	private String engineerName;
 	private String architectureName;
+	private boolean billGenerated;
 
 	// Transient
 	private String salesPersonName;
@@ -45,16 +53,20 @@ public class JobOrder extends BaseEntity {
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
+	private String[] jobOrderBookNumbers;
+
 	public JobOrder() {
 		super();
 	}
 
-	public String getOrderId() {
-		return orderId;
+	@NotNull
+	@Column(length = 25)
+	public String getOrderNumber() {
+		return orderNumber;
 	}
 
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	public String getPoName() {
@@ -224,6 +236,31 @@ public class JobOrder extends BaseEntity {
 
 	public void setTakeoffId(Long takeoffId) {
 		this.takeoffId = takeoffId;
+	}
+
+	public Long getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(Long invoiceId) {
+		this.invoiceId = invoiceId;
+	}
+
+	@Transient
+	public String[] getJobOrderBookNumbers() {
+		return jobOrderBookNumbers;
+	}
+
+	public void setJobOrderBookNumbers(String[] jobOrderBookNumbers) {
+		this.jobOrderBookNumbers = jobOrderBookNumbers;
+	}
+
+	public boolean isBillGenerated() {
+		return billGenerated;
+	}
+
+	public void setBillGenerated(boolean billGenerated) {
+		this.billGenerated = billGenerated;
 	}
 
 }

@@ -27,13 +27,11 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 
-@NamedQueries({ 
-		@NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'"),
+@NamedQueries({ @NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false'"),
 		@NamedQuery(name = "Takeoff.countAll", query = "SELECT COUNT(t.id) FROM Takeoff t WHERE t.archived = 'false'"),
 		@NamedQuery(name = "Takeoff.listNewTakeoffsForQuote", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND FUNC('ISNULL', t.quoteId)"),
 		@NamedQuery(name = "Takeoff.listTakeoffsForView", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND NOT FUNC('ISNULL', t.quoteId)"),
-		@NamedQuery(name = "Takeoff.getTakeoffByQuoteId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.quoteId =:quoteId")
-})
+		@NamedQuery(name = "Takeoff.getTakeoffByQuoteId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.quoteId =:quoteId") })
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -43,7 +41,8 @@ public class Takeoff extends BaseEntity {
 	private Calendar quoteDate;
 	private String quoteUserCode;
 	private String quoteComment;
-	private String jobId;
+	private Long jobOrderId;
+	private String jobOrderNumber;
 
 	private Long salesPerson; // User id //required
 	private String userCode;
@@ -94,6 +93,10 @@ public class Takeoff extends BaseEntity {
 	private int drawingDocCount;
 	private int takeoffDocCount;
 	private int vibroDocCount;
+	private int quoteDocCount;
+	private int quotePdfDocCount;
+	private int quoteXlsDocCount;
+	private int quoteVibroDocCount;
 
 	public Takeoff() {
 		super();
@@ -211,7 +214,7 @@ public class Takeoff extends BaseEntity {
 
 	@XmlElement(name = "bidders")
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "TAKEOFF_BIDDER", joinColumns = @JoinColumn(name = "TAKEOFF") , inverseJoinColumns = @JoinColumn(name = "BIDDER") )
+	@JoinTable(name = "TAKEOFF_BIDDER", joinColumns = @JoinColumn(name = "TAKEOFF"), inverseJoinColumns = @JoinColumn(name = "BIDDER"))
 	public Set<Bidder> getBidders() {
 		return bidders;
 	}
@@ -234,7 +237,7 @@ public class Takeoff extends BaseEntity {
 
 	@XmlElement(name = "generalContractors")
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "TAKEOFF_GC", joinColumns = @JoinColumn(name = "TAKEOFF") , inverseJoinColumns = @JoinColumn(name = "GC") )
+	@JoinTable(name = "TAKEOFF_GC", joinColumns = @JoinColumn(name = "TAKEOFF"), inverseJoinColumns = @JoinColumn(name = "GC"))
 	public Set<GeneralContractor> getGeneralContractors() {
 		return generalContractors;
 	}
@@ -311,14 +314,6 @@ public class Takeoff extends BaseEntity {
 
 	public void setQuoteId(String quoteId) {
 		this.quoteId = quoteId;
-	}
-
-	public String getJobId() {
-		return jobId;
-	}
-
-	public void setJobId(String jobId) {
-		this.jobId = jobId;
 	}
 
 	@Transient
@@ -487,6 +482,58 @@ public class Takeoff extends BaseEntity {
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+
+	public Long getJobOrderId() {
+		return jobOrderId;
+	}
+
+	public void setJobOrderId(Long jobOrderId) {
+		this.jobOrderId = jobOrderId;
+	}
+
+	public String getJobOrderNumber() {
+		return jobOrderNumber;
+	}
+
+	public void setJobOrderNumber(String jobOrderNumber) {
+		this.jobOrderNumber = jobOrderNumber;
+	}
+
+	@Transient
+	public int getQuoteDocCount() {
+		return quoteDocCount;
+	}
+
+	public void setQuoteDocCount(int quoteDocCount) {
+		this.quoteDocCount = quoteDocCount;
+	}
+
+	@Transient
+	public int getQuotePdfDocCount() {
+		return quotePdfDocCount;
+	}
+
+	public void setQuotePdfDocCount(int quotePdfDocCount) {
+		this.quotePdfDocCount = quotePdfDocCount;
+	}
+
+	@Transient
+	public int getQuoteXlsDocCount() {
+		return quoteXlsDocCount;
+	}
+
+	public void setQuoteXlsDocCount(int quoteXlsDocCount) {
+		this.quoteXlsDocCount = quoteXlsDocCount;
+	}
+
+	@Transient
+	public int getQuoteVibroDocCount() {
+		return quoteVibroDocCount;
+	}
+
+	public void setQuoteVibroDocCount(int quoteVibroDocCount) {
+		this.quoteVibroDocCount = quoteVibroDocCount;
 	}
 
 }

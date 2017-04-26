@@ -14,7 +14,9 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.awacp.entity.Invoice;
 import com.awacp.entity.JobOrder;
+import com.awacp.service.InvoiceService;
 import com.awacp.service.JobService;
 import com.sts.core.constant.StsErrorCode;
 import com.sts.core.dto.StsResponse;
@@ -25,6 +27,47 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	JobService jobService;
+	
+	@Autowired
+	InvoiceService invoiceService;
+	
+	@GET
+	@Path("/getInvoiceByJobOrderId/{jobOrderId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Invoice getInvoiceByJobOrderId(@PathParam("jobOrderId") Long jobOrderId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.invoiceService.getInvoiceByJobOrder(jobOrderId);
+	}
+
+	@GET
+	@Path("/getInvoice/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Invoice getInvoice(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.invoiceService.getInvoice(id);
+	}
+	
+	@POST
+	@Path("/saveInvoice")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Invoice saveInvoice(Invoice invoice, @Context HttpServletResponse servletResponse) throws Exception {
+		return this.invoiceService.saveInvoice(invoice);
+	}
+	
+	@GET
+	@Path("/deleteInvoice/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteInvoice(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = this.invoiceService.delete(id);
+		if ("fail".equalsIgnoreCase(result)) {
+			servletResponse.sendError(666666, "delete_error");
+		}
+		return "{\"result\":\"" + result + "\"}";
+	}
+	
+	
 
 	@GET
 	@Path("/listJobOrders/{pageNumber}/{pageSize}")
@@ -52,6 +95,14 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
+	@Path("/getJobOrderByOrderNumber/{orderNumber}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public JobOrder getJobOrderByOrderId(@PathParam("orderNumber") String orderNumber,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.jobService.getJobOrderByOrderId(orderNumber);
+	}
+
+	@GET
 	@Path("/getJobOrder/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JobOrder getJobOrder(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
@@ -63,8 +114,8 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 	@Path("/saveJobOrder")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public JobOrder saveJobOrder(JobOrder JobOrder, @Context HttpServletResponse servletResponse) throws Exception {
-		return this.jobService.saveJobOrder(JobOrder);
+	public JobOrder saveJobOrder(JobOrder jobOrder, @Context HttpServletResponse servletResponse) throws Exception {
+		return this.jobService.saveJobOrder(jobOrder);
 	}
 
 	@POST
@@ -89,6 +140,10 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 
 	public void setJobService(JobService jobService) {
 		this.jobService = jobService;
+	}
+	
+	public void setInvoiceService(InvoiceService invoiceService) {
+		this.invoiceService = invoiceService;
 	}
 
 }

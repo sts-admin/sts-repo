@@ -102,7 +102,7 @@ public class Worksheet extends BaseEntity {
 	}
 
 	@XmlElement(name = "manufacturerItems")
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "WS_MND", joinColumns = @JoinColumn(name = "WS") , inverseJoinColumns = @JoinColumn(name = "MND") )
 	public Set<WsManufacturerInfo> getManufacturerItems() {
 		return manufacturerItems;

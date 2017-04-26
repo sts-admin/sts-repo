@@ -1,6 +1,8 @@
 package com.awacp.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -14,27 +16,17 @@ import com.sts.core.entity.BaseEntity;
 public class ProfitSheetItem extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-	private Long invoiceId;
 	private String awacpPoNumber;
 	private String orbf;
 	private String facInv;
 	private Double invAmount;
 	private Double freight;
+	private String comment;
 
-	private Double totalCost;
-	private Double totalProfit;
-	private Double profitPercent;
+	private boolean manual;
 
 	public ProfitSheetItem() {
 		super();
-	}
-
-	public Long getInvoiceId() {
-		return invoiceId;
-	}
-
-	public void setInvoiceId(Long invoiceId) {
-		this.invoiceId = invoiceId;
 	}
 
 	public String getAwacpPoNumber() {
@@ -77,28 +69,22 @@ public class ProfitSheetItem extends BaseEntity {
 		this.freight = freight;
 	}
 
-	public Double getTotalCost() {
-		return totalCost;
+	@Lob
+	@Column(length = 1024)
+	public String getComment() {
+		return comment;
 	}
 
-	public void setTotalCost(Double totalCost) {
-		this.totalCost = totalCost;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
-	public Double getTotalProfit() {
-		return totalProfit;
+	public boolean isManual() {
+		return manual;
 	}
 
-	public void setTotalProfit(Double totalProfit) {
-		this.totalProfit = totalProfit;
-	}
-
-	public Double getProfitPercent() {
-		return profitPercent;
-	}
-
-	public void setProfitPercent(Double profitPercent) {
-		this.profitPercent = profitPercent;
+	public void setManual(boolean manual) {
+		this.manual = manual;
 	}
 
 }

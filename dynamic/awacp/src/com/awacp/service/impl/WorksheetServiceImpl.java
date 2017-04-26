@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awacp.entity.Takeoff;
 import com.awacp.entity.Worksheet;
 import com.awacp.entity.WsManufacturerInfo;
+import com.awacp.entity.WsProductInfo;
 import com.awacp.service.MailService;
 import com.awacp.service.TakeoffService;
 import com.awacp.service.WorksheetService;
@@ -50,8 +51,10 @@ public class WorksheetServiceImpl implements WorksheetService {
 		if (worksheet.getNotes() == null || worksheet.getNotes().isEmpty()) {
 			eWorksheet.getNotes().clear();
 		}
-		if (worksheet.getManufacturerItems() == null || worksheet.getManufacturerItems().isEmpty()) {
+		if (worksheet.getManufacturerItems() != null && worksheet.getManufacturerItems().isEmpty()) {
 			eWorksheet.getManufacturerItems().clear();
+		}else{
+			eWorksheet.setManufacturerItems(worksheet.getManufacturerItems());
 		}
 		getEntityManager().merge(eWorksheet);
 		takeoffService.updateWorksheetInfo(worksheet.getTakeoffId(), worksheet.getId(), worksheet.getGrandTotal());
@@ -69,7 +72,12 @@ public class WorksheetServiceImpl implements WorksheetService {
 		if (worksheet.getId() != null && worksheet.getId() > 0) {
 			return updateWorksheet(worksheet);
 		}
-		
+		for(WsManufacturerInfo wsMInfo: worksheet.getManufacturerItems()){
+			System.err.println("Manufacturer ID: "+ wsMInfo.getManufacturer().getId());
+			for(WsProductInfo wsProdInfo: wsMInfo.getProductItems()){
+				System.err.println("Product in manufacturer block with  ID "+wsMInfo.getManufacturer().getId() + " is "+ wsProdInfo.getProduct().getId());
+			}
+		}
 		getEntityManager().persist(worksheet);
 		getEntityManager().flush();
 		takeoffService.updateWorksheetInfo(worksheet.getTakeoffId(), worksheet.getId(), worksheet.getGrandTotal());

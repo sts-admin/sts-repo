@@ -1,6 +1,7 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -27,6 +28,7 @@ import com.awacp.service.JInventoryService;
 import com.awacp.service.SbcInventoryService;
 import com.awacp.service.SplInventoryService;
 import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.dto.InventoryDTO;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
@@ -50,6 +52,50 @@ public class InventoryServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	InvMultiplierService invMultiplierService;
+
+	@GET
+	@Path("/getCurrentAvailableQty/{inventoryName}/{lineItemId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getCurrentAvailableQty(@PathParam("inventoryName") String inventoryName,
+			@PathParam("lineItemId") Long lineItemId, @Context HttpServletResponse servletResponse) throws IOException {
+		inventoryName = inventoryName.trim();
+		int qty = -1;
+		if (inventoryName.equalsIgnoreCase("j")) {
+			qty = jInventoryService.getJInventory(lineItemId).getQuantity().intValue();
+		} else if (inventoryName.equalsIgnoreCase("aw")) {
+			qty = awInventoryService.getAwInventory(lineItemId).getQuantity().intValue();
+		} else if (inventoryName.equalsIgnoreCase("spl")) {
+			qty = splInventoryService.getSplInventory(lineItemId).getQuantity().intValue();
+		} else if (inventoryName.equalsIgnoreCase("sbc")) {
+			qty = sbcInventoryService.getSbcInventory(lineItemId).getQuantity().intValue();
+		} else if (inventoryName.equalsIgnoreCase("q")) {
+		}
+		return "{\"quantity\":\"" + qty + "\"}";
+	}
+
+	@GET
+	@Path("/listInventoryItems/{source}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<InventoryDTO> listInventoryItems(@PathParam("source") String source,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		source = source.trim();
+		if (source.equalsIgnoreCase("j")) {
+			return this.jInventoryService.listInvItems();
+		}
+		if (source.equalsIgnoreCase("aw")) {
+			return this.awInventoryService.listInvItems();
+		}
+		if (source.equalsIgnoreCase("awf")) {
+			return this.awfInventoryService.listInvItems();
+		}
+		if (source.equalsIgnoreCase("sbc")) {
+			return this.sbcInventoryService.listInvItems();
+		}
+		if (source.equalsIgnoreCase("spl")) {
+			return this.splInventoryService.listInvItems();
+		}
+		return null;
+	}
 
 	@GET
 	@Path("/listAwfInventories/{pageNumber}/{pageSize}")

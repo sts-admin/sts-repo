@@ -1,17 +1,26 @@
 package com.awacp.service.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.JInventory;
 import com.awacp.service.JInventoryService;
+import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.dto.InventoryDTO;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.service.FileService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class JInventoryServiceImpl extends CommonServiceImpl<JInventory>implements JInventoryService {
+public class JInventoryServiceImpl extends CommonServiceImpl<JInventory> implements JInventoryService {
 	private EntityManager entityManager;
+
+	@Autowired
+	private FileService fileService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -24,9 +33,26 @@ public class JInventoryServiceImpl extends CommonServiceImpl<JInventory>implemen
 
 	@Override
 	public StsResponse<JInventory> listJInventories(int pageNumber, int pageSize) {
-		StsResponse<JInventory> results = listAll(pageNumber, pageSize, JInventory.class.getSimpleName(), getEntityManager());
+		StsResponse<JInventory> results = listAll(pageNumber, pageSize, JInventory.class.getSimpleName(),
+				getEntityManager());
+		initWithDetail(results.getResults());
 
 		return results;
+	}
+
+	private void initWithDetail(List<JInventory> inventories) {
+		if (inventories == null || inventories.isEmpty()) {
+			return;
+		}
+		for (JInventory awInventory : inventories) {
+			enrichInventory(awInventory);
+		}
+	}
+
+	private JInventory enrichInventory(JInventory inv) {
+		inv.setImageCount(fileService.getFileCount(StsCoreConstant.INV_J_IMAGE_DOC, inv.getId()));
+
+		return inv;
 	}
 
 	@Override
@@ -36,7 +62,7 @@ public class JInventoryServiceImpl extends CommonServiceImpl<JInventory>implemen
 
 	@Override
 	@Transactional
-	public JInventory saveJInventory(JInventory JInventory)  {
+	public JInventory saveJInventory(JInventory JInventory) {
 		getEntityManager().persist(JInventory);
 		getEntityManager().flush();
 		return JInventory;
@@ -44,7 +70,7 @@ public class JInventoryServiceImpl extends CommonServiceImpl<JInventory>implemen
 
 	@Override
 	@Transactional
-	public JInventory updateJInventory(JInventory JInventory)  {
+	public JInventory updateJInventory(JInventory JInventory) {
 		getEntityManager().merge(JInventory);
 		getEntityManager().flush();
 		return JInventory;
@@ -61,5 +87,15 @@ public class JInventoryServiceImpl extends CommonServiceImpl<JInventory>implemen
 			return "success";
 		}
 		return "fail";
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<InventoryDTO> listInvItems() {
+		StringBuffer sb = new StringBuffer(
+				"SELECT NEW com.sts.core.dto.InventoryDTO(entity.id, entity.item, entity.quantity, entity.size) FROM ")
+						.append(JInventory.class.getSimpleName()).append(" entity WHERE entity.archived = 'false'");
+
+		return getEntityManager().createQuery(sb.toString()).getResultList();
 	}
 }

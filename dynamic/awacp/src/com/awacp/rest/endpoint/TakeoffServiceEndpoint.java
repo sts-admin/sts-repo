@@ -57,11 +57,11 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/listTakeoffsForView/{pageNumber}/{pageSize}")
+	@Path("/listTakeoffsForView/{pageNumber}/{pageSize}/{quoteView}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<Takeoff> listTakeoffsForView(@PathParam("pageNumber") int pageNumber,
-			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.takeoffService.listTakeoffsForView(pageNumber, pageSize);
+			@PathParam("pageSize") int pageSize, @PathParam("quoteView") boolean quoteView, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.takeoffService.listTakeoffsForView(pageNumber, pageSize, quoteView);
 	}
 
 	@GET

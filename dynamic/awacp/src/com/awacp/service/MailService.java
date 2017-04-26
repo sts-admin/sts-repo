@@ -5,8 +5,9 @@ import com.awacp.entity.Worksheet;
 public interface MailService {
 
 	public String sendNewTakeoffMail(Long takeoffId) throws Exception;
-	
-	public boolean sendQuoteMailToBidders(Worksheet worksheet, String fileName, String quotePdfFilePath) throws Exception;
+
+	public boolean sendQuoteMailToBidders(Worksheet worksheet, String fileName, String quotePdfFilePath)
+			throws Exception;
 
 	public boolean sendTakeoffMail();
 
@@ -18,15 +19,8 @@ public interface MailService {
 
 	public boolean sendEstimateReminderMail();
 
-	public boolean sendAwLowInventoryMail();
-
-	public boolean sendAwfLowInventoryMail();
-
-	public boolean sendSbcLowInventoryMail();
-
-	public boolean sendSplLowInventorySplMail();
-
-	public boolean sendJobLowInventoryMail();
+	public boolean sendLowInventoryMail(String toAddress, String inv, String owner, String userCode, int orderQty, int availQty, int reorderQty, String size,
+			String itemDesc, String orderNum) throws Exception;
 
 	public boolean sendOrderConfirmationMail();
 

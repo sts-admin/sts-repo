@@ -71,7 +71,7 @@ public class File extends BaseEntity {
 	}
 
 	@NotNull
-	@Column(nullable = false, length = 4)
+	@Column(nullable = false, length = 6)
 	public String getExtension() {
 		return extension;
 	}
@@ -100,7 +100,7 @@ public class File extends BaseEntity {
 	 * @return the contentType
 	 */
 	@NotNull
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 150)
 	public String getContentType() {
 		return contentType;
 	}

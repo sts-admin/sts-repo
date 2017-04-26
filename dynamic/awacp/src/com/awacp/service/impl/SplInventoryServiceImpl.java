@@ -1,17 +1,26 @@
 package com.awacp.service.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.SplInventory;
 import com.awacp.service.SplInventoryService;
+import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.dto.InventoryDTO;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.service.FileService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class SplInventoryServiceImpl extends CommonServiceImpl<SplInventory>implements SplInventoryService {
+public class SplInventoryServiceImpl extends CommonServiceImpl<SplInventory> implements SplInventoryService {
 	private EntityManager entityManager;
+
+	@Autowired
+	private FileService fileService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -24,9 +33,27 @@ public class SplInventoryServiceImpl extends CommonServiceImpl<SplInventory>impl
 
 	@Override
 	public StsResponse<SplInventory> listSplInventories(int pageNumber, int pageSize) {
-		StsResponse<SplInventory> results = listAll(pageNumber, pageSize, SplInventory.class.getSimpleName(), getEntityManager());
+		StsResponse<SplInventory> results = listAll(pageNumber, pageSize, SplInventory.class.getSimpleName(),
+				getEntityManager());
+
+		initWithDetail(results.getResults());
 
 		return results;
+	}
+
+	private void initWithDetail(List<SplInventory> inventories) {
+		if (inventories == null || inventories.isEmpty()) {
+			return;
+		}
+		for (SplInventory inventory : inventories) {
+			enrichInventory(inventory);
+		}
+	}
+
+	private SplInventory enrichInventory(SplInventory inv) {
+		inv.setImageCount(fileService.getFileCount(StsCoreConstant.INV_SPL_IMAGE_DOC, inv.getId()));
+
+		return inv;
 	}
 
 	@Override
@@ -36,7 +63,7 @@ public class SplInventoryServiceImpl extends CommonServiceImpl<SplInventory>impl
 
 	@Override
 	@Transactional
-	public SplInventory saveSplInventory(SplInventory SplInventory){
+	public SplInventory saveSplInventory(SplInventory SplInventory) {
 		getEntityManager().persist(SplInventory);
 		getEntityManager().flush();
 		return SplInventory;
@@ -61,5 +88,15 @@ public class SplInventoryServiceImpl extends CommonServiceImpl<SplInventory>impl
 			return "success";
 		}
 		return "fail";
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<InventoryDTO> listInvItems() {
+		StringBuffer sb = new StringBuffer(
+				"SELECT NEW com.sts.core.dto.InventoryDTO(entity.id, entity.item, entity.quantity, entity.size) FROM ")
+						.append(SplInventory.class.getSimpleName()).append(" entity WHERE entity.archived = 'false'");
+
+		return getEntityManager().createQuery(sb.toString()).getResultList();
 	}
 }

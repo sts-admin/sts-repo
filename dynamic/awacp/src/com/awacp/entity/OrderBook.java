@@ -1,10 +1,19 @@
 package com.awacp.entity;
 
 import java.util.Calendar;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -12,23 +21,25 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 @NamedQueries({
-
-})
+		@NamedQuery(name = "OrderBook.getByJobOrderId", query = "SELECT ob FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId"),
+		@NamedQuery(name = "OrderBook.getOrderBookNumbersByOrderId", query = "SELECT new com.awacp.entity.OrderBook(ob.orderBookNumber) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId") })
 public class OrderBook extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long jobId;
+	private Long jobId; // Job Order primary key
+	private String jobOrderNumber; // Unique job order number
+	private String orderBookNumber; // Unique order book number
+	private String obCategory;
 	private Long salesPersonId;
 
 	private String specialInstruction;
-	private Long factoryId;
+	private Long factoryId; // If regular factory
 	private String orbf;
 	private Calendar estDate;
 	private Long contractorId;
 	private Long shipToId;
-	
-	
+
 	private String attn;
 	private String jobName;
 	private String jobAddress;
@@ -39,16 +50,28 @@ public class OrderBook extends BaseEntity {
 
 	private String userNameOrEmail;
 
+	private Long takeoffId;
+	private String quoteId;
+
 	// Transient fields
 	private String contractorName;
 	private String shipToName;
-	private String factoryName;
+	private String factoryName; // None regular factory like AW, AWF, SBC, SPL,
+								// Q, J
 	private String salesPersonName;
+
+	private Set<OrderBookInvItem> invItems;
 
 	public OrderBook() {
 		super();
 	}
 
+	public OrderBook(String orderBookNumber) {
+		this.orderBookNumber = orderBookNumber;
+	}
+
+	@NotNull
+	@Column(nullable = false)
 	public Long getJobId() {
 		return jobId;
 	}
@@ -204,6 +227,63 @@ public class OrderBook extends BaseEntity {
 
 	public void setSalesPersonId(Long salesPersonId) {
 		this.salesPersonId = salesPersonId;
+	}
+
+	@XmlElement(name = "invItems")
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "OB_N_INV_ITEM", joinColumns = @JoinColumn(name = "OBID"), inverseJoinColumns = @JoinColumn(name = "INVITEMID"))
+	public Set<OrderBookInvItem> getInvItems() {
+		return invItems;
+	}
+
+	public void setInvItems(Set<OrderBookInvItem> invItems) {
+		this.invItems = invItems;
+	}
+
+	@NotNull
+	@Column(nullable = false, length = 25)
+	public String getJobOrderNumber() {
+		return jobOrderNumber;
+	}
+
+	public void setJobOrderNumber(String jobOrderNumber) {
+		this.jobOrderNumber = jobOrderNumber;
+	}
+
+	@NotNull
+	@Column(nullable = false, length = 10)
+	public String getObCategory() {
+		return obCategory;
+	}
+
+	public void setObCategory(String obCategory) {
+		this.obCategory = obCategory;
+	}
+
+	@NotNull
+	public Long getTakeoffId() {
+		return takeoffId;
+	}
+
+	public void setTakeoffId(Long takeoffId) {
+		this.takeoffId = takeoffId;
+	}
+
+	@NotNull
+	public String getQuoteId() {
+		return quoteId;
+	}
+
+	public void setQuoteId(String quoteId) {
+		this.quoteId = quoteId;
+	}
+
+	public String getOrderBookNumber() {
+		return orderBookNumber;
+	}
+
+	public void setOrderBookNumber(String orderBookNumber) {
+		this.orderBookNumber = orderBookNumber;
 	}
 
 }

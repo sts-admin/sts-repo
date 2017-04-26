@@ -36,7 +36,7 @@ import com.sts.core.service.FileService;
 import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements TakeoffService {
+public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements TakeoffService {
 
 	private EntityManager entityManager;
 
@@ -86,7 +86,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 			return null;
 
 		for (Takeoff takeoff : takeoffs) {
-			enrichTakeoff(takeoff);
+			enrichTakeoff(takeoff, false);
 		}
 		return takeoffs;
 	}
@@ -97,7 +97,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		if (takeoff != null && takeoff.getSpec() != null) {
 			takeoff.setSpecId(String.valueOf(takeoff.getSpec().getId()));
 		}
-		enrichTakeoff(takeoff);
+		enrichTakeoff(takeoff, false);
 		return takeoff;
 	}
 
@@ -255,22 +255,22 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		if (totalRecordsCount > 0) {
 			responses = new StsResponse<>();
 			responses.setTotalCount(totalRecordsCount);
-			responses.setResults(initWithDetailForNewQuote(takeoffs));
+			responses.setResults(initWithDetailForNewQuote(takeoffs, false));
 		}
 		return responses;
 	}
 
-	private List<Takeoff> initWithDetailForNewQuote(List<Takeoff> takeoffs) {
+	private List<Takeoff> initWithDetailForNewQuote(List<Takeoff> takeoffs, boolean viewQuote) {
 		if (takeoffs == null || takeoffs.isEmpty()) {
 			return null;
 		}
 		for (Takeoff takeoff : takeoffs) {
-			enrichTakeoff(takeoff);
+			enrichTakeoff(takeoff, viewQuote);
 		}
 		return takeoffs;
 	}
 
-	private Takeoff enrichTakeoff(Takeoff takeoff) {
+	private Takeoff enrichTakeoff(Takeoff takeoff, boolean viewQuote) {
 		User user = userService.findUser(takeoff.getSalesPerson());
 		if (user != null) {
 			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
@@ -287,17 +287,25 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 				takeoff.setArchitectureName(arc.getName());
 			}
 		}
-		takeoff.setDrawingDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_DRAWING, takeoff.getId()));
-		takeoff.setTakeoffDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF, takeoff.getId()));
-		takeoff.setVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_VIBRO, takeoff.getId()));
-		takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId()) ? "{'color':'green'}" : "{'color':'red'}");
-		takeoff.setStatusStyle(takeoff.isArchived() ? "{'background':'#FFCC33'}" : "");
+		if (viewQuote) {
+			takeoff.setQuoteDocCount(fileService.getFileCount(StsCoreConstant.DOC_QUOTE_DOC, takeoff.getId()));
+			takeoff.setQuotePdfDocCount(fileService.getFileCount(StsCoreConstant.DOC_QUOTE_PDF, takeoff.getId()));
+			takeoff.setQuoteVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_QUOTE_VIBRO, takeoff.getId()));
+			takeoff.setQuoteXlsDocCount(fileService.getFileCount(StsCoreConstant.DOC_QUOTE_XLS, takeoff.getId()));
+		} else {
+			takeoff.setDrawingDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_DRAWING, takeoff.getId()));
+			takeoff.setTakeoffDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF, takeoff.getId()));
+			takeoff.setVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_VIBRO, takeoff.getId()));
+			takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId()) ? "{'color':'green'}" : "{'color':'red'}");
+			takeoff.setStatusStyle(takeoff.isArchived() ? "{'background':'#FFCC33'}" : "");
+		}
+
 		return takeoff;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StsResponse<Takeoff> listTakeoffsForView(int pageNumber, int pageSize) {
+	public StsResponse<Takeoff> listTakeoffsForView(int pageNumber, int pageSize, boolean quoteView) {
 		int totalRecordsCount = getTotalRecords(
 				"SELECT COUNT(entity.id) FROM Takeoff entity WHERE entity.archived = 'false' AND NOT FUNC('ISNULL', entity.quoteId)",
 				getEntityManager());
@@ -310,7 +318,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 		if (totalRecordsCount > 0) {
 			responses = new StsResponse<>();
 			responses.setTotalCount(totalRecordsCount);
-			responses.setResults(initWithDetailForNewQuote(takeoffs));
+			responses.setResults(initWithDetailForNewQuote(takeoffs, quoteView));
 		}
 		return responses;
 
@@ -342,7 +350,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 	public Takeoff getTakeoffWithDetail(Long id) {
 		Takeoff takeoff = getTakeoff(id);
 		if (takeoff != null) {
-			enrichTakeoff(takeoff);
+			enrichTakeoff(takeoff, false);
 		}
 		return takeoff;
 	}
@@ -405,7 +413,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff>implements Tak
 	public Takeoff getTakeoffByQuoteId(String quoteId) {
 		List<Takeoff> takeoffs = getEntityManager().createNamedQuery("Takeoff.getTakeoffByQuoteId")
 				.setParameter("quoteId", quoteId).getResultList();
-		return takeoffs == null || takeoffs.isEmpty() ? null : enrichTakeoff(takeoffs.get(0));
+		return takeoffs == null || takeoffs.isEmpty() ? null : enrichTakeoff(takeoffs.get(0), false);
 	}
 
 }

@@ -31,7 +31,7 @@ public interface TakeoffService {
 
 	public StsResponse<Takeoff> listNewTakeoffsForQuote(int pageNumber, int pageSize);
 
-	public StsResponse<Takeoff> listTakeoffsForView(int pageNumber, int pageSize);
+	public StsResponse<Takeoff> listTakeoffsForView(int pageNumber, int pageSize, boolean quoteView);
 
 	public String delete(Long id);
 

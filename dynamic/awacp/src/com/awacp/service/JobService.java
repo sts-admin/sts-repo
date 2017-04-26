@@ -19,4 +19,6 @@ public interface JobService {
 
 	public JobOrder searchQuoteForJobOrder(String quoteId) throws StsResourceNotFoundException;
 
+	public JobOrder getJobOrderByOrderId(String orderId);
+
 }

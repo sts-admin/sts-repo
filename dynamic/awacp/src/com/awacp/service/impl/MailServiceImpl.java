@@ -98,7 +98,7 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 				takeoff.getSalesPersonName(), takeoff.getUserCode(), takeoff.getTakeoffId(), projectNo,
 				takeoff.getEngineerName(), takeoff.getArchitectureName(), takeoff.getJobName(), takeoff.getJobAddress(),
 				takeoff.getSpec().getDetail(), drawingDate, reviseDate, dueDate, drawingReceivedFrom,
-				biddersList.toString(), gcs, comment);
+				biddersList.toString(), gcs, comment, takeoff.getSalesPersonName());
 		boolean status = mailService.sendMail(toAddresses, AppPropConfig.emailNewTakeoff, "AWACP :: New Takeoff Detail",
 				content, "NEW_TAKEOFF", AppPropConfig.emailNewTakeoff, AppPropConfig.emailCommonPassword, null, null);
 		return status == true ? "TAKEOFF_MAIL_SUCCESS" : "TAKEOFF_MAIL_FAILED";
@@ -166,13 +166,13 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 		String comment = takeoff.getTakeOffComment() == null ? "" : takeoff.getTakeOffComment();
 
 		String content = String.format(AwacpMailTemplate.QUOTE_FOLLOW_UP.toString(), dateCreated,
-				takeoff.getSalesPersonName(), takeoff.getUserCode(), takeoff.getTakeoffId(), projectNo, takeoff.getQuoteId(), takeoff.getAmount(), 
-				takeoff.getEngineerName(), takeoff.getArchitectureName(), takeoff.getJobName(), takeoff.getJobAddress(),
-				takeoff.getSpec().getDetail(), drawingDate, reviseDate, dueDate, drawingReceivedFrom,
-				biddersList.toString(), gcs, comment, takeoff.getSalesPersonName());
-		return mailService.sendMail(toAddresses, AppPropConfig.emailQuoteFollowup, "AWACP :: Quote Follow up",
-				content, "NEW_TAKEOFF", AppPropConfig.emailQuoteFollowup, AppPropConfig.emailQuoteFollowupPassword, null, null);
-	
+				takeoff.getSalesPersonName(), takeoff.getUserCode(), takeoff.getTakeoffId(), projectNo,
+				takeoff.getQuoteId(), takeoff.getAmount(), takeoff.getEngineerName(), takeoff.getArchitectureName(),
+				takeoff.getJobName(), takeoff.getJobAddress(), takeoff.getSpec().getDetail(), drawingDate, reviseDate,
+				dueDate, drawingReceivedFrom, biddersList.toString(), gcs, comment, takeoff.getSalesPersonName());
+		return mailService.sendMail(toAddresses, AppPropConfig.emailQuoteFollowup, "AWACP :: Quote Follow up", content,
+				"NEW_TAKEOFF", AppPropConfig.emailQuoteFollowup, AppPropConfig.emailQuoteFollowupPassword, null, null);
+
 	}
 
 	@Override
@@ -194,33 +194,13 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 	}
 
 	@Override
-	public boolean sendAwLowInventoryMail() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean sendAwfLowInventoryMail() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean sendSbcLowInventoryMail() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean sendSplLowInventorySplMail() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean sendJobLowInventoryMail() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean sendLowInventoryMail(String toAddress, String inv, String owner, String userCode, int orderQty,
+			int availQty, int reorderQty, String itemSize, String itemDesc, String orderNum) throws Exception {
+		String content = String.format(AwacpMailTemplate.LOW_INV_REMIND_MESSAGE.toString(), inv, owner, userCode,
+				itemSize, itemDesc, orderNum, orderQty, availQty, reorderQty);
+		return mailService.sendMail(new String[] { toAddress }, AppPropConfig.emailNoReply,
+				"AWACP :: Low Inventory Reminder", content, "LOW_INVENTORY_REMINDER", AppPropConfig.emailQuoteFollowup,
+				AppPropConfig.emailQuoteFollowupPassword, null, null);
 	}
 
 	@Override

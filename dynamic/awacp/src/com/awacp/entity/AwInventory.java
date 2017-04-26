@@ -1,9 +1,13 @@
 package com.awacp.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
+import com.sts.core.entity.File;
 
 /**
  * Entity implementation class for Entity: AwfInventory
@@ -20,9 +24,16 @@ public class AwInventory extends BaseEntity {
 	private Double size; // required
 	private Double unitPrice; // required
 	private Double billableCost;
-	
+
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
+
+	private Integer minStockLevel;
+	private String orderNumberWithQty;
+	
+	private List<File> images;
+	
+	private int imageCount;
 
 	public AwInventory() {
 		super();
@@ -91,7 +102,39 @@ public class AwInventory extends BaseEntity {
 	public void setUpdatedByUserCode(String updatedByUserCode) {
 		this.updatedByUserCode = updatedByUserCode;
 	}
+
+	public Integer getMinStockLevel() {
+		return minStockLevel;
+	}
+
+	public void setMinStockLevel(Integer minStockLevel) {
+		this.minStockLevel = minStockLevel;
+	}
+
+	public String getOrderNumberWithQty() {
+		return orderNumberWithQty;
+	}
+
+	public void setOrderNumberWithQty(String orderNumberWithQty) {
+		this.orderNumberWithQty = orderNumberWithQty;
+	}
+
+	@Transient
+	public List<File> getImages() {
+		return images;
+	}
+
+	public void setImages(List<File> images) {
+		this.images = images;
+	}
 	
-	
+	@Transient
+	public int getImageCount() {
+		return imageCount;
+	}
+
+	public void setImageCount(int imageCount) {
+		this.imageCount = imageCount;
+	}
 
 }

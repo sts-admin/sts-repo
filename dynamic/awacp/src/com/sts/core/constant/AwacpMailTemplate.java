@@ -1,6 +1,73 @@
 package com.sts.core.constant;
 
 public class AwacpMailTemplate {
+	public static final StringBuffer LOW_INV_REMIND_MESSAGE = new StringBuffer(""
+			+"<div style='height:25px;overflow:hidden; text-align:center;background-color:gray; max-width: 722px;margin: 0 auto;'>"
+				+"<h3 style='color:white; text-align:center; margin:0; padding:0;'> Low Inventory Reminder</h3>"
+			+"</div>"
+			+"<div style='background-color:silver;border: 1px solid #ccc; margin: 0 auto; max-width: 700px; padding: 10px; position: relative; overflow:hidden;'>"
+
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>Inventory</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"				
+
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>Owner</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"
+				
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>User Code</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"
+				
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>Item Size</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"
+				
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>Item Description</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"
+				
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>Order Number</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"
+								
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>Order Qty</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"
+
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>Available Qty</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"
+				
+				+"<div style='clear: both;display: block; float: left; padding: 8px 0;'>"
+					+"<p style='font-weight:bold;font-size:13px; float:left; min-width:110px; margin:0;'>Re-Order Qty</p>"
+					+"<p style='padding:0 15px;font-size:13px;float:left;margin:0;'>:</p>"
+					+"<p style='font-size:13px; float:left; margin:0;'>%s</p>"
+				+"</div>"				
+			+"</div>"
+			+"<div style='height:100px;overflow:hidden; background-color:darkgray; max-width: 722px;margin: 0 auto;'>"
+				+"<p style='font-size:12px;margin-left:8px;'><span style='font-weight:bold; font-size:14px;'>Regards</span>,</p>"
+				+"<p style='font-size:12px; margin-left:8px;'>ALBERT WEISS AIR CONDITIONING PRODUCTS INC.<br />"
+				+"270 MADISON AVENUE, SUITE 1805, NEW YORK, N.Y. 10016.<br />"
+				+"EMAIL: <a href='#'>edwgs@awacp.org</a></p>"
+			+"</div>"
+		+"</div>");
 	public static final StringBuffer NEW_TAKEOFF_MAIL_MESSAGE = new StringBuffer("<div style='font-family:verdana;'>"
 			+ "<div style='height:25px;overflow:hidden; text-align:center;background-color:gray; max-width: 722px;margin: 0 auto;'>"
 			+ "<h3 style='color:white; text-align:center; margin:0; padding:0;'>New Takeoff Detail</h3></div>"
@@ -86,7 +153,7 @@ public class AwacpMailTemplate {
 			+ "<p style='font-size:13px; float:left; margin:0;'></p>%s</div></div>"
 
 	+ "<div style='background-color:darkgray;margin: 0 auto; max-width: 700px; padding: 10px; position: relative; overflow:hidden;'>"
-			+ "<p style='font-size:12px;'><span style='font-weight:bold; font-size:14px;'>REGARDS</span>,<br />PAT</p>"
+			+ "<p style='font-size:12px;'><span style='font-weight:bold; font-size:14px;'>REGARDS</span>,<br />%s</p>"
 			+ "<p style='font-size:12px; text-align:left'>ALBERT WEISS AIR CONDITIONING PRODUCTS INC.<br />"
 			+ "270 MADISON AVENUE, SUITE 1805, NEW YORK, N.Y. 10016.<br />"
 			+ "EMAIL: <a href='#'>edwgs@awacp.org</a></p>" + "</div></div>");
