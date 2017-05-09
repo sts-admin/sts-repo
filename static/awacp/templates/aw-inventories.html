@@ -78,7 +78,7 @@
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
 								</a>
 								<br>
-								<img style ="cursor:pointer;" src="images/inv_image.png" alt="image" border="0" ng-click="awInvVm.toggleImageContainer(awInv.id);" />
+								<img ng-hide="awInv.imageCount === 0" style ="cursor:pointer;" src="images/inv_image.png" alt="image" border="0" ng-click="awInvVm.toggleImageContainer(awInv.id);" />
 							  </td>
 							  <td align="center">&nbsp; 
 								<a href ui-sref="aw-edit({id:awInv.id})"> 
