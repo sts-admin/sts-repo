@@ -9,6 +9,8 @@ public interface JobService {
 
 	public StsResponse<JobOrder> listJobOrders(int pageNumber, int pageSize);
 
+	public StsResponse<JobOrder> listJobOrdersByInvoiceStatus(int pageNumber, int pageSize, String invoiceStatus);
+
 	public JobOrder getJobOrder(Long jobOrderId);
 
 	public JobOrder saveJobOrder(JobOrder jobOrder) throws StsDuplicateException;

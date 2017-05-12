@@ -24,15 +24,13 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 	@Autowired
 	private OrderBookService orderBookService;
 
-	
 	@GET
 	@Path("/listOrderBooks/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StsResponse<OrderBook> listOrderBooks(@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize,
-			@Context HttpServletResponse servletResponse) throws IOException {
+	public StsResponse<OrderBook> listOrderBooks(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.orderBookService.listOrderBooks(pageNumber, pageSize);
 	}
-	
 
 	@GET
 	@Path("/getOrderBook/{id}")
@@ -41,8 +39,24 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 			throws IOException {
 		return this.orderBookService.getOrderBook(id);
 	}
-	
-	
+
+	@GET
+	@Path("/cancelOrderBook/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String cancelOrderBook(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = this.orderBookService.cancelOrderBook(id);
+		return "{\"result\":\"" + result + "\"}";
+	}
+
+	@GET
+	@Path("/uncancellOrderBook/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String uncancellOrderBook(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = this.orderBookService.uncancellOrderBook(id);
+		return "{\"result\":\"" + result + "\"}";
+	}
 
 	@POST
 	@Path("/saveOrderBook")
@@ -51,6 +65,7 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 	public OrderBook saveOrderBook(OrderBook orderBook, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		return this.orderBookService.saveOrderBook(orderBook);
+
 	}
 
 	@GET

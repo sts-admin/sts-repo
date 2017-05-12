@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,29 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 
 	private EntityManager getEntityManager() {
 		return entityManager;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public StsResponse<JobOrder> listJobOrdersByInvoiceStatus(int pageNumber, int pageSize, String invoiceStatus) {
+		if (invoiceStatus == null || invoiceStatus.trim().isEmpty() || invoiceStatus.equalsIgnoreCase("all")) {
+			return listJobOrders(pageNumber, pageSize);
+		}
+		StsResponse<JobOrder> response = new StsResponse<JobOrder>();
+		if (pageNumber <= 1) { // Set total record count on first page request
+								// and re-use that
+
+			Object object = getEntityManager().createNamedQuery("JobOrder.getCountByInvoiceStatus")
+					.setParameter("invoiceStatus", invoiceStatus.toLowerCase()).getSingleResult();
+			response.setTotalCount(object == null ? 0 : ((Long) object).intValue());
+		}
+		Query query = getEntityManager().createNamedQuery("JobOrder.getByInvoiceStatus").setParameter("invoiceStatus",
+				invoiceStatus.toLowerCase());
+		if (pageNumber > 0 && pageSize > 0) {
+			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
+		}
+		List<JobOrder> results = query.getResultList();
+		return results == null || results.isEmpty() ? response : response.setResults(initWithDetail(results));
 	}
 
 	@Override
@@ -193,4 +217,5 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 				.setParameter("orderNumber", orderNumber.toLowerCase()).getResultList();
 		return orders == null || orders.isEmpty() ? null : orders.get(0);
 	}
+
 }

@@ -8,21 +8,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: SiteSetting
+ * Entity implementation class for Entity: PageSetting
  *
  */
 @Entity
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "SiteSetting.getPageSizeByViewName", query = "SELECT a FROM SiteSetting a WHERE a.archived = 'false' AND a.viewName = :viewName") })
-public class SiteSetting extends BaseEntity {
+		@NamedQuery(name = "PageSetting.getPageSizeByViewName", query = "SELECT a FROM PageSetting a WHERE a.archived = 'false' AND a.viewName = :viewName") })
+public class PageSetting extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	private String viewName;
 	private Integer pageSize;
 
-	public SiteSetting() {
+	public PageSetting() {
 		super();
 	}
 

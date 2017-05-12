@@ -3,14 +3,9 @@ package com.awacp.entity;
 import java.util.Calendar;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
@@ -26,45 +21,48 @@ import com.sts.core.entity.BaseEntity;
 @XmlRootElement
 
 @NamedQueries({
-		@NamedQuery(name = "Invoice.getByOrderId", query = "SELECT inv FROM Invoice inv WHERE inv.archived = 'false' AND inv.jobOrderId = :jobOrderId") })
+		@NamedQuery(name = "Invoice.getByOrderId", query = "SELECT inv FROM Invoice inv WHERE inv.archived = 'false' AND inv.jobOrderId = :jobOrderId"),
+		@NamedQuery(name = "Invoice.getArchivedInvoiceByOrderId", query = "SELECT inv FROM Invoice inv WHERE inv.archived = 'true' AND inv.jobOrderId = :jobOrderId")
+})
 public class Invoice extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-	private Long jobOrderId;
+	private Long jobOrderId; // Job order primary key
 
-	private String awOrderNumber;
-	private ShippedVia shippedVia;
+	private String awOrderNumber; // A unique job order number
+	private Long shippedViaId;
 
-	private TaxEntry taxRate;
+	private Long taxRateId;
 	private Calendar shipDate;
 	private String shipment;
-	private ItemShipped item1;
-	private ItemShipped item2;
-	private ItemShipped item3;
-	private ItemShipped item4;
-	private ItemShipped item5;
+	private Long item1Id;
+	private Long item2Id;
+	private Long item3Id;
+	private Long item4Id;
+	private Long item5Id;
 	private String taxExemptNumber;
 	private String prePayCheckNumber;
-	private Double prePayAmount;
-	private Double partialPayment;
+	private Double prePayAmount = 0.0D;
+	private Double partialPayment = 0.0D;
 
 	private String salesPersonCode;
 
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
-	private Set<ProfitSheetItem> profitSheetItems;
+	private Double totalCost = 0.0D;
+	private Double totalProfit = 0.0D;
+	private Double profitPercent = 0.0D;
 
-	private Double totalCost;
-	private Double totalProfit;
-	private Double profitPercent;
-
-	private Double billableAmount;
-	private Double balancePayable;
+	private Double billableAmount = 0.0D;
+	private Double totalPayment = 0.0D;
+	private String shipTo;
 
 	// Transient
 	private JobOrder jobOrder;
 	private String profitOrLossLabel;
+
+	private Set<ProfitSheetItem> profitSheetItems;
 
 	public Invoice() {
 		super();
@@ -87,17 +85,6 @@ public class Invoice extends BaseEntity {
 		this.awOrderNumber = awOrderNumber;
 	}
 
-	@XmlElement(name = "taxRate")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "TAX_RATE", unique = false, nullable = true, updatable = true)
-	public TaxEntry getTaxRate() {
-		return taxRate;
-	}
-
-	public void setTaxRate(TaxEntry taxRate) {
-		this.taxRate = taxRate;
-	}
-
 	public Calendar getShipDate() {
 		return shipDate;
 	}
@@ -112,61 +99,6 @@ public class Invoice extends BaseEntity {
 
 	public void setShipment(String shipment) {
 		this.shipment = shipment;
-	}
-
-	@XmlElement(name = "item1")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "ITEM1", unique = false, nullable = true, updatable = true)
-	public ItemShipped getItem1() {
-		return item1;
-	}
-
-	public void setItem1(ItemShipped item1) {
-		this.item1 = item1;
-	}
-
-	@XmlElement(name = "item2")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "ITEM2", unique = false, nullable = true, updatable = true)
-	public ItemShipped getItem2() {
-		return item2;
-	}
-
-	public void setItem2(ItemShipped item2) {
-		this.item2 = item2;
-	}
-
-	@XmlElement(name = "item3")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "ITEM3", unique = false, nullable = true, updatable = true)
-	public ItemShipped getItem3() {
-		return item3;
-	}
-
-	public void setItem3(ItemShipped item3) {
-		this.item3 = item3;
-	}
-
-	@XmlElement(name = "item4")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "ITEM4", unique = false, nullable = true, updatable = true)
-	public ItemShipped getItem4() {
-		return item4;
-	}
-
-	public void setItem4(ItemShipped item4) {
-		this.item4 = item4;
-	}
-
-	@XmlElement(name = "item5")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "ITEM5", unique = false, nullable = true, updatable = true)
-	public ItemShipped getItem5() {
-		return item5;
-	}
-
-	public void setItem5(ItemShipped item5) {
-		this.item5 = item5;
 	}
 
 	public String getTaxExemptNumber() {
@@ -218,8 +150,7 @@ public class Invoice extends BaseEntity {
 	}
 
 	@XmlElement(name = "profitSheetItems")
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "JO_INV_PS", joinColumns = @JoinColumn(name = "INVID"), inverseJoinColumns = @JoinColumn(name = "PSITEMID"))
+	@Transient
 	public Set<ProfitSheetItem> getProfitSheetItems() {
 		return profitSheetItems;
 	}
@@ -261,17 +192,6 @@ public class Invoice extends BaseEntity {
 		this.jobOrderId = jobOrderId;
 	}
 
-	@XmlElement(name = "shippedVia")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "SHIPPED_VIA", unique = false, nullable = true, updatable = true)
-	public ShippedVia getShippedVia() {
-		return shippedVia;
-	}
-
-	public void setShippedVia(ShippedVia shippedVia) {
-		this.shippedVia = shippedVia;
-	}
-
 	public Double getPartialPayment() {
 		return partialPayment;
 	}
@@ -297,12 +217,77 @@ public class Invoice extends BaseEntity {
 		this.billableAmount = billableAmount;
 	}
 
-	public Double getBalancePayable() {
-		return balancePayable;
+	public Double getTotalPayment() {
+		return totalPayment;
 	}
 
-	public void setBalancePayable(Double balancePayable) {
-		this.balancePayable = balancePayable;
+	public void setTotalPayment(Double totalPayment) {
+		this.totalPayment = totalPayment;
 	}
 
+	@NotNull
+	public String getShipTo() {
+		return shipTo;
+	}
+
+	public void setShipTo(String shipTo) {
+		this.shipTo = shipTo;
+	}
+
+	public Long getShippedViaId() {
+		return shippedViaId;
+	}
+
+	public void setShippedViaId(Long shippedViaId) {
+		this.shippedViaId = shippedViaId;
+	}
+
+	@NotNull
+	public Long getTaxRateId() {
+		return taxRateId;
+	}
+
+	public void setTaxRateId(Long taxRateId) {
+		this.taxRateId = taxRateId;
+	}
+
+	public Long getItem1Id() {
+		return item1Id;
+	}
+
+	public void setItem1Id(Long item1Id) {
+		this.item1Id = item1Id;
+	}
+
+	public Long getItem2Id() {
+		return item2Id;
+	}
+
+	public void setItem2Id(Long item2Id) {
+		this.item2Id = item2Id;
+	}
+
+	public Long getItem3Id() {
+		return item3Id;
+	}
+
+	public void setItem3Id(Long item3Id) {
+		this.item3Id = item3Id;
+	}
+
+	public Long getItem4Id() {
+		return item4Id;
+	}
+
+	public void setItem4Id(Long item4Id) {
+		this.item4Id = item4Id;
+	}
+
+	public Long getItem5Id() {
+		return item5Id;
+	}
+
+	public void setItem5Id(Long item5Id) {
+		this.item5Id = item5Id;
+	}
 }

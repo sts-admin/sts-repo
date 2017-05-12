@@ -7,11 +7,11 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.awacp.entity.SiteSetting;
-import com.awacp.service.SiteSettingService;
+import com.awacp.entity.PageSetting;
+import com.awacp.service.PageSettingService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class SiteSettingServiceImpl extends CommonServiceImpl<SiteSetting>implements SiteSettingService {
+public class PageSettingServiceImpl extends CommonServiceImpl<PageSetting>implements PageSettingService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -24,30 +24,30 @@ public class SiteSettingServiceImpl extends CommonServiceImpl<SiteSetting>implem
 	}
 
 	@Override
-	public SiteSetting getSiteSetting(Long id) {
-		return getEntityManager().find(SiteSetting.class, id);
+	public PageSetting getSiteSetting(Long id) {
+		return getEntityManager().find(PageSetting.class, id);
 	}
 
 	@Override
 	@Transactional
-	public SiteSetting saveSiteSetting(SiteSetting SiteSetting) {
-		getEntityManager().persist(SiteSetting);
+	public PageSetting saveSiteSetting(PageSetting PageSetting) {
+		getEntityManager().persist(PageSetting);
 		getEntityManager().flush();
-		return SiteSetting;
+		return PageSetting;
 	}
 
 	@Override
 	@Transactional
-	public SiteSetting updateSiteSetting(SiteSetting SiteSetting) {
-		SiteSetting = getEntityManager().merge(SiteSetting);
+	public PageSetting updateSiteSetting(PageSetting PageSetting) {
+		PageSetting = getEntityManager().merge(PageSetting);
 		getEntityManager().flush();
-		return SiteSetting;
+		return PageSetting;
 	}
 
 	@Override
 	@Transactional
 	public String delete(Long id) {
-		SiteSetting entity = getSiteSetting(id);
+		PageSetting entity = getSiteSetting(id);
 		if (entity != null) {
 			entity.setArchived(true);
 			getEntityManager().merge(entity);
@@ -59,8 +59,8 @@ public class SiteSettingServiceImpl extends CommonServiceImpl<SiteSetting>implem
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public SiteSetting getSiteSetting(String viewName) {
-		List<SiteSetting> settings = getEntityManager().createNamedQuery("SiteSetting.getPageSizeByViewName")
+	public PageSetting getSiteSetting(String viewName) {
+		List<PageSetting> settings = getEntityManager().createNamedQuery("PageSetting.getPageSizeByViewName")
 				.setParameter("viewName", viewName).getResultList();
 		return settings == null || settings.isEmpty() ? null : settings.get(0);
 	}
@@ -68,13 +68,13 @@ public class SiteSettingServiceImpl extends CommonServiceImpl<SiteSetting>implem
 	@Override
 	@Transactional
 	public String setPageSizeByView(String viewName, Integer size) {
-		SiteSetting setting = getSiteSetting(viewName);
+		PageSetting setting = getSiteSetting(viewName);
 		if (setting != null) {
 			setting.setPageSize(size);
 			getEntityManager().merge(setting);
 			return "success";
 		} else {
-			SiteSetting ss = new SiteSetting();
+			PageSetting ss = new PageSetting();
 			ss.setPageSize(size);
 			ss.setViewName(viewName);
 			getEntityManager().persist(ss);

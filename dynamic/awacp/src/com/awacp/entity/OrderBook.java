@@ -3,12 +3,8 @@ package com.awacp.entity;
 import java.util.Calendar;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
@@ -22,7 +18,10 @@ import com.sts.core.entity.BaseEntity;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "OrderBook.getByJobOrderId", query = "SELECT ob FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId"),
-		@NamedQuery(name = "OrderBook.getOrderBookNumbersByOrderId", query = "SELECT new com.awacp.entity.OrderBook(ob.orderBookNumber) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId") })
+		@NamedQuery(name = "OrderBook.getCountByJobOrderId", query = "SELECT COUNT(ob.id) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId"),
+		@NamedQuery(name = "OrderBook.getCancelledCountByJobOrderId", query = "SELECT COUNT(ob.id) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId AND ob.cancelled = 'true'"),
+		@NamedQuery(name = "OrderBook.getOrderBookNumbersByOrderId", query = "SELECT new com.awacp.entity.OrderBook(ob.orderBookNumber) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId") 
+})
 public class OrderBook extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -52,6 +51,7 @@ public class OrderBook extends BaseEntity {
 
 	private Long takeoffId;
 	private String quoteId;
+	private boolean cancelled = false;
 
 	// Transient fields
 	private String contractorName;
@@ -230,8 +230,7 @@ public class OrderBook extends BaseEntity {
 	}
 
 	@XmlElement(name = "invItems")
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "OB_N_INV_ITEM", joinColumns = @JoinColumn(name = "OBID"), inverseJoinColumns = @JoinColumn(name = "INVITEMID"))
+	@Transient
 	public Set<OrderBookInvItem> getInvItems() {
 		return invItems;
 	}
@@ -286,4 +285,11 @@ public class OrderBook extends BaseEntity {
 		this.orderBookNumber = orderBookNumber;
 	}
 
+	public boolean isCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
 }

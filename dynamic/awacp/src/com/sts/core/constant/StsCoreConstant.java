@@ -1,16 +1,21 @@
 package com.sts.core.constant;
 
 public class StsCoreConstant {
+	public static final String INV_MODE_INV = "inv";
+	public static final String INV_MODE_BILL = "bill";
+	public static final String INV_MODE_PTL = "ptl";
+	public static final String INV_SHIPMENT_TYPE_PARTIAL = "PARTIAL";
+	public static final String INV_SHIPMENT_TYPE_FULL = "FULL";
 	public static final String INV_AW_IMAGE_DOC = "INV_AW_IMAGE_DOC";
 	public static final String INV_AWF_IMAGE_DOC = "INV_AWF_IMAGE_DOC";
 	public static final String INV_SPL_IMAGE_DOC = "INV_SPL_IMAGE_DOC";
 	public static final String INV_SBC_IMAGE_DOC = "INV_SBC_IMAGE_DOC";
 	public static final String INV_J_IMAGE_DOC = "INV_J_IMAGE_DOC";
 	public static final String DOC_TAKEOFF = "TAKEOFF_DOC";
-	public static final String DOC_QUOTE_DOC= "QUOTE_DOC";
-	public static final String DOC_QUOTE_PDF= "QUOTE_PDF_DOC";
-	public static final String DOC_QUOTE_XLS= "QUOTE_XLS_DOC";
-	public static final String DOC_QUOTE_VIBRO= "QUOTE_VIBRO_DOC";
+	public static final String DOC_QUOTE_DOC = "QUOTE_DOC";
+	public static final String DOC_QUOTE_PDF = "QUOTE_PDF_DOC";
+	public static final String DOC_QUOTE_XLS = "QUOTE_XLS_DOC";
+	public static final String DOC_QUOTE_VIBRO = "QUOTE_VIBRO_DOC";
 	public static final String DOC_TAKEOFF_DRAWING = "TAKEOFF_DRAWING_DOC";
 	public static final String DOC_TAKEOFF_VIBRO = "TAKEOFF_VIBRO_DOC";
 	public static final String DUPLICATE_EMAIL = "duplicate_email";

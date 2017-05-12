@@ -6,10 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.entity.BaseEntity;
 
 /**
@@ -19,7 +21,10 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "JobOrder.getByOrderId", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.orderNumber) = :orderNumber") })
+	@NamedQuery(name = "JobOrder.getByOrderId", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.orderNumber) = :orderNumber"),
+	@NamedQuery(name = "JobOrder.getByInvoiceStatus", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus"),
+	@NamedQuery(name = "JobOrder.getCountByInvoiceStatus", query = "SELECT COUNT(jo.id) FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus")
+})
 public class JobOrder extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -44,6 +49,8 @@ public class JobOrder extends BaseEntity {
 	private String engineerName;
 	private String architectureName;
 	private boolean billGenerated;
+
+	private String invoiceMode;
 
 	// Transient
 	private String salesPersonName;
@@ -261,6 +268,23 @@ public class JobOrder extends BaseEntity {
 
 	public void setBillGenerated(boolean billGenerated) {
 		this.billGenerated = billGenerated;
+	}
+
+	@NotNull
+	@Column(length = 4)
+	public String getInvoiceMode() {
+		return invoiceMode;
+	}
+
+	public void setInvoiceMode(String invoiceMode) {
+		this.invoiceMode = invoiceMode;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		if (getInvoiceMode() == null || getInvoiceMode().trim().length() <= 0) {
+			setInvoiceMode(StsCoreConstant.INV_MODE_INV);
+		}
 	}
 
 }

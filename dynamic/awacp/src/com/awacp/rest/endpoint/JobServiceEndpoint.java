@@ -27,10 +27,10 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	JobService jobService;
-	
+
 	@Autowired
 	InvoiceService invoiceService;
-	
+
 	@GET
 	@Path("/getInvoiceByJobOrderId/{jobOrderId}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -46,7 +46,7 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 			throws IOException {
 		return this.invoiceService.getInvoice(id);
 	}
-	
+
 	@POST
 	@Path("/saveInvoice")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -54,7 +54,7 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 	public Invoice saveInvoice(Invoice invoice, @Context HttpServletResponse servletResponse) throws Exception {
 		return this.invoiceService.saveInvoice(invoice);
 	}
-	
+
 	@GET
 	@Path("/deleteInvoice/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -66,15 +66,14 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 		}
 		return "{\"result\":\"" + result + "\"}";
 	}
-	
-	
 
 	@GET
-	@Path("/listJobOrders/{pageNumber}/{pageSize}")
+	@Path("/listJobOrders/{invoiceStatus}/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StsResponse<JobOrder> listJobOrders(@PathParam("pageNumber") int pageNumber,
-			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.jobService.listJobOrders(pageNumber, pageSize);
+	public StsResponse<JobOrder> listJobOrders(@PathParam("invoiceStatus") String invoiceStatus,
+			@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.jobService.listJobOrdersByInvoiceStatus(pageNumber, pageSize, invoiceStatus);
 	}
 
 	@GET
@@ -141,7 +140,7 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 	public void setJobService(JobService jobService) {
 		this.jobService = jobService;
 	}
-	
+
 	public void setInvoiceService(InvoiceService invoiceService) {
 		this.invoiceService = invoiceService;
 	}

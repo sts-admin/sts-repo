@@ -15,10 +15,14 @@ public interface OrderBookService {
 
 	public String delete(Long id);
 
-	public int debitInvItemQty(Long lineItemId, String invName, int orderQty);
+	public int updateInvItemQty(Long bookId, Long lineItemId, String invName, int orderQty);
 
 	public List<OrderBook> listByJobOrder(Long jobOrderId);
-	
+
 	public Double getPrice(Long lineItemId, String invName);
+
+	public String cancelOrderBook(Long orderBookId);
+
+	public String uncancellOrderBook(Long orderBookId);
 
 }

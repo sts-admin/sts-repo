@@ -15,29 +15,29 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.awacp.entity.SiteSetting;
-import com.awacp.service.SiteSettingService;
+import com.awacp.entity.PageSetting;
+import com.awacp.service.PageSettingService;
 import com.sts.core.web.filter.CrossOriginFilter;
 
-public class SiteSettingServiceEndpoint extends CrossOriginFilter {
+public class PageSettingServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
-	SiteSettingService siteSettingService;
+	PageSettingService pageSettingService;
 
 	@GET
 	@Path("/getSiteSetting/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SiteSetting getSiteSetting(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+	public PageSetting getSiteSetting(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.siteSettingService.getSiteSetting(id);
+		return this.pageSettingService.getSiteSetting(id);
 	}
 
 	@GET
 	@Path("/getSiteSettingByView")
 	@Produces(MediaType.APPLICATION_JSON)
-	public SiteSetting getSiteSettingByView(@QueryParam("viewName") String viewName,
+	public PageSetting getSiteSettingByView(@QueryParam("viewName") String viewName,
 			@Context HttpServletResponse servletResponse) throws IOException {
-		return this.siteSettingService.getSiteSetting(viewName);
+		return this.pageSettingService.getSiteSetting(viewName);
 	}
 
 	@GET
@@ -45,7 +45,7 @@ public class SiteSettingServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String setPageSizeByView(@QueryParam("viewName") String viewName, @QueryParam("size") Integer size,
 			@Context HttpServletResponse servletResponse) throws IOException {
-		String result = this.siteSettingService.setPageSizeByView(viewName, size);
+		String result = this.pageSettingService.setPageSizeByView(viewName, size);
 		return "{\"result\":\"" + result + "\"}";
 	}
 
@@ -53,18 +53,18 @@ public class SiteSettingServiceEndpoint extends CrossOriginFilter {
 	@Path("/saveSiteSetting")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public SiteSetting saveSiteSetting(SiteSetting siteSetting, @Context HttpServletResponse servletResponse)
+	public PageSetting saveSiteSetting(PageSetting pageSetting, @Context HttpServletResponse servletResponse)
 			throws Exception {
-		return this.siteSettingService.saveSiteSetting(siteSetting);
+		return this.pageSettingService.saveSiteSetting(pageSetting);
 	}
 
 	@POST
 	@Path("/updateSiteSetting")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public SiteSetting updateSiteSetting(SiteSetting siteSetting, @Context HttpServletResponse servletResponse)
+	public PageSetting updateSiteSetting(PageSetting pageSetting, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		return this.siteSettingService.updateSiteSetting(siteSetting);
+		return this.pageSettingService.updateSiteSetting(pageSetting);
 	}
 
 	@GET
@@ -72,15 +72,15 @@ public class SiteSettingServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String deleteSiteSetting(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
 			throws IOException {
-		String result = siteSettingService.delete(id);
+		String result = pageSettingService.delete(id);
 		if ("fail".equalsIgnoreCase(result)) {
 			servletResponse.sendError(666666, "delete_error");
 		}
 		return "{\"result\":\"" + result + "\"}";
 	}
 
-	public void setSiteSettingService(SiteSettingService siteSettingService) {
-		this.siteSettingService = siteSettingService;
+	public void setPageSettingService(PageSettingService pageSettingService) {
+		this.pageSettingService = pageSettingService;
 	}
 
 }

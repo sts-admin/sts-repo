@@ -12,14 +12,18 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "OrderBookInvItem.getByOrderBookId", query = "SELECT ob FROM OrderBookInvItem ob WHERE ob.archived = 'false' AND ob.bookId = :bookId")
+	@NamedQuery(name = "OrderBookInvItem.getByOrderBookId", query = "SELECT ob FROM OrderBookInvItem ob WHERE ob.archived = 'false' AND ob.bookId = :bookId"),
+	@NamedQuery(name = "OrderBookInvItem.getAllByOrderBookId", query = "SELECT ob FROM OrderBookInvItem ob WHERE ob.bookId = :bookId"),
+	@NamedQuery(name = "OrderBookInvItem.getByBookAndInvItemId", query = "SELECT ob FROM OrderBookInvItem ob WHERE ob.archived = 'false' AND ob.bookId = :bookId AND ob.invItemId = :invItemId"),
+	@NamedQuery(name = "OrderBookInvItem.getByAllBookAndInvItemId", query = "SELECT ob FROM OrderBookInvItem ob WHERE ob.bookId = :bookId AND ob.invItemId = :invItemId")
+	
 })
 public class OrderBookInvItem extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long bookId;
-	private Long invItemId;
+	private Long bookId; //required
+	private Long invItemId; //required
 	private String itemDescription; // required
 	private Integer orderQty; // required
 	private Integer stockQty; // required

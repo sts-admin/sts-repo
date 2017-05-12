@@ -109,7 +109,8 @@
 			<ref bean="quoteNoteServiceEndpoint" />
 			<ref bean="pdniServiceEndpoint" />
 			<ref bean="inventoryServiceEndpoint" />
-			<ref bean="siteSettingServiceEndpoint" />
+			<ref bean="pageSettingServiceEndpoint" />
+			<ref bean="appSettingServiceEndpoint" />
 			<ref bean="templateServiceEndpoint" />
 			<ref bean="worksheetServiceEndpoint" />
 			<ref bean="taxServiceEndpoint" />
@@ -242,9 +243,14 @@
     </bean>
     
     
-     <bean id="siteSettingService" class="com.awacp.service.impl.SiteSettingServiceImpl" />
-     <bean id="siteSettingServiceEndpoint" class="com.awacp.rest.endpoint.SiteSettingServiceEndpoint">
-        <property name="siteSettingService" ref="siteSettingService" />
+     <bean id="pageSettingService" class="com.awacp.service.impl.PageSettingServiceImpl" />
+     <bean id="pageSettingServiceEndpoint" class="com.awacp.rest.endpoint.PageSettingServiceEndpoint">
+        <property name="pageSettingService" ref="pageSettingService" />
+    </bean>
+    
+    <bean id="appSettingService" class="com.awacp.service.impl.AppSettingServiceImpl" />
+     <bean id="appSettingServiceEndpoint" class="com.awacp.rest.endpoint.AppSettingServiceEndpoint">
+        <property name="appSettingService" ref="appSettingService" />
     </bean>
     
     <bean id="marketingTemplateService" class="com.awacp.service.impl.MarketingTemplateServiceImpl" />

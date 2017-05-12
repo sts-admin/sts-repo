@@ -30,7 +30,7 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	public StsResponse<T> listAll(String entityClassName, EntityManager em) {
 		return listAll(-1, -1, entityClassName, em);
 	}
-	
+
 	@Override
 	public StsResponse<T> listAllArchived(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
 		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
@@ -79,13 +79,5 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 		List<T> results = em.createQuery(query.toString()).setParameter("email", email).getResultList();
 		return results == null || results.isEmpty() ? null : results.get(0);
 	}
-
-	@Override
-	public StsResponse<T> listAll(String namedQuery, int pageNumber, int pageSize, EntityManager em) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 }

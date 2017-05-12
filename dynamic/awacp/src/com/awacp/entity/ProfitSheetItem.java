@@ -3,6 +3,9 @@ package com.awacp.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -13,6 +16,14 @@ import com.sts.core.entity.BaseEntity;
  */
 @Entity
 @XmlRootElement
+@NamedQueries({
+	@NamedQuery(name = "ProfitSheetItem.getAllByInvoiceId", query = "SELECT psi FROM ProfitSheetItem psi WHERE psi.archived = 'false' AND psi.invoiceId = :invoiceId"),
+	@NamedQuery(name = "ProfitSheetItem.getManualItemByInvoiceId", query = "SELECT psi FROM ProfitSheetItem psi WHERE psi.archived = 'false' AND psi.invoiceId = :invoiceId AND psi.manual = 'true' "),
+	@NamedQuery(name = "ProfitSheetItem.getNonManualItemByInvoiceId", query = "SELECT psi FROM ProfitSheetItem psi WHERE psi.archived = 'false' AND psi.invoiceId = :invoiceId AND psi.manual = 'false' "),	
+	@NamedQuery(name = "ProfitSheetItem.getByOrderBookId", query = "SELECT psi FROM ProfitSheetItem psi WHERE psi.archived = 'false' AND psi.orderBookId = :orderBookId"),
+	@NamedQuery(name = "ProfitSheetItem.getNonManualItemByInvoiceAndOrderId", query = "SELECT psi FROM ProfitSheetItem psi WHERE psi.archived = 'false' AND psi.orderBookId = :orderBookId AND psi.invoiceId = :invoiceId AND psi.manual = 'false'"),
+	@NamedQuery(name = "ProfitSheetItem.getAllByOrderBookId", query = "SELECT psi FROM ProfitSheetItem psi WHERE psi.orderBookId = :orderBookId")
+})
 public class ProfitSheetItem extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -22,6 +33,9 @@ public class ProfitSheetItem extends BaseEntity {
 	private Double invAmount;
 	private Double freight;
 	private String comment;
+	private Long invoiceId;
+	private String obCategory;
+	private Long orderBookId;
 
 	private boolean manual;
 
@@ -85,6 +99,32 @@ public class ProfitSheetItem extends BaseEntity {
 
 	public void setManual(boolean manual) {
 		this.manual = manual;
+	}
+
+	@NotNull
+	public Long getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(Long invoiceId) {
+		this.invoiceId = invoiceId;
+	}
+
+	@NotNull
+	public String getObCategory() {
+		return obCategory;
+	}
+
+	public void setObCategory(String obCategory) {
+		this.obCategory = obCategory;
+	}
+
+	public Long getOrderBookId() {
+		return orderBookId;
+	}
+
+	public void setOrderBookId(Long orderBookId) {
+		this.orderBookId = orderBookId;
 	}
 
 }

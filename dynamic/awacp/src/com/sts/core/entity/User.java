@@ -95,7 +95,7 @@ public class User extends BaseEntity {
 	}
 
 	@XmlElement(name = "photo")
-	@OneToOne(optional = false, cascade = CascadeType.DETACH)
+	@OneToOne(optional = true, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "PHOTOID", unique = false, nullable = true, updatable = true)
 	public File getPhoto() {
 		return photo;
