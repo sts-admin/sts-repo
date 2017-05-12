@@ -5,6 +5,12 @@
 		<div class="panel panel-default" ng-init="obVm.initOrderBookMasterInputs()">
 			<div class="panel-heading form-heading panel-heading-top">
 				<label>{{obVm.action}} Order Book</label>	
+				<span class="pull-right" ng-show="!obVm.orderBook.cancelled">
+					<input ng-show="obVm.orderBook.id != undefined" type="button" value="Cancel This Order Book" class="orderBook-add-action reset-btn btn btn-info" ng-click="obVm.cancelOrderBook(obVm.orderBook.id);">
+				</span>
+				<span class="pull-right" ng-show="obVm.orderBook.cancelled">
+					<input ng-show="obVm.orderBook.id != undefined" type="button" value="Un-cancel This Order Book" class="orderBook-add-action reset-btn btn btn-info" ng-click="obVm.uncancellOrderBook(obVm.orderBook.id);">
+				</span>
 			</div>
 			<div class="panel-body new-tk-bg">
 				<div class="container">
@@ -20,7 +26,7 @@
 							</div>
 							  <!-- .col -->
 							<div class="col-lg-8 col-md-8 col-sm-9">
-								<select class="form-control"  ng-change="obVm.orderBook.obCategory != undefined && obVm.setFactory(obVm.orderBook.obCategory);"
+								<select ng-disabled="obVm.orderBook.id && obVm.orderBook.id != undefined" class="form-control"  ng-change="obVm.orderBook.obCategory != undefined && obVm.setFactory(obVm.orderBook.obCategory);"
 								  ng-model="obVm.orderBook.obCategory" 
 								  ng-options="oc.id as oc.title for oc in obVm.orderCategories" ng-required = "true">
 								  <option value="">--- Select ---</option>
@@ -38,11 +44,11 @@
 								</div>
 								<div class="col-lg-8 col-md-8 col-sm-9">
 									<div class="form-group">
-									  <input name="jobOrderNumber" ng-model="obVm.orderBook.jobOrderNumber" type="text" placeholder="Enter Job ID" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Job ID');" onkeypress="this.setCustomValidity('');" ng-model="obVm.orderBook.jobId" ng-required="true"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined " />
+									  <input ng-readonly="obVm.orderBook.id && obVm.orderBook.id != undefined" name="jobOrderNumber" ng-model="obVm.orderBook.jobOrderNumber" type="text" placeholder="Enter Job ID" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Job ID');" onkeypress="this.setCustomValidity('');" ng-model="obVm.orderBook.jobId" ng-required="true"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined " />
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-1"> 
-									<input  ng-click="obVm.orderBook.jobOrderNumber != undefined && obVm.getJobByOrderId(obVm.orderBook.jobOrderNumber);" type="button" value="Search Job" class="orderBook-add-action reset-btn btn btn-warning" id="orderBook-search"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined || obVm.orderBook.jobOrderNumber == '' || obVm.orderBook.jobOrderNumber == undefined">
+									<input  ng-hide="obVm.orderBook.id && obVm.orderBook.id != undefined" ng-click="obVm.orderBook.jobOrderNumber != undefined && obVm.getJobByOrderId(obVm.orderBook.jobOrderNumber);" type="button" value="Search Job" class="orderBook-add-action reset-btn btn btn-warning" id="orderBook-search"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined || obVm.orderBook.jobOrderNumber == '' || obVm.orderBook.jobOrderNumber == undefined">
 								</div>
 							</div>
 							<div class="row">
@@ -100,7 +106,7 @@
 									<span class="colon">:</span> 
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-2">
-									<select name="specialInstruction"   class="form-control"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined || !obVm.orderBook.jobId"
+									<select ng-disabled="obVm.orderBook.id && obVm.orderBook.id != undefined" name="specialInstruction"   class="form-control"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined || !obVm.orderBook.jobId"
 									  ng-model="obVm.orderBook.specialInstruction" 
 									  ng-options="si.id as si.title for si in obVm.spInstructions">
 									  <option value="">--- Select ---</option>
@@ -216,7 +222,7 @@
 							  </div>
 						</div>
 						<!-- .row -->
-						<div class="row" ng-show="obVm.orderBook.obCategory != '' && obVm.orderBook.obCategory != undefined && obVm.orderBook.obCategory != 'REGULAR' ">
+						<div class="row" ng-show="!obVm.orderBook.cancelled && obVm.orderBook.obCategory != '' && obVm.orderBook.obCategory != undefined && obVm.orderBook.obCategory != 'REGULAR' ">
 							<table border="1" width="100%" class="table-responsive theme-table" cellpadding="0" cellspacing="0">
 								<tr >
 									<td colspan="4" style="padding:10px;">
@@ -229,14 +235,13 @@
 									<td style="width:6%;  padding:5px;"><center>Size</center></td>
 									<td style="width:72%; padding:5px;"><center>Item Description</center></td>
 								</tr>
-								<tr ng-repeat="inv in obVm.invItems track by $index">
-									
+								<tr ng-repeat="inv in obVm.invItems track by $index">									
 									<td style="width:20%; padding:5px;">
 										<center>
 											<input type="hidden" name="invItemId" ng-value="obVm.orderBook.invItems[$index].invItemId=inv.id" />
-											<input ng-change="obVm.checkOrderLimit(obVm.orderBook.obCategory, inv.id, $index);" ng-model-options="{ updateOn: 'blur' }" ng-keyup="cancel($event)" type="text" name="orderQty" ng-model="obVm.orderBook.invItems[$index].orderQty" ng-disabled="!obVm.orderBook.jobId" />
+											<input ng-change="obVm.checkOrderLimit(obVm.orderBook.obCategory, inv.id, $index);" ng-model-options="{ updateOn: 'blur' }" ng-keyup="cancel($event)" type="text" name="orderQty" ng-model="obVm.orderBook.invItems[$index].orderQty" ng-disabled="!obVm.orderBook.jobId" ng-readonly="obVm.orderBook.invItems[$index].id != undefined" />
 										</center>
-									</th>
+									</td>
 									<td style="width:12%; padding:5px;">
 										<center>
 											{{inv.quantity}}

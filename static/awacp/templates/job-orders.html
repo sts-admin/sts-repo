@@ -2,7 +2,7 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
   <div class="clearfix">
-    <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders();">
+    <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders('all');">
       <div class="panel-heading form-heading panel-heading-top">
         <label>View Job Orders</label>
         <span class="pull-right"><a href ui-sref="joborder-add" >Add Job Order</a></span> </div>
@@ -39,7 +39,13 @@
                       <td align="center"></td>
                       <td align="center"></td>
                       <td align="center">
-                      <select onchange="joborder_dropdown($('#final_update').val())" style="width:82px; height:30px; color:#000000;" class="searchtxt form-control" name="joborder_inv"> <option value="">--</option> <option style="color:#FF0000;" value="bill">BILL</option> <option style="color:#006600;" value="inv">INV</option> <option style="color:#FF6600;" value="ptl">PTL</option> </select>
+						<select style="width:85px; height:30px; color:#000000;" class="searchtxt form-control" 
+						  ng-model="jobVm.billType" 
+						  ng-options="inv for inv in jobVm.billTypes" 
+						  ng-change="jobVm.filterJobOrders(jobVm.billType);" >
+						  <option value="">---</option>
+						</select>
+                      <!-- <select onchange="joborder_dropdown($('#final_update').val())" style="width:82px; height:30px; color:#000000;" class="searchtxt form-control" name="joborder_inv"> <option value="">--</option> <option style="color:#FF0000;" value="bill">BILL</option> <option style="color:#006600;" value="inv">INV</option> <option style="color:#FF6600;" value="ptl">PTL</option> </select> -->
                       </td>
                       <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_architect" value=""></td>
                       <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="jobOrder_gc" value=""></td>
@@ -64,7 +70,7 @@
                       <td align="center">TAX</td>
                       <td align="center">PO</td>
                       <td align="center">IU</td>
-                      <td align="center">ViewINV</td>
+                      <td align="center">View INV</td>
                       <td align="center">Start Date</td>
                       <td class="bg-4D7373" align="center">Quote ID</td>
                       <td class="c10 bg-7D3549" align="center">Job ID</td>
@@ -90,10 +96,33 @@
                       <td align="center"></td>
                       <td align="center"></td>
                       <td align="center"></td>
-                      <td align="center"><a target="_blank" href="http://www.awacp.org/joborder/showinvoice/21815"><img border="0" src="http://www.awacp.org/resources/images/inv.png"></a></td>
+                      <td align="center">
+						<span ng-show="jobOrder.invoiceMode === 'inv'">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
+								<img border="0" src="images/inv_status_inv.png">
+							</a> 
+							<a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">
+								<img border="0" src="images/inv_status_inv.png">
+							</a>
+						</span>
+						<span ng-show="jobOrder.invoiceMode === 'ptl'">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
+								<img border="0" src="images/inv_status_ptl.png">
+							</a> 
+							<a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">
+								<img border="0" src="images/inv_status_ptl.png">
+							</a>
+						</span>
+						<a ng-show="jobOrder.invoiceMode === 'bill'" href ui-sref="bill-generate">
+								<img border="0" src="images/inv_status_bill.png">
+						</a>
+					  </td>
                       <td align="center">{{jobOrder.dateCreated | date:'shortDate'}}</td>
                       <td align="center">{{jobOrder.quoteId}}</td>
-                      <td align="center"><a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> <a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a></td>
+                      <td align="center">
+						<a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> 
+						<a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a>
+					  </td>
                       <td align="center">{{jobOrder.jobName}}</td>
                       <td align="center">{{jobOrder.jobAddress}}</td>
                       <td align="center"> {{jobOrder.contractorName}} </td>

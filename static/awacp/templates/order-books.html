@@ -77,17 +77,28 @@
                       <td align="center"></td>
                       <td align="center"></td>
                       <td align="center"></td>
-                      <td align="center"></td>
-                      <td align="center"></td>
-                      <td align="center">{{orderBook.dateCreated | date:'shortDate'}}</td>
-                      <td align="center">{{orderBook.quoteId}}</td>
                       <td align="center">{{orderBook.jobOrderNumber}}</td>
+                      <td align="center">
+						<a href ui-sref="orderbook-edit({id:orderBook.id})">
+							{{orderBook.orderBookNumber}}
+						</a>						
+					  </td>
+					  <td align="center">
+						<span ng-show="orderBook.cancelled" style="color:red;">
+							CANCELLED
+						</span>
+						<span ng-hide="orderBook.cancelled">
+							{{orderBook.orbf}}
+						</span>
+					  </td>
+                      <td align="center">{{orderBook.dateCreated | date:'shortDate'}}</td>
+					  <td align="center">{{orderBook.contractorName}}</td>
+                      <td align="center">{{orderBook.shipToName}}</td>
                       <td align="center">{{orderBook.jobName}}</td>
                       <td align="center">{{orderBook.jobAddress}}</td>
-                      <td align="center"> {{orderBook.contractorName}} </td>
                       <td align="center"> {{orderBook.salesPersonName}} </td>
                       <td align="center"> {{orderBook.createdByUserCode}} </td>
-                      <td align="center"> {{orderBook.billingAmount}} </td>
+                      <td align="center"></td>
                     </tr>
                   </tbody>
                 </table>

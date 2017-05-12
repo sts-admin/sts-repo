@@ -14,7 +14,7 @@
 				<div class="panel-heading form-heading panel-heading-top">
 					<label>Create / Update Invoice for Job #ID : {{invoiceVm.selectedOrderNumber}}</label>
 						&nbsp; | &nbsp;
-					<label>Balance Payable : {{invoiceVm.invoice.balancePayable}}</label>
+					<label>Balance Payable : {{invoiceVm.invoice.billableAmount - invoiceVm.invoice.totalPayment}}</label>
 					<span class="pull-right">
 						<input ng-disabled="!invoiceVm.invoice.id" type="submit" value="{{invoiceVm.action}} Invoice" class="invoice-add-action submit-btn btn btn-primary">
 					</span>
@@ -133,12 +133,13 @@
 										<span class="form-label">
 											Tax Rate (%)
 										</span>
+										<i class="star red">*</i>
 										<span class="colon">:</span>
 									</div>
 									<div class="col-lg-8 col-md-8 col-sm-9">
 										<div class="form-group">
-											<select class="form-control"
-											  ng-model="invoiceVm.invoice.taxRate" 
+											<select ng-required="true" class="form-control" 
+											  ng-model="invoiceVm.invoice.taxRateId" 
 											  ng-options="tr.id as tr.customName for tr in invoiceVm.taxes">
 											  <option value="">--- Select ---</option>
 											</select>
@@ -163,7 +164,6 @@
 										<span class="form-label">
 											Shipment Type
 										</span>
-										<i class="star red">*</i>
 										<span class="colon">:</span>
 									</div>
 									<div class="col-lg-4 col-md-4 col-sm-5">
@@ -176,7 +176,7 @@
 									</div>
 									<div class="col-lg-4 col-md-4 col-sm-5" ng-show="invoiceVm.invoice.shipment === 'PARTIAL' ">
 										<div class="form-group">
-											<input ng-change="invoiceVm.calculatePayable();" type="text" class="form-control" placeholder="Enter partial amount" ng-model="invoiceVm.invoice.partialPayment" ng-required="invoiceVm.invoice.shipment === 'PARTIAL'" >								 
+											<input type="text" class="form-control" placeholder="Enter partial amount" ng-model="invoiceVm.invoice.partialPayment" ng-required="invoiceVm.invoice.shipment === 'PARTIAL'" >								 
 										</div>
 									</div>
 								</div>
@@ -188,10 +188,12 @@
 										<span class="colon">:</span>
 									</div>
 									<div class="col-lg-8 col-md-8 col-sm-9">
+									{{invoiceVm.invoice.shippedVia}}
 										<div class="form-group">
 											<select class="form-control"
-											  ng-model="invoiceVm.invoice.shippedVia" 
-											  ng-options="sv.id as sv.shippedViaAddress for sv in invoiceVm.shippedVias">
+											  ng-model="invoiceVm.invoice.shippedViaId" 
+											  ng-options="sv.id as sv.shippedViaAddress for sv in invoiceVm.shippedVias" 
+											  ng-selected="invoiceVm.invoice.shippedVia.id == sv.id">
 											  <option value="">--- Select ---</option>
 											</select>
 										</div>
@@ -207,7 +209,7 @@
 									<div class="col-lg-8 col-md-8 col-sm-9">
 										<div class="form-group">
 											<select class="form-control"
-											  ng-model="invoiceVm.invoice.item1" 
+											  ng-model="invoiceVm.invoice.item1Id" 
 											  ng-options="sv.id as sv.item for sv in invoiceVm.shippedItems">
 											  <option value="">--- Select ---</option>
 											</select>
@@ -224,7 +226,7 @@
 									<div class="col-lg-8 col-md-8 col-sm-9">
 										<div class="form-group">
 											<select class="form-control"
-											  ng-model="invoiceVm.invoice.item2" 
+											  ng-model="invoiceVm.invoice.item2Id" 
 											  ng-options="sv.id as sv.item for sv in invoiceVm.shippedItems">
 											  <option value="">--- Select ---</option>
 											</select>
@@ -241,7 +243,7 @@
 									<div class="col-lg-8 col-md-8 col-sm-9">
 										<div class="form-group">
 											<select class="form-control"
-											  ng-model="invoiceVm.invoice.item3" 
+											  ng-model="invoiceVm.invoice.item3Id" 
 											  ng-options="sv.id as sv.item for sv in invoiceVm.shippedItems">
 											  <option value="">--- Select ---</option>
 											</select>
@@ -258,7 +260,7 @@
 									<div class="col-lg-8 col-md-8 col-sm-9">
 										<div class="form-group">
 											<select class="form-control"
-											  ng-model="invoiceVm.invoice.item4" 
+											  ng-model="invoiceVm.invoice.item4Id" 
 											  ng-options="sv.id as sv.item for sv in invoiceVm.shippedItems">
 											  <option value="">--- Select ---</option>
 											</select>
@@ -275,7 +277,7 @@
 									<div class="col-lg-8 col-md-8 col-sm-9">
 										<div class="form-group">
 											<select class="form-control"
-											  ng-model="invoiceVm.invoice.item5" 
+											  ng-model="invoiceVm.invoice.item5Id" 
 											  ng-options="sv.id as sv.item for sv in invoiceVm.shippedItems">
 											  <option value="">--- Select ---</option>
 											</select>
@@ -473,7 +475,8 @@
 									</div>
 									<div class="col-lg-1 col-md-1 col-sm-1"> 								
 										<span class="form-label">
-											<input type="text" placeholder="FREIGHT" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].freight"  ng-readonly="!invoiceVm.invoice.profitSheetItems[$index].manual" />
+											<input type="text" placeholder="FREIGHT" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].freight" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44 || event.charCode == 0 ">
+											
 										</span> 
 									</div>
 									<div class="col-lg-1 col-md-1 col-sm-1"> 								

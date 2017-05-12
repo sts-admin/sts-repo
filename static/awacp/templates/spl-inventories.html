@@ -86,7 +86,7 @@
 									<img src="images/file_edit.png" title="edit splInv" border="0">
 								</a> 
 									&nbsp;&nbsp; 
-									<img src="images/file_delete.png" style="cursor:pointer;" title="delete splInv" ng-click="splInvVm.deleteSplInventory(splInv.id);" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)">
+									<img ng-hide="splInv.imageCount === 0" src="images/file_delete.png" style="cursor:pointer;" title="delete splInv" ng-click="splInvVm.deleteSplInventory(splInv.id);" border="0"> &nbsp;&nbsp; <a href="javascript:void(0);" onclick="ShowDetail(90)">
 									
 								</a>
 							  </td>
