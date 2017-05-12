@@ -2,13 +2,13 @@
 (function() {
     'use strict';
 	//Local env
-	/*var base ="http://localhost:8080/awacpservices";
-	var resourceReadPath = "http://localhost/awacp/resource/img/";
-	var basePath = "/tutorial/";*/
+	var base ="http://localhost:8080/awacpservices";
+	var resourceReadPath = "http://localhost/tutorial/resource/img/";
+	var basePath = "/tutorial/";
 	//prod env
-	var base ="http://awacptechnicalservices.com:8080/awacpservices";
+	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/";
+	var basePath = "/";*/
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -435,16 +435,23 @@
 				controllerAs:"taxVm",
 				requireAuth: true,
 				cache:false
+			}).state('bill-generate',{
+				url: '/bill/:id',
+				templateUrl:"templates/bill.html",
+				controller:"InvoiceCtrl",
+				controllerAs:"invoiceVm",
+				requireAuth: true, 
+				cache:false
 			}).state('invoice-add',{
 				url: '/invoice-add/:jobId/:orderNumber',
-				templateUrl:"templates/invoice-add.html",
+				templateUrl:"templates/invoice.html",
 				controller:"InvoiceCtrl",
 				controllerAs:"invoiceVm",
 				requireAuth: true, 
 				cache:false
 			}).state('invoice-edit',{
 				url: '/invoice-edit/:jobId/:orderNumber/:invoiceId',
-				templateUrl:"templates/invoice-add.html",
+				templateUrl:"templates/invoice.html",
 				controller:"InvoiceCtrl",
 				controllerAs:"invoiceVm",
 				requireAuth: true, 

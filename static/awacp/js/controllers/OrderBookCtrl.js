@@ -27,12 +27,55 @@
 		obVm.contractors = [];
 		obVm.orderBooks = [];
 		obVm.orderBook = {invItems:[]};
-		
+		obVm.cancelOrderBook = function(id){
+			AlertService.showConfirm(	'AWACP :: Confirmation!', "Are you sure cancel this order book?")
+			.then(function (){
+				AjaxUtil.getData("/awacp/cancelOrderBook/"+id, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.result){
+						AlertService.showAlert(	'AWACP :: Message!', "Order Book Cancelled Successfully")
+						.then(function (){obVm.cancelOrderBookAction();},function (){return false;});
+						return;
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "OrderBookCtrl::obVm.cancelOrderBook::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			},
+			function (){
+				return false;
+			});
+		}
+		obVm.uncancellOrderBook = function(id){
+			AlertService.showConfirm(	'AWACP :: Confirmation!', "Are you sure to make this order book active?")
+			.then(function (){
+				AjaxUtil.getData("/awacp/uncancellOrderBook/"+id, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.result){
+						AlertService.showAlert(	'AWACP :: Message!', "Order Book Activated Successfully")
+						.then(function (){obVm.cancelOrderBookAction();},function (){return false;});
+						return;
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "OrderBookCtrl::obVm.uncancellOrderBook::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			},
+			function (){
+				return false;
+			});
+		}
 		obVm.setFactory = function(obInvType){
 			if(obInvType === 'REGULAR'){
 				return;
 			}			
-			obVm.listInvItems(obInvType);
+			obVm.listInvItems(obInvType, function(items){				
+				$scope.$apply(function(){
+					obVm.invItems = items;
+				});
+			});
 		}
 		
 		obVm.getJobByOrderId = function(orderNumber){
@@ -61,7 +104,7 @@
 			});
 		}
 		
-		obVm.listInvItems = function(source){
+		obVm.listInvItems = function(source, callback){
 			obVm.invItems = [];
 			AjaxUtil.getData("/awacp/listInventoryItems/"+source, Math.random())
 			.success(function(data, status, headers){
@@ -73,10 +116,8 @@
 						});
 					}else {
 						tmp.push(data.inventoryDTO);
-					}
-					$scope.$apply(function(){
-						obVm.invItems = tmp;
-					});					
+					}		
+					callback(tmp);
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -197,31 +238,36 @@
 			var eDate = new Date(lDate);
 			return (eDate >= sDate);
 		}
+		obVm.getItemIndex = function(invItemId){
+			var index = -1;
+			for(var i = 0; i < obVm.invItems.length; i++){
+				if(obVm.invItems[i].id == invItemId){
+					index = i;
+					break;
+				}
+			}
+			return index;
+		}
 		obVm.editOrderBook = function(){
-			if($state.params.id != undefined){
-				var formData = {};
-				AjaxUtil.getData("/awacp/getJobOrder/"+$state.params.id, Math.random())
+			if($state.params.id != undefined){				
+				AjaxUtil.getData("/awacp/getOrderBook/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.orderBook){
-						$scope.$apply(function(){
-							obVm.orderBook = data.orderBook;	
-							if(obVm.orderBook.bidders){
-								if(jQuery.isArray(obVm.orderBook.bidders)) {
-									obVm.selectedBidders = obVm.orderBook.bidders;
-								}else{
-									obVm.selectedBidders = [];
-									obVm.selectedBidders.push(obVm.orderBook.bidders);
-								}								
+						var tmpItems = data.orderBook.invItems;
+						data.orderBook.invItems = [];
+						obVm.listInvItems(data.orderBook.obCategory, function(items){
+							$scope.$apply(function(){
+								obVm.invItems = items;								
+							});
+							if(tmpItems && tmpItems.length > 0){
+								for(var i = 0; i < tmpItems.length; i++){
+									data.orderBook.invItems[obVm.getItemIndex(tmpItems[i].invItemId)] = tmpItems[i];
+								}
 							}
-							if(obVm.orderBook.generalContractors){
-								if(jQuery.isArray(obVm.orderBook.generalContractors)) {
-									obVm.selectedContractors = obVm.orderBook.generalContractors;
-								}else{
-									obVm.selectedContractors = [];
-									obVm.selectedContractors.push(obVm.orderBook.generalContractors);
-								}								
-							}
-							obVm.action = obVm.orderBook && obVm.orderBook.id?"Update":"Add New";							
+							$scope.$apply(function(){
+								obVm.orderBook = data.orderBook;
+								obVm.action = obVm.orderBook && obVm.orderBook.id?"Update":"Add New";	
+							});
 						});
 					}
 				})
@@ -263,7 +309,7 @@
 			var noInvItems = true;
 			if(obVm.orderBook.invItems && obVm.orderBook.invItems.length > 0){
 				jQuery.each(obVm.orderBook.invItems, function(k, d){
-					if(d.orderQty && d.orderQty.length > 0){
+					if(d.orderQty && (parseInt(d.orderQty) > 0 || d.orderQty.length > 0)){
 						noInvItems = false;
 						return false;
 					}

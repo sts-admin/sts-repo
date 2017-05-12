@@ -6,6 +6,8 @@
 		var jobVm = this;
 		jobVm.selectedJobId = "";
 		jobVm.selectedOrderNumber = "";
+		jobVm.billTypes = ['INV', 'BILL', 'PTL'];
+		jobVm.billType = {};
 		if($state.params.jobId != undefined){
 			jobVm.selectedJobId = $state.params.jobId;
 		}
@@ -38,8 +40,12 @@
 		jobVm.selectedBidders = [];
 		jobVm.selectedContractors = [];
 		jobVm.jobOrderGcs = [];
-		jobVm.jobOrderBidders = [];		
-		jobVm.action = "Add New";	jobVm.setCurrentPageSize =function(size){
+		jobVm.jobOrderBidders = [];	
+		jobVm.filterJobOrders = function(billType){
+			jobVm.listJobOrders(billType);
+		}		
+		jobVm.action = "Add New";	
+		jobVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("JOBORDER", size, function(status, size){
 				if("success" === status){
 					jobVm.pageSize = size;
@@ -139,17 +145,14 @@
 			jobVm.dueDate.opened = true;
 		}
 		jobVm.setNewArc = function(){
-			if(!jobVm.jobOrder.takeoffId || jobVm.jobOrder.takeoffId == undefined){return;}
 			jobVm.jobOrder.architectureName = "";
 			jobVm.arc_text = jobVm.arc_text === 'NEW'?'REVERT':'NEW';
 		}
 		jobVm.setNewCont = function(){
-			if(!jobVm.jobOrder.takeoffId || jobVm.jobOrder.takeoffId == undefined){return;}
 			jobVm.jobOrder.contractorName = "";
 			jobVm.cont_text = jobVm.cont_text === 'NEW'?'REVERT':'NEW';			
 		}
 		jobVm.setNewEng = function(){
-			if(!jobVm.jobOrder.takeoffId || jobVm.jobOrder.takeoffId == undefined){return;}
 			jobVm.jobOrder.engineerName = "";
 			jobVm.eng_text = jobVm.eng_text === 'NEW'?'REVERT':'NEW';
 		}
@@ -336,9 +339,9 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		jobVm.listJobOrders = function(){
+		jobVm.listJobOrders = function(invoiceMode){
 			jobVm.jobOrders = [];
-			AjaxUtil.getData("/awacp/listJobOrders/"+jobVm.currentPage+"/"+jobVm.pageSize, Math.random())
+			AjaxUtil.getData("/awacp/listJobOrders/"+invoiceMode+"/"+jobVm.currentPage+"/"+jobVm.pageSize, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					jobVm.totalItems = 	data.stsResponse.totalCount;
