@@ -2,46 +2,71 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="clearfix">&nbsp;</div>
 <div class="container-fluid">
-	<div class="col-lg-12 admin-mng alert alert-info" role="alert"><h3>Dashboard</h3>Welcome, {{user.userDisplayName}}</div>		
-    <div class="" id="mgtDashboard">
-	  <!-- <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href ui-sref="takeoff-view">
-		<div class="card-content"> <span>Take Off</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href ui-sref="quote-view">
-		<div class="card-content">  <span>Quote</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="joborder">
-		<div class="card-content"> <span>Job Orders</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="orderbook">
-		<div class="card-content"> <span>Order Book</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="aw_inventory">
-		<div class="card-content">  <span>Inventory AW</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="quote/followuplist">
-		<div class="card-content quotefollowup"> <span>Quote Followup</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="awf_inventory">
-		<div class="card-content"> <span>Inventory AWF</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="sbc_inventory">
-		<div class="card-content"><span>Inventory SBC</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="javascript:void(0);">
-		<div class="card-content">  <span>Trucker Claims<br>
-		  Factory Credits</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="spl_inventory">
-		<div class="card-content"><span>Inventory SPL</span> </div>
-		</a> </div>
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="marketing">
-		<div class="card-content"> <span>Marketing</span> </div>
-		</a> </div
-	  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="collection">
-		<div class="card-content">  <span>Collection</span> </div>
-		</a> </div> -->
-	</div>
+<div class="col-lg-12 admin-mng alert alert-info" role="alert"><h3>Dashboard</h3>Welcome, {{user.userDisplayName}}</div>
+		
+        <div class="" id="mgtDashboard">
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href ui-sref="takeoff-view" class="card-box takeoff">
+    <div class="card-content"> <img src="images/icons/takeoff.png" class="img-responsive" alt=""> <span>Take Off</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href ui-sref="quote-view" class="card-box quote">
+    <div class="card-content"> <img src="images/icons/quote.png" class="img-responsive" alt=""> <span>Quote</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="joborder" class="card-box job_order">
+    <div class="card-content"> <img src="images/icons/job_order.png" class="img-responsive" alt=""> <span>Job Orders</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="orderbook" class="card-box order_book">
+    <div class="card-content"> <img src="images/icons/order_book.png" class="img-responsive" alt=""> <span>Order Book</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="aw_inventory" class="card-box inventory_awpng">
+    <div class="card-content"> <img src="images/icons/inventory_awpng.png" class="img-responsive" alt=""> <span>Inventory AW</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="quote/followuplist" class="card-box quote">
+    <div class="card-content quotefollowup"> <img src="images/icons/quotefollowup.png" class="img-responsive" alt=""> <span>Quote Followup</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="awf_inventory" class="card-box inventory_awf">
+    <div class="card-content"> <img src="images/icons/inventory_awf.png" class="img-responsive" alt=""> <span>Inventory AWF</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="sbc_inventory" class="card-box inventory_sbc">
+    <div class="card-content"> <img src="images/icons/inventory_sbc.png" class="img-responsive" alt=""> <span>Inventory SBC</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="javascript:void(0);" class="card-box claim">
+    <div class="card-content"> <img src="images/icons/claim.png" class="img-responsive" alt=""> <span>Trucker Claims<br>
+      Factory Credits</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="spl_inventory" class="card-box spl">
+    <div class="card-content"> <img src="images/icons/spl.png" class="img-responsive" alt=""> <span>Inventory SPL</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="marketing" class="card-box marketing">
+    <div class="card-content"> <img src="images/icons/marketing-icon.png" class="img-responsive" alt=""> <span>Marketing</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col -->
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xss-12 text-center card"> <a href="collection" class="card-box collection">
+    <div class="card-content"> <img src="images/icons/collection.png" class="img-responsive" alt=""> <span>Collection</span> </div>
+    <!-- card-content -->
+    </a> </div>
+  <!-- .col --></div>
+  <!-- .col -->
         
         
 <div ng-include="'templates/footer.html'" ></div>
