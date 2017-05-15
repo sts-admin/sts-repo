@@ -1,24 +1,4 @@
-<div role="header" class="header-bg">
-  <div class="col-lg-3">
-	<div id="top-search" style="margin-top:15px;"> 
-		<div ng-show="user.role === 'role_admin'" class="top-search-inp hidden-xss" >
-			<span style="color:white;text-decoration:none;">Logged in as &nbsp;</span>
-			<a href ui-sref="admin" style="color:white;text-decoration:none;">{{user.userDisplayName}}</a> 
-		</div>
-		<div ng-hide="user.role === 'role_admin'">
-			<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" /><br />
-		</div>
-		</br>
-	  <a href ng-click="logoutUser();" class="logout-inp" style="color:white;text-decoration:none;">Logout</a> 
-	</div>
-	
-  </div>
-  
-</div>
-
-
-<!-- end-header -->
-
+<div role="header">
 <div class="page-header-top">
                             <div class="container-fluid">
                                 <!-- BEGIN LOGO -->
@@ -217,7 +197,8 @@
                                         <li class="dropdown dropdown-user dropdown-dark">
                                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                                 <img alt="" class="img-circle" src="images/avatar9.jpg">
-                                                <span class="username username-hide-mobile">Jack Kapoor</span>
+												<a href ui-sref="admin" class="username username-hide-mobile">{{user.userDisplayName}}</a>
+                                                
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-default">
                                                 <li>
@@ -231,12 +212,17 @@
                                                 
                                                 
                                                 <li class="divider"> </li>
-                                                <li>
+                                                <li ng-show="user.role === 'role_admin'">
                                                     <a href="locked.html">
-                                                        <i class="icon-lock"></i> Lock Screen </a>
+                                                        <i class="icon-lock"></i> Admin Dashboard </a>
                                                 </li>
+												
+												<li ng-hide="user.role === 'role_admin'">
+			<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" /><br />
+		</li>
+												
                                                 <li>
-                                                    <a href="login.html">
+                                                    <a href ng-click="logoutUser();" class="logout-inp">
                                                         <i class="icon-key"></i> Log Out </a>
                                                 </li>
                                             </ul>
@@ -252,7 +238,7 @@
                                 
                             </div>
                         </div>
-
+</div>
 
 
 
