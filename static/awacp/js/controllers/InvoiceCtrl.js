@@ -278,7 +278,10 @@
 				invoiceVm.editInvoice($state.params.invoiceId);
 			}
 		}
-		/*invoiceVm.initProfitsheetLineItems();*/
+		if($state.params.invoiceId != undefined && $state.params.invoiceOrderId != undefined){
+			invoiceVm.getJobOrderForThisInvoice($state.params.invoiceOrderId);
+			invoiceVm.editInvoice($state.params.invoiceId);
+		}
 	}		
 })();
 

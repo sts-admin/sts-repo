@@ -8,7 +8,7 @@
 	//prod env
 	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/awacp/";
+	var basePath = "/";
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -435,23 +435,23 @@
 				controllerAs:"taxVm",
 				requireAuth: true,
 				cache:false
-			}).state('bill-generate',{
-				url: '/bill/:id',
+			}).state('invoice-generate',{
+				url: '/invoice/:invoiceId/:invoiceOrderId',
+				templateUrl:"templates/invoice.html",
+				controller:"InvoiceCtrl",
+				controllerAs:"invoiceVm",
+				requireAuth: true, 
+				cache:false
+			}).state('bill-add',{
+				url: '/bill-add/:jobId/:orderNumber',
 				templateUrl:"templates/bill.html",
 				controller:"InvoiceCtrl",
 				controllerAs:"invoiceVm",
 				requireAuth: true, 
 				cache:false
-			}).state('invoice-add',{
-				url: '/invoice-add/:jobId/:orderNumber',
-				templateUrl:"templates/invoice.html",
-				controller:"InvoiceCtrl",
-				controllerAs:"invoiceVm",
-				requireAuth: true, 
-				cache:false
-			}).state('invoice-edit',{
-				url: '/invoice-edit/:jobId/:orderNumber/:invoiceId',
-				templateUrl:"templates/invoice.html",
+			}).state('bill-edit',{
+				url: '/bill-edit/:jobId/:orderNumber/:invoiceId',
+				templateUrl:"templates/bill.html",
 				controller:"InvoiceCtrl",
 				controllerAs:"invoiceVm",
 				requireAuth: true, 
@@ -557,4 +557,5 @@
 				}				
 			});
 		});
+
 })();
