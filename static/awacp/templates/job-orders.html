@@ -97,31 +97,31 @@
                       <td align="center"></td>
                       <td align="center"></td>
                       <td align="center">
-						<span ng-show="jobOrder.invoiceMode === 'inv'">
-							<a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
-								<img border="0" src="images/inv_status_inv.png">
+						<span ng-show="jobOrder.invoiceMode === 'bill'">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
+								<img border="0" src="images/inv_status_bill.png">
 							</a> 
-							<a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">
-								<img border="0" src="images/inv_status_inv.png">
+							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">
+								<img border="0" src="images/inv_status_bill.png">
 							</a>
 						</span>
 						<span ng-show="jobOrder.invoiceMode === 'ptl'">
-							<a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
 								<img border="0" src="images/inv_status_ptl.png">
 							</a> 
-							<a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">
+							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">
 								<img border="0" src="images/inv_status_ptl.png">
 							</a>
 						</span>
-						<a ng-show="jobOrder.invoiceMode === 'bill'" href ui-sref="bill-generate">
-								<img border="0" src="images/inv_status_bill.png">
+						<a ng-show="jobOrder.invoiceMode === 'inv'" href ui-sref="invoice-generate({invoiceId:jobOrder.invoiceId, invoiceOrderId:jobOrder.id})">
+							<img border="0" src="images/inv_status_inv.png">
 						</a>
 					  </td>
                       <td align="center">{{jobOrder.dateCreated | date:'shortDate'}}</td>
                       <td align="center">{{jobOrder.quoteId}}</td>
                       <td align="center">
-						<a ng-show="!jobOrder.invoiceId" href ui-sref="invoice-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> 
-						<a ng-show="jobOrder.invoiceId" href ui-sref="invoice-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a>
+						<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> 
+						<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a>
 					  </td>
                       <td align="center">{{jobOrder.jobName}}</td>
                       <td align="center">{{jobOrder.jobAddress}}</td>
