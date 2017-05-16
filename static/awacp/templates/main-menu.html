@@ -1,446 +1,91 @@
-    <nav class="navbar navbar-inverse" role="navigation">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
-                    ng-click="navCollapsed = !navCollapsed">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" ui-sref="home">Menu</a> 
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
-
-            <ul class="nav navbar-nav">
-               
-					<li uib-dropdown ng-show="menus['Takeoff']">
-						<a href="#" uib-dropdown-toggle>
-							Take Off
-							<b class='caret'></b>
-						</a>
-						<tree tree='menus["Takeoff"]'></tree>
-					</li>
-                    <li uib-dropdown ng-show="menus['Quote']">
-						<a href="#" uib-dropdown-toggle>
-							Quote
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["Quote"]'></tree>
-					</li>
-					<li uib-dropdown ng-show="menus['Job Order']">
-						<a href="#" uib-dropdown-toggle>
-							Job Order
-							<b class='caret'></b>
-						</a>
-						<tree tree='menus["Job Order"]'></tree>
-					</li>
-                    	<li uib-dropdown ng-show="menus['Order Book']">
-						<a href="#" uib-dropdown-toggle>
-							Order Book
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["Order Book"]'></tree>
-					</li>
-					 <li uib-dropdown ng-show="menus['AW']">
-						<a href="#" uib-dropdown-toggle>
-							AW
-							<span class='caret'></span>
-						</a>
-						
-						<tree tree='menus["AW"]'></tree>
-					</li>
-                     <li uib-dropdown ng-show="menus['AWF']">
-						<a href="#" uib-dropdown-toggle>
-						   AWF
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["AWF"]'></tree>
-					</li>
-					 <li uib-dropdown ng-show="menus['SBC']">
-						<a href="#" uib-dropdown-toggle>
-							SBC
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["SBC"]'></tree>
-					</li>
-					 <li uib-dropdown ng-show="menus['SPL']">
-						<a href="#" uib-dropdown-toggle>
-						   SPL
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["SPL"]'></tree>
-					</li>
-					 <li uib-dropdown ng-show="menus['J']">
-						<a href="#" uib-dropdown-toggle>
-						   J
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["J"]'></tree>
-					</li>
-                     <li uib-dropdown uib-dropdown ng-show="menus['BBT']">
-						<a href="#" uib-dropdown-toggle>
-							BBT
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["BBT"]'></tree>
-					</li>
-					 <li uib-dropdown uib-dropdown ng-show="menus['Claim']">
-						<a href="#" uib-dropdown-toggle>
-							Claims
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["Claim"]'></tree>
-					</li>
-					 <li uib-dropdown uib-dropdown ng-show="menus['Marketing']">
-						<a href="#" uib-dropdown-toggle>
-							Marketing
-							<span class='caret'></span>
-						</a>
-						<tree tree='menus["Marketing"]'></tree>
-					</li>
-					 <li uib-dropdown uib-dropdown ng-show="menus['Collection']">
-						<a href="#">
-							Collection
-						</a>
-					</li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </nav>
-	
-<!-- end-menu  -->
 <div class="page-header">
-<div class="page-header-menu">
-                            <div class="container-fluid">
-                                <!-- BEGIN HEADER SEARCH BOX -->
-                                <form class="search-form" action="" method="GET">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search" name="query">
-                                        <span class="input-group-btn">
-                                            <a href="javascript:;" class="btn submit">
-                                                <i class="icon-magnifier"></i>
-                                            </a>
-                                        </span>
-                                    </div>
-                                </form>
-                                
-                                <div class="hor-menu  ">
-                                    <ul class="nav navbar-nav">
-                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown active">
-                                            <a href="javascript:;"> <i aria-hidden="true" class="fa fa-home fa-2"></i>
- Dashboard
-                                                <span class="arrow"></span>
-                                            </a>
-                                            
-                                        </li>
-                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> Take Off
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> New Take Off </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="" class="nav-link  "> VIew Take Off </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Search Take Off </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Reports </a>
-                                                </li>
-                                               
-                                            </ul>
-                                        </li>
-                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> Quote
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> New Quote</a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> View Quote </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Search Quote </a>
-                                                </li>
-												<li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Reports </a>
-                                                </li>
-												<li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Quote Followup </a>
-                                                </li> 
-                                               
-                                            </ul>
-                                        </li>
-                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> Job Order
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> New JobOrder </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> View JobOrder </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Search JobOrder </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Reports </a>
-                                                </li>
-                                               
-                                            </ul>
-                                        </li>
-                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> Order Book
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> New Order </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> View Order </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Search Order </a>
-                                                </li>
-                                               
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Reports </a>
-                                                </li>
-                                               
-                                            </ul>
-                                        </li>
-                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;">
-                                                 Inventory
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class="dropdown-submenu ">
-                                                    <a href="javascript:;" class="nav-link nav-toggle ">
-                                                         AW Inventory
-                                                        <span class="arrow"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_index.html" class="nav-link ">
-                                                                 New AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders.html" class="nav-link ">
-                                                                 View AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders_view.html" class="nav-link ">
-                                                                 View AW Orders </a>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </li>
-                                                <li aria-haspopup="true" class="dropdown-submenu ">
-                                                    <a href="javascript:;" class="nav-link nav-toggle ">
-                                                         AWF Inventory
-                                                        <span class="arrow"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_index.html" class="nav-link ">
-                                                                 New AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders.html" class="nav-link ">
-                                                                 View AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders_view.html" class="nav-link ">
-                                                                 View AW Orders </a>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </li>
-                                                <li aria-haspopup="true" class="dropdown-submenu ">
-                                                    <a href="javascript:;" class="nav-link nav-toggle ">
-                                                         SBC Inventory
-                                                        <span class="arrow"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_index.html" class="nav-link ">
-                                                                 New AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders.html" class="nav-link ">
-                                                                 View AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders_view.html" class="nav-link ">
-                                                                 View AW Orders </a>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </li>
-                                                <li aria-haspopup="true" class="dropdown-submenu ">
-                                                    <a href="javascript:;" class="nav-link nav-toggle ">
-                                                         SPL Inventory
-                                                        <span class="arrow"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_index.html" class="nav-link ">
-                                                                 New AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders.html" class="nav-link ">
-                                                                 View AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders_view.html" class="nav-link ">
-                                                                 View AW Orders </a>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </li>
-                                                <li aria-haspopup="true" class="dropdown-submenu ">
-                                                    <a href="javascript:;" class="nav-link nav-toggle ">
-                                                         J Inventory
-                                                        <span class="arrow"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_index.html" class="nav-link ">
-                                                                 New AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders.html" class="nav-link ">
-                                                                 View AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders_view.html" class="nav-link ">
-                                                                 View AW Orders </a>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </li>
-												<li aria-haspopup="true" class="dropdown-submenu ">
-                                                    <a href="javascript:;" class="nav-link nav-toggle ">
-                                                         Q Inventory
-                                                        <span class="arrow"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_index.html" class="nav-link ">
-                                                                 New AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders.html" class="nav-link ">
-                                                                 View AW Inventory </a>
-                                                        </li>
-                                                        <li aria-haspopup="true" class=" ">
-                                                            <a href="ecommerce_orders_view.html" class="nav-link ">
-                                                                 View AW Orders </a>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-										
-										<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> BBT
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-												<li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-												<li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-												<li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Engineer </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-										
-										<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> Claims
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Trucker </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Factory </a>
-                                                </li>
-                                                
-                                            </ul>
-                                        </li>
-										<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> Marketing
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Manage Template</a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Send Template </a>
-                                                </li>
-												</ul>
-                                                
-                                        </li>
-										
-										<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> Collection
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Listing </a>
-                                                </li>
-                                                <li aria-haspopup="true" class=" ">
-                                                    <a href="javascript:;" class="nav-link  "> Collection Template </a>
-                                                </li>
-                                                
-                                              
-                                            </ul>
-                                        </li>
-										
-										
-                                    </ul>
-                                </div>
-                                <!-- END MEGA MENU -->
-                            </div>
-                        </div>
-						</div>
+  <div class="page-header-menu">
+    <div class="container-fluid">
+      <!-- BEGIN HEADER SEARCH BOX -->
+      <form class="search-form" action="" method="GET">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" name="query">
+          <span class="input-group-btn"> <a href="javascript:;" class="btn submit"> <i class="icon-magnifier"></i> </a> </span> </div>
+      </form>
+      <div class="hor-menu  ">
+        <ul class="nav navbar-nav">
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown active"> <a href="javascript:;"> <i aria-hidden="true" class="fa fa-home fa-2"></i> Dashboard <span class="arrow"></span> </a> </li>
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown ng-show="menus['Takeoff']"> <a href="#" uib-dropdown-toggle> Take Off <b class='caret'></b> </a>
+            <tree tree='menus["Takeoff"]'></tree>
+          </li>
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown ng-show="menus['Quote']"> <a href="#" uib-dropdown-toggle> Quote <span class='caret'></span> </a>
+            <tree tree='menus["Quote"]'></tree>
+          </li>
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown ng-show="menus['Job Order']"> <a href="#" uib-dropdown-toggle> Job Order <b class='caret'></b> </a>
+            <tree tree='menus["Job Order"]'></tree>
+          </li>
+          <li uib-dropdown ng-show="menus['Order Book']"> <a href="#" uib-dropdown-toggle> Order Book <span class='caret'></span> </a>
+            <tree tree='menus["Order Book"]'></tree>
+          </li>
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown "> <a href="javascript:;"> Inventory <span class="arrow"></span> </a>
+            <ul class="dropdown-menu pull-left">
+              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> AW Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu">
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+                </ul>
+              </li>
+              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> AWF Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu">
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+                </ul>
+              </li>
+              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> SBC Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu">
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+                </ul>
+              </li>
+              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> SPL Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu">
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+                </ul>
+              </li>
+              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> J Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu">
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+                </ul>
+              </li>
+              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> Q Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu">
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
+                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown uib-dropdown ng-show="menus['BBT']">
+          <a href="#" uib-dropdown-toggle> BBT <span class='caret'></span> </a>
+          <tree tree='menus["BBT"]'></tree>
+          </li>
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown uib-dropdown ng-show="menus['Claim']">
+          <a href="#" uib-dropdown-toggle> Claims <span class='caret'></span> </a>
+          <tree tree='menus["Claim"]'></tree>
+          </li>
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown uib-dropdown ng-show="menus['Marketing']">
+          <a href="#" uib-dropdown-toggle> Marketing <span class='caret'></span> </a>
+          <tree tree='menus["Marketing"]'></tree>
+          </li>
+          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown uib-dropdown ng-show="menus['Collection']">
+          <a href="#"> Collection </a>
+          </li>
+        </ul>
+      </div>
+      <!-- END MEGA MENU -->
+    </div>
+  </div>
+</div>
