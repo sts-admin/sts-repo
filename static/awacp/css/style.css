@@ -1,3 +1,11 @@
+
+/* custom-class */
+.bottom-mar{margin-bottom:20px;}
+
+
+
+/* end-custom-class */
+
 .widget-clock.blue-light .clock-face {
   stroke: #153b6f;
   fill: #0e2434;
