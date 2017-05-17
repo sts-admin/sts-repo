@@ -33,7 +33,7 @@ body {
 	margin:0;
 	border:0;
 	padding:0;
-	height:126px;
+	height:auto;
 	background-image:none
 }
 .page-header:after, .page-header:before {

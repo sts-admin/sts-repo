@@ -1,4 +1,4 @@
-<div role="header" class="page-header">
+<div class="page-header">
   <div class="page-header-top">
     <div class="container-fluid">
       <!-- BEGIN LOGO -->
@@ -52,12 +52,18 @@
           </li>
           <!-- END INBOX DROPDOWN -->
           <!-- BEGIN USER LOGIN DROPDOWN -->
-          <li class="dropdown dropdown-user dropdown-dark"> <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <img alt="" class="img-circle" src="images/avatar9.jpg"> <a href ui-sref="admin" class="username username-hide-mobile">{{user.userDisplayName}}</a> </a>
+          <li class="dropdown dropdown-user dropdown-dark">
+		  
+		  <a data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+          <img alt="" class="img-circle" src="images/avatar9.jpg">
+          <span class="username username-hide-mobile">{{user.userDisplayName}}</span>
+          </a>
+		  
             <ul class="dropdown-menu dropdown-menu-default">
               <li> <a href="user_profile.html"> <i class="icon-user"></i> Edit Profile </a> </li>
               <li> <a href="user_profile.html"> <i class="icon-calendar"></i> Change Password </a> </li>
               <li class="divider"> </li>
-              <li ng-show="user.role === 'role_admin'"> <a href="locked.html"> <i class="icon-lock"></i> Admin Dashboard </a> </li>
+              <li ng-show="user.role === 'role_admin'"> <a ui-sref="admin"> <i class="icon-lock"></i> Admin Dashboard </a> </li>
               <li ng-hide="user.role === 'role_admin'">
                 <input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" />
                 <br />
