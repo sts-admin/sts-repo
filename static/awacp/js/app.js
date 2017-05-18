@@ -3,8 +3,11 @@
     'use strict';
 	//Local env
 	/*var base ="http://localhost:8080/awacpservices";
-	var resourceReadPath = "http://localhost/awacp/resource/img/";
+	var resourceReadPath = "http://localhost/tutorial/resource/img/";
 	var basePath = "/tutorial/";*/
+	var base ="http://localhost:8080/awacpservices";
+	var resourceReadPath = "http://localhost/awacp/resource/img/";
+	var basePath = "/awacp/";
 	//prod env
 	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
