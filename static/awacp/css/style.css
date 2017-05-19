@@ -19,6 +19,18 @@
 }
 .dropdown-menu > li, dropdown-menu > li > a{margin:0px !important;}
 
+.worksheet h1 {
+    color: #4b4b4b;
+    font-family: Tahoma;
+    font-size: 2em;
+    font-weight: normal;
+    line-height: 1em;
+}
+.worksheet tr th{border:1px solid #000; width:10%; padding: 5px; font-weight:bold;}
+.worksheet tr td {border:1px solid #000; width:40%; padding: 5px; text-transform:uppercase;}
+.pad5 {
+    padding: 5px;
+}
 /* end-custom-class */
 
 .widget-clock.blue-light .clock-face {
