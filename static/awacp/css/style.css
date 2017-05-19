@@ -17,7 +17,7 @@
     line-height: 0.428571;
     margin: 0;
 }
-
+.dropdown-menu > li, dropdown-menu > li > a{margin:0px !important;}
 
 /* end-custom-class */
 
