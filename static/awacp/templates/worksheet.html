@@ -4,14 +4,17 @@
 	<div class="clearfix">
 		<div class="panel panel-default shadow">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>Worksheet</label>				
+				<label>Update Worksheet</label>				
 			</div>
 			<div class="panel-body">
 				<form name="worksheetForm" ng-submit="wsVm.addWorksheet();" >
 				  <table class="table-responsive worksheet">
 					<tr style="background-color:silver;">
 						<th colspan="4" style="text-align:center;">
-							OFFICE WORKSHEET
+							<h1>OFFICE WORKSHEET</h1>
+							
+							<input  class="btn btn-success" type="button" value="Update Worksheet" />
+						
 						</th>
 					</tr>
 					<tr>					
@@ -46,16 +49,32 @@
 					</tr>
 					<tr>
 						<th>Bidders</th>
-						<td colspan="3"></td>
+						<td colspan="5"></td>
 					</tr>
 					<tr>
-						<th>
+						<td>
 							<input ng-click="wsVm.sendQuoteToBidders(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.bidders" class="btn btn-primary" type="button" value="Send Quote to Bidders" />
-						</th>
-						<td colspan="3"></td>
+						</td>
+						
+						<td>
+						<input class="btn btn-primary" type="button" value="Preview Quote" />
+						</td>
+						
+						<td>
+						<input class="btn btn-primary" type="button" value="View PDF" />
+						</td>
+						
+						<td>
+						<input class="btn btn-primary" type="button" value="Bidders List" />
+						</td>
+						<td>
+						<input class="btn btn-danger" type="button" value="Delete Worksheet" />
+						</td>
+						
 					</tr>
 				  </table>
-				  <div>
+				  
+				  <div class="products-info"> 
 					 
 					<div class="worksheet-info container" ng-repeat="manufacturerItem in wsVm.worksheet.manufacturerItems track by $index">
 						 <div style="width:100%;background-color:silver;text-align:center;margin-bottom:10px;">
