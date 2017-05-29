@@ -37,6 +37,8 @@ public class WsManufacturerInfo extends BaseEntity {
 	private Set<WsProductInfo> productItems;
 	private String comments;
 
+	private boolean manualMultiplierSet;
+
 	public WsManufacturerInfo() {
 		super();
 	}
@@ -70,7 +72,7 @@ public class WsManufacturerInfo extends BaseEntity {
 
 	@XmlElement(name = "pdnis")
 	@ManyToMany(cascade = { CascadeType.DETACH })
-	@JoinTable(name = "WS_MND_PDNI", joinColumns = @JoinColumn(name = "MND") , inverseJoinColumns = @JoinColumn(name = "PDNI") )
+	@JoinTable(name = "WS_MND_PDNI", joinColumns = @JoinColumn(name = "MND"), inverseJoinColumns = @JoinColumn(name = "PDNI"))
 	public Set<Pdni> getPdnis() {
 		return pdnis;
 	}
@@ -139,7 +141,7 @@ public class WsManufacturerInfo extends BaseEntity {
 
 	@XmlElement(name = "productItems")
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "WS_MND_PRODUCT", joinColumns = @JoinColumn(name = "MND") , inverseJoinColumns = @JoinColumn(name = "PRODUCT") )
+	@JoinTable(name = "WS_MND_PRODUCT", joinColumns = @JoinColumn(name = "MND"), inverseJoinColumns = @JoinColumn(name = "PRODUCT"))
 	public Set<WsProductInfo> getProductItems() {
 		return productItems;
 	}
@@ -172,4 +174,13 @@ public class WsManufacturerInfo extends BaseEntity {
 			return false;
 		return true;
 	}
+
+	public boolean isManualMultiplierSet() {
+		return manualMultiplierSet;
+	}
+
+	public void setManualMultiplierSet(boolean manualMultiplierSet) {
+		this.manualMultiplierSet = manualMultiplierSet;
+	}
+
 }

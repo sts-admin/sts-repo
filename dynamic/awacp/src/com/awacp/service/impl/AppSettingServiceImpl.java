@@ -1,14 +1,11 @@
 package com.awacp.service.impl;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.AppSetting;
-import com.awacp.entity.PageSetting;
 import com.awacp.service.AppSettingService;
 import com.sts.core.service.impl.CommonServiceImpl;
 

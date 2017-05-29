@@ -358,21 +358,19 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 	@Override
 	@Transactional
 	public void updateWorksheetInfo(Long takeoffId, Long worksheetId, Double amount) {
+		System.err.println("updateWorksheetInfo: takeoffId = "+ takeoffId + ", worksheetId = "+ worksheetId);
 		Takeoff takeoff = getTakeoff(takeoffId);
 		if (!takeoff.isWsCreated()) {
 			takeoff.setWsCreated(true);
 		}
-		if (takeoff.getWsDate() == null) {
-			takeoff.setWsDate(Calendar.getInstance());
-		}
-		if (takeoff.getWorksheetId() == null) {
+		if (takeoff.getWorksheetId() == null || takeoff.getWorksheetId() <= 0) {
 			takeoff.setWorksheetId(worksheetId);
+			takeoff.setWsDate(Calendar.getInstance());
 		}
 
 		takeoff.setAmount(amount);
 		getEntityManager().merge(takeoff);
 		getEntityManager().flush();
-
 	}
 
 	@SuppressWarnings("unchecked")

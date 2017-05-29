@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Invoice;
+import com.awacp.entity.ItemShipped;
 import com.awacp.entity.JobOrder;
 import com.awacp.entity.OrderBook;
 import com.awacp.entity.OrderBookInvItem;
 import com.awacp.entity.ProfitSheetItem;
+import com.awacp.entity.ShippedVia;
+import com.awacp.entity.TaxEntry;
 import com.awacp.service.InvoiceService;
 import com.awacp.service.JobService;
 import com.awacp.service.OrderBookService;
@@ -54,7 +57,21 @@ public class InvoiceServiceImpl implements InvoiceService {
 		Invoice invoice = getEntityManager().find(Invoice.class, invoiceId);
 		invoice.setProfitOrLossLabel("Profit");
 		setInvoiceProfitSheet(invoice);
+		enrichInvoice(invoice);
 		return invoice;
+	}
+
+	private void enrichInvoice(Invoice invoice) {
+		TaxEntry taxEntry = getEntityManager().find(TaxEntry.class, invoice.getTaxRateId());
+		invoice.setTaxRateString(taxEntry.getCity() + " (" + taxEntry.getRate() + ")");
+		invoice.setTaxRate(taxEntry.getRate());
+		ShippedVia sVia = getEntityManager().find(ShippedVia.class, invoice.getShippedViaId());
+		invoice.setShippedVia(sVia.getShippedViaAddress());
+		invoice.setItem1Name(getEntityManager().find(ItemShipped.class, invoice.getItem1Id()).getItem());
+		invoice.setItem2Name(getEntityManager().find(ItemShipped.class, invoice.getItem2Id()).getItem());
+		invoice.setItem3Name(getEntityManager().find(ItemShipped.class, invoice.getItem3Id()).getItem());
+		invoice.setItem4Name(getEntityManager().find(ItemShipped.class, invoice.getItem4Id()).getItem());
+		invoice.setItem5Name(getEntityManager().find(ItemShipped.class, invoice.getItem5Id()).getItem());
 	}
 
 	private Double calculateTotalCost(Set<ProfitSheetItem> psItems) {
@@ -119,8 +136,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 		if (invoice.getBillableAmount().intValue() > 0
 				&& invoice.getBillableAmount().compareTo(invoice.getTotalPayment()) <= 0) {
 			invoice.setShipment(StsCoreConstant.INV_SHIPMENT_TYPE_FULL);
-		}else{
-			invoice.setShipment(StsCoreConstant.INV_SHIPMENT_TYPE_PARTIAL);
 		}
 
 		JobOrder jobOrder = getEntityManager().find(JobOrder.class, invoice.getJobOrderId());
@@ -131,10 +146,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 		} else {
 			getEntityManager().merge(invoice);
 		}
-		if (invoice.getShipment().equalsIgnoreCase(StsCoreConstant.INV_SHIPMENT_TYPE_PARTIAL)) {
+		if (invoice.getShipment() == null || invoice.getShipment().isEmpty()) {
+			jobOrder.setInvoiceMode(StsCoreConstant.INV_MODE_BILL);
+		} else if (invoice.getShipment().equalsIgnoreCase(StsCoreConstant.INV_SHIPMENT_TYPE_PARTIAL)) {
 			jobOrder.setInvoiceMode(StsCoreConstant.INV_MODE_PTL);
 		} else if (invoice.getShipment().equalsIgnoreCase(StsCoreConstant.INV_SHIPMENT_TYPE_FULL)) {
-			jobOrder.setInvoiceMode(StsCoreConstant.INV_MODE_BILL);
+			jobOrder.setInvoiceMode(StsCoreConstant.INV_MODE_INV);
 		}
 		getEntityManager().merge(jobOrder);
 
@@ -185,7 +202,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 			existingInvoice = true;
 		} else {
 			invoice = new Invoice();
-			invoice.setShipment(StsCoreConstant.INV_SHIPMENT_TYPE_PARTIAL);
 			invoice.setJobOrderId(ob.getJobId());
 			invoice.setAwOrderNumber(ob.getJobOrderNumber());
 			invoice.setPrePayAmount(0.0D);

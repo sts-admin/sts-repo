@@ -1,8 +1,6 @@
 package com.awacp.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -19,12 +17,12 @@ public class AppSetting extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	private String companyName;
-	private String frontWebsite;
+	private String frontWebsite = "www.awacp.com";
 	private String backendApp;
-	private String officeAddress;
-	private String phoneNumber;
-	private String faxNumber;
-	private String emailAddress;
+	private String officeAddress = "270 MADISON AVENUE, SUITE 1805, NEW YORK, N.Y. 10016";
+	private String phoneNumber = "(212) 679-8550";
+	private String faxNumber = "(212) 213-5067";
+	private String emailAddress = "edwgs@awacp.com";
 	private String clockOneLabel;
 	private boolean clockOneActive;
 	private String clockOneTimezone;

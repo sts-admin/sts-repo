@@ -22,8 +22,7 @@ import com.sts.core.entity.BaseEntity;
 
 @NamedQueries({
 		@NamedQuery(name = "Invoice.getByOrderId", query = "SELECT inv FROM Invoice inv WHERE inv.archived = 'false' AND inv.jobOrderId = :jobOrderId"),
-		@NamedQuery(name = "Invoice.getArchivedInvoiceByOrderId", query = "SELECT inv FROM Invoice inv WHERE inv.archived = 'true' AND inv.jobOrderId = :jobOrderId")
-})
+		@NamedQuery(name = "Invoice.getArchivedInvoiceByOrderId", query = "SELECT inv FROM Invoice inv WHERE inv.archived = 'true' AND inv.jobOrderId = :jobOrderId") })
 public class Invoice extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -63,6 +62,16 @@ public class Invoice extends BaseEntity {
 	private String profitOrLossLabel;
 
 	private Set<ProfitSheetItem> profitSheetItems;
+
+	private String shippedVia;
+	private Double taxRate = 0.0D;
+	private String taxRateString;
+
+	private String item1Name;
+	private String item2Name;
+	private String item3Name;
+	private String item4Name;
+	private String item5Name;
 
 	public Invoice() {
 		super();
@@ -290,4 +299,77 @@ public class Invoice extends BaseEntity {
 	public void setItem5Id(Long item5Id) {
 		this.item5Id = item5Id;
 	}
+
+	@Transient
+	public String getShippedVia() {
+		return shippedVia;
+	}
+
+	public void setShippedVia(String shippedVia) {
+		this.shippedVia = shippedVia;
+	}
+
+	@Transient
+	public Double getTaxRate() {
+		return taxRate;
+	}
+
+	public void setTaxRate(Double taxRate) {
+		this.taxRate = taxRate;
+	}
+
+	@Transient
+	public String getItem1Name() {
+		return item1Name;
+	}
+
+	public void setItem1Name(String item1Name) {
+		this.item1Name = item1Name;
+	}
+
+	@Transient
+	public String getItem2Name() {
+		return item2Name;
+	}
+
+	public void setItem2Name(String item2Name) {
+		this.item2Name = item2Name;
+	}
+
+	@Transient
+	public String getItem3Name() {
+		return item3Name;
+	}
+
+	public void setItem3Name(String item3Name) {
+		this.item3Name = item3Name;
+	}
+
+	@Transient
+	public String getItem4Name() {
+		return item4Name;
+	}
+
+	public void setItem4Name(String item4Name) {
+		this.item4Name = item4Name;
+	}
+
+	@Transient
+	public String getItem5Name() {
+		return item5Name;
+	}
+
+	public void setItem5Name(String item5Name) {
+		this.item5Name = item5Name;
+	}
+
+	@Transient
+	public String getTaxRateString() {
+		return taxRateString;
+	}
+
+	public void setTaxRateString(String taxRateString) {
+		this.taxRateString = taxRateString;
+	}
+
 }

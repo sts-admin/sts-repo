@@ -70,6 +70,8 @@ public class Takeoff extends BaseEntity {
 	private Set<GeneralContractor> generalContractors;
 	private Spec spec;
 
+	private boolean worksheetDeleted;
+
 	private String vibrolayin;
 	private Double amount;
 	// VIBRO LAY IN
@@ -98,8 +100,11 @@ public class Takeoff extends BaseEntity {
 	private int quoteXlsDocCount;
 	private int quoteVibroDocCount;
 
+	private AppSetting appSetting;
+
 	public Takeoff() {
 		super();
+		appSetting = new AppSetting();
 	}
 
 	@NotNull
@@ -534,6 +539,23 @@ public class Takeoff extends BaseEntity {
 
 	public void setQuoteVibroDocCount(int quoteVibroDocCount) {
 		this.quoteVibroDocCount = quoteVibroDocCount;
+	}
+
+	@Transient
+	public AppSetting getAppSetting() {
+		return appSetting;
+	}
+
+	public void setAppSetting(AppSetting appSetting) {
+		this.appSetting = appSetting;
+	}
+
+	public boolean isWorksheetDeleted() {
+		return worksheetDeleted;
+	}
+
+	public void setWorksheetDeleted(boolean worksheetDeleted) {
+		this.worksheetDeleted = worksheetDeleted;
 	}
 
 }

@@ -9,7 +9,7 @@ public interface QuoteNoteService {
 
 	public QuoteNote saveQuoteNote(QuoteNote QuoteNote);
 
-	public QuoteNote getQuoteNote(Long architectId);
+	public QuoteNote getQuoteNote(Long id);
 
 	public StsResponse<QuoteNote> listQuoteNotes(int pageNumber, int pageSize);
 

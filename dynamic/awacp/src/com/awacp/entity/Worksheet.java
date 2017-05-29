@@ -31,11 +31,7 @@ public class Worksheet extends BaseEntity {
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user update this record.
 
-	// Transient
-
 	private Takeoff takeoff;
-	private String[] manufacturerArray;
-	private String[] quoteArray;
 
 	public Worksheet() {
 		super();
@@ -50,8 +46,8 @@ public class Worksheet extends BaseEntity {
 	}
 
 	@XmlElement(name = "notes")
-	@ManyToMany(cascade = { CascadeType.DETACH })
-	@JoinTable(name = "WS_NOTE", joinColumns = @JoinColumn(name = "WS") , inverseJoinColumns = @JoinColumn(name = "NOTE") )
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "WS_WORKSHEET_NOTE", joinColumns = @JoinColumn(name = "WORKSHEET"), inverseJoinColumns = @JoinColumn(name = "NOTE"))
 	public Set<QuoteNote> getNotes() {
 		return notes;
 	}
@@ -102,32 +98,14 @@ public class Worksheet extends BaseEntity {
 	}
 
 	@XmlElement(name = "manufacturerItems")
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "WS_MND", joinColumns = @JoinColumn(name = "WS") , inverseJoinColumns = @JoinColumn(name = "MND") )
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "WS_MND", joinColumns = @JoinColumn(name = "WS"), inverseJoinColumns = @JoinColumn(name = "MND"))
 	public Set<WsManufacturerInfo> getManufacturerItems() {
 		return manufacturerItems;
 	}
 
 	public void setManufacturerItems(Set<WsManufacturerInfo> manufacturerItems) {
 		this.manufacturerItems = manufacturerItems;
-	}
-
-	@Transient
-	public String[] getManufacturerArray() {
-		return manufacturerArray;
-	}
-
-	public void setManufacturerArray(String[] manufacturerArray) {
-		this.manufacturerArray = manufacturerArray;
-	}
-
-	@Transient
-	public String[] getQuoteArray() {
-		return quoteArray;
-	}
-
-	public void setQuoteArray(String[] quoteArray) {
-		this.quoteArray = quoteArray;
 	}
 
 }

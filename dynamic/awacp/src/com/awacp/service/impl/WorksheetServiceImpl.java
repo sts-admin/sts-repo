@@ -1,6 +1,9 @@
 package com.awacp.service.impl;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -8,11 +11,14 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Bidder;
+import com.awacp.entity.QuoteMailTracker;
+import com.awacp.entity.QuoteNote;
 import com.awacp.entity.Takeoff;
 import com.awacp.entity.Worksheet;
 import com.awacp.entity.WsManufacturerInfo;
-import com.awacp.entity.WsProductInfo;
 import com.awacp.service.MailService;
+import com.awacp.service.QuoteNoteService;
 import com.awacp.service.TakeoffService;
 import com.awacp.service.WorksheetService;
 import com.awacp.util.QuotePdfGenerator;
@@ -30,6 +36,9 @@ public class WorksheetServiceImpl implements WorksheetService {
 	TakeoffService takeoffService;
 
 	@Autowired
+	QuoteNoteService quoteNoteService;
+
+	@Autowired
 	MailService mailService;
 
 	@PersistenceContext
@@ -44,19 +53,35 @@ public class WorksheetServiceImpl implements WorksheetService {
 	@Override
 	@Transactional
 	public Worksheet updateWorksheet(Worksheet worksheet) {
+		System.err.println("updateWorksheet");
 		Worksheet eWorksheet = getWorksheet(worksheet.getId());
 		eWorksheet.setUpdatedByUserCode(worksheet.getUpdatedByUserCode());
 		eWorksheet.setSpecialNotes(worksheet.getSpecialNotes());
 		eWorksheet.setGrandTotal(worksheet.getGrandTotal());
-		if (worksheet.getNotes() == null || worksheet.getNotes().isEmpty()) {
-			eWorksheet.getNotes().clear();
+		if (worksheet.getNotes() != null) {
+			if (worksheet.getNotes().isEmpty()) {
+				eWorksheet.getNotes().clear();
+			} else {
+				Set<QuoteNote> notes = new HashSet<QuoteNote>();
+				for (QuoteNote note : worksheet.getNotes()) {
+					QuoteNote aNote = quoteNoteService.getQuoteNote(note.getId());
+					if (aNote != null) {
+						notes.add(aNote);
+					}
+				}
+				if (!notes.isEmpty()) {
+					eWorksheet.setNotes(notes);
+				}
+			}
 		}
-		if (worksheet.getManufacturerItems() != null && worksheet.getManufacturerItems().isEmpty()) {
+
+		if (worksheet.getManufacturerItems() == null && worksheet.getManufacturerItems().isEmpty()) {
 			eWorksheet.getManufacturerItems().clear();
-		}else{
+		} else {
 			eWorksheet.setManufacturerItems(worksheet.getManufacturerItems());
 		}
 		getEntityManager().merge(eWorksheet);
+		getEntityManager().flush();
 		takeoffService.updateWorksheetInfo(worksheet.getTakeoffId(), worksheet.getId(), worksheet.getGrandTotal());
 		return eWorksheet;
 	}
@@ -65,17 +90,36 @@ public class WorksheetServiceImpl implements WorksheetService {
 	@Transactional
 	public Worksheet saveWorksheet(Worksheet worksheet) {
 		double grandTotal = 0D;
-		for(WsManufacturerInfo info : worksheet.getManufacturerItems()){
-			grandTotal = (grandTotal + (info.getQuoteAmount() == null? 0 : info.getQuoteAmount()));
+		for (WsManufacturerInfo info : worksheet.getManufacturerItems()) {
+			grandTotal = (grandTotal + (info.getQuoteAmount() == null ? 0 : info.getQuoteAmount()));
 		}
 		worksheet.setGrandTotal(grandTotal);
 		if (worksheet.getId() != null && worksheet.getId() > 0) {
 			return updateWorksheet(worksheet);
 		}
-		for(WsManufacturerInfo wsMInfo: worksheet.getManufacturerItems()){
-			System.err.println("Manufacturer ID: "+ wsMInfo.getManufacturer().getId());
-			for(WsProductInfo wsProdInfo: wsMInfo.getProductItems()){
-				System.err.println("Product in manufacturer block with  ID "+wsMInfo.getManufacturer().getId() + " is "+ wsProdInfo.getProduct().getId());
+		/*
+		 * for (WsManufacturerInfo wsMInfo : worksheet.getManufacturerItems()) {
+		 * System.err.println("Manufacturer ID: " +
+		 * wsMInfo.getManufacturer().getId()); for (WsProductInfo wsProdInfo :
+		 * wsMInfo.getProductItems()) { System.err.println(
+		 * "Product in manufacturer block with  ID " +
+		 * wsMInfo.getManufacturer().getId() + " is " +
+		 * wsProdInfo.getProduct().getId()); } }
+		 */
+		if (worksheet.getNotes() != null) {
+			if (worksheet.getNotes().isEmpty()) {
+				worksheet.getNotes().clear();
+			} else {
+				Set<QuoteNote> notes = new HashSet<QuoteNote>();
+				for (QuoteNote note : worksheet.getNotes()) {
+					QuoteNote aNote = quoteNoteService.getQuoteNote(note.getId());
+					if (aNote != null) {
+						notes.add(aNote);
+					}
+				}
+				if (!notes.isEmpty()) {
+					worksheet.setNotes(notes);
+				}
 			}
 		}
 		getEntityManager().persist(worksheet);
@@ -93,10 +137,32 @@ public class WorksheetServiceImpl implements WorksheetService {
 	@Transactional
 	public String delete(Long id) {
 		Worksheet entity = getWorksheet(id);
+
 		if (entity != null) {
+			if (entity.getManufacturerItems() != null) {
+				entity.getManufacturerItems().clear();
+				/*
+				 * for(WsManufacturerInfo wsManu:
+				 * entity.getManufacturerItems()){ if(wsManu.getPdnis() != null
+				 * && !wsManu.getPdnis().isEmpty()){ wsManu.getPdnis().clear();
+				 * } if(wsManu.getProductItems() != null &&
+				 * !wsManu.getProductItems().isEmpty()){
+				 * wsManu.getProductItems().clear(); } }
+				 */
+			}
 			entity.setArchived(true);
+			if (entity.getNotes() != null) {
+				entity.getNotes().clear();
+			}
 			getEntityManager().merge(entity);
 			getEntityManager().flush();
+			getEntityManager().remove(entity);
+			Takeoff takeoff = takeoffService.getTakeoff(entity.getTakeoffId());
+			takeoff.setWorksheetId(null);
+			takeoff.setWsCreated(false);
+			takeoff.setWorksheetDeleted(true);
+			takeoffService.updateTakeoff(takeoff);
+
 			return "success";
 		}
 		return "fail";
@@ -116,9 +182,49 @@ public class WorksheetServiceImpl implements WorksheetService {
 		String pdfFilePath = AppPropConfig.resourceWritePath + fileName;
 		String logoPath = AppPropConfig.resourceWritePath + "awacp_big_logo.png";
 		new QuotePdfGenerator(pdfFilePath, logoPath, worksheet).generate();
-		return mailService.sendQuoteMailToBidders(worksheet, fileName, pdfFilePath);
+		boolean mailSendSuccess = mailService.sendQuoteMailToBidders(worksheet, fileName, pdfFilePath);
+		if (mailSendSuccess) {
+			if (worksheet.getTakeoff().getBidders() != null) {
+				QuoteMailTracker qmw = null;
+				for (Bidder bidder : worksheet.getTakeoff().getBidders()) {
+					qmw  = new QuoteMailTracker();
+					qmw.set
+				}
+			}
+
+		}
+		return mailSendSuccess;
 	}
 
-	
+	@Override
+	public Worksheet getOfficeWorksheet(Long worksheetId) {
+		Worksheet ws = getWorksheet(worksheetId);
+		ws.getNotes();
+		if (ws.getTakeoff() == null) {
+			ws.setTakeoff(takeoffService.getTakeoff(ws.getTakeoffId()));
+		}
+		if (ws.getManufacturerItems() != null) {
+			for (WsManufacturerInfo wsManufacInfo : ws.getManufacturerItems()) {
+				wsManufacInfo.getPdnis();
+				wsManufacInfo.getProductItems();
+			}
+		}
+		return ws;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<QuoteMailTracker> listByTakeoff(Long takeoffId) {
+		return getEntityManager().createNamedQuery("QuoteMailTracker.listByTakeoffId")
+				.setParameter("takeoffId", takeoffId).getResultList();
+	}
+
+	@Override
+	@Transactional
+	public QuoteMailTracker saveQuoteMailTracker(QuoteMailTracker quoteMailTracker) {
+		getEntityManager().persist(quoteMailTracker);
+		getEntityManager().flush();
+		return quoteMailTracker;
+	}
 
 }

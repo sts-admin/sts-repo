@@ -1,6 +1,7 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.QuoteFollowup;
 import com.awacp.entity.Takeoff;
+import com.awacp.entity.Worksheet;
 import com.awacp.service.SpecService;
 import com.awacp.service.TakeoffService;
+import com.awacp.service.WorksheetService;
+import com.awacp.util.QuotePdfGenerator;
+import com.sts.core.config.AppPropConfig;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.web.filter.CrossOriginFilter;
 
@@ -28,23 +33,50 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	private TakeoffService takeoffService;
 
 	@Autowired
+	private WorksheetService worksheetService;
+
+	@Autowired
 	SpecService specService;
-	
+
+	@GET
+	@Path("/generatePdfUrl/{worksheetId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String generatePdfUrl(@PathParam("worksheetId") Long worksheetId) throws Exception {
+		String fileName = "quote-" + Calendar.getInstance().getTimeInMillis() + ".pdf";
+		String pdfFilePath = AppPropConfig.resourceWritePath + fileName;
+		String logoPath = AppPropConfig.resourceWritePath + "awacp_big_logo.png";
+		Worksheet worksheet = worksheetService.getWorksheet(worksheetId);
+		if (worksheet.getTakeoff() == null) {
+			worksheet.setTakeoff(takeoffService.getTakeoff(worksheet.getTakeoffId()));
+		}
+		new QuotePdfGenerator(pdfFilePath, logoPath, worksheet).generate();
+		/*
+		 * FileInputStream fileInputStream = new FileInputStream(new
+		 * File(pdfFilePath)); javax.ws.rs.core.Response.ResponseBuilder
+		 * responseBuilder = javax.ws.rs.core.Response .ok((Object)
+		 * fileInputStream); responseBuilder.type("application/pdf");
+		 * responseBuilder.header("Content-Disposition", "inline; filename=" +
+		 * fileName);
+		 */
+		String fileUrl = AppPropConfig.resourceReadPath + fileName;
+		return "{\"fileUrl\":\"" + fileUrl + "\"}";
+	}
+
 	@GET
 	@Path("/getAllQuoteFollowups/{takeoffId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<QuoteFollowup> getAllQuoteFollowups(@PathParam("takeoffId") Long takeoffId, @Context HttpServletResponse servletResponse)
-			throws IOException {
+	public List<QuoteFollowup> getAllQuoteFollowups(@PathParam("takeoffId") Long takeoffId,
+			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.takeoffService.getAllQuoteFollowups(takeoffId);
 	}
-	
+
 	@POST
 	@Path("/saveQuoteFollowup")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String saveQuoteFollowup(QuoteFollowup quoteFollowup, @Context HttpServletResponse servletResponse)
 			throws Exception {
-		Long id =  this.takeoffService.saveQuoteFollowup(quoteFollowup);
+		Long id = this.takeoffService.saveQuoteFollowup(quoteFollowup);
 		return "{\"id\":\"" + id + "\"}";
 	}
 
@@ -60,7 +92,8 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@Path("/listTakeoffsForView/{pageNumber}/{pageSize}/{quoteView}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<Takeoff> listTakeoffsForView(@PathParam("pageNumber") int pageNumber,
-			@PathParam("pageSize") int pageSize, @PathParam("quoteView") boolean quoteView, @Context HttpServletResponse servletResponse) throws IOException {
+			@PathParam("pageSize") int pageSize, @PathParam("quoteView") boolean quoteView,
+			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.takeoffService.listTakeoffsForView(pageNumber, pageSize, quoteView);
 	}
 
@@ -87,7 +120,7 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 			throws IOException {
 		return this.takeoffService.getTakeoff(id);
 	}
-	
+
 	@GET
 	@Path("/getTakeoffWithDetail/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
