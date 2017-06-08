@@ -118,17 +118,17 @@
 						</a>
 					  </td>
                       <td align="center">{{jobOrder.dateCreated | date:'shortDate'}}</td>
-                      <td align="center">{{jobOrder.quoteId}}</td>
+                      <td align="center">{{jobOrder.quoteId?jobOrder.quoteId:'...'}}</td>
                       <td align="center">
 						<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> 
 						<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a>
 					  </td>
-                      <td align="center">{{jobOrder.jobName}}</td>
-                      <td align="center">{{jobOrder.jobAddress}}</td>
-                      <td align="center"> {{jobOrder.contractorName}} </td>
-                      <td align="center"> {{jobOrder.salesPersonName}} </td>
-                      <td align="center"> {{jobOrder.createdByUserCode}} </td>
-                      <td align="center"> {{jobOrder.billingAmount}} </td>
+                      <td align="center">{{jobOrder.jobName?jobOrder.jobName:'...'}}</td>
+                      <td align="center">{{jobOrder.jobAddress?jobOrder.jobAddress:'...'}}</td>
+                      <td align="center"> {{jobOrder.contractorName?jobOrder.contractorName:'...'}} </td>
+                      <td align="center"> {{jobOrder.salesPersonName?jobOrder.salesPersonName:'...'}} </td>
+                      <td align="center"> {{jobOrder.createdByUserCode?jobOrder.createdByUserCode:'...'}} </td>
+                      <td align="center"> {{jobOrder.billingAmount?jobOrder.billingAmount:'...'}} </td>
                     </tr>
                   </tbody>
                 </table>

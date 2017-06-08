@@ -79,14 +79,19 @@
 								  <img  popover-placement="right" uib-popover-template="qVm.quotePopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qVm.quotePopover.title}}"  ng-click="qVm.showQuoteInfo(quote);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
 							  </td>
 							  <td align="center">
-								<a ng-show="!quote.wsCreated" href ui-sref="worksheet-new({takeoffId:quote.id})"  >
+								<a ng-show="!quote.wsCreated || quote.worksheetDeleted" href ui-sref="worksheet-new({takeoffId:quote.id})"  target="_blank">
 									<img  src="images/worksheet_new.png" alt="Create New Worksheet" />
 								</a>
-								<a ng-show="quote.wsCreated" href ui-sref="worksheet-edit({worksheetId:quote.worksheetId})">
+								<a ng-show="quote.wsCreated && !quote.worksheetDeleted" href ui-sref="worksheet-edit({worksheetId:quote.worksheetId})" target="_blank">
 									<img src="images/worksheet_edit.png"  alt="Edit Worksheet" />
 								</a>
-								
-							</td>
+								<a ng-show="quote.wsCreated && !quote.worksheetDeleted" href ui-sref="office-worksheet({officeWorksheetId:quote.worksheetId, officeQuoteId:quote.id})" target="_blank">
+									<img src="images/worksheet_edit.png"  alt="Office Worksheet" />
+								</a>
+								<span style="cursor:pointer;" ng-show="quote.wsCreated && !quote.worksheetDeleted" ng-click="qVm.worksheetPdfView(quote.worksheetId)">
+									<img src="images/worksheet_edit.png"  alt="Worksheet PDF View" />
+								</a>								
+							  </td>
 							  <td align="center">
 								<a href ng-click="qVm.showFileListingView('QUOTE_DOC', quote.id, 'Quote', 'large', '.pdf');">
 									<span class="badge">{{quote.quoteDocCount}}</span>

@@ -8,11 +8,8 @@
 	//prod env
 	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/awacp/";
+	var basePath = "/";
 	//prod env
-	var base ="http://awacptechnicalservices.com:8080/awacpservices";
-	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/awacp/";
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -412,6 +409,12 @@
 				controller:"MarketingTemplateCtrl",
 				controllerAs:"mktTmpVm",
 				requireAuth: true
+			}).state('office-worksheet',{
+				url: '/office-worksheet/:officeWorksheetId/:officeQuoteId',
+				templateUrl:"templates/office-worksheet.html",
+				controller:"WorksheetCtrl",
+				controllerAs:"wsVm",
+				requireAuth: true
 			}).state('worksheet-new',{
 				url: '/worksheet-new/:takeoffId',
 				templateUrl:"templates/worksheet.html",
@@ -421,6 +424,13 @@
 			}).state('worksheet-edit',{
 				url: '/worksheet-edit/:worksheetId',
 				templateUrl:"templates/worksheet.html",
+				controller:"WorksheetCtrl",
+				controllerAs:"wsVm",
+				requireAuth: true,
+				cache:false
+			}).state('quote-preview',{
+				url: '/quote-preview/:prevWsId/:prevToId',
+				templateUrl:"templates/quote-preview.html",
 				controller:"WorksheetCtrl",
 				controllerAs:"wsVm",
 				requireAuth: true,
@@ -510,7 +520,7 @@
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
-		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService) {
+		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base) {
 			$rootScope.fileViewSource = "templates/file-listing.html";
 			$rootScope.gmtValue = 5.3;
 			$rootScope.dayDiff = function(startdate, enddate) {
@@ -523,11 +533,14 @@
 			}
 			$rootScope.currentDate = new Date();
 			$rootScope.resourceReadPath = resourceReadPath;
+			$rootScope.base = base;
 			$rootScope.dateFormats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 			$rootScope.dateFormat = $rootScope.dateFormats[0];
 			$rootScope.altInputFormats = ['M!/d!/yyyy'];
-			$rootScope.dateOptions = { formatYear: 'yy', maxDate: new Date(2025, 5, 22), minDate: new Date(), startingDay: 0, showWeeks: false};
-			$rootScope.inlineOptions = { minDate: new Date(), showWeeks: true };
+			var minDate = new Date();
+			minDate.setMonth(minDate.getMonth() -6);
+			$rootScope.dateOptions = { formatYear: 'yy', maxDate: new Date(2030, 5, 22), minDate: minDate, startingDay: 0, showWeeks: false};
+			$rootScope.inlineOptions = { minDate: minDate, showWeeks: true };
 			$rootScope.logoutUser =function(){
 				UserService.logout();
 			};			

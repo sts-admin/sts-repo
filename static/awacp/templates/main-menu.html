@@ -24,52 +24,57 @@
           <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown ng-show="menus['Order Book']"> <a href="#" uib-dropdown-toggle> Order Book <span class='caret'></span> </a>
             <tree tree='menus["Order Book"]'></tree>
           </li>
-          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown "> <a href="javascript:;"> Inventory <span class="arrow"></span> </a>
+		  
+		  <!-- Inventory menu start -->
+          <li class="menu-dropdown classic-menu-dropdown "> 
+			<a href="#"> Inventory <span class="arrow"></span> </a>
             <ul class="dropdown-menu pull-left">
-              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> AW Inventory <span class="arrow"></span> </a>
-                <ul class="dropdown-menu">
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+              <li ng-show="menus['AW']" aria-haspopup="true" class="dropdown-submenu"> <a href="javascript:;" class="nav-link nav-toggle "> AW Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu" uib-dropdown>
+					<li aria-haspopup="true" class=" " ng-repeat="awMenuItem in menus['AW']" ng-class="{divider: awMenuItem.name == 'divider'}"> 
+						<a ui-sref="{{awMenuItem.link}}" ng-if="awMenuItem.name !== 'divider' " class="nav-link ">{{awMenuItem.name}} </a> 
+					</li>
                 </ul>
               </li>
-              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> AWF Inventory <span class="arrow"></span> </a>
-                <ul class="dropdown-menu">
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+              <li arng-show="menus['AWF']" ia-haspopup="true" class="dropdown-submenu"> <a href="javascript:;" class="nav-link nav-toggle "> AWF Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu" uib-dropdown>
+					<li aria-haspopup="true" class=" " ng-repeat="awfMenuItem in menus['AWF']" ng-class="{divider: awfMenuItem.name == 'divider'}"> 
+						<a ui-sref="{{awfMenuItem.link}}" ng-if="awfMenuItem.name !== 'divider' " class="nav-link ">{{awfMenuItem.name}} </a> 
+					</li>
                 </ul>
               </li>
-              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> SBC Inventory <span class="arrow"></span> </a>
-                <ul class="dropdown-menu">
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+              <li ng-show="menus['SBC']" aria-haspopup="true" class="dropdown-submenu"> <a href="javascript:;" class="nav-link nav-toggle "> SBC Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu" uib-dropdown>
+					<li aria-haspopup="true" class=" " ng-repeat="sbcMenuItem in menus['SBC']" ng-class="{divider: sbcMenuItem.name == 'divider'}"> 
+						<a ui-sref="{{sbcMenuItem.link}}" ng-if="sbcMenuItem.name !== 'divider' " class="nav-link ">{{sbcMenuItem.name}} </a> 
+					</li>
                 </ul>
               </li>
-              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> SPL Inventory <span class="arrow"></span> </a>
-                <ul class="dropdown-menu">
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+             <li ng-show="menus['SPL']" aria-haspopup="true" class="dropdown-submenu"> <a href="javascript:;" class="nav-link nav-toggle "> SPL Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu" uib-dropdown>
+					<li aria-haspopup="true" class=" " ng-repeat="splMenuItem in menus['SPL']" ng-class="{divider: splMenuItem.name == 'divider'}"> 
+						<a ui-sref="{{splMenuItem.link}}" ng-if="splMenuItem.name !== 'divider' " class="nav-link ">{{splMenuItem.name}} </a> 
+					</li>
                 </ul>
               </li>
-              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> J Inventory <span class="arrow"></span> </a>
-                <ul class="dropdown-menu">
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+              <li ng-show="menus['J']" aria-haspopup="true" class="dropdown-submenu"> <a href="javascript:;" class="nav-link nav-toggle "> J Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu" uib-dropdown>
+					<li aria-haspopup="true" class=" " ng-repeat="jMenuItem in menus['J']" ng-class="{divider: jMenuItem.name == 'divider'}"> 
+						<a ui-sref="{{jMenuItem.link}}" ng-if="jMenuItem.name !== 'divider' " class="nav-link ">{{jMenuItem.name}} </a> 
+					</li>
                 </ul>
               </li>
-              <li aria-haspopup="true" class="dropdown-submenu "> <a href="javascript:;" class="nav-link nav-toggle "> Q Inventory <span class="arrow"></span> </a>
-                <ul class="dropdown-menu">
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_index.html" class="nav-link "> New AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders.html" class="nav-link "> View AW Inventory </a> </li>
-                  <li aria-haspopup="true" class=" "> <a href="ecommerce_orders_view.html" class="nav-link "> View AW Orders </a> </li>
+             <li ng-show="menus['Q']" aria-haspopup="true" class="dropdown-submenu"> <a href="javascript:;" class="nav-link nav-toggle "> Q Inventory <span class="arrow"></span> </a>
+                <ul class="dropdown-menu" uib-dropdown>
+					<li aria-haspopup="true" class=" " ng-repeat="qMenuItem in menus['Q']" ng-class="{divider: qMenuItem.name == 'divider'}"> 
+						<a ui-sref="{{qMenuItem.link}}" ng-if="qMenuItem.name !== 'divider' " class="nav-link ">{{qMenuItem.name}} </a> 
+					</li>
                 </ul>
               </li>
             </ul>
           </li>
+		  <!-- Inventory menu end -->
+		  
           <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown" uib-dropdown uib-dropdown ng-show="menus['BBT']">
           <a href="#" uib-dropdown-toggle> BBT <span class='caret'></span> </a>
           <tree tree='menus["BBT"]'></tree>

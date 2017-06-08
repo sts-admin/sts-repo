@@ -18,6 +18,24 @@
 		qVm.selectedTakeoff = {};
 		
 		qVm.selectedQuote = {};
+		qVm.worksheetPdfView = function(pdfViewWorksheetId){
+			//Add authentication headers as params
+			var accessToken = StoreService.getAccessToken();
+			//Add authentication headers in URL
+			var url = $rootScope.base + '/awacp/generatePdfUrl/'+pdfViewWorksheetId+'?'+Math.random();
+			$http({
+				url : url,
+				method : 'GET',
+				headers : {
+					'Authorization' : 'Bearer ' + accessToken,
+					'Accept' : 'application/json'
+				}
+			}).success(function(data){
+				$window.open(data.fileUrl);
+			}).error(function(error){
+				alert("Unable to generate PDF View, reason: "+ JSON.stringify(error, null, 4));
+			});
+		}
 		
 		qVm.showFileListingView = function(source, sourceId, title, size){
 			title = "File List";

@@ -13,6 +13,7 @@
 		wsVm.pdnis = [];
 		wsVm.multipliers = [];
 		wsVm.mndMultipliers = {};
+		wsVm.quoteMailTrackers = [];
 		
 		wsVm.productItems = [] //Used to collect selected Products
 		wsVm.sPdnis = [{}] //Used to collect selected Pdnis
@@ -35,17 +36,7 @@
 			});
 		}
 		
-		wsVm.getAppliedPercent = function(manufacturerId){
-			var percent = 0;
-			if(!wsVm.mndMultipliers || wsVm.mndMultipliers.length <= 0) return 0;
-			angular.forEach(wsVm.mndMultipliers, function(v, k){
-				if(v.id == manufacturerId){
-					percent = v.wsMultiplier;
-					return false;
-				}
-			});
-			return percent;
-		}
+	
 		
 		wsVm.listManufaturers = function(){
 			wsVm.manufacturers = [];
@@ -162,7 +153,7 @@
 			var length = (!wsVm.worksheet.manufacturerItems)? 0 : wsVm.worksheet.manufacturerItems.length;
 			if(length <= 0){
 				wsVm.worksheet["specialNotes"] = "";
-				wsVm.worksheet["notes"] = [];
+				wsVm.worksheet["notes"] = [{}];
 				wsVm.worksheet["manufacturerItems"] = [];	
 				length = wsVm.worksheet.manufacturerItems.length;
 			}
@@ -197,20 +188,35 @@
 			});
 			
 		}
+		wsVm.getAppliedPercent = function(manufacturerId){
+			var percent = 0;
+			if(!wsVm.mndMultipliers || wsVm.mndMultipliers.length <= 0) return 0;
+			angular.forEach(wsVm.mndMultipliers, function(v, k){
+				if(v.id == manufacturerId){
+					percent = v.wsMultiplier;
+					return false;
+				}
+			});
+			return percent;
+		}
 		wsVm.sumListAmount = function(blockIndex, manufacturerItem, multiplier){
 			var amount = 0, tmp;
 			angular.forEach(manufacturerItem.productItems, function(value, key){
-				tmp = Number(value.listAmount);
+				tmp = Number(value.listAmount?value.listAmount:0);
 				if(tmp === 'NaN'){
 					return false;
 				}
-				amount = amount + Number(value.listAmount) ; 
+				amount = amount + Number(value.listAmount?value.listAmount:0) ; 
 			});
 			manufacturerItem.listTotal = amount;
-			/*manufacturerItem.multPercentAmount = amount;*/
-			manufacturerItem.multiplier = wsVm.getMultiplier(amount);
-			if(multiplier && multiplier > 0){
-				manufacturerItem.multiplier = multiplier;
+			if(!manufacturerItem.manualMultiplierSet){
+				if(multiplier && multiplier > 0){
+					manufacturerItem.multiplier = multiplier;
+					manufacturerItem.manualMultiplierSet = true;
+				}else{
+					var tot = (amount + (manufacturerItem.freight?manufacturerItem.freight:0));
+					manufacturerItem.multiplier = wsVm.getMultiplier(tot);
+				}
 			}
 			var percent = 0, pAmount = 0;
 			if(manufacturerItem.manufacturer){
@@ -220,13 +226,16 @@
 				manufacturerItem.percent = manufacturerItem.listTotal;
 			}
 			manufacturerItem.manufacturer.wsMultiplier = percent;
-			manufacturerItem.multPercentAmount = manufacturerItem.percent * manufacturerItem.multiplier;
+			manufacturerItem.multPercentAmount = manufacturerItem.percent;
+			if(manufacturerItem.multiplier && manufacturerItem.multiplier > 0){
+				manufacturerItem.multPercentAmount = manufacturerItem.percent * manufacturerItem.multiplier;
+			}			
 		}
 		
 		wsVm.sumNetAmount = function(blockIndex, manufacturerItem){			
 			var amount = 0, tmp;
 			angular.forEach( manufacturerItem.productItems, function(value, key){
-				tmp = Number(value.netAmount);
+				tmp = Number(value.netAmount?value.netAmount:0);
 				if(tmp === 'NaN'){
 					return false;
 				}
@@ -234,9 +243,9 @@
 			});
 			manufacturerItem.netTotal = amount;		
 			var mp = 0, np = 0, fp = 0;
-			mp = Number(manufacturerItem.multPercentAmount);
-			np = Number(manufacturerItem.netTotal);
-			fp = Number(manufacturerItem.freight);
+			mp = Number(manufacturerItem.multPercentAmount?manufacturerItem.multPercentAmount:0);
+			np = Number(manufacturerItem.netTotal?manufacturerItem.netTotal:0);
+			fp = Number(manufacturerItem.freight?manufacturerItem.freight:0);
 			manufacturerItem.totalAmount = mp + np + fp;
 			manufacturerItem.quoteAmount = manufacturerItem.totalAmount;
 		}
@@ -266,6 +275,29 @@
 			}
 			return 0;
 		}
+		wsVm.listQuoteMailTrackers = function(worksheetId, takeoffId){
+			wsVm.quoteMailTrackers = [];
+			AjaxUtil.getData("/awacp/listQuoteMailTrackers/"+worksheetId+"/"+takeoffId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.quoteMailTracker){
+					var tmp = [];
+					if(jQuery.isArray(data.quoteMailTracker)) {
+						jQuery.each(data.quoteMailTracker, function(k, v){
+							tmp.push(v);
+						});					
+					} else {
+					    tmp.push(data.quoteMailTracker);
+					}
+					$scope.$apply(function(){
+						wsVm.quoteMailTrackers = tmp;
+					});
+				}				
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "WorksheetCtrl::wsVm.listQuoteMailTrackers::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		
 		wsVm.initWorksheet = function(){
 			if($state.params.takeoffId != undefined){
@@ -274,20 +306,26 @@
 				wsVm.addWorksheetInfoBlock(); // new worksheet: add empty worksheet info block to add data.
 				wsVm.worksheet.manufacturerItems[0].multiplier = 0.5;
 			}
-			
-			wsVm.listManufaturers();
-			wsVm.listPdnis();
-			wsVm.listProducts();
-			wsVm.listNotes();
-			
-			if($state.params.worksheetId != undefined){ //Open worksheet in edit mode with data pre-populated.
-				wsVm.editWorksheet($state.params.worksheetId);
+			if(($state.params.prevWsId != undefined && $state.params.prevToId != undefined) || $state.params.officeWorksheetId != undefined){ // Preview Quote
+				var worksheetId = $state.params.officeWorksheetId != undefined?$state.params.officeWorksheetId:$state.params.prevWsId;
+				wsVm.editWorksheet(worksheetId);
+				if($state.params.officeWorksheetId != undefined && $state.params.officeQuoteId != undefined){
+					wsVm.listQuoteMailTrackers($state.params.officeWorksheetId, $state.params.officeQuoteId);
+				}
+			}else{
+				wsVm.listManufaturers();
+				wsVm.listPdnis();
+				wsVm.listProducts();
+				wsVm.listNotes();
+				
+				if($state.params.worksheetId != undefined){ //Open worksheet in edit mode with data pre-populated.
+					wsVm.editWorksheet($state.params.worksheetId);
+				}
+				wsVm.multipliers = [];			
+				for(var i = 1; i <= 99; i++){
+					wsVm.multipliers.push({multiplier:i/100});
+				}
 			}
-			wsVm.multipliers = [];			
-			for(var i = 1; i <= 99; i++){
-				wsVm.multipliers.push({multiplier:i/100});
-			}
-			
 		}
 		wsVm.setProductItems = function(mItem){
 			var productItems = [];
@@ -319,7 +357,32 @@
 			}
 			mItem["pdnis"] = tmpPdnis;
 		}
-		
+		wsVm.generateQuotePreview = function(worksheetId, takeoffId){
+			wsVm.getQuoteDetail(takeoffId);
+		}
+		wsVm.previewQuote = function(worksheetId, takeoffId){
+			/*var url = $state.href('quote-preview', {prevWsId: worksheetId, prevToId:takeoffId});
+			$window.open(url,'_blank');*/
+			$state.go('quote-preview', {prevWsId: worksheetId, prevToId:takeoffId});
+		}
+		wsVm.viewPDF = function(worksheetId){
+			//Add authentication headers as params
+			var accessToken = StoreService.getAccessToken();
+			//Add authentication headers in URL
+			var url = $rootScope.base + '/awacp/generatePdfUrl/'+worksheetId+'?'+Math.random();
+			$http({
+				url : url,
+				method : 'GET',
+				headers : {
+					'Authorization' : 'Bearer ' + accessToken,
+					'Accept' : 'application/json'
+				}
+			}).success(function(data){
+				$window.open(data.fileUrl);
+			}).error(function(error){
+				alert("Unable to generate PDF View, reason: "+ JSON.stringify(error, null, 4));
+			});
+		}
 		wsVm.editWorksheet = function(worksheetId){		
 			wsVm.worksheet["notes"] = [];
 			wsVm.worksheet["manufacturerItems"] = [];
@@ -371,39 +434,44 @@
 			
 		}
 		wsVm.deleteWorksheet = function(id){
-			AjaxUtil.getData("/awacp/deleteWorksheet/"+id, Math.random())
-			.success(function(data, status, headers){
-				wsVm.totalItems = (wsVm.totalItems - 1);
-				AlertService.showAlert(	'AWACP :: Alert!', 'Worksheet Detail Deleted Successfully.')
-					.then(function (){wsVm.getWorksheets();},function (){return false;});
-			})
-			.error(function(jqXHR, textStatus, errorThrown){
-				if(666666 == jqXHR.status){
-					AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete Worksheet Detail.")
-					.then(function (){return},function (){return});
-					return;
-				}
-				jqXHR.errorSource = "WorksheetCtrl::wsVm.deleteWorksheet::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			})
+			AlertService.showConfirm(	'AWACP :: Confirmation!', "Are you sure to delete this worksheet?")
+			.then(function (){				
+				AjaxUtil.getData("/awacp/deleteWorksheet/"+id, Math.random())
+				.success(function(data, status, headers){
+					wsVm.totalItems = (wsVm.totalItems - 1);
+					AlertService.showAlert(	'AWACP :: Alert!', 'Worksheet Detail Deleted Successfully.')
+						.then(function (){$state.go('quote-view');},function (){return false;});
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					if(666666 == jqXHR.status){
+						AlertService.showAlert(	'AWACP :: Error!', "Unable to Delete Worksheet Detail.")
+						.then(function (){return},function (){return});
+						return;
+					}
+					jqXHR.errorSource = "WorksheetCtrl::wsVm.deleteWorksheet::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				})
+			},
+			function (){
+				return false;
+			});			
 		}
 		
 		
 		wsVm.addWorksheet = function(){
-			var hasNotes = true;
-			var hasPdnis = true;
+			var hasNotes = false;
+			var hasPdnis = false;
 			var hasManufacturer = true;
 			var hasProduct = true;
 			jQuery.each(wsVm.worksheet.notes, function(k, v){
-				if(!v.id){
-					hasNotes = false;
-					return false;
+				if(v.id){
+					hasNotes = true;
+				}else{
+					wsVm.worksheet.notes.splice(k, 1);
 				}
 			});
 			if(!hasNotes){
-				AlertService.showAlert(	'AWACP :: Alert!', "Please add notes")
-					.then(function (){return false;},function (){return false;});
-				return;
+				wsVm.worksheet.notes = [];
 			}
 			jQuery.each(wsVm.worksheet.manufacturerItems, function(k, v){
 				if(v.productItems){
@@ -417,12 +485,12 @@
 				}
 				if(v.pdnis){
 					jQuery.each(v.pdnis, function(k, d){
-						if(!d.id){
-							hasPdnis = false;
+						if(d.id){
+							hasPdnis = true;
+						}else{
+							v.pdnis.splice(k, 1);
 						}
 					});
-				}else{
-					hasPdnis = false;
 				}
 				if(v.manufacturer && v.manufacturer.id){
 					hasManufacturer = true;
@@ -442,9 +510,9 @@
 				return;
 			}
 			if(!hasPdnis){
-				AlertService.showAlert(	'AWACP :: Alert!', "Please select P.D.N.I")
-					.then(function (){return false;},function (){return false;});
-				return;
+				jQuery.each(wsVm.worksheet.manufacturerItems, function(k, v){
+					v.pdnis = [];
+				});
 			}
 			var message = "Worksheet Detail Created Successfully";
 			var url = "/awacp/saveWorksheet";
@@ -459,12 +527,18 @@
 			}
 			var formData = {};			
 			formData["worksheet"] = wsVm.worksheet;
-			console.log(JSON.stringify(formData.worksheet.manufacturerItems, null, 4));
-			//return;
+			console.log(formData);
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
+				wsVm.wsAction = "Update Worksheet";
 				AlertService.showAlert(	'AWACP :: Alert!', message)
-				.then(function (){$state.go("quote-view");},function (){return false;});
+				.then(function (){
+					if(update){
+						wsVm.editWorksheet(data.worksheet.id);
+					}else{
+						$state.go('worksheet-edit',{worksheetId: data.worksheet.id});
+					}					
+				},function (){return false;});
 				return;		
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

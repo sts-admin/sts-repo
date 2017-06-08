@@ -49,28 +49,25 @@
 					</tr>
 					<tr>
 						<th>Bidders</th>
-						<td colspan="5"></td>
+						<td colspan="3" ng-if="wsVm.quote.bidders && wsVm.quote.bidders.length > 0">
+							<span ng-repeat="bidder in wsVm.quote.bidders track by $index">
+							{{bidder.name}}{{$index < wsVm.quote.bidders.length-1?", ":""}}
+							</span>
+						</td>
 					</tr>
 					<tr>
 						<td>
-							<input ng-click="wsVm.sendQuoteToBidders(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.bidders" class="btn btn-primary" type="button" value="Send Quote to Bidders" />
-						</td>
-						
-						<td>
-						<input class="btn btn-primary" type="button" value="Preview Quote" />
-						</td>
-						
-						<td>
-						<input class="btn btn-primary" type="button" value="View PDF" />
-						</td>
-						
-						<td>
-						<input class="btn btn-primary" type="button" value="Bidders List" />
-						</td>
-						<td>
-						<input class="btn btn-danger" type="button" value="Delete Worksheet" />
-						</td>
-						
+							<input ng-click="wsVm.sendQuoteToBidders(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.worksheetId || !wsVm.quote.bidders" class="btn btn-primary" type="button" value="Send Quote to Bidders" />
+						</th>
+						<th>
+							<input ng-click="wsVm.previewQuote(wsVm.quote.worksheetId, wsVm.quote.id);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-primary" type="button" value="Preview Quote" />
+						</th>
+						<th>
+							<input ng-click="wsVm.viewPDF(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-primary" type="button" value="View PDF" />
+						</th>
+						<th>
+							<input ng-click="wsVm.deleteWorksheet(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-primary" type="button" value="Delete Worksheet" />
+						</th>
 					</tr>
 				  </table>
 				  
@@ -202,7 +199,7 @@
 								<span> + </span>
 							</div>
 							<div class="col-sm-1">
-								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($index, manufacturerItem);" type="text" name="freight" ng-model="manufacturerItem.freight" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($index, manufacturerItem, 0);" type="text" name="freight" ng-model="manufacturerItem.freight" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div> 
 							<div class="col-sm-1">
 								<span> = </span>
@@ -217,10 +214,12 @@
 						<div class="productItem-row-pdni row" style="padding-bottom:5px;padding-top:5px;" ng-repeat="pdni in manufacturerItem.pdnis track by $index">
 							<div class="col-sm-1">P.D.N.I</div> 
 							<div class="col-sm-10">
-								<select  ng-required="true" ng-init="manufacturerItem.pdnis[$index].id = manufacturerItem.pdnis[$index].id || wsVm.pdnis[0].id"
+								<select 
 								  ng-model="manufacturerItem.pdnis[$index].id" 
 								  ng-options="pd.id as pd.pdniName for pd in wsVm.pdnis" 
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
+								  <option value="">- Select -</option>
+
 								</select>
 							</div> 
 							<div class="col-sm-1" ng-show="wsVm.pdnis.length > 1">
@@ -233,7 +232,7 @@
 						<div class="productItem-row-comment row" style="padding-bottom:5px;padding-top:5px;">
 							<div class="col-sm-1">Comment</div> 
 							<div class="col-sm-11">
-								<input  ng-required="true" ng-disabled="!manufacturerItem.manufacturer" type="text" name="comments" ng-model="manufacturerItem.comments" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+								<input  ng-disabled="!manufacturerItem.manufacturer" type="text" name="comments" ng-model="manufacturerItem.comments" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
 							</div> 
 						</div>
 					</div>
@@ -250,9 +249,10 @@
 					</tr>
 					<tr ng-repeat="note in wsVm.worksheet.notes track by $index">
 						<td colspan="4">
-							<select ng-required="true" ng-init="wsVm.worksheet.notes[$index].id = wsVm.worksheet.notes[$index].id || wsVm.quoteNotes[0].id"
+							<select 
 							  ng-model="wsVm.worksheet.notes[$index].id" 
 							  ng-options="n.id as n.note for n in wsVm.quoteNotes" >
+							   <option value="">- Select -</option>
 							</select>
 						</td>
 					</tr>
