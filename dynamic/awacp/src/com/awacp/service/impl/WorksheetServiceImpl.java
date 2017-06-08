@@ -168,6 +168,7 @@ public class WorksheetServiceImpl implements WorksheetService {
 		return "fail";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean sendEmailToBidders(Long worksheetId) throws Exception {
 		Worksheet worksheet = getWorksheet(worksheetId);
@@ -185,13 +186,28 @@ public class WorksheetServiceImpl implements WorksheetService {
 		boolean mailSendSuccess = mailService.sendQuoteMailToBidders(worksheet, fileName, pdfFilePath);
 		if (mailSendSuccess) {
 			if (worksheet.getTakeoff().getBidders() != null) {
-				QuoteMailTracker qmw = null;
+				QuoteMailTracker qmt = null;
 				for (Bidder bidder : worksheet.getTakeoff().getBidders()) {
-					qmw  = new QuoteMailTracker();
-					qmw.set
+					List<QuoteMailTracker> trackers = getEntityManager()
+							.createNamedQuery("QuoteMailTracker.getByWsBidderAndTakeoffId")
+							.setParameter("takeoffId", takeoff.getId()).setParameter("worksheetId", worksheetId)
+							.getResultList();
+					if (trackers != null && !trackers.isEmpty()) {
+						qmt = trackers.get(0);
+						qmt.setMailSentCount(qmt.getMailSentCount() + 1);
+						getEntityManager().merge(qmt);
+					} else {
+						qmt = new QuoteMailTracker();
+						qmt.setMailSentCount(1);
+						qmt.setQuote("");
+						qmt.setTakeoffId(takeoff.getId());
+						qmt.setWorksheetId(worksheetId);
+						qmt.setBidder(bidder);
+						getEntityManager().persist(qmt);
+					}
+
 				}
 			}
-
 		}
 		return mailSendSuccess;
 	}
@@ -214,9 +230,9 @@ public class WorksheetServiceImpl implements WorksheetService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<QuoteMailTracker> listByTakeoff(Long takeoffId) {
-		return getEntityManager().createNamedQuery("QuoteMailTracker.listByTakeoffId")
-				.setParameter("takeoffId", takeoffId).getResultList();
+	public List<QuoteMailTracker> listByWorksheetAndTakeoff(Long worksheetId, Long takeoffId) {
+		return getEntityManager().createNamedQuery("QuoteMailTracker.listByWorksheetAndTakeoffId")
+				.setParameter("takeoffId", takeoffId).setParameter("worksheetId", worksheetId).getResultList();
 	}
 
 	@Override

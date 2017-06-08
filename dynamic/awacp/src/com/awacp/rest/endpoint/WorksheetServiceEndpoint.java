@@ -1,6 +1,7 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -14,6 +15,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.awacp.entity.QuoteFollowup;
+import com.awacp.entity.QuoteMailTracker;
 import com.awacp.entity.Worksheet;
 import com.awacp.service.WorksheetService;
 import com.sts.core.web.filter.CrossOriginFilter;
@@ -22,6 +25,14 @@ public class WorksheetServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private WorksheetService worksheetService;
+
+	@GET
+	@Path("/listQuoteMailTrackers/{worksheetId}/{takeoffId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<QuoteMailTracker> listQuoteMailTrackers(@PathParam("worksheetId") Long worksheetId,
+			@PathParam("takeoffId") Long takeoffId, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.worksheetService.listByWorksheetAndTakeoff(worksheetId, takeoffId);
+	}
 
 	@GET
 	@Path("/sendEmailToBidders/{worksheetId}")
@@ -39,8 +50,6 @@ public class WorksheetServiceEndpoint extends CrossOriginFilter {
 			throws IOException {
 		return this.worksheetService.getWorksheet(id);
 	}
-	
-	
 
 	@POST
 	@Path("/saveWorksheet")

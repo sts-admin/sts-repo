@@ -21,6 +21,6 @@ public interface WorksheetService {
 
 	public QuoteMailTracker saveQuoteMailTracker(QuoteMailTracker quoteMailTracker);
 
-	public List<QuoteMailTracker> listByTakeoff(Long takeoffId);
+	public List<QuoteMailTracker> listByWorksheetAndTakeoff(Long worksheetId, Long takeoffId);
 
 }
