@@ -21,10 +21,9 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "JobOrder.getByOrderId", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.orderNumber) = :orderNumber"),
-	@NamedQuery(name = "JobOrder.getByInvoiceStatus", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus"),
-	@NamedQuery(name = "JobOrder.getCountByInvoiceStatus", query = "SELECT COUNT(jo.id) FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus")
-})
+		@NamedQuery(name = "JobOrder.getByOrderId", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.orderNumber) = :orderNumber"),
+		@NamedQuery(name = "JobOrder.getByInvoiceStatus", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus"),
+		@NamedQuery(name = "JobOrder.getCountByInvoiceStatus", query = "SELECT COUNT(jo.id) FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus") })
 public class JobOrder extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -61,6 +60,19 @@ public class JobOrder extends BaseEntity {
 	private String updatedByUserCode; // Code of the user update this record.
 
 	private String[] jobOrderBookNumbers;
+
+	private int joOneDocCount;
+	private int joTwoDocCount;
+	private int joThreeDocCount;
+	private int joFourDocCount;
+	private int joFiveDocCount;
+	private int joSixDocCount;
+
+	private int joDocCount;
+	private int joXlsCount;
+	private int joTaxDocCount;
+	private int joPoDocCount;
+	private int joUiDocCount;
 
 	public JobOrder() {
 		super();
@@ -285,6 +297,105 @@ public class JobOrder extends BaseEntity {
 		if (getInvoiceMode() == null || getInvoiceMode().trim().length() <= 0) {
 			setInvoiceMode(StsCoreConstant.INV_MODE_INV);
 		}
+	}
+
+	@Transient
+	public int getJoOneDocCount() {
+		return joOneDocCount;
+	}
+
+	public void setJoOneDocCount(int joOneDocCount) {
+		this.joOneDocCount = joOneDocCount;
+	}
+
+	@Transient
+	public int getJoTwoDocCount() {
+		return joTwoDocCount;
+	}
+
+	public void setJoTwoDocCount(int joTwoDocCount) {
+		this.joTwoDocCount = joTwoDocCount;
+	}
+
+	@Transient
+	public int getJoThreeDocCount() {
+		return joThreeDocCount;
+	}
+
+	public void setJoThreeDocCount(int joThreeDocCount) {
+		this.joThreeDocCount = joThreeDocCount;
+	}
+
+	@Transient
+	public int getJoFourDocCount() {
+		return joFourDocCount;
+	}
+
+	public void setJoFourDocCount(int joFourDocCount) {
+		this.joFourDocCount = joFourDocCount;
+	}
+
+	@Transient
+	public int getJoFiveDocCount() {
+		return joFiveDocCount;
+	}
+
+	public void setJoFiveDocCount(int joFiveDocCount) {
+		this.joFiveDocCount = joFiveDocCount;
+	}
+
+	@Transient
+	public int getJoSixDocCount() {
+		return joSixDocCount;
+	}
+
+	public void setJoSixDocCount(int joSixDocCount) {
+		this.joSixDocCount = joSixDocCount;
+	}
+
+	@Transient
+	public int getJoDocCount() {
+		return joDocCount;
+	}
+
+	public void setJoDocCount(int joDocCount) {
+		this.joDocCount = joDocCount;
+	}
+
+	@Transient
+	public int getJoXlsCount() {
+		return joXlsCount;
+	}
+
+	public void setJoXlsCount(int joXlsCount) {
+		this.joXlsCount = joXlsCount;
+	}
+
+	@Transient
+	public int getJoTaxDocCount() {
+		return joTaxDocCount;
+	}
+
+	public void setJoTaxDocCount(int joTaxDocCount) {
+		this.joTaxDocCount = joTaxDocCount;
+	}
+
+	@Transient
+	public int getJoPoDocCount() {
+		return joPoDocCount;
+	}
+
+	public void setJoPoDocCount(int joPoDocCount) {
+		this.joPoDocCount = joPoDocCount;
+	}
+
+	@Transient
+	public int getJoUiDocCount() {
+		return joUiDocCount;
+	}
+
+	public void setJoUiDocCount(int joUiDocCount) {
+		this.joUiDocCount = joUiDocCount;
 	}
 
 }

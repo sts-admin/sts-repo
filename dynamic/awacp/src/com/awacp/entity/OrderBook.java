@@ -20,8 +20,7 @@ import com.sts.core.entity.BaseEntity;
 		@NamedQuery(name = "OrderBook.getByJobOrderId", query = "SELECT ob FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId"),
 		@NamedQuery(name = "OrderBook.getCountByJobOrderId", query = "SELECT COUNT(ob.id) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId"),
 		@NamedQuery(name = "OrderBook.getCancelledCountByJobOrderId", query = "SELECT COUNT(ob.id) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId AND ob.cancelled = 'true'"),
-		@NamedQuery(name = "OrderBook.getOrderBookNumbersByOrderId", query = "SELECT new com.awacp.entity.OrderBook(ob.orderBookNumber) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId") 
-})
+		@NamedQuery(name = "OrderBook.getOrderBookNumbersByOrderId", query = "SELECT new com.awacp.entity.OrderBook(ob.orderBookNumber) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId") })
 public class OrderBook extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -61,6 +60,11 @@ public class OrderBook extends BaseEntity {
 	private String salesPersonName;
 
 	private Set<OrderBookInvItem> invItems;
+
+	private int obADocCount;
+	private int obYXlsDocCount;
+	private int obAckPdfDocCount;
+	private int obFrtPdfDocCount;
 
 	public OrderBook() {
 		super();
@@ -292,4 +296,41 @@ public class OrderBook extends BaseEntity {
 	public void setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
 	}
+
+	@Transient
+	public int getObADocCount() {
+		return obADocCount;
+	}
+
+	public void setObADocCount(int obADocCount) {
+		this.obADocCount = obADocCount;
+	}
+
+	@Transient
+	public int getObYXlsDocCount() {
+		return obYXlsDocCount;
+	}
+
+	public void setObYXlsDocCount(int obYXlsDocCount) {
+		this.obYXlsDocCount = obYXlsDocCount;
+	}
+
+	@Transient
+	public int getObAckPdfDocCount() {
+		return obAckPdfDocCount;
+	}
+
+	public void setObAckPdfDocCount(int obAckPdfDocCount) {
+		this.obAckPdfDocCount = obAckPdfDocCount;
+	}
+
+	@Transient
+	public int getObFrtPdfDocCount() {
+		return obFrtPdfDocCount;
+	}
+
+	public void setObFrtPdfDocCount(int obFrtPdfDocCount) {
+		this.obFrtPdfDocCount = obFrtPdfDocCount;
+	}
+
 }

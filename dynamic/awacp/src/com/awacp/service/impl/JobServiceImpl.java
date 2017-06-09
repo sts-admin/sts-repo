@@ -21,9 +21,11 @@ import com.awacp.entity.OrderBook;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.JobService;
 import com.awacp.service.TakeoffService;
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
 import com.sts.core.exception.StsResourceNotFoundException;
+import com.sts.core.service.FileService;
 import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
@@ -35,6 +37,9 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 
 	@Autowired
 	private TakeoffService takeoffService;
+
+	@Autowired
+	private FileService fileService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -79,6 +84,20 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 	private List<JobOrder> initWithDetail(List<JobOrder> jobOrders) {
 		if (jobOrders == null || jobOrders.isEmpty())
 			return null;
+		for (JobOrder jo : jobOrders) {
+			jo.setJoOneDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_ONE, jo.getId()));
+			jo.setJoTwoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_TWO, jo.getId()));
+			jo.setJoThreeDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_THREE, jo.getId()));
+			jo.setJoFourDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_FOUR, jo.getId()));
+			jo.setJoFiveDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_FIVE, jo.getId()));
+			jo.setJoSixDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_SIX, jo.getId()));
+			
+			jo.setJoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_DOC, jo.getId()));
+			jo.setJoXlsCount(fileService.getFileCount(StsCoreConstant.DOC_JO_XLS, jo.getId()));
+			jo.setJoTaxDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_TAX, jo.getId()));
+			jo.setJoPoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_PO, jo.getId()));
+			jo.setJoUiDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_IU, jo.getId()));
+		}
 		return jobOrders;
 	}
 

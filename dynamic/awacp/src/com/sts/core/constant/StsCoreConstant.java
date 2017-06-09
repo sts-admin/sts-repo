@@ -16,6 +16,25 @@ public class StsCoreConstant {
 	public static final String DOC_QUOTE_PDF = "QUOTE_PDF_DOC";
 	public static final String DOC_QUOTE_XLS = "QUOTE_XLS_DOC";
 	public static final String DOC_QUOTE_VIBRO = "QUOTE_VIBRO_DOC";
+	
+	public static final String DOC_OB_A_DOC = "OB_A_DOC";
+	public static final String DOC_OB_Y_XLS = "OB_Y_XLS";
+	public static final String DOC_OB_ACK_PDF = "OB_ACK_PDF";
+	public static final String DOC_OB_FRT_PDF = "OB_FRT_PDF";
+	
+	public static final String DOC_JO_ONE = "JO_ONE"; //A
+	public static final String DOC_JO_TWO = "JO_TWO";  //V
+	public static final String DOC_JO_THREE = "JO_THREE"; //E
+	public static final String DOC_JO_FOUR = "JO_FOUR"; //T
+	public static final String DOC_JO_FIVE = "JO_FIVE"; //Y
+	public static final String DOC_JO_SIX = "JO_SIX"; //X
+	public static final String DOC_JO_XLS = "JO_XLS";
+	public static final String DOC_JO_DOC = "JO_DOC";
+	public static final String DOC_JO_TAX = "JO_TAX";
+	public static final String DOC_JO_PO = "JO_PO";
+	public static final String DOC_JO_IU = "JO_IU";
+	
+	
 	public static final String DOC_TAKEOFF_DRAWING = "TAKEOFF_DRAWING_DOC";
 	public static final String DOC_TAKEOFF_VIBRO = "TAKEOFF_VIBRO_DOC";
 	public static final String DUPLICATE_EMAIL = "duplicate_email";

@@ -32,8 +32,10 @@ import com.awacp.entity.ShipTo;
 import com.awacp.entity.SplInventory;
 import com.awacp.service.InvoiceService;
 import com.awacp.service.OrderBookService;
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
+import com.sts.core.service.FileService;
 import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
@@ -46,6 +48,9 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 
 	@Autowired
 	private InvoiceService invoiceService;
+	
+	@Autowired
+	private FileService fileService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -159,7 +164,11 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			if (book.getFactoryId() != null && book.getFactoryId() > 0) {
 				book.setFactoryName(getEntityManager().find(Factory.class, book.getFactoryId()).getFactoryName());
 			}
-
+			
+			book.setObADocCount(fileService.getFileCount(StsCoreConstant.DOC_OB_A_DOC, book.getId()));
+			book.setObYXlsDocCount(fileService.getFileCount(StsCoreConstant.DOC_OB_Y_XLS, book.getId()));
+			book.setObAckPdfDocCount(fileService.getFileCount(StsCoreConstant.DOC_OB_ACK_PDF, book.getId()));
+			book.setObFrtPdfDocCount(fileService.getFileCount(StsCoreConstant.DOC_OB_FRT_PDF, book.getId()));
 		}
 		return results;
 	}
@@ -186,7 +195,6 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 				.setParameter("bookId", bookId).setParameter("invItemId", lineItemId).getResultList();
 		int exQty = obii != null && !obii.isEmpty() ? obii.get(0).getOrderQty() : 0;
 		int diff = orderQty - exQty;
-		System.err.println("orderQty = " + orderQty + ", exQty = " + exQty + ", diff = " + diff);
 		if (invName.equalsIgnoreCase("j")) {
 			JInventory jInv = getEntityManager().find(JInventory.class, lineItemId);
 			jInv.setQuantity(jInv.getQuantity() - (diff));
@@ -240,35 +248,28 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 	@Override
 	@Transactional
 	public String cancelOrderBook(Long orderBookId) {
-		System.err.println("cancelOrderBook: orderBookId: " + orderBookId);
 		OrderBook ob = getOrderBook(orderBookId);
 		List<ProfitSheetItem> psItems = getEntityManager().createNamedQuery("ProfitSheetItem.getByOrderBookId")
 				.setParameter("orderBookId", orderBookId).getResultList();
 		// Archive profit sheet items for this order book
 		if (psItems != null && !psItems.isEmpty()) {
-			System.err.println("cancelOrderBook: psItems size = " + psItems.size());
 			for (ProfitSheetItem psItem : psItems) {
 				psItem.setArchived(true);
 				getEntityManager().merge(psItem);
 				getEntityManager().flush();
 			}
-		} else {
-			System.err.println("cancelOrderBook: psItems is null or empty");
 		}
 		// Archive inventory items for this order book and update respective
 		// inventory
 		List<OrderBookInvItem> obInvItems = getEntityManager().createNamedQuery("OrderBookInvItem.getByOrderBookId")
 				.setParameter("bookId", orderBookId).getResultList();
 		if (obInvItems != null && !obInvItems.isEmpty()) {
-			System.err.println("cancelOrderBook: obInvItems size = " + obInvItems.size());
 			for (OrderBookInvItem obInvItem : obInvItems) {
 				obInvItem.setArchived(true);
 				getEntityManager().merge(obInvItem);
 				updateInvItemQty(obInvItem.getBookId(), obInvItem.getInvItemId(), ob.getObCategory(), 0);
 			}
-		} else {
-			System.err.println("cancelOrderBook: obInvItems is null or empty");
-		}
+		} 
 		// Finally archive this order
 		ob.setCancelled(true);
 		getEntityManager().merge(ob);
@@ -286,12 +287,10 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 		if (object2 != null) {
 			cancelledCount = (((Long) object2).intValue());
 		}
-		System.err.println("all order book count = " + allCount + ", cancelled order book count = " + cancelledCount);
+		
 		// No open order books, cancel invoice.
 		JobOrder jobOrder = getEntityManager().find(JobOrder.class, ob.getJobId());
 		if (allCount == cancelledCount) {
-			System.err.println("total booking for this job with id " + ob.getJobId()
-					+ " are cancelled so archive this invoice attached to the job");
 			Invoice invoice = getEntityManager().find(Invoice.class, jobOrder.getInvoiceId());
 			invoice.setArchived(true);
 			getEntityManager().merge(invoice);
@@ -302,7 +301,6 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 				.setParameter("jobOrderId", ob.getJobId()).getResultList();
 		// detach invoices from job order if they are archived or cancelled.
 		if (orderInvoices == null || orderInvoices.isEmpty()) {
-			System.err.println("all invoices archived, detach it from job order");
 			jobOrder.setInvoiceId(null);
 			getEntityManager().merge(jobOrder);
 			getEntityManager().flush();
@@ -310,33 +308,19 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 		return "success";
 	}
 
-	public static void main(String args[]) {
-		String num = "abc-def-A";
-		String partial = "A";
-		if (num.substring(num.lastIndexOf("-") + 1).equalsIgnoreCase(partial)) {
-			System.err.println("Yes");
-		} else {
-			System.err.println("No");
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public String uncancellOrderBook(Long orderBookId) {
-		System.err.println("uncancellOrderBook: orderBookId = " + orderBookId);
 		OrderBook ob = getOrderBook(orderBookId);
 		List<ProfitSheetItem> psItems = getEntityManager().createNamedQuery("ProfitSheetItem.getAllByOrderBookId")
 				.setParameter("orderBookId", orderBookId).getResultList();
 		// Archive profit sheet items for this order book
 		if (psItems != null && !psItems.isEmpty()) {
-			System.err.println("uncancellOrderBook: psItems  size " + psItems.size());
 			for (ProfitSheetItem psItem : psItems) {
 				psItem.setArchived(false);
 				getEntityManager().merge(psItem);
 			}
-		} else {
-			System.err.println("uncancellOrderBook: psItems  is null or empty");
 		}
 		getEntityManager().flush();
 		// Archive inventory items for this order book and update respective
@@ -344,7 +328,6 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 		List<OrderBookInvItem> obInvItems = getEntityManager().createNamedQuery("OrderBookInvItem.getAllByOrderBookId")
 				.setParameter("bookId", orderBookId).getResultList();
 		if (obInvItems != null && !obInvItems.isEmpty()) {
-			System.err.println("uncancellOrderBook: obInvItems  size " + obInvItems.size());
 			for (OrderBookInvItem obInvItem : obInvItems) {
 				obInvItem.setArchived(false);
 				getEntityManager().merge(obInvItem);
@@ -352,9 +335,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 				updateInvItemQty(obInvItem.getBookId(), obInvItem.getInvItemId(), ob.getObCategory(),
 						(obInvItem.getOrderQty() * 2));
 			}
-		} else {
-			System.err.println("uncancellOrderBook: obInvItems  is null or empty");
-		}
+		} 
 		// Finally archive this order
 
 		ob.setCancelled(false);
