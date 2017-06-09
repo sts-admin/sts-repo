@@ -16,6 +16,7 @@
 		
 		obVm.openAnother = true;		
 		obVm.selectedJobOrder = {};
+		obVm.selectedOrderBook = {};
 		$scope.timers = [];
 		
 		obVm.totalItems = -1;
@@ -27,6 +28,77 @@
 		obVm.contractors = [];
 		obVm.orderBooks = [];
 		obVm.orderBook = {invItems:[]};
+		obVm.selectedTakeoff = {};
+		obVm.selectedQuote = {};
+		
+		obVm.takeoffInfoPopover = {
+			templateUrl: 'templates/takeoff-info-ob.html',
+			title: 'Takeoff Detail'
+		};
+		obVm.quotePopover = {
+			templateUrl: 'templates/quote-info-ob.html',
+			title: 'Quote Detail'
+		};
+		obVm.jobOrderPopover = {
+			templateUrl: 'templates/joborder-info-ob.html',
+			title: 'Job Order Detail'
+		};
+		obVm.orderBookPopover = {
+			templateUrl: 'templates/orderbook-info-ob.html',
+			title: 'Order Book Detail'
+		};
+		
+		obVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+			title = "File List";
+			$rootScope.fileViewSource = "templates/file-listing.html";
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+		}
+		
+		obVm.showQuoteInfo = function(takeoffId){
+			AjaxUtil.getData("/awacp/getTakeoff/"+takeoffId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.takeoff){
+					$scope.$apply(function(){
+						obVm.selectedQuote = data.takeoff;				
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "OrderBookCtrl::obVm.showQuoteInfo::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		obVm.showTakeoffInfo = function(takeoffId){
+			AjaxUtil.getData("/awacp/getTakeoff/"+takeoffId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.takeoff){
+					$scope.$apply(function(){
+						obVm.selectedTakeoff = data.takeoff;				
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "OrderBookCtrl::obVm.showTakeoffInfo::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		obVm.showOrderBookInfo = function(orderBook){
+			obVm.selectedOrderBook = orderBook;		
+		}
+		obVm.showJobOrderInfo = function(jobId){
+			AjaxUtil.getData("/awacp/getJobOrder/"+jobId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.jobOrder){
+					$scope.$apply(function(){
+						obVm.selectedJobOrder = data.jobOrder;				
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "OrderBookCtrl::obVm.showJobOrderInfo::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		obVm.cancelOrderBook = function(id){
 			AlertService.showConfirm(	'AWACP :: Confirmation!', "Are you sure cancel this order book?")
 			.then(function (){

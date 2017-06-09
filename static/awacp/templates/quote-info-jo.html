@@ -1,0 +1,75 @@
+<div class="container-fluid" style="width:525px;">
+	<table width="500" cellpadding="5" cellspacing="5" border="1" bordercolor="#999999">
+		<tr>
+			<td width="155">&nbsp;<strong>Date: </strong></td>
+			<td>{{jobVm.selectedQuote.dateCreated | date:'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Quote: </strong></td>
+			<td>{{jobVm.selectedQuote.quoteId}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Amount: </strong></td>
+			<td>{{jobVm.selectedQuote.amount}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobName: </strong></td>
+			<td>{{jobVm.selectedQuote.jobName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobAddress: </strong></td>
+			<td>{{jobVm.selectedQuote.jobAddress}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Job ID: </strong></td>
+			<td>{{jobVm.selectedQuote.jobOrderNumber}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Engineer: </strong></td>
+			<td>{{jobVm.selectedQuote.engineerName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Architect: </strong></td>
+			<td>{{jobVm.selectedQuote.architectureName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Drawing Date: </strong></td>
+			<td>{{jobVm.selectedQuote.drawingDate | date: 'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Specs: </strong></td>
+			<td>{{jobVm.selectedQuote.spec.detail}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Salesman: </strong></td>
+			<td>{{jobVm.selectedQuote.salesPersonName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Usercode: </strong></td>
+			<td>{{jobVm.selectedQuote.createdByUserCode}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Bidders: </strong></td>
+			<td>
+				<div ng-hide="!jobVm.selectedQuote.bidders" class="ui-list-view-bordered" ui-list-view="bidder in jobVm.selectedQuote.bidders | orderBy:'name'">
+					{{ bidder.name }}
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;<strong>Quote Comments: </strong></td>
+			<td>{{jobVm.selectedQuote.takeOffComment}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>GC List: </strong></td>
+			<td>
+				<div ng-hide="!jobVm.selectedQuote.generalContractors" class="ui-list-view-bordered" ui-list-view="gc in jobVm.selectedQuote.generalContractors | orderBy:'name'">
+					{{ gc.name }}
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+

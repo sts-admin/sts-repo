@@ -1,0 +1,74 @@
+<div class="container-fluid" style="width:525px;">
+	<table width="500" cellpadding="5" cellspacing="5" border="1" bordercolor="#999999">
+		<tr>
+			<td width="155">&nbsp;<strong>Date: </strong></td>
+			<td>{{jobVm.selectedTakeoff.dateCreated | date:'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobName: </strong></td>
+			<td>{{jobVm.selectedTakeoff.jobName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobAddress: </strong></td>
+			<td>{{jobVm.selectedTakeoff.jobAddress}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Salesman: </strong></td>
+			<td>{{jobVm.selectedTakeoff.salesPersonName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Usercode: </strong></td>
+			<td>{{jobVm.selectedTakeoff.createdByUserCode}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Engineer: </strong></td>
+			<td>{{jobVm.selectedTakeoff.engineerName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Architect: </strong></td>
+			<td>{{jobVm.selectedTakeoff.architectureName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Specs: </strong></td>
+			<td>{{jobVm.selectedTakeoff.spec.detail}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Bidders: </strong></td>
+			<td>
+				<div ng-hide="!jobVm.selectedTakeoff.bidders" class="ui-list-view-bordered" ui-list-view="bidder in jobVm.selectedTakeoff.bidders | orderBy:'name'">
+					{{ bidder.name }}
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Drawing Date: </strong></td>
+			<td>{{jobVm.selectedTakeoff.drawingDate | date: 'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Due Date: </strong></td>
+			<td>{{jobVm.selectedTakeoff.dueDate | date: 'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Revise Date: </strong></td>
+			<td>{{jobVm.selectedTakeoff.revisedDate | date: 'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Dwgs Rcvd From: </strong></td>
+			<td>{{jobVm.selectedTakeoff.drawingReceivedFrom}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>TakeOff Comments: </strong></td>
+			<td>{{jobVm.selectedTakeoff.takeOffComment}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>GC List: </strong></td>
+			<td>
+				<div ng-hide="!jobVm.selectedTakeoff.generalContractors" class="ui-list-view-bordered" ui-list-view="gc in jobVm.selectedTakeoff.generalContractors | orderBy:'name'">
+					{{ gc.name }}
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+

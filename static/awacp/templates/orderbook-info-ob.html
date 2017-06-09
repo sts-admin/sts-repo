@@ -1,0 +1,56 @@
+<div class="container-fluid" style="width:525px;">
+	<table width="500" cellpadding="5" cellspacing="5" border="1" bordercolor="#999999">
+		<tr>
+			<td width="155">&nbsp;<strong>Order Date: </strong></td>
+			<td>{{obVm.selectedOrderBook.dateCreated | date:'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Job ID: </strong></td>
+			<td>{{obVm.selectedOrderBook.jobOrderNumber}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>AWACP PO#: </strong></td>
+			<td>{{obVm.selectedOrderBook.orderBookNumber}}</td>
+		</tr>
+				
+		<tr>
+			<td>&nbsp;<strong>ORBF: </strong></td>
+			<td>{{obVm.selectedOrderBook.orbf}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>EST: </strong></td>
+			<td>{{obVm.selectedOrderBook.estDate}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Contractor: </strong></td>
+			<td>{{obVm.selectedOrderBook.contractorName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>ShipTo: </strong></td>
+			<td>{{obVm.selectedOrderBook.shipToName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobName: </strong></td>
+			<td>{{obVm.selectedOrderBook.jobName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobAddress: </strong></td>
+			<td>{{obVm.selectedOrderBook.jobAddress}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Salesman: </strong></td>
+			<td>{{obVm.selectedOrderBook.salesPersonName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Usercode: </strong></td>
+			<td>{{obVm.selectedOrderBook.createdByUserCode}}</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;<strong>OrderBook Comments: </strong></td>
+			<td>{{obVm.selectedOrderBook.comment}}</td>
+		</tr>
+	</table>
+</div>
+
+

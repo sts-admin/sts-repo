@@ -41,6 +41,80 @@
 		jobVm.selectedContractors = [];
 		jobVm.jobOrderGcs = [];
 		jobVm.jobOrderBidders = [];	
+		
+		jobVm.selectedTakeoff = {};
+		jobVm.selectedQuote = {};
+		jobVm.selectedOrderBook = {};
+		
+		jobVm.takeoffInfoPopover = {
+			templateUrl: 'templates/takeoff-info-jo.html',
+			title: 'Takeoff Detail'
+		};
+		jobVm.quotePopover = {
+			templateUrl: 'templates/quote-info-jo.html',
+			title: 'Quote Detail'
+		};
+		jobVm.jobOrderPopover = {
+			templateUrl: 'templates/joborder-info-jo.html',
+			title: 'Job Order Detail'
+		};
+		jobVm.orderBookPopover = {
+			templateUrl: 'templates/orderbook-info-jo.html',
+			title: 'Order Book Detail'
+		};
+		
+		jobVm.showQuoteInfo = function(takeoffId){
+			AjaxUtil.getData("/awacp/getTakeoff/"+takeoffId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.takeoff){
+					$scope.$apply(function(){
+						jobVm.selectedQuote = data.takeoff;				
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "JobOrderCtrl::jobVm.showQuoteInfo::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		jobVm.showTakeoffInfo = function(takeoffId){
+			AjaxUtil.getData("/awacp/getTakeoff/"+takeoffId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.takeoff){
+					$scope.$apply(function(){
+						jobVm.selectedTakeoff = data.takeoff;				
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "JobOrderCtrl::jobVm.showTakeoffInfo::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		jobVm.showOrderBookInfo = function(obId){
+			AjaxUtil.getData("/awacp/getOrderBook/"+obId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.jobOrder){
+					$scope.$apply(function(){						
+						jobVm.selectedOrderBook = data.jobOrder;				
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "JobOrderCtrl::jobVm.showOrderBookInfo::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+					
+		}
+		jobVm.showJobOrderInfo = function(jobOrder){
+			jobVm.selectedJobOrder = jobOrder;
+		}
+		
+		jobVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+			title = "File List";
+			$rootScope.fileViewSource = "templates/file-listing.html";
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+		}
 		jobVm.filterJobOrders = function(billType){
 			jobVm.listJobOrders(billType);
 		}		
@@ -99,19 +173,7 @@
 		jobVm.searchJobOrderIds = function(){
 			return jobVm.jobOrderIds;
 		}
-		jobVm.showFileListingView = function(source, sourceId, title, size){
-			title = "File List";
-			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size);
-		}
-		jobVm.showJobOrderInfo = function(jobOrder){
-			jobOrder.openInfoBox = true;
-			jobVm.selectedjobOrder =  jobOrder;
-		}
-		jobVm.jobOrderInfoPopover = {
-			templateUrl: 'templates/jobOrder-info.html',
-			title: 'Job Order Detail'
-		};
+		
 		jobVm.GcsPopover = {
 			templateUrl: 'templates/jobOrder-gc-list.html',
 			title: 'General Contractor(s)'

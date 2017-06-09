@@ -1,0 +1,72 @@
+<div class="container-fluid" style="width:525px;">
+	<table width="500" cellpadding="5" cellspacing="5" border="1" bordercolor="#999999">
+		<tr>
+			<td width="155">&nbsp;<strong>Start Date: </strong></td>
+			<td>{{obVm.selectedJobOrder.dateCreated | date:'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Quote: </strong></td>
+			<td>{{obVm.selectedJobOrder.quoteId}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Job ID: </strong></td>
+			<td>{{obVm.selectedJobOrder.jobOrderNumber}}</td>
+		</tr>		
+		<tr>
+			<td>&nbsp;<strong>Customer PO: </strong></td>
+			<td>{{obVm.selectedJobOrder.poName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Quoted Amount: </strong></td>
+			<td>{{obVm.selectedJobOrder.quotedAmount}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Billing Amount: </strong></td>
+			<td>{{obVm.selectedJobOrder.billingAmount}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Contractor: </strong></td>
+			<td>{{obVm.selectedJobOrder.contractorName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobName: </strong></td>
+			<td>{{obVm.selectedJobOrder.jobName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobAddress: </strong></td>
+			<td>{{obVm.selectedJobOrder.jobAddress}}</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;<strong>Engineer: </strong></td>
+			<td>{{obVm.selectedJobOrder.engineerName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Architect: </strong></td>
+			<td>{{obVm.selectedJobOrder.architectureName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Salesman: </strong></td>
+			<td>{{obVm.selectedJobOrder.salesPersonName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Usercode: </strong></td>
+			<td>{{obVm.selectedJobOrder.createdByUserCode}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Email recepient Salesman: </strong></td>
+			<td>{{obVm.selectedJobOrder.salesPersonName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>VAV Controls </strong></td>
+			<td>{{obVm.selectedJobOrder.vavControls}}</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;<strong>Comments: </strong></td>
+			<td>{{obVm.selectedJobOrder.comments}}</td>
+		</tr>
+	</table>
+</div>
+
+

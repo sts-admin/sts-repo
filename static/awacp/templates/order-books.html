@@ -68,13 +68,49 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr height="25" ng-repeat="orderBook in obVm.orderBooks track by $index" ng-style="{{orderBook.statusStyle}}">
-                     
-                      <td align="center"></td>
-                      <td align="center"></td>
-                      <td align="center"></td>
-                      <td align="center"></td>
-                      <td align="center"></td>
+                    <tr height="25" ng-repeat="orderBook in obVm.orderBooks track by $index">                     
+                      <td align="center">
+						<span ng-show="orderBook.takeoffId">
+							<img  popover-placement="right" uib-popover-template="obVm.takeoffInfoPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{obVm.takeoffInfoPopover.title}}"  ng-click="obVm.showTakeoffInfo(orderBook.takeoffId);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+							
+						</span>
+						<span ng-show="orderBook.quoteId">
+							<img  popover-placement="right" uib-popover-template="obVm.quotePopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{obVm.quotePopover.title}}"  ng-click="obVm.showQuoteInfo(orderBook.takeoffId);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
+						</span>
+						
+						<span ng-show="orderBook.jobOrderNumber">
+							<img  popover-placement="right" uib-popover-template="obVm.jobOrderPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{obVm.jobOrderPopover.title}}"  ng-click="obVm.showJobOrderInfo(orderBook.jobId);"  style="cursor:pointer;" src="images/jobinfo.png" alt="image" border="0" />
+						</span>
+						
+						<span ng-show="orderBook.orderBookNumber">
+							<img  popover-placement="right" uib-popover-template="obVm.orderBookPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{obVm.orderBookPopover.title}}"  ng-click="obVm.showOrderBookInfo(orderBook);"  style="cursor:pointer;" src="images/order_info.png" alt="image" border="0" />
+						</span>
+						
+					  </td>
+                      <td align="center">
+						<a href ng-click="obVm.showFileListingView('OB_A_DOC', orderBook.id, 'Order Book', 'large', '.doc, .docx');">
+							<span class="badge">{{orderBook.obADocCount}}</span>
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      <td align="center">
+						<a href ng-click="obVm.showFileListingView('OB_Y_XLS', orderBook.id, 'Order Book', 'large', '.xls, .xlsx');">
+							<span class="badge">{{orderBook.obYXlsDocCount}}</span>
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      <td align="center">
+						<a href ng-click="obVm.showFileListingView('OB_ACK_PDF', orderBook.id, 'Order Book', 'large', '.pdf');">
+							<span class="badge">{{orderBook.obAckPdfDocCount}}</span>
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      <td align="center">
+						<a href ng-click="obVm.showFileListingView('OB_FRT_PDF', orderBook.id, 'Order Book', 'large', '.pdf');">
+							<span class="badge">{{orderBook.obFrtPdfDocCount}}</span>
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
                       <td align="center"></td>
                       <td align="center"></td>
                       <td align="center">{{orderBook.jobOrderNumber}}</td>
