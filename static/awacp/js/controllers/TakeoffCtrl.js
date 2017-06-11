@@ -8,6 +8,8 @@
 		takeVm.selectedTakeoffId;
 		takeVm.openAnother = true;		
 		takeVm.selectedTakeoff = {};
+		takeVm.selectedQuote = {};
+		takeVm.selectedJobOrder = {};
 		takeVm.drawingDate = {opened:false};
 		takeVm.revisedDate = {opened:false};
 		takeVm.dueDate = {opened:false};		
@@ -41,12 +43,26 @@
 			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
 		}
 		takeVm.showTakeoffInfo = function(takeoff){
-			takeoff.openInfoBox = true;
 			takeVm.selectedTakeoff =  takeoff;
 		}
+		takeVm.showQuoteInfo = function(takeoff){
+			takeVm.selectedQuote = takeoff;
+		}
 		takeVm.takeoffInfoPopover = {
-			templateUrl: 'templates/takeoff-info.html',
+			templateUrl: 'templates/takeoff-info-to.html',
 			title: 'Takeoff Detail'
+		};
+		takeVm.quoteInfoPopover = {
+			templateUrl: 'templates/quote-info-to.html',
+			title: 'Quote Detail'
+		};
+		takeVm.quoteInfoPopover = {
+			templateUrl: 'templates/quote-info-to.html',
+			title: 'Quote Detail'
+		};
+		takeVm.jobInfoPopover = {
+			templateUrl: 'templates/joborder-info-to.html',
+			title: 'Job Order Detail'
 		};
 		takeVm.GcsPopover = {
 			templateUrl: 'templates/takeoff-gc-list.html',
@@ -100,6 +116,20 @@
 		};	
 		takeVm.cancelTakeoffAction = function(){
 			$state.go("takeoff-view");
+		}
+		takeVm.showJobInfo = function(jobId){
+			takeVm.specs = [];
+			AjaxUtil.getData("/awacp/getJobOrder/"+jobId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.jobOrder){
+					takeVm.selectedJobOrder =  data.jobOrder;
+					$scope.$digest();
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.showJobInfo::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
 		}
 		takeVm.getSpecs = function(){
 			takeVm.specs = [];

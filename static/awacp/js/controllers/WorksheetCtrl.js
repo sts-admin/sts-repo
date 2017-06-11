@@ -6,6 +6,7 @@
 		var wsVm = this;
 		wsVm.action = "Add";
 		$scope.timers = [];
+		wsVm.actionClass = "btn btn-primary";
 		
 		wsVm.manufacturers = [];
 		wsVm.quoteNotes = [];
@@ -424,6 +425,7 @@
 						wsVm.worksheet.notes.push(data.worksheet.notes);
 					}
 					wsVm.wsAction = "Update Worksheet";
+					wsVm.actionClass = "btn btn-success";
 					$scope.$digest();
 				}
 			})

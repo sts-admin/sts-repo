@@ -14,7 +14,7 @@
 				<div class="panel-heading form-heading panel-heading-top">
 					<label>Create / Update Invoice for Job #ID : {{invoiceVm.selectedOrderNumber}}</label>
 						&nbsp; | &nbsp;
-					<label>Balance Payable : {{invoiceVm.invoice.billableAmount - invoiceVm.invoice.totalPayment}}</label>
+					<label>Balance Payable : {{invoiceVm.invoice.billableAmount - invoiceVm.invoice.totalPayment | currency}}</label>
 					<span class="pull-right">
 						<input ng-disabled="!invoiceVm.invoice.id" type="submit" value="{{invoiceVm.action}} Invoice" class="invoice-add-action submit-btn btn btn-primary">
 					</span>
@@ -76,7 +76,7 @@
 														</div>
 														<div class="col-lg-3 col-md-3 col-sm-3"> 								
 															<span class="form-label">
-																{{invoiceVm.jobOrder.billingAmount?invoiceVm.jobOrder.billingAmount:"NOT ENTERED"}}
+																{{invoiceVm.jobOrder.billingAmount?invoiceVm.jobOrder.billingAmount:"NOT ENTERED" | currency}}
 															</span> 
 														</div>
 													</div>
@@ -397,7 +397,7 @@
 									</div>
 									<div class="col-lg-3 col-md-3 col-sm-3"> 								
 										<span class="form-label">
-											{{invoiceVm.jobOrder.billingAmount}}
+											{{invoiceVm.jobOrder.billingAmount | currency}}
 										</span> 
 									</div>
 								</div>
@@ -523,7 +523,7 @@
 									</div>
 									<div class="col-lg-2 col-md-2 col-sm-2"> 								
 										<span class="form-label">
-											{{invoiceVm.invoice.totalProfit}}
+											{{invoiceVm.invoice.totalProfit | currency }}
 										</span> 
 									</div>
 									<div class="col-lg-2 col-md-2 col-sm-2"> 								
@@ -534,7 +534,7 @@
 									</div>
 									<div class="col-lg-2 col-md-2 col-sm-2"> 								
 										<span class="form-label">
-											{{invoiceVm.invoice.profitPercent < 0 ? invoiceVm.invoice.profitPercent * -1 : invoiceVm.invoice.profitPercent}}
+											{{invoiceVm.invoice.profitPercent < 0 ? invoiceVm.invoice.profitPercent * -1 : invoiceVm.invoice.profitPercent | number : 2}}
 										</span> 
 									</div>
 								</div>

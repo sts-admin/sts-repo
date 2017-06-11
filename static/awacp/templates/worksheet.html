@@ -4,17 +4,14 @@
 	<div class="clearfix">
 		<div class="panel panel-default shadow">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>Update Worksheet</label>				
+				<h3>OFFICE WORKSHEET</h3>			
 			</div>
 			<div class="panel-body">
 				<form name="worksheetForm" ng-submit="wsVm.addWorksheet();" >
 				  <table class="table-responsive worksheet">
 					<tr style="background-color:silver;">
 						<th colspan="4" style="text-align:center;">
-							<h1>OFFICE WORKSHEET</h1>
-							
-							<input  class="btn btn-success" type="button" value="Update Worksheet" />
-						
+							<input ng-disabled="{{wsVm.disableAction}}" class="{{wsVm.actionClass}}" type="submit" value="{{wsVm.wsAction}}" />
 						</th>
 					</tr>
 					<tr>					
@@ -270,7 +267,7 @@
 						</tr>				
 				  </table>
 				  <div style="text-align:center; margin-top:10px;">
-					<input ng-disabled="{{wsVm.disableAction}}" class="btn btn-primary" type="submit" value="{{wsVm.wsAction}}" />
+					<input ng-disabled="{{wsVm.disableAction}}" class="{{wsVm.actionClass}}" type="submit" value="{{wsVm.wsAction}}" />
 				  </div>
 				</form>
 			</div>

@@ -1,0 +1,72 @@
+<div class="container-fluid" style="width:525px;">
+	<table width="500" cellpadding="5" cellspacing="5" border="1" bordercolor="#999999">
+		<tr>
+			<td width="155">&nbsp;<strong>Start Date: </strong></td>
+			<td>{{takeVm.selectedJobOrder.dateCreated | date:'shortDate'}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Quote: </strong></td>
+			<td>{{takeVm.selectedJobOrder.quoteId}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Job ID: </strong></td>
+			<td>{{takeVm.selectedJobOrder.orderNumber}}</td>
+		</tr>		
+		<tr>
+			<td>&nbsp;<strong>Customer PO: </strong></td>
+			<td>{{takeVm.selectedJobOrder.poName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Quoted Amount: </strong></td>
+			<td>{{takeVm.selectedJobOrder.quotedAmount}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Billing Amount: </strong></td>
+			<td>{{takeVm.selectedJobOrder.billingAmount}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Contractor: </strong></td>
+			<td>{{takeVm.selectedJobOrder.contractorName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobName: </strong></td>
+			<td>{{takeVm.selectedJobOrder.jobName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>JobAddress: </strong></td>
+			<td>{{takeVm.selectedJobOrder.jobAddress}}</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;<strong>Engineer: </strong></td>
+			<td>{{takeVm.selectedJobOrder.engineerName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Architect: </strong></td>
+			<td>{{takeVm.selectedJobOrder.architectureName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Salesman: </strong></td>
+			<td>{{takeVm.selectedJobOrder.salesPersonName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Usercode: </strong></td>
+			<td>{{takeVm.selectedJobOrder.createdByUserCode}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>Email recepient Salesman: </strong></td>
+			<td>{{takeVm.selectedJobOrder.salesPersonName}}</td>
+		</tr>
+		<tr>
+			<td>&nbsp;<strong>VAV Controls </strong></td>
+			<td>{{takeVm.selectedJobOrder.vavControls}}</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;<strong>Comments: </strong></td>
+			<td>{{takeVm.selectedJobOrder.comments}}</td>
+		</tr>
+	</table>
+</div>
+
+

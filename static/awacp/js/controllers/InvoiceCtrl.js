@@ -282,6 +282,9 @@
 			invoiceVm.getJobOrderForThisInvoice($state.params.invoiceOrderId);
 			invoiceVm.editInvoice($state.params.invoiceId);
 		}
+		if($state.params.invoiceOrderId != undefined){
+			invoiceVm.getJobOrderForThisInvoice($state.params.invoiceOrderId);
+		}
 	}		
 })();
 
