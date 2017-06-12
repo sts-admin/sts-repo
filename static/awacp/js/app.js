@@ -4,7 +4,7 @@
 	//Local env
 	var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/tutorial/resource/img/";
-	var basePath = "/awacp/";
+	var basePath = "/tutorial/";
 	//prod env
 	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
@@ -80,6 +80,12 @@
 				requireAuth: true
 			}).state('quote-view',{
 				url: '/quotes',
+				templateUrl:"templates/quotes.html",
+				controller:"QuoteCtrl",
+				controllerAs:"qVm",
+				requireAuth: true
+			}).state('quote-view-single',{
+				url: '/quotes/:qSource',
 				templateUrl:"templates/quotes.html",
 				controller:"QuoteCtrl",
 				controllerAs:"qVm",
@@ -521,6 +527,16 @@
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base) {
+			$rootScope.rightTrayClicked = false;
+			$rootScope.toggleRightTray = function(){
+				$rootScope.rightTrayClicked = !$rootScope.rightTrayClicked;
+				$timeout(function(){
+					angular.element(".page-quick-sidebar-toggler").bind('click', function($event) {
+						$rootScope.rightTrayClicked = false;
+						$rootScope.$digest();
+					});
+				}, 200);
+			}
 			$rootScope.fileViewSource = "templates/file-listing.html";
 			$rootScope.gmtValue = 5.3;
 			$rootScope.dayDiff = function(startdate, enddate) {

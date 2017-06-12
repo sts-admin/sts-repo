@@ -179,15 +179,25 @@
 			AjaxUtil.getData("/awacp/getTakeoffWithDetail/"+takeoffId, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.takeoff){
-					wsVm.quote = data.takeoff;
+					wsVm.quote = data.takeoff;					
+					if(wsVm.quote.bidders){
+						var tmp = [];
+						if(jQuery.isArray(wsVm.quote.bidders)) {							
+							jQuery.each(wsVm.quote.bidders, function(k, v){
+								tmp.push(v);
+							});
+						}else{
+							tmp.push(wsVm.quote.bidders);
+						}
+						wsVm.quote.bidders = tmp;
+					}
 					$scope.$digest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "WorksheetrCtrl::wsVm.getQuoteDetail::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			});
-			
+			});			
 		}
 		wsVm.getAppliedPercent = function(manufacturerId){
 			var percent = 0;

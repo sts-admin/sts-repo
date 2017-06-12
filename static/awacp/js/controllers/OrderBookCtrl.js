@@ -325,7 +325,15 @@
 				AjaxUtil.getData("/awacp/getOrderBook/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.orderBook){
-						var tmpItems = data.orderBook.invItems;
+						var tmpItems = [];
+						if(data.orderBook.invItems){
+							if(jQuery.isArray(data.orderBook.invItems)){
+								tmpItems = data.orderBook.invItems;
+							}else{
+								tmpItems.push(data.orderBook.invItems);
+							}
+						}
+						
 						data.orderBook.invItems = [];
 						obVm.listInvItems(data.orderBook.obCategory, function(items){
 							$scope.$apply(function(){

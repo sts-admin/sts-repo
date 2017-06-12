@@ -2,13 +2,13 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
 	<div class="clearfix">
-		<div class="panel panel-default shadow" ng-hide="invoiceVm.jobOrder.invoiceId">
+		<!--<div class="panel panel-default shadow" ng-hide="invoiceVm.jobOrder.invoiceId">
 			<div class="panel-heading form-heading panel-heading-top">
 				No order book entry has been created yet for this job. Follow
 				<span><a href ui-sref="orderbook-add" >New Order Book</a></span>
 				Link to add order book detail for this job.
 			</div>
-		</div>
+		</div>-->
 		<div class="panel panel-default shadow" ng-hide="!invoiceVm.jobOrder.invoiceId">
 			<form name="invoiceForm" ng-submit="invoiceVm.saveInvoice();">
 				<div class="panel-heading form-heading panel-heading-top">
@@ -326,7 +326,7 @@
 							</div>
 						</div>
 					</uib-tab>
-					<uib-tab index="1" heading="Profit Sheet" ng-click="invoiceVm.setActiveTab(1);">
+					<uib-tab index="1" heading="Profit Sheet" ng-click="invoiceVm.setActiveTab(1);" disable="!invoiceVm.jobOrder.invoiceId">
 						<div class="panel panel-default shadow">
 							<div class="panel-body">									
 								<div class="row">

@@ -54,6 +54,7 @@
 			invoiceVm.shipDate.opened = true;
 		}
 		invoiceVm.setActiveTab = function(index){
+			if(!invoiceVm.jobOrder.invoiceId && index == 1)return;
 			invoiceVm.activeIndex = index;
 		}
 		invoiceVm.listShippedItems = function(){

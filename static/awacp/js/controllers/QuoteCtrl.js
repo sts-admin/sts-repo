@@ -120,51 +120,67 @@
 		qVm.listQuotes = function(){
 			qVm.quotes = [];
 			qVm.pageNumber = qVm.currentPage;
-			AjaxUtil.getData("/awacp/listTakeoffsForView/"+qVm.pageNumber+"/"+qVm.pageSize+"/true", Math.random())
-			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.totalCount){
-					$scope.$apply(function(){
-						qVm.totalItems = data.stsResponse.totalCount;
-					});
-				}
-				if(data && data.stsResponse && data.stsResponse.results){
-					var tmp = [];
-					if(jQuery.isArray(data.stsResponse.results)) {
-						jQuery.each(data.stsResponse.results, function(k, v){
-							if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
-								var b = [];
-								b.push(v.bidders);
-								v["bidders"] = b;
-							}
-							if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
-								var gc = [];
-								gc.push(v.generalContractors);
-								v["generalContractors"] = gc;
-							}
-							tmp.push(v);
-						});					
-					} else {
-						if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
-							var b = [];
-							b.push(data.stsResponse.results.bidders);
-							data.stsResponse.results["bidders"] = b;
-						}
-						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
-							var gc = [];
-							gc.push(data.stsResponse.results.generalContractors);
-							data.stsResponse.results["generalContractors"] = gc;
-						}
-					    tmp.push(data.stsResponse.results);
+			if($state.params.qSource != undefined && $state.params.qSource.length > 0){
+				AjaxUtil.getData("/awacp/getTakeoff/"+$state.params.qSource, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.takeoff){
+						$scope.$apply(function(){
+							qVm.quotes.push(data.takeoff);
+						});
+					}					
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "QuoteCtrl::qVm.listNewTakeoffsForQuote::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}else{
+				AjaxUtil.getData("/awacp/listTakeoffsForView/"+qVm.pageNumber+"/"+qVm.pageSize+"/true", Math.random())
+				.success(function(data, status, headers){
+					if(data && data.stsResponse && data.stsResponse.totalCount){
+						$scope.$apply(function(){
+							qVm.totalItems = data.stsResponse.totalCount;
+						});
 					}
-					$scope.$apply(function(){
-						qVm.quotes  = tmp;
-					});
-				}		
-			})
-			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "QuoteCtrl::qVm.listNewTakeoffsForQuote::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			});
+					if(data && data.stsResponse && data.stsResponse.results){
+						var tmp = [];
+						if(jQuery.isArray(data.stsResponse.results)) {
+							jQuery.each(data.stsResponse.results, function(k, v){
+								if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
+									var b = [];
+									b.push(v.bidders);
+									v["bidders"] = b;
+								}
+								if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
+									var gc = [];
+									gc.push(v.generalContractors);
+									v["generalContractors"] = gc;
+								}
+								tmp.push(v);
+							});					
+						} else {
+							if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
+								var b = [];
+								b.push(data.stsResponse.results.bidders);
+								data.stsResponse.results["bidders"] = b;
+							}
+							if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
+								var gc = [];
+								gc.push(data.stsResponse.results.generalContractors);
+								data.stsResponse.results["generalContractors"] = gc;
+							}
+							tmp.push(data.stsResponse.results);
+						}
+						$scope.$apply(function(){
+							qVm.quotes  = tmp;
+						});
+					}		
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "QuoteCtrl::qVm.listNewTakeoffsForQuote::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}
+			
 		}
 		qVm.listNewTakeoffsForQuote = function(){
 			qVm.newQuotes = [];
