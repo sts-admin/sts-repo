@@ -121,7 +121,7 @@
 						  <div class="col-lg-9 col-md-9 col-sm-8">
 							<div class="form-group" ng-hide="'REVERT' == jobVm.cont_text">
 								<select class="form-control" ng-required="'NEW' == jobVm.cont_text"  
-								  ng-model="jobVm.jobOrder.contractorName" 
+								  ng-model="jobVm.jobOrder.contractorId" 
 								  ng-options="contractor.id as contractor.name for contractor in jobVm.contractors" >
 								  <option value="">--- Select ---</option>
 								</select>

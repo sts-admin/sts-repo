@@ -1,0 +1,11 @@
+<li> 
+	<a href="user_profile.html"> <i class="icon-user"></i> Edit Profile </a> 
+</li>
+<li> <a href="user_profile.html"> <i class="icon-calendar"></i> Change Password </a> </li>
+<li class="divider"> </li>
+<li ng-show="user.role === 'role_admin'"> <a ui-sref="admin"> <i class="icon-lock"></i> Admin Dashboard </a> </li>
+<li ng-hide="user.role === 'role_admin'">
+<input type="text" value="Logged in as &nbsp;{{user.userDisplayName}}" class="top-search-inp hidden-xss" readonly style="cursor:pointer;" id="focus_me" />
+<br />
+</li>
+<li> <a href ng-click="logoutUser();"> <i class="icon-key"></i> Log Out </a> </li>

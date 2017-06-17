@@ -529,13 +529,7 @@
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base) {
 			$rootScope.rightTrayClicked = false;
 			$rootScope.toggleRightTray = function(){
-				$rootScope.rightTrayClicked = !$rootScope.rightTrayClicked;
-				$timeout(function(){
-					angular.element(".page-quick-sidebar-toggler").bind('click', function($event) {
-						$rootScope.rightTrayClicked = false;
-						$rootScope.$digest();
-					});
-				}, 200);
+				$rootScope.rightTrayClicked = !$rootScope.rightTrayClicked;				
 			}
 			$rootScope.fileViewSource = "templates/file-listing.html";
 			$rootScope.gmtValue = 5.3;

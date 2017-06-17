@@ -54,7 +54,14 @@
 			invoiceVm.shipDate.opened = true;
 		}
 		invoiceVm.setActiveTab = function(index){
-			if(!invoiceVm.jobOrder.invoiceId && index == 1)return;
+			/*if(index == 1){
+				if(!invoiceVm.jobOrder.invoiceId)return;
+				if (typeof invoiceVm.invoice["awOrderNumber"] === "undefined"){
+					return;
+				}
+			}else{
+				invoiceVm.activeIndex = index;
+			}*/			
 			invoiceVm.activeIndex = index;
 		}
 		invoiceVm.listShippedItems = function(){
