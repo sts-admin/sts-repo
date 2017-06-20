@@ -110,32 +110,32 @@
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />
 								</a>
 							  </td>
-							  <td align="center">{{quote.dateCreated | date: 'short'}}</td>
-							   <td align="center"><a href ui-sref = "takeoff-view">{{quote.takeoffId}}</a></td>
-							  <td align="center"><a href ui-sref = "takeoff-edit({id:quote.id})">{{quote.quoteId}}</a></td>
-							  <td align="center">{{quote.jobOrderNumber}}</td>
+							  <td align="center">{{quote.dateCreated?quote.dateCreated:"..." | date: 'short'}}</td>
+							   <td align="center"><a href ui-sref = "takeoff-view">{{quote.takeoffId?quote.takeoffId:"..."}}</a></td>
+							  <td align="center"><a href ui-sref = "takeoff-edit({id:quote.id})">{{quote.quoteId?quote.quoteId:"..."}}</a></td>
+							  <td align="center">{{quote.jobOrderNumber?quote.jobOrderNumber:"..."}}</td>
 							  <td align="center">
 								<span ng-show="quote.worksheetId != null && quote.worksheetId  != undefined">
 									<a href ui-sref="quote-followup({takeoffId:quote.id, worksheetId:quote.worksheetId})">
-										{{quote.jobName}}
+										{{quote.jobName?quote.jobName:"..."}}
 									</a>
 								</span>
 								<span ng-show ="quote.worksheetId == null ||   quote.worksheetId == undefined">
-									{{quote.jobName}}
+									{{quote.jobName?quote.jobName:"..."}}
 								</span>
 							</td>
-							  <td align="center">{{quote.jobAddress}}</td>
-							  <td align="center">{{quote.engineerName}}</td>
-							  <td align="center">{{quote.architectureName}}</td>
-							  <td align="center">{{quote.amount}}</td>
-							  <td align="center">{{quote.spec.detail}}</td>
-							  <td align="center">{{quote.userCode}}</td>
+							  <td align="center">{{quote.jobAddress?quote.jobAddress:"..."}}</td>
+							  <td align="center">{{quote.engineerName?quote.engineerName:"..."}}</td>
+							  <td align="center">{{quote.architectureName?quote.architectureName:"..."}}</td>
+							  <td align="center">{{quote.amount?quote.amount:"..."}}</td>
+							  <td align="center">{{quote.spec.detail?quote.spec.detail:"..."}}</td>
+							  <td align="center">{{quote.userCode?quote.userCode:"..."}}</td>
 							  <td align="center"></td>
 							  <td align="center"></td>
 							  <td align="center"></td>
 							  <td align="center">
 								<a href ng-click="qVm.showFileListingView('QUOTE_VIBRO_DOC', quote.id, 'Quote', 'large', '.pdf');">
-									<span class="badge">{{quote.quoteVibroDocCount}}</span>
+									<span class="badge">{{quote.quoteVibroDocCount?quote.quoteVibroDocCount:"..."}}</span>
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />
 								</a>
 							  </td>
