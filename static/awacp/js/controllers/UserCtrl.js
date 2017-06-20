@@ -67,10 +67,8 @@
 			$state.go('add-user');
 		}
 		userVm.saveUser = function(){
-			var role = {};
-			role["roleName"] = userVm.user.role.roleName;
-			userVm.user.role = role;
 			var formData = {};
+			userVm.user.createdById = StoreService.getUserId();
 			formData["user"] = userVm.user;
 			AjaxUtil.submitData("/awacp/saveUser", formData)
 			.success(function(data, status, headers){

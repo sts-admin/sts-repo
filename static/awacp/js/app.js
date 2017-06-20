@@ -4,7 +4,7 @@
 	//Local env
 	var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/tutorial/resource/img/";
-	var basePath = "/tutorial/";
+	var basePath = "/awacp/";
 	//prod env
 	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
@@ -528,6 +528,10 @@
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base) {
 			$rootScope.rightTrayClicked = false;
+			$rootScope.openChatWindow = false;
+			$rootScope.toggleChatWindow = function(val){
+				$rootScope.openChatWindow = val;
+			}
 			$rootScope.toggleRightTray = function(){
 				$rootScope.rightTrayClicked = !$rootScope.rightTrayClicked;				
 			}
