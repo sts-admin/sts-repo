@@ -1,0 +1,223 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid">	
+  <div class="clearfix">
+    <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+      <div class="panel-heading form-heading panel-heading-top">
+        <label>Search Joborder</label>
+      </div>
+      <div class="panel-body new-tk-bg">
+        <form ng-submit="joborderVm.report();">
+          <!-- .row -->
+          <section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content">
+        <h1>Search Joborder</h1>
+      </div>
+      <!-- .col -->
+      <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('search_joborder');" href="javascript:void(0);">Hide Search Form</a> </div>
+      <!-- .col -->
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container -->
+  <form style="display:block;" class="formular" action="" method="post" id="search_joborder" name="search_joborder">
+    <div class="bg-F7EDF0 theme-form">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
+            <input type="submit" class="submit-btn btn btn-primary" value="Search">
+            &nbsp;&nbsp;&nbsp;
+            <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+          </div>
+          <!-- .col -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <hr>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job ID:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" class="form-control" name="joid">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <div class="form-group">
+              <select class="form-control" id="salesman" name="salesman">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <div class="form-group">
+              <select class="form-control" id="usercode" name="usercode">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <div class="form-group">
+              <select class="form-control" id="year" name="year">
+                <option value="">ALL</option>
+                <option value="2006">2006</option>
+                <option value="2007">2007</option>
+                <option value="2008">2008</option>
+                <option value="2009">2009</option>
+                <option value="2010">2010</option>
+                <option value="2011">2011</option>
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option selected="selected" value="2017">2017</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-6 col-sm-3 col-xs-12"> <span class="new-take-off-title">Email recepient salesman:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <select class="form-control" id="jo_salesman" name="jo_salesman">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Quote:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="quote_revfrom" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Custome PO#:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="custpo" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Name:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="jobname" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Address:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="address" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Contractor:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="contractorname" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="engineername" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Architect:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="architectname" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Quoted Amount$:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="job_amount" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Billing Amount$:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="amount" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">VAV Controls:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="ponumber" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <hr>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
+            <input type="submit" class="submit-btn btn btn-primary" value="Search">
+            &nbsp;&nbsp;&nbsp;
+            <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+            <input type="hidden" value="search" name="search">
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+      </div>
+      <!-- .container -->
+    </div>
+    <!-- .bg-d0e9f4 -->
+  </form>
+  <div style="clear:both;"></div>
+</section>
+          <!-- .row -->
+          <!-- .row -->
+          <div class="row checkrow">
+          </div>
+          <!-- .row -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="clear:both;height:50px;"></div>
+<div ng-include="'templates/footer.html'" ></div>
