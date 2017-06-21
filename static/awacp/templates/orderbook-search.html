@@ -1,0 +1,319 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid">	
+  <div class="clearfix">
+    <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+      <div class="panel-heading form-heading panel-heading-top">
+        <label>Search Order Book</label>
+      </div>
+      <div class="panel-body new-tk-bg">
+        <form ng-submit="joborderVm.report();">
+          <!-- .row -->
+          <section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 dashboard-content">
+        <h1>Search Order Book</h1>
+      </div>
+      <!-- .col -->
+      <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('search_order');" href="javascript:void(0);">Hide Search Form</a> </div>
+      <!-- .col -->
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container -->
+  <form class="formular" action="" method="post" id="search_order" name="search_order">
+    <div class="bg-FFFAEB theme-form">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Date:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-3 col-md-3 col-sm-2">
+            <div class="form-group">
+              <input type="text" value="" name="order_date" class="form-control datepicker">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">AWACP PO#:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-3 col-md-3 col-sm-2">
+            <div class="form-group">
+              <input type="text" value="" name="ordernumber" class="form-control datepicker">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 hidden-lg hidden-md col-sm-1 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 hidden-md hidden-lg hidden-xs hidden-sm col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 hidden-xs col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">EST Date:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-3 col-md-3 col-sm-2">
+            <div class="form-group">
+              <input type="text" value="" name="orbf_date" class="form-control datepicker">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Salesman:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-3 col-md-3 col-sm-2">
+            <div class="form-group">
+              <select style="width:120px" class="form-control" name="salesman">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+                <option value="AK">AK - ABDUL KHADIR</option>
+                <option value="AN">AN - ADAM NEWELL</option>
+                <option value="AP">AP - ASHISH KASHYAP</option>
+                <option value="AR">AR - ADRIAN ALICEA</option>
+                <option value="AU">AU - ANGIE GOTHAM</option>
+                <option value="AY">AY - ALEX YOUNG</option>
+                <option value="BA">BA - BRACHA AZACHI</option>
+                <option value="CY">CY - CALVIN YAU</option>
+                <option value="DA">DA - DAN AROTE</option>
+                <option value="FC">FC - FRANK CIAMPA</option>
+                <option value="HE">HE - HECTOR RAMOS</option>
+                <option value="HM">HM - HAROLD MEHNDI</option>
+                <option value="JC">JC - JULIE CHEN</option>
+                <option value="JK">JK - JACK KAPUR</option>
+                <option value="KK">KK - KEN KAPLAN</option>
+                <option value="KP">KP - KATHY PETERSON</option>
+                <option value="KS">KS - KEVIN SKOPAS</option>
+                <option value="KY">KY - KIM YO</option>
+                <option value="LN">LN - LIA NATLI</option>
+                <option value="MA">MA - MARK AMIR</option>
+                <option value="MK">MK - MAHESH KUMAR</option>
+                <option value="MN">MN - MARY NICHOLS</option>
+                <option value="MR">MR - MAHI ROSSELLO</option>
+                <option value="MS">MS - MATT SINGER</option>
+                <option value="NK">NK - NORMAN KURTIS</option>
+                <option value="NP">NP - NOEL PALMER</option>
+                <option value="NR">NR - NICK RILEY</option>
+                <option value="NS">NS - NITIN SAHU</option>
+                <option value="NV">NV - NIRAD VAGHELA</option>
+                <option value="PD">PD - PENNY DIXIT</option>
+                <option value="PF">PF - PAUL FORD</option>
+                <option value="PJ">PJ - PHIL JOSHI</option>
+                <option value="PR">PR - PAT RYAN</option>
+                <option value="RB">RB - RIAZ BARKHAR</option>
+                <option value="RC">RC - RON CIAMPA</option>
+                <option value="RD">RD - RITA DREW</option>
+                <option value="RH">RH - RAY HALBERT</option>
+                <option value="RJ">RJ - RICK JOHNSON</option>
+                <option value="RK">RK - ROBERT KUMAR</option>
+                <option value="SA">SA - STAN ACKMAN</option>
+                <option value="SB">SB - SAM BAXTER</option>
+                <option value="SC">SC - SCOTT PORTER</option>
+                <option value="SJ">SJ - SALLY JACKSON</option>
+                <option value="SR">SR - SID ROBBINS</option>
+                <option value="SS">SS - STEVE SPEIER</option>
+                <option value="SW">SW - SHAWN WILLIAMS</option>
+                <option value="TB">TB - TOM BULZOMI</option>
+                <option value="VB">VB - VIJAY BHAKRI</option>
+                <option value="VK">VK - VICTOR KATZ</option>
+                <option value="VN">VN - VED NEWHART</option>
+                <option value="YB">YB - YANNI BANASIOS</option>
+                <option value="YJ">YJ - YAO JIN</option>
+                <option value="ZM">ZM - ZOLTAN MALLIN</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <hr>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <div class="form-group">
+              <select style="width:120px" class="form-control" name="usercode">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+                <option value="AK">AK - ABDUL KHADIR</option>
+                <option value="AN">AN - ADAM NEWELL</option>
+                <option value="AP">AP - ASHISH KASHYAP</option>
+                <option value="AR">AR - ADRIAN ALICEA</option>
+                <option value="AU">AU - ANGIE GOTHAM</option>
+                <option value="AY">AY - ALEX YOUNG</option>
+                <option value="BA">BA - BRACHA AZACHI</option>
+                <option value="CY">CY - CALVIN YAU</option>
+                <option value="DA">DA - DAN AROTE</option>
+                <option value="FC">FC - FRANK CIAMPA</option>
+                <option value="HE">HE - HECTOR RAMOS</option>
+                <option value="HM">HM - HAROLD MEHNDI</option>
+                <option value="JC">JC - JULIE CHEN</option>
+                <option value="JK">JK - JACK KAPUR</option>
+                <option value="KK">KK - KEN KAPLAN</option>
+                <option value="KP">KP - KATHY PETERSON</option>
+                <option value="KS">KS - KEVIN SKOPAS</option>
+                <option value="KY">KY - KIM YO</option>
+                <option value="LN">LN - LIA NATLI</option>
+                <option value="MA">MA - MARK AMIR</option>
+                <option value="MK">MK - MAHESH KUMAR</option>
+                <option value="MN">MN - MARY NICHOLS</option>
+                <option value="MR">MR - MAHI ROSSELLO</option>
+                <option value="MS">MS - MATT SINGER</option>
+                <option value="NK">NK - NORMAN KURTIS</option>
+                <option value="NP">NP - NOEL PALMER</option>
+                <option value="NR">NR - NICK RILEY</option>
+                <option value="NS">NS - NITIN SAHU</option>
+                <option value="NV">NV - NIRAD VAGHELA</option>
+                <option value="PD">PD - PENNY DIXIT</option>
+                <option value="PF">PF - PAUL FORD</option>
+                <option value="PJ">PJ - PHIL JOSHI</option>
+                <option value="PR">PR - PAT RYAN</option>
+                <option value="RB">RB - RIAZ BARKHAR</option>
+                <option value="RC">RC - RON CIAMPA</option>
+                <option value="RD">RD - RITA DREW</option>
+                <option value="RH">RH - RAY HALBERT</option>
+                <option value="RJ">RJ - RICK JOHNSON</option>
+                <option value="RK">RK - ROBERT KUMAR</option>
+                <option value="SA">SA - STAN ACKMAN</option>
+                <option value="SB">SB - SAM BAXTER</option>
+                <option value="SC">SC - SCOTT PORTER</option>
+                <option value="SJ">SJ - SALLY JACKSON</option>
+                <option value="SR">SR - SID ROBBINS</option>
+                <option value="SS">SS - STEVE SPEIER</option>
+                <option value="SW">SW - SHAWN WILLIAMS</option>
+                <option value="TB">TB - TOM BULZOMI</option>
+                <option value="VB">VB - VIJAY BHAKRI</option>
+                <option value="VK">VK - VICTOR KATZ</option>
+                <option value="VN">VN - VED NEWHART</option>
+                <option value="YB">YB - YANNI BANASIOS</option>
+                <option value="YJ">YJ - YAO JIN</option>
+                <option value="ZM">ZM - ZOLTAN MALLIN</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <div class="form-group">
+              <select class="form-control" name="yy">
+                <option value="">ALL</option>
+                <option selected="selected" value="17">2017</option>
+                <option value="16">2016</option>
+                <option value="15">2015</option>
+                <option value="14">2014</option>
+                <option value="13">2013</option>
+                <option value="12">2012</option>
+                <option value="11">2011</option>
+                <option value="10">2010</option>
+                <option value="09">2009</option>
+                <option value="08">2008</option>
+                <option value="07">2007</option>
+                <option value="06">2006</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">ORBF:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="orbf_number" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">JobID</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="joid" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Contractor Name</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group"> </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">c/o Ship To</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group"> </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Attn</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="attn" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Name</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="job_name" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Address</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <input type="text" value="" name="job_address" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Commnets/Model#</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <div class="form-group">
+              <textarea class="form-control" style="height:auto;" name="comments" rows="5"></textarea>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <hr>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">&nbsp;</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+            <input type="submit" class="submit-btn btn btn-primary" value="Generate">
+            &nbsp;&nbsp;&nbsp;
+            <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+            <input type="hidden" value="searched" name="searched">
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+      </div>
+      <!-- .container -->
+    </div>
+    <!-- .bg-d0e9f4 -->
+  </form>
+</section>
+          <!-- .row -->
+          <!-- .row -->
+          <div class="row checkrow">
+          </div>
+          <!-- .row -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="clear:both;height:50px;"></div>
+<div ng-include="'templates/footer.html'" ></div>
