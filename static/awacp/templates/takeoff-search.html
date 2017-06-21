@@ -1,18 +1,1598 @@
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid">
-	<div class="clearfix">
-		<div class="panel panel-default">
-			<div class="panel-heading form-heading panel-heading-top">
-				<label>Search Take Off</label>				
-			</div>
-			<div class="panel-body">
-				
-			</div>
-		</div>
-	</div>
+  <div class="clearfix">
+    <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+      <div class="panel-heading form-heading panel-heading-top">
+        <label>Take Off Search</label>
+      </div>
+      <div class="panel-body new-tk-bg">
+        <form ng-submit="takeVm.searchTakeoff();">
+          <!-- .row -->
+          <section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content">
+        <h1>Search Take Off</h1>
+      </div>
+      <!-- .col -->
+      <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('search_takeoff');" href="javascript:void(0);">Hide Search Form</a> </div>
+      <!-- .col -->
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container -->
+  <form style="display:block;" class="formular" action="" method="post" id="search_takeoff" name="search_takeoff">
+    <div class="bg-d0e9f4 theme-form">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30">
+            <div class="form-group">
+              <input type="submit" class="submit-btn btn btn-primary" value="Search">
+              &nbsp;&nbsp;&nbsp;
+              <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Date Entered</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group">
+              <div class="form-group">
+                <input type="text" value="" name="create_dt" class="form-control datepicker">
+              </div>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Usercode</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group">
+              <select class="form-control" id="usercode" name="usercode">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+                
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Salesman</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group">
+              <select class="form-control" id="salesperson" name="salesperson">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+                
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Engineer</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group"> <select class="form-control" name="engineer">
+<option value="">--</option>
+<option value="2020 ENGINEERING">2020 ENGINEERING</option>
+<option value="2LS CONSULTING ENGINEERS">2LS CONSULTING ENGINEERS</option>
+</select></div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Architect</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group"> <select class="form-control" name="architect">
+<option value="">--</option>
+<option value="1100 ARCHITECT">1100 ARCHITECT</option>
+<option value="1WDMR ARCHITECTS">1WDMR ARCHITECTS</option>
+</select></div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Job Name</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" id="jobname" name="jobname" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Job Address</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" id="jobaddress" name="jobaddress" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Specifications</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <select class="form-control" name="specs">
+                <option value="">--</option>
+                <option value="A.J MANUFACTURING">A.J MANUFACTURING</option>
+                <option value="ACCORD / HART &amp; COOLEY">ACCORD / HART &amp; COOLEY</option>
+                <option value="ACCUTHERM">ACCUTHERM</option>
+                <option value="ACCUTHERM - TITUS">ACCUTHERM - TITUS</option>
+                <option value="ACCUTHERM, TITUS (LD); PRICE (CD &amp; RG)">ACCUTHERM, TITUS (LD); PRICE (CD &amp; RG)</option>
+                <option value="ACCUTHERM;EDH">ACCUTHERM;EDH</option>
+                <option value="ACUTHER (THERMA-FUSER)">ACUTHER (THERMA-FUSER)</option>
+                <option value="ACUTHERM">ACUTHERM</option>
+                <option value="ACUTHERM (CD)">ACUTHERM (CD)</option>
+                <option value="ACUTHERM (THERMAFUSER-NO BID)">ACUTHERM (THERMAFUSER-NO BID)</option>
+                <option value="ACUTHERM, TITUS">ACUTHERM, TITUS</option>
+                <option value="AEROSONIC- SOUND ATTENUATOR">AEROSONIC- SOUND ATTENUATOR</option>
+                <option value="AG ARCHITECTURAL GRILLES">AG ARCHITECTURAL GRILLES</option>
+                <option value="AIR CONCEPT; TITUS; INDEECO(EDH)">AIR CONCEPT; TITUS; INDEECO(EDH)</option>
+                <option value="AIR CONCEPTS">AIR CONCEPTS</option>
+                <option value="AIR CONCEPTS ($12,150) / ANEMOSTAT">AIR CONCEPTS ($12,150) / ANEMOSTAT</option>
+                <option value="AIR CONCEPTS TITUS">AIR CONCEPTS TITUS</option>
+                <option value="AIR GUIDE">AIR GUIDE</option>
+                <option value="AIR GUIDE / TRANE (VAVS, PROVIDED BY OWNER)">AIR GUIDE / TRANE (VAVS, PROVIDED BY OWNER)</option>
+                <option value="AIR SPECIALITIES EXPRESS">AIR SPECIALITIES EXPRESS</option>
+                <option value="AIR SPECIALTIES">AIR SPECIALTIES</option>
+                <option value="AIRCONCEPT : TITUS">AIRCONCEPT : TITUS</option>
+                <option value="ALDES">ALDES</option>
+                <option value="ALDES / ANEMOSTAT">ALDES / ANEMOSTAT</option>
+                <option value="ALDES/ANEMOSTAT">ALDES/ANEMOSTAT</option>
+                <option value="AMERICAN ALDES">AMERICAN ALDES</option>
+                <option value="AMERICAN ALDES (CAR DAMPER)">AMERICAN ALDES (CAR DAMPER)</option>
+                <option value="AMERICAN ALDES RUSKIN">AMERICAN ALDES RUSKIN</option>
+                <option value="AMERICAN ALDES(CAR-II;ZRT)">AMERICAN ALDES(CAR-II;ZRT)</option>
+                <option value="ANEMO &amp; INDEECO (EDH $3478)">ANEMO &amp; INDEECO (EDH $3478)</option>
+                <option value="ANEMO &amp; INDEECO (EDH $520)">ANEMO &amp; INDEECO (EDH $520)</option>
+                <option value="ANEMO &amp; INDEECO (EDH $730)">ANEMO &amp; INDEECO (EDH $730)</option>
+                <option value="ANEMO &amp; INDEECO (EDH $8948)">ANEMO &amp; INDEECO (EDH $8948)</option>
+                <option value="ANEMO &amp; INDEECO (EDH $975)">ANEMO &amp; INDEECO (EDH $975)</option>
+                <option value="ANEMO &amp; VIBRO SOUND TRAPS $600">ANEMO &amp; VIBRO SOUND TRAPS $600</option>
+                <option value="ANEMO (VAV); NAILOR (A/O)">ANEMO (VAV); NAILOR (A/O)</option>
+                <option value="ANEMO 9A/O); ENVIROTECH(FPB)">ANEMO 9A/O); ENVIROTECH(FPB)</option>
+                <option value="ANEMO ACUTHERM">ANEMO ACUTHERM</option>
+                <option value="ANEMO AO &amp; VAV IAC SA">ANEMO AO &amp; VAV IAC SA</option>
+                <option value="ANEMO AO &amp; VAV MARKEL EDH">ANEMO AO &amp; VAV MARKEL EDH</option>
+                <option value="ANEMO AO EHI EDH">ANEMO AO EHI EDH</option>
+                <option value="ANEMO AO JOHNSON CONTROLS VAV">ANEMO AO JOHNSON CONTROLS VAV</option>
+                <option value="ANEMO AO NEPTRONIC EDH">ANEMO AO NEPTRONIC EDH</option>
+                <option value="ANEMO AO PRICE VAV">ANEMO AO PRICE VAV</option>
+                <option value="ANEMO AO TITUS VAV">ANEMO AO TITUS VAV</option>
+                <option value="ANEMO AO TRANE VAV">ANEMO AO TRANE VAV</option>
+                <option value="ANEMO AO TRANE VAV EHI EDH">ANEMO AO TRANE VAV EHI EDH</option>
+                <option value="ANEMO BRASCH">ANEMO BRASCH</option>
+                <option value="ANEMO ELECTRIC HEATERS INC">ANEMO ELECTRIC HEATERS INC</option>
+                <option value="ANEMO ENVIRO TEC">ANEMO ENVIRO TEC</option>
+                <option value="ANEMO IAC">ANEMO IAC</option>
+                <option value="ANEMO INDEECO">ANEMO INDEECO</option>
+                <option value="ANEMO INDEEGO : EDH$11595">ANEMO INDEEGO : EDH$11595</option>
+                <option value="ANEMO MARKEL">ANEMO MARKEL</option>
+                <option value="ANEMO THERMOLEC VIBRO">ANEMO THERMOLEC VIBRO</option>
+                <option value="ANEMO TITUS">ANEMO TITUS</option>
+                <option value="ANEMO TITUS NAILOR">ANEMO TITUS NAILOR</option>
+                <option value="ANEMO TRANE">ANEMO TRANE</option>
+                <option value="ANEMO VIBRO">ANEMO VIBRO</option>
+                <option value="ANEMOS &amp; TITUS">ANEMOS &amp; TITUS</option>
+                <option value="ANEMOS : BRASCH $7,575">ANEMOS : BRASCH $7,575</option>
+                <option value="ANEMOS : BRASCH - $800">ANEMOS : BRASCH - $800</option>
+                <option value="ANEMOST &amp; EDH($1,750)">ANEMOST &amp; EDH($1,750)</option>
+                <option value="ANEMOSTAT">ANEMOSTAT</option>
+                <option value="ANEMOSTAT &amp; EDH $2040">ANEMOSTAT &amp; EDH $2040</option>
+                <option value="ANEMOSTAT EDH-THERMOLEC">ANEMOSTAT EDH-THERMOLEC</option>
+                <option value="ANEMOSTAT &amp; EDH #1150 &amp; VIBRO #2200">ANEMOSTAT &amp; EDH #1150 &amp; VIBRO #2200</option>
+                <option value="ANEMOSTAT &amp; EDH $1139 &amp; IAC $1300">ANEMOSTAT &amp; EDH $1139 &amp; IAC $1300</option>
+                <option value="ANEMOSTAT &amp; EDH $2040">ANEMOSTAT &amp; EDH $2040</option>
+                <option value="ANEMOSTAT &amp; EDH $950">ANEMOSTAT &amp; EDH $950</option>
+                <option value="ANEMOSTAT &amp; EDH 1,915">ANEMOSTAT &amp; EDH 1,915</option>
+                <option value="ANEMOSTAT &amp; EDH($1,410)">ANEMOSTAT &amp; EDH($1,410)</option>
+                <option value="ANEMOSTAT &amp; EDH($1,410) SDBSA">ANEMOSTAT &amp; EDH($1,410) SDBSA</option>
+                <option value="ANEMOSTAT &amp; EDH-#1115">ANEMOSTAT &amp; EDH-#1115</option>
+                <option value="ANEMOSTAT &amp; EDH-#1235">ANEMOSTAT &amp; EDH-#1235</option>
+                <option value="ANEMOSTAT &amp; EDH-$1235">ANEMOSTAT &amp; EDH-$1235</option>
+                <option value="ANEMOSTAT &amp; EDH-$7470">ANEMOSTAT &amp; EDH-$7470</option>
+                <option value="ANEMOSTAT &amp; IAC">ANEMOSTAT &amp; IAC</option>
+                <option value="ANEMOSTAT &amp; IAC/VIBRO ACOUTICS ">ANEMOSTAT &amp; IAC/VIBRO ACOUTICS </option>
+                <option value="ANEMOSTAT &amp; INDEECO">ANEMOSTAT &amp; INDEECO</option>
+                <option value="ANEMOSTAT &amp; INDEECO (EDH $1,280)">ANEMOSTAT &amp; INDEECO (EDH $1,280)</option>
+                <option value="ANEMOSTAT &amp; INDEECO (EDH- $3945)">ANEMOSTAT &amp; INDEECO (EDH- $3945)</option>
+                <option value="ANEMOSTAT &amp; INDEECO (EDH-$3985)">ANEMOSTAT &amp; INDEECO (EDH-$3985)</option>
+                <option value="ANEMOSTAT &amp; INDEECO (EDH-$505)">ANEMOSTAT &amp; INDEECO (EDH-$505)</option>
+                <option value="ANEMOSTAT &amp; INDEECO ; EDH $3,335">ANEMOSTAT &amp; INDEECO ; EDH $3,335</option>
+                <option value="ANEMOSTAT &amp; INDEECO EDH-$815">ANEMOSTAT &amp; INDEECO EDH-$815</option>
+                <option value="ANEMOSTAT &amp; NEPTRONIC">ANEMOSTAT &amp; NEPTRONIC</option>
+                <option value="ANEMOSTAT &amp; QMARK EDH $ 750">ANEMOSTAT &amp; QMARK EDH $ 750</option>
+                <option value="ANEMOSTAT &amp; THERMAFUSER">ANEMOSTAT &amp; THERMAFUSER</option>
+                <option value="ANEMOSTAT &amp; TITUS">ANEMOSTAT &amp; TITUS</option>
+                <option value="ANEMOSTAT &amp; TITUS JCI (VAV)">ANEMOSTAT &amp; TITUS JCI (VAV)</option>
+                <option value="ANEMOSTAT &amp; TROX">ANEMOSTAT &amp; TROX</option>
+                <option value="ANEMOSTAT &amp; VIBRO">ANEMOSTAT &amp; VIBRO</option>
+                <option value="ANEMOSTAT &amp; VIBRO $12625">ANEMOSTAT &amp; VIBRO $12625</option>
+                <option value="ANEMOSTAT &amp; VIBRO $1275">ANEMOSTAT &amp; VIBRO $1275</option>
+                <option value="ANEMOSTAT &amp; VIBRO $2010">ANEMOSTAT &amp; VIBRO $2010</option>
+                <option value="ANEMOSTAT &amp; VIBRO $5,500">ANEMOSTAT &amp; VIBRO $5,500</option>
+                <option value="ANEMOSTAT &amp; VIBRO $735">ANEMOSTAT &amp; VIBRO $735</option>
+                <option value="ANEMOSTAT (A/O &amp; LD)">ANEMOSTAT (A/O &amp; LD)</option>
+                <option value="ANEMOSTAT (A/O &amp; VAV)">ANEMOSTAT (A/O &amp; VAV)</option>
+                <option value="ANEMOSTAT (A/O &amp; VAV); INDEECO (EDH)">ANEMOSTAT (A/O &amp; VAV); INDEECO (EDH)</option>
+                <option value="ANEMOSTAT (A/O + +VAV + FPB) ; IAC (SOUND TRAPS)">ANEMOSTAT (A/O + +VAV + FPB) ; IAC (SOUND TRAPS)</option>
+                <option value="ANEMOSTAT (A/O + FPB)">ANEMOSTAT (A/O + FPB)</option>
+                <option value="ANEMOSTAT (A/O + VAV + EVAV) ; IAC (SOUNDTRAPS)">ANEMOSTAT (A/O + VAV + EVAV) ; IAC (SOUNDTRAPS)</option>
+                <option value="ANEMOSTAT (A/O + VAV + SPCD)">ANEMOSTAT (A/O + VAV + SPCD)</option>
+                <option value="ANEMOSTAT (A/O + VAVS)">ANEMOSTAT (A/O + VAVS)</option>
+                <option value="ANEMOSTAT (A/O + VAVS) SDBRK">ANEMOSTAT (A/O + VAVS) SDBRK</option>
+                <option value="ANEMOSTAT (A/O + VAVS) WORKING RK">ANEMOSTAT (A/O + VAVS) WORKING RK</option>
+                <option value="ANEMOSTAT (A/O)">ANEMOSTAT (A/O)</option>
+                <option value="ANEMOSTAT (A/O) SIEMENS (VAV)">ANEMOSTAT (A/O) SIEMENS (VAV)</option>
+                <option value="ANEMOSTAT (A/O) VIBRO (DUCT SILENCER)">ANEMOSTAT (A/O) VIBRO (DUCT SILENCER)</option>
+                <option value="ANEMOSTAT (A/O) &amp; TRANE (VAV)">ANEMOSTAT (A/O) &amp; TRANE (VAV)</option>
+                <option value="ANEMOSTAT (A/O) / TITUS (FPB &amp; VAV) / JOHNSON (UNDERFLOOR FPB &amp; A/O)">ANEMOSTAT (A/O) / TITUS (FPB &amp; VAV) / JOHNSON (UNDERFLOOR FPB &amp; A/O)</option>
+                <option value="ANEMOSTAT (A/O) : INDEECO(EDH) : IAC AMERICA(SOUND ATTENUATOR)">ANEMOSTAT (A/O) : INDEECO(EDH) : IAC AMERICA(SOUND ATTENUATOR)</option>
+                <option value="ANEMOSTAT (A/O) : THERMAFUSER (VAV)">ANEMOSTAT (A/O) : THERMAFUSER (VAV)</option>
+                <option value="ANEMOSTAT (A/O) : TUTCO (EDH)">ANEMOSTAT (A/O) : TUTCO (EDH)</option>
+                <option value="ANEMOSTAT (A/O) : TUTCO (EDH); AIR BALANCE; ARROW UNITED">ANEMOSTAT (A/O) : TUTCO (EDH); AIR BALANCE; ARROW UNITED</option>
+                <option value="ANEMOSTAT (A/O) ; GREENHECK (EDH)">ANEMOSTAT (A/O) ; GREENHECK (EDH)</option>
+                <option value="ANEMOSTAT (A/O) ; INDEEECO (EDH)">ANEMOSTAT (A/O) ; INDEEECO (EDH)</option>
+                <option value="ANEMOSTAT (A/O) ; MARKEL (EDH)">ANEMOSTAT (A/O) ; MARKEL (EDH)</option>
+                <option value="ANEMOSTAT (A/O) ; TITUS (VAV) ; IAC (SOUNDTRAPS">ANEMOSTAT (A/O) ; TITUS (VAV) ; IAC (SOUNDTRAPS</option>
+                <option value="ANEMOSTAT (A/O) ; TRANE (VAV)">ANEMOSTAT (A/O) ; TRANE (VAV)</option>
+                <option value="ANEMOSTAT (A/O) EDH ">ANEMOSTAT (A/O) EDH </option>
+                <option value="ANEMOSTAT (A/O) INDEECO">ANEMOSTAT (A/O) INDEECO</option>
+                <option value="ANEMOSTAT (A/O) INDEECO (EDH)">ANEMOSTAT (A/O) INDEECO (EDH)</option>
+                <option value="ANEMOSTAT (A/O) KINETICS (SOUND TRAPS) JCI (VAV)">ANEMOSTAT (A/O) KINETICS (SOUND TRAPS) JCI (VAV)</option>
+                <option value="ANEMOSTAT (A/O) NEPTRONIC (EDH)">ANEMOSTAT (A/O) NEPTRONIC (EDH)</option>
+                <option value="ANEMOSTAT (A/O) THRMOLEC (EDH)">ANEMOSTAT (A/O) THRMOLEC (EDH)</option>
+                <option value="ANEMOSTAT (A/O) TITUS (VAV) (FPB) EDH (MARKEL)">ANEMOSTAT (A/O) TITUS (VAV) (FPB) EDH (MARKEL)</option>
+                <option value="ANEMOSTAT (A/O) VIBRO (DUCT SILENCER)">ANEMOSTAT (A/O) VIBRO (DUCT SILENCER)</option>
+                <option value="ANEMOSTAT (A/O), CARRIER (VAV), MARLEY (EDH)">ANEMOSTAT (A/O), CARRIER (VAV), MARLEY (EDH)</option>
+                <option value="ANEMOSTAT (A/O), TITUS (VAV)">ANEMOSTAT (A/O), TITUS (VAV)</option>
+                <option value="ANEMOSTAT (A/O); BRASCH EDH">ANEMOSTAT (A/O); BRASCH EDH</option>
+                <option value="ANEMOSTAT (A/O); TITUS (FPB)">ANEMOSTAT (A/O); TITUS (FPB)</option>
+                <option value="ANEMOSTAT (A/O);ENVIRO-TEC (VAV) ">ANEMOSTAT (A/O);ENVIRO-TEC (VAV) </option>
+                <option value="ANEMOSTAT (A/O);RUSKIN &amp; VAW (SOUND TRAPS)">ANEMOSTAT (A/O);RUSKIN &amp; VAW (SOUND TRAPS)</option>
+                <option value="ANEMOSTAT (A/O);TITUS (LD)">ANEMOSTAT (A/O);TITUS (LD)</option>
+                <option value="ANEMOSTAT (A/O;VAV);TITUS(A/O)">ANEMOSTAT (A/O;VAV);TITUS(A/O)</option>
+                <option value="ANEMOSTAT (AO &amp; FPB |) ">ANEMOSTAT (AO &amp; FPB |) </option>
+                <option value="ANEMOSTAT (AO &amp; FPB |) ">ANEMOSTAT (AO &amp; FPB |) </option>
+                <option value="ANEMOSTAT (AO &amp; VAV)">ANEMOSTAT (AO &amp; VAV)</option>
+                <option value="ANEMOSTAT (AO &amp; VAV) / TITUS (AO) / IAC">ANEMOSTAT (AO &amp; VAV) / TITUS (AO) / IAC</option>
+                <option value="ANEMOSTAT (AO&amp;VAV)">ANEMOSTAT (AO&amp;VAV)</option>
+                <option value="ANEMOSTAT (AO&amp;VAV); NA (SOUND TRAP - $3,260)">ANEMOSTAT (AO&amp;VAV); NA (SOUND TRAP - $3,260)</option>
+                <option value="ANEMOSTAT (AO&amp;VAV); VIBRO (SOUND TRAP - $18,895)">ANEMOSTAT (AO&amp;VAV); VIBRO (SOUND TRAP - $18,895)</option>
+                <option value="ANEMOSTAT (AO) &amp; NAILOR(FPB)	">ANEMOSTAT (AO) &amp; NAILOR(FPB)</option>
+                <option value="ANEMOSTAT (AO) : TITUS (AO)">ANEMOSTAT (AO) : TITUS (AO)</option>
+                <option value="ANEMOSTAT (AO) MARKEL (EDH)">ANEMOSTAT (AO) MARKEL (EDH)</option>
+                <option value="ANEMOSTAT (AO) PRICE (FPB)">ANEMOSTAT (AO) PRICE (FPB)</option>
+                <option value="ANEMOSTAT (AO) TITUS TERMINAL UNITS">ANEMOSTAT (AO) TITUS TERMINAL UNITS</option>
+                <option value="ANEMOSTAT (AO) TRANE (VAV)">ANEMOSTAT (AO) TRANE (VAV)</option>
+                <option value="ANEMOSTAT (AO); BRASCH (EDH-$1,150)">ANEMOSTAT (AO); BRASCH (EDH-$1,150)</option>
+                <option value="ANEMOSTAT (AO); JOHNSON CONTROL (FPB)">ANEMOSTAT (AO); JOHNSON CONTROL (FPB)</option>
+                <option value="ANEMOSTAT (AO); INDEECO (EDH-$750)">ANEMOSTAT (AO); INDEECO (EDH-$750)</option>
+                <option value="ANEMOSTAT (AO); JOHNSON CONTROL (FPB)">ANEMOSTAT (AO); JOHNSON CONTROL (FPB)</option>
+                <option value="ANEMOSTAT (AO); MARKEL (EDH)">ANEMOSTAT (AO); MARKEL (EDH)</option>
+                <option value="ANEMOSTAT (AO); MARKEL(EDH)">ANEMOSTAT (AO); MARKEL(EDH)</option>
+                <option value="ANEMOSTAT (AO); TITUS (DUAL DUCT VAV)">ANEMOSTAT (AO); TITUS (DUAL DUCT VAV)</option>
+                <option value="ANEMOSTAT (AO/VAV)">ANEMOSTAT (AO/VAV)</option>
+                <option value="ANEMOSTAT (AO/VAV); VIBRO (SOUND ATTENUATORS - $16,555)">ANEMOSTAT (AO/VAV); VIBRO (SOUND ATTENUATORS - $16,555)</option>
+                <option value="ANEMOSTAT (AO/VAV); VIBRO-ACOUSTICS (SOUND ATTENUATORS - $7,410)">ANEMOSTAT (AO/VAV); VIBRO-ACOUSTICS (SOUND ATTENUATORS - $7,410)</option>
+                <option value="ANEMOSTAT (AO/VAV); VIBRO-ACOUSTICS (SOUND ATTENUATORS)">ANEMOSTAT (AO/VAV); VIBRO-ACOUSTICS (SOUND ATTENUATORS)</option>
+                <option value="ANEMOSTAT (EDH $1,100)">ANEMOSTAT (EDH $1,100)</option>
+                <option value="ANEMOSTAT (EDH $2290)">ANEMOSTAT (EDH $2290)</option>
+                <option value="ANEMOSTAT (EDH $290)">ANEMOSTAT (EDH $290)</option>
+                <option value="ANEMOSTAT (EDH : $935)">ANEMOSTAT (EDH : $935)</option>
+                <option value="ANEMOSTAT (EDH-$2125)">ANEMOSTAT (EDH-$2125)</option>
+                <option value="ANEMOSTAT (FPB &amp; AO); TROX (ROUND DIFF.)">ANEMOSTAT (FPB &amp; AO); TROX (ROUND DIFF.)</option>
+                <option value="ANEMOSTAT (LD); TITUS (REGISTERS)">ANEMOSTAT (LD); TITUS (REGISTERS)</option>
+                <option value="ANEMOSTAT (SDBPF)">ANEMOSTAT (SDBPF)</option>
+                <option value="ANEMOSTAT (SDBSA)">ANEMOSTAT (SDBSA)</option>
+                <option value="ANEMOSTAT (VAV &amp; AO)">ANEMOSTAT (VAV &amp; AO)</option>
+                <option value="ANEMOSTAT (VAV &amp; AO); THERMOLEC(EDH)">ANEMOSTAT (VAV &amp; AO); THERMOLEC(EDH)</option>
+                <option value="ANEMOSTAT (VAV) ">ANEMOSTAT (VAV) </option>
+                <option value="ANEMOSTAT (VAV); BRASCH (EDH)">ANEMOSTAT (VAV); BRASCH (EDH)</option>
+                <option value="ANEMOSTAT (VAV); TITUS (A/O)">ANEMOSTAT (VAV); TITUS (A/O)</option>
+                <option value="ANEMOSTAT (VAVS) / TITUS (A/O)">ANEMOSTAT (VAVS) / TITUS (A/O)</option>
+                <option value="ANEMOSTAT (VIBRO)">ANEMOSTAT (VIBRO)</option>
+                <option value="ANEMOSTAT , INDEECO">ANEMOSTAT , INDEECO</option>
+                <option value="ANEMOSTAT -$1,210">ANEMOSTAT -$1,210</option>
+                <option value="ANEMOSTAT -VAV, TITUS -A/O">ANEMOSTAT -VAV, TITUS -A/O</option>
+                <option value="ANEMOSTAT / ALDES">ANEMOSTAT / ALDES</option>
+                <option value="ANEMOSTAT / EHPRICE">ANEMOSTAT / EHPRICE</option>
+                <option value="ANEMOSTAT / IAC">ANEMOSTAT / IAC</option>
+                <option value="ANEMOSTAT / VIBRO">ANEMOSTAT / VIBRO</option>
+                <option value="ANEMOSTAT / VIBRO / GREENHECK EDH">ANEMOSTAT / VIBRO / GREENHECK EDH</option>
+                <option value="ANEMOSTAT / VIBRO ACOUSTICS">ANEMOSTAT / VIBRO ACOUSTICS</option>
+                <option value="ANEMOSTAT / VIBRO ACOUSTICS ($13,000)">ANEMOSTAT / VIBRO ACOUSTICS ($13,000)</option>
+                <option value="ANEMOSTAT / YR-CVRS">ANEMOSTAT / YR-CVRS</option>
+                <option value="ANEMOSTAT : ALDES : INDEECO">ANEMOSTAT : ALDES : INDEECO</option>
+                <option value="ANEMOSTAT : AMERICAN ALDES">ANEMOSTAT : AMERICAN ALDES</option>
+                <option value="ANEMOSTAT : ARROW UNITED">ANEMOSTAT : ARROW UNITED</option>
+                <option value="ANEMOSTAT : ARROW UNITED $5835">ANEMOSTAT : ARROW UNITED $5835</option>
+                <option value="ANEMOSTAT : CARRIER ">ANEMOSTAT : CARRIER </option>
+                <option value="ANEMOSTAT : EDH $3159">ANEMOSTAT : EDH $3159</option>
+                <option value="ANEMOSTAT : EDH $729">ANEMOSTAT : EDH $729</option>
+                <option value="ANEMOSTAT : EDH $759">ANEMOSTAT : EDH $759</option>
+                <option value="ANEMOSTAT : EDH : $1545">ANEMOSTAT : EDH : $1545</option>
+                <option value="ANEMOSTAT : EDH : $1605">ANEMOSTAT : EDH : $1605</option>
+                <option value="ANEMOSTAT : EDH : $530">ANEMOSTAT : EDH : $530</option>
+                <option value="ANEMOSTAT : EDH($2,705)">ANEMOSTAT : EDH($2,705)</option>
+                <option value="ANEMOSTAT : EDH-$4,846.34">ANEMOSTAT : EDH-$4,846.34</option>
+                <option value="ANEMOSTAT : GREENHECK">ANEMOSTAT : GREENHECK</option>
+                <option value="ANEMOSTAT : IAC $7,180">ANEMOSTAT : IAC $7,180</option>
+                <option value="ANEMOSTAT : IAC (SOUND TRAPS)">ANEMOSTAT : IAC (SOUND TRAPS)</option>
+                <option value="ANEMOSTAT : INDEECO">ANEMOSTAT : INDEECO</option>
+                <option value="ANEMOSTAT : INDEECO (EDH)">ANEMOSTAT : INDEECO (EDH)</option>
+                <option value="ANEMOSTAT : INDEECO- $3715">ANEMOSTAT : INDEECO- $3715</option>
+                <option value="ANEMOSTAT : KEES">ANEMOSTAT : KEES</option>
+                <option value="ANEMOSTAT : MARKEL (EDH $2,050)">ANEMOSTAT : MARKEL (EDH $2,050)</option>
+                <option value="ANEMOSTAT : PHOENIX (VAV) : INDEECO (EDH)">ANEMOSTAT : PHOENIX (VAV) : INDEECO (EDH)</option>
+                <option value="ANEMOSTAT : RUSKIN (FSD)">ANEMOSTAT : RUSKIN (FSD)</option>
+                <option value="ANEMOSTAT : SILENCER $1,870">ANEMOSTAT : SILENCER $1,870</option>
+                <option value="ANEMOSTAT : SILENCER $1480">ANEMOSTAT : SILENCER $1480</option>
+                <option value="ANEMOSTAT : TITUS">ANEMOSTAT : TITUS</option>
+                <option value="ANEMOSTAT : TITUS (FPB)">ANEMOSTAT : TITUS (FPB)</option>
+                <option value="ANEMOSTAT : VIBRO">ANEMOSTAT : VIBRO</option>
+                <option value="ANEMOSTAT : VIBRO : GREENHECK">ANEMOSTAT : VIBRO : GREENHECK</option>
+                <option value="ANEMOSTAT : VIBRO-$15,475.00">ANEMOSTAT : VIBRO-$15,475.00</option>
+                <option value="ANEMOSTAT : VIBRO-$8100">ANEMOSTAT : VIBRO-$8100</option>
+                <option value="ANEMOSTAT : VIBRO-$925">ANEMOSTAT : VIBRO-$925</option>
+                <option value="ANEMOSTAT ; EDH -$1030">ANEMOSTAT ; EDH -$1030</option>
+                <option value="ANEMOSTAT ; EDH -$1150">ANEMOSTAT ; EDH -$1150</option>
+                <option value="ANEMOSTAT ; IAC - $ 26800">ANEMOSTAT ; IAC - $ 26800</option>
+                <option value="ANEMOSTAT ; INDEECO">ANEMOSTAT ; INDEECO</option>
+                <option value="ANEMOSTAT ; PRICE">ANEMOSTAT ; PRICE</option>
+                <option value="ANEMOSTAT ; VIBRO - $25,800">ANEMOSTAT ; VIBRO - $25,800</option>
+                <option value="ANEMOSTAT ; VIBRO - $8,875">ANEMOSTAT ; VIBRO - $8,875</option>
+                <option value="ANEMOSTAT ; VIBRO ACOUSTICS">ANEMOSTAT ; VIBRO ACOUSTICS</option>
+                <option value="ANEMOSTAT A/O BRASCH EDH">ANEMOSTAT A/O BRASCH EDH</option>
+                <option value="ANEMOSTAT A/O | TITUS LINEAR DIFFUSER| N/A BY PASS BOX ">ANEMOSTAT A/O | TITUS LINEAR DIFFUSER| N/A BY PASS BOX </option>
+                <option value="ANEMOSTAT A/O,INDEECO EDH">ANEMOSTAT A/O,INDEECO EDH</option>
+                <option value="ANEMOSTAT AIR CONCEPTS ALDES">ANEMOSTAT AIR CONCEPTS ALDES</option>
+                <option value="ANEMOSTAT ALDES">ANEMOSTAT ALDES</option>
+                <option value="ANEMOSTAT ALDES ARLAN">ANEMOSTAT ALDES ARLAN</option>
+                <option value="ANEMOSTAT AO VIBRO SA THERMOLEC EDH">ANEMOSTAT AO VIBRO SA THERMOLEC EDH</option>
+                <option value="ANEMOSTAT AO AIR CONCEPT ">ANEMOSTAT AO AIR CONCEPT </option>
+                <option value="ANEMOSTAT AO CARRIER VAV">ANEMOSTAT AO CARRIER VAV</option>
+                <option value="ANEMOSTAT AO INDEECO EDH">ANEMOSTAT AO INDEECO EDH</option>
+                <option value="ANEMOSTAT AO MARKEL EDH">ANEMOSTAT AO MARKEL EDH</option>
+                <option value="ANEMOSTAT AO NAILOR FPB">ANEMOSTAT AO NAILOR FPB</option>
+                <option value="ANEMOSTAT AO NEPTRONIC EDH">ANEMOSTAT AO NEPTRONIC EDH</option>
+                <option value="ANEMOSTAT AO PRICE VAV">ANEMOSTAT AO PRICE VAV</option>
+                <option value="ANEMOSTAT AO SIEMENS VAV">ANEMOSTAT AO SIEMENS VAV</option>
+                <option value="ANEMOSTAT AO TITUS VAV">ANEMOSTAT AO TITUS VAV</option>
+                <option value="ANEMOSTAT AO TUTCO EDH">ANEMOSTAT AO TUTCO EDH</option>
+                <option value="ANEMOSTAT ARROW UNITED ">ANEMOSTAT ARROW UNITED </option>
+                <option value="ANEMOSTAT ARROW UNITED $1,325.00">ANEMOSTAT ARROW UNITED $1,325.00</option>
+                <option value="ANEMOSTAT BRASCH">ANEMOSTAT BRASCH</option>
+                <option value="ANEMOSTAT BRASCH - $ 9475">ANEMOSTAT BRASCH - $ 9475</option>
+                <option value="ANEMOSTAT BRASCH - $700">ANEMOSTAT BRASCH - $700</option>
+                <option value="ANEMOSTAT BRASCH EDH">ANEMOSTAT BRASCH EDH</option>
+                <option value="ANEMOSTAT CAR (ALDES)">ANEMOSTAT CAR (ALDES)</option>
+                <option value="ANEMOSTAT EDH">ANEMOSTAT EDH</option>
+                <option value="ANEMOSTAT EDH $ 2125 IAC ">ANEMOSTAT EDH $ 2125 IAC </option>
+                <option value="ANEMOSTAT EDH $ 2125 VIBRO 2500">ANEMOSTAT EDH $ 2125 VIBRO 2500</option>
+                <option value="ANEMOSTAT EDH $1190 SDBMS">ANEMOSTAT EDH $1190 SDBMS</option>
+                <option value="ANEMOSTAT EDH $580">ANEMOSTAT EDH $580</option>
+                <option value="ANEMOSTAT EDH - $1230">ANEMOSTAT EDH - $1230</option>
+                <option value="ANEMOSTAT EDH - $2405">ANEMOSTAT EDH - $2405</option>
+                <option value="ANEMOSTAT EDH 1050">ANEMOSTAT EDH 1050</option>
+                <option value="ANEMOSTAT EDH 1200">ANEMOSTAT EDH 1200</option>
+                <option value="ANEMOSTAT EDH 2610">ANEMOSTAT EDH 2610</option>
+                <option value="ANEMOSTAT EDH 3535">ANEMOSTAT EDH 3535</option>
+                <option value="ANEMOSTAT EDH-THERMOLEC">ANEMOSTAT EDH-THERMOLEC</option>
+                <option value="ANEMOSTAT ELECTRIC HEATER INC">ANEMOSTAT ELECTRIC HEATER INC</option>
+                <option value="ANEMOSTAT ELECTRIC HEATER INC $1565">ANEMOSTAT ELECTRIC HEATER INC $1565</option>
+                <option value="ANEMOSTAT ELECTRIC HEATER INC $1565 SDBPS">ANEMOSTAT ELECTRIC HEATER INC $1565 SDBPS</option>
+                <option value="ANEMOSTAT GREENHECK">ANEMOSTAT GREENHECK</option>
+                <option value="ANEMOSTAT IAC">ANEMOSTAT IAC</option>
+                <option value="ANEMOSTAT IAC $ 3520">ANEMOSTAT IAC $ 3520</option>
+                <option value="ANEMOSTAT IAC $3785">ANEMOSTAT IAC $3785</option>
+                <option value="ANEMOSTAT IAC 12985">ANEMOSTAT IAC 12985</option>
+                <option value="ANEMOSTAT IAC 3590">ANEMOSTAT IAC 3590</option>
+                <option value="ANEMOSTAT IAC 4110">ANEMOSTAT IAC 4110</option>
+                <option value="ANEMOSTAT IAC- $1,750">ANEMOSTAT IAC- $1,750</option>
+                <option value="ANEMOSTAT IAC-$1100">ANEMOSTAT IAC-$1100</option>
+                <option value="ANEMOSTAT IAC-$14,700">ANEMOSTAT IAC-$14,700</option>
+                <option value="ANEMOSTAT IAC-$690">ANEMOSTAT IAC-$690</option>
+                <option value="ANEMOSTAT INDEECO">ANEMOSTAT INDEECO</option>
+                <option value="ANEMOSTAT INDEECO $ 1000">ANEMOSTAT INDEECO $ 1000</option>
+                <option value="ANEMOSTAT INDEECO $ 675">ANEMOSTAT INDEECO $ 675</option>
+                <option value="ANEMOSTAT INDEECO - $ 1125">ANEMOSTAT INDEECO - $ 1125</option>
+                <option value="ANEMOSTAT INDEECO - $ 1425">ANEMOSTAT INDEECO - $ 1425</option>
+                <option value="ANEMOSTAT INDEECO - $1,010">ANEMOSTAT INDEECO - $1,010</option>
+                <option value="ANEMOSTAT INDEECO - $4,780">ANEMOSTAT INDEECO - $4,780</option>
+                <option value="ANEMOSTAT INDEECO : $6,900; ARROW : $3,000">ANEMOSTAT INDEECO : $6,900; ARROW : $3,000</option>
+                <option value="ANEMOSTAT INDEECO EDH 3290">ANEMOSTAT INDEECO EDH 3290</option>
+                <option value="ANEMOSTAT MARKEL">ANEMOSTAT MARKEL</option>
+                <option value="ANEMOSTAT MARKEL EDH $2,085.00">ANEMOSTAT MARKEL EDH $2,085.00</option>
+                <option value="ANEMOSTAT MARKEL IAC ">ANEMOSTAT MARKEL IAC </option>
+                <option value="ANEMOSTAT NEPTRONIC">ANEMOSTAT NEPTRONIC</option>
+                <option value="ANEMOSTAT PRICE">ANEMOSTAT PRICE</option>
+                <option value="ANEMOSTAT PRICE; VIBRO">ANEMOSTAT PRICE; VIBRO</option>
+                <option value="ANEMOSTAT REZNOR">ANEMOSTAT REZNOR</option>
+                <option value="ANEMOSTAT RUSKIN">ANEMOSTAT RUSKIN</option>
+                <option value="ANEMOSTAT SDBHM">ANEMOSTAT SDBHM</option>
+                <option value="ANEMOSTAT SDBKP">ANEMOSTAT SDBKP</option>
+                <option value="ANEMOSTAT SDBMA">ANEMOSTAT SDBMA</option>
+                <option value="ANEMOSTAT SDBMK">ANEMOSTAT SDBMK</option>
+                <option value="ANEMOSTAT SDBMN">ANEMOSTAT SDBMN</option>
+                <option value="ANEMOSTAT SDBMS">ANEMOSTAT SDBMS</option>
+                <option value="ANEMOSTAT SDBPF">ANEMOSTAT SDBPF</option>
+                <option value="ANEMOSTAT SDBRK">ANEMOSTAT SDBRK</option>
+                <option value="ANEMOSTAT SDBSA">ANEMOSTAT SDBSA</option>
+                <option value="ANEMOSTAT SDBVK">ANEMOSTAT SDBVK</option>
+                <option value="ANEMOSTAT SEIMENS">ANEMOSTAT SEIMENS</option>
+                <option value="ANEMOSTAT SEIMENS(VAV)">ANEMOSTAT SEIMENS(VAV)</option>
+                <option value="ANEMOSTAT SILENCERS 1300">ANEMOSTAT SILENCERS 1300</option>
+                <option value="ANEMOSTAT SILENCERS 1300 WORKING SDBPS">ANEMOSTAT SILENCERS 1300 WORKING SDBPS</option>
+                <option value="ANEMOSTAT SWBMN">ANEMOSTAT SWBMN</option>
+                <option value="ANEMOSTAT SWBPF">ANEMOSTAT SWBPF</option>
+                <option value="ANEMOSTAT THERMOLEC">ANEMOSTAT THERMOLEC</option>
+                <option value="ANEMOSTAT THERMOLIC EDH - $1970">ANEMOSTAT THERMOLIC EDH - $1970</option>
+                <option value="ANEMOSTAT TITUS">ANEMOSTAT TITUS</option>
+                <option value="ANEMOSTAT TITUS IAC">ANEMOSTAT TITUS IAC</option>
+                <option value="ANEMOSTAT TITUS INDEECO">ANEMOSTAT TITUS INDEECO</option>
+                <option value="ANEMOSTAT TITUS SILENCER 7175">ANEMOSTAT TITUS SILENCER 7175</option>
+                <option value="ANEMOSTAT TITUS TROX">ANEMOSTAT TITUS TROX</option>
+                <option value="ANEMOSTAT TITUS VIBRO ">ANEMOSTAT TITUS VIBRO </option>
+                <option value="ANEMOSTAT TITUS VIBRO $3,725">ANEMOSTAT TITUS VIBRO $3,725</option>
+                <option value="ANEMOSTAT TROX VIBRO">ANEMOSTAT TROX VIBRO</option>
+                <option value="ANEMOSTAT VAV TITUS AO">ANEMOSTAT VAV TITUS AO</option>
+                <option value="ANEMOSTAT VIBRO">ANEMOSTAT VIBRO</option>
+                <option value="ANEMOSTAT VIBRO - $ 2090 INDEECO - $ 1425">ANEMOSTAT VIBRO - $ 2090 INDEECO - $ 1425</option>
+                <option value="ANEMOSTAT VIBRO - $11,575">ANEMOSTAT VIBRO - $11,575</option>
+                <option value="ANEMOSTAT VIBRO INDEECO">ANEMOSTAT VIBRO INDEECO</option>
+                <option value="ANEMOSTAT VIBRO-$4,370">ANEMOSTAT VIBRO-$4,370</option>
+                <option value="ANEMOSTAT WARREN">ANEMOSTAT WARREN</option>
+                <option value="ANEMOSTAT WORKING ON INTSUB MK">ANEMOSTAT WORKING ON INTSUB MK</option>
+                <option value="ANEMOSTAT WORKING ON INTSUB SA">ANEMOSTAT WORKING ON INTSUB SA</option>
+                <option value="ANEMOSTAT WORKING RK">ANEMOSTAT WORKING RK</option>
+                <option value="ANEMOSTAT WORKING SDBMS">ANEMOSTAT WORKING SDBMS</option>
+                <option value="ANEMOSTAT WORKING SDBPS">ANEMOSTAT WORKING SDBPS</option>
+                <option value="ANEMOSTAT YOUNG REGULATOR">ANEMOSTAT YOUNG REGULATOR</option>
+                <option value="ANEMOSTAT&amp; VIBRO $14740">ANEMOSTAT&amp; VIBRO $14740</option>
+                <option value="ANEMOSTAT(A/O) (VAV) ; NEPTRONIC(EDH)">ANEMOSTAT(A/O) (VAV) ; NEPTRONIC(EDH)</option>
+                <option value="ANEMOSTAT(A/O) : AMERICAN ALDES (CAR)">ANEMOSTAT(A/O) : AMERICAN ALDES (CAR)</option>
+                <option value="ANEMOSTAT(A/O) : INDEECO (EDH)">ANEMOSTAT(A/O) : INDEECO (EDH)</option>
+                <option value="ANEMOSTAT(A/O) : INDEECO(EDH)">ANEMOSTAT(A/O) : INDEECO(EDH)</option>
+                <option value="ANEMOSTAT(A/O) AMEARICAN ALDES(CAR-FSA-II)">ANEMOSTAT(A/O) AMEARICAN ALDES(CAR-FSA-II)</option>
+                <option value="ANEMOSTAT(A/O) BRASCH (EDH)">ANEMOSTAT(A/O) BRASCH (EDH)</option>
+                <option value="ANEMOSTAT(A/O) GREENHECK(EDH)">ANEMOSTAT(A/O) GREENHECK(EDH)</option>
+                <option value="ANEMOSTAT(A/O) JCI (VAV)">ANEMOSTAT(A/O) JCI (VAV)</option>
+                <option value="ANEMOSTAT(A/O) KINETICS (SOUND TRAP) JCI (VAV)">ANEMOSTAT(A/O) KINETICS (SOUND TRAP) JCI (VAV)</option>
+                <option value="ANEMOSTAT(A/O) KINETICS (SOUND TRAPS) JCI (VAV)">ANEMOSTAT(A/O) KINETICS (SOUND TRAPS) JCI (VAV)</option>
+                <option value="ANEMOSTAT(A/O),INDEECO(DHC)">ANEMOSTAT(A/O),INDEECO(DHC)</option>
+                <option value="ANEMOSTAT(A/O); AMERICAN ALDES(CAR) ; INDEECO(EDH)">ANEMOSTAT(A/O); AMERICAN ALDES(CAR) ; INDEECO(EDH)</option>
+                <option value="ANEMOSTAT(A/O); INDEECO(EDH)">ANEMOSTAT(A/O); INDEECO(EDH)</option>
+                <option value="ANEMOSTAT(AO &amp; VAV)">ANEMOSTAT(AO &amp; VAV)</option>
+                <option value="ANEMOSTAT(AO &amp;VAV)">ANEMOSTAT(AO &amp;VAV)</option>
+                <option value="ANEMOSTAT(AO&amp;VAV);VIBRO">ANEMOSTAT(AO&amp;VAV);VIBRO</option>
+                <option value="ANEMOSTAT(AO) QMARK(EDH)">ANEMOSTAT(AO) QMARK(EDH)</option>
+                <option value="ANEMOSTAT(AO) JCI(VAV)">ANEMOSTAT(AO) JCI(VAV)</option>
+                <option value="ANEMOSTAT(AO) QMARK(EDH)">ANEMOSTAT(AO) QMARK(EDH)</option>
+                <option value="ANEMOSTAT(AO);TRANE(VAV)">ANEMOSTAT(AO);TRANE(VAV)</option>
+                <option value="ANEMOSTAT(BPB)">ANEMOSTAT(BPB)</option>
+                <option value="ANEMOSTAT(EDH-$2,305)">ANEMOSTAT(EDH-$2,305)</option>
+                <option value="ANEMOSTAT(LD); TITUS (A/O, VAV)">ANEMOSTAT(LD); TITUS (A/O, VAV)</option>
+                <option value="ANEMOSTAT(SDBVK)">ANEMOSTAT(SDBVK)</option>
+                <option value="ANEMOSTAT(VAV) / TITUS(A/O) / VIBRO(TRAPS)">ANEMOSTAT(VAV) / TITUS(A/O) / VIBRO(TRAPS)</option>
+                <option value="ANEMOSTAT(VAV);TITUS(AO)">ANEMOSTAT(VAV);TITUS(AO)</option>
+                <option value="ANEMOSTAT(VAV/FPB) &amp; TITUS(LD)">ANEMOSTAT(VAV/FPB) &amp; TITUS(LD)</option>
+                <option value="ANEMOSTAT(VAV/FPB) &amp; TITUS(LD) INDEECO (EDH)">ANEMOSTAT(VAV/FPB) &amp; TITUS(LD) INDEECO (EDH)</option>
+                <option value="ANEMOSTAT(VAV/FPB) &amp; TITUS(LD) INDEECO (EDH:$1,405)">ANEMOSTAT(VAV/FPB) &amp; TITUS(LD) INDEECO (EDH:$1,405)</option>
+                <option value="ANEMOSTAT, ALDES">ANEMOSTAT, ALDES</option>
+                <option value="ANEMOSTAT, ALDES, TITUS">ANEMOSTAT, ALDES, TITUS</option>
+                <option value="ANEMOSTAT, IAC, INDEECO">ANEMOSTAT, IAC, INDEECO</option>
+                <option value="ANEMOSTAT, METALAIRE">ANEMOSTAT, METALAIRE</option>
+                <option value="ANEMOSTAT, NAILOR, TITUS">ANEMOSTAT, NAILOR, TITUS</option>
+                <option value="ANEMOSTAT, SOUND ATTENUATORS (NO SPEC - $13,700)">ANEMOSTAT, SOUND ATTENUATORS (NO SPEC - $13,700)</option>
+                <option value="ANEMOSTAT, TITUS,KREUGER">ANEMOSTAT, TITUS,KREUGER</option>
+                <option value="ANEMOSTAT, TROX">ANEMOSTAT, TROX</option>
+                <option value="ANEMOSTAT, VIBRO ($10,525)">ANEMOSTAT, VIBRO ($10,525)</option>
+                <option value="ANEMOSTAT,EDH">ANEMOSTAT,EDH</option>
+                <option value="ANEMOSTAT,TITUS &amp; ALDES">ANEMOSTAT,TITUS &amp; ALDES</option>
+                <option value="ANEMOSTAT,TITUS,VIBRO">ANEMOSTAT,TITUS,VIBRO</option>
+                <option value="ANEMOSTAT-SDBHM">ANEMOSTAT-SDBHM</option>
+                <option value="ANEMOSTAT/ METALAIRE">ANEMOSTAT/ METALAIRE</option>
+                <option value="ANEMOSTAT/ALDES/IAC">ANEMOSTAT/ALDES/IAC</option>
+                <option value="ANEMOSTAT/EH- PRICE/SACHKO">ANEMOSTAT/EH- PRICE/SACHKO</option>
+                <option value="ANEMOSTAT/IAC/INDEECO">ANEMOSTAT/IAC/INDEECO</option>
+                <option value="ANEMOSTAT/VAC $11795">ANEMOSTAT/VAC $11795</option>
+                <option value="ANEMOSTAT/VAC $23065">ANEMOSTAT/VAC $23065</option>
+                <option value="ANEMOSTAT/VAC $23075">ANEMOSTAT/VAC $23075</option>
+                <option value="ANEMOSTAT/VAC $32760">ANEMOSTAT/VAC $32760</option>
+                <option value="ANEMOSTAT/VAC 11795">ANEMOSTAT/VAC 11795</option>
+                <option value="ANEMOSTAT/VIBRO">ANEMOSTAT/VIBRO</option>
+                <option value="ANEMOSTAT/VIBRO $11795">ANEMOSTAT/VIBRO $11795</option>
+                <option value="ANEMOSTAT/VIBRO $23065">ANEMOSTAT/VIBRO $23065</option>
+                <option value="ANEMOSTAT/VIBRO ACOUSTICS">ANEMOSTAT/VIBRO ACOUSTICS</option>
+                <option value="ANEMOSTAT/VIBRO/TITUS/PHOENIX">ANEMOSTAT/VIBRO/TITUS/PHOENIX</option>
+                <option value="ANEMOSTAT: SILENCERS $2525">ANEMOSTAT: SILENCERS $2525</option>
+                <option value="ANEMOSTAT:TITUS:INDEEGO &amp; EDH: $2915.46">ANEMOSTAT:TITUS:INDEEGO &amp; EDH: $2915.46</option>
+                <option value="ANEMOSTAT; BRASCH (EDH)">ANEMOSTAT; BRASCH (EDH)</option>
+                <option value="ANEMOSTAT; (INDEECO EDH $2,835)">ANEMOSTAT; (INDEECO EDH $2,835)</option>
+                <option value="ANEMOSTAT; (SILENCER $)">ANEMOSTAT; (SILENCER $)</option>
+                <option value="ANEMOSTAT; (THERMOLEC EDH $855)">ANEMOSTAT; (THERMOLEC EDH $855)</option>
+                <option value="ANEMOSTAT; AIR BALANCE VIBRO">ANEMOSTAT; AIR BALANCE VIBRO</option>
+                <option value="ANEMOSTAT; ALDES">ANEMOSTAT; ALDES</option>
+                <option value="ANEMOSTAT; ARROW UNITED">ANEMOSTAT; ARROW UNITED</option>
+                <option value="ANEMOSTAT; ARROW UNITED : $4,045; EDH : $4,900">ANEMOSTAT; ARROW UNITED : $4,045; EDH : $4,900</option>
+                <option value="ANEMOSTAT; BRASCH (EDH)">ANEMOSTAT; BRASCH (EDH)</option>
+                <option value="ANEMOSTAT; BRASCH (EDH) - $ 890">ANEMOSTAT; BRASCH (EDH) - $ 890</option>
+                <option value="ANEMOSTAT; BRASCH (EDH- $1,125)">ANEMOSTAT; BRASCH (EDH- $1,125)</option>
+                <option value="ANEMOSTAT; CARRIER">ANEMOSTAT; CARRIER</option>
+                <option value="ANEMOSTAT; EDH">ANEMOSTAT; EDH</option>
+                <option value="ANEMOSTAT; EDH $ 4225">ANEMOSTAT; EDH $ 4225</option>
+                <option value="ANEMOSTAT; EDH $1,190">ANEMOSTAT; EDH $1,190</option>
+                <option value="ANEMOSTAT; EDH $2,070">ANEMOSTAT; EDH $2,070</option>
+                <option value="ANEMOSTAT; EDH $2,730">ANEMOSTAT; EDH $2,730</option>
+                <option value="ANEMOSTAT; EDH $2,900">ANEMOSTAT; EDH $2,900</option>
+                <option value="ANEMOSTAT; EDH $3,700">ANEMOSTAT; EDH $3,700</option>
+                <option value="ANEMOSTAT; EDH $4,810">ANEMOSTAT; EDH $4,810</option>
+                <option value="ANEMOSTAT; EDH $875">ANEMOSTAT; EDH $875</option>
+                <option value="ANEMOSTAT; EDH : $3,735">ANEMOSTAT; EDH : $3,735</option>
+                <option value="ANEMOSTAT; EDH$6230">ANEMOSTAT; EDH$6230</option>
+                <option value="ANEMOSTAT; EDH$6435">ANEMOSTAT; EDH$6435</option>
+                <option value="ANEMOSTAT; GREENHECK EDH">ANEMOSTAT; GREENHECK EDH</option>
+                <option value="ANEMOSTAT; IAC">ANEMOSTAT; IAC</option>
+                <option value="ANEMOSTAT; IAC $4,150">ANEMOSTAT; IAC $4,150</option>
+                <option value="ANEMOSTAT; IAC $8,045">ANEMOSTAT; IAC $8,045</option>
+                <option value="ANEMOSTAT; IAC $8,715">ANEMOSTAT; IAC $8,715</option>
+                <option value="ANEMOSTAT; IAC ($5,225)">ANEMOSTAT; IAC ($5,225)</option>
+                <option value="ANEMOSTAT; IAC 10,630">ANEMOSTAT; IAC 10,630</option>
+                <option value="ANEMOSTAT; IAC : $2,200">ANEMOSTAT; IAC : $2,200</option>
+                <option value="ANEMOSTAT; IAC-$25,800">ANEMOSTAT; IAC-$25,800</option>
+                <option value="ANEMOSTAT; IAC-14,700">ANEMOSTAT; IAC-14,700</option>
+                <option value="ANEMOSTAT; INDEECO">ANEMOSTAT; INDEECO</option>
+                <option value="ANEMOSTAT; INDEECO (EDH- $6,580)">ANEMOSTAT; INDEECO (EDH- $6,580)</option>
+                <option value="ANEMOSTAT; INDEECO (EDH-$1,370)">ANEMOSTAT; INDEECO (EDH-$1,370)</option>
+                <option value="ANEMOSTAT; KRUEGER">ANEMOSTAT; KRUEGER</option>
+                <option value="ANEMOSTAT; SOUND TRAPS $ 4650">ANEMOSTAT; SOUND TRAPS $ 4650</option>
+                <option value="ANEMOSTAT; THERMOLEC (EDH)">ANEMOSTAT; THERMOLEC (EDH)</option>
+                <option value="ANEMOSTAT; TITUS">ANEMOSTAT; TITUS</option>
+                <option value="ANEMOSTAT; TITUS; ALDES (A/O)">ANEMOSTAT; TITUS; ALDES (A/O)</option>
+                <option value="ANEMOSTAT; TITUS; INDEECO">ANEMOSTAT; TITUS; INDEECO</option>
+                <option value="ANEMOSTAT; TITUS; METALAIRE">ANEMOSTAT; TITUS; METALAIRE</option>
+                <option value="ANEMOSTAT; TROX">ANEMOSTAT; TROX</option>
+                <option value="ANEMOSTAT; VAC $8,715">ANEMOSTAT; VAC $8,715</option>
+                <option value="ANEMOSTAT; VIBRO">ANEMOSTAT; VIBRO</option>
+                <option value="ANEMOSTAT; VIBRO $1,675">ANEMOSTAT; VIBRO $1,675</option>
+                <option value="ANEMOSTAT; VIBRO $3,390">ANEMOSTAT; VIBRO $3,390</option>
+                <option value="ANEMOSTAT; VIBRO $3,550">ANEMOSTAT; VIBRO $3,550</option>
+                <option value="ANEMOSTAT; VIBRO $8,715">ANEMOSTAT; VIBRO $8,715</option>
+                <option value="ANEMOSTAT; VIBRO ($5355); HEATER ($1930)">ANEMOSTAT; VIBRO ($5355); HEATER ($1930)</option>
+                <option value="ANEMOSTAT; VIBRO - $5,500">ANEMOSTAT; VIBRO - $5,500</option>
+                <option value="ANEMOSTAT; VIBRO - $7,975">ANEMOSTAT; VIBRO - $7,975</option>
+                <option value="ANEMOSTAT; WARREN (EDH)">ANEMOSTAT; WARREN (EDH)</option>
+                <option value="ANEMOSTAT;(EDH $435)">ANEMOSTAT;(EDH $435)</option>
+                <option value="ANEMOSTAT;AIR CONCEPT">ANEMOSTAT;AIR CONCEPT</option>
+                <option value="ANEMOSTAT;AIRCONCEPT">ANEMOSTAT;AIRCONCEPT</option>
+                <option value="ANEMOSTAT;ARROW">ANEMOSTAT;ARROW</option>
+                <option value="ANEMOSTAT;ARROW FD/FSD ">ANEMOSTAT;ARROW FD/FSD </option>
+                <option value="ANEMOSTAT;CAR;INDEECO">ANEMOSTAT;CAR;INDEECO</option>
+                <option value="ANEMOSTAT;EDH">ANEMOSTAT;EDH</option>
+                <option value="ANEMOSTAT;IAC">ANEMOSTAT;IAC</option>
+                <option value="ANEMOSTAT;METALAIRE">ANEMOSTAT;METALAIRE</option>
+                <option value="ANEMOSTAT;NAILOR(FPB)">ANEMOSTAT;NAILOR(FPB)</option>
+                <option value="ANEMOSTAT;SOUND ATTENUATOR (INNOVATIVE METAL INDUSTRIES)">ANEMOSTAT;SOUND ATTENUATOR (INNOVATIVE METAL INDUSTRIES)</option>
+                <option value="ANEMOSTAT;THERMOLEC(EDH)">ANEMOSTAT;THERMOLEC(EDH)</option>
+                <option value="ANEMOSTAT;TITUS">ANEMOSTAT;TITUS</option>
+                <option value="ANEMOSTAT;TRANE">ANEMOSTAT;TRANE</option>
+                <option value="ANEMOSTAT;TRANE(VAV)">ANEMOSTAT;TRANE(VAV)</option>
+                <option value="ANEMOSTAT;VIBEO $3025">ANEMOSTAT;VIBEO $3025</option>
+                <option value="ANEMOSTAT;VIBRO">ANEMOSTAT;VIBRO</option>
+                <option value="ANEMOTAT(A/O); NAILOR(A/O)">ANEMOTAT(A/O); NAILOR(A/O)</option>
+                <option value="ANEMSOTAT (A/O VAV FPB)">ANEMSOTAT (A/O VAV FPB)</option>
+                <option value="ARCH GRILLE">ARCH GRILLE</option>
+                <option value="ARCHITECTURAL GRILLE">ARCHITECTURAL GRILLE</option>
+                <option value="ARROW UNITED">ARROW UNITED</option>
+                <option value="BELL &amp; GOSSET AO TITUS VAV">BELL &amp; GOSSET AO TITUS VAV</option>
+                <option value="BERKO (EDH)">BERKO (EDH)</option>
+                <option value="BRASCH (EDH)">BRASCH (EDH)</option>
+                <option value="BRASCH(EDH)">BRASCH(EDH)</option>
+                <option value="CAPTIVE AIRE CEILING DIFFUSERS">CAPTIVE AIRE CEILING DIFFUSERS</option>
+                <option value="CARNES">CARNES</option>
+                <option value="CARNES (A/O) &amp; IAC">CARNES (A/O) &amp; IAC</option>
+                <option value="CARNES (A/O); BERKO (EDH)">CARNES (A/O); BERKO (EDH)</option>
+                <option value="CARNES (A/O);ENVIROTECH (VAV)">CARNES (A/O);ENVIROTECH (VAV)</option>
+                <option value="CARNES (AO ) ">CARNES (AO ) </option>
+                <option value="CARNES / ANEMOSTAT; BERKO">CARNES / ANEMOSTAT; BERKO</option>
+                <option value="CARNES ; VIBRO - $1,400">CARNES ; VIBRO - $1,400</option>
+                <option value="CARNES A/O : FLANDERS A/O">CARNES A/O : FLANDERS A/O</option>
+                <option value="CARNES A/O ;FLANDERS A/O">CARNES A/O ;FLANDERS A/O</option>
+                <option value="CARNES GREENHECK">CARNES GREENHECK</option>
+                <option value="CARNES(A/O); TRAIN(VAV)">CARNES(A/O); TRAIN(VAV)</option>
+                <option value="CARNES(AO) : INDEECO (EDH) ">CARNES(AO) : INDEECO (EDH) </option>
+                <option value="CARNES,ANEMOSTAT">CARNES,ANEMOSTAT</option>
+                <option value="CARNES/ANEMOSTAT">CARNES/ANEMOSTAT</option>
+                <option value="CARNES;BERCO">CARNES;BERCO</option>
+                <option value="CARRIER">CARRIER</option>
+                <option value="CARRIER (VVT ZONE DAMPERS) / TITUS (A/O)">CARRIER (VVT ZONE DAMPERS) / TITUS (A/O)</option>
+                <option value="CARRIER(A/O) INDEECO(EDH)">CARRIER(A/O) INDEECO(EDH)</option>
+                <option value="DUCTSOX : PRICE">DUCTSOX : PRICE</option>
+                <option value="DYNASONICS">DYNASONICS</option>
+                <option value="EDH">EDH</option>
+                <option value="EDH - $ 575">EDH - $ 575</option>
+                <option value="EDH ONLY">EDH ONLY</option>
+                <option value="EDH-$1,740">EDH-$1,740</option>
+                <option value="EDH-$1250">EDH-$1250</option>
+                <option value="EHI (EDH)">EHI (EDH)</option>
+                <option value="EHI(EDH) ALT $1225">EHI(EDH) ALT $1225</option>
+                <option value="EHPRICE">EHPRICE</option>
+                <option value="ENVIRO-TEC (VAVS) / TITUS (A/O)">ENVIRO-TEC (VAVS) / TITUS (A/O)</option>
+                <option value="ENVIROTEC (VAV) / TITUS (A/O)">ENVIROTEC (VAV) / TITUS (A/O)</option>
+                <option value="FSD (RUSKIN)">FSD (RUSKIN)</option>
+                <option value="GRAINGER 4MJR7">GRAINGER 4MJR7</option>
+                <option value="GREENHECK">GREENHECK</option>
+                <option value="GREENHECK (EDH)">GREENHECK (EDH)</option>
+                <option value="GREENHECK (LOUVER)">GREENHECK (LOUVER)</option>
+                <option value="GREENHECK LOUVER">GREENHECK LOUVER</option>
+                <option value="GREENHECK LOVER">GREENHECK LOVER</option>
+                <option value="H&amp;C">H&amp;C</option>
+                <option value="HART &amp; COOLEY">HART &amp; COOLEY</option>
+                <option value="HART &amp; COOLEY / TITUS">HART &amp; COOLEY / TITUS</option>
+                <option value="HART &amp; COOLEY : INDEECO">HART &amp; COOLEY : INDEECO</option>
+                <option value="IAC">IAC</option>
+                <option value="IAC (SOUND TRAPS ONLY)">IAC (SOUND TRAPS ONLY)</option>
+                <option value="IAC ONLY">IAC ONLY</option>
+                <option value="IAC, INDEECO, TITUS">IAC, INDEECO, TITUS</option>
+                <option value="IAC; PRICE (AIR OUTLETS ONLY)">IAC; PRICE (AIR OUTLETS ONLY)</option>
+                <option value="INDECCO">INDECCO</option>
+                <option value="INDEECO">INDEECO</option>
+                <option value="INDEECO (EDH)">INDEECO (EDH)</option>
+                <option value="INDEECO (EDH); TITUS (AO)">INDEECO (EDH); TITUS (AO)</option>
+                <option value="INDEECO : ARROW UNITED">INDEECO : ARROW UNITED</option>
+                <option value="INDEECO IAC">INDEECO IAC</option>
+                <option value="INDEECO IAC : EDH : $2719">INDEECO IAC : EDH : $2719</option>
+                <option value="INDEECO(EDH)">INDEECO(EDH)</option>
+                <option value="INDEECO(EDH);VIBRO">INDEECO(EDH);VIBRO</option>
+                <option value="INDUSTRIAL ACOUSTICS(SOUND ATTENUATOR)">INDUSTRIAL ACOUSTICS(SOUND ATTENUATOR)</option>
+                <option value="ISLAND AIRE">ISLAND AIRE</option>
+                <option value="JCI">JCI</option>
+                <option value="JOHNSON CONTROLS (VAV)">JOHNSON CONTROLS (VAV)</option>
+                <option value="KEES">KEES</option>
+                <option value="KREUGER">KREUGER</option>
+                <option value="KREUGER / ALDES">KREUGER / ALDES</option>
+                <option value="KREUGER AO &amp; FPB TITUS LD &amp; VAV">KREUGER AO &amp; FPB TITUS LD &amp; VAV</option>
+                <option value="KREUGER AO TITUS VAV INDEECO">KREUGER AO TITUS VAV INDEECO</option>
+                <option value="KRUEGER">KRUEGER</option>
+                <option value="KRUEGER &amp; SEIHO AO">KRUEGER &amp; SEIHO AO</option>
+                <option value="KRUEGER (AO) CARRIER (EDH)">KRUEGER (AO) CARRIER (EDH)</option>
+                <option value="KRUEGER METALAIRE AO ENVIROTEC VAV">KRUEGER METALAIRE AO ENVIROTEC VAV</option>
+                <option value="KRUEGER NAILOR OR TITUS">KRUEGER NAILOR OR TITUS</option>
+                <option value="KRUEGER(A/O) NAILOR (VAV)">KRUEGER(A/O) NAILOR (VAV)</option>
+                <option value="KRUEGER/TITUS">KRUEGER/TITUS</option>
+                <option value="KRUEGER/TRANE">KRUEGER/TRANE</option>
+                <option value="KRUEGER; RUSKIN ">KRUEGER; RUSKIN </option>
+                <option value="KRUEGER;EDH">KRUEGER;EDH</option>
+                <option value="LIMA">LIMA</option>
+                <option value="LOUVER (GREENHECK)">LOUVER (GREENHECK)</option>
+                <option value="MARKEL ">MARKEL </option>
+                <option value="MARKEL (EDH)">MARKEL (EDH)</option>
+                <option value="MARKEL(EDH)">MARKEL(EDH)</option>
+                <option value="MCGILL">MCGILL</option>
+                <option value="METAL AIRE">METAL AIRE</option>
+                <option value="METAL AIRE (A/O); INDEECO (EDH)">METAL AIRE (A/O); INDEECO (EDH)</option>
+                <option value="METAL AIRE (VAVS) / TITUS (A/O">METAL AIRE (VAVS) / TITUS (A/O</option>
+                <option value="METAL AIRE (VAVS) / TITUS (A/O)">METAL AIRE (VAVS) / TITUS (A/O)</option>
+                <option value="METALAIRE">METALAIRE</option>
+                <option value="METALAIRE (AO) THERMOLEC (EDH)">METALAIRE (AO) THERMOLEC (EDH)</option>
+                <option value="METALAIRE : HART AND COOLEY (A/O) : ANEMOSTAT (VAV BOXES)">METALAIRE : HART AND COOLEY (A/O) : ANEMOSTAT (VAV BOXES)</option>
+                <option value="METALAIRE AO INDEECO EDH">METALAIRE AO INDEECO EDH</option>
+                <option value="MILL HARDWARE">MILL HARDWARE</option>
+                <option value="MITSUBISHI">MITSUBISHI</option>
+                <option value="NA">NA</option>
+                <option value="NA &amp; EDH- $900">NA &amp; EDH- $900</option>
+                <option value="NA ( AO ) &amp; NAILOR (VAV) ">NA ( AO ) &amp; NAILOR (VAV) </option>
+                <option value="NA (A/O) BRASCH (EDH)">NA (A/O) BRASCH (EDH)</option>
+                <option value="NA (AO); IAC (SILENCERS)">NA (AO); IAC (SILENCERS)</option>
+                <option value="NA (AO); IAC (SILENCERS-$5,285)">NA (AO); IAC (SILENCERS-$5,285)</option>
+                <option value="NA (ARROW ">NA (ARROW </option>
+                <option value="NA (EDH $420)">NA (EDH $420)</option>
+                <option value="NA /EDH">NA /EDH</option>
+                <option value="NA ARROW UNITED ">NA ARROW UNITED </option>
+                <option value="NA EDH ($475)">NA EDH ($475)</option>
+                <option value="NA, (EDH $960)">NA, (EDH $960)</option>
+                <option value="NA/ IAC / EDH">NA/ IAC / EDH</option>
+                <option value="NA; EDH-THERMOLEC">NA; EDH-THERMOLEC</option>
+                <option value="NAILOR">NAILOR</option>
+                <option value="NAILOR &amp; KRUEGER">NAILOR &amp; KRUEGER</option>
+                <option value="NAILOR (A/O) / ROSEMEX(SOUND TRAPS)">NAILOR (A/O) / ROSEMEX(SOUND TRAPS)</option>
+                <option value="NAILOR (A/O) : ALDES (CAR)">NAILOR (A/O) : ALDES (CAR)</option>
+                <option value="NAILOR (A/O) ARROW (LOUVER)">NAILOR (A/O) ARROW (LOUVER)</option>
+                <option value="NAILOR (A/O); TITUS (VAV)">NAILOR (A/O); TITUS (VAV)</option>
+                <option value="NAILOR (AO); INDEECO ($1,115)">NAILOR (AO); INDEECO ($1,115)</option>
+                <option value="NAILOR (AO); INDEECO (EDH)">NAILOR (AO); INDEECO (EDH)</option>
+                <option value="NAILOR (AO);EDH">NAILOR (AO);EDH</option>
+                <option value="NAILOR (BYPASS) / TITUS (A/O) / THERMAFUSER (NO BID)">NAILOR (BYPASS) / TITUS (A/O) / THERMAFUSER (NO BID)</option>
+                <option value="NAILOR (FPB)">NAILOR (FPB)</option>
+                <option value="NAILOR : TRANE">NAILOR : TRANE</option>
+                <option value="NAILOR ACUTHERM">NAILOR ACUTHERM</option>
+                <option value="NAILOR ANEMOSTAT">NAILOR ANEMOSTAT</option>
+                <option value="NAILOR AO TRANE VAV">NAILOR AO TRANE VAV</option>
+                <option value="NAILOR AO ANEMO VAV">NAILOR AO ANEMO VAV</option>
+                <option value="NAILOR AO CARRIER VAV">NAILOR AO CARRIER VAV</option>
+                <option value="NAILOR AO;ANEMOSTAT VAV">NAILOR AO;ANEMOSTAT VAV</option>
+                <option value="NAILOR EDH - $ 575">NAILOR EDH - $ 575</option>
+                <option value="NAILOR EDH - $ 760">NAILOR EDH - $ 760</option>
+                <option value="NAILOR ELECTRIC HEATER INC">NAILOR ELECTRIC HEATER INC</option>
+                <option value="NAILOR TRANE">NAILOR TRANE</option>
+                <option value="NAILOR(A/O) : ROSEMEX(SOUNDTRAP)">NAILOR(A/O) : ROSEMEX(SOUNDTRAP)</option>
+                <option value="NAILOR(A/O) ; CARRIER (VAV)">NAILOR(A/O) ; CARRIER (VAV)</option>
+                <option value="NAILOR(A/O); TRANE(VAV)">NAILOR(A/O); TRANE(VAV)</option>
+                <option value="NAILOR/CARRIER">NAILOR/CARRIER</option>
+                <option value="NAILOR; CARNES; PRICE">NAILOR; CARNES; PRICE</option>
+                <option value="NAILOR;EDH">NAILOR;EDH</option>
+                <option value="NAILOR;TITUS">NAILOR;TITUS</option>
+                <option value="NEPTRONIC">NEPTRONIC</option>
+                <option value="NEPTRONIC (EDH)">NEPTRONIC (EDH)</option>
+                <option value="NO SPECS (PROBABLY TITUS)">NO SPECS (PROBABLY TITUS)</option>
+                <option value="NU-CLIMATE BEAMS, TITUS">NU-CLIMATE BEAMS, TITUS</option>
+                <option value="PHOENIX">PHOENIX</option>
+                <option value="POLYAIRE">POLYAIRE</option>
+                <option value="PRICE">PRICE</option>
+                <option value="PRICE &amp; EDH $1225">PRICE &amp; EDH $1225</option>
+                <option value="PRICE &amp; IAC">PRICE &amp; IAC</option>
+                <option value="PRICE &amp; IAC &amp; VIBRO ACOUSTICS ">PRICE &amp; IAC &amp; VIBRO ACOUSTICS </option>
+                <option value="PRICE &amp; INDEECO( EDH-$ 1297.39)">PRICE &amp; INDEECO( EDH-$ 1297.39)</option>
+                <option value="PRICE &amp; TRANE">PRICE &amp; TRANE</option>
+                <option value="PRICE (A/0), CARRIER (VAV)">PRICE (A/0), CARRIER (VAV)</option>
+                <option value="PRICE (A/O) &amp; TITUS (VAV)">PRICE (A/O) &amp; TITUS (VAV)</option>
+                <option value="PRICE (A/O) : CARRIER (VAV)">PRICE (A/O) : CARRIER (VAV)</option>
+                <option value="PRICE (A/O) : ENVIROTEC (VAV)">PRICE (A/O) : ENVIROTEC (VAV)</option>
+                <option value="PRICE (A/O) : GREENHECK (FSD/FD)">PRICE (A/O) : GREENHECK (FSD/FD)</option>
+                <option value="PRICE (A/O) : GREENHECK (LOUVER)">PRICE (A/O) : GREENHECK (LOUVER)</option>
+                <option value="PRICE (A/O) : PRICE (VAV) : SOUNDTRAPS">PRICE (A/O) : PRICE (VAV) : SOUNDTRAPS</option>
+                <option value="PRICE (A/O) : TRANE (LOUVER)">PRICE (A/O) : TRANE (LOUVER)</option>
+                <option value="PRICE (A/O) ; CARRIER (VAV)">PRICE (A/O) ; CARRIER (VAV)</option>
+                <option value="PRICE (A/O) TRANE (VAV)">PRICE (A/O) TRANE (VAV)</option>
+                <option value="PRICE (A/O); TITUS (VAV); SOUND ATTENUATOR (VIBRO)">PRICE (A/O); TITUS (VAV); SOUND ATTENUATOR (VIBRO)</option>
+                <option value="PRICE (AO ) : NAILOR (VAV) ">PRICE (AO ) : NAILOR (VAV) </option>
+                <option value="PRICE (AO)">PRICE (AO)</option>
+                <option value="PRICE (AO); TITUS (VAV)">PRICE (AO); TITUS (VAV)</option>
+                <option value="PRICE (DUCT SILENCER)">PRICE (DUCT SILENCER)</option>
+                <option value="PRICE (LOUVER)">PRICE (LOUVER)</option>
+                <option value="PRICE : CURBS PLUS">PRICE : CURBS PLUS</option>
+                <option value="PRICE : GREENHECK">PRICE : GREENHECK</option>
+                <option value="PRICE ; ARROW">PRICE ; ARROW</option>
+                <option value="PRICE ; PRICE SOUND TRAPS $42,950">PRICE ; PRICE SOUND TRAPS $42,950</option>
+                <option value="PRICE ; RUSKIN-LOUVERS">PRICE ; RUSKIN-LOUVERS</option>
+                <option value="PRICE A/O ; ANEMOSTAT VAV">PRICE A/O ; ANEMOSTAT VAV</option>
+                <option value="PRICE ACUTHERM">PRICE ACUTHERM</option>
+                <option value="PRICE ALDES">PRICE ALDES</option>
+                <option value="PRICE AO &amp; VAV">PRICE AO &amp; VAV</option>
+                <option value="PRICE AO TITUS VAV">PRICE AO TITUS VAV</option>
+                <option value="PRICE AO TRANE VAV">PRICE AO TRANE VAV</option>
+                <option value="PRICE AO TRANE VAV INDEECO">PRICE AO TRANE VAV INDEECO</option>
+                <option value="PRICE EDH - $ 4065">PRICE EDH - $ 4065</option>
+                <option value="PRICE ENVITOTEC">PRICE ENVITOTEC</option>
+                <option value="PRICE GREENHECK">PRICE GREENHECK</option>
+                <option value="PRICE KREUGER TITUS">PRICE KREUGER TITUS</option>
+                <option value="PRICE NAILOR LIMA">PRICE NAILOR LIMA</option>
+                <option value="PRICE OR CARNES(AIR OUTLETS ONLY) / CARRIER(VAV\'S ONLY)">PRICE OR CARNES(AIR OUTLETS ONLY) / CARRIER(VAV\'S ONLY)</option>
+                <option value="PRICE RUSKIN">PRICE RUSKIN</option>
+                <option value="PRICE TITUS TROX">PRICE TITUS TROX</option>
+                <option value="PRICE VIBRO">PRICE VIBRO</option>
+                <option value="PRICE&amp; INDEECO EDH-$1,100">PRICE&amp; INDEECO EDH-$1,100</option>
+                <option value="PRICE(A/O); TITUS(VAV)">PRICE(A/O); TITUS(VAV)</option>
+                <option value="PRICE(AO/VAV) AND IAC">PRICE(AO/VAV) AND IAC</option>
+                <option value="PRICE, ALDES">PRICE, ALDES</option>
+                <option value="PRICE, TITUS">PRICE, TITUS</option>
+                <option value="PRICE,CARRIER">PRICE,CARRIER</option>
+                <option value="PRICE: ARROW UNITED">PRICE: ARROW UNITED</option>
+                <option value="PRICE; ARROW UNITED">PRICE; ARROW UNITED</option>
+                <option value="PRICE; TITUS; RUSKIN; MARKEL; ANEMOSTAT">PRICE; TITUS; RUSKIN; MARKEL; ANEMOSTAT</option>
+                <option value="PRICE; VIBRO">PRICE; VIBRO</option>
+                <option value="PROBABLY TITUS">PROBABLY TITUS</option>
+                <option value="PUNCHED METAL GRLLE">PUNCHED METAL GRLLE</option>
+                <option value="PUTTORFF">PUTTORFF</option>
+                <option value="QMARK">QMARK</option>
+                <option value="RICKARD">RICKARD</option>
+                <option value="RUSKIN">RUSKIN</option>
+                <option value="RUSKIN (FSD/FD)">RUSKIN (FSD/FD)</option>
+                <option value="RUSKIN, MARKEL(EDH)">RUSKIN, MARKEL(EDH)</option>
+                <option value="RUSKIN,WARREN (EDH)">RUSKIN,WARREN (EDH)</option>
+                <option value="SCHANKO(NO BID);TITUS">SCHANKO(NO BID);TITUS</option>
+                <option value="TATE">TATE</option>
+                <option value="THERMA FUSER;PRICE">THERMA FUSER;PRICE</option>
+                <option value="THERMAFUSERS">THERMAFUSERS</option>
+                <option value="THERMOLEC">THERMOLEC</option>
+                <option value="TITUS">TITUS</option>
+                <option value="TITUS INDEECO">TITUS INDEECO</option>
+                <option value="TITUS INDEECO (RUSKIN LOUVER)">TITUS INDEECO (RUSKIN LOUVER)</option>
+                <option value="TITUS $ EDH -1145">TITUS $ EDH -1145</option>
+                <option value="TITUS $ EDH -1515">TITUS $ EDH -1515</option>
+                <option value="TITUS $ EDH -3145">TITUS $ EDH -3145</option>
+                <option value="TITUS $ EDH -370">TITUS $ EDH -370</option>
+                <option value="TITUS $ EDH -490">TITUS $ EDH -490</option>
+                <option value="TITUS $ INDEECO (EDH-$2045)">TITUS $ INDEECO (EDH-$2045)</option>
+                <option value="TITUS $ NEPTRONIC (EDH-1470)">TITUS $ NEPTRONIC (EDH-1470)</option>
+                <option value="TITUS &amp; ACCUTHERM( ROUND VAV DIFFUSERS)">TITUS &amp; ACCUTHERM( ROUND VAV DIFFUSERS)</option>
+                <option value="TITUS &amp; ALDES">TITUS &amp; ALDES</option>
+                <option value="TITUS &amp; ALDES &amp; IAC">TITUS &amp; ALDES &amp; IAC</option>
+                <option value="TITUS &amp; CARNES">TITUS &amp; CARNES</option>
+                <option value="TITUS &amp; EDH - $ 1565">TITUS &amp; EDH - $ 1565</option>
+                <option value="TITUS &amp; EDH - $ 780">TITUS &amp; EDH - $ 780</option>
+                <option value="TITUS &amp; EDH -2190 &amp; VIBRO $1310">TITUS &amp; EDH -2190 &amp; VIBRO $1310</option>
+                <option value="TITUS &amp; ELECTRIC HEATER INC">TITUS &amp; ELECTRIC HEATER INC</option>
+                <option value="TITUS &amp; IAC">TITUS &amp; IAC</option>
+                <option value="TITUS &amp; INDEECO ( EDH - $1165)">TITUS &amp; INDEECO ( EDH - $1165)</option>
+                <option value="TITUS &amp; INDEECO ( EDH - $990)">TITUS &amp; INDEECO ( EDH - $990)</option>
+                <option value="TITUS &amp; INDEECO (EDH $1532)">TITUS &amp; INDEECO (EDH $1532)</option>
+                <option value="TITUS &amp; INDEECO (EDH $3925)">TITUS &amp; INDEECO (EDH $3925)</option>
+                <option value="TITUS &amp; INDEECO (EDH $815)">TITUS &amp; INDEECO (EDH $815)</option>
+                <option value="TITUS &amp; INDEECO (EDH $955)">TITUS &amp; INDEECO (EDH $955)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $ 5577.48)">TITUS &amp; INDEECO (EDH- $ 5577.48)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $1125)">TITUS &amp; INDEECO (EDH- $1125)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $1150)">TITUS &amp; INDEECO (EDH- $1150)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $1200)">TITUS &amp; INDEECO (EDH- $1200)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $1715)">TITUS &amp; INDEECO (EDH- $1715)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $2,490)">TITUS &amp; INDEECO (EDH- $2,490)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $2270)">TITUS &amp; INDEECO (EDH- $2270)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $2777.74)">TITUS &amp; INDEECO (EDH- $2777.74)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $3470)">TITUS &amp; INDEECO (EDH- $3470)</option>
+                <option value="TITUS &amp; INDEECO (EDH- $9130)">TITUS &amp; INDEECO (EDH- $9130)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$ 5577.48">TITUS &amp; INDEECO (EDH-$ 5577.48</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1,120)">TITUS &amp; INDEECO (EDH-$1,120)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1,610)">TITUS &amp; INDEECO (EDH-$1,610)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1,885)">TITUS &amp; INDEECO (EDH-$1,885)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1010)">TITUS &amp; INDEECO (EDH-$1010)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1010) &amp; IAC ($2310)">TITUS &amp; INDEECO (EDH-$1010) &amp; IAC ($2310)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1195)">TITUS &amp; INDEECO (EDH-$1195)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1255)">TITUS &amp; INDEECO (EDH-$1255)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1305)">TITUS &amp; INDEECO (EDH-$1305)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$1905)">TITUS &amp; INDEECO (EDH-$1905)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$2,305)">TITUS &amp; INDEECO (EDH-$2,305)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$2,375)">TITUS &amp; INDEECO (EDH-$2,375)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$320)">TITUS &amp; INDEECO (EDH-$320)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$3470)">TITUS &amp; INDEECO (EDH-$3470)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$3525)">TITUS &amp; INDEECO (EDH-$3525)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$3765)">TITUS &amp; INDEECO (EDH-$3765)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$3905)">TITUS &amp; INDEECO (EDH-$3905)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$485)">TITUS &amp; INDEECO (EDH-$485)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$4850)">TITUS &amp; INDEECO (EDH-$4850)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$600)">TITUS &amp; INDEECO (EDH-$600)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$6474)">TITUS &amp; INDEECO (EDH-$6474)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$815)">TITUS &amp; INDEECO (EDH-$815)</option>
+                <option value="TITUS &amp; INDEECO (EDH-$980)">TITUS &amp; INDEECO (EDH-$980)</option>
+                <option value="TITUS &amp; INDEECO EDH $4,285">TITUS &amp; INDEECO EDH $4,285</option>
+                <option value="TITUS &amp; INDEECO EDH $4660">TITUS &amp; INDEECO EDH $4660</option>
+                <option value="TITUS &amp; INDEECO EDH $495">TITUS &amp; INDEECO EDH $495</option>
+                <option value="TITUS &amp; INDEECO EDH ($2472)">TITUS &amp; INDEECO EDH ($2472)</option>
+                <option value="TITUS &amp; INDEECO EDH-$4,410">TITUS &amp; INDEECO EDH-$4,410</option>
+                <option value="TITUS &amp; INDEECO EDH-$890">TITUS &amp; INDEECO EDH-$890</option>
+                <option value="TITUS &amp; LOUVER/SD/FD">TITUS &amp; LOUVER/SD/FD</option>
+                <option value="TITUS &amp; MARKEL (EDH $2350)">TITUS &amp; MARKEL (EDH $2350)</option>
+                <option value="TITUS &amp; MARKEL (EDH-$2710)">TITUS &amp; MARKEL (EDH-$2710)</option>
+                <option value="TITUS &amp; NAILOR">TITUS &amp; NAILOR</option>
+                <option value="TITUS &amp; NEPTRONIC">TITUS &amp; NEPTRONIC</option>
+                <option value="TITUS &amp; NEPTRONIC - $ 2000">TITUS &amp; NEPTRONIC - $ 2000</option>
+                <option value="TITUS &amp; RICKARD">TITUS &amp; RICKARD</option>
+                <option value="TITUS &amp; TRANE">TITUS &amp; TRANE</option>
+                <option value="TITUS &amp; TUTCO : VIBRO ACOUSTICS : YOUNG REGULATOR CVR">TITUS &amp; TUTCO : VIBRO ACOUSTICS : YOUNG REGULATOR CVR</option>
+                <option value="TITUS &amp; TUTCO : VIBRO ACOUSTICS : YOUNG REGULATOR CVR">TITUS &amp; TUTCO : VIBRO ACOUSTICS : YOUNG REGULATOR CVR</option>
+                <option value="TITUS &amp; TUTLE BAILEY">TITUS &amp; TUTLE BAILEY</option>
+                <option value="TITUS &amp; TUTTLE &amp; BAILEY AO &amp; ACUTHERM VAV">TITUS &amp; TUTTLE &amp; BAILEY AO &amp; ACUTHERM VAV</option>
+                <option value="TITUS &amp; VA($2,015)">TITUS &amp; VA($2,015)</option>
+                <option value="TITUS &amp; VA($2,815)">TITUS &amp; VA($2,815)</option>
+                <option value="TITUS &amp; VIBRO">TITUS &amp; VIBRO</option>
+                <option value="TITUS &amp;MARKEL (EDH-1779)">TITUS &amp;MARKEL (EDH-1779)</option>
+                <option value="TITUS ( AO &amp; VAV )">TITUS ( AO &amp; VAV )</option>
+                <option value="TITUS ( AO &amp; VAV)">TITUS ( AO &amp; VAV)</option>
+                <option value="TITUS ( AO ) : GREENHECK (EDH )">TITUS ( AO ) : GREENHECK (EDH )</option>
+                <option value="TITUS ( AO ) : GREENHECK (EDH )">TITUS ( AO ) : GREENHECK (EDH )</option>
+                <option value="TITUS (&lt;U&gt;&lt;B&gt;T3SQ&lt;/B&gt;&lt;/U&gt; DIFFUSERS / RETURN GRILLES)">TITUS (T3SQ DIFFUSERS / RETURN GRILLES)</option>
+                <option value="TITUS (A/O &amp; VAV); INDEECO (EDH $1,530) &amp; IAC $14,370">TITUS (A/O &amp; VAV); INDEECO (EDH $1,530) &amp; IAC $14,370</option>
+                <option value="TITUS (A/O &amp; VAV); INDEECO (EDH $855)">TITUS (A/O &amp; VAV); INDEECO (EDH $855)</option>
+                <option value="TITUS (A/O : FPB)">TITUS (A/O : FPB)</option>
+                <option value="TITUS (A/O : FPB) IAC ">TITUS (A/O : FPB) IAC </option>
+                <option value="TITUS (A/O : FPB) IAC : TROX ">TITUS (A/O : FPB) IAC : TROX </option>
+                <option value="TITUS (A/O : VAV) ; MARKEL (EDH)">TITUS (A/O : VAV) ; MARKEL (EDH)</option>
+                <option value="TITUS (A/O : VAV) ; WARREN (EDH)">TITUS (A/O : VAV) ; WARREN (EDH)</option>
+                <option value="TITUS (A/O ; VAV) ; INDEECO (EDH)">TITUS (A/O ; VAV) ; INDEECO (EDH)</option>
+                <option value="TITUS (A/O ; VAV), IAC (SOUND TRAPS)">TITUS (A/O ; VAV), IAC (SOUND TRAPS)</option>
+                <option value="TITUS (A/O)">TITUS (A/O)</option>
+                <option value="TITUS (A/O) &amp; MARKEL (EDH)">TITUS (A/O) &amp; MARKEL (EDH)</option>
+                <option value="TITUS (A/O) &amp; NEPTRONIC EDH">TITUS (A/O) &amp; NEPTRONIC EDH</option>
+                <option value="TITUS (A/O) &amp; PRICE (VAV) ">TITUS (A/O) &amp; PRICE (VAV) </option>
+                <option value="TITUS (A/O) &amp; THERMOLEC (EDH)">TITUS (A/O) &amp; THERMOLEC (EDH)</option>
+                <option value="TITUS (A/O) &amp;( VAV )">TITUS (A/O) &amp;( VAV )</option>
+                <option value="TITUS (A/O) (FPB) (CVR) VIBRO (SOUND TRAPS)">TITUS (A/O) (FPB) (CVR) VIBRO (SOUND TRAPS)</option>
+                <option value="TITUS (A/O) (VAV)">TITUS (A/O) (VAV)</option>
+                <option value="TITUS (A/O) (VAV) IAC - $1185.00">TITUS (A/O) (VAV) IAC - $1185.00</option>
+                <option value="TITUS (A/O) / ANEMOSTAT (VAV)">TITUS (A/O) / ANEMOSTAT (VAV)</option>
+                <option value="TITUS (A/O) / ANEMOSTAT (VAVS)">TITUS (A/O) / ANEMOSTAT (VAVS)</option>
+                <option value="TITUS (A/O) / CARNES (BYPASS VAVS)">TITUS (A/O) / CARNES (BYPASS VAVS)</option>
+                <option value="TITUS (A/O) / NAILOR (VAV BOXES)">TITUS (A/O) / NAILOR (VAV BOXES)</option>
+                <option value="TITUS (A/O) / NAILOR (VAV)">TITUS (A/O) / NAILOR (VAV)</option>
+                <option value="TITUS (A/O) / NAILOR (VAVS) / ALDES (ZRT TERMINALS)">TITUS (A/O) / NAILOR (VAVS) / ALDES (ZRT TERMINALS)</option>
+                <option value="TITUS (A/O) / PRICE (SOUND TRAPS) ">TITUS (A/O) / PRICE (SOUND TRAPS) </option>
+                <option value="TITUS (A/O) / VIBRO SOUND TRAPS / PHOENIX VALVES">TITUS (A/O) / VIBRO SOUND TRAPS / PHOENIX VALVES</option>
+                <option value="TITUS (A/O) : ANEMOSTAT (CAV) : SOUNDTRAPS (IAC) : FD/FSD">TITUS (A/O) : ANEMOSTAT (CAV) : SOUNDTRAPS (IAC) : FD/FSD</option>
+                <option value="TITUS (A/O) : ANEMOSTAT (VAV) : GREENHECK (LOUVER)">TITUS (A/O) : ANEMOSTAT (VAV) : GREENHECK (LOUVER)</option>
+                <option value="TITUS (A/O) : BRASCH (EDH)">TITUS (A/O) : BRASCH (EDH)</option>
+                <option value="TITUS (A/O) : CARRIER (VAV)">TITUS (A/O) : CARRIER (VAV)</option>
+                <option value="TITUS (A/O) : CARRIER (VAV) : GREENHECK (EDH)">TITUS (A/O) : CARRIER (VAV) : GREENHECK (EDH)</option>
+                <option value="TITUS (A/O) : IAC(SOUND TRAPS)">TITUS (A/O) : IAC(SOUND TRAPS)</option>
+                <option value="TITUS (A/O) : INDEECO (EDH)">TITUS (A/O) : INDEECO (EDH)</option>
+                <option value="TITUS (A/O) : INDEECO (EDH) : ARROW UNITED">TITUS (A/O) : INDEECO (EDH) : ARROW UNITED</option>
+                <option value="TITUS (A/O) : MARKEL (EDH)">TITUS (A/O) : MARKEL (EDH)</option>
+                <option value="TITUS (A/O) : NAILOR (VAV)">TITUS (A/O) : NAILOR (VAV)</option>
+                <option value="TITUS (A/O) : PRICE (SOUND ATTENUATOR)">TITUS (A/O) : PRICE (SOUND ATTENUATOR)</option>
+                <option value="TITUS (A/O) : VAV (ACUTHERM)">TITUS (A/O) : VAV (ACUTHERM)</option>
+                <option value="TITUS (A/O) : VIBRO (SOUND ATTENUATOR)">TITUS (A/O) : VIBRO (SOUND ATTENUATOR)</option>
+                <option value="TITUS (A/O) : WARREN (EDH)">TITUS (A/O) : WARREN (EDH)</option>
+                <option value="TITUS (A/O) ; INDEECO (EDH)">TITUS (A/O) ; INDEECO (EDH)</option>
+                <option value="TITUS (A/O) ; CAV (ANEMOSTAT) ; INDEECO (EDH)">TITUS (A/O) ; CAV (ANEMOSTAT) ; INDEECO (EDH)</option>
+                <option value="TITUS (A/O) ; EDH/ERC (INDEECO)">TITUS (A/O) ; EDH/ERC (INDEECO)</option>
+                <option value="TITUS (A/O) ; GREENHECK (EDH)">TITUS (A/O) ; GREENHECK (EDH)</option>
+                <option value="TITUS (A/O) ; INDEECO (EDH)">TITUS (A/O) ; INDEECO (EDH)</option>
+                <option value="TITUS (A/O) ; INDEECO(EDH) ; RUSKIN (FD/FSD)">TITUS (A/O) ; INDEECO(EDH) ; RUSKIN (FD/FSD)</option>
+                <option value="TITUS (A/O) ; JCI (TERMINAL UNITS) ; VIBROACOUSTICS (SOUNDTRAPS)">TITUS (A/O) ; JCI (TERMINAL UNITS) ; VIBROACOUSTICS (SOUNDTRAPS)</option>
+                <option value="TITUS (A/O) ; JCI (VAV) ; VIBROACOUSTICS (SOUNDTRAPS)">TITUS (A/O) ; JCI (VAV) ; VIBROACOUSTICS (SOUNDTRAPS)</option>
+                <option value="TITUS (A/O) ; MARKEL (EDH)">TITUS (A/O) ; MARKEL (EDH)</option>
+                <option value="TITUS (A/O) ; MARKEL (EDH-$1580)">TITUS (A/O) ; MARKEL (EDH-$1580)</option>
+                <option value="TITUS (A/O) ; TUTTLE &amp; BAILEY (VAV)">TITUS (A/O) ; TUTTLE &amp; BAILEY (VAV)</option>
+                <option value="TITUS (A/O) ; VAV (ANEMOSTAT) ">TITUS (A/O) ; VAV (ANEMOSTAT) </option>
+                <option value="TITUS (A/O) ; VIBRO ACOUSTICS (DUCT SILENCER)">TITUS (A/O) ; VIBRO ACOUSTICS (DUCT SILENCER)</option>
+                <option value="TITUS (A/O) ; YOUNG REGULATOR (BOWDEN)">TITUS (A/O) ; YOUNG REGULATOR (BOWDEN)</option>
+                <option value="TITUS (A/O) AMERICAN ALDES">TITUS (A/O) AMERICAN ALDES</option>
+                <option value="TITUS (A/O) ANEMOSTAT (VAV)">TITUS (A/O) ANEMOSTAT (VAV)</option>
+                <option value="TITUS (A/O) ENVIRO-TEC (VAV) IAC (SOUND TRAPS) AIR CONCEPT ">TITUS (A/O) ENVIRO-TEC (VAV) IAC (SOUND TRAPS) AIR CONCEPT </option>
+                <option value="TITUS (A/O) INDEECO (EDH)">TITUS (A/O) INDEECO (EDH)</option>
+                <option value="TITUS (A/O) MAGIC AIRE (VAV)">TITUS (A/O) MAGIC AIRE (VAV)</option>
+                <option value="TITUS (A/O) RUSKIN (FD) GREENHECK (F/SD)">TITUS (A/O) RUSKIN (FD) GREENHECK (F/SD)</option>
+                <option value="TITUS (A/O) THERMOLEC (EDH)">TITUS (A/O) THERMOLEC (EDH)</option>
+                <option value="TITUS (A/O)(FPB) : VIBRO ACOUSTICS (SOUND ATTENUATOR)">TITUS (A/O)(FPB) : VIBRO ACOUSTICS (SOUND ATTENUATOR)</option>
+                <option value="TITUS (A/O), ANEMOSTAT (VAV), VIBRO (SOUND TRAPS)">TITUS (A/O), ANEMOSTAT (VAV), VIBRO (SOUND TRAPS)</option>
+                <option value="TITUS (A/O), MARKEL (EDH)">TITUS (A/O), MARKEL (EDH)</option>
+                <option value="TITUS (A/O); CARRIER (VAV)">TITUS (A/O); CARRIER (VAV)</option>
+                <option value="TITUS (A/O); EDH $740">TITUS (A/O); EDH $740</option>
+                <option value="TITUS (A/O); INDEECO (EDH $2,510) ">TITUS (A/O); INDEECO (EDH $2,510) </option>
+                <option value="TITUS (A/O); INDEECO (EDH)">TITUS (A/O); INDEECO (EDH)</option>
+                <option value="TITUS (A/O); NEPTRONIC ">TITUS (A/O); NEPTRONIC </option>
+                <option value="TITUS (A/O); NEPTRONIC (EDH)">TITUS (A/O); NEPTRONIC (EDH)</option>
+                <option value="TITUS (A/O); PRICE VAV">TITUS (A/O); PRICE VAV</option>
+                <option value="TITUS (A/O); RAYWALL (EDH $1,135)">TITUS (A/O); RAYWALL (EDH $1,135)</option>
+                <option value="TITUS (A/O); STELPRO (EDH)">TITUS (A/O); STELPRO (EDH)</option>
+                <option value="TITUS (A/O); TRANE (VAV)">TITUS (A/O); TRANE (VAV)</option>
+                <option value="TITUS (A/O); TUTTLE &amp; BAILEY (VAV\'S)">TITUS (A/O); TUTTLE &amp; BAILEY (VAV\'S)</option>
+                <option value="TITUS (A/O);INDEECO(EDH)">TITUS (A/O);INDEECO(EDH)</option>
+                <option value="TITUS (A/O;VAV) ; INDEECO (EDH)">TITUS (A/O;VAV) ; INDEECO (EDH)</option>
+                <option value="TITUS (AIR OUTLET ONLY)">TITUS (AIR OUTLET ONLY)</option>
+                <option value="TITUS (AIR OUTLET) : NAILOR (SOUND TRAPS)">TITUS (AIR OUTLET) : NAILOR (SOUND TRAPS)</option>
+                <option value="TITUS (AO &amp; FPB)">TITUS (AO &amp; FPB)</option>
+                <option value="TITUS (AO &amp; VAV)">TITUS (AO &amp; VAV)</option>
+                <option value="TITUS (AO &amp; VAV); IAC (SOUND ATTENUATORS - $2,080)">TITUS (AO &amp; VAV); IAC (SOUND ATTENUATORS - $2,080)</option>
+                <option value="TITUS (AO &amp; VAV); IAC (SOUND ATTENUATORS - $3,035)">TITUS (AO &amp; VAV); IAC (SOUND ATTENUATORS - $3,035)</option>
+                <option value="TITUS (AO ) : INDEECO (EDH ) ">TITUS (AO ) : INDEECO (EDH ) </option>
+                <option value="TITUS (AO VAV) PRICE (SOUND TRAPS)">TITUS (AO VAV) PRICE (SOUND TRAPS)</option>
+                <option value="TITUS (AO VAV) SOUND TRAPS">TITUS (AO VAV) SOUND TRAPS</option>
+                <option value="TITUS (AO&amp;VAV); INDEECO (EDH-$1,180)">TITUS (AO&amp;VAV); INDEECO (EDH-$1,180)</option>
+                <option value="TITUS (AO&amp;VAV); INDEECO (EDH-$960)">TITUS (AO&amp;VAV); INDEECO (EDH-$960)</option>
+                <option value="TITUS (AO&amp;VAV); PRICE (SOUND TRAPS)">TITUS (AO&amp;VAV); PRICE (SOUND TRAPS)</option>
+                <option value="TITUS (AO) NAILOR (VAV) VIBRO(SOUND ATTENUATOR)">TITUS (AO) NAILOR (VAV) VIBRO(SOUND ATTENUATOR)</option>
+                <option value="TITUS (AO) &amp; CARRIER (VAV)">TITUS (AO) &amp; CARRIER (VAV)</option>
+                <option value="TITUS (AO) (VAV) ">TITUS (AO) (VAV) </option>
+                <option value="TITUS (AO) : INDEECO (EDH ) ">TITUS (AO) : INDEECO (EDH ) </option>
+                <option value="TITUS (AO) ; INDEECO ( EDH- $2165)">TITUS (AO) ; INDEECO ( EDH- $2165)</option>
+                <option value="TITUS (AO) ; INDEECO ( EDH- $3,135)">TITUS (AO) ; INDEECO ( EDH- $3,135)</option>
+                <option value="TITUS (AO) ; INDEECO ( EDH- $4,395)">TITUS (AO) ; INDEECO ( EDH- $4,395)</option>
+                <option value="TITUS (AO) ; INDEECO ( EDH- $5,585)">TITUS (AO) ; INDEECO ( EDH- $5,585)</option>
+                <option value="TITUS (AO) EDH">TITUS (AO) EDH</option>
+                <option value="TITUS (AO) INDEECO (EDH)">TITUS (AO) INDEECO (EDH)</option>
+                <option value="TITUS (AO) NAILOR (VAV &amp; FPB)">TITUS (AO) NAILOR (VAV &amp; FPB)</option>
+                <option value="TITUS (AO) NAILOR (VAV) VIBRO(SOUND ATTENUATOR)">TITUS (AO) NAILOR (VAV) VIBRO(SOUND ATTENUATOR)</option>
+                <option value="TITUS (AO) TUTCO (EDH) IAC (SOUND ATTENUATOR) TROX (CHILLED BEAMS)">TITUS (AO) TUTCO (EDH) IAC (SOUND ATTENUATOR) TROX (CHILLED BEAMS)</option>
+                <option value="TITUS (AO); ANEMOSTAT (VAV)">TITUS (AO); ANEMOSTAT (VAV)</option>
+                <option value="TITUS (AO); GREENHECK (EDH-$925)">TITUS (AO); GREENHECK (EDH-$925)</option>
+                <option value="TITUS (AO); INDEECO (EDH)">TITUS (AO); INDEECO (EDH)</option>
+                <option value="TITUS (AO); INDEECO (EDH-$2,255)">TITUS (AO); INDEECO (EDH-$2,255)</option>
+                <option value="TITUS (AO); INDEECO (EDH-$4,305)">TITUS (AO); INDEECO (EDH-$4,305)</option>
+                <option value="TITUS (AO); INDEECO (EDH-$5,980)">TITUS (AO); INDEECO (EDH-$5,980)</option>
+                <option value="TITUS (AO); JOHNSON (VAV)">TITUS (AO); JOHNSON (VAV)</option>
+                <option value="TITUS (AO); NAILOR (VAV)">TITUS (AO); NAILOR (VAV)</option>
+                <option value="TITUS (AO); NAILOR (VAV); VIBRO">TITUS (AO); NAILOR (VAV); VIBRO</option>
+                <option value="TITUS (AO); THERMOLEC (EDH)">TITUS (AO); THERMOLEC (EDH)</option>
+                <option value="TITUS (AO); THERMOLEC (EDH-1,210)">TITUS (AO); THERMOLEC (EDH-1,210)</option>
+                <option value="TITUS (AO); VIBRO (SOUND TRAPS-$2,375)">TITUS (AO); VIBRO (SOUND TRAPS-$2,375)</option>
+                <option value="TITUS (AO,VAV); IAC">TITUS (AO,VAV); IAC</option>
+                <option value="TITUS (AO/VAV) ALDES (CAR-FE-11)">TITUS (AO/VAV) ALDES (CAR-FE-11)</option>
+                <option value="TITUS (AO/VAV) EDH">TITUS (AO/VAV) EDH</option>
+                <option value="TITUS (AO/VAV) INDEECO (EDH)">TITUS (AO/VAV) INDEECO (EDH)</option>
+                <option value="TITUS (AO/VAV) MARKEL (EDH)">TITUS (AO/VAV) MARKEL (EDH)</option>
+                <option value="TITUS (AO/VAV) PRICE(SOUND TRAPS)">TITUS (AO/VAV) PRICE(SOUND TRAPS)</option>
+                <option value="TITUS (AO/VAV) VAW (SOUND TRAPS)">TITUS (AO/VAV) VAW (SOUND TRAPS)</option>
+                <option value="TITUS (BYPASS VAV) / ANEMOSTAT (A/O)">TITUS (BYPASS VAV) / ANEMOSTAT (A/O)</option>
+                <option value="TITUS (EDH $2270)">TITUS (EDH $2270)</option>
+                <option value="TITUS (EDH $3375)">TITUS (EDH $3375)</option>
+                <option value="TITUS (EDH $960)">TITUS (EDH $960)</option>
+                <option value="TITUS (EDH : $2,305.)">TITUS (EDH : $2,305.)</option>
+                <option value="TITUS (EDH : $3,575)">TITUS (EDH : $3,575)</option>
+                <option value="TITUS (EDH$2010)">TITUS (EDH$2010)</option>
+                <option value="TITUS (IAC: $3465; EDH: $3375)">TITUS (IAC: $3465; EDH: $3375)</option>
+                <option value="TITUS (LD); NAILOR (CD/CR)">TITUS (LD); NAILOR (CD/CR)</option>
+                <option value="TITUS (RETURN GRILLES) / ACUTHERM (DIFFUSERS)">TITUS (RETURN GRILLES) / ACUTHERM (DIFFUSERS)</option>
+                <option value="TITUS (T3SQ\'S ON PLANS)">TITUS (T3SQ\'S ON PLANS)</option>
+                <option value="TITUS (T3SQ\'S ON PLANS)">TITUS (T3SQ\'S ON PLANS)</option>
+                <option value="TITUS (VAV &amp; AO)">TITUS (VAV &amp; AO)</option>
+                <option value="TITUS (VAV)">TITUS (VAV)</option>
+                <option value="TITUS (VAV) / PRICE (A/O)">TITUS (VAV) / PRICE (A/O)</option>
+                <option value="TITUS (VAV); NA (AO)">TITUS (VAV); NA (AO)</option>
+                <option value="TITUS (VIBRO)">TITUS (VIBRO)</option>
+                <option value="TITUS , HART&amp;COOLEY ">TITUS , HART&amp;COOLEY </option>
+                <option value="TITUS ,ALDES">TITUS ,ALDES</option>
+                <option value="TITUS ,TROX(A/O) : TROX(FPB)">TITUS ,TROX(A/O) : TROX(FPB)</option>
+                <option value="TITUS - $ 195">TITUS - $ 195</option>
+                <option value="TITUS - $1120">TITUS - $1120</option>
+                <option value="TITUS - $11580">TITUS - $11580</option>
+                <option value="TITUS - $1905">TITUS - $1905</option>
+                <option value="TITUS - $1950">TITUS - $1950</option>
+                <option value="TITUS - $1955">TITUS - $1955</option>
+                <option value="TITUS - A/O; VIBRO - IAC">TITUS - A/O; VIBRO - IAC</option>
+                <option value="TITUS - A/O; VIBRO - SOUND ATTENUATOR">TITUS - A/O; VIBRO - SOUND ATTENUATOR</option>
+                <option value="TITUS - VIBRO - $13050">TITUS - VIBRO - $13050</option>
+                <option value="TITUS / ALDES (ZRT &amp; CAR)">TITUS / ALDES (ZRT &amp; CAR)</option>
+                <option value="TITUS / ARCH. GRILLE / AAGM">TITUS / ARCH. GRILLE / AAGM</option>
+                <option value="TITUS / IAC / ALDES">TITUS / IAC / ALDES</option>
+                <option value="TITUS / JOHNSON CONTROLS (ZONE DAMPERS)">TITUS / JOHNSON CONTROLS (ZONE DAMPERS)</option>
+                <option value="TITUS / METALAIRE">TITUS / METALAIRE</option>
+                <option value="TITUS / NAILOR">TITUS / NAILOR</option>
+                <option value="TITUS / THERMAFUSER">TITUS / THERMAFUSER</option>
+                <option value="TITUS / TRANE (VAVS)">TITUS / TRANE (VAVS)</option>
+                <option value="TITUS / TROX">TITUS / TROX</option>
+                <option value="TITUS / VIBRO">TITUS / VIBRO</option>
+                <option value="TITUS / VIBRO ($14,000)">TITUS / VIBRO ($14,000)</option>
+                <option value="TITUS / VIBRO (TB HANDLING VIBRO PORTION)">TITUS / VIBRO (TB HANDLING VIBRO PORTION)</option>
+                <option value="TITUS / VIBRO ACOUSTICS">TITUS / VIBRO ACOUSTICS</option>
+                <option value="TITUS : ALDES">TITUS : ALDES</option>
+                <option value="TITUS : AMERICAN ALDES">TITUS : AMERICAN ALDES</option>
+                <option value="TITUS : ARROW">TITUS : ARROW</option>
+                <option value="TITUS : ARROW UNITED">TITUS : ARROW UNITED</option>
+                <option value="TITUS : EDH $ 1230">TITUS : EDH $ 1230</option>
+                <option value="TITUS : EDH $11610">TITUS : EDH $11610</option>
+                <option value="TITUS : EDH $3135">TITUS : EDH $3135</option>
+                <option value="TITUS : EDH $340">TITUS : EDH $340</option>
+                <option value="TITUS : EDH $530">TITUS : EDH $530</option>
+                <option value="TITUS : EDH &amp; 22827">TITUS : EDH &amp; 22827</option>
+                <option value="TITUS : EDH ($7,270.00)">TITUS : EDH ($7,270.00)</option>
+                <option value="TITUS : EDH : $465">TITUS : EDH : $465</option>
+                <option value="TITUS : EDH : $640">TITUS : EDH : $640</option>
+                <option value="TITUS : EDH : $8708">TITUS : EDH : $8708</option>
+                <option value="TITUS : ENVIROTECH">TITUS : ENVIROTECH</option>
+                <option value="TITUS : ENVIROTECH : VIBRO">TITUS : ENVIROTECH : VIBRO</option>
+                <option value="TITUS : GREENHECK">TITUS : GREENHECK</option>
+                <option value="TITUS : GREENHECK (LOUVER)">TITUS : GREENHECK (LOUVER)</option>
+                <option value="TITUS : IAC">TITUS : IAC</option>
+                <option value="TITUS : IAC (SOUND ATTENTUATOR)">TITUS : IAC (SOUND ATTENTUATOR)</option>
+                <option value="TITUS : INDEECO">TITUS : INDEECO</option>
+                <option value="TITUS : INDEECO - $3775">TITUS : INDEECO - $3775</option>
+                <option value="TITUS : INDEECO : GREENHECK">TITUS : INDEECO : GREENHECK</option>
+                <option value="TITUS : KRUEGER">TITUS : KRUEGER</option>
+                <option value="TITUS : MARKEL">TITUS : MARKEL</option>
+                <option value="TITUS : NAILOR">TITUS : NAILOR</option>
+                <option value="TITUS : NEPTRONIC">TITUS : NEPTRONIC</option>
+                <option value="TITUS : PRICE">TITUS : PRICE</option>
+                <option value="TITUS : PRICE : INDEECO">TITUS : PRICE : INDEECO</option>
+                <option value="TITUS : RUSKIN">TITUS : RUSKIN</option>
+                <option value="TITUS : SCHAKO : TRANE (VAV)">TITUS : SCHAKO : TRANE (VAV)</option>
+                <option value="TITUS : TATE">TITUS : TATE</option>
+                <option value="TITUS : TRANE">TITUS : TRANE</option>
+                <option value="TITUS : TUTTLE &amp; BAILEY">TITUS : TUTTLE &amp; BAILEY</option>
+                <option value="TITUS : UNITED MCGILL">TITUS : UNITED MCGILL</option>
+                <option value="TITUS : VIBRO">TITUS : VIBRO</option>
+                <option value="TITUS : VIBRO- $2460">TITUS : VIBRO- $2460</option>
+                <option value="TITUS ; ACUTHERM">TITUS ; ACUTHERM</option>
+                <option value="TITUS ; ACUTHERM (VAV)">TITUS ; ACUTHERM (VAV)</option>
+                <option value="TITUS ; AIRFIXTURE">TITUS ; AIRFIXTURE</option>
+                <option value="TITUS ; DHC $ 796.76">TITUS ; DHC $ 796.76</option>
+                <option value="TITUS ; EDH">TITUS ; EDH</option>
+                <option value="TITUS ; EDH 1230">TITUS ; EDH 1230</option>
+                <option value="TITUS ; INDEECO - $21,420">TITUS ; INDEECO - $21,420</option>
+                <option value="TITUS ; INDEECO(EDH)">TITUS ; INDEECO(EDH)</option>
+                <option value="TITUS ; PRICE (A/O) ; VAV / FPB (PRICE) ; CHILLED BEAMS (PRICE)">TITUS ; PRICE (A/O) ; VAV / FPB (PRICE) ; CHILLED BEAMS (PRICE)</option>
+                <option value="TITUS ; PRICE (A/O) ; VAV / FPB (PRICE) ; CHILLED BEAMS (PRICE)">TITUS ; PRICE (A/O) ; VAV / FPB (PRICE) ; CHILLED BEAMS (PRICE)</option>
+                <option value="TITUS ; THERMOLEC - $1240">TITUS ; THERMOLEC - $1240</option>
+                <option value="TITUS ; TROX">TITUS ; TROX</option>
+                <option value="TITUS ; VIBRO $1,940">TITUS ; VIBRO $1,940</option>
+                <option value="TITUS ; VIBRO $5,550">TITUS ; VIBRO $5,550</option>
+                <option value="TITUS ; VIBRO $980">TITUS ; VIBRO $980</option>
+                <option value="TITUS ; VIBRO - $11255">TITUS ; VIBRO - $11255</option>
+                <option value="TITUS ; VIBRO - $14930">TITUS ; VIBRO - $14930</option>
+                <option value="TITUS ; VIBRO - $43,440">TITUS ; VIBRO - $43,440</option>
+                <option value="TITUS ; VIBRO - $9045">TITUS ; VIBRO - $9045</option>
+                <option value="TITUS A/O &amp; NEPTRONIC EDH">TITUS A/O &amp; NEPTRONIC EDH</option>
+                <option value="TITUS A/O : ANEMOSTAT (VAV)">TITUS A/O : ANEMOSTAT (VAV)</option>
+                <option value="TITUS A/O ANEMOSTAT VAV">TITUS A/O ANEMOSTAT VAV</option>
+                <option value="TITUS A/O TRANE VAV INDEECO EDH POTTORFF DUCT SILENCER">TITUS A/O TRANE VAV INDEECO EDH POTTORFF DUCT SILENCER</option>
+                <option value="TITUS A/O | VAW SOUND TRAPS">TITUS A/O | VAW SOUND TRAPS</option>
+                <option value="TITUS A/O, GREENHECK EDH">TITUS A/O, GREENHECK EDH</option>
+                <option value="TITUS A/O,NEPTRONIC">TITUS A/O,NEPTRONIC</option>
+                <option value="TITUS A/O,VIBRO SOUND TRAPS, ANEMOSTAT VAV ">TITUS A/O,VIBRO SOUND TRAPS, ANEMOSTAT VAV </option>
+                <option value="TITUS ACUTHERM">TITUS ACUTHERM</option>
+                <option value="TITUS AIRCONCEPT">TITUS AIRCONCEPT</option>
+                <option value="TITUS ALDES">TITUS ALDES</option>
+                <option value="TITUS ANEMOSTAT">TITUS ANEMOSTAT</option>
+                <option value="TITUS ANEMOSTAT VIBRO">TITUS ANEMOSTAT VIBRO</option>
+                <option value="TITUS AO KREUGER VAV">TITUS AO KREUGER VAV</option>
+                <option value="TITUS AO &amp; ANEMO- VAV &amp; INDEECO (EDH- $ 1640)">TITUS AO &amp; ANEMO- VAV &amp; INDEECO (EDH- $ 1640)</option>
+                <option value="TITUS AO &amp; FPB">TITUS AO &amp; FPB</option>
+                <option value="TITUS AO &amp; VAV ADE NEPTRONICS EDH">TITUS AO &amp; VAV ADE NEPTRONICS EDH</option>
+                <option value="TITUS AO &amp; VAV ELECTRIC HEATER INC EDH">TITUS AO &amp; VAV ELECTRIC HEATER INC EDH</option>
+                <option value="TITUS AO &amp; VAV NEPTRONICS EDH">TITUS AO &amp; VAV NEPTRONICS EDH</option>
+                <option value="TITUS AO AIR CONCEPT ROUND DIFFUSER">TITUS AO AIR CONCEPT ROUND DIFFUSER</option>
+                <option value="TITUS AO ANEMO FPB">TITUS AO ANEMO FPB</option>
+                <option value="TITUS AO ANEMO VAV">TITUS AO ANEMO VAV</option>
+                <option value="TITUS AO ANEMO VAV (VAC)">TITUS AO ANEMO VAV (VAC)</option>
+                <option value="TITUS AO ANEMO VAV VIBRO">TITUS AO ANEMO VAV VIBRO</option>
+                <option value="TITUS AO ANEMO VAV VIBRO ST">TITUS AO ANEMO VAV VIBRO ST</option>
+                <option value="TITUS AO ANEMOSTAT VAV">TITUS AO ANEMOSTAT VAV</option>
+                <option value="TITUS AO CARRIER FPB">TITUS AO CARRIER FPB</option>
+                <option value="TITUS AO ENVIRO-TECH VAV">TITUS AO ENVIRO-TECH VAV</option>
+                <option value="TITUS AO ENVIROTEC FPB">TITUS AO ENVIROTEC FPB</option>
+                <option value="TITUS AO ENVIROTEC VAV">TITUS AO ENVIROTEC VAV</option>
+                <option value="TITUS AO GREENHECK EDH">TITUS AO GREENHECK EDH</option>
+                <option value="TITUS AO INDEECO">TITUS AO INDEECO</option>
+                <option value="TITUS AO INDEECO EDH">TITUS AO INDEECO EDH</option>
+                <option value="TITUS AO JCI VAV">TITUS AO JCI VAV</option>
+                <option value="TITUS AO NAILOR EDH">TITUS AO NAILOR EDH</option>
+                <option value="TITUS AO NAILOR FPB">TITUS AO NAILOR FPB</option>
+                <option value="TITUS AO NAILOR VAV">TITUS AO NAILOR VAV</option>
+                <option value="TITUS AO NEPTRONIC EDH">TITUS AO NEPTRONIC EDH</option>
+                <option value="TITUS AO PRICE VAV">TITUS AO PRICE VAV</option>
+                <option value="TITUS AO PRICE VAV EDH INDEECO">TITUS AO PRICE VAV EDH INDEECO</option>
+                <option value="TITUS AO RUSKIN SOUNDTRAPS">TITUS AO RUSKIN SOUNDTRAPS</option>
+                <option value="TITUS AO SIEMENS VAV VIBRO">TITUS AO SIEMENS VAV VIBRO</option>
+                <option value="TITUS AO THERMOLEC EDH">TITUS AO THERMOLEC EDH</option>
+                <option value="TITUS AO TRANE VAV">TITUS AO TRANE VAV</option>
+                <option value="TITUS AO VAV ANEMO FPB">TITUS AO VAV ANEMO FPB</option>
+                <option value="TITUS AO VAV FPB">TITUS AO VAV FPB</option>
+                <option value="TITUS AO VIBRO SILENCERS 4900">TITUS AO VIBRO SILENCERS 4900</option>
+                <option value="TITUS AO,ENVIROTECH VAV">TITUS AO,ENVIROTECH VAV</option>
+                <option value="TITUS AO/FPB SILENCER ">TITUS AO/FPB SILENCER </option>
+                <option value="TITUS AO; JCI VAV; PRICE SOUND TRAP; INDEECO EDH; RUSKIN MD">TITUS AO; JCI VAV; PRICE SOUND TRAP; INDEECO EDH; RUSKIN MD</option>
+                <option value="TITUS ARROW ">TITUS ARROW </option>
+                <option value="TITUS BRASCH">TITUS BRASCH</option>
+                <option value="TITUS BRASCH - $1,950">TITUS BRASCH - $1,950</option>
+                <option value="TITUS BRASCH - $3,985">TITUS BRASCH - $3,985</option>
+                <option value="TITUS CARNES">TITUS CARNES</option>
+                <option value="TITUS EDH">TITUS EDH</option>
+                <option value="TITUS EDH $ 2430">TITUS EDH $ 2430</option>
+                <option value="TITUS EDH $2600">TITUS EDH $2600</option>
+                <option value="TITUS EDH $820">TITUS EDH $820</option>
+                <option value="TITUS EDH - $3,495">TITUS EDH - $3,495</option>
+                <option value="TITUS EDH - $3,545">TITUS EDH - $3,545</option>
+                <option value="TITUS EDH - $6,110">TITUS EDH - $6,110</option>
+                <option value="TITUS EDH 2235">TITUS EDH 2235</option>
+                <option value="TITUS EDH : $900">TITUS EDH : $900</option>
+                <option value="TITUS EDH INDEECO $ 1125">TITUS EDH INDEECO $ 1125</option>
+                <option value="TITUS EDH-$1185">TITUS EDH-$1185</option>
+                <option value="TITUS ENVIROTEC">TITUS ENVIROTEC</option>
+                <option value="TITUS GREENHECK">TITUS GREENHECK</option>
+                <option value="TITUS GREENHECK -$1160">TITUS GREENHECK -$1160</option>
+                <option value="TITUS GREENHECK SEIHO">TITUS GREENHECK SEIHO</option>
+                <option value="TITUS IAC">TITUS IAC</option>
+                <option value="TITUS IAC $10,532">TITUS IAC $10,532</option>
+                <option value="TITUS IAC $3550">TITUS IAC $3550</option>
+                <option value="TITUS IAC $5250">TITUS IAC $5250</option>
+                <option value="TITUS IAC $7,305">TITUS IAC $7,305</option>
+                <option value="TITUS IAC - $6140">TITUS IAC - $6140</option>
+                <option value="TITUS IAC -$575">TITUS IAC -$575</option>
+                <option value="TITUS IAC -$6605">TITUS IAC -$6605</option>
+                <option value="TITUS IAC 625">TITUS IAC 625</option>
+                <option value="TITUS IAC 690">TITUS IAC 690</option>
+                <option value="TITUS IAC-$3,340">TITUS IAC-$3,340</option>
+                <option value="TITUS INDEECO">TITUS INDEECO</option>
+                <option value="TITUS INDEECO ($1155)">TITUS INDEECO ($1155)</option>
+                <option value="TITUS INDEECO ($2020)">TITUS INDEECO ($2020)</option>
+                <option value="TITUS INDEECO (EDH $895)">TITUS INDEECO (EDH $895)</option>
+                <option value="TITUS INDEECO - $ 1230">TITUS INDEECO - $ 1230</option>
+                <option value="TITUS INDEECO - $ 2205">TITUS INDEECO - $ 2205</option>
+                <option value="TITUS INDEECO - $ 895">TITUS INDEECO - $ 895</option>
+                <option value="TITUS INDEECO - $11,580">TITUS INDEECO - $11,580</option>
+                <option value="TITUS INDEECO - $870">TITUS INDEECO - $870</option>
+                <option value="TITUS INDEECO -$1,375">TITUS INDEECO -$1,375</option>
+                <option value="TITUS INDEECO -$2,595">TITUS INDEECO -$2,595</option>
+                <option value="TITUS INDEECO -$9860">TITUS INDEECO -$9860</option>
+                <option value="TITUS INDEECO 2190">TITUS INDEECO 2190</option>
+                <option value="TITUS INDEECO- $2165">TITUS INDEECO- $2165</option>
+                <option value="TITUS INDEECO- $4,440.00">TITUS INDEECO- $4,440.00</option>
+                <option value="TITUS INDEECO-$1,110.00">TITUS INDEECO-$1,110.00</option>
+                <option value="TITUS INDEECO-$1,120">TITUS INDEECO-$1,120</option>
+                <option value="TITUS INDEECO-$1,860.00">TITUS INDEECO-$1,860.00</option>
+                <option value="TITUS INDEECO-$21,420.00">TITUS INDEECO-$21,420.00</option>
+                <option value="TITUS INDEECO-$3,295.00 ; VIBRO-$9,520.00">TITUS INDEECO-$3,295.00 ; VIBRO-$9,520.00</option>
+                <option value="TITUS INDEECO-$3990">TITUS INDEECO-$3990</option>
+                <option value="TITUS INDEECO-$3990 : VIBRO-$8545">TITUS INDEECO-$3990 : VIBRO-$8545</option>
+                <option value="TITUS INDEECO-$3990 : VIBRO-$8845">TITUS INDEECO-$3990 : VIBRO-$8845</option>
+                <option value="TITUS INDEECO-$430.00">TITUS INDEECO-$430.00</option>
+                <option value="TITUS INDEECO-$8,380.00">TITUS INDEECO-$8,380.00</option>
+                <option value="TITUS INDEECO-$960">TITUS INDEECO-$960</option>
+                <option value="TITUS INDICCO EDH ($2975)">TITUS INDICCO EDH ($2975)</option>
+                <option value="TITUS JOHNSON">TITUS JOHNSON</option>
+                <option value="TITUS MARKEL ">TITUS MARKEL </option>
+                <option value="TITUS MARKEL $1080">TITUS MARKEL $1080</option>
+                <option value="TITUS MARKEL $1150">TITUS MARKEL $1150</option>
+                <option value="TITUS MARKEL - $ 2260">TITUS MARKEL - $ 2260</option>
+                <option value="TITUS MARKEL - $865">TITUS MARKEL - $865</option>
+                <option value="TITUS MARKEL EDH $3,185">TITUS MARKEL EDH $3,185</option>
+                <option value="TITUS MARKEL-$3,165.00">TITUS MARKEL-$3,165.00</option>
+                <option value="TITUS MC GILL">TITUS MC GILL</option>
+                <option value="TITUS MCGILL">TITUS MCGILL</option>
+                <option value="TITUS METAL AIRE">TITUS METAL AIRE</option>
+                <option value="TITUS NAILOR">TITUS NAILOR</option>
+                <option value="TITUS NAILOR/TUTCO ">TITUS NAILOR/TUTCO </option>
+                <option value="TITUS NAILOR; VIBRO ACOUSTICS ">TITUS NAILOR; VIBRO ACOUSTICS </option>
+                <option value="TITUS NEPTRONIC">TITUS NEPTRONIC</option>
+                <option value="TITUS NEPTRONIC $ 2,140">TITUS NEPTRONIC $ 2,140</option>
+                <option value="TITUS NEPTRONIC - $ 3230">TITUS NEPTRONIC - $ 3230</option>
+                <option value="TITUS NEPTRONIC- $2010">TITUS NEPTRONIC- $2010</option>
+                <option value="TITUS NEPTRONICS (EDH)">TITUS NEPTRONICS (EDH)</option>
+                <option value="TITUS PRICE">TITUS PRICE</option>
+                <option value="TITUS PRICE CARRIER">TITUS PRICE CARRIER</option>
+                <option value="TITUS PRICE KRUEGER">TITUS PRICE KRUEGER</option>
+                <option value="TITUS PRICE SOUND TRAPS $3305">TITUS PRICE SOUND TRAPS $3305</option>
+                <option value="TITUS PRICE TROX">TITUS PRICE TROX</option>
+                <option value="TITUS QMARK">TITUS QMARK</option>
+                <option value="TITUS QMARK - $890">TITUS QMARK - $890</option>
+                <option value="TITUS RUSKIN">TITUS RUSKIN</option>
+                <option value="TITUS SDBHM">TITUS SDBHM</option>
+                <option value="TITUS SDBMS">TITUS SDBMS</option>
+                <option value="TITUS SDBPS">TITUS SDBPS</option>
+                <option value="TITUS SEIHO">TITUS SEIHO</option>
+                <option value="TITUS SILENCER 1330">TITUS SILENCER 1330</option>
+                <option value="TITUS SILENCER 1550">TITUS SILENCER 1550</option>
+                <option value="TITUS THERMAFUSER">TITUS THERMAFUSER</option>
+                <option value="TITUS THERMOLEC">TITUS THERMOLEC</option>
+                <option value="TITUS TRANE">TITUS TRANE</option>
+                <option value="TITUS TROX">TITUS TROX</option>
+                <option value="TITUS TROX IAC">TITUS TROX IAC</option>
+                <option value="TITUS TROX NEPTRONIC">TITUS TROX NEPTRONIC</option>
+                <option value="TITUS TROX VIBRO">TITUS TROX VIBRO</option>
+                <option value="TITUS TUTCO">TITUS TUTCO</option>
+                <option value="TITUS TUTTLE &amp; BAILEY">TITUS TUTTLE &amp; BAILEY</option>
+                <option value="TITUS UNDERFLOOR">TITUS UNDERFLOOR</option>
+                <option value="TITUS VAV- $ 1445">TITUS VAV- $ 1445</option>
+                <option value="TITUS VIBRO">TITUS VIBRO</option>
+                <option value="TITUS VIBRO $11025">TITUS VIBRO $11025</option>
+                <option value="TITUS VIBRO - $ 5575">TITUS VIBRO - $ 5575</option>
+                <option value="TITUS VIBRO - $1620">TITUS VIBRO - $1620</option>
+                <option value="TITUS VIBRO -$2200">TITUS VIBRO -$2200</option>
+                <option value="TITUS VIBRO MARKEL">TITUS VIBRO MARKEL</option>
+                <option value="TITUS WARREN HART &amp; COOLEY">TITUS WARREN HART &amp; COOLEY</option>
+                <option value="TITUS(A/C); VIBRO(IAC)">TITUS(A/C); VIBRO(IAC)</option>
+                <option value="TITUS(A/O : VAV) : AMERICAN ALDES (CAR)">TITUS(A/O : VAV) : AMERICAN ALDES (CAR)</option>
+                <option value="TITUS(A/O VAV FPB) VIBRO(ST) INDEECO(EDH)">TITUS(A/O VAV FPB) VIBRO(ST) INDEECO(EDH)</option>
+                <option value="TITUS(A/O) / PRICE(VAVS)">TITUS(A/O) / PRICE(VAVS)</option>
+                <option value="TITUS(A/O) : ANEMOSTAT (VAV)">TITUS(A/O) : ANEMOSTAT (VAV)</option>
+                <option value="TITUS(A/O) : ANEMOSTAT (VAV) : IAC (SOUND TRAPS)">TITUS(A/O) : ANEMOSTAT (VAV) : IAC (SOUND TRAPS)</option>
+                <option value="TITUS(A/O) : HALTON(VAV)">TITUS(A/O) : HALTON(VAV)</option>
+                <option value="TITUS(A/O) : INDEECO (EDH)">TITUS(A/O) : INDEECO (EDH)</option>
+                <option value="TITUS(A/O) : MARKEL(EDH)">TITUS(A/O) : MARKEL(EDH)</option>
+                <option value="TITUS(A/O) : PRICE (SOUND ATTENUATOR)">TITUS(A/O) : PRICE (SOUND ATTENUATOR)</option>
+                <option value="TITUS(A/O) : RUSKIN $525 GREENHECK $300">TITUS(A/O) : RUSKIN $525 GREENHECK $300</option>
+                <option value="TITUS(A/O) : SOUNDTRAPS">TITUS(A/O) : SOUNDTRAPS</option>
+                <option value="TITUS(A/O) : TITUS(FPB) : INDEECO(EDH)">TITUS(A/O) : TITUS(FPB) : INDEECO(EDH)</option>
+                <option value="TITUS(A/O) : VAV(ANEMOSTAT)">TITUS(A/O) : VAV(ANEMOSTAT)</option>
+                <option value="TITUS(A/O) ; ANEMOSTAT(VAV)">TITUS(A/O) ; ANEMOSTAT(VAV)</option>
+                <option value="TITUS(A/O) ; ENVIROTEC (VAV) ; IAC (SOUND ATTENUATOR)">TITUS(A/O) ; ENVIROTEC (VAV) ; IAC (SOUND ATTENUATOR)</option>
+                <option value="TITUS(A/O) ; INDEECO(EDH)">TITUS(A/O) ; INDEECO(EDH)</option>
+                <option value="TITUS(A/O) ; TRANE(VAV BOXES)">TITUS(A/O) ; TRANE(VAV BOXES)</option>
+                <option value="TITUS(A/O) ALDES">TITUS(A/O) ALDES</option>
+                <option value="TITUS(A/O) ALDES (CSA-FSA-II)">TITUS(A/O) ALDES (CSA-FSA-II)</option>
+                <option value="TITUS(A/O) ANEMOSTAT (VAV)">TITUS(A/O) ANEMOSTAT (VAV)</option>
+                <option value="TITUS(A/O) JOHNSON CONTROLS (VAV)">TITUS(A/O) JOHNSON CONTROLS (VAV)</option>
+                <option value="TITUS(A/O) NAILOR(VAV)">TITUS(A/O) NAILOR(VAV)</option>
+                <option value="TITUS(A/O) VIBRO(SOUND TRAP) TROX(CHILLED BEAM)">TITUS(A/O) VIBRO(SOUND TRAP) TROX(CHILLED BEAM)</option>
+                <option value="TITUS(A/O), ANEMOSTAT (VAV) / VIBRO">TITUS(A/O), ANEMOSTAT (VAV) / VIBRO</option>
+                <option value="TITUS(A/O), PRICE, NAILOR (VAVS)">TITUS(A/O), PRICE, NAILOR (VAVS)</option>
+                <option value="TITUS(A/O),(FPB) ; VIBRO ACOUSTICS (SOUND ATTENUATORS)">TITUS(A/O),(FPB) ; VIBRO ACOUSTICS (SOUND ATTENUATORS)</option>
+                <option value="TITUS(A/O); ANEMOSTAT(VAV)">TITUS(A/O); ANEMOSTAT(VAV)</option>
+                <option value="TITUS(A/O); CARNES(VAV)">TITUS(A/O); CARNES(VAV)</option>
+                <option value="TITUS(A/O); INDEECO(EDH $1,250)">TITUS(A/O); INDEECO(EDH $1,250)</option>
+                <option value="TITUS(A/O); INDEECO(EDH-NO BID, FINNED TUBULAR)">TITUS(A/O); INDEECO(EDH-NO BID, FINNED TUBULAR)</option>
+                <option value="TITUS(A/O); MARKEL(EDH)">TITUS(A/O); MARKEL(EDH)</option>
+                <option value="TITUS(A/O); NEPTRONIC(EDH)">TITUS(A/O); NEPTRONIC(EDH)</option>
+                <option value="TITUS(A/O); RAYWALL(EDH)">TITUS(A/O); RAYWALL(EDH)</option>
+                <option value="TITUS(A/O); RUSKIN(EGGCRATE GRILLE); INDEECO(EDH)">TITUS(A/O); RUSKIN(EGGCRATE GRILLE); INDEECO(EDH)</option>
+                <option value="TITUS(A/O);ANEMOSTAT (VAV)">TITUS(A/O);ANEMOSTAT (VAV)</option>
+                <option value="TITUS(A/O);INDEECO(EDH)">TITUS(A/O);INDEECO(EDH)</option>
+                <option value="TITUS(A/O);JOHNSON CONTROLS VAV">TITUS(A/O);JOHNSON CONTROLS VAV</option>
+                <option value="TITUS(A/O);MARKEL(EDH)">TITUS(A/O);MARKEL(EDH)</option>
+                <option value="TITUS(A/O);PRICE(A/O)">TITUS(A/O);PRICE(A/O)</option>
+                <option value="TITUS(A/O);TRANE(VAV);INDEECO(EDH)">TITUS(A/O);TRANE(VAV);INDEECO(EDH)</option>
+                <option value="TITUS(A/O);TRANE(VAV);INDEECO(EDH)-$1135;VIBRO-$2490">TITUS(A/O);TRANE(VAV);INDEECO(EDH)-$1135;VIBRO-$2490</option>
+                <option value="TITUS(A/O;FPB)">TITUS(A/O;FPB)</option>
+                <option value="TITUS(A/O;VAV) IAC(SOUND TRAPS)">TITUS(A/O;VAV) IAC(SOUND TRAPS)</option>
+                <option value="TITUS(A/O;VAV;FPB)">TITUS(A/O;VAV;FPB)</option>
+                <option value="TITUS(AIR OUTLETS) &amp; ANEMOSTAT(VAV)">TITUS(AIR OUTLETS) &amp; ANEMOSTAT(VAV)</option>
+                <option value="TITUS(AO ) &amp; NAILOR ( AO ) ">TITUS(AO ) &amp; NAILOR ( AO ) </option>
+                <option value="TITUS(AO) ; TRANE(VAV)">TITUS(AO) ; TRANE(VAV)</option>
+                <option value="TITUS(AO) ANEMOSTAT(VAV)">TITUS(AO) ANEMOSTAT(VAV)</option>
+                <option value="TITUS(AO) JOHNSON (VAV)">TITUS(AO) JOHNSON (VAV)</option>
+                <option value="TITUS(AO) MARKEL(EDH)">TITUS(AO) MARKEL(EDH)</option>
+                <option value="TITUS(AO); INDEECO(EDH)">TITUS(AO); INDEECO(EDH)</option>
+                <option value="TITUS(AO);ANEMOSTAT(VAV)">TITUS(AO);ANEMOSTAT(VAV)</option>
+                <option value="TITUS(AO);ANEMOSTAT(VAV);VIBRO">TITUS(AO);ANEMOSTAT(VAV);VIBRO</option>
+                <option value="TITUS(AO);EDH">TITUS(AO);EDH</option>
+                <option value="TITUS(AO);MARKEL(EDH)">TITUS(AO);MARKEL(EDH)</option>
+                <option value="TITUS(AO);PRICE(VAV)">TITUS(AO);PRICE(VAV)</option>
+                <option value="TITUS(AO);VIBRO ACOUSTICS (SILENCERS)">TITUS(AO);VIBRO ACOUSTICS (SILENCERS)</option>
+                <option value="TITUS(AO/FPB)">TITUS(AO/FPB)</option>
+                <option value="TITUS(AO/FPB) VIBRO">TITUS(AO/FPB) VIBRO</option>
+                <option value="TITUS(AO/VAV) PRICE(SOUND TRAPS) INDEECO(EDH)">TITUS(AO/VAV) PRICE(SOUND TRAPS) INDEECO(EDH)</option>
+                <option value="TITUS(AO/VAV); NAILOR (FPB)">TITUS(AO/VAV); NAILOR (FPB)</option>
+                <option value="TITUS(AO/VAV);EDH(BRASCH)">TITUS(AO/VAV);EDH(BRASCH)</option>
+                <option value="TITUS(EDH $5600)">TITUS(EDH $5600)</option>
+                <option value="TITUS(VIBRO)">TITUS(VIBRO)</option>
+                <option value="TITUS*">TITUS*</option>
+                <option value="TITUS*(AO): INDEECO (EDH)">TITUS*(AO): INDEECO (EDH)</option>
+                <option value="TITUS, ACUTHERM, HART &amp; COOLEY">TITUS, ACUTHERM, HART &amp; COOLEY</option>
+                <option value="TITUS, ACUTHERM; INDEECO (EDH)">TITUS, ACUTHERM; INDEECO (EDH)</option>
+                <option value="TITUS, ALDES">TITUS, ALDES</option>
+                <option value="TITUS, ALDES &amp; TRANE">TITUS, ALDES &amp; TRANE</option>
+                <option value="TITUS, ALDES, ANEMOSTAT">TITUS, ALDES, ANEMOSTAT</option>
+                <option value="TITUS, ANEMO (LINEAR &amp; BYPASS BOX)">TITUS, ANEMO (LINEAR &amp; BYPASS BOX)</option>
+                <option value="TITUS, ANEMO (VAV ONLY), FLANDERS ( NO BID), VIBRO">TITUS, ANEMO (VAV ONLY), FLANDERS ( NO BID), VIBRO</option>
+                <option value="TITUS, ANEMOSTAT">TITUS, ANEMOSTAT</option>
+                <option value="TITUS, KRUEGER">TITUS, KRUEGER</option>
+                <option value="TITUS, KRUEGER, PRICE">TITUS, KRUEGER, PRICE</option>
+                <option value="TITUS, NAILOR &amp; (ENDICOO EDH-$1,370)">TITUS, NAILOR &amp; (ENDICOO EDH-$1,370)</option>
+                <option value="TITUS, NAILOR &amp; (ENDICOO EDH-$1610)">TITUS, NAILOR &amp; (ENDICOO EDH-$1610)</option>
+                <option value="TITUS, PRICE">TITUS, PRICE</option>
+                <option value="TITUS, TROX">TITUS, TROX</option>
+                <option value="TITUS, TROX, ALDES">TITUS, TROX, ALDES</option>
+                <option value="TITUS, TROX, IAC">TITUS, TROX, IAC</option>
+                <option value="TITUS, VIBRO($5,325)">TITUS, VIBRO($5,325)</option>
+                <option value="TITUS,TROX ">TITUS,TROX </option>
+                <option value="TITUS-VIBRO ACOUSTICS-LAY-IN PROJECT">TITUS-VIBRO ACOUSTICS-LAY-IN PROJECT</option>
+                <option value="TITUS/ VOLU-TROL (VAV/ EVAV BOXES???)">TITUS/ VOLU-TROL (VAV/ EVAV BOXES???)</option>
+                <option value="TITUS/ALDES">TITUS/ALDES</option>
+                <option value="TITUS/ALDES/IAC">TITUS/ALDES/IAC</option>
+                <option value="TITUS/ANEMOSTAT/VIBRO">TITUS/ANEMOSTAT/VIBRO</option>
+                <option value="TITUS/MARKEL">TITUS/MARKEL</option>
+                <option value="TITUS/PRICE">TITUS/PRICE</option>
+                <option value="TITUS/RICKARD THERMA FUSERS/ YOUNG REGULATOR ">TITUS/RICKARD THERMA FUSERS/ YOUNG REGULATOR </option>
+                <option value="TITUS/SEIHO">TITUS/SEIHO</option>
+                <option value="TITUS/TRANE">TITUS/TRANE</option>
+                <option value="TITUS/TROX">TITUS/TROX</option>
+                <option value="TITUS: PRICE:EDH">TITUS: PRICE:EDH</option>
+                <option value="TITUS; $4,250">TITUS; $4,250</option>
+                <option value="TITUS; $565">TITUS; $565</option>
+                <option value="TITUS; $635">TITUS; $635</option>
+                <option value="TITUS; ACUTHERM">TITUS; ACUTHERM</option>
+                <option value="TITUS; AIR CONCEPT">TITUS; AIR CONCEPT</option>
+                <option value="TITUS; AIR CONCEPT; ACUTHERM">TITUS; AIR CONCEPT; ACUTHERM</option>
+                <option value="TITUS; ALDES ">TITUS; ALDES </option>
+                <option value="TITUS; ARROW 5,730">TITUS; ARROW 5,730</option>
+                <option value="TITUS; ARROW UNITED-$185">TITUS; ARROW UNITED-$185</option>
+                <option value="TITUS; EDH">TITUS; EDH</option>
+                <option value="TITUS; EDH $1,150">TITUS; EDH $1,150</option>
+                <option value="TITUS; EDH $1,345">TITUS; EDH $1,345</option>
+                <option value="TITUS; EDH $11,025">TITUS; EDH $11,025</option>
+                <option value="TITUS; EDH $11,085">TITUS; EDH $11,085</option>
+                <option value="TITUS; EDH $2,010">TITUS; EDH $2,010</option>
+                <option value="TITUS; EDH $2,240">TITUS; EDH $2,240</option>
+                <option value="TITUS; EDH $2,250">TITUS; EDH $2,250</option>
+                <option value="TITUS; EDH $2,280">TITUS; EDH $2,280</option>
+                <option value="TITUS; EDH $2,335">TITUS; EDH $2,335</option>
+                <option value="TITUS; EDH $2,380">TITUS; EDH $2,380</option>
+                <option value="TITUS; EDH $2,405">TITUS; EDH $2,405</option>
+                <option value="TITUS; EDH $2,860">TITUS; EDH $2,860</option>
+                <option value="TITUS; EDH $3,360">TITUS; EDH $3,360</option>
+                <option value="TITUS; EDH $3,920">TITUS; EDH $3,920</option>
+                <option value="TITUS; EDH $3800">TITUS; EDH $3800</option>
+                <option value="TITUS; EDH $4,065">TITUS; EDH $4,065</option>
+                <option value="TITUS; EDH $4,090">TITUS; EDH $4,090</option>
+                <option value="TITUS; EDH $4,250">TITUS; EDH $4,250</option>
+                <option value="TITUS; EDH $4,440">TITUS; EDH $4,440</option>
+                <option value="TITUS; EDH $490">TITUS; EDH $490</option>
+                <option value="TITUS; EDH $565">TITUS; EDH $565</option>
+                <option value="TITUS; EDH $6,460">TITUS; EDH $6,460</option>
+                <option value="TITUS; EDH $635">TITUS; EDH $635</option>
+                <option value="TITUS; EDH $785">TITUS; EDH $785</option>
+                <option value="TITUS; EDH : $2,630">TITUS; EDH : $2,630</option>
+                <option value="TITUS; EDH(GREENHECK)">TITUS; EDH(GREENHECK)</option>
+                <option value="TITUS; EDH(GREENHECK) - $ 1170">TITUS; EDH(GREENHECK) - $ 1170</option>
+                <option value="TITUS; EDH: $14,935">TITUS; EDH: $14,935</option>
+                <option value="TITUS; EDH; VIBRO">TITUS; EDH; VIBRO</option>
+                <option value="TITUS; IAC">TITUS; IAC</option>
+                <option value="TITUS; IAC (SILENCER -$1,975)">TITUS; IAC (SILENCER -$1,975)</option>
+                <option value="TITUS; IAC - $1,265">TITUS; IAC - $1,265</option>
+                <option value="TITUS; IAC($1,740)">TITUS; IAC($1,740)</option>
+                <option value="TITUS; INDEECO">TITUS; INDEECO</option>
+                <option value="TITUS; INDEECO (EDH $5,080)">TITUS; INDEECO (EDH $5,080)</option>
+                <option value="TITUS; INDEECO (EDH - $1,450)">TITUS; INDEECO (EDH - $1,450)</option>
+                <option value="TITUS; INDEECO (EDH-$11,750)">TITUS; INDEECO (EDH-$11,750)</option>
+                <option value="TITUS; INDEECO - $1,160">TITUS; INDEECO - $1,160</option>
+                <option value="TITUS; INDEECO -$2555">TITUS; INDEECO -$2555</option>
+                <option value="TITUS; INDEECO(EDH)">TITUS; INDEECO(EDH)</option>
+                <option value="TITUS; KINETICS">TITUS; KINETICS</option>
+                <option value="TITUS; METAL AIRE">TITUS; METAL AIRE</option>
+                <option value="TITUS; NAILOR">TITUS; NAILOR</option>
+                <option value="TITUS; NAILOR; KRUGER">TITUS; NAILOR; KRUGER</option>
+                <option value="TITUS; PRICE">TITUS; PRICE</option>
+                <option value="TITUS; PRICE; KRUEGER">TITUS; PRICE; KRUEGER</option>
+                <option value="TITUS; PRICE; VIBRO $3,275">TITUS; PRICE; VIBRO $3,275</option>
+                <option value="TITUS; SEIHO">TITUS; SEIHO</option>
+                <option value="TITUS; TRANE">TITUS; TRANE</option>
+                <option value="TITUS; TROX">TITUS; TROX</option>
+                <option value="TITUS; VAC $1,600">TITUS; VAC $1,600</option>
+                <option value="TITUS; VAC $10,310">TITUS; VAC $10,310</option>
+                <option value="TITUS; VAC $3,900">TITUS; VAC $3,900</option>
+                <option value="TITUS; VIBRO $1,600">TITUS; VIBRO $1,600</option>
+                <option value="TITUS; VIBRO $1,825">TITUS; VIBRO $1,825</option>
+                <option value="TITUS; VIBRO $10,215">TITUS; VIBRO $10,215</option>
+                <option value="TITUS; VIBRO $10,310">TITUS; VIBRO $10,310</option>
+                <option value="TITUS; VIBRO $14930">TITUS; VIBRO $14930</option>
+                <option value="TITUS; VIBRO $3,900">TITUS; VIBRO $3,900</option>
+                <option value="TITUS; VIBRO $5,805">TITUS; VIBRO $5,805</option>
+                <option value="TITUS; VIBRO $6,365">TITUS; VIBRO $6,365</option>
+                <option value="TITUS; VIBRO $7,225">TITUS; VIBRO $7,225</option>
+                <option value="TITUS; VIBRO $9,240">TITUS; VIBRO $9,240</option>
+                <option value="TITUS; VIBRO ($4,690)">TITUS; VIBRO ($4,690)</option>
+                <option value="TITUS; VIBRO ($4,980)">TITUS; VIBRO ($4,980)</option>
+                <option value="TITUS;ANEMOSTAT ">TITUS;ANEMOSTAT </option>
+                <option value="TITUS;ANEMOSTAT(VAV)">TITUS;ANEMOSTAT(VAV)</option>
+                <option value="TITUS;ANEMOSTAT;EDH ($2160)">TITUS;ANEMOSTAT;EDH ($2160)</option>
+                <option value="TITUS;BRASCH(EDH)">TITUS;BRASCH(EDH)</option>
+                <option value="TITUS;EDH">TITUS;EDH</option>
+                <option value="TITUS;EDH(NEPTRONIC)">TITUS;EDH(NEPTRONIC)</option>
+                <option value="TITUS;ENVIRO-TEC">TITUS;ENVIRO-TEC</option>
+                <option value="TITUS;ETR">TITUS;ETR</option>
+                <option value="TITUS;INDEECO (EDH $730)">TITUS;INDEECO (EDH $730)</option>
+                <option value="TITUS;INDEECO(EDH)">TITUS;INDEECO(EDH)</option>
+                <option value="TITUS;MARKEL">TITUS;MARKEL</option>
+                <option value="TITUS;TROX">TITUS;TROX</option>
+                <option value="TITUS;TUTTLE &amp; BAILEY">TITUS;TUTTLE &amp; BAILEY</option>
+                <option value="TITUS;VAV(CARRIER)">TITUS;VAV(CARRIER)</option>
+                <option value="TITUS;VIBRO">TITUS;VIBRO</option>
+                <option value="TRANE">TRANE</option>
+                <option value="TRANE (VAVS) / NAILOR (A/O)">TRANE (VAVS) / NAILOR (A/O)</option>
+                <option value="TRANE (VAVS) / TITUS (A/O ADE CONTACT INFO LISTED ON SCHEDULE)">TRANE (VAVS) / TITUS (A/O ADE CONTACT INFO LISTED ON SCHEDULE)</option>
+                <option value="TRANE (VAVS) / TITUS (A/O)(NO SUBSTITUTIONS) ">TRANE (VAVS) / TITUS (A/O)(NO SUBSTITUTIONS) </option>
+                <option value="TRANE VAV">TRANE VAV</option>
+                <option value="TROX">TROX</option>
+                <option value="TROX ONLY">TROX ONLY</option>
+                <option value="TROX/IAC/TITUS">TROX/IAC/TITUS</option>
+                <option value="TSS (VAV); TUTTLE &amp; BAILEY (AO)">TSS (VAV); TUTTLE &amp; BAILEY (AO)</option>
+                <option value="TUTCO">TUTCO</option>
+                <option value="TUTTLE &amp; BAILEY">TUTTLE &amp; BAILEY</option>
+                <option value="TUTTLE &amp; BAILEY AO PRICE VAV VIBRO">TUTTLE &amp; BAILEY AO PRICE VAV VIBRO</option>
+                <option value="TUTTLE &amp; BAILEY ARROW- $3235">TUTTLE &amp; BAILEY ARROW- $3235</option>
+                <option value="TUTTLE &amp; BAILEY, PHOENIX (NO BID VALVES), TITUS (VAV)">TUTTLE &amp; BAILEY, PHOENIX (NO BID VALVES), TITUS (VAV)</option>
+                <option value="TUTTLE &amp; BALEY : HART AND COOLEY : TITUS">TUTTLE &amp; BALEY : HART AND COOLEY : TITUS</option>
+                <option value="TUTTLE AND BAILEY;TITUS">TUTTLE AND BAILEY;TITUS</option>
+                <option value="TUTUS (AO &amp; VAV); BRASCH (EDH-$3,705)">TUTUS (AO &amp; VAV); BRASCH (EDH-$3,705)</option>
+                <option value="VAV(TRANE);">VAV(TRANE);</option>
+                <option value="VAW SYSTEM">VAW SYSTEM</option>
+                <option value="VERBAL">VERBAL</option>
+                <option value="VIBRO">VIBRO</option>
+                <option value="VIBRO (SOUND TRAPS ONLY)">VIBRO (SOUND TRAPS ONLY)</option>
+                <option value="VIBRO ACOUSTICS ">VIBRO ACOUSTICS </option>
+                <option value="VIBRO ACOUSTICS ONLY">VIBRO ACOUSTICS ONLY</option>
+                <option value="VIBRO ONLY CAUSE YANNI SAID SO">VIBRO ONLY CAUSE YANNI SAID SO</option>
+                <option value="VIBRO ONLY- TITUS &amp; ALDES NO BID">VIBRO ONLY- TITUS &amp; ALDES NO BID</option>
+                <option value="VIBRO PRICE">VIBRO PRICE</option>
+                <option value="VIBRO-ACOUSTICS LAY-IN">VIBRO-ACOUSTICS LAY-IN</option>
+                <option value="WARREN">WARREN</option>
+                <option value="WARREN (EDH)">WARREN (EDH)</option>
+                <option value="YOUNG REGULATOR">YOUNG REGULATOR</option>
+                <option value="ZEHNDER">ZEHNDER</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Project Number</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" id="project_number" name="project_number" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Drawing Date</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group">
+              <input type="text" value="" name="drawing_dt" class="form-control datepicker">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Revised Date</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group">
+              <input type="text" value="" name="revise_dt" class="form-control datepicker">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Due Date</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" name="due_dt" class="form-control datepicker">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Dwgs Rcvd From</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" name="in_contractor" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+            <div class="form-group"> <span class="new-take-off-title">List of Bidders</span><span class="colon">:</span> </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" name="selected_bidders" class="form-control">
+            </div>
+            <!-- .form-group -->
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+            <input type="submit" class="submit-btn btn btn-primary" value="Submit">
+            &nbsp;&nbsp;&nbsp;
+            <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+            <input type="hidden" value="searched" name="searched">
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+      </div>
+      <!-- .container -->
+    </div>
+    <!-- .bg-d0e9f4 -->
+  </form>
+</section>
+          <!-- .row -->
+          <!-- .row -->
+          <div class="row checkrow">
+          </div>
+          <!-- .row -->
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 <div style="clear:both;height:50px;"></div>
 <div ng-include="'templates/footer.html'" ></div>
-
-
