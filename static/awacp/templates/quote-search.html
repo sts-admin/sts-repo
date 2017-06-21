@@ -1,135 +1,269 @@
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
-<div class="container-fluid" style="margin-top:-10px;">
+<div class="container-fluid">
   <div class="clearfix">
-    <div class="panel panel-default shadow" ng-init="takeVm.listQuotes();">
-      <div class="panel-heading panel-heading-top form-heading">
-        <label>Search Quotes</label>
+    <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+      <div class="panel-heading form-heading panel-heading-top">
+        <label>Search Quote</label>
       </div>
-      <div class="panel-body">
-        <div style="text-align:right;">
-          <ul uib-pagination total-items="takeVm.totalItems" ng-model="takeVm.currentPage" ng-change="takeVm.pageChanged()">
-          </ul>
+      <div class="panel-body new-tk-bg">
+        <form ng-submit="quoteVm.report();">
+          <!-- .row -->
+          <section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 dashboard-content">
+        <h1>Search Quote</h1>
+      </div>
+      <!-- .col -->
+      <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('search_quote');" href="javascript:void(0);">Hide Search Form</a> </div>
+      <!-- .col -->
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container -->
+  <form class="formular" action="" method="post" id="search_quote" name="search_quote">
+    <div class="bg-d0e9f4 theme-form">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30">
+            <div class="form-group">
+              <input type="submit" class="submit-btn btn btn-primary" value="Submit">
+              &nbsp;&nbsp;&nbsp;
+              <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+            </div>
+          </div>
+          <!-- .col -->
         </div>
         <!-- .row -->
-        <div class="row" id="contents">
-          
-              <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">From:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-3 col-md-3 col-sm-2">
-                <div class="form-group">
-                  <input class="form-control datepicker" name="report_start_date" value="" type="text">
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">To:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-3 col-md-3 col-sm-2">
-                <div class="form-group">
-                  <input class="form-control datepicker" name="report_end_date" value="" type="text">
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 hidden-lg hidden-md col-sm-1 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 hidden-md hidden-lg hidden-xs hidden-sm col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 hidden-xs col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date From:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-3 col-md-3 col-sm-2">
-                <div class="form-group">
-                  <input class="form-control datepicker" name="due_start_date" value="" type="text">
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date To:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-3 col-md-3 col-sm-2">
-                <div class="form-group">
-                  <input class="form-control datepicker" name="due_end_date" value="" type="text">
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <hr>
-              </div>
-              <!-- .col -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Date Entered</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group"> <span class="new-take-off-title">
+              <input type="text" value="" name="quote_date" class="form-control datepicker">
+              </span> </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> Revision</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group">
+              <select onchange="QuoteRevBid();" class="form-control" id="in_revision" name="in_revision">
+                <option selected="selected" value="">--</option>
+                <option value="V"> V-Verbal </option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="H">H</option>
+                <option value="I">I</option>
+                <option value="J">J</option>
+                <option value="K">K</option>
+                <option value="L">L</option>
+                <option value="M">M</option>
+                <option value="N">N</option>
+                <option value="O">O</option>
+                <option value="P">P</option>
+                <option value="Q">Q</option>
+                <option value="R">R</option>
+                <option value="S">S</option>
+                <option value="T">T</option>
+                <option value="U">U</option>
+                <option value="V">V</option>
+                <option value="W">W</option>
+                <option value="X">X</option>
+                <option value="Y">Y</option>
+                <option value="Z">Z</option>
+              </select>
             </div>
-            <!-- .row -->
-            <div class="row">
-              <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                <div class="form-group">
-                  <select name="year" class="form-control">
-                    <option value="">--</option>
-                    <option value="16">2016</option>
-                  </select>
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                <div class="form-group">
-                  <select name="salesman" class="form-control">
-                    <option value="">--</option>
-                    <option value="YB">YB - YANNI BANASIOS</option>
-                  </select>
-                </div>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
-              <!-- .col -->
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                <div class="form-group">
-                  <select name="usercode" class="form-control">
-                    <option value="">--</option>
-                    <option value="YB">YB - YANNI BANASIOS</option>
-                  </select>
-                </div>
-              </div>
-              <!-- .col -->
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <i class="star red">*</i>Salesman</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group">
+              <select class="form-control" id="salesperson" name="salesperson">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+              </select>
             </div>
-            <!-- .row -->
-            <div class="row">
-              <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
-              <!-- .col -->
-              <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-                <div class="form-group">
-                  <select name="engineer" class="form-control">
-                    <option value="">--</option>
-                    <option value="ZEHNDER">ZEHNDER</option>
-                  </select>
-                </div>
-              </div>
-              <!-- .col -->
-            </div>
-            <!-- .row -->
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <hr>
-              </div>
-              <!-- .col -->
-              <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-                <input value="Submit" class="submit-btn btn btn-primary" type="submit">
-                &nbsp;&nbsp;&nbsp;
-                <input value="Reset" class="reset-btn btn btn-info" onclick="this.form.reset();" type="reset">
-                <input name="searched" value="searched" type="hidden">
-              </div>
-              <!-- .col -->
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <hr>
-              </div>
-              <!-- .col -->
-          
+          </div>
+          <!-- .col -->
         </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Usercode</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div style="font-size:16px;" class="form-group">
+              <select class="form-control" id="quote_usercode" name="quote_usercode">
+                <option value="">--</option>
+                <option value="AD">AD - ALAN DANE</option>
+                <option value="AG">AG - ADRIAN GERMAN</option>
+              </select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Drawing Date</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div class="form-group">
+              <input type="text" value="" name="drawing_date" class="form-control datepicker">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Job ID</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div style="font-size:16px;" class="form-group">
+              <input type="text" value="" id="job_id" name="job_id" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Quote ID</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <div style="font-size:16px;" class="form-group">
+              <input type="text" value="" id="quote_id" name="quote_id" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Job Name</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" id="jobname" name="jobname" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Job Address</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" id="jobaddress" name="jobaddress" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Engineer</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8">
+            <div class="form-group"> <span id="cntnr_engineer">
+              <select class="form-control" name="engineer">
+                <option value="">--</option>
+                <option value="2020 ENGINEERING">2020 ENGINEERING</option>
+                <option value="2LS CONSULTING ENGINEERS">2LS CONSULTING ENGINEERS</option>
+              </select>
+              </span> </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-1 col-md-1 col-sm-1"> </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Architect</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8">
+            <div class="form-group"> <span id="cntnr_architect">
+              <select class="form-control" name="architect">
+                <option value="">--</option>
+                <option value="1100 ARCHITECT">1100 ARCHITECT</option>
+                <option value="1WDMR ARCHITECTS">1WDMR ARCHITECTS</option>
+              </select>
+              </span> </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-1 col-md-1 col-sm-1"> </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Amount</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8">
+            <div class="form-group">
+              <input type="text" value="" id="amount" name="amount" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><i class="star red">*</i>Specifications</span><span class="colon">:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8">
+            <div class="form-group"> <span id="">
+              <select class="form-control" name="specs">
+                <option value="">--</option>
+                <option value="A.J MANUFACTURING">A.J MANUFACTURING</option>
+                <option value="ACCORD / HART & COOLEY">ACCORD / HART & COOLEY</option>
+              </select>
+              </span> </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-1 col-md-1 col-sm-1"> </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+            <div class="form-group"> <span class="new-take-off-title">Bidders</span><span class="colon">:</span> </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" value="" id="bidders" name="bidders" class="form-control">
+            </div>
+            <!-- .form-group -->
+          </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+          <!-- .col -->
+          <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+            <input type="submit" class="submit-btn btn btn-primary" value="Submit" name="submit">
+            &nbsp;&nbsp;&nbsp;
+            <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+            <input type="hidden" value="searched" name="searched">
+            &nbsp;&nbsp;&nbsp; </div>
+          <!-- .col -->
+        </div>
+        <!-- .row -->
+      </div>
+      <!-- .container -->
+    </div>
+    <!-- .bg-d0e9f4 -->
+  </form>
+</section>
+          <!-- .row -->
+          <!-- .row -->
+          <div class="row checkrow">
+          </div>
+          <!-- .row -->
+        </form>
       </div>
     </div>
   </div>
 </div>
+<div style="clear:both;height:50px;"></div>
 <div ng-include="'templates/footer.html'" ></div>
