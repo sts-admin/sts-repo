@@ -285,6 +285,15 @@
 					if(data && data.takeoff){
 						$scope.$apply(function(){
 							takeVm.takeoff = data.takeoff;	
+							if(takeVm.takeoff.drawingDate){
+								takeVm.takeoff.drawingDate = new Date(takeVm.takeoff.drawingDate);
+							}
+							if(takeVm.takeoff.dueDate){
+								takeVm.takeoff.dueDate = new Date(takeVm.takeoff.dueDate);
+							}
+							if(takeVm.takeoff.revisedDate){
+								takeVm.takeoff.revisedDate = new Date(takeVm.takeoff.revisedDate);
+							}
 							if(takeVm.takeoff.bidders){
 								if(jQuery.isArray(takeVm.takeoff.bidders)) {
 									takeVm.selectedBidders = takeVm.takeoff.bidders;

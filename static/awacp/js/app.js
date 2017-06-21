@@ -4,7 +4,7 @@
 	//Local env
 	var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/tutorial/resource/img/";
-	var basePath = "/awacp/";
+	var basePath = "/tutorial/";
 	//prod env
 	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
@@ -441,7 +441,7 @@
 				controllerAs:"wsVm",
 				requireAuth: true,
 				cache:false
-			}).state('quote-followup',{
+			}).state('quote-follow',{
 				url: '/quote-followup/:takeoffId/:worksheetId',
 				templateUrl:"templates/quote-followup.html",
 				controller:"QuoteFollowupCtrl",

@@ -337,6 +337,9 @@
 					if(data && data.jobOrder){
 						$scope.$apply(function(){
 							jobVm.jobOrder = data.jobOrder;	
+							if(jobVm.jobOrder.dateEntered){
+								jobVm.jobOrder.dateEntered = new Date(jobVm.jobOrder.dateEntered);
+							}
 							if(jobVm.jobOrder.bidders){
 								if(jQuery.isArray(jobVm.jobOrder.bidders)) {
 									jobVm.selectedBidders = jobVm.jobOrder.bidders;

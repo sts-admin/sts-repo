@@ -16,7 +16,8 @@
 		
 		qVm.selectedNewQuote = {};
 		qVm.selectedTakeoff = {};
-		
+		qVm.takeoffGcs  = [];
+		qVm.takeoffBidders = [];
 		qVm.selectedQuote = {};
 		qVm.worksheetPdfView = function(pdfViewWorksheetId){
 			//Add authentication headers as params
@@ -89,6 +90,30 @@
 			templateUrl: 'templates/quote-takeoff-info.html',
 			title: 'Takeoff Detail'
 		};
+		
+		qVm.GcsPopover = {
+			templateUrl: 'templates/quote-gc-list.html',
+			title: 'General Contractor(s)'
+		};
+		qVm.listGcsByTakeoff = function(takeoff){
+			if(takeoff.generalContractors){
+				qVm.takeoffGcs = takeoff.generalContractors;
+			}else{
+				qVm.takeoffGcs  = null;
+			}
+		}
+		qVm.bidderPopover = {
+			templateUrl: 'templates/quote-bidder-list.html',
+			title: 'Bidder(s)'
+		};
+		qVm.listBiddersByTakeoff = function(takeoff){
+			qVm.takeoffBidders = [];
+			if(takeoff.bidders){
+				qVm.takeoffBidders = takeoff.bidders;
+			}else{
+				qVm.takeoffBidders = null;
+			}
+		}
 		
 		qVm.makeQuote = function(id){
 			AlertService.showConfirm(	'AWACP :: Confirmation!', "Are you sure to make quote?")

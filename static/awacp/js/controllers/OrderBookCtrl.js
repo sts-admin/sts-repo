@@ -326,6 +326,7 @@
 				.success(function(data, status, headers){
 					if(data && data.orderBook){
 						var tmpItems = [];
+						
 						if(data.orderBook.invItems){
 							if(jQuery.isArray(data.orderBook.invItems)){
 								tmpItems = data.orderBook.invItems;
@@ -346,6 +347,9 @@
 							}
 							$scope.$apply(function(){
 								obVm.orderBook = data.orderBook;
+								if(obVm.orderBook.estDate){
+									obVm.orderBook.estDate = new Date(obVm.orderBook.estDate);
+								}
 								obVm.action = obVm.orderBook && obVm.orderBook.id?"Update":"Add New";	
 							});
 						});

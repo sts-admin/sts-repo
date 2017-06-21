@@ -475,13 +475,16 @@
 			var hasPdnis = false;
 			var hasManufacturer = true;
 			var hasProduct = true;
-			jQuery.each(wsVm.worksheet.notes, function(k, v){
+			if(wsVm.worksheet.notes){
+				jQuery.each(wsVm.worksheet.notes, function(k, v){
 				if(v.id){
-					hasNotes = true;
-				}else{
-					wsVm.worksheet.notes.splice(k, 1);
-				}
-			});
+						hasNotes = true;
+					}else{
+						wsVm.worksheet.notes.splice(k, 1);
+					}
+				});
+			}
+			
 			if(!hasNotes){
 				wsVm.worksheet.notes = [];
 			}

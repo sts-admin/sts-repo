@@ -1,0 +1,10 @@
+<div class="container-fluid" style="width:300px;">
+	<div ng-hide="!qVm.takeoffBidders" class="ui-list-view-bordered" ui-list-view="bidder in qVm.takeoffBidders | orderBy:'name'">
+		{{ bidder.name }}
+	</div>
+	<div ng-show="!qVm.takeoffBidders">
+			No Bidder(s) found for this Take off
+	</div>
+</div>
+
+

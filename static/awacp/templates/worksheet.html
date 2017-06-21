@@ -46,7 +46,6 @@
 					</tr>
 					<tr>
 						<th>Bidders</th>
-						{{wsVm.quote.bidders}}
 						<td colspan="3" ng-hide="!wsVm.quote.bidders || wsVm.quote.bidders.length <= 0">
 							<span ng-repeat="bidder in wsVm.quote.bidders">
 							{{bidder.name}}{{$index < wsVm.quote.bidders.length-1?", ":""}}

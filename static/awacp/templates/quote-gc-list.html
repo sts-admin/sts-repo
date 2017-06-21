@@ -1,0 +1,10 @@
+<div class="container-fluid" style="width:300px;">
+	<div ng-hide="!qVm.takeoffGcs" class="ui-list-view-bordered" ui-list-view="gc in qVm.takeoffGcs | orderBy:'name'">
+		{{ gc.name }}
+	</div>	
+	<div ng-show="!qVm.takeoffGcs">		
+		No General Contractor(s) found for this Take off
+	</div>
+</div>
+
+
