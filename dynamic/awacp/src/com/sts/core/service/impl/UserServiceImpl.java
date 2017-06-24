@@ -4,6 +4,7 @@
 package com.sts.core.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.jdbc.StringUtils;
@@ -31,12 +33,16 @@ import com.sts.core.entity.Permission;
 import com.sts.core.entity.User;
 import com.sts.core.exception.StsCoreException;
 import com.sts.core.exception.StsDuplicateException;
+import com.sts.core.service.ChatMessageService;
 import com.sts.core.service.UserService;
 import com.sts.core.util.ConversionUtil;
 import com.sts.core.util.MenuItemComparator;
 import com.sts.core.util.SecurityEncryptor;
 
-public class UserServiceImpl extends CommonServiceImpl<User>implements UserService {
+public class UserServiceImpl extends CommonServiceImpl<User> implements UserService {
+
+	@Autowired
+	ChatMessageService chatService;
 
 	private EntityManager entityManager;
 
@@ -127,6 +133,10 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 		}
 		user.setPermissionChanged(!user.getPermissions().equals(existingUser.getPermissions()));
 		user.setVersion(existingUser.getVersion());
+		if (existingUser.getPhoto() != null) {
+			user.setPhoto(existingUser.getPhoto());
+		}
+
 		getEntityManager().merge(user);
 		getEntityManager().flush();
 		return user;
@@ -164,9 +174,16 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 		} else {
 			user.getPermissions().clear();
 		}
-
+		user.setAvtarImage("avatar.png");
 		user.setVerified(true);
 		user.setVerificationCode("DEFAULT");
+		File userAvatarImage = new File();
+		userAvatarImage.setCreatedName("avatar");
+		userAvatarImage.setOriginalName("avatar");
+		userAvatarImage.setExtension(".png");
+		userAvatarImage.setContentType("image/png");
+		getEntityManager().persist(userAvatarImage);
+		user.setPhoto(userAvatarImage);
 		getEntityManager().persist(user);
 		getEntityManager().flush();
 		return user;
@@ -205,7 +222,7 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 		}
 		return "fail";
 	}
-	
+
 	@Override
 	public String activateUser(Long userId) throws StsCoreException {
 		User user = findUser(userId);
@@ -384,7 +401,6 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 			userAvatarImage.setOriginalName("avatar");
 			userAvatarImage.setExtension(".png");
 			getEntityManager().persist(userAvatarImage);
-			existingUser.setPhoto(userAvatarImage);
 			existingUser.setPhoto(userAvatarImage);
 			getEntityManager().persist(existingUser);
 			getEntityManager().flush();
@@ -740,6 +756,38 @@ public class UserServiceImpl extends CommonServiceImpl<User>implements UserServi
 		return response;
 	}
 
-	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserDTO> listUsersByOnlineStatus(String onlineStatus) {
+		String query = "User.listOnlineUsers";
+		if (onlineStatus != null && onlineStatus.trim().equalsIgnoreCase("offline")) {
+			query = "User.listOfflineUsers";
+		}
+		List<UserDTO> users = getEntityManager().createNamedQuery(query).getResultList();
+		enrichUserDTO(users);
+		return users;
+	}
 
+	@Override
+	@Transactional
+	public int updateUserOnlineStatus(Long userId, boolean status) {
+		Query query = getEntityManager().createQuery(
+				"UPDATE User u SET u.online =:status AND u.onlineTime =:onlineTime WHERE u.archived = 'false' AND u.id =:userId");
+		return query.setParameter("status", status).setParameter("onlineTime", Calendar.getInstance()).executeUpdate();
+
+	}
+
+	private void enrichUserDTO(List<UserDTO> users) {
+		if (users == null || users.isEmpty())
+			return;
+		for (UserDTO user : users) {
+			File userImage = getEntityManager().find(File.class, user.getPhotoId());
+			String photoUrl = userImage != null
+					? AppPropConfig.resourceReadPath + userImage.getCreatedName() + userImage.getExtension()
+					: AppPropConfig.resourceReadPath + user.getAvtarImage();
+			user.setPhotoUrl(photoUrl);
+			user.setUnreadMessageCount(chatService.getMyUnreadMessagesCount(user.getId()));
+
+		}
+	}
 }

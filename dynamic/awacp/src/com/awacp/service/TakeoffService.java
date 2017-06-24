@@ -42,4 +42,6 @@ public interface TakeoffService {
 	public List<QuoteFollowup> getAllQuoteFollowups(Long takeoffId);
 
 	public Takeoff getTakeoffByQuoteId(String quoteId);
+	
+	public StsResponse<Takeoff> generateTakeoffReport(Takeoff takeoff);
 }

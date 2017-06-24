@@ -36,6 +36,20 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	private UserService userService;
 
 	@GET
+	@Path("/listOnlineUsers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<UserDTO> listOnlineUsers(@Context HttpServletResponse servletResponse) throws IOException {
+		return this.userService.listUsersByOnlineStatus("online");
+	}
+	
+	@GET
+	@Path("/listOfflineUsers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<UserDTO> listOfflineUsers(@Context HttpServletResponse servletResponse) throws IOException {
+		return this.userService.listUsersByOnlineStatus("offline");
+	}
+
+	@GET
 	@Path("/listAllPermissions")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Permission> listAllPermissions(@Context HttpServletResponse servletResponse) throws IOException {
@@ -247,7 +261,7 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 		}
 		return "{\"status\":\"" + status + "\"}";
 	}
-	
+
 	@DELETE
 	@Path("/activate/user/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -88,4 +88,8 @@ public interface UserService {
 	public List<User> filterByName(String name); // match name
 
 	public List<User> filterByCode(String code); // match code
+	
+	public List<UserDTO> listUsersByOnlineStatus(String onlineStatus);
+	
+	public int updateUserOnlineStatus(Long userId, boolean status);
 }

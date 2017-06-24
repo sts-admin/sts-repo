@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
@@ -72,6 +74,8 @@ public class Invoice extends BaseEntity {
 	private String item3Name;
 	private String item4Name;
 	private String item5Name;
+
+	private String invoiceSource;
 
 	public Invoice() {
 		super();
@@ -234,7 +238,6 @@ public class Invoice extends BaseEntity {
 		this.totalPayment = totalPayment;
 	}
 
-	@NotNull
 	public String getShipTo() {
 		return shipTo;
 	}
@@ -251,7 +254,6 @@ public class Invoice extends BaseEntity {
 		this.shippedViaId = shippedViaId;
 	}
 
-	@NotNull
 	public Long getTaxRateId() {
 		return taxRateId;
 	}
@@ -370,6 +372,48 @@ public class Invoice extends BaseEntity {
 
 	public void setTaxRateString(String taxRateString) {
 		this.taxRateString = taxRateString;
+	}
+
+	@Transient
+	public String getInvoiceSource() {
+		return invoiceSource;
+	}
+
+	public void setInvoiceSource(String invoiceSource) {
+		this.invoiceSource = invoiceSource;
+	}
+
+	@PrePersist
+	@PreUpdate
+	public void prePersist() {
+		if (this.getPrePayAmount() == null || this.getPrePayAmount() == Double.POSITIVE_INFINITY
+				|| this.getPrePayAmount() == Double.NEGATIVE_INFINITY) {
+			this.setPrePayAmount(0.0D);
+		}
+		if (this.getPartialPayment() == null || this.getPartialPayment() == Double.POSITIVE_INFINITY
+				|| this.getPartialPayment() == Double.NEGATIVE_INFINITY) {
+			this.setPartialPayment(0.0D);
+		}
+		if (this.getTotalCost() == null || this.getTotalCost() == Double.POSITIVE_INFINITY
+				|| this.getTotalCost() == Double.NEGATIVE_INFINITY) {
+			this.setTotalCost(0.0D);
+		}
+		if (this.getTotalProfit() == null || this.getTotalProfit() == Double.POSITIVE_INFINITY
+				|| this.getTotalProfit() == Double.NEGATIVE_INFINITY) {
+			this.setTotalProfit(0.0D);
+		}
+		if (this.getProfitPercent() == null || this.getProfitPercent() == Double.POSITIVE_INFINITY
+				|| this.getProfitPercent() == Double.NEGATIVE_INFINITY) {
+			this.setProfitPercent(0.0D);
+		}
+		if (this.getBillableAmount() == null || this.getBillableAmount() == Double.POSITIVE_INFINITY
+				|| this.getBillableAmount() == Double.NEGATIVE_INFINITY) {
+			this.setBillableAmount(0.0D);
+		}
+		if (this.getTotalPayment() == null || this.getTotalPayment() == Double.POSITIVE_INFINITY
+				|| this.getTotalPayment() == Double.NEGATIVE_INFINITY) {
+			this.setTotalPayment(0.0D);
+		}
 	}
 
 }

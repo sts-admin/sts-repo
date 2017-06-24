@@ -1,6 +1,7 @@
 package com.sts.core.config;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -66,6 +67,14 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 		grantedAuths.add(new CustomGrantedAuthority(role, userNameOrEmail, loginType, user.getUserCode(),
 				user.getId().toString(), userDisplayName));
 		auth = new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
+
+		// Set user login status
+		try {
+			userService.updateUserOnlineStatus(user.getId(), true);
+		} catch (Exception e) {
+
+		}
+
 		return auth;
 	}
 

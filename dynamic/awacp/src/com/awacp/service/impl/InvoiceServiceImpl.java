@@ -62,16 +62,31 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	private void enrichInvoice(Invoice invoice) {
-		TaxEntry taxEntry = getEntityManager().find(TaxEntry.class, invoice.getTaxRateId());
-		invoice.setTaxRateString(taxEntry.getCity() + " (" + taxEntry.getRate() + ")");
-		invoice.setTaxRate(taxEntry.getRate());
-		ShippedVia sVia = getEntityManager().find(ShippedVia.class, invoice.getShippedViaId());
-		invoice.setShippedVia(sVia.getShippedViaAddress());
-		invoice.setItem1Name(getEntityManager().find(ItemShipped.class, invoice.getItem1Id()).getItem());
-		invoice.setItem2Name(getEntityManager().find(ItemShipped.class, invoice.getItem2Id()).getItem());
-		invoice.setItem3Name(getEntityManager().find(ItemShipped.class, invoice.getItem3Id()).getItem());
-		invoice.setItem4Name(getEntityManager().find(ItemShipped.class, invoice.getItem4Id()).getItem());
-		invoice.setItem5Name(getEntityManager().find(ItemShipped.class, invoice.getItem5Id()).getItem());
+		if (invoice.getTaxRateId() != null) {
+			TaxEntry taxEntry = getEntityManager().find(TaxEntry.class, invoice.getTaxRateId());
+			invoice.setTaxRateString(taxEntry.getCity() + " (" + taxEntry.getRate() + ")");
+			invoice.setTaxRate(taxEntry.getRate());
+		}
+		if (invoice.getShippedViaId() != null) {
+			ShippedVia sVia = getEntityManager().find(ShippedVia.class, invoice.getShippedViaId());
+			invoice.setShippedVia(sVia.getShippedViaAddress());
+		}
+		if (invoice.getItem1Id() != null) {
+			invoice.setItem1Name(getEntityManager().find(ItemShipped.class, invoice.getItem1Id()).getItem());
+		}
+		if (invoice.getItem2Id() != null) {
+			invoice.setItem2Name(getEntityManager().find(ItemShipped.class, invoice.getItem2Id()).getItem());
+		}
+		if (invoice.getItem3Id() != null) {
+			invoice.setItem3Name(getEntityManager().find(ItemShipped.class, invoice.getItem3Id()).getItem());
+		}
+		if (invoice.getItem4Id() != null) {
+			invoice.setItem4Name(getEntityManager().find(ItemShipped.class, invoice.getItem4Id()).getItem());
+		}
+		if (invoice.getItem5Id() != null) {
+			invoice.setItem5Name(getEntityManager().find(ItemShipped.class, invoice.getItem5Id()).getItem());
+		}
+
 	}
 
 	private Double calculateTotalCost(Set<ProfitSheetItem> psItems) {
@@ -89,7 +104,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	@Transactional
 	public Invoice saveInvoice(Invoice invoice) {
-		Double billableAmount = jobService.getJobOrder(invoice.getJobOrderId()).getBillingAmount();
+		JobOrder jobOrder = jobService.getJobOrder(invoice.getJobOrderId());
+		Double billableAmount = jobOrder.getBillingAmount();
 		invoice.setBillableAmount(billableAmount == null ? 0.0D : billableAmount);
 
 		/**
@@ -97,13 +113,18 @@ public class InvoiceServiceImpl implements InvoiceService {
 		 * update call to invoice is made from order book update process,
 		 * because no profit sheet items available in this process process
 		 **/
+		Double totalCost = 0.0D;
 		if (invoice.getProfitSheetItems() != null && !invoice.getProfitSheetItems().isEmpty()) {
-			Double totalCost = calculateTotalCost(invoice.getProfitSheetItems());
-			invoice.setTotalCost(totalCost);
-			invoice.setTotalProfit(billableAmount - totalCost);
-			invoice.setProfitPercent((((billableAmount - totalCost) / totalCost) * 100));
+			totalCost = calculateTotalCost(invoice.getProfitSheetItems());			
 		}
-
+		invoice.setTotalCost(totalCost);
+		invoice.setTotalProfit(billableAmount - totalCost); 
+		if(totalCost.intValue() > 0 && billableAmount.intValue() > 0){
+			invoice.setProfitPercent((((billableAmount - totalCost) / totalCost) * 100));
+		}else{
+			invoice.setProfitPercent(billableAmount);
+		}
+		
 		if (invoice.getPartialPayment() == null) {
 			invoice.setPartialPayment(0.0D);
 		}
@@ -131,14 +152,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 			invoice.setTotalPayment(exTotalPayment);
 		}
-		invoice.setPartialPayment(0.0D);
 
 		if (invoice.getBillableAmount().intValue() > 0
 				&& invoice.getBillableAmount().compareTo(invoice.getTotalPayment()) <= 0) {
 			invoice.setShipment(StsCoreConstant.INV_SHIPMENT_TYPE_FULL);
 		}
 
-		JobOrder jobOrder = getEntityManager().find(JobOrder.class, invoice.getJobOrderId());
 		if (invoice.getId() == null || invoice.getId() <= 0) {
 			getEntityManager().persist(invoice);
 			getEntityManager().flush();
@@ -154,9 +173,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 			jobOrder.setInvoiceMode(StsCoreConstant.INV_MODE_INV);
 		}
 		getEntityManager().merge(jobOrder);
-
+		getEntityManager().flush();
+		
 		if (invoice.getProfitSheetItems() != null && !invoice.getProfitSheetItems().isEmpty()) {
 			for (ProfitSheetItem psi : invoice.getProfitSheetItems()) {
+				if(psi.getFacInv() == null && psi.getInvAmount() == null && psi.getOrbf() == null && psi.getComment() == null){
+					continue;
+				}
 				if (psi.getId() == null) {
 					psi.setInvoiceId(invoice.getId());
 				}

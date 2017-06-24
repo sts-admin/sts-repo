@@ -16,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awacp.entity.Architect;
 import com.awacp.entity.Contractor;
 import com.awacp.entity.Engineer;
+import com.awacp.entity.Invoice;
 import com.awacp.entity.JobOrder;
 import com.awacp.entity.OrderBook;
 import com.awacp.entity.Takeoff;
+import com.awacp.service.InvoiceService;
 import com.awacp.service.JobService;
 import com.awacp.service.TakeoffService;
 import com.sts.core.constant.StsCoreConstant;
@@ -40,6 +42,9 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 
 	@Autowired
 	private FileService fileService;
+
+	@Autowired
+	private InvoiceService invoiceService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -91,7 +96,7 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 			jo.setJoFourDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_FOUR, jo.getId()));
 			jo.setJoFiveDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_FIVE, jo.getId()));
 			jo.setJoSixDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_SIX, jo.getId()));
-			
+
 			jo.setJoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_DOC, jo.getId()));
 			jo.setJoXlsCount(fileService.getFileCount(StsCoreConstant.DOC_JO_XLS, jo.getId()));
 			jo.setJoTaxDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_TAX, jo.getId()));
@@ -113,6 +118,30 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 					OBN[i] = partialOrderBooks.get(i).getOrderBookNumber();
 				}
 				jobOrder.setJobOrderBookNumbers(OBN);
+			}
+			if (jobOrder.getContractorName() == null || jobOrder.getContractorName().trim().isEmpty()) {
+				if (jobOrder.getContractorId() != null) {
+					Contractor contractor = getEntityManager().find(Contractor.class, jobOrder.getContractorId());
+					if (contractor != null) {
+						jobOrder.setContractorName(contractor.getName());
+					}
+				}
+			}
+			if (jobOrder.getEngineerName() == null || jobOrder.getEngineerName().trim().isEmpty()) {
+				if (jobOrder.getEngineerId() != null) {
+					Engineer engineer = getEntityManager().find(Engineer.class, jobOrder.getEngineerId());
+					if (engineer != null) {
+						jobOrder.setEngineerName(engineer.getName());
+					}
+				}
+			}
+			if (jobOrder.getArchitectureName() == null || jobOrder.getArchitectureName().trim().isEmpty()) {
+				if (jobOrder.getArchitectureId() != null) {
+					Architect architect = getEntityManager().find(Architect.class, jobOrder.getArchitectureId());
+					if (architect != null) {
+						jobOrder.setArchitectureName(architect.getName());
+					}
+				}
 			}
 		}
 	}
@@ -159,6 +188,7 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 			getEntityManager().merge(jobOrder);
 			getEntityManager().flush();
 		} else {
+
 			DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
 														// digits
 			String jobOrderId = new StringBuffer("JO").append(df.format(Calendar.getInstance().getTime())).append("-")
@@ -169,6 +199,16 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 			jobOrder.setOrderNumber(jobOrder.getOrderNumber().concat("" + jobOrder.getId()));
 			getEntityManager().merge(jobOrder);
 			getEntityManager().flush();
+			
+			Invoice invoice = new Invoice();
+			invoice.setAwOrderNumber(jobOrder.getOrderNumber());
+			invoice.setSalesPersonCode(jobOrder.getSalesPersonName());
+			invoice.setCreatedById(jobOrder.getCreatedById());
+			invoice.setCreatedByUserCode(jobOrder.getCreatedByUserCode());
+			invoice.setProfitPercent(0.0D);
+			invoice.setJobOrderId(jobOrder.getId());
+
+			invoiceService.saveInvoice(invoice);
 
 			/* Update job order info in referenced takeoff */
 			if (jobOrder.getTakeoffId() != null) {

@@ -295,7 +295,7 @@ public class JobOrder extends BaseEntity {
 	@PrePersist
 	public void prePersist() {
 		if (getInvoiceMode() == null || getInvoiceMode().trim().length() <= 0) {
-			setInvoiceMode(StsCoreConstant.INV_MODE_INV);
+			setInvoiceMode(StsCoreConstant.INV_MODE_BILL);
 		}
 	}
 

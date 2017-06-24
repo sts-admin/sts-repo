@@ -38,6 +38,15 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@Autowired
 	SpecService specService;
 
+	@POST
+	@Path("/generateTakeoffReport")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public StsResponse<Takeoff> generateTakeoffReport(Takeoff takeoff, @Context HttpServletResponse servletResponse)
+			throws Exception {
+		return this.takeoffService.generateTakeoffReport(takeoff);
+	}
+
 	@GET
 	@Path("/generatePdfUrl/{worksheetId}")
 	@Produces(MediaType.APPLICATION_JSON)

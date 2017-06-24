@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -303,6 +304,31 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 		return takeoff;
 	}
 
+	private Takeoff enrichTakeoffForReport(Takeoff takeoff) {
+		User salesUser = userService.findUser(takeoff.getSalesPerson());
+		if (salesUser != null) {
+			takeoff.setSalesPersonName(salesUser.getFirstName() + "	" + salesUser.getLastName());
+		}
+		User user = userService.getByUserCode(takeoff.getUserCode());
+		if (user != null) {
+			takeoff.setUserCode(user.getUserCode());
+		}
+		if (takeoff.getEngineerId() != null && takeoff.getEngineerId() > 0) {
+			Engineer eng = engineerService.getEngineer(takeoff.getEngineerId());
+			if (eng != null) {
+				takeoff.setEngineerName(eng.getName());
+			}
+		}
+		if (takeoff.getArchitectureId() != null && takeoff.getArchitectureId() > 0) {
+			Architect arc = architectService.getArchitect(takeoff.getArchitectureId());
+			if (arc != null) {
+				takeoff.setArchitectureName(arc.getName());
+			}
+		}
+
+		return takeoff;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public StsResponse<Takeoff> listTakeoffsForView(int pageNumber, int pageSize, boolean quoteView) {
@@ -358,7 +384,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 	@Override
 	@Transactional
 	public void updateWorksheetInfo(Long takeoffId, Long worksheetId, Double amount) {
-		System.err.println("updateWorksheetInfo: takeoffId = "+ takeoffId + ", worksheetId = "+ worksheetId);
+		System.err.println("updateWorksheetInfo: takeoffId = " + takeoffId + ", worksheetId = " + worksheetId);
 		Takeoff takeoff = getTakeoff(takeoffId);
 		if (!takeoff.isWsCreated()) {
 			takeoff.setWsCreated(true);
@@ -412,6 +438,113 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 		List<Takeoff> takeoffs = getEntityManager().createNamedQuery("Takeoff.getTakeoffByQuoteId")
 				.setParameter("quoteId", quoteId).getResultList();
 		return takeoffs == null || takeoffs.isEmpty() ? null : enrichTakeoff(takeoffs.get(0), false);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public StsResponse<Takeoff> generateTakeoffReport(Takeoff takeoff) {
+		StringBuffer sb = new StringBuffer("SELECT t FROM ").append(Takeoff.class.getSimpleName())
+				.append(" t WHERE t.archived = 'false'");
+		
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(t.id) FROM ")
+				.append(Takeoff.class.getSimpleName()).append(" t WHERE t.archived = 'false'");
+
+		if (takeoff.getFromDate() != null && takeoff.getToDate() != null) {
+			sb.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
+			countQuery.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
+		}
+
+		if (takeoff.getFromDueDate() != null && takeoff.getToDueDate() != null) {
+			sb.append(" AND FUNC('DATE', t.dueDate) >= :fromDueDate AND FUNC('DATE', t.dueDate) <= :toDueDate");
+			countQuery.append(" AND FUNC('DATE', t.dueDate) >= :fromDueDate AND FUNC('DATE', t.dueDate) <= :toDueDate");
+		}
+		if (takeoff.getYear() > 0) {
+			sb.append(" AND FUNC('YEAR', t.dateCreated) =:year");
+			countQuery.append(" AND FUNC('YEAR', t.dateCreated) =:year");
+		}
+		if (takeoff.getUserCode() != null && !takeoff.getUserCode().isEmpty()) {
+			sb.append(" AND LOWER(t.userCode) =:userCode");
+			countQuery.append(" AND LOWER(t.userCode) =:userCode");
+		}
+		if (takeoff.getSalesPerson() != null) {
+			sb.append(" AND t.salesPerson =:salesPerson");
+			countQuery.append(" AND t.salesPerson =:salesPerson");
+		}
+		if (takeoff.getEngineerId() != null) {
+			sb.append(" AND t.engineerId =:engineerId");
+			countQuery.append(" AND t.engineerId =:engineerId");
+		}
+		if (takeoff.getArchitectureId() != null) {
+			sb.append(" AND t.architectureId =:architectureId");
+			countQuery.append(" AND t.architectureId =:architectureId");
+		}
+		if (takeoff.getSpecId() != null) {
+			sb.append(" AND t.spec.id =:specId");
+			countQuery.append(" AND t.spec.id =:specId");
+		}
+		Query query = getEntityManager().createQuery(sb.toString());
+		Query query2 = getEntityManager().createQuery(countQuery.toString());
+		if (takeoff.getFromDate() != null && takeoff.getToDate() != null) {
+			query.setParameter("fromDate", takeoff.getFromDate().getTime(), TemporalType.DATE);
+			query.setParameter("toDate", takeoff.getToDate().getTime(), TemporalType.DATE);
+			
+			query2.setParameter("fromDate", takeoff.getFromDate().getTime(), TemporalType.DATE);
+			query2.setParameter("toDate", takeoff.getToDate().getTime(), TemporalType.DATE);
+		}
+
+		if (takeoff.getFromDueDate() != null && takeoff.getToDueDate() != null) {
+			query.setParameter("fromDueDate", takeoff.getFromDueDate(), TemporalType.DATE);
+			query.setParameter("toDueDate", takeoff.getToDueDate(), TemporalType.DATE);
+			
+			query2.setParameter("fromDueDate", takeoff.getFromDueDate(), TemporalType.DATE);
+			query2.setParameter("toDueDate", takeoff.getToDueDate(), TemporalType.DATE);
+		}
+		if (takeoff.getYear() > 0) {
+			query.setParameter("year", takeoff.getYear());
+			query2.setParameter("year", takeoff.getYear());
+		}
+		if (takeoff.getUserCode() != null && !takeoff.getUserCode().isEmpty()) {
+			query.setParameter("userCode", takeoff.getUserCode().toLowerCase());
+			query2.setParameter("userCode", takeoff.getUserCode().toLowerCase());
+		}
+		if (takeoff.getSalesPerson() != null) {
+			query.setParameter("salesPerson", takeoff.getSalesPerson());
+			query2.setParameter("salesPerson", takeoff.getSalesPerson());
+		}
+		if (takeoff.getEngineerId() != null) {
+			query.setParameter("engineerId", takeoff.getEngineerId());
+			query2.setParameter("engineerId", takeoff.getEngineerId());
+		}
+		if (takeoff.getArchitectureId() != null) {
+			query.setParameter("architectureId", takeoff.getArchitectureId());
+			query2.setParameter("architectureId", takeoff.getArchitectureId());
+		}
+		if (takeoff.getSpecId() != null) {
+			query.setParameter("specId", Long.valueOf(takeoff.getSpecId()));
+			query2.setParameter("specId", Long.valueOf(takeoff.getSpecId()));
+		}
+		if (takeoff.getPageNumber() > 0 && takeoff.getPageSize() > 0) {
+			query.setFirstResult(((takeoff.getPageNumber() - 1) * takeoff.getPageSize()))
+					.setMaxResults(takeoff.getPageSize());
+		}
+		StsResponse<Takeoff> response = new StsResponse<Takeoff>();
+		if (takeoff.getPageNumber() <= 1) {
+			Object object = query2.getSingleResult();
+			int count = 0;
+			if (object != null) {
+				count =  (((Long) object).intValue());
+			}
+			response.setTotalCount(count);
+		}
+		
+		List<Takeoff> results = query.getResultList();
+		if (results != null && !results.isEmpty()) {			
+			for (Takeoff result : results) {
+				enrichTakeoffForReport(result);
+			}
+			response.setResults(results);
+		}
+		return response;
 	}
 
 }
