@@ -121,8 +121,14 @@
 				controllerAs:"takeVm",
 				requireAuth: true
 			}).state('takeoff-reports',{
+				url: '/takeoff/report-input',
+				templateUrl:"templates/takeoff-report-input.html",
+				controller:"TakeoffCtrl",
+				controllerAs:"takeVm",
+				requireAuth: true
+			}).state('takeoff-report',{
 				url: '/takeoff/reports',
-				templateUrl:"templates/takeoff-report.html",
+				templateUrl:"templates/takeoffs.html",
 				controller:"TakeoffCtrl",
 				controllerAs:"takeVm",
 				requireAuth: true
@@ -527,6 +533,7 @@
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base) {
+			$rootScope.storeKeys = [];
 			$rootScope.rightTrayClicked = false;
 			$rootScope.openChatWindow = false;
 			$rootScope.toggleChatWindow = function(val){

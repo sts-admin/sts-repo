@@ -4,7 +4,8 @@
   <div class="clearfix">
     <div class="panel panel-default" ng-init="takeVm.initTakeoffReportInputs();">
       <div class="panel-heading form-heading panel-heading-top">
-        <label>Take Off Reports</label>
+        <label>Takeoff Report Input</label>
+		<a id="form_display" class="btn btn-success pull-right" onclick="ShowHideForm('report_takeoff');" href="javascript:void(0);">Hide Report Form</a>
       </div>
       <div class="panel-body new-tk-bg">
         <form ng-submit="takeVm.rememberReportQueryParams();">
@@ -13,17 +14,14 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content">
-        <h1>Take Off Reports</h1>
+        <br /><br />
       </div>
       <!-- .col -->
       <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
-      <!-- .col -->
-      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('report_takeoff');" href="javascript:void(0);">Hide Report Form</a> </div>
     </div>
     <!-- .row -->
   </div>
   <!-- .container -->
-  <form style="display:block;" class="formular" action="" method="post" id="report_takeoff" name="report_takeoff">
     <div class="bg-d0e9f4 theme-form">
       <div class="container">
         <div class="row">
@@ -79,7 +77,7 @@
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
 				<select class="form-control" ng-model="takeVm.takeoff.year" 
-				  ng-options="y.id as y.val for y in takeVm.rptYearRange" ng-required = "true">
+				  ng-options="y.id as y.val for y in takeVm.rptYearRange">
 				  <option value="">--- Select ---</option>
 				</select>
             </div>
@@ -103,7 +101,7 @@
             <div class="form-group">
 				<select class="form-control"
 				  ng-model="takeVm.takeoff.userCode" 
-				  ng-options="user.id as user.customName for user in takeVm.users">
+				  ng-options="user.userCode as user.customName for user in takeVm.users">
 				  <option value="">--- Select ---</option>
 				</select>
             </div>
@@ -171,7 +169,6 @@
       <!-- .container -->
     </div>
     <!-- .bg-d0e9f4 -->
-  </form>
 </section>
           <!-- .row -->
           <!-- .row -->

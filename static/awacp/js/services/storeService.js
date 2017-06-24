@@ -74,8 +74,31 @@
 				}
 				return "";
 			},
+			set:function(key, val){
+				store.set(key, val);	
+				$rootScope.storeKeys.push(key);
+			},
+			remove:function(key){
+				store.remove(key);	
+				if($rootScope.storeKeys && $rootScope.storeKeys.length > 0){
+					for(var i = 0; i < $rootScope.storeKeys.length; i++){
+						if($rootScope.storeKeys[i] === key){
+							$rootScope.storeKeys.splice(i, 1);
+							break;
+						}
+					}
+				}
+			},
+			get:function(key){
+				return store.get(key);	
+			},
 			removeAll:function(){
 				store.remove('awacp_user'); 
+				if($rootScope.storeKeys && $rootScope.storeKeys.length > 0){
+					for(var i = 0; i < $rootScope.storeKeys.length; i++){
+						store.remove($rootScope.storeKeys[i]);
+					}
+				}
 			}
 		};
 	});
