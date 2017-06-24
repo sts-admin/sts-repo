@@ -91,6 +91,7 @@
 	            <ref bean="countryServiceEndpoint" />
 	            <ref bean="stateServiceEndpoint" />
 	            <ref bean="errorLogServiceEndpoint" />
+	            <ref bean="messageServiceEndpoint" />
 	             
 	             
 			<!-- sts-core-context.xml part 2 end -->
@@ -117,6 +118,7 @@
 			<ref bean="jobServiceEndpoint" />
 			<ref bean="factoryServiceEndpoint" /> 
 			<ref bean="orderBookServiceEndpoint" />
+			
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<ref bean="jsonProvider" />
@@ -132,7 +134,11 @@
     <bean id="userService" class="com.sts.core.service.impl.UserServiceImpl" />
     <bean id="facebookService" class="com.sts.core.service.impl.FacebookServiceImpl" />
     <bean id="fileService" class="com.sts.core.service.impl.FileServiceImpl" />
+    <bean id="chatMessageService" class="com.sts.core.service.impl.ChatMessageServiceImpl" />
+     
+     
     <bean id="awacpMailService" class="com.awacp.service.impl.MailServiceImpl" />
+   
    
    <bean id="mailService" class="com.sts.core.mail.service.impl.MailServiceImpl" />
     
@@ -156,6 +162,11 @@
     </bean>    
     <bean id="emailServiceEndpoint" class="com.sts.core.rest.endpoint.MailServiceEndpoint">
         <property name="mailService" ref="mailService" />
+    </bean> 
+    
+    <bean id="messageServiceEndpoint" class="com.sts.core.rest.endpoint.MessageServiceEndpoint">
+        <property name="chatMessageService" ref="chatMessageService" />
+        <property name="userService" ref="userService" />
     </bean>    
     <!-- sts-core-context.xml part-3 end -->
     
