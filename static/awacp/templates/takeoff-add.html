@@ -21,6 +21,22 @@
 							  <label>{{currentDate | date:'shortDate'}}</label>
 							</div>
 						</div>
+						<div ng-show="takeVm.editQuote">
+							<div class="col-lg-2 col-md-2 col-sm-2"> 
+								<span class="form-label">
+									Revision
+								</span>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							<div class="col-lg-2 col-md-2 col-sm-2">
+								<select class="form-control"
+									  ng-model="takeVm.takeoff.quoteRevision" 
+									  ng-options="rev.id as rev.name for rev in takeVm.quoteRevisions">
+									  <option value="">--- Select ---</option>
+									</select>
+							</div>
+						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2"> 
 							<span class="form-label">
 								Sales Person
@@ -136,6 +152,24 @@
 								 <input type="text" placeholder="Architecture" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter architecture name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.architectureName" ng-required="'REVERT' == takeVm.arc_text" />
 							</div>
 						  </div>
+						  <div ng-show="takeVm.editQuote">
+							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
+								<span class="form-label">
+									Amount
+								</span>
+								<i class="star red">*</i>
+								<span class="colon">:</span> 
+							</div>
+							  <!-- .col -->
+							  <div class="col-lg-9 col-md-9 col-sm-9">
+								<div class="input-group">
+									<div class="input-group-addon">$</div>
+									<div class="form-group">
+									  <input ng-disabled="true" type="text" placeholder="Amount" class="form-control" maxlength="25" oninvalid="this.setCustomValidity('Enter Amount');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.amount" ng-required="true" />
+									</div>
+								</div>
+							  </div>
+						  </div>
 						 <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewArc();">{{takeVm.arc_text}}</a>
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
@@ -242,7 +276,8 @@
 							</div>
 						  </div>
 						  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
-							  <span class="form-label">Takeoff Comment</span>
+							  <span class="form-label" ng-show="takeVm.editQuote">Quote Comment</span>
+							   <span class="form-label" ng-hide="takeVm.editQuote">Takeoff Comment</span>
 							  <span class="colon">:</span> 
 						 </div>
 						  <!-- .col -->
@@ -259,7 +294,7 @@
 					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
 					  <!-- .col -->
 					  <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
-						<input type="submit" value="{{takeVm.action}} Takeoff" class="takeoff-add-action submit-btn btn btn-primary">
+						<input type="submit" value="{{takeVm.action}}" class="takeoff-add-action submit-btn btn btn-primary">
 						&nbsp;&nbsp;
 						<input type="reset" value="Reset" class="takeoff-add-action reset-btn btn btn-warning" id="takeoff-reset">
 						&nbsp;&nbsp;

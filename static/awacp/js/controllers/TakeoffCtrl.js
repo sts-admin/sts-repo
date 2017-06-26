@@ -4,9 +4,11 @@
 	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
 	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var takeVm = this;
+		takeVm.editQuote = false;
 		takeVm.takeoffViewHeading = "View Takeoff";
 		takeVm.showAddTakeoffLink = true;
 		takeVm.takeoffIds = [{id:"T16-1"}, {id:"T16-2"}, {id:"T16-3"}, {id:"T16-4"}, {id:"T16-5"}];
+		takeVm.quoteRevisions = [{id:"A", name:"A"}, {id:"B", name:"B"}, {id:"C", name:"C"}, {id:"D", name:"D"}, {id:"E", name:"E"}, {id:"F", name:"F"}, {id:"G", name:"G"}, {id:"H", name:"H"}, {id:"I", name:"I"}, {id:"J", name:"J"}, {id:"K", name:"K"}, {id:"L", name:"L"}, {id:"M", name:"M"}, {id:"N", name:"N"}, {id:"O", name:"O"}, {id:"P", name:"P"}, {id:"Q", name:"Q"}, {id:"R", name:"R"}, {id:"S", name:"S"}, {id:"T", name:"T"}, {id:"U", name:"U"}, {id:"V", name:"V"}, {id:"W", name:"W"}, {id:"X", name:"X"}, {id:"Y", name:"Y"}, {id:"Z", name:"Z"}];
 		takeVm.selectedTakeoffId;
 		takeVm.openAnother = true;		
 		takeVm.selectedTakeoff = {};
@@ -35,7 +37,7 @@
 		takeVm.selectedContractors = [];
 		takeVm.takeoffGcs = [];
 		takeVm.takeoffBidders = [];		
-		takeVm.action = "Add New";
+		takeVm.action = "Add New Takeoff";
 		takeVm.searchTakeoffIds = function(){
 			return takeVm.takeoffIds;
 		}
@@ -280,47 +282,50 @@
 			var eDate = new Date(lDate);
 			return (eDate >= sDate);
 		}
-		takeVm.editTakeoff = function(){
-			if($state.params.id != undefined){
-				AjaxUtil.getData("/awacp/getTakeoff/"+$state.params.id, Math.random())
-				.success(function(data, status, headers){
-					if(data && data.takeoff){
-						$scope.$apply(function(){
-							takeVm.takeoff = data.takeoff;	
-							if(takeVm.takeoff.drawingDate){
-								takeVm.takeoff.drawingDate = new Date(takeVm.takeoff.drawingDate);
-							}
-							if(takeVm.takeoff.dueDate){
-								takeVm.takeoff.dueDate = new Date(takeVm.takeoff.dueDate);
-							}
-							if(takeVm.takeoff.revisedDate){
-								takeVm.takeoff.revisedDate = new Date(takeVm.takeoff.revisedDate);
-							}
-							if(takeVm.takeoff.bidders){
-								if(jQuery.isArray(takeVm.takeoff.bidders)) {
-									takeVm.selectedBidders = takeVm.takeoff.bidders;
-								}else{
-									takeVm.selectedBidders = [];
-									takeVm.selectedBidders.push(takeVm.takeoff.bidders);
-								}								
-							}
-							if(takeVm.takeoff.generalContractors){
-								if(jQuery.isArray(takeVm.takeoff.generalContractors)) {
-									takeVm.selectedContractors = takeVm.takeoff.generalContractors;
-								}else{
-									takeVm.selectedContractors = [];
-									takeVm.selectedContractors.push(takeVm.takeoff.generalContractors);
-								}								
-							}
-							takeVm.action = takeVm.takeoff && takeVm.takeoff.id?"Update":"Add New";							
-						});
-					}
-				})
-				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "TakeoffCtrl::takeVm.editTakeoff::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				})
-			}
+		takeVm.editTakeoff = function(id){
+			AjaxUtil.getData("/awacp/getTakeoff/"+id, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.takeoff){
+					$scope.$apply(function(){
+						takeVm.takeoff = data.takeoff;	
+						if(takeVm.takeoff.drawingDate){
+							takeVm.takeoff.drawingDate = new Date(takeVm.takeoff.drawingDate);
+						}
+						if(takeVm.takeoff.dueDate){
+							takeVm.takeoff.dueDate = new Date(takeVm.takeoff.dueDate);
+						}
+						if(takeVm.takeoff.revisedDate){
+							takeVm.takeoff.revisedDate = new Date(takeVm.takeoff.revisedDate);
+						}
+						if(takeVm.takeoff.bidders){
+							if(jQuery.isArray(takeVm.takeoff.bidders)) {
+								takeVm.selectedBidders = takeVm.takeoff.bidders;
+							}else{
+								takeVm.selectedBidders = [];
+								takeVm.selectedBidders.push(takeVm.takeoff.bidders);
+							}								
+						}
+						if(takeVm.takeoff.generalContractors){
+							if(jQuery.isArray(takeVm.takeoff.generalContractors)) {
+								takeVm.selectedContractors = takeVm.takeoff.generalContractors;
+							}else{
+								takeVm.selectedContractors = [];
+								takeVm.selectedContractors.push(takeVm.takeoff.generalContractors);
+							}								
+						}
+						if(takeVm.editQuote){
+							takeVm.action = "Update Quote";
+						}else{
+							takeVm.action = takeVm.takeoff && takeVm.takeoff.id?"Update Quote":"Add New Quote";
+						}
+													
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.editTakeoff::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			})
 		}
 		takeVm.saveTakeoff = function(){
 			jQuery(".takeoff-add-action").attr('disabled','disabled');
@@ -394,6 +399,9 @@
 			var message = "New Takeoff Detail Created Successfully, add more?";
 			if(takeVm.takeoff && takeVm.takeoff.id){
 				message = "Takeoff Detail Updated Successfully";
+				if(takeVm.editQuote){
+					message = "Quote Detail Updated Successfully";
+				}
 				takeVm.takeoff.updatedByUserCode = StoreService.getUser().userCode;
 				update = true;
 			}else{
@@ -592,9 +600,16 @@
 			}
 		}
 		
-		if($state.params.id != undefined){
+		if($state.params.id != undefined || $state.params.quoteEditId){
 			StoreService.remove("rtpQueryOptions-takeoff");
-			takeVm.editTakeoff();
+			if( $state.params.quoteEditId != undefined){
+				takeVm.editQuote = true;
+				takeVm.editTakeoff($state.params.quoteEditId);
+			}else{
+				takeVm.editTakeoff($state.params.id);
+			}
+			
+			
 		}
 		
 		$scope.$on("$destroy", function(){

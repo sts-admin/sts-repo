@@ -112,7 +112,7 @@
 							  </td>
 							  <td align="center">{{quote.dateCreated?quote.dateCreated:"..." | date: 'short'}}</td>
 							   <td align="center"><a href ui-sref = "takeoff-view">{{quote.takeoffId?quote.takeoffId:"..."}}</a></td>
-							  <td align="center"><a href ui-sref = "takeoff-edit({id:quote.id})">{{quote.quoteId?quote.quoteId:"..."}}</a></td>
+							  <td align="center"><a href ui-sref = "quote-edit({quoteEditId:quote.id})">{{quote.quoteId?quote.quoteId:"..."}}</a></td>
 							  <td align="center">{{quote.jobOrderNumber?quote.jobOrderNumber:"..."}}</td>
 							  <td align="center">
 								<span ng-show="quote.worksheetId != null && quote.worksheetId  != undefined">
