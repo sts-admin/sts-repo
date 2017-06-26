@@ -1233,7 +1233,7 @@ transition:right .3s;
 	bottom:0;
 	width:320px;
 	right:-320px;
-	overflow:hidden;
+	overflow: auto;
 	color:#99a8b5;
 	background:#21282e
 }
