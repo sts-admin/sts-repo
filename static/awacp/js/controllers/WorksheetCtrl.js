@@ -3,6 +3,7 @@
 	angular.module('awacpApp.controllers').controller('WorksheetCtrl', WorksheetCtrl);
 	WorksheetCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService'];
 	function WorksheetCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
+		
 		var wsVm = this;
 		wsVm.action = "Add";
 		$scope.timers = [];
@@ -37,7 +38,6 @@
 			});
 		}
 		
-	
 		
 		wsVm.listManufaturers = function(){
 			wsVm.manufacturers = [];
@@ -258,7 +258,7 @@
 			np = Number(manufacturerItem.netTotal?manufacturerItem.netTotal:0);
 			fp = Number(manufacturerItem.freight?manufacturerItem.freight:0);
 			manufacturerItem.totalAmount = mp + np + fp;
-			manufacturerItem.quoteAmount = manufacturerItem.totalAmount;
+			manufacturerItem.quoteAmount = (parseFloat(manufacturerItem.totalAmount) * .88);
 		}
 		
 		wsVm.doCalculation = function(blockIndex, manufacturerItem, multiplier){	
@@ -477,7 +477,7 @@
 			var hasProduct = true;
 			if(wsVm.worksheet.notes){
 				jQuery.each(wsVm.worksheet.notes, function(k, v){
-				if(v.id){
+				if(v && v.id){
 						hasNotes = true;
 					}else{
 						wsVm.worksheet.notes.splice(k, 1);

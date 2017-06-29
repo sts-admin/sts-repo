@@ -38,10 +38,10 @@
 			});
 		}
 		
-		qVm.showFileListingView = function(source, sourceId, title, size){
+		qVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
 		}
 		
 		qVm.setCurrentPageSize =function(size){

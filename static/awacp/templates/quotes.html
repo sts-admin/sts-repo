@@ -93,20 +93,26 @@
 								</a>								
 							  </td>
 							  <td align="center">
-								<a href ng-click="qVm.showFileListingView('QUOTE_DOC', quote.id, 'Quote', 'large', '.pdf');">
+								<a href ng-click="qVm.showFileListingView('QUOTE_DOC', quote.id, 'Quote', 'large', '.pdf', 'list-view');">
 									<span class="badge">{{quote.quoteDocCount}}</span>
+								</a>
+								<a href ng-click="qVm.showFileListingView('QUOTE_DOC', quote.id, 'Quote', 'large', '.pdf', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />
 								</a>
 							  </td>
 							  <td align="center">
-								<a href ng-click="qVm.showFileListingView('QUOTE_PDF_DOC', quote.id, 'Quote', 'large', '.pdf');">
+							  <a href ng-click="qVm.showFileListingView('QUOTE_PDF_DOC', quote.id, 'Quote', 'large', '.pdf', 'list-view');">
 									<span class="badge">{{quote.quotePdfDocCount}}</span>
+								</a>
+								<a href ng-click="qVm.showFileListingView('QUOTE_PDF_DOC', quote.id, 'Quote', 'large', '.pdf', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />
 								</a>
 							  </td>
 							  <td align="center">
-								<a href ng-click="qVm.showFileListingView('QUOTE_XLS_DOC', quote.id, 'Quote', 'large', '.xls');">
+							  <a href ng-click="qVm.showFileListingView('QUOTE_XLS_DOC', quote.id, 'Quote', 'large', '.xls', 'list-view');">
 									<span class="badge">{{quote.quoteXlsDocCount}}</span>
+								</a>
+								<a href ng-click="qVm.showFileListingView('QUOTE_XLS_DOC', quote.id, 'Quote', 'large', '.xls', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />
 								</a>
 							  </td>
@@ -135,8 +141,10 @@
 							   <td align="center">...</td>
 							 <td align="center">&nbsp; <img popover-placement="left" uib-popover-template="qVm.bidderPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qVm.bidderPopover.title}}" src="images/bidders_ico.png" ng-click="qVm.listBiddersByTakeoff(quote)" border="0"></td>
 							  <td align="center">
-								<a href ng-click="qVm.showFileListingView('QUOTE_VIBRO_DOC', quote.id, 'Quote', 'large', '.pdf');">
+								<a href ng-click="qVm.showFileListingView('QUOTE_VIBRO_DOC', quote.id, 'Quote', 'large', '.pdf', 'list-view');">
 									<span class="badge">{{quote.quoteVibroDocCount?quote.quoteVibroDocCount:"..."}}</span>
+								</a>
+								<a href ng-click="qVm.showFileListingView('QUOTE_VIBRO_DOC', quote.id, 'Quote', 'large', '.pdf', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />
 								</a>
 							  </td>

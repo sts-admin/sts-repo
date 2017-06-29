@@ -92,20 +92,24 @@
 							 
 						  </td>
 						  <td align="center" ng-show="takeVm.showAddTakeoffLink">
-								<a href ng-click="takeVm.showFileListingView('takeoff_drawing_doc', takeoff.id, 'Quote', 'large', '.pdf');">
+								<a href ng-click="takeVm.showFileListingView('takeoff_drawing_doc', takeoff.id, 'Quote', 'large', '.pdf', 'list-view');">
 									<span class="badge">{{takeoff.drawingDocCount}}</span>
+								</a>
+								<a href ng-click="takeVm.showFileListingView('takeoff_drawing_doc', takeoff.id, 'Quote', 'large', '.pdf', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />
 								</a>
 						  </td>
 						   <td align="center" ng-show="takeVm.showAddTakeoffLink">
-								<a href ng-click="takeVm.showFileListingView('takeoff_doc', takeoff.id, 'Quote', 'large', '.pdf');">
+								<a href ng-click="takeVm.showFileListingView('takeoff_doc', takeoff.id, 'Quote', 'large', '.pdf', 'list-view');">
 									<span class="badge">{{takeoff.takeoffDocCount}}</span>
+								</a>
+								<a href ng-click="takeVm.showFileListingView('takeoff_doc', takeoff.id, 'Quote', 'large', '.pdf', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />
 								</a>
 						   </td>
 						  <td align="center">{{takeoff.dateCreated | date:'shortDate'}}</td>
 						  <td align="center">{{takeoff.dueDate | date:'shortDate'}}</td>
-						   <td align="center" ng-style="{{takeoff.idStyle}}"><a href ui-sref = "takeoff-edit({id:takeoff.id})">{{takeoff.takeoffId}}</a></td>
+						  <td align="center" ng-style="{{takeoff.idStyle}}"><a href ui-sref = "takeoff-edit({id:takeoff.id})">{{takeoff.takeoffId}}</a></td>
 										 
 						  <td align="center"><a href ui-sref="quote-view-single({qSource:takeoff.id})" >{{takeoff.quoteId}}</a></td>
 						   <td align="center">{{takeoff.jobId}}</td>

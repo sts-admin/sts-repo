@@ -98,68 +98,90 @@
 						</span>
 					  </td>
                       <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_ONE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+						<a href ng-click="jobVm.showFileListingView('JO_ONE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joOneDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_ONE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                       <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_TWO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+						<a href ng-click="jobVm.showFileListingView('JO_TWO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joTwoDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_TWO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                        <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_THREE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+					   <a href ng-click="jobVm.showFileListingView('JO_THREE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joThreeDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_THREE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                       <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_FOUR', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+					   <a href ng-click="jobVm.showFileListingView('JO_FOUR', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joFourDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_FOUR', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                       <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_FIVE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+						<a href ng-click="jobVm.showFileListingView('JO_FIVE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joFiveDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_FIVE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                       <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_SIX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+					  <a href ng-click="jobVm.showFileListingView('JO_SIX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joSixDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_SIX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                        <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_XLS', jobOrder.id, 'Job Order', 'large', '.doc, .docx');">
+						 <a href ng-click="jobVm.showFileListingView('JO_XLS', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joXlsCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_XLS', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                        <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_DOC', jobOrder.id, 'Job Order', 'large', '.xls, .xlsx');">
+						<a href ng-click="jobVm.showFileListingView('JO_DOC', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_DOC', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                        <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_TAX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+					   <a href ng-click="jobVm.showFileListingView('JO_TAX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joTaxDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_TAX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                       <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_PO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+						<a href ng-click="jobVm.showFileListingView('JO_PO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joPoDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_PO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                        <td align="center">
-						<a href ng-click="jobVm.showFileListingView('JO_IU', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf');">
+					   <a href ng-click="jobVm.showFileListingView('JO_IU', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joUiDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_IU', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
@@ -169,7 +191,7 @@
 							<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
 								<img border="0" src="images/inv_status_bill.png">
 							</a> 
-							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">
+							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">
 								<img border="0" src="images/inv_status_bill.png">
 							</a>
 						</span>
@@ -177,7 +199,7 @@
 							<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
 								<img border="0" src="images/inv_status_ptl.png">
 							</a> 
-							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">
+							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">
 								<img border="0" src="images/inv_status_ptl.png">
 							</a>
 						</span>
@@ -186,17 +208,32 @@
 						</a>
 					  </td>
                       <td align="center">{{jobOrder.dateCreated | date:'shortDate'}}</td>
-                      <td align="center">{{jobOrder.quoteId?jobOrder.quoteId:'...'}}</td>
+						<td align="center">
+							<a href ui-sref="quote-view" ng-show="jobOrder.quoteId">
+								{{jobOrder.quoteId}}
+							</a> 
+							<span ng-show="!jobOrder.quoteId">...</span>
+						</td>
                       <td align="center">
 						<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> 
-						<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId})">{{jobOrder.orderNumber}}</a>
+						<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">{{jobOrder.orderNumber}}</a>
 					  </td>
-                      <td align="center">{{jobOrder.jobName?jobOrder.jobName:'...'}}</td>
+                      <td align="center">
+						<a href ui-sref="joborder-edit({id:jobOrder.id})" ng-show="jobOrder.id">
+							{{jobOrder.jobName}}
+						</a>
+						<span ng-show="!jobOrder.id">...</span>
+					  </td>
                       <td align="center">{{jobOrder.jobAddress?jobOrder.jobAddress:'...'}}</td>
                       <td align="center"> {{jobOrder.contractorName?jobOrder.contractorName:'...'}} </td>
                       <td align="center"> {{jobOrder.salesPersonName?jobOrder.salesPersonName:'...'}} </td>
                       <td align="center"> {{jobOrder.createdByUserCode?jobOrder.createdByUserCode:'...'}} </td>
-                      <td align="center"> {{jobOrder.billingAmount?jobOrder.billingAmount:'...'}} </td>
+                      <td align="center"> 
+						<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:1})">
+							{{jobOrder.billingAmount?jobOrder.billingAmount:'...'}} 
+						</a>
+						
+					  </td>
                     </tr>
                   </tbody>
                 </table>

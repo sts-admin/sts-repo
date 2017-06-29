@@ -48,20 +48,10 @@
 		invoiceVm.removeCostSheetLineItem = function(index){
 			invoiceVm.invoice.profitSheetItems.splice(index, 1);
 		}
-		invoiceVm.initProfitsheetLineItems = function(){
-		}
 		invoiceVm.shipDatePicker = function(){
 			invoiceVm.shipDate.opened = true;
 		}
 		invoiceVm.setActiveTab = function(index){
-			/*if(index == 1){
-				if(!invoiceVm.jobOrder.invoiceId)return;
-				if (typeof invoiceVm.invoice["awOrderNumber"] === "undefined"){
-					return;
-				}
-			}else{
-				invoiceVm.activeIndex = index;
-			}*/			
 			invoiceVm.activeIndex = index;
 		}
 		invoiceVm.listShippedItems = function(){
@@ -275,7 +265,9 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
-		if($state.params.jobId != undefined && $state.params.orderNumber != undefined){			
+		
+		
+		if($state.params.jobId != undefined && $state.params.orderNumber != undefined){	
 			invoiceVm.selectedJobId = $state.params.jobId;
 			invoiceVm.selectedOrderNumber = $state.params.orderNumber;
 			invoiceVm.getJobOrderForThisInvoice(invoiceVm.selectedJobId);
@@ -292,6 +284,9 @@
 		}
 		if($state.params.invoiceOrderId != undefined){
 			invoiceVm.getJobOrderForThisInvoice($state.params.invoiceOrderId);
+		}
+		if($state.params.activeTabIndex){
+			invoiceVm.setActiveTab(parseInt($state.params.activeTabIndex));
 		}
 	}		
 })();

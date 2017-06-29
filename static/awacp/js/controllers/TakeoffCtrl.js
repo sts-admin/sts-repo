@@ -41,10 +41,10 @@
 		takeVm.searchTakeoffIds = function(){
 			return takeVm.takeoffIds;
 		}
-		takeVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+		takeVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
 		}
 		takeVm.showTakeoffInfo = function(takeoff){
 			takeVm.selectedTakeoff =  takeoff;

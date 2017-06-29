@@ -68,6 +68,16 @@
 			.success(function(data, status, headers){
 				if(data && data.takeoff){
 					$scope.$apply(function(){
+						if(data.takeoff.hasOwnProperty('bidders') && !jQuery.isArray(data.takeoff.bidders)){
+							var b = [];
+							b.push(data.takeoff.bidders);
+							data.takeoff["bidders"] = b;
+						}
+						if(data.takeoff.hasOwnProperty('generalContractors') && !jQuery.isArray(data.takeoff.generalContractors)){
+							var gc = [];
+							gc.push(data.takeoff.generalContractors);
+							data.takeoff["generalContractors"] = gc;
+						}
 						jobVm.selectedQuote = data.takeoff;				
 					});
 				}
@@ -81,8 +91,18 @@
 			AjaxUtil.getData("/awacp/getTakeoff/"+takeoffId, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.takeoff){
-					$scope.$apply(function(){
-						jobVm.selectedTakeoff = data.takeoff;				
+					$scope.$apply(function(){						
+						if(data.takeoff.hasOwnProperty('bidders') && !jQuery.isArray(data.takeoff.bidders)){
+							var b = [];
+							b.push(data.takeoff.bidders);
+							data.takeoff["bidders"] = b;
+						}
+						if(data.takeoff.hasOwnProperty('generalContractors') && !jQuery.isArray(data.takeoff.generalContractors)){
+							var gc = [];
+							gc.push(data.takeoff.generalContractors);
+							data.takeoff["generalContractors"] = gc;
+						}
+						jobVm.selectedTakeoff = data.takeoff;
 					});
 				}
 			})
@@ -110,10 +130,10 @@
 			jobVm.selectedJobOrder = jobOrder;
 		}
 		
-		jobVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+		jobVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
 		}
 		jobVm.filterJobOrders = function(billType){
 			jobVm.listJobOrders(billType);

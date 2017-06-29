@@ -3,7 +3,7 @@
 	angular.module('awacpApp.services')
 		.factory("FileService",["$q", "$uibModal", "AjaxUtil", "Upload", "StoreService", "$rootScope", "AlertService", function ($q, $uibModal, AjaxUtil, Upload, StoreService, $rootScope, AlertService){
 			return {
-				showFileViewDialog:function(source, sourceId, sourceTitle, size, filePattern){
+				showFileViewDialog:function(source, sourceId, sourceTitle, size, filePattern, viewSource){
 					var defer = $q.defer();
 					var modalInstance = $uibModal.open({
 						animation: true,
@@ -16,12 +16,14 @@
 							$scope.file = null;
 							$scope.filePattern = filePattern;
 							$scope.fileAcceptPattern = filePattern;
+							$scope.viewSource = viewSource;
 							$scope.title = sourceTitle;
 							$scope.source = source;
 							$scope.sourceId = sourceId;
 							$scope.size = size;
 							$scope.documents = [];
 							$scope.hasFile = false;
+							
 							
 							//resetSelection:start
 							$scope.resetSelection = function(){
@@ -40,6 +42,11 @@
 								$rootScope.fileViewSource = "templates/file-upload.html";
 								$scope.title = "Upload File";
 							};
+							if(viewSource && viewSource === 'list-view'){
+								$scope.showFileList();
+							}else{
+								$scope.showUploadForm();
+							}
 							//showUploadForm:end
 							//listDocuments:start
 							$scope.listDocuments = function (source, sourceId){
