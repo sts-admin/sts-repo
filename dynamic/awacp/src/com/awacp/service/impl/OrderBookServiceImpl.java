@@ -12,6 +12,8 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 
 	@Autowired
 	private InvoiceService invoiceService;
-	
+
 	@Autowired
 	private FileService fileService;
 
@@ -83,6 +85,11 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			getEntityManager().flush();
 			orderBook.setShipToId(shipTo.getId());
 		}
+		if (orderBook.getFactoryId() != null && orderBook.getFactoryId() > 0) {
+			orderBook.setFactoryType("regular");
+		} else {
+			orderBook.setFactoryType(orderBook.getObCategory());
+		}
 
 		if (orderBook.getId() == null) { // New order book
 			DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
@@ -93,7 +100,8 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			getEntityManager().persist(orderBook);
 			getEntityManager().flush();
 
-			StringBuffer sbJOBN = new StringBuffer(orderBook.getOrderBookNumber()).append("-").append(orderBook.getId());
+			StringBuffer sbJOBN = new StringBuffer(orderBook.getOrderBookNumber()).append("-")
+					.append(orderBook.getId());
 			if (orderBook.getSpecialInstruction() != null && !orderBook.getSpecialInstruction().isEmpty()) {
 				sbJOBN.append("-").append(orderBook.getSpecialInstruction());
 			}
@@ -164,7 +172,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			if (book.getFactoryId() != null && book.getFactoryId() > 0) {
 				book.setFactoryName(getEntityManager().find(Factory.class, book.getFactoryId()).getFactoryName());
 			}
-			
+
 			book.setObADocCount(fileService.getFileCount(StsCoreConstant.DOC_OB_A_DOC, book.getId()));
 			book.setObYXlsDocCount(fileService.getFileCount(StsCoreConstant.DOC_OB_Y_XLS, book.getId()));
 			book.setObAckPdfDocCount(fileService.getFileCount(StsCoreConstant.DOC_OB_ACK_PDF, book.getId()));
@@ -269,7 +277,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 				getEntityManager().merge(obInvItem);
 				updateInvItemQty(obInvItem.getBookId(), obInvItem.getInvItemId(), ob.getObCategory(), 0);
 			}
-		} 
+		}
 		// Finally archive this order
 		ob.setCancelled(true);
 		getEntityManager().merge(ob);
@@ -287,7 +295,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 		if (object2 != null) {
 			cancelledCount = (((Long) object2).intValue());
 		}
-		
+
 		// No open order books, cancel invoice.
 		JobOrder jobOrder = getEntityManager().find(JobOrder.class, ob.getJobId());
 		if (allCount == cancelledCount) {
@@ -335,7 +343,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 				updateInvItemQty(obInvItem.getBookId(), obInvItem.getInvItemId(), ob.getObCategory(),
 						(obInvItem.getOrderQty() * 2));
 			}
-		} 
+		}
 		// Finally archive this order
 
 		ob.setCancelled(false);
@@ -358,5 +366,125 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 		}
 
 		return "success";
+	}
+
+	@Override
+	public StsResponse<OrderBook> generateOrderBookReport(OrderBook orderBook) {
+		StringBuffer sb = new StringBuffer("SELECT t FROM ").append(OrderBook.class.getSimpleName())
+				.append(" t WHERE t.archived ='false'");
+
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(t.id) FROM ").append(OrderBook.class.getSimpleName())
+				.append(" t WHERE t.archived ='false'");
+
+		if (orderBook.getFromDate() != null && orderBook.getToDate() != null) {
+			sb.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
+			countQuery
+					.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
+		}
+
+		if (orderBook.getYear() > 0) {
+			sb.append(" AND FUNC('YEAR', t.dateCreated) =:year");
+			countQuery.append(" AND FUNC('YEAR', t.dateCreated) =:year");
+		}
+		if (orderBook.getCreatedByUserCode() != null && !orderBook.getCreatedByUserCode().isEmpty()) {
+			sb.append(" AND t.createdByUserCode =:createdByUserCode");
+			countQuery.append(" AND t.createdByUserCode =:createdByUserCode");
+		}
+		if (orderBook.getSalesPersonId() != null && orderBook.getSalesPersonId() > 0) {
+			sb.append(" AND t.salesPersonId =:salesPersonId");
+			countQuery.append(" AND t.salesPersonId =:salesPersonId");
+		}
+		if (orderBook.getContractorId() != null && orderBook.getContractorId() > 0) {
+			sb.append(" AND t.contractorId =:contractorId");
+			countQuery.append(" AND t.contractorId =:contractorId");
+		}
+		if (orderBook.getFactoryType() != null && !orderBook.getFactoryType().isEmpty()) {
+			sb.append(" AND LOWER(t.factoryType) =:factoryType");
+			countQuery.append(" AND LOWER(t.factoryType) =:factoryType");
+		}
+		if (orderBook.getShipToId() != null && orderBook.getShipToId() > 0) {
+			sb.append(" AND t.shipToId =:shipToId");
+			countQuery.append(" AND t.shipToId =:shipToId");
+		}
+		Query query = getEntityManager().createQuery(sb.toString());
+		Query query2 = getEntityManager().createQuery(countQuery.toString());
+
+		if (orderBook.getFromDate() != null && orderBook.getToDate() != null) {
+			query.setParameter("fromDate", orderBook.getFromDate().getTime(), TemporalType.DATE);
+			query.setParameter("toDate", orderBook.getToDate().getTime(), TemporalType.DATE);
+
+			query2.setParameter("fromDate", orderBook.getFromDate().getTime(), TemporalType.DATE);
+			query2.setParameter("toDate", orderBook.getToDate().getTime(), TemporalType.DATE);
+		}
+
+		if (orderBook.getYear() > 0) {
+			query.setParameter("year", orderBook.getYear());
+			query2.setParameter("year", orderBook.getYear());
+		}
+		if (orderBook.getCreatedByUserCode() != null && !orderBook.getCreatedByUserCode().isEmpty()) {
+			query.setParameter("createdByUserCode", orderBook.getCreatedByUserCode());
+			query2.setParameter("createdByUserCode", orderBook.getCreatedByUserCode());
+		}
+		if (orderBook.getSalesPersonId() != null && orderBook.getSalesPersonId() > 0) {
+			query.setParameter("salesPersonId", orderBook.getSalesPersonId());
+			query2.setParameter("salesPersonId", orderBook.getSalesPersonId());
+		}
+		if (orderBook.getContractorId() != null && orderBook.getContractorId() > 0) {
+			query.setParameter("contractorId", orderBook.getContractorId());
+			query2.setParameter("contractorId", orderBook.getContractorId());
+		}
+
+		if (orderBook.getFactoryType() != null && !orderBook.getFactoryType().isEmpty()) {
+			query.setParameter("factoryType", orderBook.getFactoryType().toLowerCase());
+			query2.setParameter("factoryType", orderBook.getFactoryType().toLowerCase());
+		}
+
+		if (orderBook.getShipToId() != null && orderBook.getShipToId() > 0) {
+			query.setParameter("shipToId", orderBook.getShipToId());
+			query2.setParameter("shipToId", orderBook.getShipToId());
+		}
+
+		if (orderBook.getPageNumber() > 0 && orderBook.getPageSize() > 0) {
+			query.setFirstResult(((orderBook.getPageNumber() - 1) * orderBook.getPageSize()))
+					.setMaxResults(orderBook.getPageSize());
+		}
+		StsResponse<OrderBook> response = new StsResponse<OrderBook>();
+		if (orderBook.getPageNumber() <= 1) {
+			Object object = query2.getSingleResult();
+			int count = 0;
+			if (object != null) {
+				count = (((Long) object).intValue());
+			}
+			response.setTotalCount(count);
+		}
+
+		@SuppressWarnings("unchecked")
+		List<OrderBook> results = query.getResultList();
+		if (results != null && !results.isEmpty()) {
+			for (OrderBook result : results) {
+				enrichOrderBookForReport(result);
+			}
+			response.setResults(results);
+		}
+		return response;
+	}
+
+	private OrderBook enrichOrderBookForReport(OrderBook orderBook) {
+		User user = userService.findUser(orderBook.getSalesPersonId());
+		if (user != null) {
+			orderBook.setSalesPersonName(user.getFirstName() + " " + user.getLastName());
+		}
+		if (orderBook.getContractorId() != null && orderBook.getContractorId() > 0) {
+			orderBook.setContractorName(
+					getEntityManager().find(Contractor.class, orderBook.getContractorId()).getName());
+		}
+		if (orderBook.getShipToId() != null && orderBook.getShipToId() > 0) {
+			orderBook.setShipToName(getEntityManager().find(ShipTo.class, orderBook.getShipToId()).getShipToAddress());
+		}
+		if (orderBook.getFactoryId() != null && orderBook.getFactoryId() > 0) {
+			orderBook.setFactoryName(getEntityManager().find(Factory.class, orderBook.getFactoryId()).getFactoryName());
+		}
+
+		return orderBook;
 	}
 }

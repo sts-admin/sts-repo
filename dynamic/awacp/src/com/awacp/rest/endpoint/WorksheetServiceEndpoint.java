@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.awacp.entity.QuoteFollowup;
 import com.awacp.entity.QuoteMailTracker;
 import com.awacp.entity.Worksheet;
 import com.awacp.service.WorksheetService;

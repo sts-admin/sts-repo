@@ -33,6 +33,7 @@ public class OrderBook extends BaseEntity {
 
 	private String specialInstruction;
 	private Long factoryId; // If regular factory
+	private String factoryType;
 	private String orbf;
 	private Calendar estDate;
 	private Long contractorId;
@@ -65,6 +66,13 @@ public class OrderBook extends BaseEntity {
 	private int obYXlsDocCount;
 	private int obAckPdfDocCount;
 	private int obFrtPdfDocCount;
+
+	private int year;
+	private Calendar fromDate;
+	private Calendar toDate;
+
+	private int pageNumber;
+	private int pageSize;
 
 	public OrderBook() {
 		super();
@@ -331,6 +339,59 @@ public class OrderBook extends BaseEntity {
 
 	public void setObFrtPdfDocCount(int obFrtPdfDocCount) {
 		this.obFrtPdfDocCount = obFrtPdfDocCount;
+	}
+
+	@Transient
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	@Transient
+	public Calendar getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Calendar fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	@Transient
+	public Calendar getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Calendar toDate) {
+		this.toDate = toDate;
+	}
+
+	@Transient
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	@Transient
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public String getFactoryType() {
+		return factoryType;
+	}
+
+	public void setFactoryType(String factoryType) {
+		this.factoryType = factoryType;
 	}
 
 }

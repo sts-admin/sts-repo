@@ -44,4 +44,6 @@ public interface TakeoffService {
 	public Takeoff getTakeoffByQuoteId(String quoteId);
 	
 	public StsResponse<Takeoff> generateTakeoffReport(Takeoff takeoff);
+	
+	public void setQuotePdfGenerated(Long takeoffId, String pdfFilePath);
 }

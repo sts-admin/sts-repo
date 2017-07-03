@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.awacp.entity.JobOrder;
 import com.awacp.entity.OrderBook;
 import com.awacp.service.OrderBookService;
 import com.sts.core.dto.StsResponse;
@@ -23,6 +24,16 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private OrderBookService orderBookService;
+	
+	@POST
+	@Path("/generateOrderBookReport")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public StsResponse<OrderBook> generateOrderBookReport(OrderBook orderBook, @Context HttpServletResponse servletResponse)
+			throws Exception {
+		return this.orderBookService.generateOrderBookReport(orderBook);
+	}
+
 
 	@GET
 	@Path("/listOrderBooks/{pageNumber}/{pageSize}")

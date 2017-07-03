@@ -31,6 +31,7 @@ public class JobOrder extends BaseEntity {
 	private String poName;
 	private String jobName;
 	private Long salesPersonId;
+	private Long recepientSpId;
 	private String jobAddress;
 	private Long contractorId;
 	private Long engineerId;
@@ -51,8 +52,11 @@ public class JobOrder extends BaseEntity {
 
 	private String invoiceMode;
 
+	private boolean finalUpdate;
+
 	// Transient
 	private String salesPersonName;
+	private String recepientSpName;
 
 	private String userNameOrEmail;
 
@@ -73,6 +77,16 @@ public class JobOrder extends BaseEntity {
 	private int joTaxDocCount;
 	private int joPoDocCount;
 	private int joUiDocCount;
+
+	// Transient
+	private int year;
+	private Calendar fromDate;
+	private Calendar toDate;
+
+	private int pageNumber;
+	private int pageSize;
+	private String status;
+	private String jobStatus;
 
 	public JobOrder() {
 		super();
@@ -192,6 +206,7 @@ public class JobOrder extends BaseEntity {
 		this.quoteId = quoteId;
 	}
 
+	@Transient
 	public String getSalesPersonName() {
 		return salesPersonName;
 	}
@@ -396,6 +411,94 @@ public class JobOrder extends BaseEntity {
 
 	public void setJoUiDocCount(int joUiDocCount) {
 		this.joUiDocCount = joUiDocCount;
+	}
+
+	public boolean isFinalUpdate() {
+		return finalUpdate;
+	}
+
+	public void setFinalUpdate(boolean finalUpdate) {
+		this.finalUpdate = finalUpdate;
+	}
+
+	public Long getRecepientSpId() {
+		return recepientSpId;
+	}
+
+	public void setRecepientSpId(Long recepientSpId) {
+		this.recepientSpId = recepientSpId;
+	}
+
+	@Transient
+	public String getRecepientSpName() {
+		return recepientSpName;
+	}
+
+	public void setRecepientSpName(String recepientSpName) {
+		this.recepientSpName = recepientSpName;
+	}
+
+	@Transient
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	@Transient
+	public Calendar getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Calendar fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	@Transient
+	public Calendar getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Calendar toDate) {
+		this.toDate = toDate;
+	}
+
+	@Transient
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	@Transient
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	@Transient
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Transient
+	public String getJobStatus() {
+		return jobStatus;
+	}
+
+	public void setJobStatus(String jobStatus) {
+		this.jobStatus = jobStatus;
 	}
 
 }

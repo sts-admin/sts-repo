@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import com.awacp.entity.Invoice;
 import com.awacp.entity.JobOrder;
 import com.awacp.entity.OrderBook;
 import com.awacp.entity.Takeoff;
+import com.awacp.service.ArchitectService;
+import com.awacp.service.EngineerService;
 import com.awacp.service.InvoiceService;
 import com.awacp.service.JobService;
 import com.awacp.service.TakeoffService;
@@ -45,6 +48,12 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 
 	@Autowired
 	private InvoiceService invoiceService;
+
+	@Autowired
+	private EngineerService engineerService;
+
+	@Autowired
+	private ArchitectService architectService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -90,18 +99,7 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 		if (jobOrders == null || jobOrders.isEmpty())
 			return null;
 		for (JobOrder jo : jobOrders) {
-			jo.setJoOneDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_ONE, jo.getId()));
-			jo.setJoTwoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_TWO, jo.getId()));
-			jo.setJoThreeDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_THREE, jo.getId()));
-			jo.setJoFourDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_FOUR, jo.getId()));
-			jo.setJoFiveDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_FIVE, jo.getId()));
-			jo.setJoSixDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_SIX, jo.getId()));
-
-			jo.setJoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_DOC, jo.getId()));
-			jo.setJoXlsCount(fileService.getFileCount(StsCoreConstant.DOC_JO_XLS, jo.getId()));
-			jo.setJoTaxDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_TAX, jo.getId()));
-			jo.setJoPoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_PO, jo.getId()));
-			jo.setJoUiDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_IU, jo.getId()));
+			initWithDetail(jo);
 		}
 		return jobOrders;
 	}
@@ -109,6 +107,18 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 	@SuppressWarnings("unchecked")
 	private void initWithDetail(JobOrder jobOrder) {
 		if (jobOrder != null) {
+			jobOrder.setJoOneDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_ONE, jobOrder.getId()));
+			jobOrder.setJoTwoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_TWO, jobOrder.getId()));
+			jobOrder.setJoThreeDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_THREE, jobOrder.getId()));
+			jobOrder.setJoFourDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_FOUR, jobOrder.getId()));
+			jobOrder.setJoFiveDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_FIVE, jobOrder.getId()));
+			jobOrder.setJoSixDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_SIX, jobOrder.getId()));
+
+			jobOrder.setJoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_DOC, jobOrder.getId()));
+			jobOrder.setJoXlsCount(fileService.getFileCount(StsCoreConstant.DOC_JO_XLS, jobOrder.getId()));
+			jobOrder.setJoTaxDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_TAX, jobOrder.getId()));
+			jobOrder.setJoPoDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_PO, jobOrder.getId()));
+			jobOrder.setJoUiDocCount(fileService.getFileCount(StsCoreConstant.DOC_JO_IU, jobOrder.getId()));
 			List<OrderBook> partialOrderBooks = getEntityManager()
 					.createNamedQuery("OrderBook.getOrderBookNumbersByOrderId").setParameter("jobId", jobOrder.getId())
 					.getResultList();
@@ -199,10 +209,13 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 			jobOrder.setOrderNumber(jobOrder.getOrderNumber().concat("" + jobOrder.getId()));
 			getEntityManager().merge(jobOrder);
 			getEntityManager().flush();
-			
+
 			Invoice invoice = new Invoice();
 			invoice.setAwOrderNumber(jobOrder.getOrderNumber());
-			invoice.setSalesPersonCode(jobOrder.getSalesPersonName());
+			if (jobOrder.getSalesPersonName() != null && !jobOrder.getSalesPersonName().isEmpty()) {
+				invoice.setSalesPersonCode(jobOrder.getSalesPersonName());
+			}
+
 			invoice.setCreatedById(jobOrder.getCreatedById());
 			invoice.setCreatedByUserCode(jobOrder.getCreatedByUserCode());
 			invoice.setProfitPercent(0.0D);
@@ -275,6 +288,164 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 		List<JobOrder> orders = getEntityManager().createNamedQuery("JobOrder.getByOrderId")
 				.setParameter("orderNumber", orderNumber.toLowerCase()).getResultList();
 		return orders == null || orders.isEmpty() ? null : orders.get(0);
+	}
+
+	@Override
+	@Transactional
+	public String jobFinalUpdate(Long jobId) {
+		JobOrder jo = getJobOrder(jobId);
+		if (jo != null) {
+			jo.setFinalUpdate(true);
+			getEntityManager().merge(jo);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
+	}
+
+	@Override
+	public StsResponse<JobOrder> generateJobOrderReport(JobOrder jobOrder) {
+		StringBuffer sb = new StringBuffer("SELECT t FROM ").append(JobOrder.class.getSimpleName())
+				.append(" t WHERE t.archived =:archived");
+
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(t.id) FROM ").append(JobOrder.class.getSimpleName())
+				.append(" t WHERE t.archived =:archived");
+
+		if (jobOrder.getFromDate() != null && jobOrder.getToDate() != null) {
+			sb.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
+			countQuery
+					.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
+		}
+
+		if (jobOrder.getYear() > 0) {
+			sb.append(" AND FUNC('YEAR', t.dateCreated) =:year");
+			countQuery.append(" AND FUNC('YEAR', t.dateCreated) =:year");
+		}
+		if (jobOrder.getCreatedByUserCode() != null && !jobOrder.getCreatedByUserCode().isEmpty()) {
+			sb.append(" AND t.createdByUserCode =:createdByUserCode");
+			countQuery.append(" AND t.createdByUserCode =:createdByUserCode");
+		}
+		if (jobOrder.getSalesPersonId() != null && jobOrder.getSalesPersonId() > 0) {
+			sb.append(" AND t.salesPersonId =:salesPersonId");
+			countQuery.append(" AND t.salesPersonId =:salesPersonId");
+		}
+		if (jobOrder.getEngineerId() != null) {
+			sb.append(" AND t.engineerId =:engineerId");
+			countQuery.append(" AND t.engineerId =:engineerId");
+		}
+		if (jobOrder.getArchitectureId() != null) {
+			sb.append(" AND t.architectureId =:architectureId");
+			countQuery.append(" AND t.architectureId =:architectureId");
+		}
+		if (jobOrder.getInvoiceMode() != null && !jobOrder.getInvoiceMode().isEmpty()) {
+			sb.append(" AND LOWER(t.invoiceMode) =:invoiceMode");
+			countQuery.append(" AND LOWER(t.invoiceMode) =:invoiceMode");
+		}
+		String status = jobOrder.getStatus();
+		if (status == null) {
+			status = "";
+		}
+		status = status.trim();
+		if (status.equalsIgnoreCase("released")) {
+			sb.append(" AND t.salesPersonId > 0");
+			countQuery.append(" AND t.salesPersonId > 0");
+		} else if (status.equalsIgnoreCase("unreleased")) {
+			sb.append(" AND t.salesPersonId IS NULL");
+			countQuery.append(" AND t.salesPersonId IS NULL");
+		}
+		sb.append(" AND t.finalUpdate =:finalUpdate");
+		countQuery.append(" AND t.finalUpdate =:finalUpdate");
+		
+		Query query = getEntityManager().createQuery(sb.toString());
+		Query query2 = getEntityManager().createQuery(countQuery.toString());
+
+		query.setParameter("finalUpdate", jobOrder.isFinalUpdate());
+		query2.setParameter("finalUpdate", jobOrder.isFinalUpdate());
+
+		query.setParameter("archived", jobOrder.isArchived());
+		query2.setParameter("archived", jobOrder.isArchived());
+
+		if (jobOrder.getFromDate() != null && jobOrder.getToDate() != null) {
+			query.setParameter("fromDate", jobOrder.getFromDate().getTime(), TemporalType.DATE);
+			query.setParameter("toDate", jobOrder.getToDate().getTime(), TemporalType.DATE);
+
+			query2.setParameter("fromDate", jobOrder.getFromDate().getTime(), TemporalType.DATE);
+			query2.setParameter("toDate", jobOrder.getToDate().getTime(), TemporalType.DATE);
+		}
+
+		if (jobOrder.getYear() > 0) {
+			query.setParameter("year", jobOrder.getYear());
+			query2.setParameter("year", jobOrder.getYear());
+		}
+		if (jobOrder.getCreatedByUserCode() != null && !jobOrder.getCreatedByUserCode().isEmpty()) {
+			query.setParameter("createdByUserCode", jobOrder.getCreatedByUserCode());
+			query2.setParameter("createdByUserCode", jobOrder.getCreatedByUserCode());
+		}
+		if (jobOrder.getSalesPersonId() != null && jobOrder.getSalesPersonId() > 0) {
+			query.setParameter("salesPersonId", jobOrder.getSalesPersonId());
+			query2.setParameter("salesPersonId", jobOrder.getSalesPersonId());
+		}
+		if (jobOrder.getEngineerId() != null) {
+			query.setParameter("engineerId", jobOrder.getEngineerId());
+			query2.setParameter("engineerId", jobOrder.getEngineerId());
+		}
+		if (jobOrder.getArchitectureId() != null) {
+			query.setParameter("architectureId", jobOrder.getArchitectureId());
+			query2.setParameter("architectureId", jobOrder.getArchitectureId());
+		}
+		if (jobOrder.getInvoiceMode() != null && !jobOrder.getInvoiceMode().isEmpty()) {
+			query.setParameter("invoiceMode", jobOrder.getInvoiceMode());
+			query2.setParameter("invoiceMode", jobOrder.getInvoiceMode());
+		}
+
+		if (jobOrder.getPageNumber() > 0 && jobOrder.getPageSize() > 0) {
+			query.setFirstResult(((jobOrder.getPageNumber() - 1) * jobOrder.getPageSize()))
+					.setMaxResults(jobOrder.getPageSize());
+		}
+		StsResponse<JobOrder> response = new StsResponse<JobOrder>();
+		if (jobOrder.getPageNumber() <= 1) {
+			Object object = query2.getSingleResult();
+			int count = 0;
+			if (object != null) {
+				count = (((Long) object).intValue());
+			}
+			response.setTotalCount(count);
+		}
+
+		@SuppressWarnings("unchecked")
+		List<JobOrder> results = query.getResultList();
+		if (results != null && !results.isEmpty()) {
+			for (JobOrder result : results) {
+				enrichJobOrderForReport(result);
+			}
+			response.setResults(results);
+		}
+		return response;
+	}
+
+	private JobOrder enrichJobOrderForReport(JobOrder jobOrder) {
+		User salesUser = userService.findUser(jobOrder.getSalesPersonId());
+		if (salesUser != null) {
+			jobOrder.setSalesPersonName(salesUser.getFirstName() + "	" + salesUser.getLastName());
+		}
+		User user = userService.findUser(jobOrder.getCreatedById());
+		if (user != null) {
+			jobOrder.setCreatedByUserCode(user.getUserCode());
+		}
+		if (jobOrder.getEngineerId() != null && jobOrder.getEngineerId() > 0) {
+			Engineer eng = engineerService.getEngineer(jobOrder.getEngineerId());
+			if (eng != null) {
+				jobOrder.setEngineerName(eng.getName());
+			}
+		}
+		if (jobOrder.getArchitectureId() != null && jobOrder.getArchitectureId() > 0) {
+			Architect arc = architectService.getArchitect(jobOrder.getArchitectureId());
+			if (arc != null) {
+				jobOrder.setArchitectureName(arc.getName());
+			}
+		}
+
+		return jobOrder;
 	}
 
 }

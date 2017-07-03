@@ -31,6 +31,24 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 	@Autowired
 	InvoiceService invoiceService;
 
+	@POST
+	@Path("/generateJobOrderReport")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public StsResponse<JobOrder> generateJobOrderReport(JobOrder jobOrder, @Context HttpServletResponse servletResponse)
+			throws Exception {
+		return this.jobService.generateJobOrderReport(jobOrder);
+	}
+
+	@GET
+	@Path("/jobFinalUpdate/{jobOrderId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String jobFinalUpdate(@PathParam("jobOrderId") Long jobOrderId, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String status = this.jobService.jobFinalUpdate(jobOrderId);
+		return "{\"status\":\"" + status + "\"}";
+	}
+
 	@GET
 	@Path("/getInvoiceByJobOrderId/{jobOrderId}")
 	@Produces(MediaType.APPLICATION_JSON)

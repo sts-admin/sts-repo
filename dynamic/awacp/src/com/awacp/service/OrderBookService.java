@@ -25,4 +25,6 @@ public interface OrderBookService {
 
 	public String uncancellOrderBook(Long orderBookId);
 
+	public StsResponse<OrderBook> generateOrderBookReport(OrderBook orderBook);
+
 }

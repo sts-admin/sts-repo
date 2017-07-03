@@ -170,6 +170,7 @@ public class WorksheetServiceImpl implements WorksheetService {
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public boolean sendEmailToBidders(Long worksheetId) throws Exception {
 		Worksheet worksheet = getWorksheet(worksheetId);
 		Takeoff takeoff = getEntityManager().find(Takeoff.class, worksheet.getTakeoffId());
@@ -184,13 +185,14 @@ public class WorksheetServiceImpl implements WorksheetService {
 		String logoPath = AppPropConfig.resourceWritePath + "awacp_big_logo.png";
 		new QuotePdfGenerator(pdfFilePath, logoPath, worksheet).generate();
 		boolean mailSendSuccess = mailService.sendQuoteMailToBidders(worksheet, fileName, pdfFilePath);
-		if (mailSendSuccess) {
+		if (mailSendSuccess) {			
 			if (worksheet.getTakeoff().getBidders() != null) {
 				QuoteMailTracker qmt = null;
 				for (Bidder bidder : worksheet.getTakeoff().getBidders()) {
 					List<QuoteMailTracker> trackers = getEntityManager()
 							.createNamedQuery("QuoteMailTracker.getByWsBidderAndTakeoffId")
 							.setParameter("takeoffId", takeoff.getId()).setParameter("worksheetId", worksheetId)
+							.setParameter("bidderId", bidder.getId())
 							.getResultList();
 					if (trackers != null && !trackers.isEmpty()) {
 						qmt = trackers.get(0);
@@ -208,6 +210,8 @@ public class WorksheetServiceImpl implements WorksheetService {
 
 				}
 			}
+			worksheet.getTakeoff().setMailSentToBidder(true);
+			getEntityManager().merge(worksheet.getTakeoff());
 		}
 		return mailSendSuccess;
 	}

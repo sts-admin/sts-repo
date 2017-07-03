@@ -165,13 +165,22 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 			takeoff.setUserCode(code);
 		}
 		takeoff.setUserCode(userService.getUserCode(takeoff.getUserNameOrEmail()));
+		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
+													// digits
 		if (takeoff.getId() != null && takeoff.getId() > 0) { // update
+			if (takeoff.getQuoteRevision() != null && !takeoff.getQuoteRevision().isEmpty()) {
+				System.err.println("Revision done, change quote ID");
+				String quoteId = new StringBuffer("Q").append(df.format(Calendar.getInstance().getTime())).append("-")
+						.append(takeoff.getId()).append("-").append(takeoff.getQuoteRevision()).toString();
+
+				takeoff.setQuoteId(quoteId);
+
+			}
+
 			getEntityManager().merge(takeoff);
 		} else {
 			getEntityManager().persist(takeoff);
 			getEntityManager().flush();
-			DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2
-														// digits
 
 			String takeoffId = new StringBuffer("T").append(df.format(Calendar.getInstance().getTime())).append("-")
 					.append(takeoff.getId()).toString();
@@ -297,7 +306,9 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 			takeoff.setDrawingDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_DRAWING, takeoff.getId()));
 			takeoff.setTakeoffDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF, takeoff.getId()));
 			takeoff.setVibroDocCount(fileService.getFileCount(StsCoreConstant.DOC_TAKEOFF_VIBRO, takeoff.getId()));
+			System.err.println("takeoff.getQuoteId = " + takeoff.getQuoteId());
 			takeoff.setIdStyle(StringUtils.isNotEmpty(takeoff.getQuoteId()) ? "{'color':'green'}" : "{'color':'red'}");
+			System.err.println("takeoff.idStyle = " + takeoff.getIdStyle());
 			takeoff.setStatusStyle(takeoff.isArchived() ? "{'background':'#FFCC33'}" : "");
 		}
 
@@ -445,13 +456,14 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 	public StsResponse<Takeoff> generateTakeoffReport(Takeoff takeoff) {
 		StringBuffer sb = new StringBuffer("SELECT t FROM ").append(Takeoff.class.getSimpleName())
 				.append(" t WHERE t.archived = 'false'");
-		
-		StringBuffer countQuery = new StringBuffer("SELECT COUNT(t.id) FROM ")
-				.append(Takeoff.class.getSimpleName()).append(" t WHERE t.archived = 'false'");
+
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(t.id) FROM ").append(Takeoff.class.getSimpleName())
+				.append(" t WHERE t.archived = 'false'");
 
 		if (takeoff.getFromDate() != null && takeoff.getToDate() != null) {
 			sb.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
-			countQuery.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
+			countQuery
+					.append(" AND FUNC('DATE', t.dateCreated) >= :fromDate AND FUNC('DATE', t.dateCreated) <= :toDate");
 		}
 
 		if (takeoff.getFromDueDate() != null && takeoff.getToDueDate() != null) {
@@ -482,12 +494,16 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 			sb.append(" AND t.spec.id =:specId");
 			countQuery.append(" AND t.spec.id =:specId");
 		}
+		if(takeoff.getQuoteRevision() != null && !takeoff.getQuoteRevision().isEmpty()){
+			sb.append(" AND t.quoteRevision =:quoteRevision");
+			countQuery.append(" AND t.quoteRevision =:quoteRevision");
+		}
 		Query query = getEntityManager().createQuery(sb.toString());
 		Query query2 = getEntityManager().createQuery(countQuery.toString());
 		if (takeoff.getFromDate() != null && takeoff.getToDate() != null) {
 			query.setParameter("fromDate", takeoff.getFromDate().getTime(), TemporalType.DATE);
 			query.setParameter("toDate", takeoff.getToDate().getTime(), TemporalType.DATE);
-			
+
 			query2.setParameter("fromDate", takeoff.getFromDate().getTime(), TemporalType.DATE);
 			query2.setParameter("toDate", takeoff.getToDate().getTime(), TemporalType.DATE);
 		}
@@ -495,7 +511,7 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 		if (takeoff.getFromDueDate() != null && takeoff.getToDueDate() != null) {
 			query.setParameter("fromDueDate", takeoff.getFromDueDate(), TemporalType.DATE);
 			query.setParameter("toDueDate", takeoff.getToDueDate(), TemporalType.DATE);
-			
+
 			query2.setParameter("fromDueDate", takeoff.getFromDueDate(), TemporalType.DATE);
 			query2.setParameter("toDueDate", takeoff.getToDueDate(), TemporalType.DATE);
 		}
@@ -523,6 +539,10 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 			query.setParameter("specId", Long.valueOf(takeoff.getSpecId()));
 			query2.setParameter("specId", Long.valueOf(takeoff.getSpecId()));
 		}
+		if (takeoff.getQuoteRevision() != null && !takeoff.getQuoteRevision().isEmpty()) {
+			query.setParameter("quoteRevision", takeoff.getQuoteRevision().trim());
+			query2.setParameter("quoteRevision", takeoff.getQuoteRevision().trim());
+		}
 		if (takeoff.getPageNumber() > 0 && takeoff.getPageSize() > 0) {
 			query.setFirstResult(((takeoff.getPageNumber() - 1) * takeoff.getPageSize()))
 					.setMaxResults(takeoff.getPageSize());
@@ -532,19 +552,29 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 			Object object = query2.getSingleResult();
 			int count = 0;
 			if (object != null) {
-				count =  (((Long) object).intValue());
+				count = (((Long) object).intValue());
 			}
 			response.setTotalCount(count);
 		}
-		
+
 		List<Takeoff> results = query.getResultList();
-		if (results != null && !results.isEmpty()) {			
+		if (results != null && !results.isEmpty()) {
 			for (Takeoff result : results) {
 				enrichTakeoffForReport(result);
 			}
 			response.setResults(results);
 		}
 		return response;
+	}
+
+	@Override
+	@Transactional
+	public void setQuotePdfGenerated(Long takeoffId, String pdfFilePath) {
+		Takeoff takeoff = getTakeoff(takeoffId);
+		takeoff.setPdfGenerated(true);
+		takeoff.setPdfFilePath(pdfFilePath);
+		this.updateTakeoff(takeoff);
+
 	}
 
 }

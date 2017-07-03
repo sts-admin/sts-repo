@@ -55,8 +55,10 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 		String pdfFilePath = AppPropConfig.resourceWritePath + fileName;
 		String logoPath = AppPropConfig.resourceWritePath + "awacp_big_logo.png";
 		Worksheet worksheet = worksheetService.getWorksheet(worksheetId);
-		if (worksheet.getTakeoff() == null) {
-			worksheet.setTakeoff(takeoffService.getTakeoff(worksheet.getTakeoffId()));
+		Takeoff takeoff = worksheet.getTakeoff();
+		if (takeoff == null) {
+			takeoff = takeoffService.getTakeoff(worksheet.getTakeoffId());
+			worksheet.setTakeoff(takeoff);
 		}
 		new QuotePdfGenerator(pdfFilePath, logoPath, worksheet).generate();
 		/*
@@ -68,6 +70,7 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 		 * fileName);
 		 */
 		String fileUrl = AppPropConfig.resourceReadPath + fileName;
+		takeoffService.setQuotePdfGenerated(takeoff.getId(), pdfFilePath);
 		return "{\"fileUrl\":\"" + fileUrl + "\"}";
 	}
 

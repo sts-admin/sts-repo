@@ -74,6 +74,11 @@ public class Takeoff extends BaseEntity {
 
 	private String vibrolayin;
 	private Double amount;
+
+	private String quoteRevision;
+	private boolean mailSentToBidder;
+	private boolean pdfGenerated;
+	private String pdfFilePath;
 	// VIBRO LAY IN
 
 	// Transient
@@ -629,6 +634,39 @@ public class Takeoff extends BaseEntity {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	@Column(nullable = true, length = 25)
+	public String getQuoteRevision() {
+		return quoteRevision;
+	}
+
+	public void setQuoteRevision(String quoteRevision) {
+		this.quoteRevision = quoteRevision;
+	}
+
+	public boolean isMailSentToBidder() {
+		return mailSentToBidder;
+	}
+
+	public void setMailSentToBidder(boolean mailSentToBidder) {
+		this.mailSentToBidder = mailSentToBidder;
+	}
+
+	public boolean isPdfGenerated() {
+		return pdfGenerated;
+	}
+
+	public void setPdfGenerated(boolean pdfGenerated) {
+		this.pdfGenerated = pdfGenerated;
+	}
+
+	public String getPdfFilePath() {
+		return pdfFilePath;
+	}
+
+	public void setPdfFilePath(String pdfFilePath) {
+		this.pdfFilePath = pdfFilePath;
 	}
 
 }
