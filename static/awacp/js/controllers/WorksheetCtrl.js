@@ -317,13 +317,14 @@
 				wsVm.addWorksheetInfoBlock(); // new worksheet: add empty worksheet info block to add data.
 				wsVm.worksheet.manufacturerItems[0].multiplier = 0.5;
 			}
+			//Preview worksheet
 			if(($state.params.prevWsId != undefined && $state.params.prevToId != undefined) || $state.params.officeWorksheetId != undefined){ // Preview Quote
 				var worksheetId = $state.params.officeWorksheetId != undefined?$state.params.officeWorksheetId:$state.params.prevWsId;
 				wsVm.editWorksheet(worksheetId);
 				if($state.params.officeWorksheetId != undefined && $state.params.officeQuoteId != undefined){
 					wsVm.listQuoteMailTrackers($state.params.officeWorksheetId, $state.params.officeQuoteId);
 				}
-			}else{
+			}else{ //Edit Worksheet
 				wsVm.listManufaturers();
 				wsVm.listPdnis();
 				wsVm.listProducts();
@@ -376,11 +377,11 @@
 			$window.open(url,'_blank');*/
 			$state.go('quote-preview', {prevWsId: worksheetId, prevToId:takeoffId});
 		}
-		wsVm.viewPDF = function(worksheetId){
+		wsVm.generatePdf = function(pdfViewWorksheetId){
 			//Add authentication headers as params
 			var accessToken = StoreService.getAccessToken();
 			//Add authentication headers in URL
-			var url = $rootScope.base + '/awacp/generatePdfUrl/'+worksheetId+'?'+Math.random();
+			var url = $rootScope.base + '/awacp/generatePdfUrl/'+pdfViewWorksheetId+'?'+Math.random();
 			$http({
 				url : url,
 				method : 'GET',
@@ -389,10 +390,14 @@
 					'Accept' : 'application/json'
 				}
 			}).success(function(data){
-				$window.open(data.fileUrl);
+				AlertService.showAlert(	'AWACP :: Message!', "Pdf of the quote generated successfully.")
+					.then(function (){return;},function (){return});
 			}).error(function(error){
 				alert("Unable to generate PDF View, reason: "+ JSON.stringify(error, null, 4));
 			});
+		}
+		wsVm.viewPDF = function(quote){
+			$window.open(quote.pdfFilePath);
 		}
 		wsVm.editWorksheet = function(worksheetId){		
 			wsVm.worksheet["notes"] = [];

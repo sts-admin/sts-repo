@@ -5,7 +5,7 @@
     <div class="panel panel-default shadow" ng-init="obVm.listOrderBooks();">
       <div class="panel-heading form-heading panel-heading-top">
         <label>View Order Books</label>
-        <span class="pull-right"><a href ui-sref="orderbook-add" >Add Order Book</a></span> </div>
+        <span class="pull-right" ng-show="obVm.showAddOrderBookLink"><a href ui-sref="orderbook-add" >Add Order Book</a></span> </div>
       <div class="panel-body">
         <div style="text-align:right;">
           <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left"> Per page Rows
@@ -25,7 +25,7 @@
               <div class="table-container">
                 <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
                   <thead>
-                    <tr style="background:#CFAC92;">
+                    <tr style="background:#CFAC92;"  ng-show="obVm.showAddOrderBookLink">
                       <td align="center" style="color:#fff;"></td>
                       <td align="center" style="color:#fff;">DOC</td>
                       <td align="center" style="color:#fff;">XLS</td>
@@ -47,12 +47,12 @@
                       
                     </tr>
                     <tr style="background:#9B6944; color:#FFF;">
-                      <td align="center" style="min-width:50px;">Info Icon</td>
-                      <td align="center">A</td>
-                      <td align="center">Y,I</td>
-                      <td align="center">ACK</td>
-                      <td align="center">FRT</td>
-                      <td align="center">POD</td>
+                      <td align="center" style="min-width:50px;" ng-show="obVm.showAddOrderBookLink">Info Icon</td>
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">A</td>
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">Y,I</td>
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">ACK</td>
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">FRT</td>
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">POD</td>
                       <td align="center">Release Date</td>
                       <td align="center" style="color:#FFF; background:#7D3549;">Job ID</td>
                       <td align="center">AWACP PO#</td>
@@ -69,7 +69,7 @@
                   </thead>
                   <tbody>
                     <tr height="25" ng-repeat="orderBook in obVm.orderBooks track by $index">                     
-                      <td align="center">
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">
 						<span ng-show="orderBook.takeoffId">
 							<img  popover-placement="right" uib-popover-template="obVm.takeoffInfoPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{obVm.takeoffInfoPopover.title}}"  ng-click="obVm.showTakeoffInfo(orderBook.takeoffId);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
 							
@@ -87,31 +87,39 @@
 						</span>
 						
 					  </td>
-                      <td align="center">
-						<a href ng-click="obVm.showFileListingView('OB_A_DOC', orderBook.id, 'Order Book', 'large', '.doc, .docx');">
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">
+						<a href ng-click="obVm.showFileListingView('OB_A_DOC', orderBook.id, 'Order Book', 'large', '.doc, .docx', 'list-view');">
 							<span class="badge">{{orderBook.obADocCount}}</span>
+						</a>
+						<a href ng-click="obVm.showFileListingView('OB_A_DOC', orderBook.id, 'Order Book', 'large', '.doc, .docx', 'upload-view');">
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center">
-						<a href ng-click="obVm.showFileListingView('OB_Y_XLS', orderBook.id, 'Order Book', 'large', '.xls, .xlsx');">
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">
+						<a href ng-click="obVm.showFileListingView('OB_Y_XLS', orderBook.id, 'Order Book', 'large', '.xls, .xlsx', 'list-view');">
 							<span class="badge">{{orderBook.obYXlsDocCount}}</span>
+						</a>
+						<a href ng-click="obVm.showFileListingView('OB_Y_XLS', orderBook.id, 'Order Book', 'large', '.xls, .xlsx', 'upload-view');">
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center">
-						<a href ng-click="obVm.showFileListingView('OB_ACK_PDF', orderBook.id, 'Order Book', 'large', '.pdf');">
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">
+						<a href ng-click="obVm.showFileListingView('OB_ACK_PDF', orderBook.id, 'Order Book', 'large', '.pdf', 'list-view');">
 							<span class="badge">{{orderBook.obAckPdfDocCount}}</span>
+						</a>
+						<a href ng-click="obVm.showFileListingView('OB_ACK_PDF', orderBook.id, 'Order Book', 'large', '.pdf', 'upload-view');">
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center">
-						<a href ng-click="obVm.showFileListingView('OB_FRT_PDF', orderBook.id, 'Order Book', 'large', '.pdf');">
+                      <td align="center" ng-show="obVm.showAddOrderBookLink">
+						<a href ng-click="obVm.showFileListingView('OB_FRT_PDF', orderBook.id, 'Order Book', 'large', '.pdf', 'list-view');">
 							<span class="badge">{{orderBook.obFrtPdfDocCount}}</span>
+						</a>
+						<a href ng-click="obVm.showFileListingView('OB_FRT_PDF', orderBook.id, 'Order Book', 'large', '.pdf', 'upload-view');">
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center"></td>
+                      <td align="center" ng-show="obVm.showAddOrderBookLink"></td>
                       <td align="center"></td>
                       <td align="center">{{orderBook.jobOrderNumber}}</td>
                       <td align="center">

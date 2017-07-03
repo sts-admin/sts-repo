@@ -4,9 +4,19 @@
 	JobOrderCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
 	function JobOrderCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var jobVm = this;
+		StoreService.remove("rtpQueryOptions-takeoff");
+		StoreService.remove("rtpQueryOptions-quote");
+		StoreService.remove("rtpQueryOptions-ob");
 		jobVm.selectedJobId = "";
 		jobVm.selectedOrderNumber = "";
+		jobVm.showAddJobOrderLink = true;
+		jobVm.jobOrderViewHeading = "View Job Order";
 		jobVm.billTypes = ['INV', 'BILL', 'PTL'];
+		jobVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
+		jobVm.jobStatuses = [{id:0, title:"Live Job"}, {id:1, title:"Cancelled Job"}];
+		jobVm.jobStatus = [{id:'released', title:"Released Job"}, {id:'unreleased', title:"Un-released Job"}];
+		jobVm.finalStatus = [{id:0, title:"In-complete Job"}, {id:1, title:"Completed Job"}];
+		jobVm.invoiceModes = [{id:'bill', title:"BILL"}, {id:'ptl', title:"PARTIAL"}, {id:'inv', title:"INVOICE"}];
 		jobVm.billType = {};
 		if($state.params.jobId != undefined){
 			jobVm.selectedJobId = $state.params.jobId;
@@ -45,6 +55,15 @@
 		jobVm.selectedTakeoff = {};
 		jobVm.selectedQuote = {};
 		jobVm.selectedOrderBook = {};
+
+		jobVm.rptFromDate = {opened:false};
+		jobVm.rptToDate = {opened:false};
+		jobVm.rptFromDatePicker = function(){
+			jobVm.rptFromDate.opened = true;
+		}
+		jobVm.rptToDatePicker = function(){
+			jobVm.rptToDate.opened = true;
+		}
 		
 		jobVm.takeoffInfoPopover = {
 			templateUrl: 'templates/takeoff-info-jo.html',
@@ -156,7 +175,7 @@
 			});
 		}
 		jobVm.pageChanged = function() {
-			jobVm.listJobOrders();
+			jobVm.listJobOrders('all');
 		};		
 		
 		jobVm.searchQuoteForJobOrder = function(){
@@ -349,6 +368,68 @@
 			var eDate = new Date(lDate);
 			return (eDate >= sDate);
 		}
+		jobVm.validateReportInputs = function(callback){
+			if(jobVm.jobOrder.toDate && !jobVm.isValidDateRange(jobVm.jobOrder.fromDate, jobVm.jobOrder.toDate)){
+				callback(false, "From date should be greater than or equal to To date.");
+				return;
+			}else{
+				callback(true, "");
+				return;
+			}
+		}
+		jobVm.rememberReportQueryParams = function(){
+			jobVm.validateReportInputs(
+				function(isValid, msg){
+					if(isValid == false){
+						AlertService.showAlert(
+						'AWACP :: Message!',
+						msg
+						).then(function (){	return;},function (){	return; } );						
+					}else{
+						StoreService.remove("rtpQueryOptions-j");
+						StoreService.set("rtpQueryOptions-j", jobVm.jobOrder);
+						$state.go("joborder-report");
+					}
+				}
+			);	
+		}
+		jobVm.generateReport = function(){
+			jobVm.showAddJobOrderLink = false;
+			jobVm.jobOrderViewHeading = "Job Order Report";
+			jobVm.jobOrder = StoreService.get("rtpQueryOptions-j");
+			if(jobVm.jobOrder.fromDate && !jobVm.jobOrder.toDate){
+				jobVm.jobOrder.toDate = jobVm.jobOrder.fromDate;
+			}
+			jobVm.jobOrder.pageNumber = jobVm.currentPage;
+			jobVm.jobOrder.pageSize = jobVm.pageSize;
+			var formData = {};
+			formData["jobOrder"] = jobVm.jobOrder;
+			AjaxUtil.submitData("/awacp/generateJobOrderReport", formData)
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					jobVm.totalItems = 	data.stsResponse.totalCount;
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							v.openInfoBox = false;
+							tmp.push(v);
+						});					
+					} else {
+						data.stsResponse.results.openInfoBox = false;						
+					    tmp.push(data.stsResponse.results);
+					}
+					$scope.$apply(function(){
+						jobVm.jobOrders = tmp;
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "JobOrderCtrl::jobVm.generateReport::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		jobVm.editJobOrder = function(){
 			if($state.params.id != undefined){
 				var formData = {};
@@ -426,31 +507,38 @@
 		}
 		jobVm.listJobOrders = function(invoiceMode){
 			jobVm.jobOrders = [];
-			AjaxUtil.getData("/awacp/listJobOrders/"+invoiceMode+"/"+jobVm.currentPage+"/"+jobVm.pageSize, Math.random())
-			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.totalCount){
-					jobVm.totalItems = 	data.stsResponse.totalCount;
+			if($state.current.name === 'joborder-report'){
+				var reportParams = StoreService.get("rtpQueryOptions-j");
+				if(reportParams != null && reportParams != undefined){
+					jobVm.generateReport();
 				}
-				if(data && data.stsResponse && data.stsResponse.results){
-					var tmp = [];
-					if(jQuery.isArray(data.stsResponse.results)) {
-						jQuery.each(data.stsResponse.results, function(k, v){
-							v.openInfoBox = false;
-							tmp.push(v);
-						});					
-					} else {
-						data.stsResponse.results.openInfoBox = false;						
-					    tmp.push(data.stsResponse.results);
+			}else{
+				AjaxUtil.getData("/awacp/listJobOrders/"+invoiceMode+"/"+jobVm.currentPage+"/"+jobVm.pageSize, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.stsResponse && data.stsResponse.totalCount){
+						jobVm.totalItems = 	data.stsResponse.totalCount;
 					}
-					$scope.$apply(function(){
-						jobVm.jobOrders = tmp;
-					});
-				}
-			})
-			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "JobOrderCtrl::jobVm.listJobOrders::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			});
+					if(data && data.stsResponse && data.stsResponse.results){
+						var tmp = [];
+						if(jQuery.isArray(data.stsResponse.results)) {
+							jQuery.each(data.stsResponse.results, function(k, v){
+								v.openInfoBox = false;
+								tmp.push(v);
+							});					
+						} else {
+							data.stsResponse.results.openInfoBox = false;						
+							tmp.push(data.stsResponse.results);
+						}
+						$scope.$apply(function(){
+							jobVm.jobOrders = tmp;
+						});
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "JobOrderCtrl::jobVm.listJobOrders::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}
 			
 		}
 		$scope.$on("$destroy", function(){

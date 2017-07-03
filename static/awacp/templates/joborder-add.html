@@ -40,7 +40,7 @@
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2"> 
 							<span class="form-label">
-								Sales Person
+								Recepient Sales Person
 							</span>
 							<i class="star red">*</i>
 							<span class="colon">:</span> 
@@ -48,8 +48,22 @@
 						  <!-- .col -->
 						<div class="col-lg-2 col-md-2 col-sm-2">
 							<select class="form-control"
-								  ng-model="jobVm.jobOrder.salesPersonId"  
+								  ng-model="jobVm.jobOrder.recepientSpId"  
 								  ng-options="user.id as user.customName for user in jobVm.users" ng-required = "true">
+								  <option value="">--- Select ---</option>
+								</select>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2" ng-show="jobVm.jobOrder.id"> 
+							<span class="form-label">
+								Sales Person
+							</span>
+							<span class="colon">:</span> 
+						</div>
+						  <!-- .col -->
+						<div class="col-lg-2 col-md-2 col-sm-2" ng-show="jobVm.jobOrder.id">
+							<select class="form-control"
+								  ng-model="jobVm.jobOrder.salesPersonId"  
+								  ng-options="user.id as user.customName for user in jobVm.users">
 								  <option value="">--- Select ---</option>
 								</select>
 						</div>

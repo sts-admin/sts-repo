@@ -2,29 +2,26 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid">
   <div class="clearfix">
-    <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+    <div class="panel panel-default" ng-init="qVm.initQuoteReportInputs();">
       <div class="panel-heading form-heading panel-heading-top">
-        <label>Quote Reports</label>
+        <label>Quote Report Input</label>
+		<a id="form_display" class="btn btn-success pull-right" onclick="ShowHideForm('report_takeoff');" href="javascript:void(0);">Hide Report Form</a>
       </div>
       <div class="panel-body new-tk-bg">
-        <form ng-submit="quoteVm.report();">
+        <form ng-submit="qVm.rememberReportQueryParams();">
           <!-- .row -->
           <section>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-2 col-md-2 col-sm-2 pad_top_30 dashboard-content">
-        <h1>Quote Reports</h1>
+      <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content">
+        <br /><br />
       </div>
       <!-- .col -->
       <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
-      <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
-      <!-- .col -->
-      <div class="col-lg-4 col-md-4 col-sm-4 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('report_quote');" href="javascript:void(0);">Hide Report Form</a> </div>
     </div>
     <!-- .row -->
   </div>
   <!-- .container -->
-  <form style="display:block;" class="formular" action="" method="post" id="report_quote" name="report_quote">
     <div class="bg-d0e9f4 theme-form">
       <div class="container">
         <div class="row">
@@ -34,7 +31,7 @@
           <!-- .col -->
           <div class="col-lg-3 col-md-3 col-sm-2">
             <div class="form-group">
-              <input type="text" value="" name="report_start_date" class="form-control datepicker">
+				<input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.fromDate" is-open="qVm.rptFromDate.opened" data-ng-click="qVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
             </div>
           </div>
           <!-- .col -->
@@ -42,7 +39,7 @@
           <!-- .col -->
           <div class="col-lg-3 col-md-3 col-sm-2">
             <div class="form-group">
-              <input type="text" value="" name="report_end_date" class="form-control datepicker">
+              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.toDate" is-open="qVm.rptToDate.opened" data-ng-click="qVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
             </div>
           </div>
           <!-- .col -->
@@ -52,7 +49,23 @@
           <!-- .col -->
           <div class="col-lg-2 hidden-xs col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
           <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date From:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-3 col-md-3 col-sm-2">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.fromDueDate" is-open="qVm.rptDueDateFrom.opened" data-ng-click="qVm.rptDueDateFromPicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date To:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-3 col-md-3 col-sm-2">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.toDueDate" is-open="qVm.rptDueDateTo.opened" data-ng-click="qVm.rptDueDateToPicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <hr>
           </div>
           <!-- .col -->
@@ -63,21 +76,10 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="year">
-                <option value="">--</option>
-                <option value="06">2006</option>
-                <option value="07">2007</option>
-                <option value="08">2008</option>
-                <option value="09">2009</option>
-                <option value="10">2010</option>
-                <option value="11">2011</option>
-                <option value="12">2012</option>
-                <option value="13">2013</option>
-                <option value="14">2014</option>
-                <option value="15">2015</option>
-                <option value="16">2016</option>
-                <option selected="selected" value="17">2017</option>
-              </select>
+				<select class="form-control" ng-model="qVm.takeoff.year" 
+				  ng-options="y.id as y.val for y in qVm.rptYearRange">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -85,11 +87,11 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="salesman">
-                <option value="">--</option>
-                <option value="YJ">YJ - YAO JIN</option>
-                <option value="ZM">ZM - ZOLTAN MALLIN</option>
-              </select>
+				<select class="form-control"
+				  ng-model="qVm.takeoff.salesPerson" 
+				  ng-options="user.id as user.customName for user in qVm.users">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -97,65 +99,40 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="usercode">
-                <option value="">--</option>
-                <option value="YB">YB - YANNI BANASIOS</option>
-                <option value="YJ">YJ - YAO JIN</option>
-                <option value="ZM">ZM - ZOLTAN MALLIN</option>
-              </select>
+				<select class="form-control"
+				  ng-model="qVm.takeoff.userCode" 
+				  ng-options="user.userCode as user.customName for user in qVm.users">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
+		  <div class="col-lg-2 col-md-2 col-sm-2"> 
+				<span class="form-label">
+					Revision
+				</span>
+				<span class="colon">:</span> 
+			</div>
+			  <!-- .col -->
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<select class="form-control"
+					  ng-model="qVm.takeoff.quoteRevision" 
+					  ng-options="rev.id as rev.name for rev in qVm.quoteRevisions">
+					  <option value="">--- Select ---</option>
+					</select>
+			</div>
           <!-- .col -->
         </div>
         <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Revision</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-              <select onchange="QuoteRevBid();" class="form-control" id="in_revision" name="in_revision">
-                <option selected="selected" value="">--</option>
-                <option value="V"> V-Verbal </option>
-                <option value="A"> A </option>
-                <option value="B"> B </option>
-                <option value="C"> C </option>
-                <option value="D"> D </option>
-                <option value="E"> E </option>
-                <option value="F"> F </option>
-                <option value="G"> G </option>
-                <option value="H"> H </option>
-                <option value="I"> I </option>
-                <option value="J"> J </option>
-                <option value="K"> K </option>
-                <option value="L"> L </option>
-                <option value="M"> M </option>
-                <option value="N"> N </option>
-                <option value="O"> O </option>
-                <option value="P"> P </option>
-                <option value="Q"> Q </option>
-                <option value="R"> R </option>
-                <option value="S"> S </option>
-                <option value="T"> T </option>
-                <option value="U"> U </option>
-                <option value="V"> V </option>
-                <option value="W"> W </option>
-                <option value="X"> X </option>
-                <option value="Y"> Y </option>
-                <option value="Z"> Z </option>
-              </select>
-            </div>
-          </div>
-          <!-- .col -->
-        </div>
         <div class="row">
           <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="engineer">
-                <option value="2020 ENGINEERING">2020 ENGINEERING</option>
-                <option value="2020 ENGINEERING">2020 ENGINEERING</option>
-              </select>
+				<select class="form-control"
+				  ng-model="qVm.takeoff.engineerId" 
+				  ng-options="engineer.id as engineer.name for engineer in qVm.engineers" >
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -163,10 +140,11 @@
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="engineer">
-                <option value="2020 ENGINEERING">2020 Architect</option>
-                <option value="2020 ENGINEERING">2020 Architect</option>
-              </select>
+				<select class="form-control" 
+				  ng-model="qVm.takeoff.architectureId" 
+				  ng-options="architect.id as architect.name for architect in qVm.architects" >
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -174,10 +152,11 @@
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="engineer">
-                <option value="2020 ENGINEERING">2020 Specifications</option>
-                <option value="2020 ENGINEERING">2020 Specifications</option>
-              </select>
+              <select class="form-control"
+			  ng-model="qVm.takeoff.specId" 
+			  ng-options="spec.id as spec.detail for spec in qVm.specs">
+			  <option value="">--- Select ---</option>
+			</select>
             </div>
           </div>
           <!-- .col -->
@@ -192,7 +171,6 @@
             <input type="submit" class="submit-btn btn btn-primary" value="Generate">
             &nbsp;&nbsp;&nbsp;
             <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
-            <input type="hidden" value="searched" name="searched">
           </div>
           <!-- .col -->
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -205,7 +183,6 @@
       <!-- .container -->
     </div>
     <!-- .bg-d0e9f4 -->
-  </form>
 </section>
           <!-- .row -->
           <!-- .row -->

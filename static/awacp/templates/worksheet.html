@@ -60,7 +60,7 @@
 							<input ng-click="wsVm.previewQuote(wsVm.quote.worksheetId, wsVm.quote.id);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-primary" type="button" value="Preview Quote" />
 						</th>
 						<th>
-							<input ng-click="wsVm.viewPDF(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-primary" type="button" value="View PDF" />
+							<input ng-click="wsVm.viewPDF(wsVm.quote);" ng-disabled="!wsVm.quote.worksheetId || !wsVm.quote.pdfGenerated" class="btn btn-primary" type="button" value="View PDF" />
 						</th>
 						<th>
 							<input ng-click="wsVm.deleteWorksheet(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-primary" type="button" value="Delete Worksheet" />

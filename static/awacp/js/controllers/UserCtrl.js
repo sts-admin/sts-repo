@@ -32,6 +32,10 @@
 			AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "disable");
 			UserService.login(userVm.loginForm.userName, userVm.loginForm.password, 'manual')
 			 .success(function (data, response, headers) {	
+				StoreService.remove("rtpQueryOptions-takeoff");
+				StoreService.remove("rtpQueryOptions-quote");
+				StoreService.remove("rtpQueryOptions-j");
+				StoreService.remove("rtpQueryOptions-ob");
 				AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "enable");
 				 var user = {};
 				 if(data && data.authorities){

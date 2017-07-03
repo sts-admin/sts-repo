@@ -2,13 +2,13 @@
 (function() {
     'use strict';
 	//Local env
-	/*var base ="http://localhost:8080/awacpservices";
+	var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/tutorial/resource/img/";
-	var basePath = "/tutorial/";*/
+	var basePath = "/tutorial/";
 	//prod env
-	var base ="http://awacptechnicalservices.com:8080/awacpservices";
+	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/";
+	var basePath = "/";*/
 	//prod env
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
@@ -131,6 +131,18 @@
 				templateUrl:"templates/takeoff-report-input.html",
 				controller:"TakeoffCtrl",
 				controllerAs:"takeVm",
+				requireAuth: true
+			}).state('quote-reports',{
+				url: '/quote/report-input',
+				templateUrl:"templates/quote-report-input.html",
+				controller:"QuoteCtrl",
+				controllerAs:"qVm",
+				requireAuth: true
+			}).state('quote-report',{
+				url: '/quote/reports',
+				templateUrl:"templates/quotes.html",
+				controller:"QuoteCtrl",
+				controllerAs:"qVm",
 				requireAuth: true
 			}).state('takeoff-report',{
 				url: '/takeoff/reports',
@@ -507,6 +519,30 @@
 				controller:"JobOrderCtrl",
 				controllerAs:"jobVm",
 				requireAuth: true
+			}).state('joborder-reports',{
+				url: '/joborder/report-input',
+				templateUrl:"templates/joborder-report-input.html",
+				controller:"JobOrderCtrl",
+				controllerAs:"jobVm",
+				requireAuth: true
+			}).state('joborder-report',{
+				url: '/joborder/report',
+				templateUrl:"templates/job-orders.html",
+				controller:"JobOrderCtrl",
+				controllerAs:"jobVm",
+				requireAuth: true
+			}).state('orderbook-reports',{
+				url: '/orderbook/report-input',
+				templateUrl:"templates/orderbook-report-input.html",
+				controller:"OrderBookCtrl",
+				controllerAs:"obVm",
+				requireAuth: true
+			}).state('orderbook-report',{
+				url: '/orderbook/report',
+				templateUrl:"templates/order-books.html",
+				controller:"OrderBookCtrl",
+				controllerAs:"obVm",
+				requireAuth: true
 			}).state('factories',{
 				url: '/factories',
 				templateUrl:"templates/factories.html",
@@ -589,6 +625,9 @@
 			if($rootScope.user.isLoggedIn){
 				$rootScope.setUpUserMenu();
 			}
+			$rootScope.goBack= function() { 
+			  $window.history.back();
+			};
 			$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 				/*alert("stateChangeStart, oldUrl = "+JSON.stringify(fromState, null, 4)+ ", newUrl = "+JSON.stringify(toState, null, 4)+", newUrl.requireAuth = " + toState.requireAuth + ", is user logged in = "+ $rootScope.user.isLoggedIn);*/
 				if(fromState.url === "/" && (toState.url === "/dashboard" || toState.url === "/admin")){ //Login to administrator view or dashboard

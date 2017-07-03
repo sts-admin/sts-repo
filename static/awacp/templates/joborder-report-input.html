@@ -2,23 +2,20 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid">	
   <div class="clearfix">
-    <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+    <div class="panel panel-default" ng-init="jobVm.initJobOrderMasterInputs()">
       <div class="panel-heading form-heading panel-heading-top">
-        <label>JobOrder Reports</label>
+        <label>Job Order Report Input</label>
       </div>
       <div class="panel-body new-tk-bg">
-        <form ng-submit="joborderVm.report();">
+        <form ng-submit="jobVm.rememberReportQueryParams();">
           <!-- .row -->
           <section>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content">
-        <h1>Job Order Reports</h1>
-      </div>
       <!-- .col -->
       <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
       <!-- .col -->
-      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('report_joborder');" href="javascript:void(0);">Hide Report Form</a> </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30">  </div>
     </div>
     <!-- .row -->
   </div>
@@ -33,7 +30,7 @@
           <!-- .col -->
           <div class="col-lg-3 col-md-3 col-sm-2">
             <div class="form-group">
-              <input type="text" value="" name="report_start_date" class="form-control datepicker">
+             <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="jobVm.jobOrder.fromDate" is-open="jobVm.rptFromDate.opened" data-ng-click="jobVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
             </div>
           </div>
           <!-- .col -->
@@ -41,7 +38,7 @@
           <!-- .col -->
           <div class="col-lg-3 col-md-3 col-sm-2">
             <div class="form-group">
-              <input type="text" value="" name="report_end_date" class="form-control datepicker">
+              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="jobVm.jobOrder.toDate" is-open="jobVm.rptToDate.opened" data-ng-click="jobVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
             </div>
           </div>
           <!-- .col -->
@@ -56,15 +53,10 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" style="width:70%" id="year" name="year">
-                <option value="17">2017</option>
-                <option value="16">2016</option>
-                <option value="15">2015</option>
-                <option value="14">2014</option>
-                <option value="13">2013</option>
-                <option value="12">2012</option>
-                <option value="11">2011</option>
-              </select>
+             <select class="form-control" ng-model="jobVm.jobOrder.year" 
+				  ng-options="y.id as y.val for y in jobVm.rptYearRange">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -72,12 +64,11 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" id="salesman" name="salesman">
-                <option value="">--</option>
-                <option value="AD">AD - ALAN DANE</option>
-                <option value="AG">AG - ADRIAN GERMAN</option>
-                <option value="AK">AK - ABDUL KHADIR</option>
-              </select>
+              <select name="salesPersonId"   class="form-control"   
+				  ng-model="jobVm.orderBook.salesPersonId" 
+				  ng-options="user.id as user.customName for user in jobVm.users" >
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -85,12 +76,11 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" id="usercode" name="usercode">
-                <option value="">--</option>
-                <option value="AD">AD - ALAN DANE</option>
-                <option value="AG">AG - ADRIAN GERMAN</option>
-                <option value="AK">AK - ABDUL KHADIR</option>
-              </select>
+              <select name="salesPersonId"   class="form-control"   
+				  ng-model="jobVm.orderBook.createdByUserCode" 
+				  ng-options="user.userCode as user.userCode for user in jobVm.users" >
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -100,19 +90,37 @@
           <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group"> </div>
+            <div class="form-group"> 
+				<select class="form-control"
+				  ng-model="jobVm.orderBook.engineerId" 
+				  ng-options="engineer.id as engineer.name for engineer in jobVm.engineers" >
+				  <option value="">--- Select ---</option>
+				</select>
+			</div>
           </div>
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Contractor</span> </div>
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group"> </div>
+            <div class="form-group"> 
+				<select class="form-control" 
+				  ng-model="jobVm.orderBook.contractorId" 
+				  ng-options="contractor.id as contractor.name for contractor in jobVm.contractors" >
+				  <option value="">--- Select ---</option>
+				</select>
+			</div>
           </div>
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Architect</span> </div>
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group"> </div>
+            <div class="form-group">
+				<select class="form-control" 
+				  ng-model="jobVm.orderBook.architectureId" 
+				  ng-options="architect.id as architect.name for architect in jobVm.architects" >
+				  <option value="">--- Select ---</option>
+				</select>
+			</div>
           </div>
           <!-- .col -->
         </div>
@@ -122,11 +130,11 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" style="width:100%" id="final_update" name="final_update">
-                <option value="">--</option>
-                <option value="1">Completed Jobs</option>
-                <option value="0">Incompleted Jobs</option>
-              </select>
+			
+              <select class="form-control" ng-model="jobVm.jobOrder.finalUpdate" 
+				  ng-options="fs.id as fs.title for fs in jobVm.finalStatus">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -134,11 +142,10 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" style="width:100%" id="status" name="status">
-                <option value="">--</option>
-                <option value="1">Released Jobs</option>
-                <option value="0">Unreleased Jobs</option>
-              </select>
+               <select class="form-control" ng-model="jobVm.jobOrder.status" 
+				  ng-options="js.id as js.title for js in jobVm.jobStatus">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -146,12 +153,10 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" style="width:100%" id="view_inv" name="view_inv">
-                <option value="">--</option>
-                <option value="bill">BILL</option>
-                <option value="ptl">PTL</option>
-                <option value="inv">INV</option>
-              </select>
+              <select class="form-control" ng-model="jobVm.jobOrder.invoiceMode" 
+				  ng-options="i.id as i.title for i in jobVm.invoiceModes">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -162,11 +167,10 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" style="width:100%" id="job_status" name="job_status">
-                <option value="">--</option>
-                <option value="1">Live Jobs</option>
-                <option value="CANCELLED">Cancelled Jobs</option>
-              </select>
+               <select class="form-control" ng-model="jobVm.jobOrder.jobStatus" 
+				  ng-options="j.id as j.title for j in jobVm.jobStatuses">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->

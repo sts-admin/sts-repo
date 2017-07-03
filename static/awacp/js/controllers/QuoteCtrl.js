@@ -4,7 +4,10 @@
 	QuoteCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService', 'FileService'];
 	function QuoteCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService, FileService){
 		var qVm = this;
+		qVm.quoteViewHeading = "View Quote";
+		qVm.reportMode = false;
 		qVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		qVm.quoteRevisions = [{id:"A", name:"A"}, {id:"B", name:"B"}, {id:"C", name:"C"}, {id:"D", name:"D"}, {id:"E", name:"E"}, {id:"F", name:"F"}, {id:"G", name:"G"}, {id:"H", name:"H"}, {id:"I", name:"I"}, {id:"J", name:"J"}, {id:"K", name:"K"}, {id:"L", name:"L"}, {id:"M", name:"M"}, {id:"N", name:"N"}, {id:"O", name:"O"}, {id:"P", name:"P"}, {id:"Q", name:"Q"}, {id:"R", name:"R"}, {id:"S", name:"S"}, {id:"T", name:"T"}, {id:"U", name:"U"}, {id:"V", name:"V"}, {id:"W", name:"W"}, {id:"X", name:"X"}, {id:"Y", name:"Y"}, {id:"Z", name:"Z"}];
 		qVm.action = "Add";
 		$scope.timers = [];
 		qVm.totalItems = -1;
@@ -19,23 +22,29 @@
 		qVm.takeoffGcs  = [];
 		qVm.takeoffBidders = [];
 		qVm.selectedQuote = {};
-		qVm.worksheetPdfView = function(pdfViewWorksheetId){
-			//Add authentication headers as params
-			var accessToken = StoreService.getAccessToken();
-			//Add authentication headers in URL
-			var url = $rootScope.base + '/awacp/generatePdfUrl/'+pdfViewWorksheetId+'?'+Math.random();
-			$http({
-				url : url,
-				method : 'GET',
-				headers : {
-					'Authorization' : 'Bearer ' + accessToken,
-					'Accept' : 'application/json'
-				}
-			}).success(function(data){
-				$window.open(data.fileUrl);
-			}).error(function(error){
-				alert("Unable to generate PDF View, reason: "+ JSON.stringify(error, null, 4));
-			});
+		qVm.takeoff = {};
+		qVm.architects = [];
+		qVm.specs = [];
+		qVm.engineers = [];
+		qVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
+		qVm.rptFromDate = {opened:false};
+		qVm.rptToDate = {opened:false};
+		qVm.rptDueDateFrom ={opened:false};
+		qVm.rptDueDateTo ={opened:false};
+		qVm.rptFromDatePicker = function(){
+			qVm.rptFromDate.opened = true;
+		}
+		qVm.rptToDatePicker = function(){
+			qVm.rptToDate.opened = true;
+		}
+		qVm.rptDueDateFromPicker = function(){
+			qVm.rptDueDateFrom.opened = true;
+		}
+		qVm.rptDueDateToPicker = function(){
+			qVm.rptDueDateTo.opened = true;
+		}
+		qVm.worksheetPdfView = function(quote){
+			$window.open(quote.pdfFilePath);
 		}
 		
 		qVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
@@ -145,7 +154,12 @@
 		qVm.listQuotes = function(){
 			qVm.quotes = [];
 			qVm.pageNumber = qVm.currentPage;
-			if($state.params.qSource != undefined && $state.params.qSource.length > 0){
+			if($state.current.name === 'quote-report'){
+				var reportParams = StoreService.get("rtpQueryOptions-quote");
+				if(reportParams != null && reportParams != undefined){
+					qVm.generateReport();
+				}
+			}else if($state.params.qSource != undefined && $state.params.qSource.length > 0){
 				AjaxUtil.getData("/awacp/getTakeoff/"+$state.params.qSource, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.takeoff){
@@ -279,6 +293,170 @@
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "QuoteCtrl::qVm.getUsers::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		qVm.rememberReportQueryParams = function(){
+			qVm.validateReportInputs(
+				function(isValid, msg){
+					if(isValid == false){
+						AlertService.showAlert(
+						'AWACP :: Message!',
+						msg
+						).then(function (){	return;},function (){	return; } );						
+					}else{
+						StoreService.remove("rtpQueryOptions-quote");
+						StoreService.set("rtpQueryOptions-quote", qVm.takeoff);
+						$state.go("quote-report");
+					}
+				}
+			);	
+		}
+		qVm.getEngineers = function(){
+			qVm.engineers = [];
+			AjaxUtil.getData("/awacp/listEngineers/1/-1", Math.random())
+			.success(function(data, status, headers){				
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						jQuery.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}	
+					qVm.engineers= tmp;
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "QuoteCtrl::qVm.getEngineers::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		qVm.getSpecs = function(){
+			qVm.specs = [];
+			AjaxUtil.getData("/awacp/listSpecifications/1/-1", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						jQuery.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}
+					qVm.specs = tmp;
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "QuoteCtrl::qVm.getSpecs::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+	
+		qVm.getArchitects = function(){
+			qVm.architects = [];
+			AjaxUtil.getData("/awacp/listArchitects/1/-1", Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(data.stsResponse.totalCount == 1){
+						tmp.push(data.stsResponse.results);
+					}else{
+						jQuery.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});
+					}	
+						qVm.architects = tmp;
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "QuoteCtrl::qVm.getArchitects::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}	
+		qVm.initQuoteReportInputs = function(){
+			qVm.takeoff = {};
+			qVm.getUsers();
+			qVm.getArchitects();
+			qVm.getEngineers();
+			qVm.getSpecs();
+		}
+		qVm.isValidDateRange =function(fDate, lDate){
+			var sDate = new Date(fDate);
+			var eDate = new Date(lDate);
+			return (eDate >= sDate);
+		}
+		qVm.validateReportInputs = function(callback){
+			if(qVm.takeoff.toDate && !qVm.isValidDateRange(qVm.takeoff.fromDate, qVm.takeoff.toDate)){
+				callback(false, "From date should be greater than or equal to To date.");
+				return;
+			}else if(qVm.takeoff.toDueDate && !qVm.isValidDateRange(qVm.takeoff.fromDueDate, qVm.takeoff.toDueDate)){
+				callback(false, "From due date should be greater than or equal to To due date.");
+				return;
+			}else{
+				callback(true, "");
+				return;
+			}
+		}
+		qVm.generateReport = function(){
+			qVm.reportMode = true;
+			qVm.quoteViewHeading = "Quote Report";
+			qVm.takeoff = StoreService.get("rtpQueryOptions-quote");
+			if(qVm.takeoff.fromDate && !qVm.takeoff.toDate){
+				qVm.takeoff.toDate = qVm.takeoff.fromDate;
+			}
+			if(qVm.takeoff.fromDueDate && !qVm.takeoff.toDueDate){
+				qVm.takeoff.toDueDate = qVm.takeoff.fromDueDate;
+			}
+			qVm.takeoff.pageNumber = qVm.currentPage;
+			qVm.takeoff.pageSize = qVm.pageSize;
+			var formData = {};
+			formData["takeoff"] = qVm.takeoff;
+			AjaxUtil.submitData("/awacp/generateTakeoffReport", formData)
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+						qVm.totalItems = data.stsResponse.totalCount;
+					}
+					if(data && data.stsResponse && data.stsResponse.results){
+						var tmp = [];
+						if(jQuery.isArray(data.stsResponse.results)) {
+							jQuery.each(data.stsResponse.results, function(k, v){
+								v.openInfoBox = false;
+								if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
+									var b = [];
+									b.push(v.bidders);
+									v["bidders"] = b;
+								}
+								if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
+									var gc = [];
+									gc.push(v.generalContractors);
+									v["generalContractors"] = gc;
+								}
+								tmp.push(v);
+							});					
+						} else {
+							data.stsResponse.results.openInfoBox = false;
+							if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
+								var b = [];
+								b.push(data.stsResponse.results.bidders);
+								data.stsResponse.results["bidders"] = b;
+							}
+							if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
+								var gc = [];
+								gc.push(data.stsResponse.results.generalContractors);
+								data.stsResponse.results["generalContractors"] = gc;
+							}
+							tmp.push(data.stsResponse.results);
+						}
+						$scope.$apply(function(){
+							qVm.quotes = tmp;
+						});
+					}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "QuoteCtrl::qVm.generateReport::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}

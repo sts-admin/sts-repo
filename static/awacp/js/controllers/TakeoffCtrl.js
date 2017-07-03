@@ -4,6 +4,10 @@
 	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
 	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var takeVm = this;
+		StoreService.remove("rtpQueryOptions-quote");
+		StoreService.remove("rtpQueryOptions-j");
+		StoreService.remove("rtpQueryOptions-ob");
+		
 		takeVm.editQuote = false;
 		takeVm.takeoffViewHeading = "View Takeoff";
 		takeVm.showAddTakeoffLink = true;
@@ -608,8 +612,6 @@
 			}else{
 				takeVm.editTakeoff($state.params.id);
 			}
-			
-			
 		}
 		
 		$scope.$on("$destroy", function(){

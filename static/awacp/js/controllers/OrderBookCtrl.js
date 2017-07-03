@@ -4,6 +4,12 @@
 	OrderBookCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
 	function OrderBookCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var obVm = this;
+		StoreService.remove("rtpQueryOptions-takeoff");
+		StoreService.remove("rtpQueryOptions-quote");
+		StoreService.remove("rtpQueryOptions-j");
+		obVm.showAddOrderBookLink = true;
+		
+		obVm.orderBookViewHeading = "View Order Book";
 		obVm.orderCategories = [{id:'REGULAR', title:'Regular Order'}, {id:'AW', title:'AW Order'}, {id:'AWF', title:'AWF Order'}, {id:'SBC', title:'SBC Order'}, {id:'SPL', title:'SPL Order'}, {id:'J', title:'J Order'}, {id:'Q', title:'Q Order'}];
 		obVm.spInstructions = [{id:'A', title:'Revision A'}, {id:'B', title:'Revision B'}, {id:'C', title:'Revision C'}, {id:'RPL', title:'(RPL) Replacement Order'}, {id:'PDQ', title:'(PDQ) Premium Quick Ship'}, {id:'DDC', title:'Direct Digital Control'}];
 		obVm.estDate = {opened:false};
@@ -30,6 +36,16 @@
 		obVm.orderBook = {invItems:[]};
 		obVm.selectedTakeoff = {};
 		obVm.selectedQuote = {};
+
+		obVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
+		obVm.rptFromDate = {opened:false};
+		obVm.rptToDate = {opened:false};
+		obVm.rptFromDatePicker = function(){
+			obVm.rptFromDate.opened = true;
+		}
+		obVm.rptToDatePicker = function(){
+			obVm.rptToDate.opened = true;
+		}
 		
 		obVm.takeoffInfoPopover = {
 			templateUrl: 'templates/takeoff-info-ob.html',
@@ -48,10 +64,10 @@
 			title: 'Order Book Detail'
 		};
 		
-		obVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+		obVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
 		}
 		
 		obVm.showQuoteInfo = function(takeoffId){
@@ -59,8 +75,19 @@
 			.success(function(data, status, headers){
 				if(data && data.takeoff){
 					$scope.$apply(function(){
+						if(data.takeoff.hasOwnProperty('bidders') && !jQuery.isArray(data.takeoff.bidders)){
+							var b = [];
+							b.push(data.takeoff.bidders);
+							data.takeoff["bidders"] = b;
+						}
+						if(data.takeoff.hasOwnProperty('generalContractors') && !jQuery.isArray(data.takeoff.generalContractors)){
+							var gc = [];
+							gc.push(data.takeoff.generalContractors);
+							data.takeoff["generalContractors"] = gc;
+						}
 						obVm.selectedQuote = data.takeoff;				
 					});
+					
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -73,6 +100,16 @@
 			.success(function(data, status, headers){
 				if(data && data.takeoff){
 					$scope.$apply(function(){
+						if(data.takeoff.hasOwnProperty('bidders') && !jQuery.isArray(data.takeoff.bidders)){
+							var b = [];
+							b.push(data.takeoff.bidders);
+							data.takeoff["bidders"] = b;
+						}
+						if(data.takeoff.hasOwnProperty('generalContractors') && !jQuery.isArray(data.takeoff.generalContractors)){
+							var gc = [];
+							gc.push(data.takeoff.generalContractors);
+							data.takeoff["generalContractors"] = gc;
+						}
 						obVm.selectedTakeoff = data.takeoff;				
 					});
 				}
@@ -310,6 +347,66 @@
 			var eDate = new Date(lDate);
 			return (eDate >= sDate);
 		}
+		obVm.validateReportInputs = function(callback){
+			if(obVm.jobOrder.toDate && !obVm.isValidDateRange(obVm.jobOrder.fromDate, obVm.jobOrder.toDate)){
+				callback(false, "From date should be greater than or equal to To date.");
+				return;
+			}else{
+				callback(true, "");
+				return;
+			}
+		}
+		obVm.rememberReportQueryParams = function(){
+			obVm.validateReportInputs(
+				function(isValid, msg){
+					if(isValid == false){
+						AlertService.showAlert(
+						'AWACP :: Message!',
+						msg
+						).then(function (){	return;},function (){	return; } );						
+					}else{
+						StoreService.remove("rtpQueryOptions-ob");
+						StoreService.set("rtpQueryOptions-ob", obVm.orderBook);
+						$state.go("orderbook-report");
+					}
+				}
+			);	
+		}
+		obVm.generateReport = function(){
+			obVm.showAddOrderBookLink = false;
+			obVm.orderBookViewHeading = "Order Book Report";
+			obVm.orderBook = StoreService.get("rtpQueryOptions-ob");
+			if(obVm.orderBook.fromDate && !obVm.orderBook.toDate){
+				obVm.orderBook.toDate = obVm.orderBook.fromDate;
+			}
+			obVm.orderBook.pageNumber = obVm.currentPage;
+			obVm.orderBook.pageSize = obVm.pageSize;
+			var formData = {};
+			formData["orderBook"] = obVm.orderBook;
+			AjaxUtil.submitData("/awacp/generateOrderBookReport", formData)
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					obVm.totalItems = 	data.stsResponse.totalCount;
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});					
+					} else {					
+					    tmp.push(data.stsResponse.results);
+					}
+					$scope.$apply(function(){
+						obVm.orderBooks = tmp;
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "OrderBookCtrl::obVm.generateReport::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		obVm.getItemIndex = function(invItemId){
 			var index = -1;
 			for(var i = 0; i < obVm.invItems.length; i++){
@@ -428,29 +525,36 @@
 		}
 		obVm.listOrderBooks = function(){
 			obVm.orderBooks = [];
-			AjaxUtil.getData("/awacp/listOrderBooks/"+obVm.currentPage+"/"+obVm.pageSize, Math.random())
-			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.totalCount){
-					obVm.totalItems = 	data.stsResponse.totalCount;
+			if($state.current.name === 'orderbook-report'){
+				var reportParams = StoreService.get("rtpQueryOptions-ob");
+				if(reportParams != null && reportParams != undefined){
+					obVm.generateReport();
 				}
-				if(data && data.stsResponse && data.stsResponse.results){
-					var tmp = [];
-					if(jQuery.isArray(data.stsResponse.results)) {
-						jQuery.each(data.stsResponse.results, function(k, v){
-							tmp.push(v);
-						});					
-					} else {					
-					    tmp.push(data.stsResponse.results);
+			}else{
+				AjaxUtil.getData("/awacp/listOrderBooks/"+obVm.currentPage+"/"+obVm.pageSize, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.stsResponse && data.stsResponse.totalCount){
+						obVm.totalItems = 	data.stsResponse.totalCount;
 					}
-					$scope.$apply(function(){
-						obVm.orderBooks = tmp;
-					});
-				}
-			})
-			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "OrderBookCtrl::obVm.listOrderBooks::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			});
+					if(data && data.stsResponse && data.stsResponse.results){
+						var tmp = [];
+						if(jQuery.isArray(data.stsResponse.results)) {
+							jQuery.each(data.stsResponse.results, function(k, v){
+								tmp.push(v);
+							});					
+						} else {					
+							tmp.push(data.stsResponse.results);
+						}
+						$scope.$apply(function(){
+							obVm.orderBooks = tmp;
+						});
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "OrderBookCtrl::obVm.listOrderBooks::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}
 		}
 		obVm.listFactories = function(){
 			obVm.factories = [];

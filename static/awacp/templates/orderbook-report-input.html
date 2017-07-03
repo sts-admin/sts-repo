@@ -2,26 +2,14 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid">	
   <div class="clearfix">
-    <div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
+    <div class="panel panel-default" ng-init="obVm.initOrderBookMasterInputs()">
       <div class="panel-heading form-heading panel-heading-top">
-        <label>Order Book Reports</label>
+        <label>Order Book Report Input</label>
       </div>
       <div class="panel-body new-tk-bg">
-        <form ng-submit="joborderVm.report();">
+        <form ng-submit="obVm.rememberReportQueryParams();">
           <!-- .row -->
           <section>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-3 col-md-3 col-sm-3 dashboard-content">
-        <h1>Orderbook Reports</h1>
-      </div>
-      <!-- .col -->
-      <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
-      <!-- .col -->
-      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('orderbook_reports');" href="javascript:void(0);">Hide Report Form</a> </div>
-    </div>
-    <!-- .row -->
-  </div>
   <!-- .container -->
   <form class="formular" action="" method="post" id="orderbook_reports" name="orderbook_reports">
     <div class="bg-FFFAEB theme-form">
@@ -33,7 +21,7 @@
           <!-- .col -->
           <div class="col-lg-3 col-md-3 col-sm-2">
             <div class="form-group">
-              <input type="text" value="" name="report_start_date" class="form-control datepicker">
+              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.fromDate" is-open="obVm.rptFromDate.opened" data-ng-click="obVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
             </div>
           </div>
           <!-- .col -->
@@ -41,7 +29,7 @@
           <!-- .col -->
           <div class="col-lg-3 col-md-3 col-sm-2">
             <div class="form-group">
-              <input type="text" value="" name="report_end_date" class="form-control datepicker">
+             <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.toDate" is-open="obVm.rptToDate.opened" data-ng-click="obVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
             </div>
           </div>
           <!-- .col -->
@@ -56,15 +44,10 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" id="year" name="year">
-                <option value="17">2017</option>
-                <option value="16">2016</option>
-                <option value="15">2015</option>
-                <option value="14">2014</option>
-                <option value="13">2013</option>
-                <option value="12">2012</option>
-                <option value="11">2011</option>
-              </select>
+              <select class="form-control" ng-model="obVm.orderBook.year" 
+				  ng-options="y.id as y.val for y in obVm.rptYearRange">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -72,11 +55,11 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="salesman">
-                <option value="">ALL</option>
-                <option value="AD">AD</option>
-                <option value="AG">AG</option>
-              </select>
+               <select name="salesPersonId"   class="form-control"   
+				  ng-model="obVm.orderBook.salesPersonId" 
+				  ng-options="user.id as user.customName for user in obVm.users" >
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -84,11 +67,11 @@
           <!-- .col -->
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="usercode">
-                <option value="">ALL</option>
-                <option value="AD">AD</option>
-                <option value="AG">AG</option>
-              </select>
+              <select name="userCode"   class="form-control"   
+				  ng-model="obVm.orderBook.createdByUserCode" 
+				  ng-options="user.userCode as user.userCode for user in obVm.users" >
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
@@ -99,14 +82,11 @@
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="factory">
-                <option value="">ALL</option>
-                <option value="REG">REG</option>
-                <option value="AW">AW</option>
-                <option value="AWF">AWF</option>
-                <option value="SBC">SBC</option>
-                <option value="SPL">SPL</option>
-              </select>
+             <select name="factory" class="form-control"  
+			  ng-model="obVm.orderBook.factoryType" 
+			  ng-options="fac.id as fac.title for fac in obVm.orderCategories">
+			  <option value="">--- Select ---</option>
+			</select>
             </div>
           </div>
           <!-- .col -->
@@ -114,10 +94,11 @@
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
             <div class="form-group">
-              <select id="contractor" class="form-control" name="contractor">
-                <option value="">ALL</option>
-                <option value="GRAD INDUSTRIAL WORKS INC">GRAD INDUSTRIAL WORKS INC</option>
-              </select>
+             <select name="factory" class="form-control"  
+			  ng-model="obVm.orderBook.contractorId" 
+			  ng-options="c.id as c.name for c in obVm.contractors">
+			  <option value="">--- Select ---</option>
+			</select>
             </div>
           </div>
           <!-- .col -->
@@ -125,11 +106,11 @@
           <!-- .col -->
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="salesperson">
-                <option value="">ALL</option>
-                <option value="1, WEST 64TH STREET, #5B, NY, NY 10023">1, WEST 64TH STREET, #5B, NY, NY 10023</option>
-                <option value="107PPW REALTY C/O HORRIGAN DEVELOPMENT 20 WEST 36TH STREET 4TH FLOOR NEW YORK, NY 10018">107PPW REALTY C/O HORRIGAN DEVELOPMENT 20 WEST 36TH STREET 4TH FLOOR NEW YORK, NY 10018</option>
-              </select>
+               <select name="factory" class="form-control"  
+				  ng-model="obVm.orderBook.shipToId" 
+				  ng-options="s.id as s.shipToAddress for s in obVm.shiptos">
+				  <option value="">--- Select ---</option>
+				</select>
             </div>
           </div>
           <!-- .col -->
