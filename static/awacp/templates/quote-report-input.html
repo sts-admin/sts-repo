@@ -5,191 +5,237 @@
     <div class="panel panel-default" ng-init="qVm.initQuoteReportInputs();">
       <div class="panel-heading form-heading panel-heading-top">
         <label>Quote Report Input</label>
-		<a id="form_display" class="btn btn-success pull-right" onclick="ShowHideForm('report_takeoff');" href="javascript:void(0);">Hide Report Form</a>
-      </div>
+        <a id="form_display" class="btn btn-success pull-right" onclick="ShowHideForm('report_takeoff');" href="javascript:void(0);">Hide Report Form</a> </div>
       <div class="panel-body new-tk-bg">
         <form ng-submit="qVm.rememberReportQueryParams();">
           <!-- .row -->
           <section>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content">
-        <br /><br />
-      </div>
-      <!-- .col -->
-      <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
-    </div>
-    <!-- .row -->
-  </div>
-  <!-- .container -->
-    <div class="bg-d0e9f4 theme-form">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">From:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-3 col-md-3 col-sm-2">
-            <div class="form-group">
-				<input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.fromDate" is-open="qVm.rptFromDate.opened" data-ng-click="qVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content"> <br />
+                  <br />
+                </div>
+                <!-- .col -->
+                <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
+              </div>
+              <!-- .row -->
             </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">To:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-3 col-md-3 col-sm-2">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.toDate" is-open="qVm.rptToDate.opened" data-ng-click="qVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 hidden-lg hidden-md col-sm-1 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 hidden-md hidden-lg hidden-xs hidden-sm col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 hidden-xs col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date From:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-3 col-md-3 col-sm-2">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.fromDueDate" is-open="qVm.rptDueDateFrom.opened" data-ng-click="qVm.rptDueDateFromPicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date To:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-3 col-md-3 col-sm-2">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.toDueDate" is-open="qVm.rptDueDateTo.opened" data-ng-click="qVm.rptDueDateToPicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-        </div>
-        <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-				<select class="form-control" ng-model="qVm.takeoff.year" 
+            <!-- .container -->
+            <div class="bg-d0e9f4 theme-form">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">From:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-3 col-md-3 col-sm-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.fromDate" is-open="qVm.rptFromDate.opened" data-ng-click="qVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">To:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-3 col-md-3 col-sm-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.toDate" is-open="qVm.rptToDate.opened" data-ng-click="qVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 hidden-lg hidden-md col-sm-1 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 hidden-md hidden-lg hidden-xs hidden-sm col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 hidden-xs col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">&nbsp;</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date From:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-3 col-md-3 col-sm-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.fromDueDate" is-open="qVm.rptDueDateFrom.opened" data-ng-click="qVm.rptDueDateFromPicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">Due Date To:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-3 col-md-3 col-sm-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.toDueDate" is-open="qVm.rptDueDateTo.opened" data-ng-click="qVm.rptDueDateToPicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" ng-model="qVm.takeoff.year" 
 				  ng-options="y.id as y.val for y in qVm.rptYearRange">
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-				<select class="form-control"
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control"
 				  ng-model="qVm.takeoff.salesPerson" 
 				  ng-options="user.id as user.customName for user in qVm.users">
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-				<select class="form-control"
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control"
 				  ng-model="qVm.takeoff.userCode" 
 				  ng-options="user.userCode as user.customName for user in qVm.users">
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-		  <div class="col-lg-2 col-md-2 col-sm-2"> 
-				<span class="form-label">
-					Revision
-				</span>
-				<span class="colon">:</span> 
-			</div>
-			  <!-- .col -->
-			<div class="col-lg-2 col-md-2 col-sm-2">
-				<select class="form-control"
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> Revision </span> <span class="colon">:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2">
+                    <select class="form-control"
 					  ng-model="qVm.takeoff.quoteRevision" 
 					  ng-options="rev.id as rev.name for rev in qVm.quoteRevisions">
-					  <option value="">--- Select ---</option>
-					</select>
-			</div>
-          <!-- .col -->
-        </div>
-        <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group">
-				<select class="form-control"
+                      <option value="">--- Select ---</option>
+                    </select>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control"
 				  ng-model="qVm.takeoff.engineerId" 
 				  ng-options="engineer.id as engineer.name for engineer in qVm.engineers" >
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Architect</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group">
-				<select class="form-control" 
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Architect</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" 
 				  ng-model="qVm.takeoff.architectureId" 
 				  ng-options="architect.id as architect.name for architect in qVm.architects" >
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Specifications</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group">
-              <select class="form-control"
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Specifications</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control"
 			  ng-model="qVm.takeoff.specId" 
 			  ng-options="spec.id as spec.detail for spec in qVm.specs">
-			  <option value="">--- Select ---</option>
-			</select>
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
+                    <input type="submit" class="submit-btn btn btn-primary" value="Generate">
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+              </div>
+              <!-- .container -->
             </div>
-          </div>
-          <!-- .col -->
-        </div>
-        <!-- .row -->
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-            <input type="submit" class="submit-btn btn btn-primary" value="Generate">
-            &nbsp;&nbsp;&nbsp;
-            <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-        </div>
-        <!-- .row -->
-      </div>
-      <!-- .container -->
-    </div>
-    <!-- .bg-d0e9f4 -->
-</section>
+            <!-- .bg-d0e9f4 -->
+          </section>
           <!-- .row -->
           <!-- .row -->
-          <div class="row checkrow">
-          </div>
+          <div class="row checkrow"> </div>
           <!-- .row -->
         </form>
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-2 pad_top_30 dashboard-content">
+            <h1>Quote Reports</h1>
+          </div>
+          <!-- .col -->
+          <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total Rows Found - <span style="font-size:18px;">485</span> </div>
+          <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total Quote Amount - <span style="font-size:18px;">$7,526,495.00</span> </div>
+          <!-- .col -->
+          <div class="col-lg-4 col-md-4 col-sm-4 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('report_quote');" href="javascript:void(0);">Show Report Form</a> </div>
+        </div>
+        <div class="row" id="contents" style="margin-top:25px; float:left;">
+          <!-- .col -->
+          <div class="col-lg-12 pad-none">
+            <form id="users_view_form" class="table-container" action="" method="post">
+              <div class="table-container">
+                <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+                  <thead>
+                    <tr class="bg-4D7373">
+                      <td align="center" style="width:6%">Info Icon</td>
+                      <td align="center" class="bg-dark-green">Takeoff ID</td>
+                      <td align="center" class="bg-4D7373">Quote ID</td>
+                      <td align="center" class="c10 bg-7D3549">Job ID</td>
+                      <td align="center">Job Name</td>
+                      <td align="center">Address</td>
+                      <td align="center">Engineer</td>
+                      <td align="center">Architect</td>
+                      <td align="center">Amount</td>
+                      <td align="center">Specs</td>
+                      <td align="center">UC</td>
+                      <td align="center">Bidders</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><a rel="takeoff,78773" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/takeoffinfo.png"></a> <img border="0" alt="image" src="http://www.awacp.org/resources/images/quote_info.png"></td>
+                      <td align="center"><a target="_blank" style="color:#060; text-decoration:underline;" href="http://www.awacp.org/takeoff/edit/78773"></a></td>
+                      <td><a target="_blank" style="color:#0033CC;" href="">Q17-2581B</a></td>
+                      <td><a target="_blank" style="color:#0033CC;" href=""></a></td>
+                      <td><a target="_blank" style="color:#060; text-decoration:underline;" href="http://www.awacp.org/takeoff/edit/78773">JOLLY MADISON HOTEL(REVISION B)</a></td>
+                      <td>22 EAST 38TH STREET 1ST-18TH FL NY</td>
+                      <td>STANTEC</td>
+                      <td>FX FOWLE</td>
+                      <td align="center">18175</td>
+                      <td align="center">TITUS SEIHO</td>
+                      <td align="center">YJ</td>
+                      <td align="center"><a onclick="ShowHide('bidder_78773');" href="javascript:void(0);"><img border="0" src="http://www.awacp.org/resources/images/bidders_ico.png"></a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
