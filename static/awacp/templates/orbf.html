@@ -2,19 +2,19 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
   <div class="clearfix">
-    <div class="panel panel-default shadow" ng-init="takeVm.listTakeoffs();">
+    <div class="panel panel-default shadow" ng-init="orbfVm.initOrbfInputs();">
       <div class="panel-body">
         <section>
           <div class="container-fluid">
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xss-12 dashboard-content">
-                <h1>Enter ORBF Number</h1>
+                <h3>Enter ORBF Number</h3>
               </div>
               <!-- .col -->
             </div>
             <!-- .row -->
             <div class="row">
-              <form class="table-container" action="" method="post" id="add_orbf" name="add_orbf">
+			  <form class="table-container" name="orbf" ng-submit="orbfVm.saveOrbf();">
                 <table width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
                   <tbody>
                     <tr>
@@ -36,12 +36,12 @@
                                               <td style="padding:5px;"><strong>Comments</strong></td>
                                             </tr>
                                             <tr>
-                                              <td style="padding:5px; background:#FFF;">06/30/2017</td>
-                                              <td style="padding:5px; background:#FFF;">17A-3505RPL</td>
+                                              <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.dateCreated | date:'shortDate'}}</td>
+                                              <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.poName}}</td>
                                               <td style="padding:5px; background:#FFF;">BREFFNI MECH</td>
-                                              <td style="padding:5px; background:#FFF;">SCHOOL OF VISUAL ARTS (OFFICES FOR STUDENT SEVICES)</td>
-                                              <td style="padding:5px; background:#FFF;">JK</td>
-                                              <td style="padding:5px; background:#FFF;">7-4' FFD-150:1SLOT(WHITE FINISH)</td>
+                                              <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.jobName}}</td>
+                                              <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.salesPersonName}}</td>
+                                              <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.comment}}</td>
                                             </tr>
                                           </tbody>
                                         </table></td>
@@ -52,115 +52,79 @@
                                     <tr>
                                       <input type="hidden" value="75464" name="oid">
                                       <td width="11%" valign="top" style="padding:5px;"><strong>Enter ORBF:</strong></td>
-                                      <td width="89%" align="left" style="padding:5px;"><input type="text" value="" id="orbf_number" name="orbf_number" class="form-control"></td>
+                                      <td width="89%" align="left" style="padding:5px;">
+										<input name="orbf" ng-model="orbfVm.orbf.orbf" type="text" placeholder="Enter ORBF" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter ORBF');" onkeypress="this.setCustomValidity('');" />
+										</td>
                                     </tr>
                                     <tr>
                                       <td valign="top" align="left" colspan="2"><table width="100%" border="0">
                                           <tbody>
                                             <tr>
                                               <td width="11%" valign="top"><strong>Trucker</strong>:</td>
-                                              <td width="28%" align="left"><select class="form-control" id="trucker" name="trucker">
-                                                  <option value="">--</option>
-                                                  <option value="A. DUIE PYLE">A. DUIE PYLE</option>
-                                                  <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
-                                                  <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
-                                                  <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
-                                                  <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
-                                                  <option value="EDI">EDI</option>
-                                                  <option value="FEDEX">FEDEX</option>
-                                                  <option value="METROLOGISTICS">METROLOGISTICS</option>
-                                                  <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
-                                                  <option value="NEWPENN">NEWPENN</option>
-                                                  <option value="OLD DOMINION">OLD DOMINION</option>
-                                                  <option value="PICKUP">PICKUP</option>
-                                                  <option value="ROAD RUNNER">ROAD RUNNER</option>
-                                                  <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
-                                                  <option value="UPS">UPS</option>
-                                                  <option value="USF Trucking">USF TRUCKING</option>
-                                                  <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
-                                                  <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
-                                                  <option value="YRC FREIGHT">YRC FREIGHT</option>
-                                                </select></td>
+                                              <td width="28%" align="left">
+												<select name="truckerOne" class="form-control"  
+												  ng-model="orbfVm.orbf.truckerOne" 
+												  ng-options="c.id as c.name for c in orbfVm.truckers">
+												  <option value="">--- Select ---</option>
+												</select>
+											  </td>
                                               <td width="13%" valign="top"><strong>Tracking Link 1</strong>:</td>
-                                              <td width="48%" align="left"><input type="text" style="width:80%" value="" id="tracking_link" name="tracking_link" class="form-control">
-                                                <input type="hidden" value="0" name="shipment_delivered"></td>
+                                              <td width="48%" align="left">
+												<input name="orbf" ng-model="orbfVm.orbf.trakingLinkOne" type="text" placeholder="Enter Tracking Link 1" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Tracking Link 1');" onkeypress="this.setCustomValidity('');" />
                                             </tr>
                                             <tr>
                                               <td width="11%" valign="top"><strong>Trucker</strong>:</td>
-                                              <td align="left"><select class="form-control" id="trucker2" name="trucker2">
-                                                  <option value="">--</option>
-                                                  <option value="A. DUIE PYLE">A. DUIE PYLE</option>
-                                                  <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
-                                                  <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
-                                                  <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
-                                                  <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
-                                                  <option value="EDI">EDI</option>
-                                                  <option value="FEDEX">FEDEX</option>
-                                                  <option value="METROLOGISTICS">METROLOGISTICS</option>
-                                                  <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
-                                                  <option value="NEWPENN">NEWPENN</option>
-                                                  <option value="OLD DOMINION">OLD DOMINION</option>
-                                                  <option value="PICKUP">PICKUP</option>
-                                                  <option value="ROAD RUNNER">ROAD RUNNER</option>
-                                                  <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
-                                                  <option value="UPS">UPS</option>
-                                                  <option value="USF Trucking">USF TRUCKING</option>
-                                                  <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
-                                                  <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
-                                                  <option value="YRC FREIGHT">YRC FREIGHT</option>
-                                                </select></td>
+                                              <td align="left">
+												<select name="truckerTwo" class="form-control"  
+												  ng-model="orbfVm.orbf.truckerTwo" 
+												  ng-options="c.id as c.name for c in orbfVm.truckers">
+												  <option value="">--- Select ---</option>
+												</select>
+											  </td>
                                               <td width="13%" valign="top"><strong>Tracking Link 2</strong>:</td>
-                                              <td width="48%" align="left"><input type="text" style="width:80%" value="" id="tracking_link2" name="tracking_link2" class="form-control">
-                                                <input type="hidden" value="0" name="shipment_delivered2"></td>
+                                              <td width="48%" align="left">
+												<input name="orbf" ng-model="orbfVm.orbf.trackingLinkTwo" type="text" placeholder="Enter Tracking Link 2" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Tracking Link 2');" onkeypress="this.setCustomValidity('');" />
                                             </tr>
                                             <tr>
                                               <td width="11%" valign="top"><strong>Trucker</strong>:</td>
-                                              <td align="left"><select class="form-control" id="trucker3" name="trucker3">
-                                                  <option value="">--</option>
-                                                  <option value="A. DUIE PYLE">A. DUIE PYLE</option>
-                                                  <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
-                                                  <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
-                                                  <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
-                                                  <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
-                                                  <option value="EDI">EDI</option>
-                                                  <option value="FEDEX">FEDEX</option>
-                                                  <option value="METROLOGISTICS">METROLOGISTICS</option>
-                                                  <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
-                                                  <option value="NEWPENN">NEWPENN</option>
-                                                  <option value="OLD DOMINION">OLD DOMINION</option>
-                                                  <option value="PICKUP">PICKUP</option>
-                                                  <option value="ROAD RUNNER">ROAD RUNNER</option>
-                                                  <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
-                                                  <option value="UPS">UPS</option>
-                                                  <option value="USF Trucking">USF TRUCKING</option>
-                                                  <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
-                                                  <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
-                                                  <option value="YRC FREIGHT">YRC FREIGHT</option>
-                                                </select></td>
+                                              <td align="left">
+												<select name=""truckerThree class="form-control"  
+												  ng-model="orbfVm.orbf.truckerThree" 
+												  ng-options="c.id as c.name for c in orbfVm.truckers">
+												  <option value="">--- Select ---</option>
+												</select>
+											  </td>
                                               <td width="13%" valign="top"><strong>Tracking Link 3</strong>:</td>
-                                              <td width="48%" align="left"><input type="text" style="width:80%" value="" id="tracking_link3" name="tracking_link3" class="form-control">
-                                                <input type="hidden" value="0" name="shipment_delivered3"></td>
+                                              <td width="48%" align="left">
+												<input name="orbf" ng-model="orbfVm.orbf.trackingLinkThree" type="text" placeholder="Enter Tracking Link 3" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Tracking Link 3');" onkeypress="this.setCustomValidity('');" />
+											  </td>
                                             </tr>
                                           </tbody>
                                         </table></td>
                                     </tr>
                                     <tr>
                                       <td valign="top" style="padding:5px;"><strong>EST Date</strong>:</td>
-                                      <td align="left" style="padding:5px;" colspan="5"><input type="text" style="width:100px;" value="" name="orbf_date" class="form-control datepicker"></td>
+                                      <td align="left" style="padding:5px;" colspan="5">
+										 <input name="estDate" type="text" class="form-control" placeholder="Est Date" uib-datepicker-popup="{{dateFormat}}" ng-model="orbfVm.orbf.estDate" is-open="orbfVm.estDate.opened" data-ng-click="orbfVm.estDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">								 
+									  </td>
                                     </tr>
                                     <tr>
                                       <td valign="top" style="padding:5px;"><strong>Comments</strong>:</td>
-                                      <td align="left" style="padding:5px;" colspan="5"><textarea style="width:900px" class="form-control" rows="" cols="" name="comment_orbf"></textarea></td>
+                                      <td align="left" style="padding:5px;" colspan="5">
+										<textarea class="form-control" placeholder="Enter Comment" maxlength="1000"  oninvalid="this.setCustomValidity('Enter Comment');" onkeypress="this.setCustomValidity('');" ng-model="orbfVm.orbf.comment"  />
+									 </td>
                                     </tr>
                                     <tr>
                                       <th valign="top">&nbsp;</th>
                                       <td align="left" colspan="2"><table width="100%">
                                           <tbody>
                                             <tr>
-                                              <td width="14%"><input type="submit" class="btn btn-primary" value="Save ORBF">
-                                                <input type="hidden" value="17A-3505RPL" name="po">
-                                                <input type="hidden" value="" name="updated_by">
-                                                <input type="hidden" value="add_orbf" name="act"></td>
+                                            <td width="14%">
+												<input type="submit" value="Save ORBF" class="orbf-add-action reset-btn btn btn-info" >
+												<span id="orbf-add-spinner" style="display:none;">
+													<img src="images/loading.gif" />
+												</span>
+											</td>
                                               <td width="86%"></td>
                                             </tr>
                                           </tbody>

@@ -229,10 +229,12 @@
                       <td align="center"> {{jobOrder.salesPersonName?jobOrder.salesPersonName:'...'}} </td>
                       <td align="center"> {{jobOrder.createdByUserCode?jobOrder.createdByUserCode:'...'}} </td>
                       <td align="center"> 
-						<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:1})">
+						<a href ng-show="jobOrder.invoiceId && jobOrder.finalUpdate"  style="color:green;" ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:1})">
 							{{jobOrder.billingAmount?jobOrder.billingAmount:'...' | currency}} 
 						</a>
-						
+						<a href ng-show="jobOrder.invoiceId && !jobOrder.finalUpdate"  style="color:blue;" ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:1})">
+							{{jobOrder.billingAmount?jobOrder.billingAmount:'...' | currency}} 
+						</a>
 					  </td>
                     </tr>
                   </tbody>

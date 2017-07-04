@@ -12,7 +12,7 @@
 		obVm.orderBookViewHeading = "View Order Book";
 		obVm.orderCategories = [{id:'REGULAR', title:'Regular Order'}, {id:'AW', title:'AW Order'}, {id:'AWF', title:'AWF Order'}, {id:'SBC', title:'SBC Order'}, {id:'SPL', title:'SPL Order'}, {id:'J', title:'J Order'}, {id:'Q', title:'Q Order'}];
 		obVm.spInstructions = [{id:'A', title:'Revision A'}, {id:'B', title:'Revision B'}, {id:'C', title:'Revision C'}, {id:'RPL', title:'(RPL) Replacement Order'}, {id:'PDQ', title:'(PDQ) Premium Quick Ship'}, {id:'DDC', title:'Direct Digital Control'}];
-		obVm.estDate = {opened:false};
+		
 		obVm.factories = [];
 		obVm.shiptos = [];
 		obVm.invItems = [];
@@ -69,6 +69,7 @@
 			$rootScope.fileViewSource = "templates/file-listing.html";
 			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
 		}
+		
 		
 		obVm.showQuoteInfo = function(takeoffId){
 			AjaxUtil.getData("/awacp/getTakeoff/"+takeoffId, Math.random())
@@ -233,10 +234,6 @@
 				jqXHR.errorSource = "OrderBookCtrl::obVm.listInvItems::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
-		}
-		
-		obVm.estDatePicker = function(){
-			obVm.estDate.opened = true;
 		}
 		obVm.action = "Add New";	
 		obVm.setCurrentPageSize =function(size){

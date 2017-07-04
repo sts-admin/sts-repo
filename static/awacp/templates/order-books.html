@@ -128,11 +128,16 @@
 						</a>						
 					  </td>
 					  <td align="center">
-						<span ng-show="orderBook.cancelled" style="color:red;">
+						<span ng-if="orderBook.cancelled" style="color:red;">
 							CANCELLED
 						</span>
-						<span ng-hide="orderBook.cancelled">
-							{{orderBook.orbf}}
+						<span ng-if="!orderBook.cancelled">
+							<span ng-if="orderBook.orbf">
+								<a href ui-sref="orbf-edit({orbfOrderBookId:orderBook.id, orbfJobOrderId:orderBook.jobId})">{{orderBook.orbf}}</a>								
+							</span>
+							<span ng-if="!orderBook.orbf">
+								<a href ui-sref="orbf-edit({orbfOrderBookId:orderBook.id, orbfJobOrderId:orderBook.jobId})">[Enter ORBF]</a>
+							</span>
 						</span>
 					  </td>
                       <td align="center">{{orderBook.dateCreated | date:'shortDate'}}</td>
