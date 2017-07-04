@@ -1,6 +1,6 @@
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
-<div class="container-fluid">	
+<div class="container-fluid">
   <div class="clearfix">
     <div class="panel panel-default" ng-init="obVm.initOrderBookMasterInputs()">
       <div class="panel-heading form-heading panel-heading-top">
@@ -8,144 +8,182 @@
       </div>
       <div class="panel-body new-tk-bg">
         <form ng-submit="obVm.rememberReportQueryParams();">
-          <!-- .row -->
-          <section>
-  <!-- .container -->
-  <form class="formular" action="" method="post" id="orderbook_reports" name="orderbook_reports">
-    <div class="bg-FFFAEB theme-form">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">From:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-3 col-md-3 col-sm-2">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.fromDate" is-open="obVm.rptFromDate.opened" data-ng-click="obVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">To:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-3 col-md-3 col-sm-2">
-            <div class="form-group">
-             <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.toDate" is-open="obVm.rptToDate.opened" data-ng-click="obVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-        </div>
         <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-              <select class="form-control" ng-model="obVm.orderBook.year" 
+        <section>
+          <!-- .container -->
+          <form class="formular" action="" method="post" id="orderbook_reports" name="orderbook_reports">
+            <div class="bg-FFFAEB theme-form">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">From:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-3 col-md-3 col-sm-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.fromDate" is-open="obVm.rptFromDate.opened" data-ng-click="obVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">To:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-3 col-md-3 col-sm-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.toDate" is-open="obVm.rptToDate.opened" data-ng-click="obVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" ng-model="obVm.orderBook.year" 
 				  ng-options="y.id as y.val for y in obVm.rptYearRange">
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-               <select name="salesPersonId"   class="form-control"   
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select name="salesPersonId"   class="form-control"   
 				  ng-model="obVm.orderBook.salesPersonId" 
 				  ng-options="user.id as user.customName for user in obVm.users" >
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-              <select name="userCode"   class="form-control"   
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select name="userCode"   class="form-control"   
 				  ng-model="obVm.orderBook.createdByUserCode" 
 				  ng-options="user.userCode as user.userCode for user in obVm.users" >
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-        </div>
-        <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Factory</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group">
-             <select name="factory" class="form-control"  
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Factory</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select name="factory" class="form-control"  
 			  ng-model="obVm.orderBook.factoryType" 
 			  ng-options="fac.id as fac.title for fac in obVm.orderCategories">
-			  <option value="">--- Select ---</option>
-			</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Contractor</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group">
-             <select name="factory" class="form-control"  
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Contractor</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select name="factory" class="form-control"  
 			  ng-model="obVm.orderBook.contractorId" 
 			  ng-options="c.id as c.name for c in obVm.contractors">
-			  <option value="">--- Select ---</option>
-			</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">c/o Shipto</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group">
-               <select name="factory" class="form-control"  
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">c/o Shipto</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select name="factory" class="form-control"  
 				  ng-model="obVm.orderBook.shipToId" 
 				  ng-options="s.id as s.shipToAddress for s in obVm.shiptos">
-				  <option value="">--- Select ---</option>
-				</select>
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
+                    <input type="submit" class="submit-btn btn btn-primary" value="Generate">
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+                    <input type="hidden" value="searched" name="searched">
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+              </div>
+              <!-- .container -->
             </div>
-          </div>
-          <!-- .col -->
-        </div>
+            <!-- .bg-d0e9f4 -->
+          </form>
+        </section>
         <!-- .row -->
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-            <input type="submit" class="submit-btn btn btn-primary" value="Generate">
-            &nbsp;&nbsp;&nbsp;
-            <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
-            <input type="hidden" value="searched" name="searched">
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-        </div>
         <!-- .row -->
-      </div>
-      <!-- .container -->
-    </div>
-    <!-- .bg-d0e9f4 -->
-  </form>
-</section>
-          <!-- .row -->
-          <!-- .row -->
-          <div class="row checkrow">
-          </div>
-          <!-- .row -->
+        <div class="row checkrow"> </div>
+        <!-- .row -->
         </form>
+        <div class="col-lg-12">
+          <form class="table-container" action="">
+            <table class="table-responsive theme-table" width="100%" cellspacing="0" cellpadding="0" border="1">
+              <thead>
+                <tr style="background:#9B6944; color:#FFF;">
+                  <td align="center">Date</td>
+                  <td align="center" style="color:#FFF; background:#7D3549;">Job ID</td>
+                  <td align="center">AWACP PO#</td>
+                  <td align="center">ORBF</td>
+                  <td align="center">EST</td>
+                  <td align="center">Contractor Name</td>
+                  <td align="center">ShipTo</td>
+                  <td align="center">Job Name</td>
+                  <td align="center">Job Address</td>
+                  <td align="center">SP</td>
+                  <td align="center">UC</td>
+                  <td align="center">Comments<br>
+                    Model Number</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td align="center">07/04/2017</td>
+                  <td align="center"><a target="_blank" style="color:#0033CC;" href=""> J17-1471 </a></td>
+                  <td align="center"><a style="color:#03F;" href="');">17AW-3511</a></td>
+                  <td align="center"><a target="_blank" style="color:#03F;" href="">[Enter ORBF]</a></td>
+                  <td align="center"> 07/05/17 </td>
+                  <td><a style="color:#03F;" target="_blank" href=""> SOUND A/C </a></td>
+                  <td>SOUND A/C 58 OLD STEWART AV GARDEN CITY PARK NY 11040</td>
+                  <td>SMBC</td>
+                  <td>277 PARK 6TH FL. NY</td>
+                  <td align="center">TB</td>
+                  <td align="center">NR</td>
+                  <td align="center">1-277 VOLT &amp; 5202 THERMOSTAT</td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
       </div>
     </div>
   </div>
