@@ -1,6 +1,6 @@
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
-<div class="container-fluid">	
+<div class="container-fluid">
   <div class="clearfix">
     <div class="panel panel-default" ng-init="jobVm.initJobOrderMasterInputs()">
       <div class="panel-heading form-heading panel-heading-top">
@@ -8,204 +8,259 @@
       </div>
       <div class="panel-body new-tk-bg">
         <form ng-submit="jobVm.rememberReportQueryParams();">
-          <!-- .row -->
-          <section>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- .col -->
-      <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
-      <!-- .col -->
-      <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30">  </div>
-    </div>
-    <!-- .row -->
-  </div>
-  <!-- .container -->
-  <form class="formular" action="" method="post" id="report_joborder" name="report_joborder">
-    <div class="bg-F7EDF0 theme-form">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">From:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-3 col-md-3 col-sm-2">
-            <div class="form-group">
-             <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="jobVm.jobOrder.fromDate" is-open="jobVm.rptFromDate.opened" data-ng-click="jobVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">To:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-3 col-md-3 col-sm-2">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="jobVm.jobOrder.toDate" is-open="jobVm.rptToDate.opened" data-ng-click="jobVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">	
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-        </div>
         <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-             <select class="form-control" ng-model="jobVm.jobOrder.year" 
-				  ng-options="y.id as y.val for y in jobVm.rptYearRange">
-				  <option value="">--- Select ---</option>
-				</select>
+        <section>
+          <div class="container-fluid">
+            <div class="row">
+              <!-- .col -->
+              <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> </div>
+              <!-- .col -->
+              <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> </div>
             </div>
+            <!-- .row -->
           </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-              <select name="salesPersonId"   class="form-control"   
+          <!-- .container -->
+          <form class="formular" action="" method="post" id="report_joborder" name="report_joborder">
+            <div class="bg-F7EDF0 theme-form">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><u>Between Two Dates</u></span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">From:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-3 col-md-3 col-sm-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="jobVm.jobOrder.fromDate" is-open="jobVm.rptFromDate.opened" data-ng-click="jobVm.rptFromDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right"> <span class="new-take-off-title">To:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-3 col-md-3 col-sm-2">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="jobVm.jobOrder.toDate" is-open="jobVm.rptToDate.opened" data-ng-click="jobVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Year:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" ng-model="jobVm.jobOrder.year" 
+				  ng-options="y.id as y.val for y in jobVm.rptYearRange">
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Salesman:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select name="salesPersonId"   class="form-control"   
 				  ng-model="jobVm.orderBook.salesPersonId" 
 				  ng-options="user.id as user.customName for user in jobVm.users" >
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-              <select name="salesPersonId"   class="form-control"   
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Usercode:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select name="salesPersonId"   class="form-control"   
 				  ng-model="jobVm.orderBook.createdByUserCode" 
 				  ng-options="user.userCode as user.userCode for user in jobVm.users" >
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-        </div>
-        <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group"> 
-				<select class="form-control"
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control"
 				  ng-model="jobVm.orderBook.engineerId" 
 				  ng-options="engineer.id as engineer.name for engineer in jobVm.engineers" >
-				  <option value="">--- Select ---</option>
-				</select>
-			</div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Contractor</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group"> 
-				<select class="form-control" 
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Contractor</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" 
 				  ng-model="jobVm.orderBook.contractorId" 
 				  ng-options="contractor.id as contractor.name for contractor in jobVm.contractors" >
-				  <option value="">--- Select ---</option>
-				</select>
-			</div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Architect</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
-            <div class="form-group">
-				<select class="form-control" 
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Architect</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" 
 				  ng-model="jobVm.orderBook.architectureId" 
 				  ng-options="architect.id as architect.name for architect in jobVm.architects" >
-				  <option value="">--- Select ---</option>
-				</select>
-			</div>
-          </div>
-          <!-- .col -->
-        </div>
-        <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Final Update Status:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-			
-              <select class="form-control" ng-model="jobVm.jobOrder.finalUpdate" 
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Final Update Status:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" ng-model="jobVm.jobOrder.finalUpdate" 
 				  ng-options="fs.id as fs.title for fs in jobVm.finalStatus">
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Status:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-               <select class="form-control" ng-model="jobVm.jobOrder.status" 
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">Status:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" ng-model="jobVm.jobOrder.status" 
 				  ng-options="js.id as js.title for js in jobVm.jobStatus">
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">View INV:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-              <select class="form-control" ng-model="jobVm.jobOrder.invoiceMode" 
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12"> <span class="new-take-off-title">View INV:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" ng-model="jobVm.jobOrder.invoiceMode" 
 				  ng-options="i.id as i.title for i in jobVm.invoiceModes">
-				  <option value="">--- Select ---</option>
-				</select>
-            </div>
-          </div>
-          <!-- .col -->
-        </div>
-        <!-- .row -->
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Status:</span> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div class="form-group">
-               <select class="form-control" ng-model="jobVm.jobOrder.jobStatus" 
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Status:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <div class="form-group">
+                      <select class="form-control" ng-model="jobVm.jobOrder.jobStatus" 
 				  ng-options="j.id as j.title for j in jobVm.jobStatuses">
-				  <option value="">--- Select ---</option>
-				</select>
+                        <option value="">--- Select ---</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
+                    <input type="submit" class="submit-btn btn btn-primary" value="Generate">
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+                    <input type="hidden" value="search" name="search">
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <hr>
+                  </div>
+                  <!-- .col -->
+                </div>
+                <!-- .row -->
+              </div>
+              <!-- .container -->
             </div>
-          </div>
-          <!-- .col -->
-        </div>
+            <!-- .bg-d0e9f4 -->
+          </form>
+          <div style="clear:both;"></div>
+        </section>
         <!-- .row -->
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-            <input type="submit" class="submit-btn btn btn-primary" value="Generate">
-            &nbsp;&nbsp;&nbsp;
-            <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
-            <input type="hidden" value="search" name="search">
-          </div>
-          <!-- .col -->
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <hr>
-          </div>
-          <!-- .col -->
-        </div>
         <!-- .row -->
-      </div>
-      <!-- .container -->
-    </div>
-    <!-- .bg-d0e9f4 -->
-  </form>
-  <div style="clear:both;"></div>
-</section>
-          <!-- .row -->
-          <!-- .row -->
-          <div class="row checkrow">
+        <div class="row checkrow"> </div>
+        <!-- .row -->
+        </form>
+        
+        
+        <form class="table-container">
+          <div style="margin-top:20px;">
+            <table class="table-responsive theme-table" width="100%" cellspacing="0" cellpadding="0" border="1">
+              <thead>
+                <tr>
+                  <td valign="top" colspan="12"><table width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                        <tr height="30">
+                          <td width="11%" style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1">&nbsp; <strong>#JOBS FOUND</strong></td>
+                          <td width="7%" align="center" style="border:3px solid #D4A3B1; background:#090; padding:5px; color:#FFF;" class="table-header-repeat line-left minwidth-1"> 1471 </td>
+                          <td width="17%" align="center" style="border:3px solid #D4A3B1; background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>TOTAL BILLING AMOUNT</strong></td>
+                          <td width="14%" align="center" style="border:3px solid #D4A3B1; background:#090; padding:5px; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>$8,498,251.34</strong></td>
+                          <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Total Profit</strong></td>
+                          <td style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>$5,927,639.75</strong></td>
+                          <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Profit</strong></td>
+                          <td style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>69.75%</strong></td>
+                        </tr>
+                      </tbody>
+                    </table></td>
+                </tr>
+                <tr>
+                  <td colspan="10">&nbsp;</td>
+                </tr>
+                <tr style="background:#7D3549; color:#FFF;">
+                  <td align="center">Info Icon</td>
+                  <td align="center">ViewINV</td>
+                  <td align="center">Start Date</td>
+                  <td align="center" style="color:#FFF; background:#4D7373;">Quote</td>
+                  <td align="center">Job ID</td>
+                  <td align="center">Contractor</td>
+                  <td align="center">Job name</td>
+                  <td align="center">Address</td>
+                  <td align="center">SP</td>
+                  <td align="center">UC</td>
+                  <td align="center">Billing Amount</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="gradeA">
+                  <td align="center"><a class="personPopupTrigger" rel="takeoff,0" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/takeoffinfo.png"></a> &nbsp;<a rel="quote,0" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/quote_info.png"></a> <a rel="joborder,17-1471" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/jobinfo.png"></a> &nbsp;<a rel="orderbook,17-1471" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/order_info.png"></a></td>
+                  <td align="center"><a target="_blank" href=""><img border="0" src="http://www.awacp.org/resources/images/bill.png"></a></td>
+                  <td align="center">07/04/17</td>
+                  <td align="center"></td>
+                  <td align="center"><a style="color:#0033CC;" target="_blank" href="">J17-1471</a></td>
+                  <td>SOUND A/C</td>
+                  <td><a target="_blank" style="color:#0033CC;" href="">SMBC</a></td>
+                  <td>277 PARK 6TH FL. NY</td>
+                  <td align="center"><a target="_blank" style="color:#0033CC;" href="">TB</a></td>
+                  <td align="center" id="uc_23361"> NR </td>
+                  <td align="center"><a id="amount_23361" style="color:#0033CC;" target="_blank" href="">$1100</a></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <!-- .row -->
         </form>
       </div>
     </div>
