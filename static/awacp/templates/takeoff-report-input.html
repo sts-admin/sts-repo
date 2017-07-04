@@ -5,11 +5,12 @@
     <div class="panel panel-default" ng-init="takeVm.initTakeoffReportInputs();">
       <div class="panel-heading form-heading panel-heading-top">
         <label>Takeoff Report Input</label>
-        <a id="form_display" class="btn btn-success pull-right" onclick="ShowHideForm('report_takeoff');" href="javascript:void(0);">Hide Report Form</a> </div>
+        <a id="form_display" class="btn btn-success pull-right" ng-click="takeVm.toggleReportFormVisibility();" href >{{takeVm.showReportForm?"Hide Report Form":"Show Report Form"}}</a> 
+      </div>
       <div class="panel-body new-tk-bg">
-        <form ng-submit="takeVm.rememberReportQueryParams();">
+        <form ng-submit="takeVm.rememberReportQueryParams();"  ng-show="takeVm.showReportForm">
           <!-- .row -->
-          <section>
+          <section >
             <div class="container-fluid">
               <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content"> <br />
@@ -76,7 +77,7 @@
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group">
                       <select class="form-control" ng-model="takeVm.takeoff.year" 
-				  ng-options="y.id as y.val for y in takeVm.rptYearRange">
+                        ng-options="y.id as y.val for y in takeVm.rptYearRange">
                         <option value="">--- Select ---</option>
                       </select>
                     </div>
@@ -87,8 +88,8 @@
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group">
                       <select class="form-control"
-				  ng-model="takeVm.takeoff.salesPerson" 
-				  ng-options="user.id as user.customName for user in takeVm.users">
+                        ng-model="takeVm.takeoff.salesPerson" 
+                        ng-options="user.id as user.customName for user in takeVm.users">
                         <option value="">--- Select ---</option>
                       </select>
                     </div>
@@ -99,8 +100,8 @@
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group">
                       <select class="form-control"
-				  ng-model="takeVm.takeoff.userCode" 
-				  ng-options="user.userCode as user.customName for user in takeVm.users">
+                        ng-model="takeVm.takeoff.userCode" 
+                        ng-options="user.userCode as user.customName for user in takeVm.users">
                         <option value="">--- Select ---</option>
                       </select>
                     </div>
@@ -114,8 +115,8 @@
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
                       <select class="form-control"
-				  ng-model="takeVm.takeoff.engineerId" 
-				  ng-options="engineer.id as engineer.name for engineer in takeVm.engineers" >
+                        ng-model="takeVm.takeoff.engineerId" 
+                        ng-options="engineer.id as engineer.name for engineer in takeVm.engineers" >
                         <option value="">--- Select ---</option>
                       </select>
                     </div>
@@ -126,8 +127,8 @@
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
                       <select class="form-control" 
-				  ng-model="takeVm.takeoff.architectureId" 
-				  ng-options="architect.id as architect.name for architect in takeVm.architects" >
+                        ng-model="takeVm.takeoff.architectureId" 
+                        ng-options="architect.id as architect.name for architect in takeVm.architects" >
                         <option value="">--- Select ---</option>
                       </select>
                     </div>
@@ -138,8 +139,8 @@
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
                       <select class="form-control"
-			  ng-model="takeVm.takeoff.specId" 
-			  ng-options="spec.id as spec.detail for spec in takeVm.specs">
+                        ng-model="takeVm.takeoff.specId" 
+                        ng-options="spec.id as spec.detail for spec in takeVm.specs">
                         <option value="">--- Select ---</option>
                       </select>
                     </div>
@@ -153,7 +154,7 @@
                   </div>
                   <!-- .col -->
                   <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-                    <input type="submit" class="submit-btn btn btn-primary" value="Generate">
+                    <input type="submit" class="submit-btn btn btn-primary" value="Generate" id="takeoff-rpt-btn">
                     &nbsp;&nbsp;&nbsp;
                     <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
                   </div>
@@ -174,62 +175,71 @@
           <div class="row checkrow"> </div>
           <!-- .row -->
         </form>
-        <div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content">
-            <h1>Take Off Reports</h1>
-          </div>
-          <!-- .col -->
-          <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total Rows Found - <span style="font-size:18px;">4,935</span> </div>
-          <!-- .col -->
-          <div class="col-lg-6 col-md-6 col-sm-6 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('report_takeoff');" href="javascript:void(0);">Show Report Form</a> </div>
-        </div>
-        <div style="margin-top:25px;">
-          <!-- .col -->
-          <div class="col-lg-12 pad-none">
-            <form id="users_view_form" class="table-container" action="" method="post">
-              <div class="table-container">
-                <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
-                  <thead>
-                    <tr class="bg-dark-green">
-                      <td align="center" style="min-width:50px;">Info Icon</td>
-                      <td align="center">Login Date</td>
-                      <td align="center">Due Date</td>
-                      <td align="center">Takeoff ID</td>
-                      <td class="bg-4D7373" align="center">Quote ID</td>
-                      <td class="c10 bg-7D3549" align="center">Job ID</td>
-                      <td align="center">Job Name</td>
-                      <td align="center">Address</td>
-                      <td align="center">Engineer</td>
-                      <td align="center">Architect</td>
-                      <td align="center">SP</td>
-                      <td align="center">UC</td>
-                      <td align="center">Specs</td>
-                      <td align="center">Bidders</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><a rel="takeoff,78799" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/takeoffinfo.png"></a> <img border="0" alt="image" src="http://www.awacp.org/resources/images/quote_info.png"></td>
-                      <td align="center">07/04/17</td>
-                      <td align="center"></td>
-                      <td align="center"><a target="_blank" style="color:#060; text-decoration:underline;" href=""></a></td>
-                      <td><a target="_blank" style="color:#0033CC;" href="">Q17-2158B</a></td>
-                      <td><a target="_blank" style="color:#0033CC;" href="http://www.awacp.org/joborder/index/"></a></td>
-                      <td><a target="_blank" style="color:#060; text-decoration:underline;" href="">FOSUN SUMMIT GLORY (REVISION B)</a></td>
-                      <td>28 LIBERTY STREET AG FLOOR 13TH - 21ST &amp; 23RD NY</td>
-                      <td>JAROS BAUM &amp; BOLLES</td>
-                      <td>GENSLER</td>
-                      <td align="center">VB</td>
-                      <td align="center">NP</td>
-                      <td align="center">ANEMOSTAT GRILLES &amp; VAVS; TITUS LINEARS</td>
-                      <td align="center"><a onclick="ShowHide('bidder_78799');" href="javascript:void(0);"><img border="0" src="http://www.awacp.org/resources/images/bidders_ico.png"></a></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </form>
-          </div>
-        </div>
+		<span id="takeoff-rpt-spinner" style="display:none;">
+			<img src="images/loading.gif" />
+		</span>
+		<div ng-show="takeVm.report.mode === 'output' ">
+			<div class="row">
+			  <div class="col-lg-3 col-md-3 col-sm-3 pad_top_30 dashboard-content">
+				<h1>Take Off Reports</h1>
+			  </div>
+			  <!-- .col -->
+			  <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total <span class="badge">{{takeVm.takeoffs.length}}</span> row(s) found </div>
+			</div>
+			<div class="row" id="contents" style="margin-top:25px; float:left;" ng-show="takeVm.report.mode === 'output'">
+			  <!-- .col -->
+			  <div class="col-lg-12 pad-none">
+				<form id="users_view_form" class="table-container" action="" method="post">
+				  <div class="table-container">
+					<table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+					  <thead>
+						<tr class="bg-dark-green">
+						  <td align="center" style="min-width:50px;">Info Icon</td>
+						  <td align="center">Login Date</td>
+						  <td align="center">Due Date</td>
+						  <td align="center">Takeoff ID</td>
+						  <td class="bg-4D7373" align="center">Quote ID</td>
+						  <td class="c10 bg-7D3549" align="center">Job ID</td>
+						  <td align="center">Job Name</td>
+						  <td align="center">Address</td>
+						  <td align="center">Engineer</td>
+						  <td align="center">Architect</td>
+						  <td align="center">SP</td>
+						  <td align="center">UC</td>
+						  <td align="center">Specs</td>
+						  <td align="center">Bidders</td>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr height="25" ng-repeat="takeoff in takeVm.takeoffs track by $index" ng-style="{{takeoff.statusStyle}}">
+						  <td align="center">						
+							<img  popover-placement="right" uib-popover-template="takeVm.takeoffInfoPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{takeVm.takeoffInfoPopover.title}}"  ng-click="takeVm.showTakeoffInfo(takeoff);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+							&nbsp;
+							<img  ng-show="takeoff.quoteId" popover-placement="right" uib-popover-template="takeVm.quoteInfoPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{takeVm.quoteInfoPopover.title}}"  ng-click="takeVm.showQuoteInfo(takeoff);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
+							&nbsp;
+							<img  ng-show="takeoff.jobOrderId" popover-placement="right" uib-popover-template="takeVm.jobInfoPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{takeVm.jobInfoPopover.title}}"  ng-click="takeVm.showJobInfo(takeoff.jobOrderId);"  style="cursor:pointer;" src="images/jobinfo.png" alt="image" border="0" />
+						  </td>
+						  <td align="center">{{takeoff.dateCreated | date:'shortDate'}}</td>
+						  <td align="center">{{takeoff.dueDate | date:'shortDate'}}</td>
+						  <td align="center" ng-style="{{takeoff.idStyle}}"><a href ui-sref = "takeoff-edit({id:takeoff.id})">{{takeoff.takeoffId}}</a></td>
+						  <td align="center"><a href ui-sref="quote-view-single({qSource:takeoff.id})" >{{takeoff.quoteId}}</a></td>
+						  <td align="center">{{takeoff.jobId}}</td>
+						  <td align="center">{{takeoff.jobName}}</td>
+						  <td align="center">{{takeoff.jobAddress}}</td>
+						  <td align="center">{{takeoff.engineerName}}</td>
+						  <td align="center">{{takeoff.architectureName}}</td>
+						  <td align="center">{{takeoff.salesPersonName}}</td>
+						  <td align="center">{{takeoff.userCode}}</td>
+						  <td align="center">{{takeoff.spec.detail}}</td>
+						  <td align="center">&nbsp; <img popover-placement="left" uib-popover-template="takeVm.bidderPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{takeVm.bidderPopover.title}}" src="images/bidders_ico.png" ng-click="takeVm.listBiddersByTakeoff(takeoff)" border="0"></td>
+						</tr>
+					  </tbody>
+					</table>
+				  </div>
+				</form>
+			  </div>
+			</div>
+		</div>
       </div>
     </div>
   </div>

@@ -4,10 +4,9 @@
 	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
 	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var takeVm = this;
-		StoreService.remove("rtpQueryOptions-quote");
-		StoreService.remove("rtpQueryOptions-j");
-		StoreService.remove("rtpQueryOptions-ob");
 		
+		takeVm.report = {mode:'input'};
+		takeVm.showReportForm = true;
 		takeVm.editQuote = false;
 		takeVm.takeoffViewHeading = "View Takeoff";
 		takeVm.showAddTakeoffLink = true;
@@ -42,6 +41,7 @@
 		takeVm.takeoffGcs = [];
 		takeVm.takeoffBidders = [];		
 		takeVm.action = "Add New Takeoff";
+		
 		takeVm.searchTakeoffIds = function(){
 			return takeVm.takeoffIds;
 		}
@@ -438,14 +438,119 @@
 		}
 		takeVm.listTakeoffs = function(){
 			takeVm.takeoffs = [];
-			if($state.current.name === 'takeoff-report'){
-				var reportParams = StoreService.get("rtpQueryOptions-takeoff");
-				if(reportParams != null && reportParams != undefined){
-					takeVm.generateReport();
+			AjaxUtil.getData("/awacp/listTakeoffs/"+takeVm.currentPage+"/"+takeVm.pageSize, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					takeVm.totalItems = data.stsResponse.totalCount;
 				}
-			}else{
-				AjaxUtil.getData("/awacp/listTakeoffs/"+takeVm.currentPage+"/"+takeVm.pageSize, Math.random())
-				.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							v.openInfoBox = false;
+							if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
+								var b = [];
+								b.push(v.bidders);
+								v["bidders"] = b;
+							}
+							if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
+								var gc = [];
+								gc.push(v.generalContractors);
+								v["generalContractors"] = gc;
+							}
+							tmp.push(v);
+						});					
+					} else {
+						data.stsResponse.results.openInfoBox = false;
+						if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
+							var b = [];
+							b.push(data.stsResponse.results.bidders);
+							data.stsResponse.results["bidders"] = b;
+						}
+						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
+							var gc = [];
+							gc.push(data.stsResponse.results.generalContractors);
+							data.stsResponse.results["generalContractors"] = gc;
+						}
+						tmp.push(data.stsResponse.results);
+					}
+					$scope.$apply(function(){
+						takeVm.takeoffs = tmp;
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.listTakeoffs::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		takeVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
+		takeVm.rptFromDate = {opened:false};
+		takeVm.rptToDate = {opened:false};
+		takeVm.rptDueDateFrom ={opened:false};
+		takeVm.rptDueDateTo ={opened:false};
+		takeVm.rptFromDatePicker = function(){
+			takeVm.rptFromDate.opened = true;
+		}
+		takeVm.rptToDatePicker = function(){
+			takeVm.rptToDate.opened = true;
+		}
+		takeVm.rptDueDateFromPicker = function(){
+			takeVm.rptDueDateFrom.opened = true;
+		}
+		takeVm.rptDueDateToPicker = function(){
+			takeVm.rptDueDateTo.opened = true;
+		}
+		takeVm.initTakeoffReportInputs = function(){
+			takeVm.takeoff = {};
+			takeVm.getUsers();
+			takeVm.getArchitects();
+			takeVm.getEngineers();
+			takeVm.getSpecs();
+		}
+		takeVm.toggleReportFormVisibility = function(){
+			takeVm.showReportForm = !takeVm.showReportForm;
+		}
+		takeVm.rememberReportQueryParams = function(){			
+			jQuery("#takeoff-rpt-btn").attr('disabled','disabled');
+			jQuery("#takeoff-rpt-spinner").css('display','block');	
+			takeVm.validateReportInputs(
+				function(isValid, msg){
+					if(isValid == false){
+						AlertService.showAlert(
+						'AWACP :: Message!',
+						msg
+						).then(function ()
+							{	
+								jQuery("#takeoff-rpt-btn").removeAttr('disabled');
+								jQuery("#takeoff-rpt-spinner").css('display','none');
+								return;
+							},function (){	return; } );						
+					}else{
+						takeVm.generateReport();
+					}
+				}
+			);	
+		}
+		takeVm.generateReport = function(){		
+			takeVm.report.mode = 'input';
+			takeVm.takeoffs = [];
+			if(takeVm.takeoff.fromDate && !takeVm.takeoff.toDate){
+				takeVm.takeoff.toDate = takeVm.takeoff.fromDate;
+			}
+			if(takeVm.takeoff.fromDueDate && !takeVm.takeoff.toDueDate){
+				takeVm.takeoff.toDueDate = takeVm.takeoff.fromDueDate;
+			}
+			takeVm.takeoff.pageNumber = takeVm.currentPage;
+			takeVm.takeoff.pageSize = takeVm.pageSize;
+			var formData = {};
+			formData["takeoff"] = takeVm.takeoff;
+			AjaxUtil.submitData("/awacp/generateTakeoffReport", formData)
+			.success(function(data, status, headers){
+				takeVm.report.mode = 'output';
+				jQuery("#takeoff-rpt-btn").removeAttr('disabled');
+				jQuery("#takeoff-rpt-spinner").css('display','none');
+				
 					if(data && data.stsResponse && data.stsResponse.totalCount){
 						takeVm.totalItems = data.stsResponse.totalCount;
 					}
@@ -481,109 +586,10 @@
 							tmp.push(data.stsResponse.results);
 						}
 						$scope.$apply(function(){
-							takeVm.takeoffs = tmp;
+							takeVm.takeoffs = tmp;							
 						});
-					}
-				})
-				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "TakeoffCtrl::takeVm.listTakeoffs::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				});
-			}
-		}
-		takeVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
-		takeVm.rptFromDate = {opened:false};
-		takeVm.rptToDate = {opened:false};
-		takeVm.rptDueDateFrom ={opened:false};
-		takeVm.rptDueDateTo ={opened:false};
-		takeVm.rptFromDatePicker = function(){
-			takeVm.rptFromDate.opened = true;
-		}
-		takeVm.rptToDatePicker = function(){
-			takeVm.rptToDate.opened = true;
-		}
-		takeVm.rptDueDateFromPicker = function(){
-			takeVm.rptDueDateFrom.opened = true;
-		}
-		takeVm.rptDueDateToPicker = function(){
-			takeVm.rptDueDateTo.opened = true;
-		}
-		takeVm.initTakeoffReportInputs = function(){
-			takeVm.takeoff = {};
-			takeVm.getUsers();
-			takeVm.getArchitects();
-			takeVm.getEngineers();
-			takeVm.getSpecs();
-		}
-		takeVm.rememberReportQueryParams = function(){
-			takeVm.validateReportInputs(
-				function(isValid, msg){
-					if(isValid == false){
-						AlertService.showAlert(
-						'AWACP :: Message!',
-						msg
-						).then(function (){	return;},function (){	return; } );						
 					}else{
-						StoreService.remove("rtpQueryOptions-takeoff");
-						StoreService.set("rtpQueryOptions-takeoff", takeVm.takeoff);
-						$state.go("takeoff-report");
-					}
-				}
-			);	
-		}
-		takeVm.generateReport = function(){
-			takeVm.showAddTakeoffLink = false;
-			takeVm.takeoffViewHeading = "Takeoff Report";
-			takeVm.takeoff = StoreService.get("rtpQueryOptions-takeoff");
-			if(takeVm.takeoff.fromDate && !takeVm.takeoff.toDate){
-				takeVm.takeoff.toDate = takeVm.takeoff.fromDate;
-			}
-			if(takeVm.takeoff.fromDueDate && !takeVm.takeoff.toDueDate){
-				takeVm.takeoff.toDueDate = takeVm.takeoff.fromDueDate;
-			}
-			takeVm.takeoff.pageNumber = takeVm.currentPage;
-			takeVm.takeoff.pageSize = takeVm.pageSize;
-			var formData = {};
-			formData["takeoff"] = takeVm.takeoff;
-			AjaxUtil.submitData("/awacp/generateTakeoffReport", formData)
-			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.totalCount){
-						takeVm.totalItems = data.stsResponse.totalCount;
-					}
-					if(data && data.stsResponse && data.stsResponse.results){
-						var tmp = [];
-						if(jQuery.isArray(data.stsResponse.results)) {
-							jQuery.each(data.stsResponse.results, function(k, v){
-								v.openInfoBox = false;
-								if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
-									var b = [];
-									b.push(v.bidders);
-									v["bidders"] = b;
-								}
-								if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
-									var gc = [];
-									gc.push(v.generalContractors);
-									v["generalContractors"] = gc;
-								}
-								tmp.push(v);
-							});					
-						} else {
-							data.stsResponse.results.openInfoBox = false;
-							if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
-								var b = [];
-								b.push(data.stsResponse.results.bidders);
-								data.stsResponse.results["bidders"] = b;
-							}
-							if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
-								var gc = [];
-								gc.push(data.stsResponse.results.generalContractors);
-								data.stsResponse.results["generalContractors"] = gc;
-							}
-							tmp.push(data.stsResponse.results);
-						}
-						$scope.$apply(function(){
-							takeVm.takeoffs = tmp;
-						});
+						$scope.$digest();
 					}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -605,7 +611,6 @@
 		}
 		
 		if($state.params.id != undefined || $state.params.quoteEditId){
-			StoreService.remove("rtpQueryOptions-takeoff");
 			if( $state.params.quoteEditId != undefined){
 				takeVm.editQuote = true;
 				takeVm.editTakeoff($state.params.quoteEditId);
@@ -613,7 +618,9 @@
 				takeVm.editTakeoff($state.params.id);
 			}
 		}
-		
+		if($state.current.name === 'takeoff-reports'){
+			takeVm.takeoff = {};
+		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
 				$timeout.cancel($scope.timers[i]);

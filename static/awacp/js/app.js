@@ -144,12 +144,6 @@
 				controller:"QuoteCtrl",
 				controllerAs:"qVm",
 				requireAuth: true
-			}).state('takeoff-report',{
-				url: '/takeoff/reports',
-				templateUrl:"templates/takeoffs.html",
-				controller:"TakeoffCtrl",
-				controllerAs:"takeVm",
-				requireAuth: true
 			}).state('bidders',{
 				url: '/bidders',
 				templateUrl:"templates/bidders.html",
@@ -542,6 +536,12 @@
 				templateUrl:"templates/order-books.html",
 				controller:"OrderBookCtrl",
 				controllerAs:"obVm",
+				requireAuth: true
+			}).state('orbf-edit',{
+				url: '/orbf/edit/:orbfOrderBookId/:orbfJobOrderId',
+				templateUrl:"templates/orbf.html",
+				controller:"OrbfCtrl",
+				controllerAs:"orbfVm",
 				requireAuth: true
 			}).state('factories',{
 				url: '/factories',
