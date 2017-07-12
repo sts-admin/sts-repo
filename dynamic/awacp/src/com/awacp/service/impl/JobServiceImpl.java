@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,11 +21,13 @@ import com.awacp.entity.Engineer;
 import com.awacp.entity.Invoice;
 import com.awacp.entity.JobOrder;
 import com.awacp.entity.OrderBook;
+import com.awacp.entity.ProfitSheetItem;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.ArchitectService;
 import com.awacp.service.EngineerService;
 import com.awacp.service.InvoiceService;
 import com.awacp.service.JobService;
+import com.awacp.service.OrderBookService;
 import com.awacp.service.TakeoffService;
 import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
@@ -54,6 +57,9 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 
 	@Autowired
 	private ArchitectService architectService;
+
+	@Autowired
+	private OrderBookService orderBookService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -329,6 +335,49 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 			sb.append(" AND t.salesPersonId =:salesPersonId");
 			countQuery.append(" AND t.salesPersonId =:salesPersonId");
 		}
+		/**
+		 * Search parameters
+		 */
+		if (jobOrder.getRecepientSpId() != null && jobOrder.getRecepientSpId() > 0) {
+			sb.append(" AND t.recepientSpId =:recepientSpId");
+			countQuery.append(" AND t.salesPersonId =:recepientSpId");
+		}
+		if (jobOrder.getQuotedAmount() != null && jobOrder.getQuotedAmount().intValue() > 0) {
+			sb.append(" AND t.quotedAmount =:quotedAmount");
+			countQuery.append(" AND t.quotedAmount =:quotedAmount");
+		}
+		if (jobOrder.getBillingAmount() != null && jobOrder.getBillingAmount().intValue() > 0) {
+			sb.append(" AND t.billingAmount =:billingAmount");
+			countQuery.append(" AND t.billingAmount =:billingAmount");
+		}
+		if (jobOrder.getOrderNumber() != null && !jobOrder.getOrderNumber().isEmpty()) {
+			sb.append(" AND t.orderNumber =:orderNumber");
+			countQuery.append(" AND t.orderNumber =:orderNumber");
+		}
+
+		if (jobOrder.getPoName() != null && !jobOrder.getPoName().isEmpty()) {
+			sb.append(" AND t.poName =:poName");
+			countQuery.append(" AND t.poName =:poName");
+		}
+
+		if (jobOrder.getJobName() != null && jobOrder.getJobName().trim().length() > 0) {
+			sb.append(" AND LOWER(t.jobName) LIKE :jobName");
+			countQuery.append(" AND LOWER(t.jobName) LIKE :jobName");
+
+		}
+		if (jobOrder.getJobAddress() != null && jobOrder.getJobAddress().trim().length() > 0) {
+			sb.append(" AND LOWER(t.jobAddress) LIKE :jobAddress");
+			countQuery.append(" AND LOWER(t.jobAddress) LIKE :jobAddress");
+		}
+
+		if (jobOrder.getVavControls() != null && !jobOrder.getVavControls().isEmpty()) {
+			sb.append(" AND LOWER(t.vavControls) LIKE :vavControls");
+			countQuery.append(" AND LOWER(t.vavControls) LIKE :vavControls");
+		}
+		/**
+		 * Search parameters
+		 */
+
 		if (jobOrder.getEngineerId() != null) {
 			sb.append(" AND t.engineerId =:engineerId");
 			countQuery.append(" AND t.engineerId =:engineerId");
@@ -355,7 +404,7 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 		}
 		sb.append(" AND t.finalUpdate =:finalUpdate");
 		countQuery.append(" AND t.finalUpdate =:finalUpdate");
-		
+
 		Query query = getEntityManager().createQuery(sb.toString());
 		Query query2 = getEntityManager().createQuery(countQuery.toString());
 
@@ -398,6 +447,48 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 			query2.setParameter("invoiceMode", jobOrder.getInvoiceMode());
 		}
 
+		/**
+		 * Search parameters
+		 */
+		if (jobOrder.getRecepientSpId() != null && jobOrder.getRecepientSpId() > 0) {
+			query.setParameter("recepientSpId", jobOrder.getRecepientSpId());
+			query2.setParameter("recepientSpId", jobOrder.getRecepientSpId());
+		}
+		if (jobOrder.getQuotedAmount() != null && jobOrder.getQuotedAmount().intValue() > 0) {
+			query.setParameter("quotedAmount", jobOrder.getQuotedAmount());
+			query2.setParameter("quotedAmount", jobOrder.getQuotedAmount());
+		}
+		if (jobOrder.getBillingAmount() != null && jobOrder.getBillingAmount().intValue() > 0) {
+			query.setParameter("billingAmount", jobOrder.getBillingAmount());
+			query2.setParameter("billingAmount", jobOrder.getBillingAmount());
+		}
+		if (jobOrder.getOrderNumber() != null && !jobOrder.getOrderNumber().isEmpty()) {
+			query.setParameter("orderNumber", jobOrder.getOrderNumber());
+			query2.setParameter("orderNumber", jobOrder.getOrderNumber());
+		}
+
+		if (jobOrder.getPoName() != null && !jobOrder.getPoName().isEmpty()) {
+			query.setParameter("poName", jobOrder.getPoName());
+			query2.setParameter("poName", jobOrder.getPoName());
+		}
+
+		if (jobOrder.getJobName() != null && !jobOrder.getJobName().isEmpty()) {
+			query.setParameter("jobName", "%" + jobOrder.getJobName().toLowerCase() + "%");
+			query2.setParameter("jobName", "%" + jobOrder.getJobName().toLowerCase() + "%");
+		}
+		if (jobOrder.getJobAddress() != null && !jobOrder.getJobAddress().isEmpty()) {
+			query.setParameter("jobAddress", "%" + jobOrder.getJobAddress().toLowerCase() + "%");
+			query2.setParameter("jobAddress", "%" + jobOrder.getJobAddress().toLowerCase() + "%");
+		}
+
+		if (jobOrder.getVavControls() != null && !jobOrder.getVavControls().isEmpty()) {
+			query.setParameter("vavControls", "%" + jobOrder.getVavControls().toLowerCase() + "%");
+			query2.setParameter("vavControls", "%" + jobOrder.getVavControls().toLowerCase() + "%");
+		}
+		/**
+		 * Search parameters
+		 */
+
 		if (jobOrder.getPageNumber() > 0 && jobOrder.getPageSize() > 0) {
 			query.setFirstResult(((jobOrder.getPageNumber() - 1) * jobOrder.getPageSize()))
 					.setMaxResults(jobOrder.getPageSize());
@@ -415,8 +506,23 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 		@SuppressWarnings("unchecked")
 		List<JobOrder> results = query.getResultList();
 		if (results != null && !results.isEmpty()) {
+			Double totalCost = 0.0D;
 			for (JobOrder result : results) {
+				totalCost = 0.0D;
 				enrichJobOrderForReport(result);
+				List<OrderBook> oBooks = orderBookService.listByJobOrder(result.getId());
+				if (oBooks != null && !oBooks.isEmpty()) {
+					for (OrderBook ob : oBooks) {
+						Invoice invoice = invoiceService.getInvoiceByJobOrder(ob.getJobId());
+						if (invoice != null) {
+							Set<ProfitSheetItem> psItems = invoice.getProfitSheetItems();
+							if (psItems != null && !psItems.isEmpty()) {
+								totalCost += calculateTotalCost(psItems);
+							}
+						}
+					}
+				}
+				result.setTotalCost(totalCost);
 			}
 			response.setResults(results);
 		}
@@ -424,10 +530,13 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 	}
 
 	private JobOrder enrichJobOrderForReport(JobOrder jobOrder) {
-		User salesUser = userService.findUser(jobOrder.getSalesPersonId());
-		if (salesUser != null) {
-			jobOrder.setSalesPersonName(salesUser.getFirstName() + "	" + salesUser.getLastName());
+		if (jobOrder.getSalesPersonId() != null && jobOrder.getSalesPersonId() > 0) {
+			User salesUser = userService.findUser(jobOrder.getSalesPersonId());
+			if (salesUser != null) {
+				jobOrder.setSalesPersonName(salesUser.getFirstName() + "	" + salesUser.getLastName());
+			}
 		}
+
 		User user = userService.findUser(jobOrder.getCreatedById());
 		if (user != null) {
 			jobOrder.setCreatedByUserCode(user.getUserCode());
@@ -448,4 +557,15 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 		return jobOrder;
 	}
 
+	private Double calculateTotalCost(Set<ProfitSheetItem> psItems) {
+		Double totalCost = 0.0D;
+
+		if (psItems != null && !psItems.isEmpty()) {
+			for (ProfitSheetItem psi : psItems) {
+				totalCost = totalCost + (psi.getInvAmount() == null ? 0.0D : psi.getInvAmount())
+						+ (psi.getFreight() == null ? 0.0D : psi.getFreight());
+			}
+		}
+		return totalCost;
+	}
 }

@@ -41,7 +41,7 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
 		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
-				.append(" entity WHERE entity.archived = 'false'");
+				.append(" entity WHERE entity.archived = 'false' ORDER BY entity.dateCreated DESC");
 		return listAll(pageNumber, pageSize, sb.toString(), entityClassName, "id", em);
 	}
 

@@ -2,7 +2,7 @@
 INSERT INTO `PERMISSION`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`, `DISPLAYORDER`,`HIERARCHY`)
 VALUES('takeoff_c',0,1,CURRENT_TIMESTAMP,NULL,'New Takeoff',NULL,1,'Takeoff', 'takeoff-add', 1, 1),
 ('takeoff_r',0,1,CURRENT_TIMESTAMP,NULL,'View Takeoff',NULL,1,'Takeoff', 'takeoff-view', 2, 1),
-('takeoff_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Takeoff',NULL,1,'Takeoff', 'takeoff-search', 3, 1),
+/*('takeoff_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Takeoff',NULL,1,'Takeoff', 'takeoff-search', 3, 1),*/
 ('takeoff_report',0,1,CURRENT_TIMESTAMP,NULL,'Reports',NULL,1,'Takeoff', 'takeoff-reports', 4, 1),
 ('takeoff_u',0,1,CURRENT_TIMESTAMP,NULL,'Update',NULL,1,'Takeoff', NULL, 5, 1),
 ('takeoff_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Takeoff', NULL, 6, 1),
@@ -13,9 +13,9 @@ VALUES('takeoff_c',0,1,CURRENT_TIMESTAMP,NULL,'New Takeoff',NULL,1,'Takeoff', 't
 INSERT INTO `PERMISSION`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`, `DISPLAYORDER`,`HIERARCHY`)
 VALUES('quote_new_view',0,1,CURRENT_TIMESTAMP,NULL,'New Quote',NULL,1,'Quote', 'quote-new-view', 1, 1),
 ('quote_r',0,1,CURRENT_TIMESTAMP,NULL,'View Quote',NULL,1,'Quote', 'quote-view', 2, 1),
-('quote_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Quote',NULL,1,'Quote', 'quote-search', 3, 1),
+/*('quote_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Quote',NULL,1,'Quote', 'quote-search', 3, 1),*/
 ('quote_report',0,1,CURRENT_TIMESTAMP,NULL,'Reports',NULL,1,'Quote', 'quote-reports', 4, 1),
-('quote_follow',0,1,CURRENT_TIMESTAMP,NULL,'Quote Followup',NULL,1,'Quote', 'quote-follow', 5, 1),
+/*('quote_follow',0,1,CURRENT_TIMESTAMP,NULL,'Quote Followup',NULL,1,'Quote', 'quote-follow', 5, 1),*/
 ('quote_c',0,1,CURRENT_TIMESTAMP,NULL,'Make Quote',NULL,1,'Quote', NULL, 6, 1),
 ('quote_u',0,1,CURRENT_TIMESTAMP,NULL,'Update',NULL,1,'Quote', NULL, 7, 1),
 ('quote_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Quote', NULL, 8, 1),
@@ -32,7 +32,7 @@ VALUES('quote_new_view',0,1,CURRENT_TIMESTAMP,NULL,'New Quote',NULL,1,'Quote', '
 INSERT INTO `PERMISSION`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`, `DISPLAYORDER`,`HIERARCHY`)
 VALUES('joborder_c',0,1,CURRENT_TIMESTAMP,NULL,'New Job Order',NULL,1,'Job Order','joborder-add', 1, 1),
 ('joborder_r',0,1,CURRENT_TIMESTAMP,NULL,'View Job Order',NULL,1,'Job Order', 'joborder-view', 2, 1),
-('joborder_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Job Order',NULL,1,'Job Order', 'joborder-search', 3, 1),
+/*('joborder_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Job Order',NULL,1,'Job Order', 'joborder-search', 3, 1),*/
 ('joborder_report',0,1,CURRENT_TIMESTAMP,NULL,'Reports',NULL,1,'Job Order', 'joborder-reports', 4, 1),
 ('joborder_u',0,1,CURRENT_TIMESTAMP,NULL,'Update/Final',NULL,1,'Job Order', NULL, 5, 1),
 ('joborder_d',0,1,CURRENT_TIMESTAMP,NULL,'Delete',NULL,1,'Job Order', NULL, 6, 1),
@@ -48,7 +48,7 @@ VALUES('joborder_c',0,1,CURRENT_TIMESTAMP,NULL,'New Job Order',NULL,1,'Job Order
 INSERT INTO `PERMISSION`(`AUTHORITY`,`ARCHIVED`,`CREATEDBYID`,`DATECREATED`,`DATEUPDATED`,`DESCRIPTION`,`UPDATEDBYID`,`VERSION`,`LABEL`, `URL`, `DISPLAYORDER`,`HIERARCHY`)
 VALUES('orderbook_c',0,1,CURRENT_TIMESTAMP,NULL,'New Order',NULL,1,'Order Book', 'orderbook-add', 1, 1),
 ('orderbook_r',0,1,CURRENT_TIMESTAMP,NULL,'View Order Book',NULL,1,'Order Book', 'orderbook-view', 2, 1),
-('orderbook_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Order',NULL,1,'Order Book', 'orderbook-search', 3, 1),
+/*('orderbook_s',0,1,CURRENT_TIMESTAMP,NULL,'Search Order',NULL,1,'Order Book', 'orderbook-search', 3, 1),*/
 ('orderbook_report',0,1,CURRENT_TIMESTAMP,NULL,'Order Reports',NULL,1,'Order Book', 'orderbook-reports', 4, 1),
 ('orderbook_add_reg',0,1,CURRENT_TIMESTAMP,NULL,'Reg Order',NULL,1,'Order Book', NULL, 5, 2),
 ('orderbook_add_aw',0,1,CURRENT_TIMESTAMP,NULL,'AW Order',NULL,1,'Order Book', NULL, 6, 2),

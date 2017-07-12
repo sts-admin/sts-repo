@@ -771,10 +771,11 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 	@Override
 	@Transactional
 	public int updateUserOnlineStatus(Long userId, boolean status) {
-		Query query = getEntityManager().createQuery(
-				"UPDATE User u SET u.online =:status AND u.onlineTime =:onlineTime WHERE u.archived = 'false' AND u.id =:userId");
-		return query.setParameter("status", status).setParameter("onlineTime", Calendar.getInstance()).executeUpdate();
-
+		User user = findUser(userId);
+		user.setOnline(status);
+		user.setOnlineTime(Calendar.getInstance());
+		getEntityManager().merge(user);
+		return 1;
 	}
 
 	private void enrichUserDTO(List<UserDTO> users) {

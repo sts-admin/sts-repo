@@ -109,9 +109,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 		invoice.setBillableAmount(billableAmount == null ? 0.0D : billableAmount);
 
 		/**
-		 * Check to not to loose total cost, profit and percent values when
+		 * Check for not to loose total cost, profit and percent values when
 		 * update call to invoice is made from order book update process,
-		 * because no profit sheet items available in this process process
+		 * because no profit sheet items available in this process
 		 **/
 		Double totalCost = 0.0D;
 		if (invoice.getProfitSheetItems() != null && !invoice.getProfitSheetItems().isEmpty()) {
@@ -286,19 +286,5 @@ public class InvoiceServiceImpl implements InvoiceService {
 		}
 		getEntityManager().flush();
 		return psi.getId();
-	}
-
-	public static void main(String args[]) {
-		Double exAmount = 100D;
-		Double parPay = 20D;
-		Double total = exAmount + parPay;
-
-		System.err.println("total before = " + total);
-
-		Double currAmount = 110D;
-		total = (total - (currAmount < exAmount ? currAmount : -(currAmount - exAmount)));
-
-		System.err.println("total after = " + total);
-
 	}
 }

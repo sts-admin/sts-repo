@@ -2,6 +2,7 @@ package com.awacp.service;
 
 import java.util.List;
 
+import com.awacp.entity.Orbf;
 import com.awacp.entity.OrderBook;
 import com.sts.core.dto.StsResponse;
 
@@ -26,5 +27,11 @@ public interface OrderBookService {
 	public String uncancellOrderBook(Long orderBookId);
 
 	public StsResponse<OrderBook> generateOrderBookReport(OrderBook orderBook);
+
+	public Orbf getOrbf(Long id, Long obId);
+	
+	public Orbf getOrbf(Long orderBookId);
+
+	public Orbf saveOrbf(Orbf orbf);
 
 }

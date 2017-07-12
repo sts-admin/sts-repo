@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.awacp.entity.JobOrder;
+import com.awacp.entity.Orbf;
 import com.awacp.entity.OrderBook;
 import com.awacp.service.OrderBookService;
 import com.sts.core.dto.StsResponse;
@@ -24,16 +24,15 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private OrderBookService orderBookService;
-	
+
 	@POST
 	@Path("/generateOrderBookReport")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public StsResponse<OrderBook> generateOrderBookReport(OrderBook orderBook, @Context HttpServletResponse servletResponse)
-			throws Exception {
+	public StsResponse<OrderBook> generateOrderBookReport(OrderBook orderBook,
+			@Context HttpServletResponse servletResponse) throws Exception {
 		return this.orderBookService.generateOrderBookReport(orderBook);
 	}
-
 
 	@GET
 	@Path("/listOrderBooks/{pageNumber}/{pageSize}")
@@ -41,6 +40,22 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 	public StsResponse<OrderBook> listOrderBooks(@PathParam("pageNumber") int pageNumber,
 			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.orderBookService.listOrderBooks(pageNumber, pageSize);
+	}
+
+	@GET
+	@Path("/getOrbf/{id}/{obId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Orbf getOrderBook(@PathParam("id") Long id, @PathParam("obId") Long obId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.getOrbf(id, obId);
+	}
+
+	@GET
+	@Path("/getOrbfByOrderBook/{orderBookId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Orbf getOrbfByOrderBook(@PathParam("orderBookId") Long orderBookId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.getOrbf(orderBookId);
 	}
 
 	@GET
@@ -76,6 +91,15 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 	public OrderBook saveOrderBook(OrderBook orderBook, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		return this.orderBookService.saveOrderBook(orderBook);
+
+	}
+
+	@POST
+	@Path("/saveOrbf")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Orbf saveOrbf(Orbf orbf, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.saveOrbf(orbf);
 
 	}
 

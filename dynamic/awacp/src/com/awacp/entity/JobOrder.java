@@ -22,7 +22,7 @@ import com.sts.core.entity.BaseEntity;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "JobOrder.getByOrderId", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.orderNumber) = :orderNumber"),
-		@NamedQuery(name = "JobOrder.getByInvoiceStatus", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus"),
+		@NamedQuery(name = "JobOrder.getByInvoiceStatus", query = "SELECT jo FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus ORDER BY jo.dateCreated DESC"),
 		@NamedQuery(name = "JobOrder.getCountByInvoiceStatus", query = "SELECT COUNT(jo.id) FROM JobOrder jo WHERE jo.archived = 'false' AND LOWER(jo.invoiceMode) = :invoiceStatus") })
 public class JobOrder extends BaseEntity {
 
@@ -87,6 +87,11 @@ public class JobOrder extends BaseEntity {
 	private int pageSize;
 	private String status;
 	private String jobStatus;
+
+	private Double totalCost = 0.0D;
+	private Double totalProfit = 0.0D;
+	private Double profitPercent = 0.0D;
+	private Double totalBillableAmount = 0.0D;
 
 	public JobOrder() {
 		super();
@@ -499,6 +504,42 @@ public class JobOrder extends BaseEntity {
 
 	public void setJobStatus(String jobStatus) {
 		this.jobStatus = jobStatus;
+	}
+
+	@Transient
+	public Double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	@Transient
+	public Double getTotalProfit() {
+		return totalProfit;
+	}
+
+	public void setTotalProfit(Double totalProfit) {
+		this.totalProfit = totalProfit;
+	}
+
+	@Transient
+	public Double getProfitPercent() {
+		return profitPercent;
+	}
+
+	public void setProfitPercent(Double profitPercent) {
+		this.profitPercent = profitPercent;
+	}
+
+	@Transient
+	public Double getTotalBillableAmount() {
+		return totalBillableAmount;
+	}
+
+	public void setTotalBillableAmount(Double totalBillableAmount) {
+		this.totalBillableAmount = totalBillableAmount;
 	}
 
 }

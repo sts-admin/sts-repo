@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -470,6 +471,54 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 			sb.append(" AND FUNC('DATE', t.dueDate) >= :fromDueDate AND FUNC('DATE', t.dueDate) <= :toDueDate");
 			countQuery.append(" AND FUNC('DATE', t.dueDate) >= :fromDueDate AND FUNC('DATE', t.dueDate) <= :toDueDate");
 		}
+
+		/** search form input */
+		if (takeoff.getQuoteRevision() != null && !takeoff.getQuoteRevision().isEmpty()) {
+			sb.append(" AND t.quoteRevision =:quoteRevision");
+			countQuery.append(" AND t.quoteRevision =:quoteRevision");
+		}
+		if (takeoff.getDrawingDate() != null && takeoff.getDrawingDate() != null) {
+			sb.append(" AND FUNC('DATE', t.drawingDate) = :drawingDate");
+			countQuery.append(" AND FUNC('DATE', t.drawingDate) = :drawingDate");
+		}
+
+		if (takeoff.getRevisedDate() != null && takeoff.getRevisedDate() != null) {
+			sb.append(" AND FUNC('DATE', t.revisedDate) = :revisedDate");
+			countQuery.append(" AND FUNC('DATE', t.revisedDate) = :revisedDate");
+		}
+
+		if (takeoff.getDrawingReceivedFrom() != null && !takeoff.getDrawingReceivedFrom().isEmpty()) {
+			sb.append(" AND LOWER(t.drawingReceivedFrom) =:drawingReceivedFrom");
+			countQuery.append(" AND LOWER(t.drawingReceivedFrom) =:drawingReceivedFrom");
+		}
+		if (takeoff.getJobName() != null && takeoff.getJobName().trim().length() > 0) {
+			sb.append(" AND LOWER(t.jobName) LIKE :jobName");
+			countQuery.append(" AND LOWER(t.jobName) LIKE :jobName");
+
+		}
+		if (takeoff.getJobAddress() != null && takeoff.getJobAddress().trim().length() > 0) {
+			sb.append(" AND LOWER(t.jobAddress) LIKE :jobAddress");
+			countQuery.append(" AND LOWER(t.jobAddress) LIKE :jobAddress");
+		}
+		if (takeoff.getProjectNumber() != null && takeoff.getProjectNumber().trim().length() > 0) {
+			sb.append(" AND t.projectNumber =:projectNumber");
+			countQuery.append(" AND t.projectNumber =:projectNumber");
+		}
+
+		if (takeoff.getAmount() != null && takeoff.getAmount().intValue() > 0) {
+			sb.append(" AND t.amount =:amount");
+			countQuery.append(" AND t.amount =:amount");
+		}
+		if (takeoff.getJobOrderNumber() != null && !takeoff.getJobOrderNumber().isEmpty()) {
+			sb.append(" AND t.jobOrderNumber =:jobOrderNumber");
+			countQuery.append(" AND t.jobOrderNumber =:jobOrderNumber");
+		}
+		if (takeoff.getQuoteId() != null && !takeoff.getQuoteId().isEmpty()) {
+			sb.append(" AND t.quoteId =:quoteId");
+			countQuery.append(" AND t.quoteId =:quoteId");
+		}
+		/** search form input */
+
 		if (takeoff.getYear() > 0) {
 			sb.append(" AND FUNC('YEAR', t.dateCreated) =:year");
 			countQuery.append(" AND FUNC('YEAR', t.dateCreated) =:year");
@@ -490,11 +539,12 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 			sb.append(" AND t.architectureId =:architectureId");
 			countQuery.append(" AND t.architectureId =:architectureId");
 		}
+
 		if (takeoff.getSpecId() != null) {
 			sb.append(" AND t.spec.id =:specId");
 			countQuery.append(" AND t.spec.id =:specId");
 		}
-		if(takeoff.getQuoteRevision() != null && !takeoff.getQuoteRevision().isEmpty()){
+		if (takeoff.getQuoteRevision() != null && !takeoff.getQuoteRevision().isEmpty()) {
 			sb.append(" AND t.quoteRevision =:quoteRevision");
 			countQuery.append(" AND t.quoteRevision =:quoteRevision");
 		}
@@ -514,6 +564,52 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 
 			query2.setParameter("fromDueDate", takeoff.getFromDueDate(), TemporalType.DATE);
 			query2.setParameter("toDueDate", takeoff.getToDueDate(), TemporalType.DATE);
+		}
+		/* search report input */
+		if (takeoff.getJobName() != null && !takeoff.getJobName().isEmpty()) {
+			query.setParameter("jobName", "%" + takeoff.getJobName().toLowerCase() + "%");
+			query2.setParameter("jobName", "%" + takeoff.getJobName().toLowerCase() + "%");
+		}
+		if (takeoff.getJobAddress() != null && !takeoff.getJobAddress().isEmpty()) {
+			query.setParameter("jobAddress", "%" + takeoff.getJobAddress().toLowerCase() + "%");
+			query2.setParameter("jobAddress", "%" + takeoff.getJobAddress().toLowerCase() + "%");
+		}
+		if (takeoff.getProjectNumber() != null && !takeoff.getProjectNumber().isEmpty()) {
+			query.setParameter("projectNumber", takeoff.getProjectNumber());
+			query2.setParameter("projectNumber", takeoff.getProjectNumber());
+		}
+		if (takeoff.getDrawingDate() != null) {
+			query.setParameter("drawingDate", takeoff.getDrawingDate(), TemporalType.DATE);
+			query2.setParameter("drawingDate", takeoff.getDrawingDate(), TemporalType.DATE);
+		}
+		if (takeoff.getRevisedDate() != null) {
+			query.setParameter("revisedDate", takeoff.getRevisedDate(), TemporalType.DATE);
+			query2.setParameter("revisedDate", takeoff.getRevisedDate(), TemporalType.DATE);
+		}
+		if (takeoff.getDrawingReceivedFrom() != null && !takeoff.getDrawingReceivedFrom().isEmpty()) {
+			query.setParameter("drawingReceivedFrom", takeoff.getDrawingReceivedFrom().toLowerCase());
+			query2.setParameter("drawingReceivedFrom", takeoff.getDrawingReceivedFrom().toLowerCase());
+		}
+
+		if (takeoff.getAmount() != null && takeoff.getAmount().intValue() > 0) {
+			query.setParameter("amount", takeoff.getAmount());
+			query2.setParameter("amount", takeoff.getAmount());
+		}
+
+		if (takeoff.getJobOrderNumber() != null && !takeoff.getJobOrderNumber().isEmpty()) {
+			query.setParameter("jobOrderNumber", takeoff.getJobOrderNumber());
+			query2.setParameter("jobOrderNumber", takeoff.getJobOrderNumber());
+		}
+		if (takeoff.getQuoteId() != null && !takeoff.getQuoteId().isEmpty()) {
+			query.setParameter("quoteId", takeoff.getQuoteId());
+			query2.setParameter("quoteId", takeoff.getQuoteId());
+		}
+
+		/* search report input */
+
+		if (takeoff.getQuoteRevision() != null && !takeoff.getQuoteRevision().isEmpty()) {
+			query.setParameter("quoteRevision", takeoff.getQuoteRevision());
+			query2.setParameter("quoteRevision", takeoff.getQuoteRevision());
 		}
 		if (takeoff.getYear() > 0) {
 			query.setParameter("year", takeoff.getYear());
@@ -559,8 +655,27 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 
 		List<Takeoff> results = query.getResultList();
 		if (results != null && !results.isEmpty()) {
-			for (Takeoff result : results) {
-				enrichTakeoffForReport(result);
+			ListIterator<Takeoff> ti = results.listIterator();
+			Takeoff result = null;
+			while (ti.hasNext()) {
+				result = ti.next();
+				Set<Bidder> bidders = null;
+				if (takeoff.getBiddersIds() != null && takeoff.getBiddersIds().length > 0) {
+					bidders = new HashSet<Bidder>();
+					Bidder bidder = null;
+					for (String id : takeoff.getBiddersIds()) {
+						bidder = new Bidder();
+						bidder.setId(Long.valueOf(id));
+						bidders.add(bidder);
+					}
+					if (result.getBidders().containsAll(bidders)) {
+						enrichTakeoffForReport(result);
+					} else {
+						ti.remove();
+					}
+				} else {
+					enrichTakeoffForReport(result);
+				}
 			}
 			response.setResults(results);
 		}

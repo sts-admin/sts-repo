@@ -17,7 +17,7 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "OrderBook.getByJobOrderId", query = "SELECT ob FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId"),
+		@NamedQuery(name = "OrderBook.getByJobOrderId", query = "SELECT ob FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId ORDER BY ob.dateCreated DESC"),
 		@NamedQuery(name = "OrderBook.getCountByJobOrderId", query = "SELECT COUNT(ob.id) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId"),
 		@NamedQuery(name = "OrderBook.getCancelledCountByJobOrderId", query = "SELECT COUNT(ob.id) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId AND ob.cancelled = 'true'"),
 		@NamedQuery(name = "OrderBook.getOrderBookNumbersByOrderId", query = "SELECT new com.awacp.entity.OrderBook(ob.orderBookNumber) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId") })

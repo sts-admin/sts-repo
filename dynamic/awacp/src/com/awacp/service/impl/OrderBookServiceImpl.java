@@ -26,6 +26,7 @@ import com.awacp.entity.Factory;
 import com.awacp.entity.Invoice;
 import com.awacp.entity.JInventory;
 import com.awacp.entity.JobOrder;
+import com.awacp.entity.Orbf;
 import com.awacp.entity.OrderBook;
 import com.awacp.entity.OrderBookInvItem;
 import com.awacp.entity.ProfitSheetItem;
@@ -406,6 +407,45 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			sb.append(" AND t.shipToId =:shipToId");
 			countQuery.append(" AND t.shipToId =:shipToId");
 		}
+		/**
+		 * Search fields
+		 */
+		if (orderBook.getOrderBookNumber() != null && !orderBook.getOrderBookNumber().isEmpty()) {
+			sb.append(" AND t.orderBookNumber =:orderBookNumber");
+			countQuery.append(" AND t.orderBookNumber =:orderBookNumber");
+		}
+		if (orderBook.getJobName() != null && !orderBook.getJobName().isEmpty()) {
+			sb.append(" AND LOWER(t.jobName) LIKE :jobName");
+			countQuery.append(" AND LOWER(t.jobName) LIKE :jobName");
+		}
+		if (orderBook.getJobAddress() != null && !orderBook.getJobAddress().isEmpty()) {
+			sb.append(" AND LOWER(t.jobAddress) LIKE :jobAddress");
+			countQuery.append(" AND LOWER(t.jobAddress) LIKE :jobAddress");
+		}
+		if (orderBook.getAttn() != null && !orderBook.getAttn().isEmpty()) {
+			sb.append(" AND t.attn =:attn");
+			countQuery.append(" AND t.attn =:attn");
+		}
+		if (orderBook.getOrbf() != null && !orderBook.getOrbf().isEmpty()) {
+			sb.append(" AND t.orbf =:orbf");
+			countQuery.append(" AND t.orbf =:orbf");
+		}
+		if (orderBook.getJobOrderNumber() != null && !orderBook.getJobOrderNumber().isEmpty()) {
+			sb.append(" AND t.jobOrderNumber =:jobOrderNumber");
+			countQuery.append(" AND t.jobOrderNumber =:jobOrderNumber");
+		}
+		if (orderBook.getComment() != null && !orderBook.getComment().isEmpty()) {
+			sb.append(" AND LOWER(t.comment) LIKE :comment");
+			countQuery.append(" AND LOWER(t.comment) LIKE :comment");
+		}
+		if (orderBook.getEstDate() != null) {
+			sb.append(" AND FUNC('DATE', t.estDate) = :estDate");
+			countQuery.append(" AND FUNC('DATE', t.estDate) = :estDate");
+		}
+		/**
+		 * Search fields
+		 */
+
 		Query query = getEntityManager().createQuery(sb.toString());
 		Query query2 = getEntityManager().createQuery(countQuery.toString());
 
@@ -444,6 +484,45 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			query2.setParameter("shipToId", orderBook.getShipToId());
 		}
 
+		/**
+		 * Search fields
+		 */
+		if (orderBook.getOrderBookNumber() != null && !orderBook.getOrderBookNumber().isEmpty()) {
+			query.setParameter("orderBookNumber", orderBook.getOrderBookNumber());
+			query2.setParameter("orderBookNumber", orderBook.getOrderBookNumber());
+		}
+		if (orderBook.getJobName() != null && !orderBook.getJobName().isEmpty()) {
+			query.setParameter("jobName", "%" + orderBook.getJobName().toLowerCase() + "%");
+			query2.setParameter("jobName", "%" + orderBook.getJobName().toLowerCase() + "%");
+		}
+		if (orderBook.getJobAddress() != null && !orderBook.getJobAddress().isEmpty()) {
+			query.setParameter("jobAddress", "%" + orderBook.getJobAddress().toLowerCase() + "%");
+			query2.setParameter("jobAddress", "%" + orderBook.getJobAddress().toLowerCase() + "%");
+		}
+		if (orderBook.getAttn() != null && !orderBook.getAttn().isEmpty()) {
+			query.setParameter("attn", orderBook.getAttn().toLowerCase());
+			query2.setParameter("attn", orderBook.getAttn().toLowerCase());
+		}
+		if (orderBook.getOrbf() != null && !orderBook.getOrbf().isEmpty()) {
+			query.setParameter("orbf", orderBook.getOrbf().toLowerCase());
+			query2.setParameter("orbf", orderBook.getOrbf().toLowerCase());
+		}
+		if (orderBook.getJobOrderNumber() != null && !orderBook.getJobOrderNumber().isEmpty()) {
+			query.setParameter("jobOrderNumber", orderBook.getJobOrderNumber().toLowerCase());
+			query2.setParameter("jobOrderNumber", orderBook.getJobOrderNumber().toLowerCase());
+		}
+		if (orderBook.getComment() != null && !orderBook.getComment().isEmpty()) {
+			query.setParameter("comment", "%" + orderBook.getComment().toLowerCase() + "%");
+			query2.setParameter("comment", "%" + orderBook.getComment().toLowerCase() + "%");
+		}
+		if (orderBook.getEstDate() != null) {
+			query.setParameter("estDate", orderBook.getEstDate().getTime(), TemporalType.DATE);
+			query2.setParameter("estDate", orderBook.getEstDate().getTime(), TemporalType.DATE);
+		}
+		/**
+		 * Search fields
+		 */
+
 		if (orderBook.getPageNumber() > 0 && orderBook.getPageSize() > 0) {
 			query.setFirstResult(((orderBook.getPageNumber() - 1) * orderBook.getPageSize()))
 					.setMaxResults(orderBook.getPageSize());
@@ -470,10 +549,13 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 	}
 
 	private OrderBook enrichOrderBookForReport(OrderBook orderBook) {
-		User user = userService.findUser(orderBook.getSalesPersonId());
-		if (user != null) {
-			orderBook.setSalesPersonName(user.getFirstName() + " " + user.getLastName());
+		if (orderBook.getSalesPersonId() != null && orderBook.getSalesPersonId() > 0) {
+			User user = userService.findUser(orderBook.getSalesPersonId());
+			if (user != null) {
+				orderBook.setSalesPersonName(user.getFirstName() + " " + user.getLastName());
+			}
 		}
+
 		if (orderBook.getContractorId() != null && orderBook.getContractorId() > 0) {
 			orderBook.setContractorName(
 					getEntityManager().find(Contractor.class, orderBook.getContractorId()).getName());
@@ -486,5 +568,42 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 		}
 
 		return orderBook;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Orbf getOrbf(Long id, Long orderBookId) {
+		List<Orbf> orbfs = getEntityManager().createNamedQuery("Orbf.findByIdAndByOrderBookId").setParameter("id", id)
+				.setParameter("orderBookId", orderBookId).getResultList();
+		if (orbfs != null && !orbfs.isEmpty()) {
+			return orbfs.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public Orbf saveOrbf(Orbf orbf) {
+		if (orbf.getId() != null && orbf.getId() > 0) {
+			getEntityManager().merge(orbf);
+		} else {
+			getEntityManager().persist(orbf);
+		}
+		OrderBook ob = getEntityManager().find(OrderBook.class, orbf.getOrderBookId());
+		ob.setOrbf(orbf.getOrbf());
+		getEntityManager().merge(ob);
+		getEntityManager().flush();
+		return orbf;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Orbf getOrbf(Long orderBookId) {
+		List<Orbf> orbfs = getEntityManager().createNamedQuery("Orbf.findByOrderBookId")
+				.setParameter("orderBookId", orderBookId).getResultList();
+		if (orbfs != null && !orbfs.isEmpty()) {
+			return orbfs.get(0);
+		}
+		return null;
 	}
 }
