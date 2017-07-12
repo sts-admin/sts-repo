@@ -5,7 +5,7 @@
     <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders('all');">
       <div class="panel-heading form-heading panel-heading-top">
         <label>View Job Orders</label>
-        <span class="pull-right" ng-show="jobVm.showAddJobOrderLink"><a href ui-sref="joborder-add" >Add Job Order</a></span> </div>
+        <span class="pull-right" ><a href ui-sref="joborder-add" >Add Job Order</a></span> </div>
       <div class="panel-body">
         <div style="text-align:right;">
           <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left"> Per page Rows
@@ -25,7 +25,7 @@
               <div class="table-container">
                 <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
                   <thead>
-                    <tr style="background-color:#bd7589" ng-show="jobVm.showAddJobOrderLink">
+                    <tr style="background-color:#bd7589" >
                       <td align="center">&nbsp;</td>
                       <td align="center">A</td>
                       <td align="center">V</td>
@@ -59,17 +59,17 @@
                     </tr>
                     <tr style="background-color:#7d3549; color:#fff">
                       <td align="center" style="min-width:50px;">Info Icon</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">1</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">2</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">3</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">4</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">5</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">6</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">XLS</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">DOC</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">TAX</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">PO</td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">IU</td>
+                      <td align="center" >1</td>
+                      <td align="center" >2</td>
+                      <td align="center" >3</td>
+                      <td align="center" >4</td>
+                      <td align="center" >5</td>
+                      <td align="center" >6</td>
+                      <td align="center" >XLS</td>
+                      <td align="center" >DOC</td>
+                      <td align="center" >TAX</td>
+                      <td align="center" >PO</td>
+                      <td align="center" >IU</td>
                       <td align="center">View INV</td>
                       <td align="center">Start Date</td>
                       <td class="bg-4D7373" align="center">Quote ID</td>
@@ -97,7 +97,7 @@
 							<img  popover-placement="right" uib-popover-template="jobVm.jobOrderPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{jobVm.jobOrderPopover.title}}"  ng-click="jobVm.showJobOrderInfo(jobOrder);"  style="cursor:pointer;" src="images/jobinfo.png" alt="image" border="0" />
 						</span>
 					  </td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                      <td align="center" >
 						<a href ng-click="jobVm.showFileListingView('JO_ONE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joOneDocCount}}</span>
 						</a>
@@ -105,7 +105,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                      <td align="center" >
 						<a href ng-click="jobVm.showFileListingView('JO_TWO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joTwoDocCount}}</span>
 						</a>
@@ -113,7 +113,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                       <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                       <td align="center" >
 					   <a href ng-click="jobVm.showFileListingView('JO_THREE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joThreeDocCount}}</span>
 						</a>
@@ -121,7 +121,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                      <td align="center" >
 					   <a href ng-click="jobVm.showFileListingView('JO_FOUR', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joFourDocCount}}</span>
 						</a>
@@ -129,7 +129,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                      <td align="center" >
 						<a href ng-click="jobVm.showFileListingView('JO_FIVE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joFiveDocCount}}</span>
 						</a>
@@ -137,7 +137,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                      <td align="center" >
 					  <a href ng-click="jobVm.showFileListingView('JO_SIX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joSixDocCount}}</span>
 						</a>
@@ -145,7 +145,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                       <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                       <td align="center" >
 						 <a href ng-click="jobVm.showFileListingView('JO_XLS', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joXlsCount}}</span>
 						</a>
@@ -153,7 +153,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                       <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                       <td align="center" >
 						<a href ng-click="jobVm.showFileListingView('JO_DOC', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joDocCount}}</span>
 						</a>
@@ -161,7 +161,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                       <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                       <td align="center" >
 					   <a href ng-click="jobVm.showFileListingView('JO_TAX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joTaxDocCount}}</span>
 						</a>
@@ -169,7 +169,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                      <td align="center" >
 						<a href ng-click="jobVm.showFileListingView('JO_PO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joPoDocCount}}</span>
 						</a>
@@ -177,7 +177,7 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                       <td align="center" ng-show="jobVm.showAddJobOrderLink">
+                       <td align="center" >
 					   <a href ng-click="jobVm.showFileListingView('JO_IU', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
 							<span class="badge">{{jobOrder.joUiDocCount}}</span>
 						</a>

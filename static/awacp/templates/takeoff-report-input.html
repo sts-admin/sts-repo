@@ -110,7 +110,7 @@
                 </div>
                 <!-- .row -->
                 <div class="row">
-                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer:</span> </div>
                   <!-- .col -->
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
@@ -122,7 +122,7 @@
                     </div>
                   </div>
                   <!-- .col -->
-                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Architect</span> </div>
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Architect:</span> </div>
                   <!-- .col -->
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
@@ -133,8 +133,28 @@
                       </select>
                     </div>
                   </div>
+				  
                   <!-- .col -->
-                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Specifications</span> </div>
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Name:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                     <input type="text" ng-model="takeVm.takeoff.jobName" class="form-control">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+				<div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Address:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                       <input type="text" ng-model="takeVm.takeoff.jobAddress" class="form-control">
+                    </div>
+                  </div>
+				  
+				  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Specifications:</span> </div>
                   <!-- .col -->
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
@@ -146,7 +166,64 @@
                     </div>
                   </div>
                   <!-- .col -->
+				  
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Project Number:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                     <input type="text" ng-model="takeVm.takeoff.projectNumber" class="form-control">
+                    </div>
+                  </div>                  
                 </div>
+				
+				 <div class="row">
+				  <div class="col-lg-2 col-md-3 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Drawing Date:</span></div>
+				  <!-- .col -->
+				  <div class="col-lg-2 col-md-3 col-sm-3">
+					<div class="form-group">
+					<input type="text" class="form-control" placeholder="Drawing Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.drawingDate" is-open="takeVm.rptDrawingDate.opened" data-ng-click="takeVm.rptDrawingDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+			
+					</div>
+				  </div>
+				  <!-- .col -->
+				  <div class="col-lg-2 col-md-3 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Revised Date:</span></div>
+				  <!-- .col -->
+				  <div class="col-lg-2 col-md-3 col-sm-3">
+					<div class="form-group">
+					  <input type="text" class="form-control" placeholder="Revised Date" uib-datepicker-popup="{{dateFormat}}" ng-model="takeVm.takeoff.revisedDate" is-open="takeVm.rptReviseDate.opened" data-ng-click="takeVm.rptReviseDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+					</div>
+				  </div>
+				</div>
+				
+				<div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Drawing Received From:</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                       <input type="text" ng-model="takeVm.takeoff.drawingReceivedFrom" class="form-control">
+                    </div>
+                  </div>		                 
+                </div>
+				
+				  <div class="row">
+				  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+					<div class="form-group"> <span class="new-take-off-title">List of Bidders:</span></div>
+				  </div>
+				  <!-- .col -->
+				  <div class="col-lg-10 col-md-10 col-sm-9">
+					 <div class="form-group">
+                       <ui-select multiple ng-model="takeVm.selectedBidders" theme="bootstrap" style="height:50px;" close-on-select="false" title="Choose Bidder(s)">
+						<ui-select-match placeholder="Select Bidder(s)">{{$item.name}}</ui-select-match>
+						<ui-select-choices repeat="bidder in takeVm.bidders | filter:$select.search">
+						  {{bidder.name}}
+						</ui-select-choices>
+					  </ui-select>
+                    </div>
+					<!-- .form-group -->
+				  </div>
+				  <!-- .col -->
+				</div>
                 <!-- .row -->
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -186,7 +263,7 @@
 			  <!-- .col -->
 			  <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total <span class="badge">{{takeVm.takeoffs.length}}</span> row(s) found </div>
 			</div>
-			<div class="row" id="contents" style="margin-top:25px; float:left;" ng-show="takeVm.report.mode === 'output'">
+			<div class="row" id="contents" style="margin-top:25px; float:left;">
 			  <!-- .col -->
 			  <div class="col-lg-12 pad-none">
 				<form id="users_view_form" class="table-container" action="" method="post">
@@ -223,7 +300,7 @@
 						  <td align="center">{{takeoff.dueDate | date:'shortDate'}}</td>
 						  <td align="center" ng-style="{{takeoff.idStyle}}"><a href ui-sref = "takeoff-edit({id:takeoff.id})">{{takeoff.takeoffId}}</a></td>
 						  <td align="center"><a href ui-sref="quote-view-single({qSource:takeoff.id})" >{{takeoff.quoteId}}</a></td>
-						  <td align="center">{{takeoff.jobId}}</td>
+						  <td align="center">{{takeoff.jobOrderNumber}}</td>
 						  <td align="center">{{takeoff.jobName}}</td>
 						  <td align="center">{{takeoff.jobAddress}}</td>
 						  <td align="center">{{takeoff.engineerName}}</td>

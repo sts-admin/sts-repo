@@ -57,6 +57,7 @@
 						data.orbf.estDate = new Date(data.orbf.estDate);
 					}
 					orbfVm.orbf = data.orbf;
+					$scope.$digest();
 				}
 				
 			})
@@ -103,6 +104,7 @@
 			.success(function(data, status, headers){
 				if(data && data.jobOrder){
 					orbfVm.jobOrder = data.jobOrder;
+					$scope.$digest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

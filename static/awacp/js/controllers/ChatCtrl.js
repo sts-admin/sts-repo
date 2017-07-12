@@ -7,12 +7,14 @@
 		$scope.timers = [];
 		chatVm.onlineUsers = [];
 		chatVm.offlineUsers = [];
+		chatVm.chatMessage = {};
 		chatVm.listOnlineUsers = function(){
 			chatVm.onlineUsers = [];
 			ChatService.listUsers("online", function(result, status){
 				if("success" === status){
 					chatVm.onlineUsers = result;
 				}
+				console.log(JSON.stringify());
 			});
 		}
 		chatVm.listOfflineUsers = function(){
@@ -22,6 +24,9 @@
 					chatVm.offlineUsers = result;
 				}
 			});
+		}
+		chatVm.saveChatMessage = function(){
+			
 		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){

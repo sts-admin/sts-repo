@@ -264,7 +264,7 @@
 							tmp.push(v);
 						});
 					}	
-						takeVm.bidders = tmp;
+					takeVm.bidders = tmp;
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -486,9 +486,17 @@
 		}
 		takeVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
 		takeVm.rptFromDate = {opened:false};
+		takeVm.rptDrawingDate = {opened:false};
+		takeVm.rptReviseDate = {opened:false};
 		takeVm.rptToDate = {opened:false};
 		takeVm.rptDueDateFrom ={opened:false};
 		takeVm.rptDueDateTo ={opened:false};
+		takeVm.rptDrawingDatePicker = function(){
+			takeVm.rptDrawingDate.opened = true;
+		}
+		takeVm.rptReviseDatePicker = function(){
+			takeVm.rptReviseDate.opened = true;
+		}
 		takeVm.rptFromDatePicker = function(){
 			takeVm.rptFromDate.opened = true;
 		}
@@ -506,6 +514,7 @@
 			takeVm.getUsers();
 			takeVm.getArchitects();
 			takeVm.getEngineers();
+			takeVm.getBidders();
 			takeVm.getSpecs();
 		}
 		takeVm.toggleReportFormVisibility = function(){
@@ -536,10 +545,20 @@
 			takeVm.report.mode = 'input';
 			takeVm.takeoffs = [];
 			if(takeVm.takeoff.fromDate && !takeVm.takeoff.toDate){
+				takeVm.takeoff.fromDate = new Date(takeVm.takeoff.fromDate);
 				takeVm.takeoff.toDate = takeVm.takeoff.fromDate;
 			}
 			if(takeVm.takeoff.fromDueDate && !takeVm.takeoff.toDueDate){
 				takeVm.takeoff.toDueDate = takeVm.takeoff.fromDueDate;
+			}
+			if(takeVm.selectedBidders.length > 0){
+				var ids = [];
+				jQuery.each(takeVm.selectedBidders, function(k, v){
+					ids.push(v.id);
+				});
+				if(ids.length > 0){
+					takeVm.takeoff.biddersIds = ids;
+				}
 			}
 			takeVm.takeoff.pageNumber = takeVm.currentPage;
 			takeVm.takeoff.pageSize = takeVm.pageSize;

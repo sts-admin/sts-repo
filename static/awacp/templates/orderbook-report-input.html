@@ -5,9 +5,10 @@
     <div class="panel panel-default" ng-init="obVm.initOrderBookMasterInputs()">
       <div class="panel-heading form-heading panel-heading-top">
         <label>Order Book Report Input</label>
+		<a id="form_display" class="btn btn-success pull-right" ng-click="obVm.toggleReportFormVisibility();" href >{{obVm.showReportForm?"Hide Report Form":"Show Report Form"}}</a> 
       </div>
       <div class="panel-body new-tk-bg">
-        <form ng-submit="obVm.rememberReportQueryParams();">
+        <form ng-submit="obVm.rememberReportQueryParams();"  ng-show="obVm.showReportForm">
         <!-- .row -->
         <section>
           <!-- .container -->
@@ -29,7 +30,7 @@
                   <!-- .col -->
                   <div class="col-lg-3 col-md-3 col-sm-2">
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="From Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.toDate" is-open="obVm.rptToDate.opened" data-ng-click="obVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                      <input type="text" class="form-control" placeholder="To Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.toDate" is-open="obVm.rptToDate.opened" data-ng-click="obVm.rptToDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
                     </div>
                   </div>
                   <!-- .col -->
@@ -115,6 +116,75 @@
                   </div>
                   <!-- .col -->
                 </div>
+				 <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">AWACP PO#</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Order Book Number" ng-model="obVm.orderBook.orderBookNumber">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Est Date</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+					  <input type="text" class="form-control" placeholder="Est Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.estDate" is-open="obVm.rptEstDate.opened" data-ng-click="obVm.rptEstDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">ORBF</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group"><input type="text" class="form-control" placeholder="ORBF" ng-model="obVm.orderBook.orbf">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+				 <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job ID</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Job ID" ng-model="obVm.orderBook.jobOrderNumber">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Comments / Model#</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+					  <input type="text" class="form-control" placeholder="Comments" ng-model="obVm.orderBook.comment" >
+                    </div>
+                  </div>                
+                </div>
+				
+				  <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Attn</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Attn" ng-model="obVm.orderBook.attn">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Name</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+					 <input type="text" class="form-control" placeholder="Job Name" ng-model="obVm.orderBook.jobName">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Address</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group"><input type="text" class="form-control" placeholder="Job Address" ng-model="obVm.orderBook.jobAddress">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+				
                 <!-- .row -->
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -122,7 +192,7 @@
                   </div>
                   <!-- .col -->
                   <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-                    <input type="submit" class="submit-btn btn btn-primary" value="Generate">
+                    <input type="submit" class="submit-btn btn btn-primary" value="Generate" id="orderBook-rpt-btn">
                     &nbsp;&nbsp;&nbsp;
                     <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
                     <input type="hidden" value="searched" name="searched">
@@ -145,7 +215,10 @@
         <div class="row checkrow"> </div>
         <!-- .row -->
         </form>
-        <div class="col-lg-12">
+		<span id="orderBook-rpt-spinner" style="display:none;">
+			<img src="images/loading.gif" />
+		</span>
+        <div class="col-lg-12" ng-show="obVm.report.mode === 'output' ">
           <form class="table-container" action="">
             <table class="table-responsive theme-table" width="100%" cellspacing="0" cellpadding="0" border="1">
               <thead>
@@ -166,20 +239,36 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td align="center">07/04/2017</td>
-                  <td align="center"><a target="_blank" style="color:#0033CC;" href=""> J17-1471 </a></td>
-                  <td align="center"><a style="color:#03F;" href="');">17AW-3511</a></td>
-                  <td align="center"><a target="_blank" style="color:#03F;" href="">[Enter ORBF]</a></td>
-                  <td align="center"> 07/05/17 </td>
-                  <td><a style="color:#03F;" target="_blank" href=""> SOUND A/C </a></td>
-                  <td>SOUND A/C 58 OLD STEWART AV GARDEN CITY PARK NY 11040</td>
-                  <td>SMBC</td>
-                  <td>277 PARK 6TH FL. NY</td>
-                  <td align="center">TB</td>
-                  <td align="center">NR</td>
-                  <td align="center">1-277 VOLT &amp; 5202 THERMOSTAT</td>
-                </tr>
+               <tr height="25" ng-repeat="orderBook in obVm.orderBooks track by $index">  
+                      <td align="center">{{orderBook.dateCreated | date:'shortDate'}}</td>
+                      <td align="center">{{orderBook.jobOrderNumber}}</td>
+                      <td align="center">
+						<a href ui-sref="orderbook-edit({id:orderBook.id})">
+							{{orderBook.orderBookNumber}}
+						</a>						
+					  </td>
+					  <td align="center">
+						<span ng-if="orderBook.cancelled" style="color:red;">
+							CANCELLED
+						</span>
+						<span ng-if="!orderBook.cancelled">
+							<span ng-if="orderBook.orbf">
+								<a href ui-sref="orbf-edit({orbfOrderBookId:orderBook.id, orbfJobOrderId:orderBook.jobId})">{{orderBook.orbf}}</a>								
+							</span>
+							<span ng-if="!orderBook.orbf">
+								<a href ui-sref="orbf-edit({orbfOrderBookId:orderBook.id, orbfJobOrderId:orderBook.jobId})">[Enter ORBF]</a>
+							</span>
+						</span>
+					  </td>
+                      <td align="center">{{orderBook.estDate | date:'shortDate'}}</td>
+					  <td align="center">{{orderBook.contractorName}}</td>
+                      <td align="center">{{orderBook.shipToName}}</td>
+                      <td align="center">{{orderBook.jobName}}</td>
+                      <td align="center">{{orderBook.jobAddress}}</td>
+                      <td align="center"> {{orderBook.salesPersonName}} </td>
+                      <td align="center"> {{orderBook.createdByUserCode}} </td>
+                      <td align="center">{{orderBook.comment}}</td>
+                    </tr>
               </tbody>
             </table>
           </form>

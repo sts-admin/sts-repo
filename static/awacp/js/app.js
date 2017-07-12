@@ -138,12 +138,6 @@
 				controller:"QuoteCtrl",
 				controllerAs:"qVm",
 				requireAuth: true
-			}).state('quote-report',{
-				url: '/quote/reports',
-				templateUrl:"templates/quotes.html",
-				controller:"QuoteCtrl",
-				controllerAs:"qVm",
-				requireAuth: true
 			}).state('bidders',{
 				url: '/bidders',
 				templateUrl:"templates/bidders.html",
@@ -519,21 +513,9 @@
 				controller:"JobOrderCtrl",
 				controllerAs:"jobVm",
 				requireAuth: true
-			}).state('joborder-report',{
-				url: '/joborder/report',
-				templateUrl:"templates/job-orders.html",
-				controller:"JobOrderCtrl",
-				controllerAs:"jobVm",
-				requireAuth: true
 			}).state('orderbook-reports',{
 				url: '/orderbook/report-input',
 				templateUrl:"templates/orderbook-report-input.html",
-				controller:"OrderBookCtrl",
-				controllerAs:"obVm",
-				requireAuth: true
-			}).state('orderbook-report',{
-				url: '/orderbook/report',
-				templateUrl:"templates/order-books.html",
 				controller:"OrderBookCtrl",
 				controllerAs:"obVm",
 				requireAuth: true

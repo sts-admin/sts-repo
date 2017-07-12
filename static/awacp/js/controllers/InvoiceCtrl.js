@@ -20,6 +20,10 @@
 		invoiceVm.shipDate = {opened:false};
 		invoiceVm.shipmentOptions = [{id:'FULL', title:'FULL'}, {id:'PARTIAL', title:'PARTIAL'}];
 		
+		invoiceVm.jobFinalUpdate = function(){
+			jQuery("#final-update-btn").attr('disabled','disabled');
+		}
+		
 		invoiceVm.calculateProfitOrLoss = function(){
 			var partialAmt =invoiceVm.invoice.partialPayment?invoiceVm.invoice.partialPayment:0.0;
 			var prePayAmount = invoiceVm.invoice.prePayAmount?invoiceVm.invoice.prePayAmount:0.0;

@@ -5,9 +5,10 @@
     <div class="panel panel-default" ng-init="jobVm.initJobOrderMasterInputs()">
       <div class="panel-heading form-heading panel-heading-top">
         <label>Job Order Report Input</label>
+		<a id="form_display" class="btn btn-success pull-right" ng-click="jobVm.toggleReportFormVisibility();" href >{{jobVm.showReportForm?"Hide Report Form":"Show Report Form"}}</a> 
       </div>
       <div class="panel-body new-tk-bg">
-        <form ng-submit="jobVm.rememberReportQueryParams();">
+        <form ng-submit="jobVm.rememberReportQueryParams();"  ng-show="jobVm.showReportForm">
         <!-- .row -->
         <section>
           <div class="container-fluid">
@@ -65,7 +66,7 @@
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group">
                       <select name="salesPersonId"   class="form-control"   
-				  ng-model="jobVm.orderBook.salesPersonId" 
+				  ng-model="jobVm.jobOrder.salesPersonId" 
 				  ng-options="user.id as user.customName for user in jobVm.users" >
                         <option value="">--- Select ---</option>
                       </select>
@@ -77,7 +78,7 @@
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group">
                       <select name="salesPersonId"   class="form-control"   
-				  ng-model="jobVm.orderBook.createdByUserCode" 
+				  ng-model="jobVm.jobOrder.createdByUserCode" 
 				  ng-options="user.userCode as user.userCode for user in jobVm.users" >
                         <option value="">--- Select ---</option>
                       </select>
@@ -92,7 +93,7 @@
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
                       <select class="form-control"
-				  ng-model="jobVm.orderBook.engineerId" 
+				  ng-model="jobVm.jobOrder.engineerId" 
 				  ng-options="engineer.id as engineer.name for engineer in jobVm.engineers" >
                         <option value="">--- Select ---</option>
                       </select>
@@ -104,7 +105,7 @@
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
                       <select class="form-control" 
-				  ng-model="jobVm.orderBook.contractorId" 
+				  ng-model="jobVm.jobOrder.contractorId" 
 				  ng-options="contractor.id as contractor.name for contractor in jobVm.contractors" >
                         <option value="">--- Select ---</option>
                       </select>
@@ -116,7 +117,7 @@
                   <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
                     <div class="form-group">
                       <select class="form-control" 
-				  ng-model="jobVm.orderBook.architectureId" 
+				  ng-model="jobVm.jobOrder.architectureId" 
 				  ng-options="architect.id as architect.name for architect in jobVm.architects" >
                         <option value="">--- Select ---</option>
                       </select>
@@ -174,6 +175,90 @@
                   </div>
                   <!-- .col -->
                 </div>
+				
+				 <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job ID</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Job ID" ng-model="jobVm.jobOrder.orderNumber">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Email Recepient Salesman</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+						<select name="salesPersonId"   class="form-control"   
+							ng-model="jobVm.jobOrder.recepientSpId" 
+							ng-options="user.id as user.customName for user in jobVm.users" >
+							<option value="">--- Select ---</option>
+						</select>
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Quote ID</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group"><input type="text" class="form-control" placeholder="Quote ID" ng-model="jobVm.jobOrder.quoteId">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+				
+				<div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Customer PO#</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Customer PO" ng-model="jobVm.jobOrder.poName">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Name</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+						<input type="text" class="form-control" placeholder="Job Name" ng-model="jobVm.jobOrder.jobName">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Address</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group"><input type="text" class="form-control" placeholder="Job Address" ng-model="jobVm.jobOrder.jobAddress">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+				
+				
+				<div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Quoted Amount $</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Quoted Amount" ng-model="jobVm.jobOrder.quotedAmount">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Billing Amount $</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+						<input type="text" class="form-control" placeholder="Billing Amount" ng-model="jobVm.jobOrder.billingAmount">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">VAV Controls</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group"><input type="text" class="form-control" placeholder="VAV Controls" ng-model="jobVm.jobOrder.vavControls">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+				
                 <!-- .row -->
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -181,7 +266,7 @@
                   </div>
                   <!-- .col -->
                   <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-                    <input type="submit" class="submit-btn btn btn-primary" value="Generate">
+                    <input type="submit" class="submit-btn btn btn-primary" value="Generate" id="jobOrder-rpt-btn">
                     &nbsp;&nbsp;&nbsp;
                     <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
                     <input type="hidden" value="search" name="search">
@@ -206,7 +291,10 @@
         <!-- .row -->
         </form>
         
-        
+        <span id="jobOrder-rpt-spinner" style="display:none;">
+			<img src="images/loading.gif" />
+		</span>
+		<div ng-show="jobVm.report.mode === 'output' ">
         <form class="table-container">
           <div style="margin-top:20px;">
             <table class="table-responsive theme-table" width="100%" cellspacing="0" cellpadding="0" border="1">
@@ -216,13 +304,13 @@
                       <tbody>
                         <tr height="30">
                           <td width="11%" style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1">&nbsp; <strong>#JOBS FOUND</strong></td>
-                          <td width="7%" align="center" style="border:3px solid #D4A3B1; background:#090; padding:5px; color:#FFF;" class="table-header-repeat line-left minwidth-1"> 1471 </td>
+                          <td width="7%" align="center" style="border:3px solid #D4A3B1; background:#090; padding:5px; color:#FFF;" class="table-header-repeat line-left minwidth-1"> {{jobVm.jobOrders?jobVm.jobOrders.length:0}} </td>
                           <td width="17%" align="center" style="border:3px solid #D4A3B1; background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>TOTAL BILLING AMOUNT</strong></td>
-                          <td width="14%" align="center" style="border:3px solid #D4A3B1; background:#090; padding:5px; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>$8,498,251.34</strong></td>
+                          <td width="14%" align="center" style="border:3px solid #D4A3B1; background:#090; padding:5px; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>{{jobVm.totalBillingAmount | currency}}</strong></td>
                           <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Total Profit</strong></td>
-                          <td style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>$5,927,639.75</strong></td>
-                          <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Profit</strong></td>
-                          <td style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>69.75%</strong></td>
+                          <td style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>{{jobVm.totalProfit | currency}}</strong></td>
+                          <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Profit %</strong></td>
+                          <td style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>{{jobVm.profitPercent}}</strong></td>
                         </tr>
                       </tbody>
                     </table></td>
@@ -245,23 +333,77 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="gradeA">
-                  <td align="center"><a class="personPopupTrigger" rel="takeoff,0" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/takeoffinfo.png"></a> &nbsp;<a rel="quote,0" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/quote_info.png"></a> <a rel="joborder,17-1471" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/jobinfo.png"></a> &nbsp;<a rel="orderbook,17-1471" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/order_info.png"></a></td>
-                  <td align="center"><a target="_blank" href=""><img border="0" src="http://www.awacp.org/resources/images/bill.png"></a></td>
-                  <td align="center">07/04/17</td>
-                  <td align="center"></td>
-                  <td align="center"><a style="color:#0033CC;" target="_blank" href="">J17-1471</a></td>
-                  <td>SOUND A/C</td>
-                  <td><a target="_blank" style="color:#0033CC;" href="">SMBC</a></td>
-                  <td>277 PARK 6TH FL. NY</td>
-                  <td align="center"><a target="_blank" style="color:#0033CC;" href="">TB</a></td>
-                  <td align="center" id="uc_23361"> NR </td>
-                  <td align="center"><a id="amount_23361" style="color:#0033CC;" target="_blank" href="">$1100</a></td>
-                </tr>
+                 <tr class ="gradeA" height="25" ng-repeat="jobOrder in jobVm.jobOrders track by $index" ng-style="{{jobOrder.statusStyle}}">
+					  <td align="center">
+						<span ng-show="jobOrder.takeoffId">
+							<img  popover-placement="right" uib-popover-template="jobVm.takeoffInfoPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{jobVm.takeoffInfoPopover.title}}"  ng-click="jobVm.showTakeoffInfo(jobOrder.takeoffId);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+							
+						</span>
+						<span ng-show="jobOrder.quoteId">
+							<img  popover-placement="right" uib-popover-template="jobVm.quotePopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{jobVm.quotePopover.title}}"  ng-click="jobVm.showQuoteInfo(jobOrder.takeoffId);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
+						</span>
+						
+						<span ng-show="jobOrder.orderNumber">
+							<img  popover-placement="right" uib-popover-template="jobVm.jobOrderPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{jobVm.jobOrderPopover.title}}"  ng-click="jobVm.showJobOrderInfo(jobOrder);"  style="cursor:pointer;" src="images/jobinfo.png" alt="image" border="0" />
+						</span>
+					  </td>
+                      
+                      <td align="center">
+						<span ng-show="jobOrder.invoiceMode === 'bill'">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
+								<img border="0" src="images/inv_status_bill.png">
+							</a> 
+							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">
+								<img border="0" src="images/inv_status_bill.png">
+							</a>
+						</span>
+						<span ng-show="jobOrder.invoiceMode === 'ptl'">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
+								<img border="0" src="images/inv_status_ptl.png">
+							</a> 
+							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">
+								<img border="0" src="images/inv_status_ptl.png">
+							</a>
+						</span>
+						<a ng-show="jobOrder.invoiceMode === 'inv'" href ui-sref="invoice-generate({invoiceOrderId:jobOrder.id})">
+							<img border="0" src="images/inv_status_inv.png">
+						</a>
+					  </td>
+                      <td align="center">{{jobOrder.dateCreated | date:'shortDate'}}</td>
+						<td align="center">
+							<a href ui-sref="quote-view" ng-show="jobOrder.quoteId">
+								{{jobOrder.quoteId}}
+							</a> 
+							<span ng-show="!jobOrder.quoteId">...</span>
+						</td>
+                      <td align="center">
+						<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> 
+						<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">{{jobOrder.orderNumber}}</a>
+					  </td>
+                      <td align="center">
+						<a href ui-sref="joborder-edit({id:jobOrder.id})" ng-show="jobOrder.id">
+							{{jobOrder.jobName}}
+						</a>
+						<span ng-show="!jobOrder.id">...</span>
+					  </td>
+					  <td align="center">{{jobOrder.contractorName?jobOrder.contractorName:'...'}}</td>
+                      <td align="center">{{jobOrder.jobAddress?jobOrder.jobAddress:'...'}}</td>
+                      <td align="center"> {{jobOrder.salesPersonName?jobOrder.salesPersonName:'...'}} </td>
+                      <td align="center"> {{jobOrder.createdByUserCode?jobOrder.createdByUserCode:'...'}} </td>
+                      <td align="center"> 
+						<a href ng-show="jobOrder.invoiceId && jobOrder.finalUpdate"  style="color:green;" ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:1})">
+							{{jobOrder.billingAmount?jobOrder.billingAmount:'...' | currency}} 
+						</a>
+						<a href ng-show="jobOrder.invoiceId && !jobOrder.finalUpdate"  style="color:blue;" ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:1})">
+							{{jobOrder.billingAmount?jobOrder.billingAmount:'...' | currency}} 
+						</a>
+					  </td>
+                    </tr>
               </tbody>
             </table>
           </div>
         </form>
+		</div>
       </div>
     </div>
   </div>

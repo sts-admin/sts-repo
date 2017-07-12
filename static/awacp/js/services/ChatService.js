@@ -20,7 +20,10 @@
 								users.push(v);
 							});
 						}else{
-							users.push(data.userDTO);
+							if(data.userDTO.userCode !== $rootScope.user.userCode){
+									users.push(data.userDTO);
+							}
+							
 						}
 					}
 					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {

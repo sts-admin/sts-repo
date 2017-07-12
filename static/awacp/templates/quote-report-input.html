@@ -5,9 +5,9 @@
     <div class="panel panel-default" ng-init="qVm.initQuoteReportInputs();">
       <div class="panel-heading form-heading panel-heading-top">
         <label>Quote Report Input</label>
-        <a id="form_display" class="btn btn-success pull-right" onclick="ShowHideForm('report_takeoff');" href="javascript:void(0);">Hide Report Form</a> </div>
+        <a id="form_display" class="btn btn-success pull-right" ng-click="qVm.toggleReportFormVisibility();" href >{{qVm.showReportForm?"Hide Report Form":"Show Report Form"}}</a> 
       <div class="panel-body new-tk-bg">
-        <form ng-submit="qVm.rememberReportQueryParams();">
+        <form ng-submit="qVm.rememberReportQueryParams();" ng-show="qVm.showReportForm">
           <!-- .row -->
           <section>
             <div class="container-fluid">
@@ -105,7 +105,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> Revision </span> <span class="colon">:</span> </div>
+                  <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> Revision </span></div>
                   <!-- .col -->
                   <div class="col-lg-2 col-md-2 col-sm-2">
                     <select class="form-control"
@@ -116,6 +116,66 @@
                   </div>
                   <!-- .col -->
                 </div>
+				
+				
+				 <div class="row">
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Drawing Date</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Drawing Date" uib-datepicker-popup="{{dateFormat}}" ng-model="qVm.takeoff.drawingDate" is-open="qVm.rptDrawingDate.opened" data-ng-click="qVm.rptDrawingDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job ID</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group">
+						<input type="text" class="form-control" placeholder="Job ID" ng-model="qVm.takeoff.jobOrderNumber">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Quote ID</span> </div>
+                  <!-- .col -->
+                  <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12">
+                    <div class="form-group"><input type="text" class="form-control" placeholder="Quote ID" ng-model="qVm.takeoff.quoteId">
+                    </div>
+                  </div>
+                  <!-- .col -->
+                </div>
+				<div class="row">
+				  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Job Name</span></div>
+				  <!-- .col -->
+				  <div class="col-lg-10 col-md-10 col-sm-9">
+					<div class="form-group">
+					  <input type="text" placeholder="Job Name" ng-model="qVm.takeoff.jobName" class="form-control">
+					</div>
+				  </div>
+				  <!-- .col -->
+				</div>
+				<!-- .row -->
+				<div class="row">
+				  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Job Address</span></div>
+				  <!-- .col -->
+				  <div class="col-lg-10 col-md-10 col-sm-9">
+					<div class="form-group">
+					  <input type="text" placeholder="Job Address" ng-model="qVm.takeoff.jobAddress" class="form-control">
+					</div>
+				  </div>
+				  <!-- .col -->
+				</div>
+				
+				<div class="row">
+				  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Amount:</span></div>
+				  <!-- .col -->
+				  <div class="col-lg-9 col-md-9 col-sm-8">
+					<div class="form-group">
+					  <input type="text" placeholder="Amount" ng-model="qVm.takeoff.amount" class="form-control">
+					</div>
+				  </div>
+				  <!-- .col -->
+				</div>
+				
                 <!-- .row -->
                 <div class="row">
                   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Engineer</span> </div>
@@ -155,6 +215,25 @@
                   </div>
                   <!-- .col -->
                 </div>
+				
+				   <div class="row">
+					  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+						<div class="form-group"> <span class="new-take-off-title">Bidders</span></div>
+					  </div>
+					  <!-- .col -->
+					   <div class="col-lg-10 col-md-10 col-sm-9">
+					 <div class="form-group">
+                       <ui-select multiple ng-model="qVm.selectedBidders" theme="bootstrap" style="height:50px;" close-on-select="false" title="Choose Bidder(s)">
+						<ui-select-match placeholder="Select Bidder(s)">{{$item.name}}</ui-select-match>
+						<ui-select-choices repeat="bidder in qVm.bidders | filter:$select.search">
+						  {{bidder.name}}
+						</ui-select-choices>
+					  </ui-select>
+                    </div>
+					<!-- .form-group -->
+				  </div>
+					  <!-- .col -->
+					</div>
                 <!-- .row -->
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -162,7 +241,7 @@
                   </div>
                   <!-- .col -->
                   <div class="col-lg-12 col-md-12 col-sm-12 pad_top_301">
-                    <input type="submit" class="submit-btn btn btn-primary" value="Generate">
+                    <input type="submit" class="submit-btn btn btn-primary" value="Generate" id="quote-rpt-btn">
                     &nbsp;&nbsp;&nbsp;
                     <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
                   </div>
@@ -183,15 +262,19 @@
           <div class="row checkrow"> </div>
           <!-- .row -->
         </form>
+		<span id="quote-rpt-spinner" style="display:none;">
+			<img src="images/loading.gif" />
+		</span>
+		<div ng-show="qVm.report.mode === 'output' ">
         <div class="row">
           <div class="col-lg-2 col-md-2 col-sm-2 pad_top_30 dashboard-content">
             <h3>Quote Reports</h3>
           </div>
           <!-- .col -->
-          <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total Rows Found - <span style="font-size:18px;">485</span> </div>
-          <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total Quote Amount - <span style="font-size:18px;">$7,526,495.00</span> </div>
+		  <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total <span class="badge">{{qVm.quotes.length}}</span> row(s) found </div>
+          <div style="font-size:14px;" class="col-lg-3 col-md-3 col-sm-3 text-center pad_top_30"> Total Quote Amount - <span style="font-size:18px;">{{qVm.totalQuoteAmount | currency}}</span> </div>
           <!-- .col -->
-          <div class="col-lg-4 col-md-4 col-sm-4 text-right pad_bot_30"> <a id="form_display" class="btn btn-success" onclick="ShowHideForm('report_quote');" href="javascript:void(0);">Show Report Form</a> </div>
+          
         </div>
         <div style="margin-top:25px;">
           <!-- .col -->
@@ -216,26 +299,46 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td><a rel="takeoff,78773" class="personPopupTrigger" href="javascript:void(0);"><img border="0" alt="image" src="http://www.awacp.org/resources/images/takeoffinfo.png"></a> <img border="0" alt="image" src="http://www.awacp.org/resources/images/quote_info.png"></td>
-                      <td align="center"><a target="_blank" style="color:#060; text-decoration:underline;" href="http://www.awacp.org/takeoff/edit/78773"></a></td>
-                      <td><a target="_blank" style="color:#0033CC;" href="">Q17-2581B</a></td>
-                      <td><a target="_blank" style="color:#0033CC;" href=""></a></td>
-                      <td><a target="_blank" style="color:#060; text-decoration:underline;" href="http://www.awacp.org/takeoff/edit/78773">JOLLY MADISON HOTEL(REVISION B)</a></td>
-                      <td>22 EAST 38TH STREET 1ST-18TH FL NY</td>
-                      <td>STANTEC</td>
-                      <td>FX FOWLE</td>
-                      <td align="center">18175</td>
-                      <td align="center">TITUS SEIHO</td>
-                      <td align="center">YJ</td>
-                      <td align="center"><a onclick="ShowHide('bidder_78773');" href="javascript:void(0);"><img border="0" src="http://www.awacp.org/resources/images/bidders_ico.png"></a></td>
-                    </tr>
+                   <tr height="25" ng-repeat="quote in qVm.quotes track by $index">
+					  <td align="center">						
+						 <img  popover-placement="right" uib-popover-template="qVm.takeoffPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qVm.takeoffPopover.title}}"  ng-click="qVm.showTakeoffInfo(quote);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+						 &nbsp;
+						  <img  popover-placement="right" uib-popover-template="qVm.quotePopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qVm.quotePopover.title}}"  ng-click="qVm.showQuoteInfo(quote);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
+					  </td>
+					   <td align="center"><a href ui-sref = "takeoff-view">{{quote.takeoffId?quote.takeoffId:"..."}}</a></td>
+					  <td align="center"><a href ui-sref = "quote-edit({quoteEditId:quote.id})">{{quote.quoteId?quote.quoteId:"..."}}</a></td>
+					  <td align="center">{{quote.jobOrderNumber?quote.jobOrderNumber:"..."}}</td>
+					  <td align="center">
+						<span ng-show="quote.worksheetId != null && quote.worksheetId  != undefined">
+							<a href ui-sref="quote-follow({takeoffId:quote.id, worksheetId:quote.worksheetId})">
+								{{quote.jobName?quote.jobName:"..."}}
+							</a>
+						</span>
+						<span ng-show ="quote.worksheetId == null ||   quote.worksheetId == undefined">
+							{{quote.jobName?quote.jobName:"..."}}
+						</span>
+					</td>
+					  <td align="center">{{quote.jobAddress?quote.jobAddress:"..."}}</td>
+					  <td align="center">{{quote.engineerName?quote.engineerName:"..."}}</td>
+					  <td align="center">{{quote.architectureName?quote.architectureName:"..."}}</td>
+					  <td align="center">{{quote.amount?quote.amount:"..." | currency}}</td>
+					  <td align="center">{{quote.spec.detail?quote.spec.detail:"..."}}</td>
+					  <td align="center">{{quote.userCode?quote.userCode:"..."}}</td>
+					 <td align="center">&nbsp; 
+						<img popover-placement="left" uib-popover-template="qVm.bidderPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{qVm.bidderPopover.title}}" src="images/bidders_ico.png" ng-click="qVm.listBiddersByTakeoff(quote)" border="0">
+						&nbsp;
+						<img src="images/check_gray.png" ng-show="!quote.mailSentToBidder">
+						&nbsp;
+						<img src="images/check_green.png"  ng-show="quote.mailSentToBidder">
+					 </td>
+					</tr>	
                   </tbody>
                 </table>
               </div>
             </form>
           </div>
         </div>
+		</div>
       </div>
     </div>
   </div>
