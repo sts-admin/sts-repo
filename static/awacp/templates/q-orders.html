@@ -1,0 +1,149 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+  <div class="clearfix">&nbsp;</div>
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xss-12 dashboard-content">
+          <h1>View AWF Orders</h1>
+        </div>
+        <!-- .col -->
+        <div style="text-align:center; font-size:12px;" class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xss-12 dashboard-content">
+          <p class="line-height visible-xs-text-center">Total rows found for Year - 136</p>
+        </div>
+        <!-- .col -->
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xss-12 dashboard-content"> <a class="btn btn-primary width-full" onclick="ClearSearch('aw_inventory/aworders');" href="javascript:void(0);">Clear Search</a> </div>
+        <!-- .col -->
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xss-12 dashboard-content text-right"> Per page Rows
+          <select onchange="setRecPage(this.value, 'aw_inventory/aworders', 'aw_inventory_view_form')" style="outline:none;" id="num_of_records" class="styledselect_pages">
+            <option selected="selected" value="50">50</option>
+            <option value="100">100</option>
+            <option value="150">150</option>
+            <option value="200">200</option>
+            <option value="250">250</option>
+            <option value="300">300</option>
+          </select>
+        </div>
+        
+        <div class="col-lg-12 col-md-12 col-sm-12"><br>
+          <ul uib-pagination total-items="awInvVm.totalItems" items-per-page = "awInvVm.pageSize" ng-model="awInvVm.currentPage" ng-change="awInvVm.pageChanged()">
+          </ul>
+        </div>
+       
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12"></div>
+      </div>
+      <div id="contents" class="row">
+        <div style="font-size:12px;" class="col-lg-4 pad_bot_30"> <span style="display:none;" class="found_row"> Total rows found - 7,541 </span> </div>
+        <div align="center" class="col-lg-3 pad_bot_30"> <span class="loading_div" style="display:none;"> <img width="99" height="30" src="http://www.awacp.org/resources/images/ajax-loader.gif"> </span> </div>
+        <div class="col-lg-5 text-right pad_bot_30">
+          <div class="pagination pagination-large">
+            <ul>
+              <li class="first active">1</li>
+              <li><a title="Page 2" data-page="2" href="javascript:void(0);">2</a></li>
+              <li><a title="Page 3" data-page="3" href="javascript:void(0);">3</a></li>
+              <li><a title="Page 4" data-page="4" href="javascript:void(0);">4</a></li>
+              <li><a title="Page 5" data-page="5" href="javascript:void(0);">5</a></li>
+              <li><a title="Page 6" data-page="6" href="javascript:void(0);">6</a></li>
+              <li><a title="Page 7" data-page="7" href="javascript:void(0);">7</a></li>
+              <li><a title="Page 8" data-page="8" href="javascript:void(0);">8</a></li>
+              <li><a title="Next" data-page="9" href="javascript:void(0);">&gt;</a></li>
+              <li class="last"><a title="Last" data-page="151" href="javascript:void(0);">»</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- .col -->
+        <div class="col-lg-12">
+          <form method="post" action="" class="table-container" name="aw_inventory_view_form" id="aw_inventory_view_form">
+            <input type="hidden" value="" name="color" id="color">
+            <table width="100%" cellspacing="0" cellpadding="0" border="1" class="table-responsive theme-table">
+              <thead>
+                <tr style="background:#3C6;">
+                  <td align="center"><input type="text" value="" name="invntry_date_ordered" class="form-control form-control2 datepicker"></td>
+                  <td align="center"><input type="text" value="" name="invntry_ordernumber" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" name="invntry_custname" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" name="invntry_qtyordered" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" name="invntry_size" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" name="invntry_netprice" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" name="invntry_billableprice" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" name="invntry_itemdesc" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" maxlength="2" name="invntry_usercode" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" name="invntry_trackngnum" class="form-control form-control2 searchtxt"></td>
+                  <td align="center"><input type="text" value="" name="invntry_estdate" class="form-control form-control2 datepicker"></td>
+                  <td align="center"><input type="text" value="" name="invntry_comments" class="form-control form-control2 searchtxt"></td>
+                  <!--<td align="center" ></td>-->
+                </tr>
+                <tr style="background:#396; color:#FFF;">
+                  <td align="center"><b>Date Ordered</b></td>
+                  <td align="center"><b>#Order</b></td>
+                  <td align="center"><b>Customer</b></td>
+                  <td align="center"><b>Qty.</b></td>
+                  <td align="center"><b>Size</b></td>
+                  <td align="center"><b>List Price</b></td>
+                  <td align="center" style="color:#FFF; padding:15px; width:100px;"><b>Billable Cost</b></td>
+                  <td align="center"><b>Description</b></td>
+                  <td align="center"><b>User code</b></td>
+                  <td align="center"><b>#Tracking</b></td>
+                  <td align="center"><b>Est Date</b></td>
+                  <td align="center"><b>Comments</b></td>
+                  <!--<td align="center"><b>Image</b></td>-->
+                </tr>
+              </thead>
+              <tbody>
+                <tr bgcolor="#FFCCCC">
+                  <td align="center" style="color:#990000; font-size:16px;" colspan="12"></td>
+                </tr>
+                <tr bgcolor="#FFCCCC">
+                  <td align="center">07/06/2017</td>
+                  <td align="center"><a style="color:#039;" href="javascript:poptastic('http://www.awacp.org/aw_inventory/vieworder/75513/17AW-3554');">17AW-3554</a></td>
+                  <td align="center">GDO CONTRACTING CORP</td>
+                  <td align="center">1</td>
+                  <td align="center">16 INCH</td>
+                  <td align="center">$8.40</td>
+                  <td align="center">$8.82</td>
+                  <td align="left">ANEMOSTAT VELOCITY WING SENSOR 16</td>
+                  <td align="center">AD</td>
+                  <td align="center"><a style="color:#039;" target="_blank" href="">SHPD 1Z1536630351068796</a><br>
+                    Freight: $7.70<br>
+                    <a target="_blank" style="color:#039;" href="http://www.awacp.org/aw_inventory/addtrack/17AW-3554/99083">[...]</a></td>
+                  <td align="center">07/07/17</td>
+                  <td align="center"> 1-16" VELOCITY WING SENSOR</td>
+                </tr>
+                <tr bgcolor="#FFCCCC">
+                  <td align="center" style="color:#990000; font-size:16px;" colspan="12"> Net Cost for this order is: $8.82 </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+        <!-- .col -->
+        <div style="font-size:12px;" class="col-lg-4 pad_top_30"> <span style="display:none;" class="found_row"> Total rows found - 7,541 </span> </div>
+        <div align="center" class="col-lg-3 pad_bot_30"> <span class="loading_div" style="display:none;"> <img width="99" height="30" src="http://www.awacp.org/resources/images/ajax-loader.gif"> </span> </div>
+        <div class="col-lg-5 text-right pad_top_30">
+          <div class="pagination pagination-large">
+            <ul>
+              <li class="first active">1</li>
+              <li><a title="Page 2" data-page="2" href="javascript:void(0);">2</a></li>
+              <li><a title="Page 3" data-page="3" href="javascript:void(0);">3</a></li>
+              <li><a title="Page 4" data-page="4" href="javascript:void(0);">4</a></li>
+              <li><a title="Page 5" data-page="5" href="javascript:void(0);">5</a></li>
+              <li><a title="Page 6" data-page="6" href="javascript:void(0);">6</a></li>
+              <li><a title="Page 7" data-page="7" href="javascript:void(0);">7</a></li>
+              <li><a title="Page 8" data-page="8" href="javascript:void(0);">8</a></li>
+              <li><a title="Next" data-page="9" href="javascript:void(0);">&gt;</a></li>
+              <li class="last"><a title="Last" data-page="151" href="javascript:void(0);">»</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 pull-right">
+      <ul uib-pagination total-items="awInvVm.totalItems" items-per-page = "awInvVm.pageSize" ng-model="awInvVm.currentPage" ng-change="awInvVm.pageChanged()">
+      </ul>
+    </div>
+  </section>
+</div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>
