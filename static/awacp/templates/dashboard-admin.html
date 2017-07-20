@@ -1,6 +1,5 @@
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
-
 <div class="page-wrapper-row full-height">
   <div class="page-wrapper-middle">
     <!-- BEGIN CONTAINER -->
@@ -21,93 +20,61 @@
               <div class="portlet light ">
                 <div class="portlet-body">
                   <div class="tiles">
-                    <div class="tile double-down bg-blue-hoki">
-                      <a href ui-sref="users"><div class="tile-body"> <i class="fa fa-user"></i> </div>
-                      <div class="tile-object"> 
+                    <div class="tile double-down bg-blue-hoki"> <a href ui-sref="users">
+                      <div class="tile-body"> <i class="fa fa-user"></i> </div>
+                      <div class="tile-object">
                         <div class="name"> User Management </div>
-                        <div class="number"> 01 </div>
-                         </div></a>
-                    </div>
-                    <div class="tile bg-red-sunglo">
-                      <a href ui-sref="tax-entries" ><div class="tile-body"> <i class="fa fa-calendar"></i> </div>
-                      <div class="tile-object"> 
+                      </div>
+                      </a> </div>
+                    <div class="tile bg-red-sunglo"> <a href ui-sref="tax-entries" >
+                      <div class="tile-body"> <i class="fa fa-calendar"></i> </div>
+                      <div class="tile-object">
                         <div class="name"> Tax Management </div>
-                        <div class="number"> 02 </div>
-                        </div></a> 
-                    </div>
+                      </div>
+                      </a> </div>
                     <div class="tile double selected bg-green-turquoise">
                       <div class="corner"> </div>
                       <div class="check"> </div>
-                      <div class="tile-body">
+                      <div class="tile-body"> <i class="fa fa-trash-o" aria-hidden="true"></i>
                         <div class="name"> Cleanup Data </div>
-                        <div class="number"> 03 </div>
                       </div>
-                      <div class="tile-object">
-                        <div class="name"> <i class="fa fa-envelope"></i> </div>
-                        <div class="number"> 04 </div>
-                      </div>
+                      <div class="tile-object"> </div>
                     </div>
-                    <div class="tile selected bg-yellow-saffron">
-					<a href ui-sref="invmultipliers">
+                    <div class="tile selected bg-yellow-saffron"> <a href ui-sref="invmultipliers">
                       <div class="corner"> </div>
-                      <div class="tile-body"> <i class="fa fa-user"></i> </div>
+                      <div class="tile-body"> <i class="fa fa-times" aria-hidden="true"></i> </div>
                       <div class="tile-object">
                         <div class="name"> Inventory Multiplier </div>
-                        <div class="number"> 05 </div>
-                      </div></a>
-                    </div>
-                    <div class="tile double bg-blue-madison"> 
-					<a href ui-sref="factories">
-                      <div class="tile-body">
-                        <div class="name"> System Logs</div>
-                        <div class="number"> 06 </div>
                       </div>
-                      </a>
-                    </div>
+                      </a> </div>
+                    <div class="tile double bg-blue-madison"> <a href ui-sref="factories">
+                      <div class="tile-body"> <i class="fa fa-history" aria-hidden="true"></i>
+                        <div class="name"> System Logs</div>
+                      </div>
+                      </a> </div>
                     <div class="tile bg-purple-studio">
-                      <div class="tile-body"> <i class="fa fa-shopping-cart"></i> </div>
+                      <div class="tile-body"> <i class="fa fa-industry" aria-hidden="true"></i> </div>
                       <div class="tile-object">
                         <div class="name"> Manage Factory </div>
-                        <div class="number"> 08 </div>
                       </div>
                     </div>
                     <div class="tile bg-blue-steel">
-                      <div class="tile-body">
+                      <div class="tile-body"> <i class="fa fa-tasks" aria-hidden="true"></i>
                         <div class="name"> Job Orders Management </div>
-                        <div class="number"> 08 </div>
                       </div>
                       <div class="tile-object">
                         <div class="name"></div>
                       </div>
                     </div>
-                    
                     <div class="tile double bg-blue-madison">
-                      <div class="tile-body">
+                      <div class="tile-body"> <i class="fa fa-sort" aria-hidden="true"></i>
                         <div class="name"> Order Number </div>
-                        <div class="number"> 10 </div>
-                      </div>
-                      
-                    </div>
-                    
-                    <!-- <div class="tile bg-green">
-                      <div class="tile-body"> <i class="fa fa-bar-chart-o"></i> </div>
-                      <div class="tile-object">
-                        <div class="name"> Reports </div>
-                        <div class="number"> </div>
                       </div>
                     </div>
-                    <div class="tile bg-blue-steel">
-                      <div class="tile-body"> <i class="fa fa-briefcase"></i> </div>
-                      <div class="tile-object">
-                        <div class="name"> Documents </div>
-                        <div class="number"> 124 </div>
-                      </div>
-                    </div> -->
                     <div class="tile double selected bg-green-turquoise">
-                      <div class="tile-body"> <img alt="" src="images/image4.jpg"> </div>
+                      <div class="tile-body"> <i class="fa fa-cog" aria-hidden="true"></i> </div>
                       <div class="tile-object">
                         <div class="name"> Site Settings </div>
-                        <div class="number"> 124 </div>
                       </div>
                     </div>
                     <div class="tile bg-yellow-lemon selected">
@@ -118,17 +85,14 @@
                         <div class="name"> Generate Site </div>
                       </div>
                     </div>
-					
-					<div class="tile bg-blue-steel">
-                      <div class="tile-body">
+                    <div class="tile bg-blue-steel">
+                      <div class="tile-body"> <i class="fa fa-building-o" aria-hidden="true"></i>
                         <div class="name">Branches</div>
-                        <div class="number"> 08 </div>
                       </div>
                       <div class="tile-object">
                         <div class="name"></div>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
               </div>
@@ -137,8 +101,6 @@
         </div>
       </div>
     </div>
-	
-   
   </div>
 </div>
 <div ng-include="'templates/footer.html'" ></div>
