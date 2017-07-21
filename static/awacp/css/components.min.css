@@ -12990,6 +12990,9 @@ padding-top:15px
 .tiles .tile.double-down i {
 	margin-top:95px
 }
+.tiles a:hover {
+	text-decoration:none !important; 
+}
 .tiles .tile:hover {
 	border-color:#aaa!important
 }
