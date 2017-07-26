@@ -4,7 +4,7 @@
 	<div class="clearfix">
 		<div class="panel panel-default" ng-init="takeVm.initTakeoffMasterInputs()">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>{{takeVm.action}} Takeoff</label>	
+				<label>New Take Off</label>	
 			</div>
 			<div class="panel-body new-tk-bg">
 				<div class="container"><form ng-submit="takeVm.saveTakeoff();">
@@ -61,11 +61,13 @@
 						  <!-- .col -->
 						<div class="col-lg-2 col-md-2 col-sm-2">
 							<div class="form-label">
-							  <label>{{user.userCode}}</label>
+							  <label style="font-weight:bold;">{{user.userCode}}</label>
 							</div>
 						</div>
 						
 						</div>
+						<div class="clearfix">&nbsp;</div>
+						
                         <div class="row">
 						<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
@@ -92,7 +94,7 @@
 						  <!-- .col -->
 						  <div class="col-lg-10 col-md-10 col-sm-9">
 							<div class="form-group">
-							  <input type="text" placeholder="Job Address" class="form-control" style="height:50px;" maxlength="250" oninvalid="this.setCustomValidity('Enter Job Address');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobAddress" ng-required="true" />
+							  <input type="text" placeholder="Job Address" class="form-control" maxlength="250" oninvalid="this.setCustomValidity('Enter Job Address');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.jobAddress" ng-required="true" />
 							</div>
 						  </div>
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
