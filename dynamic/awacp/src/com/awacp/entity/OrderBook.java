@@ -74,6 +74,10 @@ public class OrderBook extends BaseEntity {
 	private int pageNumber;
 	private int pageSize;
 
+	private Double netCost;
+
+	private JobOrder jobOrder;
+
 	public OrderBook() {
 		super();
 	}
@@ -392,6 +396,24 @@ public class OrderBook extends BaseEntity {
 
 	public void setFactoryType(String factoryType) {
 		this.factoryType = factoryType;
+	}
+
+	@Transient
+	public Double getNetCost() {
+		return netCost;
+	}
+
+	public void setNetCost(Double netCost) {
+		this.netCost = netCost;
+	}
+
+	@Transient
+	public JobOrder getJobOrder() {
+		return jobOrder;
+	}
+
+	public void setJobOrder(JobOrder jobOrder) {
+		this.jobOrder = jobOrder;
 	}
 
 }

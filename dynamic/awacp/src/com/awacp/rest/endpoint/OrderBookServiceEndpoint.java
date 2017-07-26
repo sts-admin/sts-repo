@@ -24,6 +24,23 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private OrderBookService orderBookService;
+	
+	@GET
+	@Path("/fetchPremiumOrder/{orderBookId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public OrderBook fetchPremiumOrder(@PathParam("orderBookId") Long orderBookId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.fetchPremiumOrder(orderBookId);
+	}
+
+	@GET
+	@Path("/listInventoryOrders/{invType}/{pageNumber}/{pageSize}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<OrderBook> listInventoryOrders(@PathParam("invType") String invType,
+			@PathParam("pageNumber") int pageNumber, @PathParam("pageSize") int pageSize,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.getOrders(invType, pageNumber, pageSize);
+	}
 
 	@POST
 	@Path("/generateOrderBookReport")

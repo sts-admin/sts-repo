@@ -29,9 +29,12 @@ public interface OrderBookService {
 	public StsResponse<OrderBook> generateOrderBookReport(OrderBook orderBook);
 
 	public Orbf getOrbf(Long id, Long obId);
-	
+
 	public Orbf getOrbf(Long orderBookId);
 
 	public Orbf saveOrbf(Orbf orbf);
 
+	public StsResponse<OrderBook> getOrders(String invType, int pageNumber, int pageSize);
+
+	public OrderBook fetchPremiumOrder(Long orderBookId);
 }

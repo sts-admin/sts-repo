@@ -19,5 +19,4 @@ public interface AwInventoryService {
 	public List<InventoryDTO> listInvItems();
 
 	public String delete(Long id);
-
 }

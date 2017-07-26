@@ -19,7 +19,7 @@ public class WsProductInfo extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	private Integer quantity;
-	private Product product;
+	private MnDType product;
 	private Double listAmount;
 	private Double netAmount;
 
@@ -38,11 +38,11 @@ public class WsProductInfo extends BaseEntity {
 	@XmlElement(name = "product")
 	@OneToOne(optional = false, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "PRODUCTID", unique = false, nullable = false, updatable = true)
-	public Product getProduct() {
+	public MnDType getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(MnDType product) {
 		this.product = product;
 	}
 

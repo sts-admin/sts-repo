@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: MnD
+ * Entity implementation class for Entity: MnDType
  *
  */
 @Entity
@@ -39,7 +39,11 @@ public class MnDType extends BaseEntity {
 	public MnDType() {
 		super();
 	}
-
+	
+	public MnDType(Long mndId, String productName) {
+		this.mndId = mndId;
+		this.productName = productName;
+	}
 	public Long getMndId() {
 		return mndId;
 	}
@@ -49,7 +53,7 @@ public class MnDType extends BaseEntity {
 	}
 
 	@NotNull
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 255)
 	public String getProductName() {
 		return productName;
 	}

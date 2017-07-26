@@ -5,6 +5,7 @@ package com.awacp.service.impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -127,6 +128,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 						obItem.getOrderQty());
 				if (obItem.getId() == null) { // save order book inv items
 					obItem.setBookId(orderBook.getId());
+					obItem.setInvType(orderBook.getObCategory());
 					getEntityManager().persist(obItem);
 				}
 			}
@@ -141,7 +143,13 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 	@Override
 	public OrderBook getOrderBook(Long orderBookId) {
 		OrderBook ob = getEntityManager().find(OrderBook.class, orderBookId);
-		ob.setShipToName(getEntityManager().find(ShipTo.class, ob.getShipToId()).getShipToAddress());
+		if (ob.getContractorId() != null) {
+			ob.setContractorName(getEntityManager().find(Contractor.class, ob.getContractorId()).getName());
+		}
+		if (ob.getShipToId() != null) {
+			ob.setShipToName(getEntityManager().find(ShipTo.class, ob.getShipToId()).getShipToAddress());
+		}
+
 		List<OrderBookInvItem> obInvItems = getEntityManager().createNamedQuery("OrderBookInvItem.getByOrderBookId")
 				.setParameter("bookId", orderBookId).getResultList();
 		if (obInvItems != null && !obInvItems.isEmpty()) {
@@ -605,5 +613,100 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			return orbfs.get(0);
 		}
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public StsResponse<OrderBook> getOrders(String invType, int pageNumber, int pageSize) {
+
+		List<OrderBook> oBooks = null;
+		// Get all order book IDs
+		Query query = getEntityManager()
+				.createQuery(
+						"SELECT DISTINCT(obii.bookId) FROM OrderBookInvItem obii WHERE LOWER(obii.invType) =:invType")
+				.setParameter("invType", invType.toLowerCase());
+
+		if (pageNumber > 0 && pageSize > 0) {
+			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
+		}
+
+		List<Long> list = query.getResultList();
+		if (list != null && !list.isEmpty()) {
+			oBooks = new ArrayList<OrderBook>();
+			OrderBook ob = null;
+			Query itemQuery = null;
+			Double netCost = 0.0D;
+			for (Long id : list) {
+				netCost = 0.0D;
+				ob = getOrderBook(id);
+				itemQuery = getEntityManager().createNamedQuery("OrderBookInvItem.getAllByOrderBookId")
+						.setParameter("bookId", ob.getId());
+				List<OrderBookInvItem> results = itemQuery.getResultList();
+				if (results != null && !results.isEmpty()) {
+					Set<OrderBookInvItem> items = new HashSet<OrderBookInvItem>();
+					for (OrderBookInvItem item : results) {
+						enricInvItem(item);
+						items.add(item);
+						netCost += item.getNetCost();
+					}
+					if (!items.isEmpty()) {
+						ob.setInvItems(items);
+					}
+				}
+				ob.setNetCost(netCost);
+				oBooks.add(ob);
+			}
+		}
+		List<Object> objects = getEntityManager()
+				.createQuery(
+						"SELECT DISTINCT(obii.bookId) FROM OrderBookInvItem obii WHERE LOWER(obii.invType) =:invType")
+				.setParameter("invType", invType.toLowerCase()).getResultList();
+		int totalCount = 0;
+		if (objects != null && !objects.isEmpty()) {
+			totalCount = (((Long) objects.get(0)).intValue());
+		}
+		StsResponse<OrderBook> response = new StsResponse<OrderBook>();
+		response.setTotalCount(totalCount);
+		if (oBooks != null) {
+			response.setResults(oBooks);
+		}
+		return response;
+	}
+
+	private void enricInvItems(Set<OrderBookInvItem> items) {
+		for (OrderBookInvItem obii : items) {
+			enricInvItem(obii);
+		}
+	}
+
+	private void enricInvItem(OrderBookInvItem item) {
+		if (item.getInvType().equalsIgnoreCase("aw")) { // aw inventory
+			AwInventory inv = getEntityManager().find(AwInventory.class, item.getInvItemId());
+			item.setBillableCost(inv.getBillableCost());
+			item.setListPrice(inv.getUnitPrice());
+		} else if (item.getInvType().equalsIgnoreCase("awf")) {
+			AwfInventory inv = getEntityManager().find(AwfInventory.class, item.getInvItemId());
+			item.setBillableCost(inv.getBillableCost());
+			item.setListPrice(inv.getUnitPrice());
+		} else if (item.getInvType().equalsIgnoreCase("sbc")) {
+			SplInventory inv = getEntityManager().find(SplInventory.class, item.getInvItemId());
+			item.setBillableCost(inv.getBillableCost());
+			item.setListPrice(inv.getUnitPrice());
+		} else if (item.getInvType().equalsIgnoreCase("spl")) {
+			SbcInventory inv = getEntityManager().find(SbcInventory.class, item.getInvItemId());
+			item.setBillableCost(inv.getBillableCost());
+			item.setListPrice(inv.getUnitPrice());
+		} else if (item.getInvType().equalsIgnoreCase("j")) {
+			JInventory inv = getEntityManager().find(JInventory.class, item.getInvItemId());
+			item.setBillableCost(inv.getBillableCost());
+			item.setListPrice(inv.getUnitPrice());
+		} else if (item.getInvType().equalsIgnoreCase("q")) {
+		}
+		item.setNetCost((item.getListPrice() * item.getOrderQty()));
+	}
+
+	@Override
+	public OrderBook fetchPremiumOrder(Long orderBookId) {
+		return getOrderBook(orderBookId);
 	}
 }

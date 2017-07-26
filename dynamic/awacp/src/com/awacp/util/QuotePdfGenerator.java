@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.awacp.entity.AppSetting;
 import com.awacp.entity.MnD;
+import com.awacp.entity.MnDType;
 import com.awacp.entity.Pdni;
 import com.awacp.entity.Product;
 import com.awacp.entity.QuoteNote;
@@ -422,25 +423,25 @@ public class QuotePdfGenerator {
 		wsProdInfo = new WsProductInfo();
 		wsProdInfo.setId(1L);
 		wsProdInfo.setQuantity(2);
-		wsProdInfo.setProduct(new Product(1L, "SUPPLY REGISTER"));
+		wsProdInfo.setProduct(new MnDType(1L, "SUPPLY REGISTER"));
 		productItems.add(wsProdInfo);
 
 		wsProdInfo = new WsProductInfo();
 		wsProdInfo.setId(2L);
 		wsProdInfo.setQuantity(20);
-		wsProdInfo.setProduct(new Product(2L, "RETURN GRILLE"));
+		wsProdInfo.setProduct(new MnDType(2L, "RETURN GRILLE"));
 		productItems.add(wsProdInfo);
 
 		wsProdInfo = new WsProductInfo();
 		wsProdInfo.setId(3L);
 		wsProdInfo.setQuantity(40);
-		wsProdInfo.setProduct(new Product(3L, "PERFORATED RETURN GRILLES"));
+		wsProdInfo.setProduct(new MnDType(3L, "PERFORATED RETURN GRILLES"));
 		productItems.add(wsProdInfo);
 
 		wsProdInfo = new WsProductInfo();
 		wsProdInfo.setId(4L);
 		wsProdInfo.setQuantity(9);
-		wsProdInfo.setProduct(new Product(4L, "RETURN REGISTERS"));
+		wsProdInfo.setProduct(new MnDType(4L, "RETURN REGISTERS"));
 		productItems.add(wsProdInfo);
 
 		mInfo.setProductItems(productItems);
@@ -464,7 +465,7 @@ public class QuotePdfGenerator {
 		wsProdInfo = new WsProductInfo();
 		wsProdInfo.setId(5L);
 		wsProdInfo.setQuantity(2);
-		wsProdInfo.setProduct(new Product(1L,
+		wsProdInfo.setProduct(new MnDType(1L,
 				"SLIP-IN CONSTRUCTION, COMPLETE WITH AUTOMATIC THERMAL AND MANUAL THERMAL CUT-OUT. MAGNETIC CONTACTORS BUILT IN FUSES IF REQUIRED BY N.E.C. TRANSFORMER WITH PRIMARY FUSING, AIR FLOW SWITCH, DOOR INTERLOCKING DISCONNECT SWITCH, SCR CONTROLS, ROOM STATS W/DUCT SENSOR "));
 		productItems.add(wsProdInfo);
 		mInfo.setProductItems(productItems);
