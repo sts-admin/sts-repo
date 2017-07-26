@@ -8,8 +8,7 @@
       </div>
       <div class="panel-body">
         <form name="worksheetForm" ng-submit="wsVm.addWorksheet();" >
-          <table class="table-responsive worksheet"> 
-            
+          <table class="table-responsive worksheet">
             <tr>
               <th>Project#</th>
               <td>{{wsVm.quote.projectNumber}}</td>
@@ -54,15 +53,12 @@
               <th> <input ng-click="wsVm.deleteWorksheet(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-danger" type="button" value="Delete Worksheet" />
               </th>
             </tr>
-            
           </table>
-          
-          
           <div style="padding:15px;">
-              <p colspan="4" class="text-center"> <input ng-disabled="{{wsVm.disableAction}}" class="{{wsVm.actionClass}}" type="submit" value="{{wsVm.wsAction}}" />
-              </p>
-            </div>
-            
+            <p colspan="4" class="text-center">
+              <input ng-disabled="{{wsVm.disableAction}}" class="btn btn-success" type="submit" value="{{wsVm.wsAction}}" />
+            </p>
+          </div>
           <div class="products-info">
             <div class="worksheet-info container" ng-repeat="manufacturerItem in wsVm.worksheet.manufacturerItems track by $index">
               <div style="width:100%;text-align:center;margin:0 0 15px 0; display:inline-block;"> <span class="pull-right"> <span class="actions" ng-click="wsVm.addWorksheetInfoBlock();" style="padding-right:10px;color:#000; font-weight:bold;">+ Add another manufacturer </span> <span ng-hide="$index == 0" class="actions" ng-click="wsVm.removeWorksheetInfoBlock($index);" style="padding-left:10px;color:#000; font-weight:bold;"">| Remove [-] </span> </span> </div>
@@ -115,41 +111,34 @@
                 <div class="col-sm-1"> <span ng-show="manufacturerItem.manufacturer.wsMultiplier && manufacturerItem.manufacturer.wsMultiplier > 0">Total + {{manufacturerItem.manufacturer.wsMultiplier}} %</span> <span ng-hide="manufacturerItem.manufacturer.wsMultiplier && manufacturerItem.manufacturer.wsMultiplier > 0">List total</span> </div>
                 <div class="col-sm-1"> </div>
                 <div class="col-sm-1">MULT</div>
-                
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1"> </div>
                 <div class="col-sm-1">Total Net</div>
                 <div class="col-sm-1"> </div>
                 <div class="col-sm-1">FRT</div>
-               
                 <div class="col-sm-2">TTL</div>
                 <div class="col-sm-2">Quote Price</div>
               </div>
               <div class="productItem-row-grand-total row">
                 <div class="col-sm-2">
-                  <input  type="number" name="percent" id="percent-{{$index}}" ng-model="manufacturerItem.percent" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" /><span> X </span>
-                </div>
-                
+                  <input  type="number" name="percent" id="percent-{{$index}}" ng-model="manufacturerItem.percent" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
+                  <span> X </span> </div>
                 <div class="col-sm-1">
                   <select ng-required="true" ng-disabled="!manufacturerItem.manufacturer"
 								  ng-model="manufacturerItem.multiplier" 
 								  ng-options="multiplier.multiplier as multiplier.multiplier for multiplier in wsVm.multipliers" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem, manufacturerItem.multiplier);"
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
-                  </select><span> = </span>
-                </div>
-               
+                  </select>
+                  <span> = </span> </div>
                 <div class="col-sm-2">
-                  <input  ng-required="true" type="number" id="multPercentAmount-{{$index}}" name="multPercentAmount" ng-model="manufacturerItem.multPercentAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" /><span> + </span>
-                </div>
-                
+                  <input  ng-required="true" type="number" id="multPercentAmount-{{$index}}" name="multPercentAmount" ng-model="manufacturerItem.multPercentAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
+                  <span> + </span> </div>
                 <div class="col-sm-2">
-                  <input  type="number" name="netTotal" id="netTotal2-{{$index}}" ng-model="manufacturerItem.netTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" /><span> + </span>
-                </div>
-                
+                  <input  type="number" name="netTotal" id="netTotal2-{{$index}}" ng-model="manufacturerItem.netTotal" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" />
+                  <span> + </span> </div>
                 <div class="col-sm-1">
-                  <input  ng-disabled="!manufacturerItem.manufacturer" type="text" name="freight" ng-model="manufacturerItem.freight" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" /><span> = </span>
-                </div>
-               
+                  <input  ng-disabled="!manufacturerItem.manufacturer" type="text" name="freight" ng-model="manufacturerItem.freight" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
+                  <span> = </span> </div>
                 <div class="col-sm-2">
                   <input type="number" name="totalAmount" placeholder="Total Amount" ng-model="manufacturerItem.totalAmount" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="any" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;background-color:#eee;" ng-readonly="true" ng-required="true" />
                 </div>
@@ -198,7 +187,7 @@
             </tr>
           </table>
           <div style="text-align:center; margin-top:10px;">
-            <input ng-disabled="{{wsVm.disableAction}}" class="{{wsVm.actionClass}}" type="submit" value="{{wsVm.wsAction}}" />
+            <input ng-disabled="{{wsVm.disableAction}}" class="btn btn-success" type="submit" value="{{wsVm.wsAction}}" />
           </div>
         </form>
       </div>
