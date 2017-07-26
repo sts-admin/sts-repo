@@ -78,9 +78,9 @@
               </div>
               <div class="product-row-heading row">
                 <div class="col-sm-2"> Quantity </div>
-                <div class="col-sm-5"> Product </div>
-                <div class="col-sm-2"> List Amount </div>
-                <div class="col-sm-2"> Net Amount </div>
+                <div class="col-sm-5"> Type </div>
+                <div class="col-sm-2"> List </div>
+                <div class="col-sm-2"> Net </div>
               </div>
               <div class="product-row-input row" ng-repeat="productItem in manufacturerItem.productItems track by $index" style="padding-bottom:5px;">
                 <div class="col-sm-2">
@@ -112,17 +112,17 @@
                 <div class="col-sm-1"> </div>
               </div>
               <div class="productItem-row-grand-total row">
-                <div class="col-sm-1"> <span ng-show="manufacturerItem.manufacturer.wsMultiplier && manufacturerItem.manufacturer.wsMultiplier > 0">List total + {{manufacturerItem.manufacturer.wsMultiplier}} %</span> <span ng-hide="manufacturerItem.manufacturer.wsMultiplier && manufacturerItem.manufacturer.wsMultiplier > 0">List total</span> </div>
+                <div class="col-sm-1"> <span ng-show="manufacturerItem.manufacturer.wsMultiplier && manufacturerItem.manufacturer.wsMultiplier > 0">Total + {{manufacturerItem.manufacturer.wsMultiplier}} %</span> <span ng-hide="manufacturerItem.manufacturer.wsMultiplier && manufacturerItem.manufacturer.wsMultiplier > 0">List total</span> </div>
                 <div class="col-sm-1"> </div>
-                <div class="col-sm-1">Multiplier</div>
+                <div class="col-sm-1">MULT</div>
                 <div class="col-sm-1"> </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-1"> </div>
                 <div class="col-sm-1">Total Net</div>
                 <div class="col-sm-1"> </div>
-                <div class="col-sm-1">Freight</div>
+                <div class="col-sm-1">FRT</div>
                 <div class="col-sm-1"> </div>
-                <div class="col-sm-1">Total Price</div>
+                <div class="col-sm-1">TTL</div>
                 <div class="col-sm-1">Quote Price</div>
               </div>
               <div class="productItem-row-grand-total row">
@@ -178,8 +178,8 @@
             </div>
           </div>
           <table class="table-responsive worksheet">
-            <tr style="background-color:silver;">
-              <th colspan="4" style="text-align:center;"> Worksheet Notes <span class="pull-right" ng-show="wsVm.quoteNotes.length > 1" > <span class="actions" ng-click="wsVm.addWorksheetNote(wsVm.worksheet.notes);" style="padding-right:10px;color:white;">Add [+] </span> | <span class="pull-right actions" ng-click="wsVm.removeWorksheetNote(wsVm.worksheet.notes);" style="padding-left:10px;color:white;">Remove [-] </span> </span> </th>
+            <tr style="margin-bottom:15px;">
+              <th colspan="4" style="text-align:left;"> Add Notes <span class="pull-right" ng-show="wsVm.quoteNotes.length > 1" > <span class="actions" ng-click="wsVm.addWorksheetNote(wsVm.worksheet.notes);" style="padding-right:10px;color:#000;">Add [+] </span> | <span class="pull-right actions" ng-click="wsVm.removeWorksheetNote(wsVm.worksheet.notes);" style="padding-left:10px;color:#000;">Remove [-] </span> </span> </th>
             </tr>
             <tr ng-repeat="note in wsVm.worksheet.notes track by $index">
               <td colspan="4"><select 
@@ -190,8 +190,8 @@
             </tr>
           </table>
           <table class="table-responsive worksheet-textarea">
-            <tr style="background-color:silver;">
-              <th colspan="4" style="text-align:center;"> Special Notes </th>
+            <tr>
+              <th colspan="4" style="text-align:left;"> Special Notes </th>
             </tr>
             <tr>
               <td colspan="4"><textarea name="specialNotes" ng-model="wsVm.worksheet.specialNotes" /></td>
