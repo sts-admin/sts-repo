@@ -26,8 +26,8 @@
     font-weight: normal;
     line-height: 1em;
 }
-.worksheet tr th{border:1px solid #000; width:10%; padding: 5px; font-weight:bold;}
-.worksheet tr td {border:1px solid #000; width:40%; padding: 5px; text-transform:uppercase;}
+.worksheet tr th{border:1px solid #999; width:10%; padding: 5px; font-weight:bold;}
+.worksheet tr td {border:1px solid #999; width:40%; padding: 5px; text-transform:uppercase;}
 .pad5 {
     padding: 5px;
 }
@@ -203,17 +203,20 @@ tr.bg-dark-green td {
 	width:100%;margin-top:5px;
 }
 .worksheet-info{
-	width:100%;margin-bottom:25px;border:1px solid #ccc;padding:10px; font-weight:bold;
+	width:100%;margin-bottom:25px;border:1px solid #999;padding:10px; font-weight:bold;
 }
 .worksheet-info select{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px; font-weight:normal;}
 .worksheet-info input{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px; font-weight:normal;}
 
-.worksheet-textarea textarea{width:100%; display:inline-block; height:75px; border:2px solid #ccc; text-indent:10px; font-weight:normal;}
+.worksheet-textarea textarea{width:100%; display:inline-block; height:75px; border:1px solid #999; text-indent:10px; font-weight:normal;}
 .product-row{display:inline-block; padding:8px 0px; margin:0px 0px 8px 0px;}
 .product-row label{display:block; font:normal 15px ralewayregular;}
 .product-row input[type="text"]{display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc; font-weight:normal;}
 .product-row select{display:inline-block; height:40px; border-radius:5px; border:1px solid #ccc;}
-
+.product-row-heading{border-top:1px solid #ccc; padding:10px 0; display:block; margin:15px 0 10px;background:#f6f6f6;}
+.productItem-row-grand-total-u{border-top:1px solid #ccc;display:block; margin:10px 0; padding:10px 0; background:#f6f6f6;}
+.productItem-row-grand-total{margin:10px 0;}
+.productItem-row-grand-total span{float:right;}
 .add-product-row{display:inline-block; width:100%; padding:8px 0px; margin:0px 0px 8px 0px;}
 .add-product-row label{display:block; font:normal 15px ralewayregular;}
 .add-product-row input[type="text"]{width:100%; display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;}
