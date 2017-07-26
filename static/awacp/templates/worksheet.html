@@ -51,19 +51,23 @@
               </th>
               <th> <input ng-click="wsVm.viewPDF(wsVm.quote);" ng-disabled="!wsVm.quote.worksheetId || !wsVm.quote.pdfGenerated" class="btn btn-primary" type="button" value="View PDF" />
               </th>
-              <th> <input ng-click="wsVm.deleteWorksheet(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-primary" type="button" value="Delete Worksheet" />
+              <th> <input ng-click="wsVm.deleteWorksheet(wsVm.quote.worksheetId);" ng-disabled="!wsVm.quote.worksheetId" class="btn btn-danger" type="button" value="Delete Worksheet" />
               </th>
             </tr>
-            <tr style="padding:15px;">
-              <th colspan="4" style="text-align:center;"> <input ng-disabled="{{wsVm.disableAction}}" class="{{wsVm.actionClass}}" type="submit" value="{{wsVm.wsAction}}" />
-              </th>
-            </tr>
+            
           </table>
+          
+          
+          <div style="padding:15px;">
+              <p colspan="4" class="text-center"> <input ng-disabled="{{wsVm.disableAction}}" class="{{wsVm.actionClass}}" type="submit" value="{{wsVm.wsAction}}" />
+              </p>
+            </div>
+            
           <div class="products-info">
             <div class="worksheet-info container" ng-repeat="manufacturerItem in wsVm.worksheet.manufacturerItems track by $index">
-              <div style="width:100%;background-color:silver;text-align:center;margin-bottom:10px;"> Manufacturer and product detail <span class="pull-right"> <span class="actions" ng-click="wsVm.addWorksheetInfoBlock();" style="padding-right:10px;color:white;">Add [+] </span> <span ng-hide="$index == 0" class="actions" ng-click="wsVm.removeWorksheetInfoBlock($index);" style="padding-left:10px;color:white;">| Remove [-] </span> </span> </div>
+              <div style="width:100%;text-align:center;margin:0 0 15px 0; display:inline-block;"> <span class="pull-right"> <span class="actions" ng-click="wsVm.addWorksheetInfoBlock();" style="padding-right:10px;color:#000; font-weight:bold;">+ Add another manufacturer </span> <span ng-hide="$index == 0" class="actions" ng-click="wsVm.removeWorksheetInfoBlock($index);" style="padding-left:10px;color:#000; font-weight:bold;"">| Remove [-] </span> </span> </div>
               <div class="manufacture-row row">
-                <div class="col-sm-2"> Select Manufacturer </div>
+                <div class="col-sm-2"> Manufacturer </div>
                 <div class="col-sm-10">
                   <select ng-required="true" ng-change="wsVm.listProducts(wsVm.worksheet.manufacturerItems[$index].manufacturer.id);wsVm.doCalculation($index, manufacturerItem, null);" 
 								  ng-model="wsVm.worksheet.manufacturerItems[$index].manufacturer.id" 
@@ -95,7 +99,7 @@
                 <div class="col-sm-2">
                   <input  ng-disabled="!manufacturerItem.manufacturer" ng-change="wsVm.doCalculation($parent.$index, manufacturerItem, 0);" type="number" name="netAmount"  ng-model="manufacturerItem.productItems[$index].netAmount" style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;" />
                 </div>
-                <div class="col-sm-1"> <span ng-show="$index == 0"> <span ng-hide="!manufacturerItem.manufacturer" class="actions" ng-click="wsVm.addNewProduct(manufacturerItem.productItems);" style="padding-right:10px;">Add [+] </span> </span> <span ng-show="$index > 0" class="actions" ng-click="wsVm.removeProduct($index, manufacturerItem, manufacturerItem.productItems);" style="padding-right:10px;">Remove [-] </span> </div>
+                <div class="col-sm-1"> <span ng-show="$index == 0"> <span ng-hide="!manufacturerItem.manufacturer" class="actions" ng-click="wsVm.addNewProduct(manufacturerItem.productItems);" style="padding-right:10px; font-weight:bold">New [+] </span> </span> <span ng-show="$index > 0" class="actions" ng-click="wsVm.removeProduct($index, manufacturerItem, manufacturerItem.productItems);" style="padding-right:10px; font-weight:bold">Remove [-] </span> </div>
               </div>
               <div class="productItem-row-total row">
                 <div class="col-sm-7" style="text-align:right;"> Total : </div>
