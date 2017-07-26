@@ -205,8 +205,8 @@ tr.bg-dark-green td {
 .worksheet-info{
 	width:100%;margin-bottom:25px;border:1px solid #999;padding:10px; font-weight:bold;
 }
-.worksheet-info select{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px; font-weight:normal;}
-.worksheet-info input{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px; font-weight:normal;}
+.worksheet-info select{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px; font-weight:normal; font-size:14px; text-transform:uppercase;}
+.worksheet-info input{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px; font-weight:normal; font-size:14px; text-transform:uppercase;}
 
 .worksheet-textarea textarea{width:100%; display:inline-block; height:75px; border:1px solid #999; text-indent:10px; font-weight:normal;}
 .product-row{display:inline-block; padding:8px 0px; margin:0px 0px 8px 0px;}
