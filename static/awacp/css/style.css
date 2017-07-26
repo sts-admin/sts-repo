@@ -121,12 +121,15 @@ tr.bg-dark-green td {
     line-height: 1.5em;
     width: 100% !important;
 }
+.star.red {
+    color: #ff0000;
+}
 .pad-none{padding-left:0; padding-right:0;}
-.panel-heading-top{padding:5px 10px; font-family:sans-serif;}
+.panel-heading-top{font-family:sans-serif;}
 .new-tk-bg{background-color:#d0e9f4 !important;}
 
 .panel-heading-top > label {
-    font-size: 18px !important;
+    font-size: 15px;
 	font-weight:normal;
 }
 .form-group{margin-bottom:5px;}
@@ -154,7 +157,8 @@ tr.bg-dark-green td {
     color: blue;
     font-size: 12px;
 }
-.per-page-row{font-size:12px; text-align:left;}
+.per-page-row{font-size:12px;}
+.per-page-row select{padding:5px;}
 .btn-two{width:100%;}
 
 .popover {
@@ -191,7 +195,7 @@ tr.bg-dark-green td {
     max-height: 200px; // your preference
 }
 .worksheet{ 
-	width:100%;margin-top:5px;border:2px solid #ccc;padding:10px;
+	width:100%;margin-top:5px;border:1px solid #000;padding:10px;
 }
 .actions{cursor:pointer;}
 .worksheet select{width:100%; display:inline-block; height:40px; border:2px solid #ccc; text-indent:10px;}
