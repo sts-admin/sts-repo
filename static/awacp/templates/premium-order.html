@@ -1,0 +1,162 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div style="float:left; padding-bottom:30px; width:100%" align="center">
+	
+    <img style="cursor:pointer;" src="images/generate_pdf.png" border="0" ng-click="wsVm.generatePdf(wsVm.quote.worksheetId);" />&nbsp;
+	 <img style="cursor:pointer;" src="images/go_back.png" border="0" ng-click="goBack();" />
+    
+</div>
+<div style="font-family:Verdana, Geneva, sans-serif; font-size:12px;">
+  <table border="0" style="width:100%;">
+    <tbody>
+      <tr>
+        <td colspan="3" align="center" style="background:#EEE; font-size:28px; padding:10px 0px 10px 0px;"><img src="./images/LOGO_EMAIL.PNG"></td>
+      </tr>
+      <tr>
+        <td style="background:#EEE; width:20%;" align="left"><b>PH. #</b>{{wsVm.quote.appSetting.phoneNumber}}</td>
+        <td style="background:#EEE; width:53%;" align="center">{{wsVm.quote.appSetting.officeAddress}}</td>
+        <td style="background:#EEE; width:27%;" align="right"><b>Fax #</b>{{wsVm.quote.appSetting.faxNumber}}</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="background:#EEE; width:100%;" align="left"><table border="0" style="width:100%;">
+            <tbody>
+              <tr>
+                <td align="left" style="background:#EEE; width:50%;"><span style="font-weight:11px;">Website:{{wsVm.quote.appSetting.frontWebsite}}</span></td>
+                <td style="background:#EEE; width:50%;" align="right"><span style="font-weight:11px;">Email: {{wsVm.quote.appSetting.emailAddress}}</span></td>
+              </tr>
+            </tbody>
+          </table></td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr></td>
+      </tr>
+      <tr>
+        <td colspan="3" valign="top"><table border="0" style="width:100%;" cellpadding="2" cellspacing="2">
+            <tbody>
+              <tr height="30">
+                <td colspan="4" style="background:#EEE;" valign="middle" align="center"><b>Project</b></td>
+              </tr>
+              <tr height="30">
+                <td colspan="4" valign="middle" align="center">{{wsVm.quote.jobName}}</td>
+              </tr>
+              <tr height="30">
+                <td colspan="4" valign="middle" align="center">{{wsVm.quote.jobAddress}}</td>
+              </tr>
+              <tr height="30">
+                <td style="width:32%; background:#EEE;" valign="middle" align="center"><b>Plan Date</b></td>
+                <td style="width:32%; background:#EEE;" valign="middle" align="center"><b>Quote No.</b></td>
+                <td style="width:32%; background:#EEE;" valign="middle" align="center"><b>Quote Date</b></td>
+                <td style="width:4%; background:#EEE;" valign="middle" align="center"></td>
+              </tr>
+              <tr height="30">
+                <td valign="middle" align="center">{{wsVm.quote.dateCreated | date: 'short'}}</td>
+                <td valign="middle" align="center">{{wsVm.quote.quoteId}}</td>
+                <td valign="middle" align="center">{{wsVm.quote.quoteDate | date: 'short' }}</td>
+                <td valign="middle" align="center">{{wsVm.quote.salesPersonName}}</td>
+              </tr>
+              <tr>
+                <td colspan="4">&nbsp;</td>
+              </tr>
+              <tr height="30">
+                <td colspan="4"><table border="0" cellpadding="2" cellspacing="2" style="width:100%;">
+                    <tbody>
+                      <tr>
+                        <td style="background:#EEE; width:50%;" valign="middle" align="center"><b>Engineer</b></td>
+                        <td style="background:#EEE; width:50%;" valign="middle" align="center"><b>Architect</b></td>
+                      </tr>
+                      <tr height="30">
+                        <td valign="middle" align="center">{{wsVm.quote.engineerName}}</td>
+                        <td valign="middle" align="center">{{wsVm.quote.architectureName}}</td>
+                      </tr>
+                    </tbody>
+                  </table></td>
+              </tr>
+            </tbody>
+          </table></td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr></td>
+      </tr>
+      <tr ng-repeat="wsManufacturerInfo in wsVm.worksheet.manufacturerItems">
+        <td colspan="3" valign="top">
+			<table border="0" cellpadding="2" cellspacing="2" style="border:#CCC 1px solid; width:100%;">
+				<tbody>
+				  <tr>
+					<td colspan="2" style="font-size:16px; font-weight:bold;">{{wsManufacturerInfo.manufacturer.productName}}</td>
+				  </tr>
+				  <tr height="30">
+					<td style="width:14%; background:#EEE;" valign="middle"><b>Qty./Ft.</b></td>
+					<td style="width:86%; background:#EEE;" valign="middle"><b>Description</b></td>
+				  </tr>
+				  <tr height="25" ng-repeat="pInfo in wsManufacturerInfo.productItems">
+					<td valign="top" align="left">{{pInfo.quantity}}</td>
+					<td valign="middle">{{pInfo.product.productName}}</td>
+				  </tr>				  
+				  <tr>
+					<td colspan="3"><hr></td>
+				  </tr>
+				  <tr>
+					<td colspan="3">TOTAL NET PRICE (F.O.B. Factory) FREIGHT ALLOWED: <b>{{wsManufacturerInfo.totalAmount | currency}}</b></td>
+				  </tr>
+				  <tr>
+					<td colspan="3"><hr></td>
+				  </tr>
+				  <tr>
+					<td colspan="3"><hr></td>
+				  </tr>
+				  <!--<tr>
+					<td colspan="3"><table border="0" cellpadding="2" cellspacing="2" style="border:#CCC 1px solid; width:100%;">
+						<tbody>
+						  <tr height="30">
+							<td valign="middle" style="background:#EEE; width:100%;"><b>JSN: Job Specific Notes</b></td>
+						  </tr>
+						  <tr>
+							<td>PRICING DOES NOT INCLUDE CABLE OPERATED DAMPERS; ADD $75 EACH IF/WHERE REQUIRED.</td>
+						  </tr>
+						</tbody>
+					  </table></td>
+				  </tr>-->
+				  <tr>
+					<td colspan="3"><table border="0" cellpadding="2" cellspacing="2" style="border:#CCC 1px solid; width:100%;">
+						<tbody>
+						  <tr height="30">
+							<td valign="middle" style="background:#EEE; width:100%;"><b>PDNI: Price Does Not Include</b></td>
+						  </tr>
+						  <tr ng-repeat="pdni in wsManufacturerInfo.pdnis track by $index">
+							<td>{{$index + 1}} {{pdni.pdniName}}</td>
+						  </tr>
+						</tbody>
+					  </table></td>
+				  </tr>
+				</tbody>
+			</table>
+		  </td>
+      </tr>
+      <tr>
+        <td colspan="3"><table border="0" cellpadding="2" cellspacing="2" style="border:#CCC 1px solid; width:100%;">
+            <tbody>
+              <tr height="30">
+                <td valign="middle" style="background:#EEE; width:100%;"><b>Terms of Sale</b></td>
+              </tr>
+              <tr ng-repeat="term in wsVm.worksheet.notes">
+                <td colspan="4">• {{term.note}}</td>
+              </tr>
+            </tbody>
+          </table></td>
+      </tr>
+      <tr>
+        <td colspan="3"><hr></td>
+      </tr>
+      <tr>
+        <td colspan="3" align="center" style="font-size:11px; color:#999;">ALBERT WEISS AIR CONDITIONING PRODUCTS INC.. Copyright 2013. All rights reserved.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

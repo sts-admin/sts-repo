@@ -320,8 +320,8 @@
 				controllerAs:"jinvVm",
 				requireAuth: true
 			}).state('j-orders',{
-				url: '/j-orders',
-				templateUrl:"templates/jinventory-orders.html",
+				url: '/j/orders',
+				templateUrl:"templates/j-orders.html",
 				controller:"JInventoryCtrl",
 				controllerAs:"jinvVm",
 				requireAuth: true
@@ -344,14 +344,20 @@
 				controllerAs:"splInvVm",
 				requireAuth: true
 			}).state('spl-orders',{
-				url: '/spl-orders',
-				templateUrl:"templates/spl-inventory-orders.html",
+				url: '/spl/orders',
+				templateUrl:"templates/spl-orders.html",
 				controller:"SplInventoryCtrl",
 				controllerAs:"splInvVm",
 				requireAuth: true
 			}).state('sbc-view',{
 				url: '/sbc-view',
 				templateUrl:"templates/sbc-inventories.html",
+				controller:"SbcInventoryCtrl",
+				controllerAs:"sbcInvVm",
+				requireAuth: true
+			}).state('sbc-orders',{
+				url: '/sbc/orders',
+				templateUrl:"templates/sbc-orders.html",
 				controller:"SbcInventoryCtrl",
 				controllerAs:"sbcInvVm",
 				requireAuth: true
@@ -385,6 +391,12 @@
 				controller:"AwfInventoryCtrl",
 				controllerAs:"awfInvVm",
 				requireAuth: true
+			}).state('awf-orders',{
+				url: '/awf/orders',
+				templateUrl:"templates/awf-orders.html",
+				controller:"AwfInventoryCtrl",
+				controllerAs:"awfInvVm",
+				requireAuth: true
 			}).state('aw-view',{
 				url: '/aw-view',
 				templateUrl:"templates/aw-inventories.html",
@@ -400,6 +412,12 @@
 			}).state('aw-edit',{
 				url: '/aw-edit/:id',
 				templateUrl:"templates/aw-inventory-add.html",
+				controller:"AwInventoryCtrl",
+				controllerAs:"awInvVm",
+				requireAuth: true
+			}).state('aw-orders',{
+				url: '/aw/orders',
+				templateUrl:"templates/aw-orders.html",
 				controller:"AwInventoryCtrl",
 				controllerAs:"awInvVm",
 				requireAuth: true
@@ -550,6 +568,13 @@
 				templateUrl:"templates/orderbook-add.html",
 				controller:"OrderBookCtrl",
 				controllerAs:"obVm",
+				requireAuth: true,
+				cache:false
+			}).state('premium-order',{
+				url: '/order/:inventory/:orderBookId',
+				templateUrl:"templates/premium-order.html",
+				controller:"PremiumOrderCtrl",
+				controllerAs:"pOrderVm",
 				requireAuth: true,
 				cache:false
 			});

@@ -16,6 +16,8 @@
 		awfInvVm.pageSize = 20;
 		awfInvVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
 		
+		awfInvVm.orderBooks = [];
+		
 		awfInvVm.documents = [];
 		
 		awfInvVm.listDocuments = function (source, sourceId){
@@ -120,23 +122,21 @@
 		}
 		
 		awfInvVm.editAwfInventory = function(){
-			if($state.params.id != undefined){
-				var formData = {};
-				formData["awfInventory"] = awfInvVm.awfInventory;
-				AjaxUtil.getData("/awacp/getAwfInventory/"+$state.params.id, Math.random())
-				.success(function(data, status, headers){
-					if(data && data.awfInventory){
-						$scope.$apply(function(){
-							awfInvVm.awfInventory = data.awfInventory;	
-							awfInvVm.action = awfInvVm.awfInventory && awfInvVm.awfInventory.id?"Update":"Add";							
-						});
-					}
-				})
-				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "AwfInventoryCtrl.js::awfInvVm.editAwfInventory::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				})
-			}
+			var formData = {};
+			formData["awfInventory"] = awfInvVm.awfInventory;
+			AjaxUtil.getData("/awacp/getAwfInventory/"+$state.params.id, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.awfInventory){
+					$scope.$apply(function(){
+						awfInvVm.awfInventory = data.awfInventory;	
+						awfInvVm.action = awfInvVm.awfInventory && awfInvVm.awfInventory.id?"Update":"Add";							
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "AwfInventoryCtrl.js::awfInvVm.editAwfInventory::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			})
 		}
 		awfInvVm.deleteAwfInventory = function(id){
 			AjaxUtil.getData("/awacp/deleteAwfInventory/"+id, Math.random())
@@ -191,7 +191,40 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
-		awfInvVm.editAwfInventory();
+		if($state.params.id != undefined){
+			awfInvVm.editAwfInventory();
+		}
+		
+		awfInvVm.generateReport = function(){
+			awfInvVm.orderBooks = [];
+			awfInvVm.pageNumber = awfInvVm.currentPage;
+			AjaxUtil.getData("/awacp/listInventoryOrders/awf/"+awfInvVm.pageNumber+"/"+awfInvVm.pageSize, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					$scope.$apply(function(){
+						awfInvVm.totalItems = data.stsResponse.totalCount;
+					});
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});					
+					} else {
+					    tmp.push(data.stsResponse.results);
+					}
+					$scope.$apply(function(){
+						awfInvVm.orderBooks = tmp;
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "AwInventoryCtrl::awfInvVm.generateReport::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		
 	}		
 })();
 

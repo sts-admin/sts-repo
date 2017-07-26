@@ -91,9 +91,9 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		wsVm.listProducts = function(){
+		wsVm.listProducts = function(mndId, callback){			
 			wsVm.products = [];
-			AjaxUtil.getData("/awacp/listProducts/-1/-1", Math.random())
+			AjaxUtil.getData("/awacp/listMnDTypes/"+mndId+"/-1/-1", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
@@ -107,6 +107,9 @@
 					$scope.$apply(function(){
 						wsVm.products = tmp;
 					});
+				}
+				if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+					callback();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -327,7 +330,6 @@
 			}else{ //Edit Worksheet
 				wsVm.listManufaturers();
 				wsVm.listPdnis();
-				wsVm.listProducts();
 				wsVm.listNotes();
 				
 				if($state.params.worksheetId != undefined){ //Open worksheet in edit mode with data pre-populated.
@@ -340,19 +342,21 @@
 			}
 		}
 		wsVm.setProductItems = function(mItem){
-			var productItems = [];
-			if(mItem.productItems){								
-				if(jQuery.isArray(mItem.productItems)) {
-					jQuery.each(mItem.productItems, function(k, v){
-						productItems.push(v);
-					});
+			wsVm.listProducts(mItem.manufacturer.id, function(){
+				var productItems = [];
+				if(mItem.productItems){								
+					if(jQuery.isArray(mItem.productItems)) {
+						jQuery.each(mItem.productItems, function(k, v){
+							productItems.push(v);
+						});
+					}else{
+						productItems.push(mItem.productItems);
+					}
 				}else{
-					productItems.push(mItem.productItems);
+					productItems.push({});
 				}
-			}else{
-				productItems.push({});
-			}
-			mItem["productItems"] = productItems;
+				mItem["productItems"] = productItems;
+			});
 		}
 		wsVm.setPdnis = function(mItem){
 			var tmpPdnis = [];

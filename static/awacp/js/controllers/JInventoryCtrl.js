@@ -188,6 +188,36 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
+		jinvVm.orderBooks = [];
+		jinvVm.generateReport = function(){
+			jinvVm.orderBooks = [];
+			jinvVm.pageNumber = jinvVm.currentPage;
+			AjaxUtil.getData("/awacp/listInventoryOrders/j/"+jinvVm.pageNumber+"/"+jinvVm.pageSize, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					$scope.$apply(function(){
+						jinvVm.totalItems = data.stsResponse.totalCount;
+					});
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							tmp.push(v);
+						});					
+					} else {
+					    tmp.push(data.stsResponse.results);
+					}
+					$scope.$apply(function(){
+						jinvVm.orderBooks = tmp;
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "AwInventoryCtrl::jinvVm.generateReport::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		jinvVm.editJInventory();
 	}		
 })();

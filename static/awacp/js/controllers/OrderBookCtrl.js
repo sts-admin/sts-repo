@@ -35,8 +35,12 @@
 
 		obVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
 		obVm.rptFromDate = {opened:false};
+		obVm.estDate = {opened:false};
 		obVm.rptToDate = {opened:false};
 		obVm.rptEstDate = {opened:false};
+		obVm.estDatePicker = function(){
+			obVm.estDate.opened = true;
+		}
 		obVm.rptEstDatePicker = function(){
 			obVm.rptEstDate.opened = true;
 		}
@@ -425,46 +429,44 @@
 			}
 			return index;
 		}
-		obVm.editOrderBook = function(){
-			if($state.params.id != undefined){				
-				AjaxUtil.getData("/awacp/getOrderBook/"+$state.params.id, Math.random())
-				.success(function(data, status, headers){
-					if(data && data.orderBook){
-						var tmpItems = [];
-						
-						if(data.orderBook.invItems){
-							if(jQuery.isArray(data.orderBook.invItems)){
-								tmpItems = data.orderBook.invItems;
-							}else{
-								tmpItems.push(data.orderBook.invItems);
+		obVm.editOrderBook = function(){			
+			AjaxUtil.getData("/awacp/getOrderBook/"+$state.params.id, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.orderBook){
+					var tmpItems = [];
+					
+					if(data.orderBook.invItems){
+						if(jQuery.isArray(data.orderBook.invItems)){
+							tmpItems = data.orderBook.invItems;
+						}else{
+							tmpItems.push(data.orderBook.invItems);
+						}
+					}
+					
+					data.orderBook.invItems = [];
+					obVm.listInvItems(data.orderBook.obCategory, function(items){
+						$scope.$apply(function(){
+							obVm.invItems = items;								
+						});
+						if(tmpItems && tmpItems.length > 0){
+							for(var i = 0; i < tmpItems.length; i++){
+								data.orderBook.invItems[obVm.getItemIndex(tmpItems[i].invItemId)] = tmpItems[i];
 							}
 						}
-						
-						data.orderBook.invItems = [];
-						obVm.listInvItems(data.orderBook.obCategory, function(items){
-							$scope.$apply(function(){
-								obVm.invItems = items;								
-							});
-							if(tmpItems && tmpItems.length > 0){
-								for(var i = 0; i < tmpItems.length; i++){
-									data.orderBook.invItems[obVm.getItemIndex(tmpItems[i].invItemId)] = tmpItems[i];
-								}
+						$scope.$apply(function(){
+							obVm.orderBook = data.orderBook;
+							if(obVm.orderBook.estDate){
+								obVm.orderBook.estDate = new Date(obVm.orderBook.estDate);
 							}
-							$scope.$apply(function(){
-								obVm.orderBook = data.orderBook;
-								if(obVm.orderBook.estDate){
-									obVm.orderBook.estDate = new Date(obVm.orderBook.estDate);
-								}
-								obVm.action = obVm.orderBook && obVm.orderBook.id?"Update":"Add New";	
-							});
+							obVm.action = obVm.orderBook && obVm.orderBook.id?"Update":"Add New";	
 						});
-					}
-				})
-				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "OrderBookCtrl::obVm.editOrderBook::Error";
-					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-				})
-			}
+					});
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "OrderBookCtrl::obVm.editOrderBook::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			})
 		}
 		obVm.checkOrderLimit = function(invType, lineItemId, itemAtIndex){
 			AjaxUtil.getData("/awacp/getCurrentAvailableQty/"+invType+"/"+lineItemId, Math.random())
@@ -498,6 +500,8 @@
 			var noInvItems = true;
 			if(obVm.orderBook.invItems && obVm.orderBook.invItems.length > 0){
 				jQuery.each(obVm.orderBook.invItems, function(k, d){
+					d.createdById = StoreService.getUserId();
+					d.createdByUserCode = StoreService.getUser().userCode;
 					if(d.orderQty && (parseInt(d.orderQty) > 0 || d.orderQty.length > 0)){
 						noInvItems = false;
 						return false;
@@ -533,29 +537,45 @@
 		}
 		obVm.listOrderBooks = function(){
 			obVm.orderBooks = [];
-			AjaxUtil.getData("/awacp/listOrderBooks/"+obVm.currentPage+"/"+obVm.pageSize, Math.random())
-			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.totalCount){
-					obVm.totalItems = 	data.stsResponse.totalCount;
-				}
-				if(data && data.stsResponse && data.stsResponse.results){
-					var tmp = [];
-					if(jQuery.isArray(data.stsResponse.results)) {
-						jQuery.each(data.stsResponse.results, function(k, v){
-							tmp.push(v);
-						});					
-					} else {					
-						tmp.push(data.stsResponse.results);
+			obVm.pageNumber = obVm.currentPage;
+			if($state.params.qSource != undefined && $state.params.qSource.length > 0){
+				AjaxUtil.getData("/awacp/getOrderBook/"+$state.params.qSource, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.orderBook){
+						$scope.$apply(function(){
+							obVm.orderBooks.push(data.orderBook);
+						});
+					}					
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "QuoteCtrl::obVm.listOrderBooks::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}else{
+				AjaxUtil.getData("/awacp/listOrderBooks/"+obVm.currentPage+"/"+obVm.pageSize, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.stsResponse && data.stsResponse.totalCount){
+						obVm.totalItems = 	data.stsResponse.totalCount;
 					}
-					$scope.$apply(function(){
-						obVm.orderBooks = tmp;
-					});
-				}
-			})
-			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "OrderBookCtrl::obVm.listOrderBooks::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			});
+					if(data && data.stsResponse && data.stsResponse.results){
+						var tmp = [];
+						if(jQuery.isArray(data.stsResponse.results)) {
+							jQuery.each(data.stsResponse.results, function(k, v){
+								tmp.push(v);
+							});					
+						} else {					
+							tmp.push(data.stsResponse.results);
+						}
+						$scope.$apply(function(){
+							obVm.orderBooks = tmp;
+						});
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "OrderBookCtrl::obVm.listOrderBooks::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}
 		}
 		obVm.listFactories = function(){
 			obVm.factories = [];
@@ -588,7 +608,10 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
-		obVm.editOrderBook();
+		if($state.params.id != undefined){	
+			obVm.editOrderBook();
+		}
+		
 		obVm.getPageSize();
 	}		
 })();
