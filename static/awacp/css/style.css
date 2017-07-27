@@ -33,6 +33,21 @@
 }
 /* end-custom-class */
 
+
+
+.nav-tabs.nav-justified > li > a{background:#d4a3b1 !important; color:#000;font-weight:bold;}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover{background:#d4a3b1 !important; color:#fff; font-weight:bold;}
+.order-hed > div {
+    border: 1px solid #d4a3b1;
+    color: #666;
+    font-weight: bold;
+	padding:4px;
+	text-align:center;
+}
+.order-hed > div span{font-size:16px; }
+.order-hed-con > div{color:#000; min-height:70px; padding:6px; background:#FFFFCE;text-align:center; border: 1px solid #d4a3b1;}
+.prob-hei{border: 1px solid #d4a3b1;}
+.prob-hei > div{line-height:25px;}
 .widget-clock.blue-light .clock-face {
   stroke: #153b6f;
   fill: #0e2434;
@@ -130,7 +145,7 @@ tr.bg-dark-green td {
 
 .panel-heading-top > label {
     font-size: 15px;
-	font-weight:normal;
+	font-weight:bold;
 }
 .form-group{margin-bottom:5px;}
 
