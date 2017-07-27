@@ -7099,7 +7099,7 @@ width:auto
 	background-position:right 12px
 }
 .panel-heading {
-	background:#eee
+	background:#fff;
 }
 .panel-heading a, .panel-heading a:active, .panel-heading a:focus, .panel-heading a:hover {
 	text-decoration:none
