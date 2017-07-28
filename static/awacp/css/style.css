@@ -48,6 +48,16 @@
 .order-hed-con > div{color:#000; min-height:70px; padding:6px; background:#FFFFCE;text-align:center; border: 1px solid #d4a3b1;}
 .prob-hei{border: 1px solid #d4a3b1;}
 .prob-hei > div{line-height:25px;}
+.prob-bg-hed > div{
+    background: #d4a3b1;
+    color: #fff;
+    font-weight: bold;
+    padding: 15px 0;
+	border-right:1px solid #fff;
+	text-align:center;
+}
+.input-color input{background:#fff !important;}
+
 .widget-clock.blue-light .clock-face {
   stroke: #153b6f;
   fill: #0e2434;
