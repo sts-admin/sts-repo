@@ -230,60 +230,65 @@
                           
                         
                      <div class="col-lg-3 col-md-3 col-sm-3"> <span class="form-label"> Billing Amount :</span> </div>     
-                          <div class="col-lg-3 col-md-3 col-sm-3"> <span style="font-weight:normal" class="form-label"> {{invoiceVm.jobOrder.billingAmount | currency}} </span> </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3"> <span class="form-label"> {{invoiceVm.jobOrder.billingAmount | currency}} </span> </div>
                         </div>
                         
                       </div>
                     </div>
-                    <div class="panel panel-default shadow">
+                    <div class="panel-default shadow">
                       <div class="panel-body">
-                        <div class="row">
-                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> PO# </span> </div>
+                        <div class="row prob-bg-hed">
+                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> AWACP PO# </span> </div>
                           <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> ORBF </span> </div>
                           <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> FAC INV </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> INV Amt. </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> Freight </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> Sales&nbsp;Person </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> Created By </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> Updated By </span> </div>
-                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> Comment &nbsp; | &nbsp;<a href ng-click="invoiceVm.addCostSheetLineItem();" style="padding-right:10px;">Add line item[+] </a> </span> </div>
+                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> INV AMT </span> </div>
+                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> FRT </span> </div>
+                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> SP</span> </div>
+                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> UC </span> </div>
+                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> UC2 </span> </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> COMMENT-MODEL NUMBER </span> </div>
                         </div>
-                        <div class="row" ng-repeat="psItem in invoiceVm.invoice.profitSheetItems track by $index">
-                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label">
+                        
+                        <div class="row input-color" ng-repeat="psItem in invoiceVm.invoice.profitSheetItems track by $index">
+                          <div class="col-lg-2 col-md-2 col-sm-2 pad-none"> <span class="form-label">
                             <input type="text" placeholder="AWACP PO#" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].awacpPoNumber"  ng-readonly="!invoiceVm.invoice.profitSheetItems[$index].manual"  />
                             </span> </div>
-                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label">
+                          <div class="col-lg-2 col-md-2 col-sm-2 pad-none"> <span class="form-label">
                             <input type="text" placeholder="ORBF" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].orbf"  ng-readonly="!invoiceVm.invoice.profitSheetItems[$index].manual"  />
                             </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label">
+                          <div class="col-lg-1 col-md-1 col-sm-1 pad-none"> <span class="form-label">
                             <input type="text" placeholder="FAC INV" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].facInv"  ng-readonly="!invoiceVm.invoice.profitSheetItems[$index].manual" />
                             </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label">
+							
+                          <div class="col-lg-1 col-md-1 col-sm-1 pad-none"> <span class="form-label">
                             <input type="text" placeholder="AWACP PO#" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].invAmount"  ng-readonly="!invoiceVm.invoice.profitSheetItems[$index].manual" />
                             </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label">
+                          <div class="col-lg-1 col-md-1 col-sm-1 pad-none"> <span class="form-label">
                             <input type="text" placeholder="FREIGHT" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].freight" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44 || event.charCode == 0 ">
                             </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> {{invoiceVm.invoice.salesPersonCode?invoiceVm.invoice.salesPersonCode:"--"}} </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> {{invoiceVm.invoice.createdByUserCode?invoiceVm.invoice.createdByUserCode:"--"}} </span> </div>
-                          <div class="col-lg-1 col-md-1 col-sm-1"> <span class="form-label"> {{invoiceVm.invoice.updatedByUserCode?invoiceVm.invoice.updatedByUserCode:"--"}} </span> </div>
-                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label">
-                            <input type="text" placeholder="Comment" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].comment" />
+							
+							
+                          <div class="col-lg-1 col-md-1 col-sm-1 text-center"> <span class="form-label"> {{invoiceVm.invoice.salesPersonCode?invoiceVm.invoice.salesPersonCode:"--"}} </span> </div>
+                          <div class="col-lg-1 col-md-1 col-sm-1 text-center"> <span class="form-label"> {{invoiceVm.invoice.createdByUserCode?invoiceVm.invoice.createdByUserCode:"--"}} </span> </div>
+                          <div class="col-lg-1 col-md-1 col-sm-1 text-center"> <span class="form-label"> {{invoiceVm.invoice.updatedByUserCode?invoiceVm.invoice.updatedByUserCode:"--"}} </span> </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2 pad-none"> <span class="form-label">
+                            <input type="text" placeholder="Comment" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].comment" /> 
                             </span> <span class="form-label" ng-show="invoiceVm.invoice.profitSheetItems[$index].manual"> &nbsp;<a href ng-click="invoiceVm.removeCostSheetLineItem($index);" style="padding-right:10px;">remove </a> </span> </div>
                         </div>
-                        <div class="row" style="margin-top:20px;">
+						<div class="col-lg-12"><a class="pull-right" href ng-click="invoiceVm.addCostSheetLineItem();" style="padding:15px 0; font-weight:bold;">Add line item[+] </a></div>
+                        <div class="row prob-bg-hed" style="margin-top:20px;">
                           <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> Total Cost </span> <span class="colon">:</span> </div>
-                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label">
+                          <div class="col-lg-2 col-md-2 col-sm-2" style="padding:10px 0 !important"> <span class="form-label">
                             <input type="text" placeholder="Total Cost" class="form-control" ng-model="invoiceVm.invoice.totalCost"  ng-readonly="true" />
                             </span> </div>
                           <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> Total {{invoiceVm.invoice.profitOrLossLabel}} </span> <span class="colon">:</span> </div>
-                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> {{invoiceVm.invoice.totalProfit | currency }} </span> </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2" style="background:#090;"> <span class="form-label"> {{invoiceVm.invoice.totalProfit | currency }} </span> </div>
                           <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> {{invoiceVm.invoice.profitOrLossLabel}} % </span> <span class="colon">:</span> </div>
-                          <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> {{invoiceVm.invoice.profitPercent < 0 ? invoiceVm.invoice.profitPercent * -1 : invoiceVm.invoice.profitPercent | number : 2}} </span> </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2" style="background:#090;"> <span class="form-label"> {{invoiceVm.invoice.profitPercent < 0 ? invoiceVm.invoice.profitPercent * -1 : invoiceVm.invoice.profitPercent | number : 2}} </span> </div>
                         </div>
                       </div>
                     </div>
-                    <input class="btn btn-success" type="submit" value="Final Update" />
+                    <input class="btn btn-success" type="submit" value="Final Update" />&nbsp; | &nbsp;<a href=""><img src="images/print_icon.png" alt="print"></a>
                   </uib-tab>
                 </uib-tabset>
               </div>
