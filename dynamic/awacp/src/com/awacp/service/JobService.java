@@ -23,7 +23,7 @@ public interface JobService {
 
 	public JobOrder getJobOrderByOrderId(String orderId);
 	
-	public String jobFinalUpdate(Long jobId);
+	public String jobFinalUpdate(Long jobId, Long userId);
 	
 	public StsResponse<JobOrder> generateJobOrderReport(JobOrder jobOrder);
 

@@ -707,6 +707,18 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 
 	@Override
 	public OrderBook fetchPremiumOrder(Long orderBookId) {
-		return getOrderBook(orderBookId);
+		OrderBook ob = getOrderBook(orderBookId);
+		JobOrder jo = getEntityManager().find(JobOrder.class, ob.getJobId());
+		if (jo.getPoName() != null) {
+			ob.setPo(jo.getPoName());
+		}
+		User user = getEntityManager().find(User.class, ob.getSalesPersonId());
+		String userName = user.getFirstName();
+		if (user.getLastName() != null) {
+			userName = userName + " " + user.getLastName();
+		}
+		ob.setSalesPersonName(userName);
+		// Set shipment status of this order
+		return ob;
 	}
 }

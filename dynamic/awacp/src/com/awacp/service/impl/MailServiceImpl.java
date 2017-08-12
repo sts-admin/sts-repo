@@ -8,12 +8,19 @@ import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.awacp.entity.AppSetting;
 import com.awacp.entity.Bidder;
 import com.awacp.entity.GeneralContractor;
+import com.awacp.entity.JobOrder;
+import com.awacp.entity.OrderBook;
+import com.awacp.entity.OrderBookInvItem;
 import com.awacp.entity.Takeoff;
 import com.awacp.entity.Worksheet;
+import com.awacp.service.AppSettingService;
 import com.awacp.service.ArchitectService;
 import com.awacp.service.EngineerService;
+import com.awacp.service.JobService;
+import com.awacp.service.OrderBookService;
 import com.awacp.service.TakeoffService;
 import com.sts.core.config.AppPropConfig;
 import com.sts.core.constant.AwacpMailTemplate;
@@ -38,6 +45,15 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 
 	@Autowired
 	ArchitectService architectService;
+
+	@Autowired
+	OrderBookService orderBookService;
+
+	@Autowired
+	JobService jobService;
+
+	@Autowired
+	AppSettingService appSettingService;
 
 	@Override
 	public String sendNewTakeoffMail(Long takeoffId) throws Exception {
@@ -239,6 +255,44 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 				"AWACP QUOTE :" + takeoff.getQuoteId(), content, "QUOTE_MAIL_TO_BIDDER",
 				AppPropConfig.quoteMailToBidder, AppPropConfig.quoteMailToBidderPassword, fileName, file);
 		return status;
+	}
+
+	@Override
+	public boolean sendPremiumOrderEmail(String emailOrId, String source, Long orderBookId) throws Exception {
+		OrderBook ob = orderBookService.fetchPremiumOrder(orderBookId);
+		JobOrder jo = jobService.getJobOrder(ob.getJobId());
+		if (source.equalsIgnoreCase("id")) {
+			emailOrId = userService.findUser(Long.valueOf(emailOrId)).getEmail();
+		}
+		AppSetting setting = appSettingService.getAppSetting(1L);
+		String logoPath = AppPropConfig.resourceReadPath + "big_logo.png";
+		String orderDate = jo.getDateCreated() == null ? "" : DATE_FORMAT.format(ob.getDateCreated().getTime());
+		String estDate = ob.getEstDate() == null ? "" : DATE_FORMAT.format(ob.getEstDate().getTime());
+		String orderItems = "";
+		if (ob.getInvItems() != null && !ob.getInvItems().isEmpty()) {
+			int index = 0;
+			for (OrderBookInvItem obii : ob.getInvItems()) {
+				orderItems += "<tr><th scope='row'>" + ++index + "</th><td>" + obii.getSize() + "</td> <td>"
+						+ obii.getItemDescription() + "</td></tr>";
+			}
+		}
+
+		String shippingStatus = "";
+
+		String content = String.format(AwacpMailTemplate.PREMIUM_ORDER_EMAIL.toString(), logoPath,
+				setting.getPhoneNumber(), setting.getOfficeAddress(), setting.getFaxNumber(), setting.getFrontWebsite(),
+				setting.getEmailAddress(), ob.getFactoryType(), jo.getOrderNumber(), orderDate,
+				jo.getPoName() == null ? "" : jo.getPoName(),
+				ob.getContractorName() == null ? "" : ob.getContractorName(),
+				ob.getShipToName() == null ? "" : ob.getShipToName(), ob.getAttn() == null ? "" : ob.getAttn(),
+				jo.getJobName(), jo.getJobAddress(), ob.getCreatedByUserCode(), ob.getSalesPersonName(), estDate,
+				orderItems, shippingStatus);
+		String toAddress[] = new String[] { emailOrId };
+		System.err.println(content);
+		String subject = "AWACP ORDER CONFIRMATION :" + ob.getJobOrderNumber() + " : " + ob.getContractorName() == null
+				? "" : ob.getContractorName() + " : " + jo.getJobName();
+		return mailService.sendMail(toAddress, AppPropConfig.emailPremiumOrder, subject, content, "PREMIUM_ORDER",
+				AppPropConfig.emailPremiumOrder, AppPropConfig.emailPremiumOrderPassword, null, null);
 	}
 
 }

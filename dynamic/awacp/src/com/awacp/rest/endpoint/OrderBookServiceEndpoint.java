@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Orbf;
 import com.awacp.entity.OrderBook;
+import com.awacp.service.MailService;
 import com.awacp.service.OrderBookService;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.web.filter.CrossOriginFilter;
@@ -24,7 +25,19 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private OrderBookService orderBookService;
-	
+
+	@Autowired
+	private MailService mailService;
+
+	@GET
+	@Path("/sendPremiumOrderMail/{emailOrId}/{source}/{jobOrderId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String sendPremiumOrderMail(@PathParam("emailOrId") String emailOrId, @PathParam("source") String source,
+			@PathParam("jobOrderId") Long jobOrderId, @Context HttpServletResponse servletResponse) throws Exception {
+		boolean status = mailService.sendPremiumOrderEmail(emailOrId, source, jobOrderId);
+		return "{\"status\":\"" + status + "\"}";
+	}
+
 	@GET
 	@Path("/fetchPremiumOrder/{orderBookId}")
 	@Produces(MediaType.APPLICATION_JSON)

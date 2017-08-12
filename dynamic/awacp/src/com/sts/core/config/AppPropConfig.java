@@ -11,6 +11,7 @@ public class AppPropConfig {
 	public static String appName;
 	public static String projectTeamName;
 	public static String emailVerificationUrl;
+	
 
 	public static String emailCommonPassword;
 	public static String emailNewTakeoff;
@@ -30,6 +31,9 @@ public class AppPropConfig {
 	public static String emailLowinventoryJ;
 	public static String emailOrderConfirmation;
 	public static String emailNoReply;
+	
+	public static String emailPremiumOrder;
+	public static String emailPremiumOrderPassword;
 
 	/**
 	 * @param appBaseUrl
@@ -192,6 +196,16 @@ public class AppPropConfig {
 	@Value("${emailQuoteFollowupPassword}")
 	public void setEmailQuoteFollowupPassword(String emailQuoteFollowupPassword) {
 		AppPropConfig.emailQuoteFollowupPassword = emailQuoteFollowupPassword;
+	}
+
+	@Value("${emailPremiumOrder}")
+	public void setEmailPremiumOrder(String emailPremiumOrder) {
+		AppPropConfig.emailPremiumOrder = emailPremiumOrder;
+	}
+
+	@Value("${emailPremiumOrderPassword}")
+	public void setEmailPremiumOrderPassword(String emailPremiumOrderPassword) {
+		AppPropConfig.emailPremiumOrderPassword = emailPremiumOrderPassword;
 	}
 	
 	

@@ -19,11 +19,13 @@ public interface MailService {
 
 	public boolean sendEstimateReminderMail();
 
-	public boolean sendLowInventoryMail(String toAddress, String inv, String owner, String userCode, int orderQty, int availQty, int reorderQty, String size,
-			String itemDesc, String orderNum) throws Exception;
+	public boolean sendLowInventoryMail(String toAddress, String inv, String owner, String userCode, int orderQty,
+			int availQty, int reorderQty, String size, String itemDesc, String orderNum) throws Exception;
 
 	public boolean sendOrderConfirmationMail();
 
 	public boolean sendNoReplyMail();
+
+	public boolean sendPremiumOrderEmail(String emailOrId, String source, Long orderBookId) throws Exception;
 
 }

@@ -11,7 +11,6 @@ import com.awacp.entity.AppSetting;
 import com.awacp.entity.MnD;
 import com.awacp.entity.MnDType;
 import com.awacp.entity.Pdni;
-import com.awacp.entity.Product;
 import com.awacp.entity.QuoteNote;
 import com.awacp.entity.Takeoff;
 import com.awacp.entity.Worksheet;

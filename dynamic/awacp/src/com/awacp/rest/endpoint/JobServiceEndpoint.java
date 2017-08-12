@@ -41,11 +41,11 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/jobFinalUpdate/{jobOrderId}")
+	@Path("/jobFinalUpdate/{jobOrderId}/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String jobFinalUpdate(@PathParam("jobOrderId") Long jobOrderId, @Context HttpServletResponse servletResponse)
-			throws IOException {
-		String status = this.jobService.jobFinalUpdate(jobOrderId);
+	public String jobFinalUpdate(@PathParam("jobOrderId") Long jobOrderId, @PathParam("userId") Long userId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		String status = this.jobService.jobFinalUpdate(jobOrderId, userId);
 		return "{\"status\":\"" + status + "\"}";
 	}
 

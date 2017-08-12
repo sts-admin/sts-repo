@@ -83,7 +83,7 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public boolean sendMail(String[] toAddresses, String fromAddress, String mailSubject, String content, String event,
 			String userName, String password, String fileName, File file) throws Exception {
-		System.err.println("EMAIL EVENT :: "+event+" :: Email being send to " + toAddresses + ", from " + fromAddress + " , USER ANEM :"+ userName + ", Password: "+ password);
+		System.err.println("EMAIL EVENT :: "+event+" :: Email being send to " + toAddresses + ", from " + fromAddress + " , USER NAME :"+ userName + ", Password: "+ password);
 		// UserMailHistory userMailHistory = new UserMailHistory(toAddresses,
 		// content, event);
 		JavaMailSenderImpl emailSender = new JavaMailSenderImpl();

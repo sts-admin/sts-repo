@@ -28,6 +28,8 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 	@Autowired
 	private UserService userService;
 
+	
+
 	@GET
 	@Path("/sendSignUpOTPMail")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -46,8 +48,8 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 		return sendSignupMail(userFullName, email, verificationCode, "MAIL");
 	}
 
-	private StsCoreResponse sendSignupMail(String userFullName, String email, String verificationCode,
-			String mailType) throws Exception{
+	private StsCoreResponse sendSignupMail(String userFullName, String email, String verificationCode, String mailType)
+			throws Exception {
 		StsCoreResponse StsCoreResponse = null;
 
 		String emailVerificationUrl = AppPropConfig.emailVerificationUrl;

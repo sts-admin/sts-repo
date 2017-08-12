@@ -298,9 +298,11 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 
 	@Override
 	@Transactional
-	public String jobFinalUpdate(Long jobId) {
+	public String jobFinalUpdate(Long jobId, Long userId) {
 		JobOrder jo = getJobOrder(jobId);
+		User user = getEntityManager().find(User.class, userId);
 		if (jo != null) {
+			jo.setSalesPersonId(user.getId());
 			jo.setFinalUpdate(true);
 			getEntityManager().merge(jo);
 			getEntityManager().flush();

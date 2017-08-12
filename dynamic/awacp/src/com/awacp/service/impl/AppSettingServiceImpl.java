@@ -36,14 +36,18 @@ public class AppSettingServiceImpl extends CommonServiceImpl<AppSetting> impleme
 	}
 
 	@Override
+	@Transactional
 	public AppSetting getAppSetting(Long id) {
-		return getEntityManager().find(AppSetting.class, id);
+		AppSetting appSetting = getEntityManager().find(AppSetting.class, id);
+		if (appSetting == null) {
+			return saveAppSetting(new AppSetting());
+		}
+		return appSetting;
 	}
 
 	@Override
 	public String delete(Long id) {
 		return "";
 	}
-
 
 }

@@ -78,6 +78,10 @@ public class OrderBook extends BaseEntity {
 
 	private JobOrder jobOrder;
 
+	private String po;
+
+	private String shipmentStatus = "Shipment is pending on this order.";
+
 	public OrderBook() {
 		super();
 	}
@@ -414,6 +418,24 @@ public class OrderBook extends BaseEntity {
 
 	public void setJobOrder(JobOrder jobOrder) {
 		this.jobOrder = jobOrder;
+	}
+
+	@Transient
+	public String getPo() {
+		return po;
+	}
+
+	public void setPo(String po) {
+		this.po = po;
+	}
+
+	@Transient
+	public String getShipmentStatus() {
+		return shipmentStatus;
+	}
+
+	public void setShipmentStatus(String shipmentStatus) {
+		this.shipmentStatus = shipmentStatus;
 	}
 
 }
