@@ -24,7 +24,6 @@
 		userVm.loginForm = {};
 		userVm.user = {};
 		userVm.timers = [];
-		userVm.users = [];
 		userVm.allPermissionsGroup = [];
 		userVm.allPermissions = [];
 		userVm.enableSubmitBtn = false;
@@ -110,6 +109,7 @@
 				if(data && data.stsResponse && data.stsResponse.results){
 					var tmp = [];
 					if(data.stsResponse.totalCount == 1){
+						data.stsResponse.results.customName = data.stsResponse.results.userCode + " - "+ data.stsResponse.results.firstName;
 						tmp.push(data.stsResponse.results);
 					}else{
 						jQuery.each(data.stsResponse.results, function(k, v){

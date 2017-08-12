@@ -20,8 +20,33 @@
 		invoiceVm.shipDate = {opened:false};
 		invoiceVm.shipmentOptions = [{id:'FULL', title:'FULL'}, {id:'PARTIAL', title:'PARTIAL'}];
 		
-		invoiceVm.jobFinalUpdate = function(){
+		invoiceVm.finalUpdate = function(jobId, orderNumber, invoiceId){
 			jQuery("#final-update-btn").attr('disabled','disabled');
+			AlertService.showConfirm(	'AWACP :: Confirmation!', "Make final update?")
+			.then(function (){
+				var userId = StoreService.getUser().userId;
+				AjaxUtil.getData("/awacp/jobFinalUpdate/"+jobId+"/"+userId, Math.random())
+				.success(function(data, status, headers){
+					jQuery("#final-update-btn").removeAttr('disabled');
+					if(data && data.status){
+						AlertService.showAlert(	'AWACP :: Message!', "Final update successful.")
+						.then(function (){
+							$state.go('bill-edit', {jobId:jobId, orderNumber:orderNumber, invoiceId:invoiceId, activeTabIndex:1});
+							return;
+						},function (){return});
+						return;
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jQuery("#final-update-btn").removeAttr('disabled');
+					jqXHR.errorSource = "InvoiceCtrl::invoiceVm.finalUpdate::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			},
+			function (){
+				jQuery("#final-update-btn").removeAttr('disabled');
+				return false;
+			});	
 		}
 		
 		invoiceVm.calculateProfitOrLoss = function(){
@@ -285,8 +310,7 @@
 		if($state.params.invoiceId != undefined && $state.params.invoiceOrderId != undefined){
 			invoiceVm.getJobOrderForThisInvoice($state.params.invoiceOrderId);
 			invoiceVm.editInvoice($state.params.invoiceId);
-		}
-		if($state.params.invoiceOrderId != undefined){
+		}else if($state.params.invoiceOrderId != undefined){
 			invoiceVm.getJobOrderForThisInvoice($state.params.invoiceOrderId);
 		}
 		if($state.params.activeTabIndex){

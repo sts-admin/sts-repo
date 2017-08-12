@@ -82,7 +82,7 @@
                 </tr>
                 <tr bgcolor="#FFCCCC" ng-repeat="item in ob.invItems track by $index">
                   <td align="center">{{ob.dateCreated | date:'shortDate'}}</td>
-                  <td align="center"><a style="color:#039;" href ui-sref="premium-order({intenvory:'AW', orderBookId:ob.id})">{{ob.orderBookNumber}}</a></td>
+                  <td align="center"><a style="color:#039;" href ui-sref="premium-order({inventory:'AW', orderBookId:ob.id})" target="_blank">{{ob.orderBookNumber}}</a></td>
                   <td align="center">GDO CONTRACTING CORP</td>
                   <td align="center">{{item.orderQty}}</td>
                   <td align="center">{{item.size}}</td>

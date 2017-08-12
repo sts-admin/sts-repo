@@ -24,7 +24,7 @@
             <div class="col-lg-12 pad-none">
               <div class="table-container">
                 <uib-tabset active="invoiceVm.activeIndex" justified="true">
-                  <uib-tab index="0" heading="Joborder" ng-click="invoiceVm.setActiveTab(0);">
+                  <uib-tab index="0" heading="Job Order" ng-click="invoiceVm.setActiveTab(0);">
                     <div class="panel-default shadow">
                       <div class="panel-body">
                         <div class="row order-hed">
@@ -288,7 +288,10 @@
                         </div>
                       </div>
                     </div>
-                    <input class="btn btn-success" type="submit" value="Final Update" />&nbsp; | &nbsp;<a href=""><img src="images/print_icon.png" alt="print"></a>
+					<span ng-show="invoiceVm.jobOrder.invoiceMode === 'inv' && !invoiceVm.jobOrder.finalUpdate">
+						<input ng-disabled="invoiceVm.jobOrder.finalUpdate" id="final-update-btn" class="btn btn-success" type="button" value="Final Update" ng-click="invoiceVm.finalUpdate(invoiceVm.jobOrder.id, invoiceVm.jobOrder.orderNumber, invoiceVm.jobOrder.invoiceId);" />&nbsp; | &nbsp;
+					</span>
+					<a href=""><img src="images/print_icon.png" alt="print"></a>
                   </uib-tab>
                 </uib-tabset>
               </div>
