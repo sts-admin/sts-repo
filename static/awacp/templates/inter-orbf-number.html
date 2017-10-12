@@ -1,0 +1,183 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid">
+
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xss-12 dashboard-content">
+        <h1>Enter ORBF Number</h1>
+      </div>
+      <!-- .col --> </div>
+    <!-- .row -->
+    <div class="row">
+      <form class="table-container" action="" method="post" id="add_orbf" name="add_orbf">
+        <table width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+          <tbody>
+            <tr>
+              <td valign="top" align="left"><!-- start id-form -->
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" align="left" style="font-size:12px;" id="id-form">
+                  <tbody>
+                    <tr>
+                      <td valign="top" colspan="4"><table width="90%" cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td valign="top" colspan="2"><table width="90%" cellspacing="0" cellpadding="0" border="1" style="padding:5px; font-size:12px;">
+                                  <tbody>
+                                    <tr>
+                                      <td style="padding:5px;"><strong>Date</strong></td>
+                                      <td style="padding:5px;"><strong>AWACP PO#</strong></td>
+                                      <td style="padding:5px;"><strong>Customer Name</strong></td>
+                                      <td style="padding:5px;"><strong>Job Name</strong></td>
+                                      <td style="padding:5px;"><strong>Salesman</strong></td>
+                                      <td style="padding:5px;"><strong>Comments</strong></td>
+                                    </tr>
+                                    <tr>
+                                      <td style="padding:5px; background:#FFF;">09/23/2017</td>
+                                      <td style="padding:5px; background:#FFF;">17AWF-5464</td>
+                                      <td style="padding:5px; background:#FFF;">MANHATTAN MECHANICAL</td>
+                                      <td style="padding:5px; background:#FFF;">SCHOLASTIC (CO)</td>
+                                      <td style="padding:5px; background:#FFF;">JK</td>
+                                      <td style="padding:5px; background:#FFF;">2 23X23 SAC3LD-D</td>
+                                    </tr>
+                                  </tbody>
+                                </table></td>
+                            </tr>
+                            <tr>
+                              <td colspan="2">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <input type="hidden" value="77423" name="oid">
+                              <td width="11%" valign="top" style="padding:5px;"><strong>Enter ORBF:</strong></td>
+                              <td width="89%" align="left" style="padding:5px;"><input type="text" value="" id="orbf_number" name="orbf_number" class="form-control"></td>
+                            </tr>
+                            <tr>
+                              <td valign="top" align="left" colspan="2"><table width="100%" border="0">
+                                  <tbody>
+                                    <tr>
+                                      <td width="11%" valign="top"><strong>Trucker</strong>:</td>
+                                      <td width="28%" align="left"><select class="form-control" id="trucker" name="trucker">
+                                          <option value="">--</option>
+                                          <option value="A. DUIE PYLE">A. DUIE PYLE</option>
+                                          <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
+                                          <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
+                                          <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
+
+                                          <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
+                                          <option value="EDI">EDI</option>
+                                          <option value="FEDEX">FEDEX</option>
+                                          <option value="METROLOGISTICS">METROLOGISTICS</option>
+                                          <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
+                                          <option value="NEWPENN">NEWPENN</option>
+                                          <option value="OLD DOMINION">OLD DOMINION</option>
+                                          <option value="PICKUP">PICKUP</option>
+                                          <option value="ROAD RUNNER">ROAD RUNNER</option>
+                                          <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
+                                          <option value="UPS">UPS</option>
+                                          <option value="USF Trucking">USF TRUCKING</option>
+                                          <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
+                                          <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
+                                          <option value="YRC FREIGHT">YRC FREIGHT</option>
+                                        </select></td>
+                                      <td width="13%" valign="top"><strong>Tracking Link 1</strong>:</td>
+                                      <td width="48%" align="left"><input type="text" style="width:80%" value="" id="tracking_link" name="tracking_link" class="form-control">
+                                        <input type="hidden" value="0" name="shipment_delivered"></td>
+                                    </tr>
+                                    <tr>
+                                      <td width="11%" valign="top"><strong>Trucker</strong>:</td>
+                                      <td align="left"><select class="form-control" id="trucker2" name="trucker2">
+                                          <option value="">--</option>
+                                          <option value="A. DUIE PYLE">A. DUIE PYLE</option>
+                                          <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
+                                          <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
+                                          <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
+                                          <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
+                                          <option value="EDI">EDI</option>
+                                          <option value="FEDEX">FEDEX</option>
+                                          <option value="METROLOGISTICS">METROLOGISTICS</option>
+                                          <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
+                                          <option value="NEWPENN">NEWPENN</option>
+                                          <option value="OLD DOMINION">OLD DOMINION</option>
+                                          <option value="PICKUP">PICKUP</option>
+                                          <option value="ROAD RUNNER">ROAD RUNNER</option>
+                                          <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
+                                          <option value="UPS">UPS</option>
+                                          <option value="USF Trucking">USF TRUCKING</option>
+                                          <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
+                                          <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
+                                          <option value="YRC FREIGHT">YRC FREIGHT</option>
+                                        </select></td>
+                                      <td width="13%" valign="top"><strong>Tracking Link 2</strong>:</td>
+                                      <td width="48%" align="left"><input type="text" style="width:80%" value="" id="tracking_link2" name="tracking_link2" class="form-control">
+                                        <input type="hidden" value="0" name="shipment_delivered2"></td>
+                                    </tr>
+                                    <tr>
+                                      <td width="11%" valign="top"><strong>Trucker</strong>:</td>
+                                      <td align="left"><select class="form-control" id="trucker3" name="trucker3">
+                                          <option value="">--</option>
+                                          <option value="A. DUIE PYLE">A. DUIE PYLE</option>
+                                          <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
+                                          <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
+                                          <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
+                                          <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
+                                          <option value="EDI">EDI</option>
+                                          <option value="FEDEX">FEDEX</option>
+                                          <option value="METROLOGISTICS">METROLOGISTICS</option>
+                                          <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
+                                          <option value="NEWPENN">NEWPENN</option>
+                                          <option value="OLD DOMINION">OLD DOMINION</option>
+                                          <option value="PICKUP">PICKUP</option>
+                                          <option value="ROAD RUNNER">ROAD RUNNER</option>
+                                          <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
+                                          <option value="UPS">UPS</option>
+                                          <option value="USF Trucking">USF TRUCKING</option>
+                                          <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
+                                          <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
+                                          <option value="YRC FREIGHT">YRC FREIGHT</option>
+                                        </select></td>
+                                      <td width="13%" valign="top"><strong>Tracking Link 3</strong>:</td>
+                                      <td width="48%" align="left"><input type="text" style="width:80%" value="" id="tracking_link3" name="tracking_link3" class="form-control">
+                                        <input type="hidden" value="0" name="shipment_delivered3"></td>
+                                    </tr>
+                                  </tbody>
+                                </table></td>
+                            </tr>
+                            <tr>
+                              <td valign="top" style="padding:5px;"><strong>EST Date</strong>:</td>
+                              <td align="left" style="padding:5px;" colspan="5"><input type="text" style="width:100px;" value="09/25/17" name="orbf_date" class="form-control datepicker"></td>
+                            </tr>
+                            <tr>
+                              <td valign="top" style="padding:5px;"><strong>Comments</strong>:</td>
+                              <td align="left" style="padding:5px;" colspan="5"><textarea style="width:900px" class="form-control" rows="" cols="" name="comment_orbf"></textarea></td>
+                            </tr>
+                            <tr>
+                              <th valign="top">&nbsp;</th>
+                              <td align="left" colspan="2"><table width="100%">
+                                  <tbody>
+                                    <tr>
+                                      <td width="14%"><input type="submit" class="btn btn-primary" value="Save ORBF">
+                                        <input type="hidden" value="17AWF-5464" name="po">
+                                        <input type="hidden" value="MK" name="updated_by">
+                                        <input type="hidden" value="add_orbf" name="act"></td>
+                                      <td width="86%"><div style="float:left; margin:5px; border:#FF0000 1px solid; text-align:center; color:#FF0000; width:40px; padding:5px; font-weight:bold;">MK</div></td>
+                                    </tr>
+                                  </tbody>
+                                </table></td>
+                            </tr>
+                          </tbody>
+                        </table></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- end id-form --></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+    <!-- .row --> </div>
+</section>
+
+</div>
+
+<div ng-include="'templates/footer.html'" ></div>
