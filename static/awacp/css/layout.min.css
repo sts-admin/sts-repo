@@ -1535,7 +1535,8 @@ transition:display .3s;
 	border-left-color:#36424c
 }
 .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-form {
-	padding:20px 10px 15px
+	padding:20px 10px 15px;
+	position:absolute; bottom:125px; background:#21282e;
 }
 .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-alerts .page-quick-sidebar-alerts-list {
 	padding:10px 0;
