@@ -1,0 +1,250 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+  <div class="clearfix">
+    <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders('all');">
+      <div class="panel-heading form-heading panel-heading-top">
+        <label>View Job Orders</label>
+        <span class="pull-right" ><a href ui-sref="joborder-add" >Add Job Order</a></span> </div>
+      <div class="panel-body">
+        <div style="text-align:right;">
+          <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left"> Per page Rows
+            <select ng-class="styledselect_pages" style="outline:none;"
+			  ng-model="jobVm.pageSize" 
+			  ng-options="size for size in jobVm.pageSizeList" ng-change="jobVm.setCurrentPageSize(jobVm.pageSize);" >
+            </select>
+          </div>
+          <ul uib-pagination total-items="jobVm.totalItems" items-per-page = "jobVm.pageSize" ng-model="jobVm.currentPage" ng-change="jobVm.pageChanged()">
+          </ul>
+        </div>
+        <!-- .row -->
+        <div class="row" id="contents" style="margin-top:25px; float:left;">
+          <!-- .col -->
+          <div class="col-lg-12 pad-none">
+            <form id="users_view_form" class="table-container" action="" method="post">
+              <div class="table-container">
+                <table border="1" width="100%" cellpadding="0" cellspacing="0" class="table-responsive theme-table">
+                  <thead>
+                    <tr style="background-color:#bd7589" >
+                      <td align="center">&nbsp;</td>
+                      <td align="center">A</td>
+                      <td align="center">V</td>
+                      <td align="center">E</td>
+                      <td align="center">T</td>
+                      <td align="center">Y</td>
+                      <td align="center">X</td>
+                      <td align="center"></td>
+                      <td class="" align="center"></td>
+                      <td class="bg-BD7589" align="center"></td>
+                      <td align="center"></td>
+                      <td align="center"></td>
+                      <td align="center">
+						<select style="width:85px; height:30px; color:#000000;" class="searchtxt form-control" 
+						  ng-model="jobVm.billType" 
+						  ng-options="inv for inv in jobVm.billTypes" 
+						  ng-change="jobVm.filterJobOrders(jobVm.billType);" >
+						  <option value="">---</option>
+						</select>
+                      <!-- <select onchange="joborder_dropdown($('#final_update').val())" style="width:82px; height:30px; color:#000000;" class="searchtxt form-control" name="joborder_inv"> <option value="">--</option> <option style="color:#FF0000;" value="bill">BILL</option> <option style="color:#006600;" value="inv">INV</option> <option style="color:#FF6600;" value="ptl">PTL</option> </select> -->
+                      </td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_architect" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="jobOrder_gc" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="jobOrder_sp" maxlength="2" value=""></td>
+                      <td align="center" class="c6"><input type="text" class="searchtxt form-control-2" name="jobOrder_uc" maxlength="2" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_specs" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_vibro_lay_in" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="project_num" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_bidders" value=""></td>
+                      <td align="center"><input type="text" class="searchtxt form-control-2" name="jobOrder_bidders" value=""></td>
+                    </tr>
+                    <tr style="background-color:#7d3549; color:#fff">
+                      <td align="center" style="min-width:50px;">Info Icon</td>
+                      <td align="center" >1</td>
+                      <td align="center" >2</td>
+                      <td align="center" >3</td>
+                      <td align="center" >4</td>
+                      <td align="center" >5</td>
+                      <td align="center" >6</td>
+                      <td align="center" >XLS</td>
+                      <td align="center" >DOC</td>
+                      <td align="center" >TAX</td>
+                      <td align="center" >PO</td>
+                      <td align="center" >IU</td>
+                      <td align="center">View INV</td>
+                      <td align="center">Start Date</td>
+                      <td class="bg-4D7373" align="center">Quote ID</td>
+                      <td class="c10 bg-7D3549" align="center">Job ID</td>
+                      <td align="center">Job Name</td>
+                      <td align="center">Address</td>
+                      <td align="center">Contractor</td>
+                      <td align="center">SP</td>
+                      <td align="center">UC</td>
+                      <td align="center">Billing Amount</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr height="25" ng-repeat="jobOrder in jobVm.jobOrders track by $index" ng-style="{{jobOrder.statusStyle}}">
+					  <td align="center">
+						<span ng-show="jobOrder.takeoffId">
+							<img  popover-placement="right" uib-popover-template="jobVm.takeoffInfoPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{jobVm.takeoffInfoPopover.title}}"  ng-click="jobVm.showTakeoffInfo(jobOrder.takeoffId);"  style="cursor:pointer;" src="images/takeoffinfo.png" alt="image" border="0" />
+							
+						</span>
+						<span ng-show="jobOrder.quoteId">
+							<img  popover-placement="right" uib-popover-template="jobVm.quotePopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{jobVm.quotePopover.title}}"  ng-click="jobVm.showQuoteInfo(jobOrder.takeoffId);"  style="cursor:pointer;" src="images/quote_info.png" alt="image" border="0" />
+						</span>
+						
+						<span ng-show="jobOrder.orderNumber">
+							<img  popover-placement="right" uib-popover-template="jobVm.jobOrderPopover.templateUrl" popover-trigger="'outsideClick'" popover-title="{{jobVm.jobOrderPopover.title}}"  ng-click="jobVm.showJobOrderInfo(jobOrder);"  style="cursor:pointer;" src="images/jobinfo.png" alt="image" border="0" />
+						</span>
+					  </td>
+                      <td align="center" >
+						<a href ng-click="jobVm.showFileListingView('JO_ONE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joOneDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_ONE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      <td align="center" >
+						<a href ng-click="jobVm.showFileListingView('JO_TWO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joTwoDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_TWO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                       <td align="center" >
+					   <a href ng-click="jobVm.showFileListingView('JO_THREE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joThreeDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_THREE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      <td align="center" >
+					   <a href ng-click="jobVm.showFileListingView('JO_FOUR', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joFourDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_FOUR', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      <td align="center" >
+						<a href ng-click="jobVm.showFileListingView('JO_FIVE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joFiveDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_FIVE', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      <td align="center" >
+					  <a href ng-click="jobVm.showFileListingView('JO_SIX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joSixDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_SIX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                       <td align="center" >
+						 <a href ng-click="jobVm.showFileListingView('JO_XLS', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joXlsCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_XLS', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                       <td align="center" >
+						<a href ng-click="jobVm.showFileListingView('JO_DOC', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_DOC', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                       <td align="center" >
+					   <a href ng-click="jobVm.showFileListingView('JO_TAX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joTaxDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_TAX', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      <td align="center" >
+						<a href ng-click="jobVm.showFileListingView('JO_PO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joPoDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_PO', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                       <td align="center" >
+					   <a href ng-click="jobVm.showFileListingView('JO_IU', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'list-view');">
+							<span class="badge">{{jobOrder.joUiDocCount}}</span>
+						</a>
+						<a href ng-click="jobVm.showFileListingView('JO_IU', jobOrder.id, 'Job Order', 'large', '.doc, .docx, .xls, xlsx, .txt, .pdf', 'upload-view');">						
+							<img src="images/FileUploadIcon.png" alt="image" border="0" />
+						</a>
+					  </td>
+                      
+                      <td align="center">
+						<span ng-show="jobOrder.invoiceMode === 'bill'">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
+								<img border="0" src="images/inv_status_bill.png">
+							</a> 
+							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">
+								<img border="0" src="images/inv_status_bill.png">
+							</a>
+						</span>
+						<span ng-show="jobOrder.invoiceMode === 'ptl'">
+							<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">
+								<img border="0" src="images/inv_status_ptl.png">
+							</a> 
+							<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">
+								<img border="0" src="images/inv_status_ptl.png">
+							</a>
+						</span>
+						<a ng-show="jobOrder.invoiceMode === 'inv'" href ui-sref="invoice-generate({invoiceOrderId:jobOrder.id})">
+							<img border="0" src="images/inv_status_inv.png">
+						</a>
+					  </td>
+                      <td align="center">{{jobOrder.dateCreated | date:'shortDate'}}</td>
+						<td align="center">
+							<a href ui-sref="quote-view" ng-show="jobOrder.quoteId">
+								{{jobOrder.quoteId}}
+							</a> 
+							<span ng-show="!jobOrder.quoteId">...</span>
+						</td>
+                      <td align="center">
+						<a ng-show="!jobOrder.invoiceId" href ui-sref="bill-add({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber})">{{jobOrder.orderNumber}}</a> 
+						<a ng-show="jobOrder.invoiceId" href ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:0})">{{jobOrder.orderNumber}}</a>
+					  </td>
+                      <td align="center">
+						<a href ui-sref="joborder-edit({id:jobOrder.id})" ng-show="jobOrder.id">
+							{{jobOrder.jobName}}
+						</a>
+						<span ng-show="!jobOrder.id">...</span>
+					  </td>
+                      <td align="center">{{jobOrder.jobAddress?jobOrder.jobAddress:'...'}}</td>
+                      <td align="center"> {{jobOrder.contractorName?jobOrder.contractorName:'...'}} </td>
+                      <td align="center"> {{jobOrder.salesPersonName?jobOrder.salesPersonName:'...'}} </td>
+                      <td align="center"> {{jobOrder.createdByUserCode?jobOrder.createdByUserCode:'...'}} </td>
+                      <td align="center"> 
+						<a href ng-show="jobOrder.invoiceId && jobOrder.finalUpdate"  style="color:green;" ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:1})">
+							{{jobOrder.billingAmount?jobOrder.billingAmount:'...' | currency}} 
+						</a>
+						<a href ng-show="jobOrder.invoiceId && !jobOrder.finalUpdate"  style="color:blue;" ui-sref="bill-edit({jobId:jobOrder.id, orderNumber:jobOrder.orderNumber, invoiceId:jobOrder.invoiceId, activeTabIndex:1})">
+							{{jobOrder.billingAmount?jobOrder.billingAmount:'...' | currency}} 
+						</a>
+					  </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>
