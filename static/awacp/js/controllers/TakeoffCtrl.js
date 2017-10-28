@@ -48,7 +48,27 @@
 		takeVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
+				if("success" === status){
+					takeVm.updateFileUploadCount(source, sourceId, filePattern);
+				}
+			});
+		}
+		takeVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(takeVm.takeoffs && takeVm.takeoffs.length > 0){
+				for(var i = 0; i < takeVm.takeoffs.length; i++){
+					if(takeVm.takeoffs[i].id === sourceId){
+						if(source.includes("takeoff_drawing_doc")){
+							takeVm.takeoffs[i].drawingDocCount = (parseInt(takeVm.takeoffs[i].drawingDocCount) + 1);
+						}else if(source.includes("takeoff_doc")){
+							takeVm.takeoffs[i].takeoffDocCount = (parseInt(takeVm.takeoffs[i].takeoffDocCount) + 1);
+						}else if(source.includes("takeoff_vibro_doc")){
+							takeVm.takeoffs[i].vibroDocCount = (parseInt(takeVm.takeoffs[i].vibroDocCount) + 1);
+						}			
+						break;
+					}
+				}
+			}
 		}
 		takeVm.showTakeoffInfo = function(takeoff){
 			takeVm.selectedTakeoff =  takeoff;

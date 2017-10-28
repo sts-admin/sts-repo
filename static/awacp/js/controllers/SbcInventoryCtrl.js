@@ -48,30 +48,55 @@
 			}
 		}
 		
-		sbcInvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+		sbcInvVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			$rootScope.fileViewSource = "templates/file-upload.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
-		}
-		
-		sbcInvVm.setCurrentPageSize =function(size){
-			AjaxUtil.setPageSize("SBC_INV", size, function(status, size){
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
 				if("success" === status){
-					sbcInvVm.pageSize = size;
-					sbcInvVm.pageChanged();
+					sbcInvVm.updateFileUploadCount(source, sourceId, filePattern);
 				}
 			});
 		}
 		
-		sbcInvVm.getPageSize = function(){
-			AjaxUtil.getPageSize("SBC_INV", function(status, size){
+		sbcInvVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(sbcInvVm.sbcInventories && sbcInvVm.sbcInventories.length > 0){
+				for(var i = 0; i < sbcInvVm.sbcInventories.length; i++){
+					if(sbcInvVm.sbcInventories[i].id === sourceId){
+						if(source.includes("inv_sbc_image_doc")){
+							sbcInvVm.sbcInventories[i].imageCount = (parseInt(sbcInvVm.sbcInventories[i].imageCount) + 1);
+						}					
+						break;
+					}
+				}
+			}
+		}
+		
+		sbcInvVm.setCurrentPageSize =function(identifier, size){
+			AjaxUtil.setPageSize(identifier, size, function(status, size){
 				if("success" === status){
 					sbcInvVm.pageSize = size;
+					if(identifier === 'SBC_ORDERS'){
+						sbcInvVm.generateReport();
+					}else{
+						sbcInvVm.pageChanged();
+					}
+				}
+			});
+		}
+		
+		sbcInvVm.getPageSize = function(identifier){
+			AjaxUtil.getPageSize(identifier, function(status, size){
+				if("success" === status){
+					sbcInvVm.pageSize = size;
+					$scope.$digest();
 				}
 			});
 		}
 		
 		sbcInvVm.pageChanged = function() {
 			sbcInvVm.getSbcInventories();
+		}
+		sbcInvVm.orderPageChanged = function() {
+			sbcInvVm.generateReport();
 		}		
 		sbcInvVm.cancelSbcInventoryAction = function(){
 			$state.go("sbc-view");		
@@ -209,9 +234,17 @@
 					var tmp = [];
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
+							if(v.invItems && !jQuery.isArray(v.invItems)) {
+								var items = [];
+								items.push(v.invItems);
+								v.invItems = items;
+							}
 							tmp.push(v);
 						});					
 					} else {
+					    var items = [];
+						items.push(data.stsResponse.results.invItems);
+						data.stsResponse.results.invItems = items;
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
@@ -220,10 +253,19 @@
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "AwInventoryCtrl::sbcInvVm.generateReport::Error";
+				jqXHR.errorSource = "SbcInventoryCtrl::sbcInvVm.generateReport::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		sbcInvVm.setPageSize = function(){
+			var state = $state.current.name;
+			if(state === 'sbc-orders'){
+				sbcInvVm.getPageSize('SBC_ORDERS');
+			}else if(state === 'sbc-view'){
+				sbcInvVm.getPageSize('SBC_INV');
+			}
+		}
+		sbcInvVm.setPageSize();
 	}		
 })();
 

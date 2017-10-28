@@ -13,7 +13,7 @@
 					Per page Rows 
 					<select ng-class="styledselect_pages" style="outline:none;"
 						ng-model="splInvVm.pageSize" 
-						ng-options="size for size in splInvVm.pageSizeList" ng-change="splInvVm.setCurrentPageSize(splInvVm.pageSize);" >
+						ng-options="size for size in splInvVm.pageSizeList" ng-change="splInvVm.setCurrentPageSize('SPL_INV', splInvVm.pageSize);" >
 					</select>
 			</div>
 					<ul uib-pagination total-items="splInvVm.totalItems" items-per-page = "splInvVm.pageSize" ng-model="splInvVm.currentPage" ng-change="splInvVm.pageChanged()"></ul>
@@ -74,12 +74,14 @@
 							  <td align="center">{{splInv.createdByUserCode}}</td>
 							  <td align="center">{{splInv.updatedByUserCode}}</td>
 							   <td align="center">
-								<a href ng-click="splInvVm.showFileListingView('inv_spl_image_doc', splInv.id, 'SPL Inventory Images', 'large', '.png');">
-									<span class="badge">{{splInv.imageCount}}</span>
+								<a href ng-click="splInvVm.showFileListingView('inv_spl_image_doc', splInv.id, 'SPL Inventory Images', 'large', '.png', 'list-view');">
+									<span class="badge">{{splInv.imageCount}}</span>								
+								</a>
+								<a href ng-click="splInvVm.showFileListingView('inv_spl_image_doc', splInv.id, 'SPL Inventory Images', 'large', '.png', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
 								</a>
 								<br>
-								<img style ="cursor:pointer;" src="images/inv_image.png" alt="image" border="0" ng-click="splInvVm.toggleImageContainer(splInv.id);" />
+								<img ng-hide="splInv.imageCount === 0" style ="cursor:pointer;" src="images/inv_image.png" alt="image" border="0" ng-click="splInvVm.toggleImageContainer(splInv.id);" />
 							  </td>
 							  <td align="center">&nbsp; 
 								<a href ui-sref="spl-edit({id:splInv.id})"> 

@@ -47,32 +47,57 @@
 			}
 		}
 		
-		awInvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+		awInvVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "AW Inventory Item Image Upload";
 			$rootScope.fileViewSource = "templates/file-upload.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
-		}
-		
-		awInvVm.setCurrentPageSize =function(size){
-			AjaxUtil.setPageSize("AW_INV", size, function(status, size){
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
 				if("success" === status){
-					awInvVm.pageSize = size;
-					awInvVm.pageChanged();
+					awInvVm.updateFileUploadCount(source, sourceId, filePattern);
 				}
 			});
 		}
 		
-		awInvVm.getPageSize = function(){
-			AjaxUtil.getPageSize("AW_INV", function(status, size){
+		awInvVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(awInvVm.awInventories && awInvVm.awInventories.length > 0){
+				for(var i = 0; i < awInvVm.awInventories.length; i++){
+					if(awInvVm.awInventories[i].id === sourceId){
+						if(source.includes("inv_aw_image_doc")){
+							awInvVm.awInventories[i].imageCount = (parseInt(awInvVm.awInventories[i].imageCount) + 1);
+						}					
+						break;
+					}
+				}
+			}
+		}
+		
+		awInvVm.setCurrentPageSize =function(identifier, size){
+			AjaxUtil.setPageSize(identifier, size, function(status, size){
 				if("success" === status){
 					awInvVm.pageSize = size;
+					if(identifier === 'AW_ORDERS'){
+						awInvVm.generateReport();
+					}else{
+						awInvVm.pageChanged();
+					}
+				}
+			});
+		}
+		
+		
+		awInvVm.getPageSize = function(indentifier){
+			AjaxUtil.getPageSize(indentifier, function(status, size){
+				if("success" === status){
+					awInvVm.pageSize = size;
+					$scope.$digest();
 				}
 			});
 		}
 		
 		awInvVm.pageChanged = function() {
 			awInvVm.getAwInventories();
-		}		
+		}
+		
+				
 		awInvVm.cancelAwInventoryAction = function(){
 			$state.go("aw-view");		
 		}
@@ -191,12 +216,14 @@
 		if($state.params.id != undefined){
 			awInvVm.editAwInventory();
 		}
+		awInvVm.orderPageChanged = function() {
+			awInvVm.generateReport();
+		}
 		awInvVm.generateReport = function(){
 			awInvVm.orderBooks = [];
 			awInvVm.pageNumber = awInvVm.currentPage;
 			AjaxUtil.getData("/awacp/listInventoryOrders/aw/"+awInvVm.pageNumber+"/"+awInvVm.pageSize, Math.random())
 			.success(function(data, status, headers){
-				console.log(JSON.stringify(data, null, 4));
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					$scope.$apply(function(){
 						awInvVm.totalItems = data.stsResponse.totalCount;
@@ -235,7 +262,15 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
-		
+		awInvVm.setPageSize = function(){
+			var state = $state.current.name;
+			if(state === 'aw-orders'){
+				awInvVm.getPageSize('AW_ORDERS');
+			}else if(state === 'aw-view'){
+				awInvVm.getPageSize('AW_INV');
+			}
+		}
+		awInvVm.setPageSize();
 	}		
 })();
 

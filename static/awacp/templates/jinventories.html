@@ -13,7 +13,7 @@
 					Per page Rows 
 					<select ng-class="styledselect_pages" style="outline:none;"
 						ng-model="jinvVm.pageSize" 
-						ng-options="size for size in jinvVm.pageSizeList" ng-change="jinvVm.setCurrentPageSize(jinvVm.pageSize);" >
+						ng-options="size for size in jinvVm.pageSizeList" ng-change="jinvVm.setCurrentPageSize('J_INV', jinvVm.pageSize);" >
 					</select>
 			</div>
 					<ul uib-pagination total-items="jinvVm.totalItems" items-per-page = "jinvVm.pageSize" ng-model="jinvVm.currentPage" ng-change="jinvVm.pageChanged()"></ul>
@@ -75,8 +75,10 @@
 							  <td align="center">{{jinv.createdByUserCode}}</td>
 							  <td align="center">{{jinv.updatedByUserCode}}</td>
 							   <td align="center">
-								<a href ng-click="jinvVm.showFileListingView('inv_j_image_doc', jinv.id, 'J Inventory Images', 'large', '.png');">
-									<span class="badge">{{jinv.imageCount}}</span>
+								<a href ng-click="jinvVm.showFileListingView('inv_j_image_doc', jinv.id, 'J Inventory Images', 'large', '.png', 'list-view');">
+									<span class="badge">{{jinv.imageCount}}</span>								
+								</a>
+								<a href ng-click="jinvVm.showFileListingView('inv_j_image_doc', jinv.id, 'J Inventory Images', 'large', '.png', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
 								</a>
 								<br>

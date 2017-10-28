@@ -35,7 +35,7 @@
 					'Authorization' : 'Bearer ' + accessToken,
 					'Accept' : 'application/json'
 				};				
-				StoreService.removeAll(); 
+				
 				$timeout(function(){
 					$rootScope.$apply(function(){
 						$rootScope.user.isLoggedIn = StoreService.isLoggedIn();
@@ -48,6 +48,7 @@
 				});
 				jQuery.ajax({url: base+'/logout',type: "POST",data: Math.random(),contentType: "text/plain",crossDomain: true, dataType:"text"})
 				.success(function (data, status, headers, config) {	
+					StoreService.removeAll(); 
 					$window.location.href = basePath;
 				}).error(function (jqXHR, textStatus, errorThrown) {
 					if (jqXHR.readyState == 0) {
@@ -55,6 +56,7 @@
 							$rootScope.alert.noService = true;
 						});						
 					}		
+					StoreService.removeAll(); 
 					$window.location.href = basePath;
 				});
 			},

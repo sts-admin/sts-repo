@@ -15,11 +15,15 @@
 		splInvVm.pageNumber = 1;
 		splInvVm.pageSize = 20;
 		splInvVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
-		splInvVm.setCurrentPageSize =function(size){
-			AjaxUtil.setPageSize("SPL_INV", size, function(status, size){
+		splInvVm.setCurrentPageSize =function(identifier, size){
+			AjaxUtil.setPageSize(identifier, size, function(status, size){
 				if("success" === status){
 					splInvVm.pageSize = size;
-					splInvVm.pageChanged();
+					if(identifier === 'SPL_ORDERS'){
+						splInvVm.generateReport();
+					}else{
+						splInvVm.pageChanged();
+					}
 				}
 			});
 		}
@@ -54,21 +58,42 @@
 			}
 		}
 		
-		splInvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+		splInvVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			$rootScope.fileViewSource = "templates/file-upload.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
+				if("success" === status){
+					splInvVm.updateFileUploadCount(source, sourceId, filePattern);
+				}
+			});
 		}
 		
-		splInvVm.getPageSize = function(){
-			AjaxUtil.getPageSize("SPL_INV", function(status, size){
+		splInvVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(splInvVm.splInventories && splInvVm.splInventories.length > 0){
+				for(var i = 0; i < splInvVm.splInventories.length; i++){
+					if(splInvVm.splInventories[i].id === sourceId){
+						if(source.includes("inv_spl_image_doc")){
+							splInvVm.splInventories[i].imageCount = (parseInt(splInvVm.splInventories[i].imageCount) + 1);
+						}					
+						break;
+					}
+				}
+			}
+		}
+		
+		splInvVm.getPageSize = function(identifier){
+			AjaxUtil.getPageSize(identifier, function(status, size){
 				if("success" === status){
 					splInvVm.pageSize = size;
+					$scope.$digest();
 				}
 			});
 		}
 		
 		splInvVm.pageChanged = function() {
 			splInvVm.getSplInventories();
+		}
+		splInvVm.orderPageChanged = function() {
+			splInvVm.generateReport();
 		}		
 		splInvVm.cancelSplInventoryAction = function(){
 			$state.go("spl-view");		
@@ -205,9 +230,17 @@
 					var tmp = [];
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
+							if(v.invItems && !jQuery.isArray(v.invItems)) {
+								var items = [];
+								items.push(v.invItems);
+								v.invItems = items;
+							}
 							tmp.push(v);
 						});					
 					} else {
+					    var items = [];
+						items.push(data.stsResponse.results.invItems);
+						data.stsResponse.results.invItems = items;
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
@@ -221,6 +254,16 @@
 			});
 		}
 		splInvVm.editSplInventory();
+		
+		splInvVm.setPageSize = function(){
+			var state = $state.current.name;
+			if(state === 'spl-orders'){
+				splInvVm.getPageSize('SPL_ORDERS');
+			}else if(state === 'spl-view'){
+				splInvVm.getPageSize('SPL_INV');
+			}
+		}
+		splInvVm.setPageSize();
 	}		
 })();
 

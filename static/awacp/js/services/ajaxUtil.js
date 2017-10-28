@@ -109,8 +109,8 @@
 				var size = 20;
 				this.getData("/awacp/getSiteSettingByView?viewName="+viewName, Math.random())
 				.success(function(data, status, headers){
-					if(data && data.siteSetting){
-						size = data.siteSetting.pageSize;
+					if(data && data.pageSetting){
+						size = data.pageSetting.pageSize;
 					}
 					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
 						callback("success", size);

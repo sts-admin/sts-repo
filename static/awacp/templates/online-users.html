@@ -4,7 +4,7 @@
 <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
   <div class="page-quick-sidebar">
 	<ul class="nav nav-tabs">
-	  <li class="active"> <a href="javascript:;" data-target="#quick_sidebar_tab_1" data-toggle="tab"> Users <span class="badge badge-danger">2</span> </a> </li>
+	  <li class="active"> <a href="javascript:;" data-target="#quick_sidebar_tab_1" data-toggle="tab"> Users <span class="badge badge-danger">{{totalUsers}}</span> </a> </li>
 	  <li class="dropdown"> <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> More <i class="fa fa-angle-down"></i> </a>
 		<ul class="dropdown-menu pull-right">
 		  <li> <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab"> <i class="icon-bell"></i> Alerts </a> </li>
@@ -21,27 +21,27 @@
 		
 		  <h3 class="list-heading">Online</h3>
 		  <ul class="media-list list-items">
-			<li class="media" ng-repeat="onlineUser in chatVm.onlineUsers" ng-click="toggleChatWindow(true);">
+			<li class="media" ng-repeat="onlineUser in onlineUsers" ng-click="toggleChatWindow(true, onlineUser, true);">
 			  <div class="media-status"> <span class="badge badge-success">{{onlineUser.unreadMessageCount}}</span> </div>
 			  <img class="media-object" ng-src="{{onlineUser.photoUrl}}" alt="...">
 			  <div class="media-body">
 				<h4 class="media-heading">{{onlineUser.firstName}}</h4>
 			  </div>
 			</li>	
-			<li class="media" ng-show="!chatVm.onlineUsers || chatVm.onlineUsers.length <= 0">
+			<li class="media" ng-show="!onlineUsers || onlineUsers.length <= 0">
 				<div> No Online User(s)</div>
 			</li>
 		  </ul>
 		  <h3 class="list-heading">Offline</h3>
 		  <ul class="media-list list-items">
-			<li class="media" ng-repeat="offlineUser in chatVm.offlineUsers" ng-click="toggleChatWindow(true);">
+			<li class="media" ng-repeat="offlineUser in offlineUsers" ng-click="toggleChatWindow(true, offlineUser, false);">
 			  <div class="media-status"> <span class="badge badge-success">{{offlineUser.unreadMessageCount}}</span> </div>
 			  <img class="media-object" ng-src="{{offlineUser.photoUrl}}" alt="...">
 			  <div class="media-body">
 				<h4 class="media-heading">{{offlineUser.firstName}}</h4>
 			  </div>
 			</li>
-			<li class="media" ng-show="!chatVm.offlineUsers || chatVm.offlineUsers.length <= 0">
+			<li class="media" ng-show="!offlineUsers || offlineUsers.length <= 0">
 				<div> No Offline User(s)</div>
 			</li>
 		  </ul>
@@ -49,40 +49,28 @@
 		<div class="page-quick-sidebar-item">
 		  <div class="page-quick-sidebar-chat-user">
 			<div class="page-quick-sidebar-nav"> <a href="javascript:;" class="page-quick-sidebar-back-to-list" ng-click="toggleChatWindow(false);"> <i class="icon-arrow-left"></i>Back</a> </div>
+			<br />
 			<div class="page-quick-sidebar-chat-user-messages">
-			  <div class="post out"> <img class="avatar" alt="" src="images/avatar3.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Bob Nilson</a> <span class="datetime">20:15</span> <span class="body"> When could you send me the report ? </span> </div>
-			  </div>
-			  <div class="post in"> <img class="avatar" alt="" src="images/avatar2.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Ella Wong</a> <span class="datetime">20:15</span> <span class="body"> Its almost done. I will be sending it shortly </span> </div>
-			  </div>
-			  <div class="post out"> <img class="avatar" alt="" src="images/avatar3.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Bob Nilson</a> <span class="datetime">20:15</span> <span class="body"> Alright. Thanks! :) </span> </div>
-			  </div>
-			  <div class="post in"> <img class="avatar" alt="" src="images/avatar2.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Ella Wong</a> <span class="datetime">20:16</span> <span class="body"> You are most welcome. Sorry for the delay. </span> </div>
-			  </div>
-			  <div class="post out"> <img class="avatar" alt="" src="images/avatar3.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Bob Nilson</a> <span class="datetime">20:17</span> <span class="body"> No probs. Just take your time :) </span> </div>
-			  </div>
-			  <div class="post in"> <img class="avatar" alt="" src="images/avatar2.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Ella Wong</a> <span class="datetime">20:40</span> <span class="body"> Alright. I just emailed it to you. </span> </div>
-			  </div>
-			  <div class="post out"> <img class="avatar" alt="" src="images/avatar3.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Bob Nilson</a> <span class="datetime">20:17</span> <span class="body"> Great! Thanks. Will check it right away. </span> </div>
-			  </div>
-			  <div class="post in"> <img class="avatar" alt="" src="images/avatar2.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Ella Wong</a> <span class="datetime">20:40</span> <span class="body"> Please let me know if you have any comment. </span> </div>
-			  </div>
-			  <div class="post out"> <img class="avatar" alt="" src="images/avatar3.jpg" />
-				<div class="message"> <span class="arrow"></span> <a href="javascript:;" class="name">Bob Nilson</a> <span class="datetime">20:17</span> <span class="body"> Sure. I will check and buzz you if anything needs to be corrected. </span> </div>
+			
+			  <div class="post" ng-class="{'out': cm.msgSource === 'me' , 'in': cm.msgSource === 'other' } " ng-repeat="cm in myConversations"> 
+			  
+				<img class="avatar" alt="" src="images/avatar3.jpg" />
+				<div class="message"> 
+					<span class="arrow"></span> 
+					<a href="javascript:;" class="name">
+						{{cm.msgSource === 'me'?cm.sourceUserName:cm.targetUserName}}
+					</a> 
+					<span class="datetime">{{cm.dateCreated | date: 'short'}}</span> 
+					<span class="body"> {{cm.message}} </span> 
+				</div>
 			  </div>
 			</div>
-			<div class="page-quick-sidebar-chat-user-form">
+			<br />
+			<div>
 			  <div class="input-group">
-				<input type="text" class="form-control" placeholder="Type a message here...">
+				<input type="text" ng-model="chatVm.chatMessage.message" class="form-control" placeholder="Type a message here...">
 				<div class="input-group-btn">
-				  <button type="button" class="btn green"> <i class="icon-paper-clip"></i> </button>
+				  <button type="button" class="btn green"> <i class="fa fa-paper-plane" ng-click="chatVm.sendMessage();"></i> </button>
 				</div>
 			  </div>
 			</div>

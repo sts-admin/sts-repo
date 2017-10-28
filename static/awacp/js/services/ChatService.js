@@ -14,10 +14,13 @@
 					if(data && data.userDTO){
 						if(jQuery.isArray(data.userDTO)){
 							jQuery.each(data.userDTO, function(k, v){
+								var doPush = true;
 								if(v.userCode === $rootScope.user.userCode){
-									return false;
+									doPush = false;
 								}
-								users.push(v);
+								if(doPush){
+									users.push(v);
+								}								
 							});
 						}else{
 							if(data.userDTO.userCode !== $rootScope.user.userCode){

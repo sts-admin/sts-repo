@@ -45,29 +45,54 @@
 			}
 		}
 		
-		jinvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+		jinvVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			$rootScope.fileViewSource = "templates/file-upload.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
-		}
-		jinvVm.setCurrentPageSize =function(size){
-			AjaxUtil.setPageSize("J_INV", size, function(status, size){
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
 				if("success" === status){
-					jinvVm.pageSize = size;
-					jinvVm.pageChanged();
+					jinvVm.updateFileUploadCount(source, sourceId, filePattern);
 				}
 			});
 		}
 		
-		jinvVm.getPageSize = function(){
-			AjaxUtil.getPageSize("J_INV", function(status, size){
+		jinvVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(jinvVm.jinvs && jinvVm.jinvs.length > 0){
+				for(var i = 0; i < jinvVm.jinvs.length; i++){
+					if(jinvVm.jinvs[i].id === sourceId){
+						if(source.includes("inv_j_image_doc")){
+							jinvVm.jinvs[i].imageCount = (parseInt(jinvVm.jinvs[i].imageCount) + 1);
+						}					
+						break;
+					}
+				}
+			}
+		}
+		jinvVm.setCurrentPageSize =function(identifier, size){
+			AjaxUtil.setPageSize(identifier, size, function(status, size){
 				if("success" === status){
 					jinvVm.pageSize = size;
+					if(identifier === 'J_ORDERS'){
+						jinvVm.generateReport();
+					}else{
+						jinvVm.pageChanged();
+					}
+				}
+			});
+		}
+		
+		jinvVm.getPageSize = function(identifier){
+			AjaxUtil.getPageSize(identifier, function(status, size){
+				if("success" === status){
+					jinvVm.pageSize = size;
+					$scope.$digest();
 				}
 			});
 		}
 		jinvVm.pageChanged = function() {
 			jinvVm.getJInventories();
-		}		
+		}	
+		jinvVm.orderPageChanged = function() {
+			jinvVm.generateReport();
+		}			
 		jinvVm.cancelJInventoryAction = function(){
 			$state.go("j-view");		
 		}
@@ -203,9 +228,17 @@
 					var tmp = [];
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
+							if(v.invItems && !jQuery.isArray(v.invItems)) {
+								var items = [];
+								items.push(v.invItems);
+								v.invItems = items;
+							}
 							tmp.push(v);
 						});					
 					} else {
+						var items = [];
+						items.push(data.stsResponse.results.invItems);
+						data.stsResponse.results.invItems = items;
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
@@ -219,6 +252,16 @@
 			});
 		}
 		jinvVm.editJInventory();
+		
+		jinvVm.setPageSize = function(){
+			var state = $state.current.name;
+			if(state === 'j-orders'){
+				jinvVm.getPageSize('J_ORDERS');
+			}else if(state === 'j-view'){
+				jinvVm.getPageSize('J_INV');
+			}
+		}
+		jinvVm.setPageSize();
 	}		
 })();
 

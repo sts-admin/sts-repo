@@ -15,9 +15,9 @@
 		jobVm.jobOrderViewHeading = "View Job Order";
 		jobVm.billTypes = ['INV', 'BILL', 'PTL'];
 		jobVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
-		jobVm.jobStatuses = [{id:0, title:"Live Job"}, {id:1, title:"Cancelled Job"}];
+		jobVm.jobStatuses = [{id:'false', title:"Live Job"}, {id:'true', title:"Cancelled Job"}];
 		jobVm.jobStatus = [{id:'released', title:"Released Job"}, {id:'unreleased', title:"Un-released Job"}];
-		jobVm.finalStatus = [{id:0, title:"In-complete Job"}, {id:1, title:"Completed Job"}];
+		jobVm.finalStatus = [{id:'false', title:"In-complete Job"}, {id:'true', title:"Completed Job"}];
 		jobVm.invoiceModes = [{id:'bill', title:"BILL"}, {id:'ptl', title:"PARTIAL"}, {id:'inv', title:"INVOICE"}];
 		jobVm.billType = {};
 		if($state.params.jobId != undefined){
@@ -83,7 +83,46 @@
 			templateUrl: 'templates/orderbook-info-jo.html',
 			title: 'Order Book Detail'
 		};
-		
+		jobVm.cancelJobOrder = function(id){
+			AlertService.showConfirm(	'AWACP :: Confirmation!', "Are you sure to cancel this Job?")
+			.then(function (){
+				AjaxUtil.getData("/awacp/cancelJobOrder/"+id, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.result){
+						AlertService.showAlert(	'AWACP :: Message!', "Job order Cancelled Successfully")
+						.then(function (){jobVm.cancelJobOrderAction();},function (){return false;});
+						return;
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "JobOrderCtrl::jobVm.cancelJobOrder::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			},
+			function (){
+				return false;
+			});
+		}
+		jobVm.uncancellJobOrder = function(id){
+			AlertService.showConfirm(	'AWACP :: Confirmation!', "Are you sure to make this job active?")
+			.then(function (){
+				AjaxUtil.getData("/awacp/uncancellJobOrder/"+id, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.result){
+						AlertService.showAlert(	'AWACP :: Message!', "JobOrder activated Successfully")
+						.then(function (){jobVm.cancelJobOrderAction();},function (){return false;});
+						return;
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "JobOrderCtrl::jobVm.uncancellJobOrder::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			},
+			function (){
+				return false;
+			});
+		}
 		jobVm.showQuoteInfo = function(takeoffId){
 			AjaxUtil.getData("/awacp/getTakeoff/"+takeoffId, Math.random())
 			.success(function(data, status, headers){
@@ -154,7 +193,43 @@
 		jobVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
+				if("success" === status){
+					jobVm.updateFileUploadCount(source, sourceId, filePattern);
+				}
+			});
+		}
+		jobVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(jobVm.jobOrders && jobVm.jobOrders.length > 0){
+				for(var i = 0; i < jobVm.jobOrders.length; i++){
+					if(jobVm.jobOrders[i].id === sourceId){
+						if(source.includes("JO_ONE")){
+							jobVm.jobOrders[i].joOneDocCount = (parseInt(jobVm.jobOrders[i].joOneDocCount) + 1);
+						}else if(source.includes("JO_TWO")){
+							jobVm.jobOrders[i].joTwoDocCount = (parseInt(jobVm.jobOrders[i].joTwoDocCount) + 1);
+						}else if(source.includes("JO_THREE")){
+							jobVm.jobOrders[i].joThreeDocCount = (parseInt(jobVm.jobOrders[i].joThreeDocCount) + 1);
+						}else if(source.includes("JO_FOUR")){
+							jobVm.jobOrders[i].joFourDocCount = (parseInt(jobVm.jobOrders[i].joFourDocCount) + 1);
+						}else if(source.includes("JO_FIVE")){
+							jobVm.jobOrders[i].joFiveDocCount = (parseInt(jobVm.jobOrders[i].joFiveDocCount) + 1);
+						}else if(source.includes("JO_SIX")){
+							jobVm.jobOrders[i].joSixDocCount = (parseInt(jobVm.jobOrders[i].joSixDocCount) + 1);
+						}else if(source.includes("JO_XLS")){
+							jobVm.jobOrders[i].joXlsCount = (parseInt(jobVm.jobOrders[i].joXlsCount) + 1);
+						}else if(source.includes("JO_DOC")){
+							jobVm.jobOrders[i].joDocCount = (parseInt(jobVm.jobOrders[i].joDocCount) + 1);
+						}else if(source.includes("JO_TAX")){
+							jobVm.jobOrders[i].joTaxDocCount = (parseInt(jobVm.jobOrders[i].joTaxDocCount) + 1);
+						}else if(source.includes("JO_PO")){
+							jobVm.jobOrders[i].joPoDocCount = (parseInt(jobVm.jobOrders[i].joPoDocCount) + 1);
+						}else if(source.includes("JO_IU")){
+							jobVm.jobOrders[i].joUiDocCount = (parseInt(jobVm.jobOrders[i].joUiDocCount) + 1);
+						}			
+						break;
+					}
+				}
+			}
 		}
 		jobVm.filterJobOrders = function(billType){
 			jobVm.listJobOrders(billType);
@@ -415,6 +490,7 @@
 			jobVm.jobOrder.pageNumber = jobVm.currentPage;
 			jobVm.jobOrder.pageSize = jobVm.pageSize;
 			var formData = {};
+
 			formData["jobOrder"] = jobVm.jobOrder;
 			AjaxUtil.submitData("/awacp/generateJobOrderReport", formData)
 			.success(function(data, status, headers){
@@ -541,32 +617,46 @@
 		}
 		jobVm.listJobOrders = function(invoiceMode){
 			jobVm.jobOrders = [];
-			AjaxUtil.getData("/awacp/listJobOrders/"+invoiceMode+"/"+jobVm.currentPage+"/"+jobVm.pageSize, Math.random())
-			.success(function(data, status, headers){
-				if(data && data.stsResponse && data.stsResponse.totalCount){
-					jobVm.totalItems = 	data.stsResponse.totalCount;
-				}
-				if(data && data.stsResponse && data.stsResponse.results){
-					var tmp = [];
-					if(jQuery.isArray(data.stsResponse.results)) {
-						jQuery.each(data.stsResponse.results, function(k, v){
-							v.openInfoBox = false;
-							tmp.push(v);
-						});					
-					} else {
-						data.stsResponse.results.openInfoBox = false;						
-						tmp.push(data.stsResponse.results);
+			if($state.params.oSource != undefined && $state.params.oSource.length > 0){
+				AjaxUtil.getData("/awacp/getJobOrder/"+$state.params.oSource, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.jobOrder){
+						$scope.$apply(function(){
+							jobVm.jobOrders.push(data.jobOrder);
+						});
+					}					
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "JobOrderCtrl::jobVm.listJobOrders::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}else{
+				AjaxUtil.getData("/awacp/listJobOrders/"+invoiceMode+"/"+jobVm.currentPage+"/"+jobVm.pageSize, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.stsResponse && data.stsResponse.totalCount){
+						jobVm.totalItems = 	data.stsResponse.totalCount;
 					}
-					$scope.$apply(function(){
-						jobVm.jobOrders = tmp;
-					});
-				}
-			})
-			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "JobOrderCtrl::jobVm.listJobOrders::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			});
-			
+					if(data && data.stsResponse && data.stsResponse.results){
+						var tmp = [];
+						if(jQuery.isArray(data.stsResponse.results)) {
+							jQuery.each(data.stsResponse.results, function(k, v){
+								v.openInfoBox = false;
+								tmp.push(v);
+							});					
+						} else {
+							data.stsResponse.results.openInfoBox = false;						
+							tmp.push(data.stsResponse.results);
+						}
+						$scope.$apply(function(){
+							jobVm.jobOrders = tmp;
+						});
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "JobOrderCtrl::jobVm.listJobOrders::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}
 		}
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){

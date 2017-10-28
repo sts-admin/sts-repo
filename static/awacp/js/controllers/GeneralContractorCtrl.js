@@ -96,9 +96,14 @@
 					AlertService.showAlert(	'AWACP :: Alert!', "A General Contractor with this email ID already exist, please use a different email ID.")
 					.then(function (){return},function (){return});
 					return;
-				}
-				jqXHR.errorSource = "GeneralContractorCtrl::gcVm.addGc::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				}else if(1003 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Alert!', "A General Contractor with this name already exist, please use a different name.")
+					.then(function (){return},function (){return});
+					return;
+				}else{
+					jqXHR.errorSource = "GeneralContractorCtrl::gcVm.addGc::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				}				
 			});
 		}
 		gcVm.initGcsMasterInputs = function(){

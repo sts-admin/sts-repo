@@ -13,7 +13,7 @@
 					Per page Rows 
 					<select ng-class="styledselect_pages" style="outline:none;"
 						ng-model="sbcInvVm.pageSize" 
-						ng-options="size for size in sbcInvVm.pageSizeList" ng-change="sbcInvVm.setCurrentPageSize(sbcInvVm.pageSize);" >
+						ng-options="size for size in sbcInvVm.pageSizeList" ng-change="sbcInvVm.setCurrentPageSize('SBC_INV', sbcInvVm.pageSize);" >
 					</select>
 			</div>
 					<ul uib-pagination total-items="sbcInvVm.totalItems" items-per-page = "sbcInvVm.pageSize" ng-model="sbcInvVm.currentPage" ng-change="sbcInvVm.pageChanged()"></ul>
@@ -74,8 +74,10 @@
 							  <td align="center">{{sbcInv.createdByUserCode}}</td>
 							  <td align="center">{{sbcInv.updatedByUserCode}}</td>
 							  <td align="center">
-								<a href ng-click="sbcInvVm.showFileListingView('inv_sbc_image_doc', sbcInv.id, 'SBC Inventory Images', 'large', '.png');">
-									<span class="badge">{{sbcInv.imageCount}}</span>
+								<a href ng-click="sbcInvVm.showFileListingView('inv_sbc_image_doc', sbcInv.id, 'SBC Inventory Images', 'large', '.png', 'list-view');">
+									<span class="badge">{{sbcInv.imageCount}}</span>								
+								</a>
+								<a href ng-click="sbcInvVm.showFileListingView('inv_sbc_image_doc', sbcInv.id, 'SBC Inventory Images', 'large', '.png', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
 								</a>
 								<br>

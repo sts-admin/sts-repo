@@ -131,7 +131,7 @@
                   <!-- .col -->
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group">
-                      <select class="form-control" ng-model="jobVm.jobOrder.finalUpdate" 
+                      <select class="form-control" ng-model="jobVm.jobOrder.finalUpdateStatus" 
 				  ng-options="fs.id as fs.title for fs in jobVm.finalStatus">
                         <option value="">--- Select ---</option>
                       </select>
@@ -164,7 +164,7 @@
                 <!-- .row -->
                 <div class="row">
                   <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12"> <span class="new-take-off-title">Job Status:</span> </div>
-                  <!-- .col -->
+                  
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                     <div class="form-group">
                       <select class="form-control" ng-model="jobVm.jobOrder.jobStatus" 
@@ -173,7 +173,6 @@
                       </select>
                     </div>
                   </div>
-                  <!-- .col -->
                 </div>
 				
 				 <div class="row">
@@ -303,13 +302,13 @@
                   <td valign="top" colspan="12"><table width="100%" cellspacing="0" cellpadding="0" border="0">
                       <tbody>
                         <tr height="30">
-                          <td width="11%" style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1">&nbsp; <strong>#JOBS FOUND</strong></td>
+                          <td width="11%" style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1">&nbsp; <strong>#JOBS FOUND :</strong></td>
                           <td width="7%" align="center" style="border:3px solid #D4A3B1; background:#090; padding:5px; color:#FFF;" class="table-header-repeat line-left minwidth-1"> {{jobVm.jobOrders?jobVm.jobOrders.length:0}} </td>
-                          <td width="17%" align="center" style="border:3px solid #D4A3B1; background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>TOTAL BILLING AMOUNT</strong></td>
+                          <td width="17%" align="center" style="border:3px solid #D4A3B1; background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>TOTAL BILLING AMOUNT :</strong></td>
                           <td width="14%" align="center" style="border:3px solid #D4A3B1; background:#090; padding:5px; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>{{jobVm.totalBillingAmount | currency}}</strong></td>
-                          <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Total Profit</strong></td>
+                          <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Total Profit :</strong></td>
                           <td style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>{{jobVm.totalProfit | currency}}</strong></td>
-                          <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Profit %</strong></td>
+                          <td style="border:3px solid #D4A3B1;background:#BD7589; padding:5px;" class="table-header-repeat line-left minwidth-1"><strong>Profit % :</strong></td>
                           <td style="border:3px solid #D4A3B1; padding:5px; background:#090; color:#FFF;" class="table-header-repeat line-left minwidth-1"><strong>{{jobVm.profitPercent}}</strong></td>
                         </tr>
                       </tbody>
@@ -382,11 +381,11 @@
 					  </td>
                       <td align="center">
 						<a href ui-sref="joborder-edit({id:jobOrder.id})" ng-show="jobOrder.id">
-							{{jobOrder.jobName}}
+							{{jobOrder.contractorName?jobOrder.contractorName:'...'}}
 						</a>
 						<span ng-show="!jobOrder.id">...</span>
 					  </td>
-					  <td align="center">{{jobOrder.contractorName?jobOrder.contractorName:'...'}}</td>
+					  <td align="center">{{jobOrder.jobName?jobOrder.jobName:'...'}}</td>
                       <td align="center">{{jobOrder.jobAddress?jobOrder.jobAddress:'...'}}</td>
                       <td align="center"> {{jobOrder.salesPersonName?jobOrder.salesPersonName:'...'}} </td>
                       <td align="center"> {{jobOrder.createdByUserCode?jobOrder.createdByUserCode:'...'}} </td>

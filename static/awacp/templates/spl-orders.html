@@ -16,14 +16,10 @@
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xss-12 dashboard-content"> <a class="btn btn-primary width-full" onclick="ClearSearch('aw_inventory/aworders');" href="javascript:void(0);">Clear Search</a> </div>
         <!-- .col -->
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xss-12 dashboard-content text-right"> Per page Rows
-          <select onchange="setRecPage(this.value, 'aw_inventory/aworders', 'aw_inventory_view_form')" style="outline:none;" id="num_of_records" class="styledselect_pages">
-            <option selected="selected" value="50">50</option>
-            <option value="100">100</option>
-            <option value="150">150</option>
-            <option value="200">200</option>
-            <option value="250">250</option>
-            <option value="300">300</option>
-          </select>
+          <select ng-class="styledselect_pages" style="outline:none;"
+			ng-model="splInvVm.pageSize" 
+			ng-options="size for size in splInvVm.pageSizeList" ng-change="splInvVm.setCurrentPageSize('SPL_ORDERS', splInvVm.pageSize);" >
+		</select>
         </div>
         
         <div class="col-lg-12 col-md-12 col-sm-12"><br>
@@ -82,8 +78,9 @@
                 </tr>
                 <tr bgcolor="#FFCCCC" ng-repeat="item in ob.invItems track by $index">
                   <td align="center">{{ob.dateCreated | date:'shortDate'}}</td>
-                  <td align="center"><a style="color:#039;" href ui-sref="premium-order({intenvory:'SPL', orderBookId:ob.id})">{{ob.orderBookNumber}}</a></td>
-                  <td align="center">GDO CONTRACTING CORP</td>
+				  <td align="center"><a style="color:#039;" href ui-sref="premium-order({inventory:'SPL', orderBookId:ob.id})" target="_blank">{{ob.orderBookNumber}}</a></td>
+                  
+                  <td align="center">{{ob.contractorName}}</td>
                   <td align="center">{{item.orderQty}}</td>
                   <td align="center">{{item.size}}</td>
                   <td align="center">{{item.listPrice | currency}}</td>
@@ -110,7 +107,7 @@
       </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 pull-right">
-      <ul uib-pagination total-items="splInvVm.totalItems" items-per-page = "splInvVm.pageSize" ng-model="splInvVm.currentPage" ng-change="splInvVm.pageChanged()">
+      <ul uib-pagination total-items="splInvVm.totalItems" items-per-page = "splInvVm.pageSize" ng-model="splInvVm.currentPage" ng-change="splInvVm.orderPageChanged()">
       </ul>
     </div>
   </section>

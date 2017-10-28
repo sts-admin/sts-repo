@@ -1,6 +1,7 @@
 .login {
 	background-color:#364150!important;
 	overflow:hidden;
+	height:100vh;
 }
 .login .logo {
 	margin:50px auto 0;

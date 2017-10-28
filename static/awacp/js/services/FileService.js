@@ -3,7 +3,7 @@
 	angular.module('awacpApp.services')
 		.factory("FileService",["$q", "$uibModal", "AjaxUtil", "Upload", "StoreService", "$rootScope", "AlertService", function ($q, $uibModal, AjaxUtil, Upload, StoreService, $rootScope, AlertService){
 			return {
-				showFileViewDialog:function(source, sourceId, sourceTitle, size, filePattern, viewSource){
+				showFileViewDialog:function(source, sourceId, sourceTitle, size, filePattern, viewSource, callback){
 					var defer = $q.defer();
 					var modalInstance = $uibModal.open({
 						animation: true,
@@ -86,7 +86,12 @@
 										AjaxUtil.getData(url, Math.random())
 										.success(function(data, status, headers){
 											AlertService.showAlert(	'AWACP :: Alert!', "File uploaded successfully")
-											.then(function (){return false;},function (){return false;});
+											.then(function (){
+												if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+													callback(data, "success");
+												}
+												return false;
+											},function (){return false;});
 											modalInstance.dismiss();
 											defer.resolve();
 										})
@@ -109,7 +114,7 @@
 							//fileUpload :end
 							//fileDownload :start
 							$scope.fileDownload = function(source, fileId){
-								//window.location.href = "http://localhost:8080/awacpservices/get/file/" + fileId;
+								//window.location.href = "http://localhost:8080/awacpservices/awacp/get/file/" + fileId;
 								AjaxUtil.downloadData("/awacp/get/file/"+sourceId, Math.random())
 								.success(function(data, status, headers){
 									alert("success");

@@ -61,7 +61,12 @@
 						  <tbody>
 							<tr height="25" ng-repeat="trucker in truckerVm.truckers track by $index">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="center">{{trucker.name}} <br /> <img style="width:50px;height:50px;" ng-src="resource/img/{{trucker.logo.createdName}}{{trucker.logo.extension}}" /></td>
+							  <td align="center">{{trucker.name}} 
+								<span ng-show="trucker.logo.createdName && trucker.logo.extension">
+									<br /> 
+									<img style="width:50px;height:50px;" ng-src="resource/img/{{trucker.logo.createdName}}{{trucker.logo.extension}}" />
+								</span>
+							  </td>
                               <td align="center">{{trucker.email}}</td>
 							  <td align="center">{{trucker.website}}</td>
 							  <td align="center">{{trucker.phone}}</td>

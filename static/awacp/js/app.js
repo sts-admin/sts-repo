@@ -2,13 +2,13 @@
 (function() {
     'use strict';
 	//Local env
-	/*var base ="http://localhost:8080/awacpservices";
+	var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/tutorial/resource/img/";
-	var basePath = "/tutorial/";*/
+	var basePath = "/tutorial/";
 	//prod env
-	var base ="http://awacptechnicalservices.com:8080/awacpservices";
+	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/";
+	var basePath = "/";*/
 	//prod env
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
@@ -525,6 +525,12 @@
 				controller:"JobOrderCtrl",
 				controllerAs:"jobVm",
 				requireAuth: true
+			}).state('joborder-view-single',{
+				url: '/joborders/:oSource',
+				templateUrl:"templates/job-orders.html",
+				controller:"JobOrderCtrl",
+				controllerAs:"jobVm",
+				requireAuth: true
 			}).state('joborder-reports',{
 				url: '/joborder/report-input',
 				templateUrl:"templates/joborder-report-input.html",
@@ -581,16 +587,90 @@
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
-		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base) {
+		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base, ChatService) {
 			$rootScope.storeKeys = [];
 			$rootScope.rightTrayClicked = false;
 			$rootScope.openChatWindow = false;
-			$rootScope.toggleChatWindow = function(val){
+			$rootScope.targetUser = {};
+			$rootScope.myConversations = [];
+			$rootScope.onlineUsers = [];
+			$rootScope.offlineUsers = [];
+			$rootScope.totalUsers = 0;
+			$rootScope.listChatMessage = function(targetUser){
+				$rootScope.myConversations = [];
+				var myUserId = StoreService.getUserId();
+				var otherUserId = targetUser.id;
+				AjaxUtil.getData("/awacp/listMyConversationsWith/"+myUserId+"/"+otherUserId, Math.random())
+				.success(function (data, status, headers) {						
+					if(data && data.chatMessage){
+						if(jQuery.isArray(data.chatMessage)){
+							jQuery.each(data.chatMessage, function(k, v){
+								if(v.sourceUserId == myUserId){
+									v.msgSource = 'me';
+									v.myMsg = v.message;
+								}else{
+									v.msgSource = 'other';
+									v.otherMsg = v.message;
+								}
+								$rootScope.myConversations.push(v);
+							});
+						}else{
+							if(data.chatMessage.sourceUserId == myUserId){
+									data.chatMessage.msgSource = 'me';
+									data.chatMessage.myMsg = data.chatMessage.message;
+								}else{
+									data.chatMessage.msgSource = 'other';
+									data.chatMessage.otherMsg = data.chatMessage.message;
+								}
+							$rootScope.myConversations.push(data.chatMessage);
+						}
+					}
+					$rootScope.$digest();
+					
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					jqXHR.errorSource = "ChatCtrl::openChatWindow::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);				
+				});
+			}
+			
+			$rootScope.listOnlineUsers = function(){
+				$rootScope.onlineUsers = [];
+				ChatService.listUsers("online", function(result, status){
+					if("success" === status){
+						$rootScope.onlineUsers = result;
+						$rootScope.listOfflineUsers();	
+					}
+				});
+			}
+			$rootScope.listOfflineUsers = function(){
+				$rootScope.offlineUsers = [];
+				ChatService.listUsers("offline", function(result, status){
+					if("success" === status){
+						$rootScope.offlineUsers = result;
+						$rootScope.totalUsers = parseInt($rootScope.onlineUsers.length + $rootScope.offlineUsers.length + 1);
+						$rootScope.$digest();
+					}
+				});
+			}
+			$rootScope.toggleChatWindow = function(val, targetUser, isOnline){
+				if(targetUser){
+					targetUser.online = (isOnline == 'online'?true:false);
+					$rootScope.targetUser = targetUser;	
+					$rootScope.listChatMessage(targetUser);
+					
+				}else{
+					$rootScope.targetUser = {};
+				}
 				$rootScope.openChatWindow = val;
+				$rootScope.listOnlineUsers();
 			}
 			$rootScope.toggleRightTray = function(){
 				$rootScope.rightTrayClicked = !$rootScope.rightTrayClicked;				
 			}
+			/*$rootScope.loadChartDetail = function(){
+				alert("loadChartDetail");
+			}*/
 			$rootScope.fileViewSource = "templates/file-listing.html";
 			$rootScope.gmtValue = 5.3;
 			$rootScope.dayDiff = function(startdate, enddate) {

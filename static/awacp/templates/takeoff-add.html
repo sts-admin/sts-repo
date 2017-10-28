@@ -143,17 +143,22 @@
 							</div>
 						  <!-- .col -->
 						  <div class="col-lg-9 col-md-9 col-sm-8">
+						   
 							<div class="form-group" ng-hide="'REVERT' == takeVm.arc_text">
 							 <select class="form-control" 
 								  ng-model="takeVm.takeoff.architectureId" 
 								  ng-options="architect.id as architect.name for architect in takeVm.architects" >
 								  <option value="">--- Select ---</option>
 								</select>
+								
 							</div>
+							
 							<div class="form-group" ng-hide="'NEW' == takeVm.arc_text">
 								 <input type="text" placeholder="Architecture" class="form-control" maxlength="80" oninvalid="this.setCustomValidity('Enter architecture name');" onkeypress="this.setCustomValidity('');" ng-model="takeVm.takeoff.architectureName" ng-required="'REVERT' == takeVm.arc_text" />
 							</div>
+							
 						  </div>
+						  <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewArc();">{{takeVm.arc_text}}</a>
 						  <div ng-show="takeVm.editQuote">
 							  <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 								<span class="form-label">
@@ -172,7 +177,7 @@
 								</div>
 							  </div>
 						  </div>
-						 <a href class="col-lg-1 col-md-1 col-sm-1" ng-click="takeVm.setNewArc();">{{takeVm.arc_text}}</a>
+						
 						   <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> 
 							<span class="form-label">
 								Project Number

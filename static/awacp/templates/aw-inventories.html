@@ -13,7 +13,7 @@
 					Per page Rows 
 					<select ng-class="styledselect_pages" style="outline:none;"
 						ng-model="awInvVm.pageSize" 
-						ng-options="size for size in awInvVm.pageSizeList" ng-change="awInvVm.setCurrentPageSize(awInvVm.pageSize);" >
+						ng-options="size for size in awInvVm.pageSizeList" ng-change="awInvVm.setCurrentPageSize('AW_INV', awInvVm.pageSize);" >
 					</select>
 				</div>
 					<ul uib-pagination total-items="awInvVm.totalItems" items-per-page = "awInvVm.pageSize" ng-model="awInvVm.currentPage" ng-change="awInvVm.pageChanged()"></ul>
@@ -73,8 +73,10 @@
 							  <td align="center">{{awInv.createdByUserCode}}</td>
 							  <td align="center">{{awInv.updatedByUserCode}}</td>
 							  <td align="center">
-								<a href ng-click="awInvVm.showFileListingView('inv_aw_image_doc', awInv.id, 'AW Inventory Images', 'large', '.png');">
+								<a href ng-click="awInvVm.showFileListingView('inv_aw_image_doc', awInv.id, 'AW Inventory Images', 'large', '.png', 'list-view');">
 									<span class="badge">{{awInv.imageCount}}</span>
+								</a>
+								<a href ng-click="awInvVm.showFileListingView('inv_aw_image_doc', awInv.id, 'AW Inventory Images', 'large', '.png', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
 								</a>
 								<br>

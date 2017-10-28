@@ -88,18 +88,18 @@
 						
 					  </td>
                       <td align="center" >
-						<a href ng-click="obVm.showFileListingView('OB_A_DOC', orderBook.id, 'Order Book', 'large', '.doc, .docx', 'list-view');">
+						<a href ng-click="obVm.showFileListingView('OB_A_DOC', orderBook.id, 'Order Book', 'large', '.doc,.docx', 'list-view');">
 							<span class="badge">{{orderBook.obADocCount}}</span>
 						</a>
-						<a href ng-click="obVm.showFileListingView('OB_A_DOC', orderBook.id, 'Order Book', 'large', '.doc, .docx', 'upload-view');">
+						<a href ng-click="obVm.showFileListingView('OB_A_DOC', orderBook.id, 'Order Book', 'large', '.doc,.docx', 'upload-view');">
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
                       <td align="center" >
-						<a href ng-click="obVm.showFileListingView('OB_Y_XLS', orderBook.id, 'Order Book', 'large', '.xls, .xlsx', 'list-view');">
+						<a href ng-click="obVm.showFileListingView('OB_Y_XLS', orderBook.id, 'Order Book', 'large', '.xls,.xlsx', 'list-view');">
 							<span class="badge">{{orderBook.obYXlsDocCount}}</span>
 						</a>
-						<a href ng-click="obVm.showFileListingView('OB_Y_XLS', orderBook.id, 'Order Book', 'large', '.xls, .xlsx', 'upload-view');">
+						<a href ng-click="obVm.showFileListingView('OB_Y_XLS', orderBook.id, 'Order Book', 'large', '.xls,.xlsx', 'upload-view');">
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
@@ -121,11 +121,13 @@
 					  </td>
                       <td align="center" ></td>
                       <td align="center"></td>
-                      <td align="center">{{orderBook.jobOrderNumber}}</td>
                       <td align="center">
-						<a href ui-sref="orderbook-edit({id:orderBook.id})">
-							{{orderBook.orderBookNumber}}
-						</a>						
+						<a href ui-sref="joborder-view-single({oSource:orderBook.jobId})">
+							{{orderBook.jobOrderNumber}}
+						</a>
+					  </td>
+                      <td align="center">
+						{{orderBook.orderBookNumber}}
 					  </td>
 					  <td align="center">
 						<span ng-if="orderBook.cancelled" style="color:red;">
@@ -140,8 +142,13 @@
 							</span>
 						</span>
 					  </td>
-                      <td align="center">{{orderBook.dateCreated | date:'shortDate'}}</td>
-					  <td align="center">{{orderBook.contractorName}}</td>
+                      <td align="center">{{orderBook.estDate | date:'shortDate'}}</td>
+					  <td align="center">
+						<a href ui-sref="orderbook-edit({id:orderBook.id})">
+							{{orderBook.contractorName}}
+						</a>
+						
+					  </td>
                       <td align="center">{{orderBook.shipToName}}</td>
                       <td align="center">{{orderBook.jobName}}</td>
                       <td align="center">{{orderBook.jobAddress}}</td>

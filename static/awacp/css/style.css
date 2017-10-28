@@ -36,7 +36,7 @@
 
 
 .nav-tabs.nav-justified > li > a{background:#d4a3b1 !important; color:#000;font-weight:bold;}
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover{background:#d4a3b1 !important; color:#fff; font-weight:bold;}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover{color:#fff; font-weight:bold;}
 .order-hed > div {
     border: 1px solid #d4a3b1;
     color: #666;

@@ -71,9 +71,31 @@
 		obVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
+				if("success" === status){
+					obVm.updateFileUploadCount(source, sourceId, filePattern);
+				}
+			});
 		}
 		
+		obVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(obVm.orderBooks && obVm.orderBooks.length > 0){
+				for(var i = 0; i < obVm.orderBooks.length; i++){
+					if(obVm.orderBooks[i].id === sourceId){
+						if(source.includes("OB_A_DOC")){
+							obVm.orderBooks[i].obADocCount = (parseInt(obVm.orderBooks[i].obADocCount) + 1);
+						}else if(source.includes("OB_Y_XLS")){
+							obVm.orderBooks[i].obYXlsDocCount = (parseInt(obVm.orderBooks[i].obYXlsDocCount) + 1);
+						}else if(source.includes("OB_ACK_PDF")){
+							obVm.orderBooks[i].obAckPdfDocCount = (parseInt(obVm.orderBooks[i].obAckPdfDocCount) + 1);
+						}else if(source.includes("OB_FRT_PDF")){
+							obVm.orderBooks[i].obFrtPdfDocCount = (parseInt(obVm.orderBooks[i].obFrtPdfDocCount) + 1);
+						}	
+						break;
+					}
+				}
+			}
+		}
 		
 		obVm.showQuoteInfo = function(takeoffId){
 			AjaxUtil.getData("/awacp/getTakeoff/"+takeoffId, Math.random())

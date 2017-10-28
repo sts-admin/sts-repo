@@ -112,24 +112,24 @@
 									  <option value="">--- Select ---</option>
 									</select>
 								</div>
-								<div class="col-lg-2 col-md-2 col-sm-2"> 
+								<div class="col-lg-2 col-md-2 col-sm-2" ng-hide="obVm.orderBook.id && obVm.orderBook.id != undefined"> 
 									<span class="form-label">
 										Est Date:
 									</span>
 									<span class="colon">:</span> 
 								</div>
-								<div class="col-lg-2 col-md-2 col-sm-2">
+								<div class="col-lg-2 col-md-2 col-sm-2" ng-hide="obVm.orderBook.id && obVm.orderBook.id != undefined">
 									<div class="form-group">
 									  <input name="estDate" type="text" class="form-control" placeholder="Est Date" uib-datepicker-popup="{{dateFormat}}" ng-model="obVm.orderBook.estDate" is-open="obVm.estDate.opened" data-ng-click="obVm.estDatePicker()" datepicker-options="dateOptions" close-text="Close" close-on-date-selection="true" datepicker-append-to-body="true"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined || !obVm.orderBook.jobId">								 
 									</div>
 								</div>
-								<div class="col-lg-2 col-md-2 col-sm-2"> 
+								<div class="col-lg-2 col-md-2 col-sm-2" ng-hide="obVm.orderBook.id && obVm.orderBook.id != undefined"> 
 									<span class="form-label">
 										ORBF
 									</span>
 									<span class="colon">:</span> 
 								</div>
-								<div class="col-lg-2 col-md-2 col-sm-2">
+								<div class="col-lg-2 col-md-2 col-sm-2" ng-hide="obVm.orderBook.id && obVm.orderBook.id != undefined">
 									<div class="form-group">
 									  <input name="orbf" type="text" class="form-control" placeholder="ORBF Number" ng-model="obVm.orderBook.orbf"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined || !obVm.orderBook.jobId">								 
 									</div>

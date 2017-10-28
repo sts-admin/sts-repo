@@ -48,31 +48,62 @@
 			}
 		}
 		
-		awfInvVm.showFileListingView = function(source, sourceId, title, size, filePattern){
+		awfInvVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			$rootScope.fileViewSource = "templates/file-upload.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern);
-		}
-		
-		awfInvVm.setCurrentPageSize =function(size){
-			AjaxUtil.setPageSize("AWF_INV", size, function(status, size){
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
 				if("success" === status){
-					awfInvVm.pageSize = size;
-					awfInvVm.pageChanged();
+					awfInvVm.updateFileUploadCount(source, sourceId, filePattern);
 				}
 			});
 		}
 		
-		awfInvVm.getPageSize = function(){
-			AjaxUtil.getPageSize("AWF_INV", function(status, size){
+		awfInvVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(awfInvVm.awfInventories && awfInvVm.awfInventories.length > 0){
+				for(var i = 0; i < awfInvVm.awfInventories.length; i++){
+					if(awfInvVm.awfInventories[i].id === sourceId){
+						if(source.includes("inv_awf_image_doc")){
+							awfInvVm.awfInventories[i].imageCount = (parseInt(awfInvVm.awfInventories[i].imageCount) + 1);
+						}					
+						break;
+					}
+				}
+			}
+		}
+		
+		awfInvVm.setCurrentPageSize =function(identifier, size){
+			AjaxUtil.setPageSize(identifier, size, function(status, size){
 				if("success" === status){
 					awfInvVm.pageSize = size;
+					if(identifier === 'AWF_ORDERS'){
+						awfInvVm.generateReport();
+					}else{
+						awfInvVm.pageChanged();
+					}
+				}
+			});
+		}
+		
+		awfInvVm.getPageSize = function(identifier){
+			AjaxUtil.getPageSize(identifier, function(status, size){
+				if("success" === status){					
+					awfInvVm.pageSize = size;
+					$scope.$digest();
 				}
 			});
 		}
 		
 		awfInvVm.pageChanged = function() {
 			awfInvVm.getAwfInventories();
-		}		
+		}	
+		awfInvVm.setPageSize = function(){
+			var state = $state.current.name;
+			if(state === 'awf-orders'){
+				awfInvVm.getPageSize('AWF_ORDERS');
+			}else if(state === 'awf-view'){
+				awfInvVm.getPageSize('AWF_INV');
+			}
+		}
+			
 		awfInvVm.cancelAwfInventoryAction = function(){
 			$state.go("awf-view");		
 		}
@@ -194,7 +225,9 @@
 		if($state.params.id != undefined){
 			awfInvVm.editAwfInventory();
 		}
-		
+		awfInvVm.orderPageChanged = function() {
+			awfInvVm.generateReport();
+		}
 		awfInvVm.generateReport = function(){
 			awfInvVm.orderBooks = [];
 			awfInvVm.pageNumber = awfInvVm.currentPage;
@@ -209,9 +242,17 @@
 					var tmp = [];
 					if(jQuery.isArray(data.stsResponse.results)) {
 						jQuery.each(data.stsResponse.results, function(k, v){
+							if(v.invItems && !jQuery.isArray(v.invItems)) {
+								var items = [];
+								items.push(v.invItems);
+								v.invItems = items;
+							}
 							tmp.push(v);
 						});					
 					} else {
+					    var items = [];
+						items.push(data.stsResponse.results.invItems);
+						data.stsResponse.results.invItems = items;
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
@@ -224,6 +265,8 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		
+		awfInvVm.setPageSize();	
 		
 	}		
 })();

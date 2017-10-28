@@ -69,8 +69,14 @@
 							$scope.message = "";
 							jQuery(".actions").removeAttr('disabled');
 							jQuery(".spinner").css('display','none');
-							jqXHR.errorSource = "ProductCtrl::prodVm.addProduct::Error";
-							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+							if(1003 == jqXHR.status){
+								AlertService.showAlert(	'AWACP :: Alert!', "A Product with this name already exist, please use a different name.")
+								.then(function (){return},function (){return});
+								return;
+							}else{
+								jqXHR.errorSource = "ProductCtrl::engVm.addProduct::Error";
+								AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+							}
 						});						
 					};
 					$scope.cancel = function (){						

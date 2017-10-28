@@ -1,41 +1,44 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('ChatCtrl', ChatCtrl);
-	ChatCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'ChatService'];
-	function ChatCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, ChatService){
+	ChatCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'ChatService', 'StoreService'];
+	function ChatCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, ChatService, StoreService){
 		var chatVm = this;
 		$scope.timers = [];
-		chatVm.onlineUsers = [];
-		chatVm.offlineUsers = [];
+		
 		chatVm.chatMessage = {};
-		chatVm.listOnlineUsers = function(){
-			chatVm.onlineUsers = [];
-			ChatService.listUsers("online", function(result, status){
-				if("success" === status){
-					chatVm.onlineUsers = result;
-				}
-				console.log(JSON.stringify());
-			});
+		
+		
+		chatVm.sendMessage = function(){
+			if(!$rootScope.targetUser){
+				return;
+			}		
+			if(chatVm.chatMessage.message && chatVm.chatMessage.message.length > 0){
+				var formData = {};
+				chatVm.chatMessage.sourceUserId = StoreService.getUserId();
+				chatVm.chatMessage.sourceUserName = $rootScope.user.userDisplayName;
+				chatVm.chatMessage.targetUserId = $rootScope.targetUser.id;
+				chatVm.chatMessage.targetUserName = $rootScope.targetUser.firstName + " "+ $rootScope.targetUser.lastName;
+				formData["chatMessage"] = chatVm.chatMessage;
+				AjaxUtil.submitData("/awacp/saveChatMessage", formData)
+				.success(function(data, status, headers){
+					chatVm.chatMessage.message = "";
+					$rootScope.listChatMessage($rootScope.targetUser);
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "UserCtrl::saveUser::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}			
 		}
-		chatVm.listOfflineUsers = function(){
-			chatVm.offlineUsers = [];
-			ChatService.listUsers("offline", function(result, status){
-				if("success" === status){
-					chatVm.offlineUsers = result;
-				}
-			});
-		}
-		chatVm.saveChatMessage = function(){
-			
-		}
+		
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
 		chatVm.initUsers = function(){
-			chatVm.listOnlineUsers();
-			chatVm.listOfflineUsers();
+			$rootScope.listOnlineUsers();	
 		}
 	}		
 })();

@@ -109,7 +109,7 @@
 						   </td>
 						  <td align="center">{{takeoff.dateCreated | date:'shortDate'}}</td>
 						  <td align="center">{{takeoff.dueDate | date:'shortDate'}}</td>
-						  <td align="center" ng-style="{{takeoff.idStyle}}"><a href ui-sref = "takeoff-edit({id:takeoff.id})">{{takeoff.takeoffId}}</a></td>
+						  <td align="center""><a href ui-sref = "takeoff-edit({id:takeoff.id})" ng-style="{{takeoff.idStyle}}">{{takeoff.takeoffId}}</a></td>
 										 
 						  <td align="center"><a href ui-sref="quote-view-single({qSource:takeoff.id})" >{{takeoff.quoteId}}</a></td>
 						   <td align="center">{{takeoff.jobId}}</td>

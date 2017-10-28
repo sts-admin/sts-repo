@@ -320,7 +320,7 @@
 				wsVm.addWorksheetInfoBlock(); // new worksheet: add empty worksheet info block to add data.
 				wsVm.worksheet.manufacturerItems[0].multiplier = 0.5;
 			}
-			//Preview worksheet
+			//Preview quote
 			if(($state.params.prevWsId != undefined && $state.params.prevToId != undefined) || $state.params.officeWorksheetId != undefined){ // Preview Quote
 				var worksheetId = $state.params.officeWorksheetId != undefined?$state.params.officeWorksheetId:$state.params.prevWsId;
 				wsVm.editWorksheet(worksheetId);
@@ -395,7 +395,17 @@
 				}
 			}).success(function(data){
 				AlertService.showAlert(	'AWACP :: Message!', "Pdf of the quote generated successfully.")
-					.then(function (){return;},function (){return});
+					.then(function (){
+						if(wsVm.worksheet.takeoffId){
+							$state.go('quote-view-single', {qSource: wsVm.worksheet.takeoffId});
+						}else{
+							return;
+						}
+					},
+					function (){
+						return
+					}
+				);
 			}).error(function(error){
 				alert("Unable to generate PDF View, reason: "+ JSON.stringify(error, null, 4));
 			});

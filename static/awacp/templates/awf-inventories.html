@@ -74,8 +74,10 @@
 							  <td align="center">{{awfInv.createdByUserCode}}</td>
 							  <td align="center">{{awfInv.updatedByUserCode}}</td>
 							  <td align="center">
-								<a href ng-click="awfInvVm.showFileListingView('inv_awf_image_doc', awfInv.id, 'AWF Inventory Images', 'large', '.png');">
+								<a href ng-click="awfInvVm.showFileListingView('inv_awf_image_doc', awfInv.id, 'AWF Inventory Images', 'large', '.png', 'list-view');">
 									<span class="badge">{{awfInv.imageCount}}</span>
+								</a>
+								<a href ng-click="awfInvVm.showFileListingView('inv_awf_image_doc', awfInv.id, 'AWF Inventory Images', 'large', '.png', 'upload-view');">
 									<img src="images/FileUploadIcon.png" alt="image" border="0" />									
 								</a>
 								<br>

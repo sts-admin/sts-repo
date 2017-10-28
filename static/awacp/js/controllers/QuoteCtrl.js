@@ -55,7 +55,27 @@
 		qVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
-			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource);
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
+				if("success" === status){
+					qVm.updateFileUploadCount(sourceId, filePattern);
+				}
+			});
+		}
+		qVm.updateFileUploadCount = function(sourceId, docType){
+			if(qVm.quotes && qVm.quotes.length > 0){
+				for(var i = 0; i < qVm.quotes.length; i++){
+					if(qVm.quotes[i].id === sourceId){
+						if(docType.includes(".pdf")){
+							qVm.quotes[i].quotePdfDocCount = (parseInt(qVm.quotes[i].quotePdfDocCount) + 1);
+						}else if(docType.includes(".xls")){
+							qVm.quotes[i].quoteXlsDocCount = (parseInt(qVm.quotes[i].quoteXlsDocCount) + 1);
+						}else if(docType.includes(".doc")){
+							qVm.quotes[i].quoteDocCount = (parseInt(qVm.quotes[i].quoteDocCount) + 1);
+						}						
+						break;
+					}
+				}
+			}
 		}
 		
 		qVm.setCurrentPageSize =function(size){
@@ -142,7 +162,7 @@
 							msg = "Quote already created.";
 						}
 						AlertService.showAlert(	'AWACP :: Message!', msg)
-						.then(function (){qVm.listNewTakeoffsForQuote(); return;},function (){return});
+						.then(function (){$state.go("quote-view"); return;},function (){return});
 						return;
 					}
 				})
