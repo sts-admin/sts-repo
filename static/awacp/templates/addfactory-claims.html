@@ -1,0 +1,199 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+  <div class="clearfix">
+    <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders('all');">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <section>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 dashboard-content">
+                    <h1>Claim Factory</h1>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-6 col-md-6 col-sm-6 text-center"> </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12"><br>
+                  </div>
+                  <!-- .col --> </div>
+                <!-- .row --> </div>
+              <!-- .container -->
+              <form class="formular" action="" method="post" id="add_claim" name="add_claim">
+                <div style="background:#96F;" class="theme-form">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Claim for AWACP Order #</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="form-group">
+                          <input type="hidden" value="factory" name="claim_type">
+                          <input type="text" value="" id="ordernum" name="ordernum" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3">
+                        <input type="button" onclick="GetClaim($('#ordernum').val())" class="reset-btn btn btn-success" value="Get Record">
+                      </div>
+                      <!-- .col --> </div>
+                    <span style="display:none;" id="rest-form">
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8 pad_bot_30">
+                        <div class="form-group">
+                          <input type="submit" class="submit-btn btn btn-primary" value="Submit">
+                          &nbsp;&nbsp;&nbsp;
+                          <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">ORBF</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8">
+                        <div class="form-group">
+                          <input type="text" value="" id="orbf" name="orbf" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-1 col-md-1 col-sm-1"> &nbsp; </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">AWACP PO#</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8">
+                        <div class="form-group">
+                          <input type="text" value="" id="awpo" name="awpo" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-1 col-md-1 col-sm-1"> &nbsp; </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Contractor Name</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group"> <span id="cntnr_contractor">
+                          <select class="form-control" id="contractor" name="contractor">
+                            <option value="">--</option>
+                            <option value="GRAD INDUSTRIAL WORKS INC">GRAD INDUSTRIAL WORKS INC</option>
+                            <option value="THOM FILICIA INC.">THOM FILICIA INC.</option>
+                            <option value="WALSH GLASS &amp; METAL INC.">WALSH GLASS &amp; METAL INC.</option>
+                            <option value="128 AC INC">128 AC INC</option>
+                            
+                          </select>
+                          </span> </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-1 col-md-1 col-sm-1"> <a class="new-link" onclick="javascript:replaceInput('contractor','new','');" id="link_contractor" href="javascript:void(0);">NEW</a> </div>
+                    </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Tracking #</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group">
+                          <input type="text" value="" id="track_num" name="track_num" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Usercode</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8">
+                        <div class="form-group"> <strong>JK</strong> </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Salesman</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-2 col-md-2 col-sm-3">
+                        <div class="form-group">
+                          <select class="form-control" id="salesman" name="salesman">
+                            <option value="">--</option>
+                            <option value="AB">AB - ANDREW BELL</option>
+                            <option value="AC">AC - AARON CRUZ</option>
+                            
+                            <option value="ZM">ZM - ZOLTAN MALLIN</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">&nbsp;</div>
+                    <div class="row">&nbsp;</div>
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Trucker</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="form-group">
+                          <select class="form-control" id="trucker" name="trucker">
+                            <option value="">--</option>
+                            <option value="A. DUIE PYLE">A. DUIE PYLE</option>
+                            <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
+                            
+                          </select>
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Claim #</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group">
+                          <input type="text" value="" id="claim_num" name="claim_num" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Claim Amount</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group">
+                          <input type="text" value="" id="claim_cost" name="claim_cost" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Reason for claim</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group">
+                          <input type="text" value="" id="reason_claim" name="reason_claim" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+                        <input type="submit" class="submit-btn btn btn-primary" value="Submit" name="submit">
+                        <input type="hidden" value="add" name="add">
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="reset" onclick="this.form.reset();" class="reset-btn btn btn-info" value="Reset">
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row --> </span> </div>
+                  <!-- .container --> </div>
+                <!-- .bg-d0e9f4 -->
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>
