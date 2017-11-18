@@ -2,43 +2,49 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
   <div class="clearfix">
-    <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders('all');">
+    <div class="panel panel-default shadow" ng-init="fcVm.listFactoryClaims('all');">
       <div class="panel-heading form-heading panel-heading-top">
         <label>Factory Claims</label>
+		<span class="pull-right"><a href ui-sref="factory-claim-add" >Add Claim</a></span>	
       </div>
       <div class="panel-body">
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-2 text-center"> Total rows found - 1 </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 text-center"> </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 text-center"> <a onclick="ClearSearch('truckerclaim');" class="btn btn-primary" href="javascript:void(0);">Clear Search</a> </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 text-center"> <a class="btn btn-success" href="http://www.awacp.org/truckerclaim/add/factory">Add Claim</a> </div>
-          <!-- .col -->
-          <div class="col-lg-2 col-md-2 col-sm-2 text-center">
+        <div class="row">		
+		
+			<div style="text-align:right;">
+				<div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
+					Per page Rows 
+					<select ng-class="styledselect_pages" style="outline:none;"
+					  ng-model="fcVm.pageSize" 
+					  ng-options="size for size in fcVm.pageSizeList" ng-change="fcVm.setCurrentPageSize(fcVm.pageSize);" >
+					</select>
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 dashboard-content"> 
+					<a href="javascript:void(0);" onclick="ClearSearch('engineers');" class="btn btn-primary width-full">Clear Search</a> 
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 text-center">
             <select onchange="claim_status()" class="styledselect_5826pages" id="claim_status_dropdown" name="claim_status">
               <option value="">--</option>
               <option style="color:#F00;" value="open">RED FSR</option>
               <option style="color:#090;" value="closed">GREEN FSR</option>
             </select>
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 text-right"> Per page Rows
-            <select ng-class="styledselect_pages" style="outline:none;"
-			  ng-model="jobVm.pageSize" 
-			  ng-options="size for size in jobVm.pageSizeList" ng-change="jobVm.setCurrentPageSize(jobVm.pageSize);" >
-            </select>
-          </div>
-          <ul uib-pagination total-items="jobVm.totalItems" items-per-page = "jobVm.pageSize" ng-model="jobVm.currentPage" ng-change="jobVm.pageChanged()">
-          </ul>
+				<ul uib-pagination total-items="fcVm.totalItems" items-per-page = "fcVm.pageSize" ng-model="fcVm.currentPage" ng-change="fcVm.pageChanged()"></ul>
+			</div>
+          
+          
+          <!-- .col -->
+          
         </div>
       </div>
       <div class="row" id="contents" style="margin-top:25px; float:left;"> 
         <!-- .col -->
         <div class="col-lg-12">
-          <form name="truckerclaim_view_form" method="post" action="" class="table-container" id="truckerclaim_view_form">
-            <input type="hidden" value="factory" name="claimtype" id="claimtype">
+          <form name="Factoryclaim_view_form" method="post" action="" class="table-container" id="Factoryclaim_view_form">
+            <input type="hidden" value="Factory" name="claimtype" id="claimtype">
             <input type="hidden" value="" name="claim_status" id="claim_status">
             <table width="100%" cellspacing="0" cellpadding="0" border="1" class="table-responsive theme-table">
               <thead>
-                <tr style="background:#99C;">
+                <tr style="background:#FFB7B7;">
                   <td width="7%">&nbsp;</td>
                   <td></td>
                   <td align="center"><input type="text" value="" name="ordernum" class="searchtxt form-control form-control-2"></td>
@@ -46,14 +52,14 @@
                   <td align="center"><input type="text" value="" name="orbf" class="searchtxt form-control form-control-2"></td>
                   <td align="center"><input type="text" value="" name="contractor" class="searchtxt form-control"></td>
                   <td align="center"><input type="text" value="" name="tracking" class="searchtxt form-control form-control-2"></td>
-                  <td align="center"><input type="text" value="" name="trucker" class="searchtxt form-control form-control-2"></td>
+                  <td align="center"><input type="text" value="" name="Factory" class="searchtxt form-control form-control-2"></td>
                   <td align="center"><input type="text" value="" name="claim_cost" class="searchtxt form-control form-control-2"></td>
                   <td align="center" class="c6"><input type="text" value="" name="reason_for_claim" class="searchtxt form-control form-control-2"></td>
                   <td align="center" class="c6"><input type="text" value="" maxlength="2" name="sp" class="searchtxt form-control form-control-2"></td>
                   <td align="center"><input type="text" value="" name="uc" class="searchtxt form-control form-control-2"></td>
                   <td width="8%" align="center">&nbsp;</td>
                 </tr>
-                <tr style="background:#96F;">
+                <tr style="background:#F99;">
                   <td align="center">Date</td>
                   <td align="center">PDF</td>
                   <td align="center">Claim for<br>
@@ -73,21 +79,24 @@
                 </tr>
               </thead>
               <tbody>
-                <tr height="25" style="color:#FF0000">
-                  <td style="padding-left:5px;"> 09-27-2017</td>
-                  <td id="add_factory_49" style="padding-left:5px;"><a data-target="#myModal" data-toggle="modal" href="http://www.awacp.org/uploadfiles?module=claims&amp;fileseq=factory&amp;id=49&amp;act=upload&amp;allowedTypes%5B%5D=pdf"><img border="0" id="img49" title="add pdf" src="http://www.awacp.org/resources/images/FileUploadIcon.png"></a> <br>
-                    <a data-target="#myModal" data-toggle="modal" href="http://www.awacp.org/uploadfiles?module=claims&amp;fileseq=factory&amp;id=49&amp;act=download"><img border="0" id="img49" title="download pdf" src="http://www.awacp.org/resources/images/pdf.png"></a></td>
-                  <td align="center" style="padding-left:5px;"> 17A-4746PDQ</td>
-                  <td align="center" style="padding-left:5px;"><a target="_blank" href="http://www.awacp.org/truckerclaim/followup/factory/49">FSR-0048</a></td>
-                  <td align="center" style="padding-left:5px;"> A-24730</td>
-                  <td style="padding-left:5px;"> COOL BREEZE</td>
-                  <td align="center" style="padding-left:5px;"> 29841210</td>
-                  <td style="padding-left:5px;"> DAYLIGHT TRUCKING</td>
-                  <td align="center" style="padding-left:5px;"> $0</td>
-                  <td style="padding-left:5px;"> INAPPROPRIATE PACKING OF MATERIAL</td>
-                  <td align="center" style="padding-left:5px;"> JK</td>
-                  <td align="center" style="padding-left:5px;"> SA</td>
-                  <td align="center"><a title="Edit this Record" href="http://www.awacp.org/truckerclaim/edit/49"><img border="0" src="http://www.awacp.org/resources/images/file_edit.png"></a> &nbsp; <a title="Delete this record" onclick="if(confirm('Are you sure you want to delete?')) window.location.href='http://www.awacp.org/truckerclaim/delete/49'" href="javascript:void(0);"><img border="0" src="http://www.awacp.org/resources/images/file_delete.png"></a> &nbsp; <a title="Close this claim" onclick="if(confirm('Are you sure you want to close this?')) window.location.href='http://www.awacp.org/truckerclaim/close/49'" href="javascript:void(0);"><img border="0" src="http://www.awacp.org/resources/images/close_2.png"></a></td>
+                <tr height="25" style="color:#009900" ng-repeat="fc in fcVm.claims track by $index">
+                  <td style="padding-left:5px;"> {{fc.dateCreated | date:'shortDate'}}</td>
+                  <td id="add_Factory_17" style="padding-left:5px;">
+					<a data-target="#myModal" data-toggle="modal" href="#">
+					<img border="0" id="img17" title="add pdf" src=""></a>
+				</td>
+                  <td align="center" style="padding-left:5px;"> {{fc.orderBookNumber}}</td>
+                  <td align="center" style="padding-left:5px;">
+					<a target="_blank" href="#">CT-0001</a></td>
+                  <td align="center" style="padding-left:5px;"> {{fc.orbf}}</td>
+                  <td style="padding-left:5px;"> {{fc.contractor.name}}</td>
+                  <td align="center" style="padding-left:5px;"> {{fc.tracking}}</td>
+                  <td style="padding-left:5px;"> {{fc.trucker.name}}</td>
+                  <td align="center" style="padding-left:5px;"> {{fc.claimAmount | currency}}</td>
+                  <td style="padding-left:5px;"> {{fc.reasonForClaim}}</td>
+                  <td align="center" style="padding-left:5px;"> LP</td>
+                  <td align="center" style="padding-left:5px;"> {{fc.userCode}}</td>
+                  <td align="center" style="font-weight:bold;">CLOSED</td>
                 </tr>
               </tbody>
             </table>

@@ -33,7 +33,7 @@
       </div>
       <div id="contents" class="row">
         <div style="font-size:12px;" class="col-lg-4 pad_bot_30"> <span style="display:none;" class="found_row"> Total rows found - 7,541 </span> </div>
-        <div align="center" class="col-lg-3 pad_bot_30"> <span class="loading_div" style="display:none;"> <img width="99" height="30" src="http://www.awacp.org/resources/images/ajax-loader.gif"> </span> </div>
+        <div align="center" class="col-lg-3 pad_bot_30"> <span class="loading_div" style="display:none;"> </span> </div>
        
         <!-- .col -->
         <div class="col-lg-12">
@@ -86,9 +86,17 @@
                   <td align="center">{{item.billableCost | currency}}</td>
                   <td align="left">{{item.itemDescription}}</td>
                   <td align="center">{{item.createdByUserCode}}</td>
-                  <td align="center"><a style="color:#039;" target="_blank" href="">SHPD 1Z1536630351068796</a><br>
-                    Freight: $7.70<br>
-                    <a target="_blank" style="color:#039;" href="http://www.awacp.org/aw_inventory/addtrack/17AW-3554/99083">[...]</a></td>
+                  <td align="center">
+					<a style="color:#039;" target="_blank" href>
+						SHPD 1Z1536630351068796
+					</a>
+					<br>
+                    Freight: $7.70
+					<br>
+                    <a target="_blank" style="color:#039;" href ui-sref="tracking({invOrderBookId:item.bookId, invOrderItemId:item.id, invType:'aw', invOrderBookNumber:ob.orderBookNumber})">
+						[...]
+					</a>
+				  </td>
                   <td align="center">{{ob.estDate | date:'shortDate'}}</td>
                   <td align="center"> {{ob.comment}}</td>
                 </tr>
@@ -101,7 +109,7 @@
         </div>
         <!-- .col -->
         <div style="font-size:12px;" class="col-lg-4 pad_top_30"> <span style="display:none;" class="found_row"> Total rows found - 7,541 </span> </div>
-        <div align="center" class="col-lg-3 pad_bot_30"> <span class="loading_div" style="display:none;"> <img width="99" height="30" src="http://www.awacp.org/resources/images/ajax-loader.gif"> </span> </div>
+        <div align="center" class="col-lg-3 pad_bot_30"> <span class="loading_div" style="display:none;"> </span> </div>
       
       </div>
     </div>

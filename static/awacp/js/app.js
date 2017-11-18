@@ -2,13 +2,13 @@
 (function() {
     'use strict';
 	//Local env
-	var base ="http://localhost:8080/awacpservices";
+	/*var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/tutorial/resource/img/";
-	var basePath = "/tutorial/";
+	var basePath = "/tutorial/";*/
 	//prod env
-	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
+	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/img/";	
-	var basePath = "/";*/
+	var basePath = "/";
 	//prod env
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
@@ -240,6 +240,30 @@
 				templateUrl:"templates/shipto.html",
 				controller:"ShipToCtrl",
 				controllerAs:"shipToVm",
+				requireAuth: true
+			}).state('claim-truckers',{
+				url: '/truckerClaims',
+				templateUrl:"templates/trucker-claims.html",
+				controller:"TruckerClaimsCtrl",
+				controllerAs:"tcVm",
+				requireAuth: true
+			}).state('trucker-claim-add',{
+				url: '/truckerClaim/add',
+				templateUrl:"templates/trucker-claim-add.html",
+				controller:"TruckerClaimsCtrl",
+				controllerAs:"tcVm",
+				requireAuth: true
+			}).state('cfactories',{
+				url: '/factoryClaims',
+				templateUrl:"templates/factory-claims.html",
+				controller:"FactoryClaimsCtrl",
+				controllerAs:"fcVm",
+				requireAuth: true
+			}).state('factory-claim-add',{
+				url: '/factoryClaim/add',
+				templateUrl:"templates/factory-claim-add.html",
+				controller:"FactoryClaimsCtrl",
+				controllerAs:"fcVm",
 				requireAuth: true
 			}).state('truckers',{
 				url: '/truckers',
@@ -548,6 +572,12 @@
 				templateUrl:"templates/orbf.html",
 				controller:"OrbfCtrl",
 				controllerAs:"orbfVm",
+				requireAuth: true
+			}).state('tracking',{
+				url: '/inv/tracking/:invOrderBookId/:invOrderItemId/:invType/:invOrderBookNumber',
+				templateUrl:"templates/tracking-link.html",
+				controller:"TrackingCtrl",
+				controllerAs:"trackingVm",
 				requireAuth: true
 			}).state('factories',{
 				url: '/factories',

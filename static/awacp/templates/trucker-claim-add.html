@@ -1,0 +1,181 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid" style="margin-top:-10px;">
+  <div class="clearfix">
+    <div class="panel panel-default shadow">
+      
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <section>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-3 dashboard-content">
+                    <h1>Claim Trucker</h1>
+                  </div>
+                  <!-- .col -->
+                  <div class="col-lg-6 col-md-6 col-sm-6 text-center"> </div>
+                  <!-- .col -->
+                  <div class="col-lg-12 col-md-12 col-sm-12"><br>
+                  </div>
+                  <!-- .col --> </div>
+                <!-- .row --> </div>
+              <!-- .container -->
+                <div >
+				
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Claim for AWACP Order #</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="form-group">
+                          <input type="hidden" value="trucker" name="claim_type">
+                          <input type="text" ng-model="tcVm.orderBook.orderBookNumber" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-3 col-md-3 col-sm-3">
+                        <input type="button" ng-click="tcVm.searchOrderBook();" class="reset-btn btn btn-success" value="Get Record">
+                      </div>
+                      <!-- .col --> 
+					  </div>
+					  <div style="background:#F99;"  class="theme-form" ng-show="tcVm.tcEdit || tcVm.tcObSearchDone">
+					  <form ng-submit="tcVm.saveClaim();">
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">ORBF</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8">
+                        <div class="form-group">
+                          <input type="text" ng-model="tcVm.truckerClaim.orbf" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-1 col-md-1 col-sm-1"> &nbsp; </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">AWACP PO#</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8">
+                        <div class="form-group">
+                          <input type="text" ng-model="tcVm.truckerClaim.orderBookNumber"  class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-1 col-md-1 col-sm-1"> &nbsp; </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Contractor Name</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group"> <span id="cntnr_contractor">
+                          <select class="form-control"
+							  ng-model="tcVm.truckerClaim.contractorId" 
+							  ng-options="c.id as c.name for c in tcVm.contractors">
+							  <option value="">--- Select ---</option>
+							</select>
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+					   <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Tracking#</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8">
+                        <div class="form-group">
+                          <input type="text" ng-model="tcVm.truckerClaim.tracking"  class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-1 col-md-1 col-sm-1"> &nbsp; </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+					 <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">User Code</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8">
+                        <div class="form-group">
+                          <input type="text" ng-model="tcVm.truckerClaim.userCode"  class="form-control" readonly>
+                        </div>
+                      </div>
+                      <!-- .col -->
+                      <div class="col-lg-1 col-md-1 col-sm-1"> &nbsp; </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+					<!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Trucker</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group"> <span id="cntnr_contractor">
+                          <select class="form-control"
+							  ng-model="tcVm.truckerClaim.truckerId" 
+							  ng-options="t.id as t.name for t in tcVm.truckers">
+							  <option value="">--- Select ---</option>
+							</select>
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+					   <!-- .row -->
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Claim #</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group">
+                          <input type="text" ng-model="tcVm.truckerClaim.claim"  class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Claim Amount</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group">
+                          <input type="text" ng-model="tcVm.truckerClaim.claimAmount" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title">Reason for claim</span><span class="colon">:</span> </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-9">
+                        <div class="form-group">
+                          <input type="text" ng-model="tcVm.truckerClaim.reasonForClaim" class="form-control">
+                        </div>
+                      </div>
+                      <!-- .col --> </div>
+                    <!-- .row -->
+                    <div class="row">
+                      <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
+                      <!-- .col -->
+                      <div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+                        <input type="submit" class="tc-add-action submit-btn btn btn-primary" value="Submit" name="submit">
+                        <input type="hidden" value="add" name="add">
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="reset" onclick="this.form.reset();" class="tc-add-action reset-btn btn btn-info" value="Reset">
+						<span id="tc-add-spinner" style="display:none;">
+							<img src="images/loading.gif" />
+						</span>
+                      </div>
+                      <!-- .col --> </div>
+					</form>
+					</div>
+					</div>
+					
+                  <!-- .container --> </div>
+                <!-- .bg-d0e9f4 -->
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>
