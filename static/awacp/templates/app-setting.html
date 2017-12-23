@@ -1,0 +1,700 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="container-fluid">
+	<div class="clearfix">
+		<div class="panel panel-default" ng-init="asVm.initAppSetting();">
+			<div class="panel-heading form-heading panel-heading-top">
+				<label>{{asVm.action}}</label>
+			</div>
+			<div class="panel-body new-tk-bg">
+				<div class="container">
+					<uib-tabset active="invoiceVm.activeIndex" justified="true">
+						<uib-tab index="0" heading="Site Information" ng-click="asVm.setActiveTab(0);">
+							<form ng-submit="asVm.addOrUpdateAppSetting('siteinfo');">
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Company Name</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.companyName" ng-required="true" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Front Website</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.frontWebsite" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->  
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Backend Application</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.backendApp" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Office Address</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.officeAddress" ng-required="true"/>
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Phone</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.phoneNumber" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Fax: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.faxNumber" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Email: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.emailAddress" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Clock One Label: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.clockOneLabel" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Clock One Active: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="checkbox" class="form-control" ng-model="asVm.siteInfo.clockOneActive" ng-required="true" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Clock One Time Zone: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.clockOneTimezone" ng-required="true" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->	
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Clock Two Label: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.clockTwoLabel" ng-required="true" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->	
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Clock Two Active: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="checkbox" class="form-control" ng-model="asVm.siteInfo.clockTwoActive" ng-required="true" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Clock Two Time Zone: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.clockTwoTimezone" ng-required="true" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">SMTP Host: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.smtpHost" ng-required="true"/>
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->		
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">SMTP Port: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteInfo.smtpPort" ng-required="true" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Logo on Login page:</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group">
+											<input type="file" id="loginLogoFile" name="loginLogoFile" accept="image/*" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group" ng-show="asVm.siteInfo.loginLogoUrl">
+											<img ng-src="{{asVm.siteInfo.loginLogoUrl}}" width="517" height="114" />											
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group">
+											(Preferred size - 517x114 px)
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Logo on header page:</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group">
+											<input type="file" id="headerLogoFile" name="headerLogoFile" accept="image/*" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group" ng-show="asVm.siteInfo.headerLogoUrl">
+											<img ng-src="{{asVm.siteInfo.headerLogoUrl}}" width="307" height="77" />											
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group">
+											(Preferred size - 307x77 px)
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Logo in Email: </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group">							
+											<input type="file" id="emailLogoFile" name="emailLogoFile" accept="image/*"  />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group" ng-show="asVm.siteInfo.emailLogoUrl">
+											<img ng-src="{{asVm.siteInfo.emailLogoUrl}}" width="408" height="86" />
+											
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<div class="form-group">
+											(Preferred size - 408x86 px)
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										&nbsp;
+									</div><!-- .col -->
+									<div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+										<input type="submit" name="submit" value="Save" class="submit-btn btn btn-success">
+									</div><!-- .col -->
+								</div><!-- .row -->
+							</form>
+						</uib-tab>
+						<uib-tab index="1" heading="Site Color" ng-click="asVm.setActiveTab(1);">
+							<form ng-submit="asVm.addOrUpdateAppSetting('sitecolor');">
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Login Page Background</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.loginPageBgColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Login Box</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.loginBoxColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->  
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Top header section</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.topHeaderColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Background of menu bar</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.menuBarBgColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Background of menu items</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.menuItemBgColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Background of menu items during onmouseover </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.menuItemBgColorOnMouseOver" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Currently active menu items </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.activeMenuItemColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">TakeOff dashboard box </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.takeoffDashboardBoxColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">TakeOff dashboard box hover </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.takeoffDashboardBoxHoverColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">TakeOff forms background </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.takeoffFormBgColor"  />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->	
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">TakeOff View Search Row </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.takeoffViewSearchRowColor" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->	
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">TakeOff View Heading Row </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="color" class="form-control" ng-model="asVm.siteColor.takeoffViewHeadingRow" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->	
+							
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										&nbsp;
+									</div><!-- .col -->
+									<div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+										<input type="submit" name="submit" value="Save" class="submit-btn btn btn-success">
+									</div><!-- .col -->
+								</div><!-- .row -->
+							</form>
+						</uib-tab>
+						<uib-tab index="2" heading="Site Email Account" ng-click="asVm.setActiveTab(2);">
+							<form ng-submit="asVm.addOrUpdateAppSetting('siteemailaccount');">
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title"></span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<span class="new-take-off-title">Email</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<span class="new-take-off-title">Password</span>
+										</div>
+									</div><!-- .col -->
+								</div>
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">BIDREQUEST</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.bidderRequestEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.bidderRequestPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">EDWGS</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.edwgsEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.edwgsEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">VOICEMAIL</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.voiceEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.voiceEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">FINALUPDATE</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.finalUpdateEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.finalUpdateEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">ADMIN</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.adminEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.adminEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">ESTORBFREMINDER</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.estOrbfReminderEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.estOrbfReminderEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">INVENTORYALERT</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.inventoryAlertEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.inventoryAlertEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">FOLLOWUP</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.followupEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.followupEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">INFO</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.infoEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.infoEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">INVENTORY</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.inventoryEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.inventoryEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">MONDAYMORNING</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.mondayMorningEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.mondayMorningEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-2 visible-xs-padding-right">
+										<span class="new-take-off-title">NOREPLY</span>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5 visible-xs-padding-right">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.siteEmailAccount.noReplyEmail" />
+										</div>
+									</div><!-- .col -->
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-group">
+											<input type="password" class="form-control" ng-model="asVm.siteEmailAccount.noReplyEmailPassword" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										&nbsp;
+									</div><!-- .col -->
+									<div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+										<input type="submit" name="submit" value="Save" class="submit-btn btn btn-success">
+									</div><!-- .col -->
+								</div><!-- .row -->
+							</form>
+						</uib-tab>
+						<uib-tab index="3" heading="Site Menu Item" ng-click="asVm.setActiveTab(3);">
+							<form ng-submit="asVm.addOrUpdateAppSetting('sitemenuitem');">
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Takeoff Prefix</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.takeoffPrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Quote Prefix</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.quotePrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->  
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Joborder Prefix</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.jobOrderPrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">AW Prefix</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.awPrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">AWF Prefix</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.awfPrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">SBC Prefix </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.sbcPrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">SPL Prefix </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.splPrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">J Prefix </span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.jPrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								<div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										<span class="new-take-off-title">Q Prefix</span><span class="colon">:</span>
+									</div><!-- .col -->
+									<div class="col-lg-10 col-md-10 col-sm-9">
+										<div class="form-group">
+											<input type="text" class="form-control" ng-model="asVm.menuItem.qPrefix" />
+										</div>
+									</div><!-- .col -->
+								</div><!-- .row -->
+								 <div class="row">
+									<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+										&nbsp;
+									</div><!-- .col -->
+									<div class="col-lg-9 col-md-9 col-sm-8 pad_top_30">
+										<input type="submit" name="submit" value="Save" class="submit-btn btn btn-success">
+									</div><!-- .col -->
+								</div><!-- .row -->
+								
+							</form>
+						</uib-tab>
+					</uib-tabset>					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="clear:both;height:50px;"></div>
+<div ng-include="'templates/footer.html'" ></div>
+
+
