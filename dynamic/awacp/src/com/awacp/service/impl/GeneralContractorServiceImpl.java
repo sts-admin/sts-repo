@@ -59,6 +59,10 @@ public class GeneralContractorServiceImpl extends CommonServiceImpl<GeneralContr
 		if (isExistsByEmail(contractor.getEmail(), "GeneralContractor", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
 		}
+
+		if (isExistsByName(contractor.getName(), "name", contractor.getClass().getSimpleName(), getEntityManager())) {
+			throw new StsDuplicateException("duplicate_name");
+		}
 		getEntityManager().merge(contractor);
 		getEntityManager().flush();
 		return contractor;

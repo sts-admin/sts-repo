@@ -16,6 +16,8 @@ public interface FileService {
 	public List<File> listFiles();
 
 	public List<File> listFiles(String fileSource);
+	
+	public List<File> listFilesBySourceMatchAndId(String fileSource, String sourceId);
 
 	public List<File> listFiles(String source, Long sourceId);
 
@@ -24,5 +26,7 @@ public interface FileService {
 	public File updateFileSource(Long userId, String fileSource, Long fileSourceId, Long fileId);
 
 	public int getFileCount(String source, Long sourceId);
+
+	public String archiveFile(Long fileId);
 
 }

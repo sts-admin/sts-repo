@@ -27,11 +27,11 @@ public class OrderBookInvItem extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	private Long bookId; // required
-	private Long invItemId; // required
+	private Long invItemId; // required	
 	private String itemDescription; // required
-	private Integer orderQty; // required
+	private Integer orderQty; // required	
 	private Integer stockQty; // required
-	private Double size; // required
+	private Double size; // required	
 	private String createdByUserCode; // Code of the User created this record.
 	private String updatedByUserCode; // Code of the user updated this record.
 

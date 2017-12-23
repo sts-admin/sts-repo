@@ -5,7 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import com.awacp.entity.SystemLog;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.entity.User;
 import com.sts.core.service.CommonService;
 
 public class CommonServiceImpl<T> implements CommonService<T> {
@@ -80,4 +84,12 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 		return results == null || results.isEmpty() ? null : results.get(0);
 	}
 
+	@Override
+	public boolean isExistsByName(String name, String fieldName, String entityName, EntityManager em) {
+		StringBuffer query = new StringBuffer("SELECT COUNT(entity.id) FROM ").append(entityName).append(
+				" entity WHERE entity.archived = 'false' AND  LOWER(entity." + fieldName + ") = :" + fieldName + "");
+		int count = ((Number) em.createQuery(query.toString()).setParameter(fieldName, name.trim().toLowerCase())
+				.getSingleResult()).intValue();
+		return count <= 0 ? false : true;
+	}
 }

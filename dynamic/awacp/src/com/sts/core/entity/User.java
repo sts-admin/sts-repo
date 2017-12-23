@@ -30,8 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "User.findUserCode", query = "SELECT u FROM User u WHERE lower(u.userCode) = :userCode"),
 		@NamedQuery(name = "User.getCode", query = "SELECT u.userCode FROM User u WHERE u.archived = 'false' AND (LOWER(u.email) = :email OR LOWER(u.userName) = :userName)"),
 		@NamedQuery(name = "User.filterByNameMatch", query = "SELECT new com.sts.core.entity.User(u.id, u.firstName) FROM User u WHERE u.archived = 'false' AND LOWER(u.firstName) LIKE :keyword"),
-		@NamedQuery(name = "User.listOnlineUsers", query = "SELECT new com.sts.core.dto.UserDTO(u.id, u.userName, u.userCode, u.firstName, u.middleName, u.lastName, u.avtarImage, u.photo.id) FROM User u WHERE u.archived = 'false' AND u.online = 'true' ORDER BY u.onlineTime DESC"),
-		@NamedQuery(name = "User.listOfflineUsers", query = "SELECT new com.sts.core.dto.UserDTO(u.id, u.userName, u.userCode, u.firstName, u.middleName, u.lastName, u.avtarImage, u.photo.id) FROM User u WHERE u.archived = 'false' AND u.online = 'false' ORDER BY u.dateCreated DESC")
+		@NamedQuery(name = "User.listOnlineUsers", query = "SELECT new com.sts.core.dto.UserDTO(u.id, u.userName, u.userCode, u.firstName, u.middleName, u.lastName, u.avtarImage, u.photo.id, u.online) FROM User u WHERE u.archived = 'false' AND u.online = 'true' ORDER BY u.onlineTime DESC"),
+		@NamedQuery(name = "User.listOfflineUsers", query = "SELECT new com.sts.core.dto.UserDTO(u.id, u.userName, u.userCode, u.firstName, u.middleName, u.lastName, u.avtarImage, u.photo.id, u.online) FROM User u WHERE u.archived = 'false' AND u.online = 'false' ORDER BY u.dateCreated DESC")
 
 })
 public class User extends BaseEntity {

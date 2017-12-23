@@ -241,8 +241,8 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 		if (user.getLastName() == null) {
 			user.setLastName(" ");
 		}
-		String photoUrl = AppPropConfig.resourceWritePath;
-		user.setPhotoUrl(photoUrl + user.getAvtarImage());
+		String photoUrl = AppPropConfig.acResourceWriteDir;
+		user.setPhotoUrl(photoUrl + "/" + user.getAvtarImage());
 
 		if (user.getPhoto() != null) {
 			user.setPhotoUrl(photoUrl + user.getPhoto().getCreatedName() + user.getPhoto().getExtension());
@@ -604,7 +604,7 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 			aMenu = new Menu(group.getGroupName(), group.getGroupName());
 			// Create a menu per permission group
 			if (group.getPermissions() != null && !group.getPermissions().isEmpty()) {
-				// Retain permissions for this role only.
+				// Retain all permissions of this role only.
 				group.getPermissions().retainAll(user.getPermissions());
 				if (group.getPermissions() == null || group.getPermissions().isEmpty()) {
 					continue;
@@ -771,10 +771,19 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 	@Override
 	@Transactional
 	public int updateUserOnlineStatus(Long userId, boolean status) {
+		/*List<User> users = getEntityManager().createNamedQuery("User.findAll").getResultList();
+		if (users != null && !users.isEmpty()) {
+			for (User user : users) {
+				user.setOnline(false);
+				getEntityManager().merge(user);
+			}
+			getEntityManager().flush();
+		}*/
 		User user = findUser(userId);
 		user.setOnline(status);
 		user.setOnlineTime(Calendar.getInstance());
 		getEntityManager().merge(user);
+		getEntityManager().flush();
 		return 1;
 	}
 
@@ -784,8 +793,8 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 		for (UserDTO user : users) {
 			File userImage = getEntityManager().find(File.class, user.getPhotoId());
 			String photoUrl = userImage != null
-					? AppPropConfig.resourceReadPath + userImage.getCreatedName() + userImage.getExtension()
-					: AppPropConfig.resourceReadPath + user.getAvtarImage();
+					? AppPropConfig.acResourceWriteDir + "/" + userImage.getCreatedName() + userImage.getExtension()
+					: AppPropConfig.acResourceWriteDir + "/" + user.getAvtarImage();
 			user.setPhotoUrl(photoUrl);
 			user.setUnreadMessageCount(chatService.getMyUnreadMessagesCount(user.getId()));
 

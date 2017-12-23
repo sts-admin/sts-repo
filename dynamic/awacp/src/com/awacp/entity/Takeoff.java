@@ -27,11 +27,14 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 
-@NamedQueries({ @NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' ORDER BY t.dateCreated DESC"),
+@NamedQueries({
+		@NamedQuery(name = "Takeoff.listAll", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' ORDER BY t.dateCreated DESC"),
 		@NamedQuery(name = "Takeoff.countAll", query = "SELECT COUNT(t.id) FROM Takeoff t WHERE t.archived = 'false'"),
 		@NamedQuery(name = "Takeoff.listNewTakeoffsForQuote", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND FUNC('ISNULL', t.quoteId)  ORDER BY t.dateCreated DESC"),
 		@NamedQuery(name = "Takeoff.listTakeoffsForView", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND NOT FUNC('ISNULL', t.quoteId)  ORDER BY t.dateCreated DESC"),
-		@NamedQuery(name = "Takeoff.getTakeoffByQuoteId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.quoteId =:quoteId") })
+		@NamedQuery(name = "Takeoff.getTakeoffByQuoteId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.quoteId =:quoteId"),
+		@NamedQuery(name = "Takeoff.getTakeoffByTakeoffId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.takeoffId =:takeoffId")
+		})
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -105,7 +108,7 @@ public class Takeoff extends BaseEntity {
 	private int quoteXlsDocCount;
 	private int quoteVibroDocCount;
 
-	private AppSetting appSetting;
+	private SiteInfo siteInfo;
 
 	// Report variables
 	private int year;
@@ -119,7 +122,6 @@ public class Takeoff extends BaseEntity {
 
 	public Takeoff() {
 		super();
-		appSetting = new AppSetting();
 	}
 
 	@NotNull
@@ -557,12 +559,12 @@ public class Takeoff extends BaseEntity {
 	}
 
 	@Transient
-	public AppSetting getAppSetting() {
-		return appSetting;
+	public SiteInfo getSiteInfo() {
+		return siteInfo;
 	}
 
-	public void setAppSetting(AppSetting appSetting) {
-		this.appSetting = appSetting;
+	public void setSiteInfo(SiteInfo siteInfo) {
+		this.siteInfo = siteInfo;
 	}
 
 	public boolean isWorksheetDeleted() {

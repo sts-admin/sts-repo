@@ -15,7 +15,7 @@ import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implements ContractorService {
+public class ContractorServiceImpl extends CommonServiceImpl<Contractor> implements ContractorService {
 	@Autowired
 	UserService userService;
 	private EntityManager entityManager;
@@ -57,6 +57,9 @@ public class ContractorServiceImpl extends CommonServiceImpl<Contractor>implemen
 		if (StringUtils.isNotEmpty(contractor.getEmail())
 				&& isExistsByEmail(contractor.getEmail(), "Contractor", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
+		}
+		if (isExistsByName(contractor.getName(), "name", contractor.getClass().getSimpleName(), getEntityManager())) {
+			throw new StsDuplicateException("duplicate_name");
 		}
 		getEntityManager().merge(contractor);
 		getEntityManager().flush();

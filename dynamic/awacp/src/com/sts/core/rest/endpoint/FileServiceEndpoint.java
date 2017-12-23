@@ -35,6 +35,15 @@ import com.sts.core.web.filter.CrossOriginFilter;
 public class FileServiceEndpoint extends CrossOriginFilter {
 	@Autowired
 	private FileService fileService;
+	
+	@GET
+	@Path("/archiveFile/{fileId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String archiveFile(@PathParam("fileId") Long fileId, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result =  this.fileService.archiveFile(fileId);
+		return "{\"result\":\"" + result + "\"}";
+	}
 
 	@GET
 	@Path("/file/{fileId}")
@@ -71,7 +80,7 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 		}
 		String name = FileUtils.getFileName(map);
 		InputStream is = dataHandler.getInputStream();
-		String baseFolderPath = AppPropConfig.resourceWritePath;
+		String baseFolderPath = AppPropConfig.acResourceWriteDir;
 		return this.fileService.saveFile(is, name, contentType, baseFolderPath);
 	}
 
@@ -114,6 +123,14 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
+	@Path("/listFilesBySourceMatchAndId/{source}/{sourceId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<File> listFilesBySourceMatchAndId(@PathParam("source") String source, @PathParam("sourceId") String sourceId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.fileService.listFilesBySourceMatchAndId(source, sourceId);
+	}
+
+	@GET
 	@Path("/listAllFilesBySource/{source}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<File> listAllFilesBySource(@PathParam("source") String fileSource,
@@ -128,7 +145,7 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.fileService.listFiles(source, sourceId);
 	}
-	
+
 	@GET
 	@Path("/get/file/{id}")
 	@Produces("application/pdf")
@@ -136,40 +153,38 @@ public class FileServiceEndpoint extends CrossOriginFilter {
 
 		File awacpFile = fileService.findFile(id);
 		String fileName = awacpFile.getCreatedName() + awacpFile.getExtension();
-		java.io.File file = new java.io.File(AppPropConfig.resourceWritePath + fileName);
+		java.io.File file = new java.io.File(AppPropConfig.acResourceWriteDir + "/" + fileName);
 
 		ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition",
-				"attachment; filename=\"" + file.getName() + "\"");
+		response.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
 		return response.build();
 
 	}
-
 
 	@GET
 	@Path("/downloadFile/{fileId}")
 	public void downloadFile(@PathParam("fileId") Long fileId, @Context HttpServletResponse response)
 			throws IOException {
-		System.err.println("fileId = "+ fileId);
+		System.err.println("fileId = " + fileId);
 		File awacpFile = fileService.findFile(fileId);
 		String fileName = awacpFile.getCreatedName() + awacpFile.getExtension();
 
-		java.io.File file = new java.io.File(AppPropConfig.resourceWritePath + fileName);
+		java.io.File file = new java.io.File(AppPropConfig.acResourceWriteDir + "/" + fileName);
 		try (InputStream fileInputStream = new FileInputStream(file);
 				OutputStream output = response.getOutputStream();) {
 			response.setContentType("application/x-download");
 			response.setContentLength((int) (file.length()));
-			if(file != null){
-				System.err.println("file name = "+ file.getName());
+			if (file != null) {
+				System.err.println("file name = " + file.getName());
 			}
-			
+
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
 			IOUtils.copy(fileInputStream, output);
 			output.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
+
 	}
 
 	public void setFileService(FileService fileService) {

@@ -22,6 +22,7 @@ import com.awacp.entity.Bidder;
 import com.awacp.entity.Engineer;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.QuoteFollowup;
+import com.awacp.entity.SiteInfo;
 import com.awacp.entity.Spec;
 import com.awacp.entity.Takeoff;
 import com.awacp.service.ArchitectService;
@@ -170,7 +171,6 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 													// digits
 		if (takeoff.getId() != null && takeoff.getId() > 0) { // update
 			if (takeoff.getQuoteRevision() != null && !takeoff.getQuoteRevision().isEmpty()) {
-				System.err.println("Revision done, change quote ID");
 				String quoteId = new StringBuffer("Q").append(df.format(Calendar.getInstance().getTime())).append("-")
 						.append(takeoff.getId()).append("-").append(takeoff.getQuoteRevision()).toString();
 
@@ -282,6 +282,9 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 	}
 
 	private Takeoff enrichTakeoff(Takeoff takeoff, boolean viewQuote) {
+		if (takeoff.getSiteInfo() == null) {
+			takeoff.setSiteInfo(new SiteInfo());
+		}
 		User user = userService.findUser(takeoff.getSalesPerson());
 		if (user != null) {
 			takeoff.setSalesPersonName(user.getFirstName() + "	" + user.getLastName());
@@ -396,7 +399,6 @@ public class TakeoffServiceImpl extends CommonServiceImpl<Takeoff> implements Ta
 	@Override
 	@Transactional
 	public void updateWorksheetInfo(Long takeoffId, Long worksheetId, Double amount) {
-		System.err.println("updateWorksheetInfo: takeoffId = " + takeoffId + ", worksheetId = " + worksheetId);
 		Takeoff takeoff = getTakeoff(takeoffId);
 		if (!takeoff.isWsCreated()) {
 			takeoff.setWsCreated(true);

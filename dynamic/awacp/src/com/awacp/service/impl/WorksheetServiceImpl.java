@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awacp.entity.Bidder;
 import com.awacp.entity.QuoteMailTracker;
 import com.awacp.entity.QuoteNote;
+import com.awacp.entity.SiteInfo;
 import com.awacp.entity.Takeoff;
 import com.awacp.entity.Worksheet;
 import com.awacp.entity.WsManufacturerInfo;
@@ -181,19 +182,24 @@ public class WorksheetServiceImpl implements WorksheetService {
 		worksheet.setTakeoff(takeoff);
 
 		String fileName = "quote-" + Calendar.getInstance().getTimeInMillis() + ".pdf";
-		String pdfFilePath = AppPropConfig.resourceWritePath + fileName;
-		String logoPath = AppPropConfig.resourceWritePath + "awacp_big_logo.png";
+		String pdfFilePath = AppPropConfig.acResourceWriteDir + "/" + fileName;
+		String logoPath = AppPropConfig.acImageLocalUrl + "/" + "awacp_big_logo.png";
+		if (worksheet.getTakeoff().getSiteInfo() == null) {
+			List<SiteInfo> items = getEntityManager().createNamedQuery("SiteInfo.findAll").getResultList();
+			if (items != null && !items.isEmpty()) {
+				worksheet.getTakeoff().setSiteInfo(items.get(0));
+			}
+		}
 		new QuotePdfGenerator(pdfFilePath, logoPath, worksheet).generate();
 		boolean mailSendSuccess = mailService.sendQuoteMailToBidders(worksheet, fileName, pdfFilePath);
-		if (mailSendSuccess) {			
+		if (mailSendSuccess) {
 			if (worksheet.getTakeoff().getBidders() != null) {
 				QuoteMailTracker qmt = null;
 				for (Bidder bidder : worksheet.getTakeoff().getBidders()) {
 					List<QuoteMailTracker> trackers = getEntityManager()
 							.createNamedQuery("QuoteMailTracker.getByWsBidderAndTakeoffId")
 							.setParameter("takeoffId", takeoff.getId()).setParameter("worksheetId", worksheetId)
-							.setParameter("bidderId", bidder.getId())
-							.getResultList();
+							.setParameter("bidderId", bidder.getId()).getResultList();
 					if (trackers != null && !trackers.isEmpty()) {
 						qmt = trackers.get(0);
 						qmt.setMailSentCount(qmt.getMailSentCount() + 1);

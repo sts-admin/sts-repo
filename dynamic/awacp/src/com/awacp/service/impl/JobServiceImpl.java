@@ -300,15 +300,15 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 	@Transactional
 	public String jobFinalUpdate(Long jobId, Long userId) {
 		JobOrder jo = getJobOrder(jobId);
+		jo.setAuditMessage("Final Update of the Job with ID: " + jo.getOrderNumber());
+		jo.setUpdatedById(userId);
 		User user = getEntityManager().find(User.class, userId);
-		if (jo != null) {
-			jo.setSalesPersonId(user.getId());
-			jo.setFinalUpdate(true);
-			getEntityManager().merge(jo);
-			getEntityManager().flush();
-			return "success";
-		}
-		return "fail";
+		jo.setSalesPersonId(user.getId());
+		jo.setFinalUpdate(true);
+		getEntityManager().merge(jo);
+		getEntityManager().flush();
+		return "success";
+
 	}
 
 	@Override
@@ -404,15 +404,29 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 			sb.append(" AND t.salesPersonId IS NULL");
 			countQuery.append(" AND t.salesPersonId IS NULL");
 		}
-		sb.append(" AND t.finalUpdate =:finalUpdate");
-		countQuery.append(" AND t.finalUpdate =:finalUpdate");
+		if (jobOrder.getFinalUpdateStatus() != null && !jobOrder.getFinalUpdateStatus().isEmpty()) {
+			sb.append(" AND t.finalUpdate =:finalUpdate");
+			countQuery.append(" AND t.finalUpdate =:finalUpdate");
+		}
+
+		if (jobOrder.getJobStatus() != null && !jobOrder.getJobStatus().isEmpty()) {
+			sb.append(" AND t.cancelled =:cancelled");
+			countQuery.append(" AND t.cancelled =:cancelled");
+		}
 
 		Query query = getEntityManager().createQuery(sb.toString());
 		Query query2 = getEntityManager().createQuery(countQuery.toString());
 
-		query.setParameter("finalUpdate", jobOrder.isFinalUpdate());
-		query2.setParameter("finalUpdate", jobOrder.isFinalUpdate());
-
+		if (jobOrder.getFinalUpdateStatus() != null && !jobOrder.getFinalUpdateStatus().isEmpty()) {
+			boolean fs = Boolean.valueOf(jobOrder.getFinalUpdateStatus()).booleanValue();
+			query.setParameter("finalUpdate", fs);
+			query2.setParameter("finalUpdate", fs);
+		}
+		if (jobOrder.getJobStatus() != null && !jobOrder.getJobStatus().isEmpty()) {
+			boolean js = Boolean.valueOf(jobOrder.getJobStatus()).booleanValue();
+			query.setParameter("cancelled", js);
+			query2.setParameter("cancelled", js);
+		}
 		query.setParameter("archived", jobOrder.isArchived());
 		query2.setParameter("archived", jobOrder.isArchived());
 
@@ -569,5 +583,43 @@ public class JobServiceImpl extends CommonServiceImpl<JobOrder> implements JobSe
 			}
 		}
 		return totalCost;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public String cancelJobOrder(Long jobId) {
+		List<OrderBook> obs = getEntityManager().createNamedQuery("OrderBook.getByJobOrderId")
+				.setParameter("jobId", jobId).getResultList();
+		if (obs != null && !obs.isEmpty()) {
+			for (OrderBook ob : obs) {
+				if (!orderBookService.cancelOrderBook(ob.getId()).equalsIgnoreCase("success")) {
+					return "failed";
+				}
+			}
+		}
+		JobOrder jo = getJobOrder(jobId);
+		jo.setCancelled(true);
+		updateJobOrder(jo);
+		return "success";
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public String uncancellJobOrder(Long jobId) {
+		List<OrderBook> obs = getEntityManager().createNamedQuery("OrderBook.getByJobOrderId")
+				.setParameter("jobId", jobId).getResultList();
+		if (obs != null && !obs.isEmpty()) {
+			for (OrderBook ob : obs) {
+				if (!orderBookService.uncancellOrderBook(ob.getId()).equalsIgnoreCase("success")) {
+					return "failed";
+				}
+			}
+		}
+		JobOrder jo = getJobOrder(jobId);
+		jo.setCancelled(false);
+		updateJobOrder(jo);
+		return "success";
 	}
 }

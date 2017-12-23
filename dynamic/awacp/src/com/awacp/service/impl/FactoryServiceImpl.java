@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awacp.entity.Factory;
 import com.awacp.service.FactoryService;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.impl.CommonServiceImpl;
 
 public class FactoryServiceImpl extends CommonServiceImpl<Factory> implements FactoryService {
@@ -28,7 +29,11 @@ public class FactoryServiceImpl extends CommonServiceImpl<Factory> implements Fa
 
 	@Override
 	@Transactional
-	public Factory saveFactory(Factory factory) {
+	public Factory saveFactory(Factory factory) throws StsDuplicateException {
+		if (isExistsByName(factory.getFactoryCode(), "factoryCode", factory.getClass().getSimpleName(),
+				getEntityManager())) {
+			throw new StsDuplicateException("duplicate_code");
+		}
 
 		if (factory.getId() != null) {
 			getEntityManager().merge(factory);

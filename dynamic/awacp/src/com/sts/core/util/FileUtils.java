@@ -17,7 +17,7 @@ import com.sts.core.exception.StsCoreRuntimeException;
 
 public class FileUtils {
 
-	public static String baseFolderPath = AppPropConfig.resourceReadPath;
+	public static String baseFolderPath = AppPropConfig.acResourceWriteDir;
 
 	/**
 	 * Read file(text) contents as String

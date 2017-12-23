@@ -23,7 +23,9 @@ import com.sts.core.entity.File;
 @XmlRootElement
 @NamedQueries({ @NamedQuery(name = "Trucker.listAll", query = "SELECT b FROM Trucker b WHERE b.archived = 'false'"),
 		@NamedQuery(name = "Trucker.countAll", query = "SELECT COUNT(b.id) FROM Trucker b WHERE b.archived = 'false'"),
-		@NamedQuery(name = "Trucker.getByEmail", query = "SELECT b FROM Trucker b WHERE b.archived = 'false' AND LOWER(b.email) = :email") })
+		@NamedQuery(name = "Trucker.getByEmail", query = "SELECT b FROM Trucker b WHERE b.archived = 'false' AND LOWER(b.email) = :email"),
+		@NamedQuery(name = "Trucker.getByCode", query = "SELECT b FROM Trucker b WHERE b.archived = 'false' AND LOWER(b.code) = :code")
+})
 public class Trucker extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

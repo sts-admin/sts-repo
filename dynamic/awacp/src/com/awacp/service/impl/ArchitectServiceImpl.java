@@ -17,7 +17,7 @@ import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class ArchitectServiceImpl extends CommonServiceImpl<Architect>implements ArchitectService {
+public class ArchitectServiceImpl extends CommonServiceImpl<Architect> implements ArchitectService {
 	private EntityManager entityManager;
 
 	@Autowired
@@ -61,6 +61,10 @@ public class ArchitectServiceImpl extends CommonServiceImpl<Architect>implements
 				&& isExistsByEmail(architect.getEmail(), "Architect", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
 		}
+
+		if (isExistsByName(architect.getName(), "name", architect.getClass().getSimpleName(), getEntityManager())) {
+			throw new StsDuplicateException("duplicate_name");
+		}
 		getEntityManager().persist(architect);
 		getEntityManager().flush();
 		return architect;
@@ -86,8 +90,8 @@ public class ArchitectServiceImpl extends CommonServiceImpl<Architect>implements
 	public List<Architect> filter(String keyword) {
 		if (keyword == null || keyword.isEmpty())
 			return null;
-		return getEntityManager().createNamedQuery("Architect.filterByNameMatch").setParameter("keyword", "%" + keyword.toLowerCase() + "%")
-				.getResultList();
+		return getEntityManager().createNamedQuery("Architect.filterByNameMatch")
+				.setParameter("keyword", "%" + keyword.toLowerCase() + "%").getResultList();
 	}
 
 	@Override

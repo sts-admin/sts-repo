@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.sts.core.entity.BaseEntity;
 
 /**
- * Entity implementation class for Entity: PageSetting
+ * Entity implementation class for Entity: Orbf
  *
  */
 @Entity
@@ -36,6 +36,10 @@ public class Orbf extends BaseEntity {
 	private String trackingLinkThree;
 	private Calendar estDate;
 	private String comment;
+
+	private String statusOne;
+	private String statusTwo;
+	private String statusThree;
 
 	public Orbf() {
 		super();
@@ -125,6 +129,30 @@ public class Orbf extends BaseEntity {
 
 	public void setOrderBookId(Long orderBookId) {
 		this.orderBookId = orderBookId;
+	}
+
+	public String getStatusOne() {
+		return statusOne;
+	}
+
+	public String getStatusTwo() {
+		return statusTwo;
+	}
+
+	public String getStatusThree() {
+		return statusThree;
+	}
+
+	public void setStatusOne(String statusOne) {
+		this.statusOne = statusOne;
+	}
+
+	public void setStatusTwo(String statusTwo) {
+		this.statusTwo = statusTwo;
+	}
+
+	public void setStatusThree(String statusThree) {
+		this.statusThree = statusThree;
 	}
 
 }

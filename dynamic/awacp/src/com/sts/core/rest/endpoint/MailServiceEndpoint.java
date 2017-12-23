@@ -28,61 +28,6 @@ public class MailServiceEndpoint extends CrossOriginFilter {
 	@Autowired
 	private UserService userService;
 
-	
-
-	@GET
-	@Path("/sendSignUpOTPMail")
-	@Produces(MediaType.APPLICATION_JSON)
-	public StsCoreResponse sendSignUpOTPMail(@QueryParam("userFullName") String userFullName,
-			@QueryParam("email") String email, @QueryParam("verificationCode") String verificationCode,
-			@Context HttpServletResponse servletResponse) throws Exception {
-		return sendSignupMail(userFullName, email, verificationCode, "OTP");
-	}
-
-	@GET
-	@Path("/sendSignUpVerificationMail")
-	@Produces(MediaType.APPLICATION_JSON)
-	public StsCoreResponse sendSignUpVerificationMail(@QueryParam("userFullName") String userFullName,
-			@QueryParam("email") String email, @QueryParam("verificationCode") String verificationCode,
-			@Context HttpServletResponse servletResponse) throws Exception {
-		return sendSignupMail(userFullName, email, verificationCode, "MAIL");
-	}
-
-	private StsCoreResponse sendSignupMail(String userFullName, String email, String verificationCode, String mailType)
-			throws Exception {
-		StsCoreResponse StsCoreResponse = null;
-
-		String emailVerificationUrl = AppPropConfig.emailVerificationUrl;
-		String appName = AppPropConfig.appName;
-		String projectTeamName = AppPropConfig.projectTeamName;
-		String mailSubject = "Activate " + appName + " Account";
-		String verificationUrl = "";
-
-		User user = userService.getUserDetails(email);
-		if (user == null) {
-			StsCoreResponse = new StsCoreResponse(StsCoreConstant.USER_NOT_FOUND);
-		} else {
-			String event = StsCoreConstant.MANUAL_SIGNUP_EMAIL_EVENT;
-			String mailTemplate = null;
-			if (mailType.equals("MAIL")) {
-				verificationUrl = emailVerificationUrl + verificationCode;
-				mailTemplate = StsCoreConstant.SIGNUP_SUCCESS_MAIL_MESSAGE;
-			} else {
-				verificationUrl = "OTP= " + verificationCode;
-				mailTemplate = StsCoreConstant.SIGNUP_SUCCESS_OTP_MESSAGE;
-			}
-			String content = String.format(mailTemplate, userFullName, appName, verificationUrl, projectTeamName);
-			boolean status = mailService.sendMail(email, mailSubject, content, event, "");
-			if (status == true) {
-				StsCoreResponse = new StsCoreResponse(StsCoreConstant.MAIL_SEND_SUCCESS);
-			} else {
-				StsCoreResponse = new StsCoreResponse(StsCoreConstant.MAIL_SEND_FAIL);
-			}
-		}
-
-		return StsCoreResponse;
-	}
-
 	@GET
 	@Path("/sendPasswordResetMail")
 	@Produces(MediaType.APPLICATION_JSON)

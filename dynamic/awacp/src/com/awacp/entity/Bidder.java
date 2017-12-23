@@ -41,6 +41,7 @@ public class Bidder extends BaseEntity {
 
 	// Transient
 	private String salesPersonName;
+	private Long currentUserId;
 
 	public Bidder() {
 		super();
@@ -250,6 +251,15 @@ public class Bidder extends BaseEntity {
 		} else if (!this.getId().equals(other.getId()))
 			return false;
 		return true;
+	}
+	
+	@Transient
+	public Long getCurrentUserId() {
+		return currentUserId;
+	}
+
+	public void setCurrentUserId(Long currentUserId) {
+		this.currentUserId = currentUserId;
 	}
 
 }

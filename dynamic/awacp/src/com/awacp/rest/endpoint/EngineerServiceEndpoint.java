@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.awacp.entity.Engineer;
 import com.awacp.service.EngineerService;
 import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.constant.StsErrorCode;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
@@ -64,10 +65,11 @@ public class EngineerServiceEndpoint extends CrossOriginFilter {
 			Integer code = 500;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
-				code = 1002;
+				code = StsErrorCode.DUPLICATE_EMAIL;
+			} else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_NAME.toLowerCase())) {
+				code = StsErrorCode.DUPLICATE_NAME;
 			}
 			servletResponse.sendError(code, message);
-
 		}
 		return object;
 	}
@@ -91,7 +93,6 @@ public class EngineerServiceEndpoint extends CrossOriginFilter {
 		}
 		return object;
 	}
-	
 
 	@GET
 	@Path("/deleteEngineer/{id}")

@@ -54,6 +54,8 @@ public class JobOrder extends BaseEntity {
 
 	private boolean finalUpdate;
 
+	private String finalUpdateStatus;
+
 	// Transient
 	private String salesPersonName;
 	private String recepientSpName;
@@ -77,6 +79,8 @@ public class JobOrder extends BaseEntity {
 	private int joTaxDocCount;
 	private int joPoDocCount;
 	private int joUiDocCount;
+
+	private boolean cancelled = false;
 
 	// Transient
 	private int year;
@@ -540,6 +544,23 @@ public class JobOrder extends BaseEntity {
 
 	public void setTotalBillableAmount(Double totalBillableAmount) {
 		this.totalBillableAmount = totalBillableAmount;
+	}
+
+	@Transient
+	public String getFinalUpdateStatus() {
+		return finalUpdateStatus;
+	}
+
+	public void setFinalUpdateStatus(String finalUpdateStatus) {
+		this.finalUpdateStatus = finalUpdateStatus;
+	}
+
+	public boolean isCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 
 }

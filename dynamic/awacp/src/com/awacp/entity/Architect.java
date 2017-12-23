@@ -21,8 +21,7 @@ import com.sts.core.entity.BaseEntity;
 @NamedQueries({ @NamedQuery(name = "Architect.listAll", query = "SELECT a FROM Architect a WHERE a.archived = 'false'"),
 		@NamedQuery(name = "Architect.countAll", query = "SELECT COUNT(a.id) FROM Architect a WHERE a.archived = 'false'"),
 		@NamedQuery(name = "Architect.getByEmail", query = "SELECT a FROM Architect a WHERE a.archived = 'false' AND LOWER(a.email) = :email"),
-		@NamedQuery(name = "Architect.filterByNameMatch", query = "SELECT new com.awacp.entity.Architect(a.id, a.name) FROM Architect a WHERE a.archived = 'false' AND LOWER(a.name) LIKE :keyword")
-})
+		@NamedQuery(name = "Architect.filterByNameMatch", query = "SELECT new com.awacp.entity.Architect(a.id, a.name) FROM Architect a WHERE a.archived = 'false' AND LOWER(a.name) LIKE :keyword") })
 
 public class Architect extends BaseEntity {
 
@@ -224,5 +223,6 @@ public class Architect extends BaseEntity {
 		if (this.getZip() == null) {
 			this.fax = "";
 		}
+
 	}
 }

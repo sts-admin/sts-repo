@@ -1,6 +1,16 @@
 package com.sts.core.constant;
 
 public class StsCoreConstant {
+	public static final String SUCCESS = "success";
+	public static final String UNKNOWN_SERVICE_PROVIDER = "unknown_service_provider";
+	public static final String ERROR = "error";
+	public static final String NO_STATUS = "no_status";
+	public static final String SHIPMENT_TRACKING_ERROR = "shipment_tracking_error";
+	public static final String NO_TRACKING_SEARCH_FORM = "no_tracking_search_form";
+	public static final String UNABLE_TO_CONNECT = "unable_to_connect";
+	public static final String UNABLE_TO_PARSE_CONTENT = "unable_to_parse_content";
+	public static final String UNABLE_TO_CONNECT_POD = "unable_to_connect_pod";
+	public static final String UNABLE_TO_PARSE_POD_CONTENT = "unable_to_parse_pod_content";
 	public static final String INV_MODE_INV = "inv";
 	public static final String INV_MODE_BILL = "bill";
 	public static final String INV_MODE_PTL = "ptl";
@@ -16,28 +26,28 @@ public class StsCoreConstant {
 	public static final String DOC_QUOTE_PDF = "QUOTE_PDF_DOC";
 	public static final String DOC_QUOTE_XLS = "QUOTE_XLS_DOC";
 	public static final String DOC_QUOTE_VIBRO = "QUOTE_VIBRO_DOC";
-	
+
 	public static final String DOC_OB_A_DOC = "OB_A_DOC";
 	public static final String DOC_OB_Y_XLS = "OB_Y_XLS";
 	public static final String DOC_OB_ACK_PDF = "OB_ACK_PDF";
 	public static final String DOC_OB_FRT_PDF = "OB_FRT_PDF";
-	
-	public static final String DOC_JO_ONE = "JO_ONE"; //A
-	public static final String DOC_JO_TWO = "JO_TWO";  //V
-	public static final String DOC_JO_THREE = "JO_THREE"; //E
-	public static final String DOC_JO_FOUR = "JO_FOUR"; //T
-	public static final String DOC_JO_FIVE = "JO_FIVE"; //Y
-	public static final String DOC_JO_SIX = "JO_SIX"; //X
+
+	public static final String DOC_JO_ONE = "JO_ONE"; // A
+	public static final String DOC_JO_TWO = "JO_TWO"; // V
+	public static final String DOC_JO_THREE = "JO_THREE"; // E
+	public static final String DOC_JO_FOUR = "JO_FOUR"; // T
+	public static final String DOC_JO_FIVE = "JO_FIVE"; // Y
+	public static final String DOC_JO_SIX = "JO_SIX"; // X
 	public static final String DOC_JO_XLS = "JO_XLS";
 	public static final String DOC_JO_DOC = "JO_DOC";
 	public static final String DOC_JO_TAX = "JO_TAX";
 	public static final String DOC_JO_PO = "JO_PO";
 	public static final String DOC_JO_IU = "JO_IU";
-	
-	
+
 	public static final String DOC_TAKEOFF_DRAWING = "TAKEOFF_DRAWING_DOC";
 	public static final String DOC_TAKEOFF_VIBRO = "TAKEOFF_VIBRO_DOC";
 	public static final String DUPLICATE_EMAIL = "duplicate_email";
+	public static final String DUPLICATE_NAME = "duplicate_name";
 	public static final String DUPLICATE_TEMPLATE = "duplicate_template";
 	public static final String DUPLICATE_MULTIPLIER = "duplicate_multiplier";
 	public static final String DUPLICATE_USERNAME = "duplicate_username";

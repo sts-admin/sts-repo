@@ -1,6 +1,7 @@
 package com.awacp.rest.endpoint;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.awacp.entity.ClaimFollowup;
 import com.awacp.entity.Orbf;
 import com.awacp.entity.OrderBook;
 import com.awacp.service.MailService;
@@ -28,6 +30,32 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	private MailService mailService;
+
+	@POST
+	@Path("/saveClaimFollowup")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ClaimFollowup saveClaimFollowup(ClaimFollowup saveClaimFollowup,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.saveClaimFollowup(saveClaimFollowup);
+
+	}
+
+	@GET
+	@Path("/getClaimFollowup/{claimId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ClaimFollowup getClaimFollowup(@PathParam("claimId") Long claimId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.getClaimFollowup(claimId);
+	}
+
+	@GET
+	@Path("/getFollowupsByClaim/{claimId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ClaimFollowup> getFollowupsByClaim(@PathParam("claimId") Long claimId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.getFollowupsByClaim(claimId);
+	}
 
 	@GET
 	@Path("/sendPremiumOrderMail/{emailOrId}/{source}/{jobOrderId}")
@@ -86,6 +114,14 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 	public Orbf getOrbfByOrderBook(@PathParam("orderBookId") Long orderBookId,
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.orderBookService.getOrbf(orderBookId);
+	}
+
+	@GET
+	@Path("/getOrderBookByNumber/{obNumber}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public OrderBook getOrderBookByNumber(@PathParam("obNumber") String obNumber,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.getOrderBook(obNumber);
 	}
 
 	@GET

@@ -2,8 +2,10 @@ package com.awacp.service;
 
 import java.util.List;
 
+import com.awacp.entity.ClaimFollowup;
 import com.awacp.entity.Orbf;
 import com.awacp.entity.OrderBook;
+import com.awacp.entity.ShipmentStatus;
 import com.sts.core.dto.StsResponse;
 
 public interface OrderBookService {
@@ -38,5 +40,18 @@ public interface OrderBookService {
 
 	public OrderBook fetchPremiumOrder(Long orderBookId);
 
+	public OrderBook getOrderBook(String orderBookNumber);
+
+	public List<ShipmentStatus> getShipmentStatus(Long orderBookId);
+
+	public ShipmentStatus saveShipmentStatus(ShipmentStatus shipmentStatus);
+
+	public ClaimFollowup saveClaimFollowup(ClaimFollowup cf);
+
+	public ClaimFollowup getClaimFollowup(Long id);
 	
+	public List<ClaimFollowup> getFollowupsByClaim(Long claimId);
+
+	public List<ClaimFollowup> getFollowupsByOrderBook(Long orderBookId);
+
 }

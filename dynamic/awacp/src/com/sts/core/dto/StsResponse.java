@@ -12,6 +12,7 @@ import com.awacp.entity.Bidder;
 import com.awacp.entity.Contractor;
 import com.awacp.entity.Engineer;
 import com.awacp.entity.Factory;
+import com.awacp.entity.FactoryClaim;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.InvMultiplier;
 import com.awacp.entity.ItemShipped;
@@ -29,9 +30,12 @@ import com.awacp.entity.ShipTo;
 import com.awacp.entity.ShippedVia;
 import com.awacp.entity.Spec;
 import com.awacp.entity.SplInventory;
+import com.awacp.entity.SystemLog;
 import com.awacp.entity.Takeoff;
 import com.awacp.entity.TaxEntry;
+import com.awacp.entity.Tracking;
 import com.awacp.entity.Trucker;
+import com.awacp.entity.TruckerClaim;
 import com.sts.core.entity.User;
 
 @XmlRootElement
@@ -39,7 +43,7 @@ import com.sts.core.entity.User;
 		ShipTo.class, ShippedVia.class, QuoteNote.class, ItemShipped.class, MnD.class, MnDType.class, Product.class,
 		GeneralContractor.class, Pdni.class, Trucker.class, JInventory.class, SbcInventory.class, SplInventory.class,
 		AwfInventory.class, AwInventory.class, MarketingTemplate.class, InvMultiplier.class, TaxEntry.class,
-		JobOrder.class, OrderBook.class, Factory.class })
+		JobOrder.class, OrderBook.class, Factory.class, TruckerClaim.class, FactoryClaim.class, Tracking.class, SystemLog.class })
 public class StsResponse<T> {
 	private String status;
 	private String message;

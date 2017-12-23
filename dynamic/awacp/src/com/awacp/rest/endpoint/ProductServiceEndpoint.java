@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.awacp.entity.Product;
 import com.awacp.service.ProductService;
+import com.sts.core.constant.StsCoreConstant;
+import com.sts.core.constant.StsErrorCode;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsCoreException;
 import com.sts.core.web.filter.CrossOriginFilter;
 
 public class ProductServiceEndpoint extends CrossOriginFilter {
@@ -45,7 +48,19 @@ public class ProductServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Product saveProduct(Product product, @Context HttpServletResponse servletResponse) throws Exception {
-		return this.productService.saveProduct(product);
+		Product object = null;
+		try {
+			object = this.productService.saveProduct(product);
+		} catch (StsCoreException e) {
+			Integer code = StsErrorCode.DEFAULT_CODE;
+			final String message = e.getMessage().toLowerCase();
+			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_NAME)) {
+				code = StsErrorCode.DUPLICATE_NAME;
+			}
+			servletResponse.sendError(code, message);
+
+		}
+		return object;
 	}
 
 	@POST
@@ -55,7 +70,6 @@ public class ProductServiceEndpoint extends CrossOriginFilter {
 	public Product updateProduct(Product product, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.productService.updateProduct(product);
 	}
-	
 
 	@GET
 	@Path("/deleteProduct/{id}")

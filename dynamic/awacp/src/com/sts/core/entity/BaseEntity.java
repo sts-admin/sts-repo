@@ -3,20 +3,24 @@ package com.sts.core.entity;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 import javax.persistence.Version;
+
+import com.awacp.entity.listener.AwacpEntityListener;
 
 /**
  * Entity implementation class for Entity: BaseEntity
  *
  */
 @MappedSuperclass
-
+@EntityListeners(AwacpEntityListener.class)
 public class BaseEntity implements Serializable {
 
 	private Long id;
@@ -27,6 +31,8 @@ public class BaseEntity implements Serializable {
 	private Long version;
 	private boolean archived;
 	private static final long serialVersionUID = 1L;
+
+	private String auditMessage;
 
 	public BaseEntity() {
 		super();
@@ -99,6 +105,15 @@ public class BaseEntity implements Serializable {
 	@PreUpdate
 	public void updateAuditInfo() {
 		setDateUpdated(Calendar.getInstance());
+	}
+
+	@Transient
+	public String getAuditMessage() {
+		return auditMessage;
+	}
+
+	public void setAuditMessage(String auditMessage) {
+		this.auditMessage = auditMessage;
 	}
 
 }

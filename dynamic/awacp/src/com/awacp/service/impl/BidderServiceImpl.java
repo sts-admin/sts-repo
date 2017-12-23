@@ -14,7 +14,7 @@ import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.UserService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class BidderServiceImpl extends CommonServiceImpl<Bidder>implements BidderService {
+public class BidderServiceImpl extends CommonServiceImpl<Bidder> implements BidderService {
 	@Autowired
 	UserService userService;
 
@@ -34,6 +34,7 @@ public class BidderServiceImpl extends CommonServiceImpl<Bidder>implements Bidde
 		return initAdditionalInfo(listAll(pageNumber, pageSize, Bidder.class.getSimpleName(), getEntityManager()));
 
 	}
+
 	private StsResponse<Bidder> initAdditionalInfo(StsResponse<Bidder> results) {
 		if (results.getResults() == null)
 			return null;
@@ -56,6 +57,9 @@ public class BidderServiceImpl extends CommonServiceImpl<Bidder>implements Bidde
 	public Bidder saveBidder(Bidder bidder) throws StsDuplicateException {
 		if (isExistsByEmail(bidder.getEmail(), "Bidder", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
+		}
+		if (isExistsByName(bidder.getName(), "name", bidder.getClass().getSimpleName(), getEntityManager())) {
+			throw new StsDuplicateException("duplicate_name");
 		}
 		getEntityManager().persist(bidder);
 		getEntityManager().flush();

@@ -68,6 +68,8 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
 				code = StsErrorCode.DUPLICATE_EMAIL;
+			} else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_NAME)) {
+				code = StsErrorCode.DUPLICATE_NAME;
 			}
 			servletResponse.sendError(code, message);
 
@@ -85,7 +87,7 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 		try {
 			object = this.architectService.updateArchitect(architect);
 		} catch (StsCoreException e) {
-			Integer code =  StsErrorCode.DEFAULT_CODE;
+			Integer code = StsErrorCode.DEFAULT_CODE;
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
 				code = StsErrorCode.DUPLICATE_EMAIL;
@@ -95,7 +97,7 @@ public class ArchitectServiceEndpoint extends CrossOriginFilter {
 		}
 		return object;
 	}
-	
+
 	@GET
 	@Path("/deleteArchitect/{id}")
 	@Produces(MediaType.APPLICATION_JSON)

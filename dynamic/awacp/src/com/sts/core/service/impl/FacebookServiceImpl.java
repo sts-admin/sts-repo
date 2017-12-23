@@ -135,7 +135,7 @@ public class FacebookServiceImpl implements FacebookService {
 
 			status.setUserName(profile.getEmail());
 			status.setSignedUpUserId(profile.getFacebookId());
-			FileUtils.writeBinaryFileContent(AppPropConfig.resourceWritePath, code + ".png",
+			FileUtils.writeBinaryFileContent(AppPropConfig.acResourceWriteDir, code + ".png",
 					facebook.userOperations().getUserProfileImage());
 
 		} else {

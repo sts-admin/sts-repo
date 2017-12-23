@@ -22,9 +22,13 @@ public interface JobService {
 	public JobOrder searchQuoteForJobOrder(String quoteId) throws StsResourceNotFoundException;
 
 	public JobOrder getJobOrderByOrderId(String orderId);
-	
+
 	public String jobFinalUpdate(Long jobId, Long userId);
-	
+
 	public StsResponse<JobOrder> generateJobOrderReport(JobOrder jobOrder);
+
+	public String cancelJobOrder(Long jobId);
+
+	public String uncancellJobOrder(Long jobId);
 
 }

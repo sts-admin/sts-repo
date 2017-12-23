@@ -10,6 +10,9 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.JobOrder;
+import com.awacp.entity.OrderBook;
+import com.awacp.entity.Takeoff;
 import com.sts.core.entity.File;
 import com.sts.core.entity.User;
 import com.sts.core.service.FileService;
@@ -131,7 +134,7 @@ public class FileServiceImpl implements FileService {
 			User user = null;
 			for (File file : files) {
 				file.setUserCode("---");
-				if(file.getCreatedById() == null){
+				if (file.getCreatedById() == null) {
 					continue;
 				}
 				user = userService.findUser(file.getCreatedById());
@@ -155,6 +158,58 @@ public class FileServiceImpl implements FileService {
 				return ((Long) o).intValue();
 		}
 		return 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<File> listFilesBySourceMatchAndId(String fileSource, String sourceId) {
+		Long fileSourceId = null;
+		if (fileSource.equalsIgnoreCase("takeoff")) {
+			List<Takeoff> results = getEntityManager().createNamedQuery("Takeoff.getTakeoffByTakeoffId")
+					.setParameter("takeoffId", sourceId).getResultList();
+			if (results != null && !results.isEmpty()) {
+				fileSourceId = results.get(0).getId();
+			}
+		}else if (fileSource.equalsIgnoreCase("quote")) {
+			List<Takeoff> results = getEntityManager().createNamedQuery("Takeoff.getTakeoffByQuoteId")
+					.setParameter("quoteId", sourceId).getResultList();
+			if (results != null && !results.isEmpty()) {
+				fileSourceId = results.get(0).getId();
+			}
+		}else if (fileSource.equalsIgnoreCase("joborder")) {
+			List<JobOrder> results = getEntityManager().createNamedQuery("JobOrder.getByOrderId")
+					.setParameter("orderNumber", sourceId.toLowerCase()).getResultList();
+			if (results != null && !results.isEmpty()) {
+				fileSource = "jo";
+				fileSourceId = results.get(0).getId();
+			}
+		}else if (fileSource.equalsIgnoreCase("orderbook")) {
+			List<OrderBook> results = getEntityManager().createNamedQuery("OrderBook.getByNumber")
+					.setParameter("orderBookNumber", sourceId).getResultList();
+			if (results != null && !results.isEmpty()) {
+				fileSource = "ob";
+				fileSourceId = results.get(0).getId();
+			}
+		}
+		if (fileSourceId == null) {
+			return null;
+		}
+		return getEntityManager().createNamedQuery("File.findAllBySourceMatchAndId")
+				.setParameter("keyword", "" + fileSource.toLowerCase() + "%").setParameter("fileSourceId", fileSourceId)
+				.getResultList();
+	}
+
+	@Transactional
+	@Override
+	public String archiveFile(Long fileId) {
+		File file = getEntityManager().find(File.class, fileId);
+		if (file != null) {
+			file.setArchived(true);
+			getEntityManager().merge(file);
+			getEntityManager().flush();
+			return "success";
+		}
+		return "fail";
 	}
 
 }

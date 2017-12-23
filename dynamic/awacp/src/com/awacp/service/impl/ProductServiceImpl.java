@@ -10,9 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.awacp.entity.Product;
 import com.awacp.service.ProductService;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class ProductServiceImpl extends CommonServiceImpl<Product>implements ProductService {
+public class ProductServiceImpl extends CommonServiceImpl<Product> implements ProductService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -38,7 +39,11 @@ public class ProductServiceImpl extends CommonServiceImpl<Product>implements Pro
 
 	@Override
 	@Transactional
-	public Product saveProduct(Product Product) {
+	public Product saveProduct(Product Product) throws StsDuplicateException {
+		if (isExistsByName(Product.getProductName(), "productName", Product.getClass().getSimpleName(),
+				getEntityManager())) {
+			throw new StsDuplicateException("duplicate_name");
+		}
 		getEntityManager().persist(Product);
 		getEntityManager().flush();
 		return Product;

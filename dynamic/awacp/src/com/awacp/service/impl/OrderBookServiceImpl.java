@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.AwInventory;
 import com.awacp.entity.AwfInventory;
+import com.awacp.entity.ClaimFollowup;
 import com.awacp.entity.Contractor;
 import com.awacp.entity.Factory;
 import com.awacp.entity.Invoice;
@@ -33,6 +34,7 @@ import com.awacp.entity.OrderBookInvItem;
 import com.awacp.entity.ProfitSheetItem;
 import com.awacp.entity.SbcInventory;
 import com.awacp.entity.ShipTo;
+import com.awacp.entity.ShipmentStatus;
 import com.awacp.entity.SplInventory;
 import com.awacp.service.InvoiceService;
 import com.awacp.service.OrderBookService;
@@ -156,6 +158,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			Set<OrderBookInvItem> tmp = new HashSet<OrderBookInvItem>(obInvItems);
 			ob.setInvItems(tmp);
 		}
+		ob.setDeliveryStatuses(getShipmentStatus(ob.getId()));
 		return ob;
 	}
 
@@ -516,8 +519,8 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			query2.setParameter("orbf", orderBook.getOrbf().toLowerCase());
 		}
 		if (orderBook.getJobOrderNumber() != null && !orderBook.getJobOrderNumber().isEmpty()) {
-			query.setParameter("jobOrderNumber", orderBook.getJobOrderNumber().toLowerCase());
-			query2.setParameter("jobOrderNumber", orderBook.getJobOrderNumber().toLowerCase());
+			query.setParameter("jobOrderNumber", orderBook.getJobOrderNumber());
+			query2.setParameter("jobOrderNumber", orderBook.getJobOrderNumber());
 		}
 		if (orderBook.getComment() != null && !orderBook.getComment().isEmpty()) {
 			query.setParameter("comment", "%" + orderBook.getComment().toLowerCase() + "%");
@@ -598,6 +601,7 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			getEntityManager().persist(orbf);
 		}
 		OrderBook ob = getEntityManager().find(OrderBook.class, orbf.getOrderBookId());
+		ob.setEstDate(orbf.getEstDate());
 		ob.setOrbf(orbf.getOrbf());
 		getEntityManager().merge(ob);
 		getEntityManager().flush();
@@ -609,10 +613,32 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 	public Orbf getOrbf(Long orderBookId) {
 		List<Orbf> orbfs = getEntityManager().createNamedQuery("Orbf.findByOrderBookId")
 				.setParameter("orderBookId", orderBookId).getResultList();
+		List<ShipmentStatus> sss = getEntityManager().createNamedQuery("ShipmentStatus.findByOrderBook")
+				.setParameter("orderBookId", orderBookId).getResultList();
+		Orbf orbf = null;
 		if (orbfs != null && !orbfs.isEmpty()) {
-			return orbfs.get(0);
+			orbf = orbfs.get(0);
+		}else{
+			orbf = new Orbf();
 		}
-		return null;
+		if (sss != null && !sss.isEmpty() && orbf != null) {
+			if (sss.size() == 1) {
+				orbf.setStatusOne(sss.get(0).getCurrStatusText());
+				orbf.setTruckerOne(sss.get(0).getTruckerId());
+				orbf.setTrakingLinkOne(sss.get(0).getTrackingUrl());
+			}
+			if (sss.size() == 2) {
+				orbf.setStatusTwo(sss.get(1).getCurrStatusText());
+				orbf.setTruckerTwo(sss.get(1).getTruckerId());
+				orbf.setTrackingLinkTwo(sss.get(1).getTrackingUrl());
+			}
+			if (sss.size() == 3) {
+				orbf.setStatusThree(sss.get(2).getCurrStatusText());
+				orbf.setTruckerThree(sss.get(2).getTruckerId());
+				orbf.setTrackingLinkThree(sss.get(2).getTrackingUrl());
+			}
+		}
+		return orbf;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -689,11 +715,11 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 			item.setBillableCost(inv.getBillableCost());
 			item.setListPrice(inv.getUnitPrice());
 		} else if (item.getInvType().equalsIgnoreCase("sbc")) {
-			SplInventory inv = getEntityManager().find(SplInventory.class, item.getInvItemId());
+			SbcInventory inv = getEntityManager().find(SbcInventory.class, item.getInvItemId());
 			item.setBillableCost(inv.getBillableCost());
 			item.setListPrice(inv.getUnitPrice());
 		} else if (item.getInvType().equalsIgnoreCase("spl")) {
-			SbcInventory inv = getEntityManager().find(SbcInventory.class, item.getInvItemId());
+			SplInventory inv = getEntityManager().find(SplInventory.class, item.getInvItemId());
 			item.setBillableCost(inv.getBillableCost());
 			item.setListPrice(inv.getUnitPrice());
 		} else if (item.getInvType().equalsIgnoreCase("j")) {
@@ -719,6 +745,67 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 		}
 		ob.setSalesPersonName(userName);
 		// Set shipment status of this order
+		ob.setDeliveryStatuses(getShipmentStatus(ob.getId()));
 		return ob;
+	}
+
+	@Override
+	public OrderBook getOrderBook(String orderBookNumber) {
+		@SuppressWarnings("unchecked")
+		List<OrderBook> obs = getEntityManager().createNamedQuery("OrderBook.getByNumber")
+				.setParameter("orderBookNumber", orderBookNumber).getResultList();
+		if (obs != null && !obs.isEmpty()) {
+			OrderBook ob = obs.get(0);
+			ob.setDeliveryStatuses(getShipmentStatus(ob.getId()));
+			return ob;
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ShipmentStatus> getShipmentStatus(Long orderBookId) {
+		return getEntityManager().createNamedQuery("ShipmentStatus.findByOrderBook")
+				.setParameter("orderBookId", orderBookId).getResultList();
+	}
+
+	@Override
+	@Transactional
+	public ShipmentStatus saveShipmentStatus(ShipmentStatus shipmentStatus) {
+		if (shipmentStatus.getId() != null) {
+			return getEntityManager().merge(shipmentStatus);
+		}
+		getEntityManager().persist(shipmentStatus);
+		getEntityManager().flush();
+		return shipmentStatus;
+	}
+
+	@Transactional
+	@Override
+	public ClaimFollowup saveClaimFollowup(ClaimFollowup cf) {
+		if (cf.getId() != null) {
+			getEntityManager().merge(cf);
+		} else {
+			getEntityManager().persist(cf);
+		}
+		getEntityManager().flush();
+		return cf;
+	}
+
+	@Override
+	public ClaimFollowup getClaimFollowup(Long id) {
+		return getEntityManager().find(ClaimFollowup.class, id);
+	}
+
+	@Override
+	public List<ClaimFollowup> getFollowupsByOrderBook(Long orderBookId) {
+		throw new UnsupportedOperationException();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ClaimFollowup> getFollowupsByClaim(Long claimId) {
+		return getEntityManager().createNamedQuery("ClaimFollowup.getByClaim").setParameter("claimId", claimId)
+				.getResultList();
 	}
 }

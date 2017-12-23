@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.awacp.entity.AppSetting;
+import com.awacp.entity.SiteInfo;
 import com.awacp.entity.Bidder;
 import com.awacp.entity.GeneralContractor;
 import com.awacp.entity.JobOrder;
@@ -264,8 +264,8 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 		if (source.equalsIgnoreCase("id")) {
 			emailOrId = userService.findUser(Long.valueOf(emailOrId)).getEmail();
 		}
-		AppSetting setting = appSettingService.getAppSetting(1L);
-		String logoPath = AppPropConfig.resourceReadPath + "big_logo.png";
+		SiteInfo setting = appSettingService.getSiteInfo(1L);
+		String logoPath = AppPropConfig.acBaseUrl + "/" + AppPropConfig.acImageDir + "/" + "big_logo.png";
 		String orderDate = jo.getDateCreated() == null ? "" : DATE_FORMAT.format(ob.getDateCreated().getTime());
 		String estDate = ob.getEstDate() == null ? "" : DATE_FORMAT.format(ob.getEstDate().getTime());
 		String orderItems = "";
@@ -288,7 +288,6 @@ public class MailServiceImpl implements com.awacp.service.MailService {
 				jo.getJobName(), jo.getJobAddress(), ob.getCreatedByUserCode(), ob.getSalesPersonName(), estDate,
 				orderItems, shippingStatus);
 		String toAddress[] = new String[] { emailOrId };
-		System.err.println(content);
 		String subject = "AWACP ORDER CONFIRMATION :" + ob.getJobOrderNumber() + " : " + ob.getContractorName() == null
 				? "" : ob.getContractorName() + " : " + jo.getJobName();
 		return mailService.sendMail(toAddress, AppPropConfig.emailPremiumOrder, subject, content, "PREMIUM_ORDER",

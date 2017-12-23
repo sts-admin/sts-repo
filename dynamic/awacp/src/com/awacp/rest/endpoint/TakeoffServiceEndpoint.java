@@ -52,8 +52,8 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String generatePdfUrl(@PathParam("worksheetId") Long worksheetId) throws Exception {
 		String fileName = "quote-" + Calendar.getInstance().getTimeInMillis() + ".pdf";
-		String pdfFilePath = AppPropConfig.resourceWritePath + fileName;
-		String logoPath = AppPropConfig.resourceWritePath + "awacp_big_logo.png";
+		String pdfFilePath = AppPropConfig.acResourceWriteDir + "/" + fileName;
+		String logoPath = AppPropConfig.acImageLocalUrl + "/" + "awacp_big_logo.png";
 		Worksheet worksheet = worksheetService.getWorksheet(worksheetId);
 		Takeoff takeoff = worksheet.getTakeoff();
 		if (takeoff == null) {
@@ -69,8 +69,9 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 		 * responseBuilder.header("Content-Disposition", "inline; filename=" +
 		 * fileName);
 		 */
-		String fileUrl = AppPropConfig.resourceReadPath + fileName;
-		takeoffService.setQuotePdfGenerated(takeoff.getId(), pdfFilePath);
+		String fileUrl = AppPropConfig.acBaseUrl + "/" + AppPropConfig.acResourceDir + "/" + fileName;
+		System.err.println("Quote PDF file url: " + fileUrl);
+		takeoffService.setQuotePdfGenerated(takeoff.getId(), fileUrl);
 		return "{\"fileUrl\":\"" + fileUrl + "\"}";
 	}
 

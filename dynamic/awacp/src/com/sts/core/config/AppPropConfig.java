@@ -4,14 +4,19 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class AppPropConfig {
 
-	public static String appBaseUrl;
-	public static String resourceReadPath;
-	public static String resourceWritePath;
+	public static String asBaseUrl; // Application service base URL
+	public static String acBaseUrl; // Application client base URL
+	public static String acImageDir; // Application client image directory
+	public static String acResourceWriteDir; // Application client directory to
+												// write content / files etc
+	public static String acResourceDir; // Resource directory name in client
+										// application
+
+	public static String acImageLocalUrl;
+
 	public static String writeUsUrl;
 	public static String appName;
 	public static String projectTeamName;
-	public static String emailVerificationUrl;
-	
 
 	public static String emailCommonPassword;
 	public static String emailNewTakeoff;
@@ -31,36 +36,9 @@ public class AppPropConfig {
 	public static String emailLowinventoryJ;
 	public static String emailOrderConfirmation;
 	public static String emailNoReply;
-	
+
 	public static String emailPremiumOrder;
 	public static String emailPremiumOrderPassword;
-
-	/**
-	 * @param appBaseUrl
-	 *            the appBaseUrl to set
-	 */
-	@Value("${appBaseUrl}")
-	public void setAppBaseUrl(String appBaseUrl) {
-		AppPropConfig.appBaseUrl = appBaseUrl;
-	}
-
-	/**
-	 * @param appImageUrl
-	 *            the appImageUrl to set
-	 */
-	@Value("${resourceWritePath}")
-	public void setFileAccessPath(String fileAccessPath) {
-		AppPropConfig.resourceWritePath = fileAccessPath;
-	}
-
-	/**
-	 * @param appImageUrl
-	 *            the appImageUrl to set
-	 */
-	@Value("${resourceReadPath}")
-	public void setFileStoragePath(String fileStoragePath) {
-		AppPropConfig.resourceReadPath = fileStoragePath;
-	}
 
 	/**
 	 * @param writeUsUrl
@@ -87,25 +65,6 @@ public class AppPropConfig {
 	@Value("${projectTeamName}")
 	public void setProjectTeamName(String projectTeamName) {
 		AppPropConfig.projectTeamName = projectTeamName;
-	}
-
-	/**
-	 * @param emailVerificationUrl
-	 *            the emailVerificationUrl to set
-	 */
-	@Value("${emailVerificationUrl}")
-	public void setEmailVerificationUrl(String emailVerificationUrl) {
-		AppPropConfig.emailVerificationUrl = emailVerificationUrl;
-	}
-
-	@Value("${resourceReadPath}")
-	public void setResourceReadPath(String resourceReadPath) {
-		AppPropConfig.resourceReadPath = resourceReadPath;
-	}
-
-	@Value("${resourceWritePath}")
-	public void setResourceWritePath(String resourceWritePath) {
-		AppPropConfig.resourceWritePath = resourceWritePath;
 	}
 
 	@Value("${emailCommonPassword}")
@@ -207,7 +166,35 @@ public class AppPropConfig {
 	public void setEmailPremiumOrderPassword(String emailPremiumOrderPassword) {
 		AppPropConfig.emailPremiumOrderPassword = emailPremiumOrderPassword;
 	}
-	
-	
+
+	@Value("${asBaseUrl}")
+	public void setAsBaseUrl(String asBaseUrl) {
+		AppPropConfig.asBaseUrl = asBaseUrl;
+	}
+
+	@Value("${acBaseUrl}")
+	public void setAcBaseUrl(String acBaseUrl) {
+		AppPropConfig.acBaseUrl = acBaseUrl;
+	}
+
+	@Value("${acImageDir}")
+	public void setAcImageDir(String acImageDir) {
+		AppPropConfig.acImageDir = acImageDir;
+	}
+
+	@Value("${acResourceWriteDir}")
+	public void setAcResourceWriteDir(String acResourceWriteDir) {
+		AppPropConfig.acResourceWriteDir = acResourceWriteDir;
+	}
+
+	@Value("${acResourceDir}")
+	public void setAcResourceDir(String acResourceDir) {
+		AppPropConfig.acResourceDir = acResourceDir;
+	}
+
+	@Value("${acImageLocalUrl}")
+	public void setAcImageLocalUrl(String acImageLocalUrl) {
+		AppPropConfig.acImageLocalUrl = acImageLocalUrl;
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.awacp.entity;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import com.sts.core.entity.BaseEntity;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "OrderBook.getByJobOrderId", query = "SELECT ob FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId ORDER BY ob.dateCreated DESC"),
+		@NamedQuery(name = "OrderBook.getByNumber", query = "SELECT ob FROM OrderBook ob WHERE ob.archived = 'false' AND ob.orderBookNumber = :orderBookNumber ORDER BY ob.dateCreated DESC"),
 		@NamedQuery(name = "OrderBook.getCountByJobOrderId", query = "SELECT COUNT(ob.id) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId"),
 		@NamedQuery(name = "OrderBook.getCancelledCountByJobOrderId", query = "SELECT COUNT(ob.id) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId AND ob.cancelled = 'true'"),
 		@NamedQuery(name = "OrderBook.getOrderBookNumbersByOrderId", query = "SELECT new com.awacp.entity.OrderBook(ob.orderBookNumber) FROM OrderBook ob WHERE ob.archived = 'false' AND ob.jobId = :jobId") })
@@ -80,7 +82,9 @@ public class OrderBook extends BaseEntity {
 
 	private String po;
 
-	private String shipmentStatus = "Shipment is pending on this order.";
+	private boolean delivered;
+
+	private List<ShipmentStatus> deliveryStatuses;
 
 	public OrderBook() {
 		super();
@@ -429,13 +433,21 @@ public class OrderBook extends BaseEntity {
 		this.po = po;
 	}
 
-	@Transient
-	public String getShipmentStatus() {
-		return shipmentStatus;
+	public boolean isDelivered() {
+		return delivered;
 	}
 
-	public void setShipmentStatus(String shipmentStatus) {
-		this.shipmentStatus = shipmentStatus;
+	@Transient
+	public List<ShipmentStatus> getDeliveryStatuses() {
+		return deliveryStatuses;
+	}
+
+	public void setDelivered(boolean delivered) {
+		this.delivered = delivered;
+	}
+
+	public void setDeliveryStatuses(List<ShipmentStatus> deliveryStatuses) {
+		this.deliveryStatuses = deliveryStatuses;
 	}
 
 }

@@ -12,7 +12,7 @@ import com.sts.core.dto.StsResponse;
 import com.sts.core.exception.StsDuplicateException;
 import com.sts.core.service.impl.CommonServiceImpl;
 
-public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements TruckerService {
+public class TruckerServiceImpl extends CommonServiceImpl<Trucker> implements TruckerService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -43,10 +43,21 @@ public class TruckerServiceImpl extends CommonServiceImpl<Trucker>implements Tru
 				&& isExistsByEmail(trucker.getEmail(), "Trucker", getEntityManager())) {
 			throw new StsDuplicateException("duplicate_email");
 		}
+
+		if (isExistsByName(trucker.getName(), "name", trucker.getClass().getSimpleName(), getEntityManager())) {
+			throw new StsDuplicateException("duplicate_name");
+		}
+
 		getEntityManager().persist(trucker);
 		getEntityManager().flush();
 		return trucker;
 	}
+	
+	
+	
+	
+	
+	
 
 	@Override
 	@Transactional

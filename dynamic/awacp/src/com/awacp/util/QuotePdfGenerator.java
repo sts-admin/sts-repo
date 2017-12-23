@@ -3,16 +3,10 @@ package com.awacp.util;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
-import com.awacp.entity.AppSetting;
-import com.awacp.entity.MnD;
-import com.awacp.entity.MnDType;
 import com.awacp.entity.Pdni;
 import com.awacp.entity.QuoteNote;
-import com.awacp.entity.Takeoff;
+import com.awacp.entity.SiteInfo;
 import com.awacp.entity.Worksheet;
 import com.awacp.entity.WsManufacturerInfo;
 import com.awacp.entity.WsProductInfo;
@@ -69,7 +63,10 @@ public class QuotePdfGenerator {
 	}
 
 	private void addHeaderInformation() throws Exception {
-		AppSetting appSetting = worksheet.getTakeoff().getAppSetting();
+		SiteInfo appSetting = worksheet.getTakeoff().getSiteInfo();
+		if(appSetting == null){
+			appSetting  = new SiteInfo();
+		}
 		PdfPTable table = new PdfPTable(4);
 		table.setTotalWidth(PageSize.A4.getWidth() - 60);
 		table.setLockedWidth(true);
@@ -92,33 +89,38 @@ public class QuotePdfGenerator {
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 
-		cell = new PdfPCell(new Phrase(appSetting.getPhoneNumber(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+		cell = new PdfPCell(
+				new Phrase(appSetting.getPhoneNumber(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setGrayFill(GRAY_FILL);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 
-		cell = new PdfPCell(new Phrase(appSetting.getOfficeAddress(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+		cell = new PdfPCell(
+				new Phrase(appSetting.getOfficeAddress(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 		cell.setColspan(2);
 		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 		cell.setGrayFill(GRAY_FILL);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 
-		cell = new PdfPCell(new Phrase(appSetting.getFaxNumber(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+		cell = new PdfPCell(
+				new Phrase(appSetting.getFaxNumber(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 		cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		cell.setGrayFill(GRAY_FILL);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 
-		cell = new PdfPCell(new Phrase(appSetting.getFrontWebsite(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+		cell = new PdfPCell(
+				new Phrase(appSetting.getFrontWebsite(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 		cell.setColspan(2);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setGrayFill(GRAY_FILL);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 
-		cell = new PdfPCell(new Phrase(appSetting.getEmailAddress(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
+		cell = new PdfPCell(
+				new Phrase(appSetting.getEmailAddress(), FontFactory.getFont(FontFactory.HELVETICA, 8)));
 		cell.setColspan(2);
 		cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		cell.setGrayFill(GRAY_FILL);
@@ -387,118 +389,86 @@ public class QuotePdfGenerator {
 		document.add(table);
 	}
 
-	public static void main(String args[]) {
-		String filePath = "C:/Projects/repo/Debendra/quote.pdf";
-		String logoPath = "C:/Projects/repo/Debendra/sts/static/awacp/resource/img/awacp_big_logo.png";
-		Worksheet worksheet = new Worksheet();
-		Takeoff takeoff = new Takeoff();
-		takeoff.setJobName("ADMIRALS ROW BUILDING E");
-		takeoff.setJobAddress("25 NAVY STREET 1ST FL-2ND FL ,ROOF FL BLDG E BROOKLYN NY");
-		takeoff.setDateCreated(Calendar.getInstance());
-		takeoff.setQuoteDate(Calendar.getInstance());
-		takeoff.setQuoteId("Q-123-456");
-		takeoff.setUserCode("DB");
-		takeoff.setEngineerName("GEA (GLICKMAN ENGINEERING ASSOCIATES) ");
-		takeoff.setArchitectureName("S9 ARCHITECTURE");
-		Set<Pdni> pdnis = null;
-		worksheet.setTakeoff(takeoff);
-
-		WsManufacturerInfo mInfo = null;
-		MnD manufacturer = null;
-		Set<WsProductInfo> productItems = null;
-		Set<WsManufacturerInfo> manufacturerItems = null;
-		WsProductInfo wsProdInfo = null;
-		pdnis = new HashSet<Pdni>();
-
-		mInfo = new WsManufacturerInfo();
-		mInfo.setId(1L);
-		manufacturer = new MnD();
-		productItems = new HashSet<WsProductInfo>();
-		manufacturerItems = new HashSet<WsManufacturerInfo>();
-		manufacturer.setProductName("ANEMOSTAT - A MESTEK COMPANY");
-		mInfo.setManufacturer(manufacturer);
-		mInfo.setTotalAmount(1300D);
-
-		wsProdInfo = new WsProductInfo();
-		wsProdInfo.setId(1L);
-		wsProdInfo.setQuantity(2);
-		wsProdInfo.setProduct(new MnDType(1L, "SUPPLY REGISTER"));
-		productItems.add(wsProdInfo);
-
-		wsProdInfo = new WsProductInfo();
-		wsProdInfo.setId(2L);
-		wsProdInfo.setQuantity(20);
-		wsProdInfo.setProduct(new MnDType(2L, "RETURN GRILLE"));
-		productItems.add(wsProdInfo);
-
-		wsProdInfo = new WsProductInfo();
-		wsProdInfo.setId(3L);
-		wsProdInfo.setQuantity(40);
-		wsProdInfo.setProduct(new MnDType(3L, "PERFORATED RETURN GRILLES"));
-		productItems.add(wsProdInfo);
-
-		wsProdInfo = new WsProductInfo();
-		wsProdInfo.setId(4L);
-		wsProdInfo.setQuantity(9);
-		wsProdInfo.setProduct(new MnDType(4L, "RETURN REGISTERS"));
-		productItems.add(wsProdInfo);
-
-		mInfo.setProductItems(productItems);
-
-		Pdni pdni = new Pdni();
-		pdni.setId(1L);
-		pdni.setPdniName("FIRE DAMPERS, DOOR LOUVERS, FUSIBLE LINK DAMPERS ");
-		pdnis.add(pdni);
-
-		mInfo.setPdnis(pdnis);
-		manufacturerItems.add(mInfo);
-
-		mInfo = new WsManufacturerInfo();
-		mInfo.setId(2L);
-		manufacturer = new MnD();
-		productItems = new HashSet<WsProductInfo>();
-		manufacturer.setProductName("ELECTRIC HEATERS INC.");
-		mInfo.setManufacturer(manufacturer);
-		mInfo.setTotalAmount(1800D);
-
-		wsProdInfo = new WsProductInfo();
-		wsProdInfo.setId(5L);
-		wsProdInfo.setQuantity(2);
-		wsProdInfo.setProduct(new MnDType(1L,
-				"SLIP-IN CONSTRUCTION, COMPLETE WITH AUTOMATIC THERMAL AND MANUAL THERMAL CUT-OUT. MAGNETIC CONTACTORS BUILT IN FUSES IF REQUIRED BY N.E.C. TRANSFORMER WITH PRIMARY FUSING, AIR FLOW SWITCH, DOOR INTERLOCKING DISCONNECT SWITCH, SCR CONTROLS, ROOM STATS W/DUCT SENSOR "));
-		productItems.add(wsProdInfo);
-		mInfo.setProductItems(productItems);
-		manufacturerItems.add(mInfo);
-
-		worksheet.setManufacturerItems(manufacturerItems);
-		Set<QuoteNote> notes = new HashSet<QuoteNote>();
-
-		QuoteNote note = new QuoteNote();
-		note.setId(1L);
-		note.setNote("PRICE IS BASED ON MECHANICAL PLANS AND SPECIFICATIONS ONLY");
-		notes.add(note);
-
-		note = new QuoteNote();
-		note.setId(2L);
-		note.setNote("PRICES ARE VALID FOR 30 DAYS ONLY");
-		notes.add(note);
-
-		note = new QuoteNote();
-		note.setId(3L);
-		note.setNote("STANDARD WHITE FINISH U.O.N.");
-		notes.add(note);
-
-		note = new QuoteNote();
-		note.setId(4L);
-		note.setNote("PRICE DOES NOT INCLUDE APPLICABLE SALES TAX");
-		notes.add(note);
-
-		worksheet.setNotes(notes);
-		try {
-			new QuotePdfGenerator(filePath, logoPath, worksheet).generate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	/*
+	 * public static void main(String args[]) { String filePath =
+	 * "C:/Projects/repo/Debendra/quote.pdf"; String logoPath =
+	 * "C:/Projects/repo/Debendra/sts/static/awacp/resource/img/awacp_big_logo.png";
+	 * Worksheet worksheet = new Worksheet(); Takeoff takeoff = new Takeoff();
+	 * takeoff.setJobName("ADMIRALS ROW BUILDING E"); takeoff.
+	 * setJobAddress("25 NAVY STREET 1ST FL-2ND FL ,ROOF FL BLDG E BROOKLYN NY"
+	 * ); takeoff.setDateCreated(Calendar.getInstance());
+	 * takeoff.setQuoteDate(Calendar.getInstance());
+	 * takeoff.setQuoteId("Q-123-456"); takeoff.setUserCode("DB");
+	 * takeoff.setEngineerName("GEA (GLICKMAN ENGINEERING ASSOCIATES) ");
+	 * takeoff.setArchitectureName("S9 ARCHITECTURE"); Set<Pdni> pdnis = null;
+	 * worksheet.setTakeoff(takeoff);
+	 * 
+	 * WsManufacturerInfo mInfo = null; MnD manufacturer = null;
+	 * Set<WsProductInfo> productItems = null; Set<WsManufacturerInfo>
+	 * manufacturerItems = null; WsProductInfo wsProdInfo = null; pdnis = new
+	 * HashSet<Pdni>();
+	 * 
+	 * mInfo = new WsManufacturerInfo(); mInfo.setId(1L); manufacturer = new
+	 * MnD(); productItems = new HashSet<WsProductInfo>(); manufacturerItems =
+	 * new HashSet<WsManufacturerInfo>();
+	 * manufacturer.setProductName("ANEMOSTAT - A MESTEK COMPANY");
+	 * mInfo.setManufacturer(manufacturer); mInfo.setTotalAmount(1300D);
+	 * 
+	 * wsProdInfo = new WsProductInfo(); wsProdInfo.setId(1L);
+	 * wsProdInfo.setQuantity(2); wsProdInfo.setProduct(new MnDType(1L,
+	 * "SUPPLY REGISTER")); productItems.add(wsProdInfo);
+	 * 
+	 * wsProdInfo = new WsProductInfo(); wsProdInfo.setId(2L);
+	 * wsProdInfo.setQuantity(20); wsProdInfo.setProduct(new MnDType(2L,
+	 * "RETURN GRILLE")); productItems.add(wsProdInfo);
+	 * 
+	 * wsProdInfo = new WsProductInfo(); wsProdInfo.setId(3L);
+	 * wsProdInfo.setQuantity(40); wsProdInfo.setProduct(new MnDType(3L,
+	 * "PERFORATED RETURN GRILLES")); productItems.add(wsProdInfo);
+	 * 
+	 * wsProdInfo = new WsProductInfo(); wsProdInfo.setId(4L);
+	 * wsProdInfo.setQuantity(9); wsProdInfo.setProduct(new MnDType(4L,
+	 * "RETURN REGISTERS")); productItems.add(wsProdInfo);
+	 * 
+	 * mInfo.setProductItems(productItems);
+	 * 
+	 * Pdni pdni = new Pdni(); pdni.setId(1L);
+	 * pdni.setPdniName("FIRE DAMPERS, DOOR LOUVERS, FUSIBLE LINK DAMPERS ");
+	 * pdnis.add(pdni);
+	 * 
+	 * mInfo.setPdnis(pdnis); manufacturerItems.add(mInfo);
+	 * 
+	 * mInfo = new WsManufacturerInfo(); mInfo.setId(2L); manufacturer = new
+	 * MnD(); productItems = new HashSet<WsProductInfo>();
+	 * manufacturer.setProductName("ELECTRIC HEATERS INC.");
+	 * mInfo.setManufacturer(manufacturer); mInfo.setTotalAmount(1800D);
+	 * 
+	 * wsProdInfo = new WsProductInfo(); wsProdInfo.setId(5L);
+	 * wsProdInfo.setQuantity(2); wsProdInfo.setProduct(new MnDType(1L,
+	 * "SLIP-IN CONSTRUCTION, COMPLETE WITH AUTOMATIC THERMAL AND MANUAL THERMAL CUT-OUT. MAGNETIC CONTACTORS BUILT IN FUSES IF REQUIRED BY N.E.C. TRANSFORMER WITH PRIMARY FUSING, AIR FLOW SWITCH, DOOR INTERLOCKING DISCONNECT SWITCH, SCR CONTROLS, ROOM STATS W/DUCT SENSOR "
+	 * )); productItems.add(wsProdInfo); mInfo.setProductItems(productItems);
+	 * manufacturerItems.add(mInfo);
+	 * 
+	 * worksheet.setManufacturerItems(manufacturerItems); Set<QuoteNote> notes =
+	 * new HashSet<QuoteNote>();
+	 * 
+	 * QuoteNote note = new QuoteNote(); note.setId(1L);
+	 * note.setNote("PRICE IS BASED ON MECHANICAL PLANS AND SPECIFICATIONS ONLY"
+	 * ); notes.add(note);
+	 * 
+	 * note = new QuoteNote(); note.setId(2L);
+	 * note.setNote("PRICES ARE VALID FOR 30 DAYS ONLY"); notes.add(note);
+	 * 
+	 * note = new QuoteNote(); note.setId(3L);
+	 * note.setNote("STANDARD WHITE FINISH U.O.N."); notes.add(note);
+	 * 
+	 * note = new QuoteNote(); note.setId(4L);
+	 * note.setNote("PRICE DOES NOT INCLUDE APPLICABLE SALES TAX");
+	 * notes.add(note);
+	 * 
+	 * worksheet.setNotes(notes); try { new QuotePdfGenerator(filePath,
+	 * logoPath, worksheet).generate(); } catch (Exception e) {
+	 * e.printStackTrace(); } }
+	 */
 
 }

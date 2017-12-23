@@ -155,6 +155,24 @@ public class JobServiceEndpoint extends CrossOriginFilter {
 		return "{\"result\":\"" + result + "\"}";
 	}
 
+	@GET
+	@Path("/cancelJobOrder/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String cancelJobOrder(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = this.jobService.cancelJobOrder(id);
+		return "{\"result\":\"" + result + "\"}";
+	}
+
+	@GET
+	@Path("/uncancellJobOrder/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String uncancellJobOrder(@PathParam("id") Long id, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		String result = this.jobService.uncancellJobOrder(id);
+		return "{\"result\":\"" + result + "\"}";
+	}
+
 	public void setJobService(JobService jobService) {
 		this.jobService = jobService;
 	}

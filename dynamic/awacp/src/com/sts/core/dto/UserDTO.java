@@ -16,11 +16,12 @@ public class UserDTO {
 	private String avtarImage;
 	private Long photoId;
 	private String photoUrl;
+	private boolean online;
 
 	private int unreadMessageCount;
 
 	public UserDTO(Long id, String userName, String userCode, String firstName, String middleName, String lastName,
-			String avatarImage, Long photoId) {
+			String avatarImage, Long photoId, boolean online) {
 		super();
 		this.id = id;
 		this.userName = userName;
@@ -30,6 +31,7 @@ public class UserDTO {
 		this.lastName = lastName;
 		this.avtarImage = avatarImage;
 		this.photoId = photoId;
+		this.online = online;
 	}
 
 	/**
@@ -139,6 +141,14 @@ public class UserDTO {
 
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
+	}
+
+	public boolean isOnline() {
+		return online;
+	}
+
+	public void setOnline(boolean online) {
+		this.online = online;
 	}
 
 }

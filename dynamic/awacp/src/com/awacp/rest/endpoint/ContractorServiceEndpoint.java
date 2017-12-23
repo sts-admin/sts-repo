@@ -81,6 +81,8 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
 				code = StsErrorCode.DUPLICATE_EMAIL;
+			} else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_NAME.toLowerCase())) {
+				code = StsErrorCode.DUPLICATE_NAME;
 			}
 			servletResponse.sendError(code, message);
 
@@ -174,6 +176,8 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
 				code = StsErrorCode.DUPLICATE_EMAIL;
+			}else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_NAME.toLowerCase())) {
+				code = StsErrorCode.DUPLICATE_NAME;
 			}
 			servletResponse.sendError(code, message);
 
@@ -216,6 +220,8 @@ public class ContractorServiceEndpoint extends CrossOriginFilter {
 			final String message = e.getMessage().toLowerCase();
 			if (e.getMessage().equals(StsCoreConstant.DUPLICATE_EMAIL.toLowerCase())) {
 				code = StsErrorCode.DUPLICATE_EMAIL;
+			}else if (e.getMessage().equals(StsCoreConstant.DUPLICATE_NAME.toLowerCase())) {
+				code = StsErrorCode.DUPLICATE_NAME;
 			}
 			servletResponse.sendError(code, message);
 

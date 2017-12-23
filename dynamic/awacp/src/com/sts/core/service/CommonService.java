@@ -2,6 +2,7 @@ package com.sts.core.service;
 
 import javax.persistence.EntityManager;
 
+import com.awacp.entity.SystemLog;
 import com.sts.core.dto.StsResponse;
 
 public interface CommonService<T> {
@@ -21,6 +22,7 @@ public interface CommonService<T> {
 
 	public boolean isExistsByEmail(final String email, final String entityName, EntityManager em);
 
-	public T getByEmail(final String email, final String entityName, EntityManager em);
+	public boolean isExistsByName(final String name, String fieldName, final String entityName, EntityManager em);
 
+	public T getByEmail(final String email, final String entityName, EntityManager em);
 }
