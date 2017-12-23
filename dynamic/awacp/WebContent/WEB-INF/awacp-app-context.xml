@@ -51,6 +51,7 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
+	
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -202,8 +203,12 @@
     </bean>
     
      <bean id="truckerService" class="com.awacp.service.impl.TruckerServiceImpl" />
+     <bean id="truckerClaimService" class="com.awacp.service.impl.TruckerClaimServiceImpl" />
+     <bean id="trackingService" class="com.awacp.service.impl.TrackingServiceImpl" />
      <bean id="truckerServiceEndpoint" class="com.awacp.rest.endpoint.TruckerServiceEndpoint">
         <property name="truckerService" ref="truckerService" />
+        <property name="truckerClaimService" ref="truckerClaimService" />
+        <property name="trackingService" ref="trackingService" />
     </bean>
     
      <bean id="shipToService" class="com.awacp.service.impl.ShipToServiceImpl" />
@@ -287,8 +292,10 @@
     </bean>
     
     <bean id="factoryService" class="com.awacp.service.impl.FactoryServiceImpl" />
+     <bean id="factoryClaimService" class="com.awacp.service.impl.FactoryClaimServiceImpl" />
      <bean id="factoryServiceEndpoint" class="com.awacp.rest.endpoint.FactoryServiceEndpoint">
         <property name="factoryService" ref="factoryService" />
+        <property name="factoryClaimService" ref="factoryClaimService" />
     </bean>
      <bean id="orderBookService" class="com.awacp.service.impl.OrderBookServiceImpl" />
      <bean id="orderBookServiceEndpoint" class="com.awacp.rest.endpoint.OrderBookServiceEndpoint">
@@ -307,4 +314,6 @@
     <util:list id="jsonTypes">
         <value>application/json</value>
     </util:list>
+    
+    
 </beans>
