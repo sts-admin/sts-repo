@@ -60,44 +60,58 @@
                                       <td valign="top" align="left" colspan="2"><table width="100%" border="0">
                                           <tbody>
                                             <tr>
-                                              <td width="11%" valign="top"><strong>Trucker</strong>:</td>
-                                              <td width="28%" align="left">
+                                              <td width="8%" valign="top"><strong>Trucker 1</strong>:</td>
+                                              <td width="20%" align="left">
 												<select name="truckerOne" class="form-control"  
 												  ng-model="orbfVm.orbf.truckerOne" 
 												  ng-options="c.id as c.name for c in orbfVm.truckers">
 												  <option value="">--- Select ---</option>
 												</select>
 											  </td>
-                                              <td width="13%" valign="top"><strong>Tracking Link 1</strong>:</td>
-                                              <td width="48%" align="left">
+                                              <td width="10%" valign="top"><strong>Tracking Link 1</strong>:</td>
+                                              <td width="40%" align="left">
 												<input name="orbf" ng-model="orbfVm.orbf.trakingLinkOne" type="text" placeholder="Enter Tracking Link 1" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Tracking Link 1');" onkeypress="this.setCustomValidity('');" />
+												</td>
+											  <td width="7%" valign="top"><strong>Status</strong>:</td>
+											  <td width="15%" align="left">
+												<input name="orbf" ng-model="orbfVm.orbf.statusOne" type="text" placeholder="Delivery Status" class="form-control" />
+												</td>
                                             </tr>
                                             <tr>
-                                              <td width="11%" valign="top"><strong>Trucker</strong>:</td>
-                                              <td align="left">
+                                              <td width="8%" valign="top"><strong>Trucker 2</strong>:</td>
+                                              <td align="left" width="20%">
 												<select name="truckerTwo" class="form-control"  
 												  ng-model="orbfVm.orbf.truckerTwo" 
 												  ng-options="c.id as c.name for c in orbfVm.truckers">
 												  <option value="">--- Select ---</option>
 												</select>
 											  </td>
-                                              <td width="13%" valign="top"><strong>Tracking Link 2</strong>:</td>
-                                              <td width="48%" align="left">
+                                              <td width="10%" valign="top"><strong>Tracking Link 2</strong>:</td>
+                                              <td width="40%" align="left">
 												<input name="orbf" ng-model="orbfVm.orbf.trackingLinkTwo" type="text" placeholder="Enter Tracking Link 2" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Tracking Link 2');" onkeypress="this.setCustomValidity('');" />
+												</td>
+												 <td width="7%" valign="top"><strong>Status</strong>:</td>
+											  <td width="15%" align="left">
+												<input name="orbf" ng-model="orbfVm.orbf.statusTwo" type="text" placeholder="Delivery Status" class="form-control" />
+												</td>
                                             </tr>
                                             <tr>
-                                              <td width="11%" valign="top"><strong>Trucker</strong>:</td>
-                                              <td align="left">
+                                              <td width="8%" valign="top"><strong>Trucker 3</strong>:</td>
+                                              <td align="left" width="20%">
 												<select name=""truckerThree class="form-control"  
 												  ng-model="orbfVm.orbf.truckerThree" 
 												  ng-options="c.id as c.name for c in orbfVm.truckers">
 												  <option value="">--- Select ---</option>
 												</select>
 											  </td>
-                                              <td width="13%" valign="top"><strong>Tracking Link 3</strong>:</td>
-                                              <td width="48%" align="left">
+                                              <td width="10%" valign="top"><strong>Tracking Link 3</strong>:</td>
+                                              <td width="40%" align="left">
 												<input name="orbf" ng-model="orbfVm.orbf.trackingLinkThree" type="text" placeholder="Enter Tracking Link 3" class="form-control" maxlength="100" oninvalid="this.setCustomValidity('Enter Tracking Link 3');" onkeypress="this.setCustomValidity('');" />
 											  </td>
+											   <td width="7%" valign="top"><strong>Status</strong>:</td>
+											  <td width="15%" align="left">
+												<input name="orbf" ng-model="orbfVm.orbf.statusThree" type="text" placeholder="Delivery Status" class="form-control" />
+												</td>
                                             </tr>
                                           </tbody>
                                         </table></td>

@@ -3,43 +3,43 @@
 	angular.module('awacpApp.controllers').controller('ContractorCtrl', ContractorCtrl);
 	ContractorCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService'];
 	function ContractorCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
-		var truckerVm = this;
-		truckerVm.action = "Add";
+		var conVm = this;
+		conVm.action = "Add";
 		$scope.timers = [];
-		truckerVm.contractors= [];
-		truckerVm.contractor = {};
-		truckerVm.users = [];
-		truckerVm.totalItems = -1;
-		truckerVm.currentPage = 1;
-		truckerVm.pageNumber = 1;
-		truckerVm.pageSize = 20;
-		truckerVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
-		truckerVm.setCurrentPageSize =function(size){
+		conVm.contractors= [];
+		conVm.contractor = {};
+		conVm.users = [];
+		conVm.totalItems = -1;
+		conVm.currentPage = 1;
+		conVm.pageNumber = 1;
+		conVm.pageSize = 20;
+		conVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		conVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("CONTRACTOR", size, function(status, size){
 				if("success" === status){
-					truckerVm.pageSize = size;
-					truckerVm.pageChanged();
+					conVm.pageSize = size;
+					conVm.pageChanged();
 				}
 			});
 		}
 		
-		truckerVm.getPageSize = function(){
+		conVm.getPageSize = function(){
 			AjaxUtil.getPageSize("CONTRACTOR", function(status, size){
 				if("success" === status){
-					truckerVm.pageSize = size;
+					conVm.pageSize = size;
 				}
 			});
 		}
-		truckerVm.pageChanged = function() {
-			truckerVm.getContractors();
+		conVm.pageChanged = function() {
+			conVm.getContractors();
 		};
 
 		
-		truckerVm.cancelContractorAction = function(){
+		conVm.cancelContractorAction = function(){
 			$state.go("contractors");
 		}
-		truckerVm.getUsers = function(){
-			truckerVm.users = [];
+		conVm.getUsers = function(){
+			conVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/-1/-1", Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.results){
@@ -55,39 +55,43 @@
 						});
 					}	
 					$scope.$apply(function(){
-						truckerVm.users = tmp;
+						conVm.users = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "TakeoffCtrl::truckerVm.getUsers::Error";
+				jqXHR.errorSource = "TakeoffCtrl::conVm.getUsers::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
 		
-		truckerVm.addContractor = function(){
+		conVm.addContractor = function(){
 			var message = "Contractor Detail Created Successfully, add more?";
 			var url = "/awacp/saveContractor";
 			var update = false;
-			if(truckerVm.contractor && truckerVm.contractor.id){
+			if(conVm.contractor && conVm.contractor.id){
 				message = "Contractor Detail Updated Successfully";
-				truckerVm.contractor.updatedByUserCode = StoreService.getUser().userCode;
+				conVm.contractor.updatedByUserCode = StoreService.getUser().userCode;
+				conVm.contractor.updatedById = StoreService.getUser().userId;
+				conVm.contractor.auditMessage = "Updated Contractor with item name '"+ conVm.contractor.name + "'";
 				url = "/awacp/updateContractor";
 				update = true;
 			}else{
-				truckerVm.contractor.createdByUserCode = StoreService.getUser().userCode;
+				conVm.contractor.createdByUserCode = StoreService.getUser().userCode;
+				conVm.contractor.createdById = StoreService.getUser().userId;
+				conVm.contractor.auditMessage = "Created Contractor with item name '"+ conVm.contractor.name + "'";
 			}
 			var formData = {};
-			formData["contractor"] = truckerVm.contractor;
+			formData["contractor"] = conVm.contractor;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
 				if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
-					.then(function (){truckerVm.cancelContractorAction();},function (){return false;});
+					.then(function (){conVm.cancelContractorAction();},function (){return false;});
 					return;
 				}else{
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
-					.then(function (){return},function (){truckerVm.cancelContractorAction();});
+					.then(function (){return},function (){conVm.cancelContractorAction();});
 					return;
 				}
 			})
@@ -101,41 +105,41 @@
 					.then(function (){return},function (){return});
 					return;
 				}else{
-					jqXHR.errorSource = "ContractorCtrl::truckerVm.addContractor::Error";
+					jqXHR.errorSource = "ContractorCtrl::conVm.addContractor::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				}				
 			});
 		}
-		truckerVm.initContractorMasterInputs = function(){
-			truckerVm.getUsers();
+		conVm.initContractorMasterInputs = function(){
+			conVm.getUsers();
 		}
 		
-		truckerVm.editContractor = function(){
+		conVm.editContractor = function(){
 			if($state.params.id != undefined){
 				AjaxUtil.getData("/awacp/getContractor/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.contractor){
 						data.contractor.customName = data.contractor.userCode + " - "+ data.contractor.firstName;
 						$scope.$apply(function(){
-							truckerVm.contractor = data.contractor;	
-							truckerVm.action = truckerVm.contractor && truckerVm.contractor.id?"Update":"Add";							
+							conVm.contractor = data.contractor;	
+							conVm.action = conVm.contractor && conVm.contractor.id?"Update":"Add";							
 						});
-						truckerVm.getUsers();
+						conVm.getUsers();
 						
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
-					jqXHR.errorSource = "ContractorCtrl::truckerVm.editContractor::Error";
+					jqXHR.errorSource = "ContractorCtrl::conVm.editContractor::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 				})
 			}
 		}
-		truckerVm.deleteContractor = function(id){
+		conVm.deleteContractor = function(id){
 			AjaxUtil.getData("/awacp/deleteContractor/"+id, Math.random())
 			.success(function(data, status, headers){
-				truckerVm.totalItems = (truckerVm.totalItems - 1);
+				conVm.totalItems = (conVm.totalItems - 1);
 				AlertService.showAlert(	'AWACP :: Alert!', 'Contractor Detail Deleted Successfully.')
-					.then(function (){truckerVm.getContractors();},function (){return false;});
+					.then(function (){conVm.getContractors();},function (){return false;});
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				if(666666 == jqXHR.status){
@@ -143,18 +147,18 @@
 					.then(function (){return},function (){return});
 					return;
 				}
-				jqXHR.errorSource = "ContractorCtrl::truckerVm.deleteContractor::Error";
+				jqXHR.errorSource = "ContractorCtrl::conVm.deleteContractor::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			})
 		}
-		truckerVm.getContractors = function(){
-			truckerVm.contractors = [];
-			truckerVm.pageNumber = truckerVm.currentPage;
-			AjaxUtil.getData("/awacp/listContractors/"+truckerVm.pageNumber+"/"+truckerVm.pageSize, Math.random())
+		conVm.getContractors = function(){
+			conVm.contractors = [];
+			conVm.pageNumber = conVm.currentPage;
+			AjaxUtil.getData("/awacp/listContractors/"+conVm.pageNumber+"/"+conVm.pageSize, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					$scope.$apply(function(){
-						truckerVm.totalItems = data.stsResponse.totalCount;
+						conVm.totalItems = data.stsResponse.totalCount;
 					});
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
@@ -167,12 +171,12 @@
 					    tmp.push(data.stsResponse.results);
 					}
 					$scope.$apply(function(){
-						truckerVm.contractors = tmp;
+						conVm.contractors = tmp;
 					});
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "UserCtrl::truckerVm.getContractors::Error";
+				jqXHR.errorSource = "UserCtrl::conVm.getContractors::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
@@ -181,7 +185,7 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
-		truckerVm.editContractor();
+		conVm.editContractor();
 	}		
 })();
 

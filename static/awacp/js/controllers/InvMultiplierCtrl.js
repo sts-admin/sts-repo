@@ -58,7 +58,10 @@
 						invMultiplier["createdById"] = StoreService.getUser().userId;
 						invMultiplier["inventoryName"] = $scope.inventoryName;
 						invMultiplier["multiplierValue"] = $scope.multiplierValue;
+						invMultiplier["createdById"] = StoreService.getUser().userId;
 						invMultiplier["createdByUserCode"] = StoreService.getUser().userCode;
+						invMultiplier["auditMessage"] = "Created INV Multiplier for INV '"+ $scope.inventoryName + "'";
+						
 						formData["invMultiplier"] = invMultiplier;
 						AjaxUtil.submitData("/awacp/saveInvMultiplier", formData)
 						.success(function(data, status, headers){
@@ -142,7 +145,9 @@
 						var formData = {};
 						$scope.invMultiplier.inventoryName = $scope.inventoryName;
 						$scope.invMultiplier.multiplierValue = $scope.multiplierValue;
+						$scope.invMultiplier.updatedById = StoreService.getUser().userId;
 						$scope.invMultiplier.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.invMultiplier.auditMessage = "Updated INV Multiplier for INV '"+ $scope.inventoryName + "'";
 						formData["invMultiplier"] = $scope.invMultiplier;
 						AjaxUtil.submitData("/awacp/updateInvMultiplier", formData)
 						.success(function(data, status, headers){

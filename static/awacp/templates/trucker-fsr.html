@@ -2,7 +2,7 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
   <div class="clearfix">
-    <div class="panel panel-default shadow" ng-init="jobVm.listJobOrders('all');">
+    <div class="panel panel-default shadow">
       <div class="panel-body">
         <div class="row">
           <div class="col-lg-12">
@@ -10,7 +10,7 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-lg-2 col-md-2 col-sm-2 dashboard-content">
-                    <h1>Trucker Claims</h1>
+                    <h3>Trucker Claims</h3>
                   </div>
                   <!-- .col -->
                   <div class="col-lg-2 col-md-2 col-sm-2 text-center"> </div>
@@ -27,7 +27,7 @@
                   <div class="col-lg-12">
                     <table width="100%" cellspacing="0" cellpadding="0" border="1" class="table-responsive theme-table">
                       <thead>
-                        <tr style="background:#F99;">
+					  <tr style="background:#F99;">
                           <td align="center"><strong>Date</strong></td>
                           <td align="center"><strong>PDF</strong></td>
                           <td align="center"><strong>Claim for<br>
@@ -45,32 +45,61 @@
                           <td align="center"><strong>UC</strong></td>
                           <td align="center"></td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        <tr height="25" style="color:#009900">
-                          <td style="padding-left:5px;"> 03-17-2015</td>
-                          <td id="add_trucker_17" style="padding-left:5px;"><a data-target="#myModal" data-toggle="modal" href="http://www.awacp.org/uploadfiles?module=claims&amp;fileseq=trucker&amp;id=17&amp;act=upload&amp;allowedTypes%5B%5D=pdf"><img border="0" id="img17" title="add pdf" src="http://www.awacp.org/resources/images/FileUploadIcon.png"></a></td>
-                          <td align="center" style="padding-left:5px;"> 14A-5862 </td>
-                          <td align="center" style="padding-left:5px;"> CT-0001 </td>
-                          <td align="center" style="padding-left:5px;"> A-10874 ; 11-20-14 SHPD 1Z9379950350676979</td>
-                          <td style="padding-left:5px;"> BOUM DESIGN</td>
-                          <td align="center" style="padding-left:5px;"> 1Z9379950350676979</td>
-                          <td style="padding-left:5px;"> UPS</td>
-                          <td align="center" style="padding-left:5px;"> $1080.00 </td>
-                          <td style="padding-left:5px;">GRILLES DAMAGED IN TRANSIT</td>
-                          <td align="center" style="padding-left:5px;"> LP </td>
-                          <td align="center" style="padding-left:5px;"> LP </td>
-                          <td align="center" style="font-weight:bold;">CLOSED</td>
-                        </tr>
+						</thead>
+						<tbody>
+					  <tr height="25" style="color:#009900">
+						  <td style="padding-left:5px;"> {{fsrVm.claim.dateCreated | date:'shortDate'}}</td>
+						  <td id="add_trucker_17" style="padding-left:5px;">
+							  <a data-target="#myModal" data-toggle="modal" href="#">
+							  <img border="0" id="img17" title="add pdf" src=""></a>
+						  </td>
+						  <td align="center" style="padding-left:5px;"> {{fsrVm.claim.orderBookNumber}}</td>
+						  <td align="center" style="padding-left:5px;">
+							CT-0001							
+						  </td>
+						  <td align="center" style="padding-left:5px;"> {{fsrVm.claim.orbf}}</td>
+						  <td style="padding-left:5px;"> {{fsrVm.claim.contractor.name}}</td>
+						  <td align="center" style="padding-left:5px;"> {{fsrVm.claim.tracking}}</td>
+						  <td style="padding-left:5px;"> {{fsrVm.claim.trucker.name}}</td>
+						  <td align="center" style="padding-left:5px;"> {{fsrVm.claim.claimAmount | currency}}</td>
+						  <td style="padding-left:5px;"> {{fsrVm.claim.reasonForClaim}}</td>
+						  <td align="center" style="padding-left:5px;"> LP</td>
+						  <td align="center" style="padding-left:5px;"> {{fsrVm.claim.userCode}}</td>
+						  <td align="center" style="font-weight:bold;">{{fsrVm.claim.status}}</td>
+						</tr>                        
                       </tbody>
                     </table>
                   </div>
                 </div>
                 <!-- .row -->
+				<div class="row">
+                  <div class="col-lg-12">
+						<div class="table-container">
+							<table width="100%" cellspacing="0" cellpadding="0" border="1" style="margin-top:15px;" class="table-responsive theme-table">
+							  <thead>
+								<tr style="background:#F99;">
+								  <td align="center" style="width:200px; font-size:12px;"><strong>Followup Date</strong></td>
+								  <td align="center" style="width:200px; font-size:12px;"><strong>UC</strong></td>
+								  <td align="center" style="font-size:12px;"><strong>Follow up Details</strong></td>
+								</tr>
+							  </thead>
+							  <tbody>
+								<tr ng-repeat="fu in fsrVm.followups track by $index">
+								  <td align="center">{{fu.dateCreated | date:'shortDate'}}</td>
+								  <td align="center">{{fu.userCode}}</td>
+								  <td valign="middle">
+									{{fu.comment}}
+								  </td>
+								  </tr>							
+							  </tbody>
+							</table>
+						</div>
+					</div>
+				</div>
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="table-container">
-                      <form method="post" action="" name="add_followup">
+                      <form ng-submit="fsrVm.saveFollowup();">
                         <table width="100%" cellspacing="0" cellpadding="0" border="1" style="margin-top:15px;" class="table-responsive theme-table">
                           <tbody>
                             <tr style="background:#F99;">
@@ -80,14 +109,17 @@
                           </tbody>
                           <tbody>
                             <tr>
-                              <td align="center">11/16/17</td>
-                              <td valign="middle"><textarea rows="5" class="form-control" name="followup"></textarea></td>
+                              <td align="center">{{fsrVm.currDate | date:'shortDate'}}</td>
+                              <td valign="middle">
+								<textarea rows="4" class="form-control" ng-model="fsrVm.followup.comment" ng-required="true"></textarea></td>
                             </tr>
                             <tr>
                               <td align="center" colspan="2"><div class="col-lg-5 col-md-5 col-sm-5">&nbsp;</div>
                                 <div class="col-lg-2 col-md-2 col-sm-2">
-                                  <input type="submit" class="submit-btn btn btn-primary" value="Add Followup Claim" name="followup_button">
-                                  <input type="hidden" value="" name="toid">
+                                  <input type="submit" class="fu-add-action submit-btn btn btn-primary" value="Add Followup Claim" name="followup_button">                                 
+								  <span id="fu-add-spinner" style="display:none;">
+									<img src="images/loading.gif" />
+								</span>
                                 </div></td>
                             </tr>
                           </tbody>

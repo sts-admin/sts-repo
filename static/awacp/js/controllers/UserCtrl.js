@@ -72,6 +72,7 @@
 		userVm.saveUser = function(){
 			var formData = {};
 			userVm.user.createdById = StoreService.getUserId();
+			userVm.user.auditMessage = "Created user with ID: '"+userVm.user.userNames+"'";
 			formData["user"] = userVm.user;
 			AjaxUtil.submitData("/awacp/saveUser", formData)
 			.success(function(data, status, headers){
@@ -200,6 +201,8 @@
 			}
 		});
 		userVm.updateUser = function(){
+			userVm.user.updatedById = StoreService.getUserId();
+			userVm.user.auditMessage = "Updated user with ID: '"+userVm.user.userNames+"'";
 			var formData = {};
 			formData["user"] = userVm.user;
 			AjaxUtil.submitData("/awacp/updateUser", formData)

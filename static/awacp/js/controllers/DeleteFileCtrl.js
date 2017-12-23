@@ -11,95 +11,75 @@
 		$scope.timers = [];
 		deleteVm.files= [];
 		deleteVm.file = {};
-		deleteVm.addShipTo = function (title){
-			var defer = $q.defer();
-			var modalInstance = $uibModal.open({
-				animation: true,
-				size: "md",
-				templateUrl: 'templates/shipto-add.html',
-				windowClass:'alert-zindex ',
-				controller: function ($scope, $uibModalInstance){
-					$scope.title = title;
-					$scope.shipToAddress = "";
-					$scope.message = "";
-					$scope.save = function (){
-						if(!$scope.shipToAddress || $scope.shipToAddress.length <= 0){
-							$scope.message = "Please enter Shipping Address Detail.";
-							return;
-						}
-						jQuery(".actions").attr('disabled','disabled');
-						jQuery(".spinner").css('display','block');
-						var formData = {}, shipTo = {};
-						shipTo["createdById"] = StoreService.getUser().id;
-						shipTo["shipToAddress"] = $scope.shipToAddress;
-						shipTo["createdByUserCode"] = StoreService.getUser().userCode;
-						formData["shipTo"] = shipTo;
-						AjaxUtil.submitData("/awacp/saveShipTo", formData)
+		deleteVm.section = {};
+		deleteVm.sectionId = "";
+		deleteVm.fileCount = 0;
+		deleteVm.sections = [{id:'TAKEOFF', name:'TAKEOFF'}, {id:'QUOTE', name:'QUOTE'}, {id:'JOBORDER', name:'JOB ORDER'}, {id:'ORDERBOOK', name:'ORDE RBOOK'}, {id:'CLAIMS', name:'CLAIMS'}, {id:'USERS', name:'USERS'}, {id:'DRLB', name:'DRLB'}];
+		deleteVm.section = deleteVm.sections[0];
+		
+		deleteVm.removeFileFromList = function(id){
+			for(var i = 0; i < deleteVm.files.length; i++){
+				if(deleteVm.files[i].id == id){
+					deleteVm.files.splice( i, 1 );
+					$scope.$digest();
+					break;
+				}
+			}
+		}
+	
+		deleteVm.searchFiles = function(){
+			if(deleteVm.section && deleteVm.sectionId){
+				deleteVm.files = [];
+				deleteVm.fileCount = 0;
+				var url = "/awacp/listFilesBySourceMatchAndId/"+deleteVm.section.id + "/" + deleteVm.sectionId;				
+				AjaxUtil.getData(url, Math.random())
+				.success(function(data, status, headers){
+					if(data && data.file){
+						deleteVm.files = data.file;
+						deleteVm.fileCount = deleteVm.files.length;
+						$scope.$digest();
+					}
+				})
+				.error(function(jqXHR, textStatus, errorThrown){
+					jqXHR.errorSource = "DeleteFileCtrl::deleteVm.searchFiles::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				});
+			}
+		}
+		deleteVm.deleteFile = function(file){
+			if(file){
+				AlertService.showConfirm(	'AWACP :: Confirmation!', "Are you sure to delete?")
+					.then(function (){
+						var url = "/awacp/archiveFile/"+file.id;				
+						AjaxUtil.getData(url, Math.random())
 						.success(function(data, status, headers){
-							$(".actions").removeAttr('disabled');
-							$(".spinner").css('display','none');
-							$scope.message = "Shipping Detail Added Successfully";
-							$timeout(function(){
-								$scope.message = "";
-								modalInstance.dismiss();
-								deleteVm.getShipTos();
-							}, 3000);							
-							return;
+							if(data && data.result){
+								if("success" === data.result){
+									deleteVm.removeFileFromList(file.id);
+									AlertService.showAlert(	'AWACP :: Alert!', "File deleted successfully")
+									.then(function (){return false;},function (){return false;});
+								}else{
+									AlertService.showAlert(	'AWACP :: Alert!', "Unable to delete the file")
+									.then(function (){return false;},function (){return false;});
+								}
+							}
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
-							$scope.message = "";
-							$(".actions").removeAttr('disabled');
-							$(".spinner").css('display','none');
-							jqXHR.errorSource = "ShipToCtrl::deleteVm.addShipTo::Error";
+							jqXHR.errorSource = "DeleteFileCtrl::deleteVm.deleteFile::Error";
 							AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-						});						
-					};
-					$scope.cancel = function (){						
-						modalInstance.dismiss();
-						defer.reject();
-					};
-				}
-			});
-			return defer.promise;
-		}		
-		deleteVm.pageChanged = function() {
-		};		
-		deleteVm.cancelShipTo = function(){
-		}		
-		deleteVm.editShipTo = function(){
-			if($state.params.id != undefined){				
-			}
-		}		
-		deleteVm.getShipTos = function(){
-			deleteVm.shipTos = [];
-			deleteVm.pageNumber = deleteVm.currentPage;
-			AjaxUtil.getData("/awacp/listShipTos/"+deleteVm.pageNumber+"/"+deleteVm.pageSize, Math.random())
-			.success(function(data, status, headers){
-				console.log(data.stsResponse);
-				if(data && data.stsResponse && data.stsResponse.totalCount){
-					$scope.$apply(function(){
-						deleteVm.totalItems = data.stsResponse.totalCount;
-					});
-				}
-				if(data && data.stsResponse && data.stsResponse.results){
-					var tmp = [];
-					if(jQuery.isArray(data.stsResponse.results)) {
-						jQuery.each(data.stsResponse.results, function(k, v){
-							tmp.push(v);
-						});					
-					} else {
-					    tmp.push(data.stsResponse.results);
-					}
-					$scope.$apply(function(){
-						deleteVm.shipTos = tmp;
-					});
-				}
-			})
-			.error(function(jqXHR, textStatus, errorThrown){
-				jqXHR.errorSource = "ShipToCtrl::deleteVm.getShipTos::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
-			});
+						});
+				},
+				function (){
+					return false;
+				});
+				
+			}			
 		}
+		deleteVm.openFile = function(file){
+			var path = $rootScope.resourceReadPath + file.createdName + file.extension;
+			$window.open(path);
+		}
+
 		$scope.$on("$destroy", function(){
 			for(var i = 0; i < $scope.timers.length; i++){
 				$timeout.cancel($scope.timers[i]);

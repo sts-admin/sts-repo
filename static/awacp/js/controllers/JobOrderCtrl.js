@@ -585,10 +585,13 @@
 			if(jobVm.jobOrder && jobVm.jobOrder.id){
 				message = "Job Order Detail Updated Successfully";
 				jobVm.jobOrder.updatedByUserCode = StoreService.getUser().userCode;
+				jobVm.jobOrder.createdById = StoreService.getUser().userId;
+				jobVm.jobOrder.auditMessage = "Updated Job Order with ID: '"+ jobVm.jobOrder.orderNumber + "'";
 				update = true;
 			}else{
 				jobVm.jobOrder.createdByUserCode = StoreService.getUser().userCode;
-				jobVm.jobOrder.createdById = StoreService.getUserId();
+				jobVm.jobOrder.createdById = StoreService.getUser().userId;
+				jobVm.jobOrder.auditMessage = "Created Job Order with ID '"+ jobVm.jobOrder.orderNumber + "'";
 			}
 			var formData = {};
 			jobVm.jobOrder.userNameOrEmail = StoreService.getUserName();

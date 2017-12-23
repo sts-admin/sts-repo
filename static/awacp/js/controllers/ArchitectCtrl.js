@@ -68,7 +68,6 @@
 		
 		arcVm.editArchitect = function(){
 			if($state.params.id != undefined){
-				var formData = {};
 				AjaxUtil.getData("/awacp/getArchitect/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.architect){

@@ -111,12 +111,15 @@
 			var update = false;
 			if(splInvVm.splInventory && splInvVm.splInventory.id){
 				message = "SPL Inventory Detail Updated Successfully";
+				splInvVm.splInventory.updatedById = StoreService.getUser().userId;
 				splInvVm.splInventory.updatedByUserCode = StoreService.getUser().userCode;
+				splInvVm.splInventory.auditMessage = "Added SPL Inventory with name '"+ splInvVm.splInventory.item;
 				url = "/awacp/updateSplInventory";
 				update = true;
 			}else{
 				splInvVm.splInventory.createdById = StoreService.getUser().userId;
 				splInvVm.splInventory.createdByUserCode = StoreService.getUser().userCode;
+				splInvVm.splInventory.auditMessage = "Updated SPL Inventory with name '"+ splInvVm.splInventory.item;
 			}
 			var formData = {};
 			formData["splInventory"] = splInvVm.splInventory;

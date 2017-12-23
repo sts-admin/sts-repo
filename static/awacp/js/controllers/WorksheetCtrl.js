@@ -554,10 +554,13 @@
 			if(wsVm.worksheet && wsVm.worksheet.id){
 				message = "Worksheet Detail Updated Successfully";
 				wsVm.worksheet.updatedByUserCode = StoreService.getUser().userCode;
+				wsVm.worksheet.updatedById = StoreService.getUser().userId;
+				wsVm.worksheet.auditMessage = "Updated Worksheet for takeoff# '"+ wsVm.worksheet.takeoffId + "'";
 				update = true;
 			}else{
 				wsVm.worksheet.createdByUserCode = StoreService.getUser().userCode;
 				wsVm.worksheet.createdById = StoreService.getUserId();
+				wsVm.worksheet.auditMessage = "Created Worksheet for takeoff# '"+ wsVm.worksheet.takeoffId + "'";
 			}
 			var formData = {};			
 			formData["worksheet"] = wsVm.worksheet;

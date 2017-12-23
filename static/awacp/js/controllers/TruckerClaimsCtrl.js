@@ -119,14 +119,17 @@
 			jQuery(".tc-add-action").attr('disabled','disabled');
 			jQuery("#tc-add-spinner").css('display','block');	
 			var update = false;
-			var message = "Trucker Claim Detail Created Successfully, add more?";
+			var message = "Trucker Claim Detail Created Successfully";
 			if(tcVm.truckerClaim && tcVm.truckerClaim.id){
 				message = "Trucker Claim Detail Updated Successfully";
+				tcVm.truckerClaim.updatedById = StoreService.getUser().userId;
 				tcVm.truckerClaim.updatedByUserCode = StoreService.getUser().userCode;
+				tcVm.truckerClaim.auditMessage = "Added Trucker Claim for Order Book # '"+ tcVm.truckerClaim.orderBookNumber+"'";
 				update = true;
 			}else{
 				tcVm.truckerClaim.createdByUserCode = StoreService.getUser().userCode;
 				tcVm.truckerClaim.createdById = StoreService.getUserId();
+				tcVm.truckerClaim.auditMessage = "Updated Trucker Claim for Order Book # '"+ tcVm.truckerClaim.orderBookNumber+"'";
 			}
 			var formData = {};
 			tcVm.truckerClaim.userNameOrEmail = StoreService.getUserName();
@@ -136,14 +139,9 @@
 				jQuery(".tc-add-action").removeAttr('disabled');
 				jQuery("#tc-add-spinner").css('display','none');
 				tcVm.truckerClaim = {};
-				if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
-					.then(function (){return false;},function (){return false;});
-					return;
-				}else{
-					AlertService.showConfirm(	'AWACP :: Alert!', message)
-					.then(function (){return false;},function (){return false;});
-				}				
+					.then(function (){$state.go('claim-truckers');},function (){return false;});
+					
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".tc-add-action").removeAttr('disabled');

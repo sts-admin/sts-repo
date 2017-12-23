@@ -21,9 +21,7 @@
 			if(emailOrId === '' || emailOrId == undefined){
 				emailOrId = pOrderVm.salesPeron.emailId;
 				source = "email";
-			}
-			alert(emailOrId);
-			
+			}			
 			AjaxUtil.getData("/awacp/sendPremiumOrderMail/"+emailOrId+"/"+source+"/"+id, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.status){

@@ -119,7 +119,12 @@
 							<img src="images/FileUploadIcon.png" alt="image" border="0" />
 						</a>
 					  </td>
-                      <td align="center" ></td>
+                      <td align="center" >
+						<a href ng-click="obVm.showPodFile(orderBook.id);" ng-show="orderBook.delivered">
+							<img src="images/pod_img_ups.gif" alt="image" border="0" />
+						</a>
+					  
+					  </td>
                       <td align="center"></td>
                       <td align="center">
 						<a href ui-sref="joborder-view-single({oSource:orderBook.jobId})">

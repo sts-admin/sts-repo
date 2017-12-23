@@ -3,8 +3,7 @@
 <div class="page-wrapper-row full-height">
   <div class="page-wrapper-middle">
     <!-- BEGIN CONTAINER -->
-    <div class="page-container">
-      <!-- BEGIN CONTENT -->
+   <!-- <div class="page-container">
       <div class="page-content-wrapper">
         <div class="page-head">
           <div class="container-fluid">
@@ -33,12 +32,16 @@
                       </div>
                       </a> </div>
                     <div class="tile double selected bg-green-turquoise">
-                      <div class="corner"> </div>
-                      <div class="check"> </div>
-                      <div class="tile-body"> <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        <div class="name"> Cleanup Data </div>
-                      </div>
-                      <div class="tile-object"> </div>
+						<a href ui-sref="cleanup">
+						  <div class="corner"> </div>
+						  <div class="check"> </div>
+						  <div class="tile-body"> <i class="fa fa-trash-o" aria-hidden="true"></i>
+							<div class="name"> 								
+									Cleanup Data
+							</div>
+						  </div>
+						  <div class="tile-object"> </div>
+						 </a>
                     </div>
                     <div class="tile selected bg-yellow-saffron"> <a href ui-sref="invmultipliers">
                       <div class="corner"> </div>
@@ -47,24 +50,28 @@
                         <div class="name"> Inventory Multiplier </div>
                       </div>
                       </a> </div>
-                    <div class="tile double bg-blue-madison"> <a href ui-sref="factories">
+                    <div class="tile double bg-blue-madison"> <a href ui-sref="logs">
                       <div class="tile-body"> <i class="fa fa-history" aria-hidden="true"></i>
                         <div class="name"> System Logs</div>
                       </div>
                       </a> </div>
                     <div class="tile bg-purple-studio">
-                      <div class="tile-body"> <i class="fa fa-industry" aria-hidden="true"></i> </div>
-                      <div class="tile-object">
-                        <div class="name"> Manage Factory </div>
-                      </div>
+						<a href ui-sref="factories">
+						  <div class="tile-body"> <i class="fa fa-industry" aria-hidden="true"></i> </div>
+						  <div class="tile-object">
+							<div class="name"> Manage Factory </div>
+						  </div>
+					  </a>
                     </div>
                     <div class="tile bg-blue-steel">
-                      <div class="tile-body"> <i class="fa fa-tasks" aria-hidden="true"></i>
-                        <div class="name"> Job Orders Management </div>
-                      </div>
-                      <div class="tile-object">
-                        <div class="name"></div>
-                      </div>
+						<a href ui-sref="joborder-view">
+						  <div class="tile-body"> <i class="fa fa-tasks" aria-hidden="true"></i>
+							<div class="name"> Job Orders Management </div>
+						  </div>
+						  <div class="tile-object">
+							<div class="name"></div>
+						  </div>
+						 </a>
                     </div>
                     <div class="tile double bg-blue-madison">
                       <div class="tile-body"> <i class="fa fa-sort" aria-hidden="true"></i>
@@ -74,7 +81,11 @@
                     <div class="tile double selected bg-green-turquoise">
                       <div class="tile-body"> <i class="fa fa-cog" aria-hidden="true"></i> </div>
                       <div class="tile-object">
-                        <div class="name"> Site Settings </div>
+                        <div class="name"> 
+							<a href ui-sref="app-setting({target: 'siteinfo'})">
+								Site Settings 
+							</a>
+						</div>
                       </div>
                     </div>
                     <div class="tile bg-yellow-lemon selected">
@@ -100,7 +111,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>
 <div ng-include="'templates/footer.html'" ></div>

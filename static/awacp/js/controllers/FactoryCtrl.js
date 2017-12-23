@@ -57,6 +57,7 @@
 						factory["factoryCode"] = $scope.factoryCode;
 						factory["createdById"] = StoreService.getUser().userId;
 						factory["createdByUserCode"] = StoreService.getUser().userCode;
+						factory["auditMessage"] = "Created factory with name '" + $scope.factoryName;
 						formData["factory"] = factory;
 						AjaxUtil.submitData("/awacp/saveFactory", formData)
 						.success(function(data, status, headers){
@@ -139,6 +140,7 @@
 						$scope.factory.factoryName = $scope.factoryName;
 						$scope.factory.factoryCode = $scope.factoryCode;
 						$scope.factory.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.factory.auditMessage = "Updated factory with name '"+$scope.factoryName+"'";
 						formData["factory"] = $scope.factory;
 						AjaxUtil.submitData("/awacp/saveFactory", formData)
 						.success(function(data, status, headers){

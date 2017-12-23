@@ -1,0 +1,96 @@
+<div ng-include="'templates/header.html'"></div>
+<div ng-include="'templates/main-menu.html'"></div>
+<div class="page-wrapper-row full-height">
+  <div class="page-wrapper-middle">
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+      <!-- BEGIN CONTENT -->
+      <div class="page-content-wrapper">     
+        <div class="page-head"> </div>
+        <div class="page-content">
+          <div class="container-fluid">
+            <div class="page-content-inner">
+              <div class="portlet light ">
+                <div class="portlet-body">
+                  <div class="tiles">
+                    <div class="tile double-down bg-blue-hoki"> <a href ui-sref="engineers">
+                      <div class="tile-body"> <i class="fa fa-user"></i> </div>
+                      <div class="tile-object">
+                        <div class="name"> Engineer </div>
+                      </div>
+                      </a> </div>
+                    <div class="tile bg-red-sunglo"> <a href ui-sref="contractors" >
+                      <div class="tile-body"> <i class="fa fa-calendar"></i> </div>
+                      <div class="tile-object">
+                        <div class="name"> Customer </div>
+                      </div>
+                      </a> </div>
+                    <div class="tile double selected bg-green-turquoise">
+						<a href ui-sref="architects" >
+						  <div class="corner"> </div>
+						  <div class="check"> </div>
+						  <div class="tile-body"> <i class="fa fa-trash-o" aria-hidden="true"></i>
+							<div class="name"> Architect </div>
+						  </div>
+						  <div class="tile-object"> </div>
+						 </a>
+                    </div>
+                    <div class="tile selected bg-yellow-saffron"> <a href ui-sref="shipto">
+                      <div class="corner"> </div>
+                      <div class="tile-body"> <i class="fa fa-times" aria-hidden="true"></i> </div>
+                      <div class="tile-object">
+                        <div class="name"> Ship To </div>
+                      </div>
+                      </a> </div>
+                    <div class="tile double bg-blue-madison"> <a href ui-sref="bidders">
+                      <div class="tile-body"> <i class="fa fa-history" aria-hidden="true"></i>
+                        <div class="name"> Bidder</div>
+                      </div>
+                      </a> </div>
+                    <div class="tile bg-purple-studio">
+						<a href ui-sref="manufactures">
+						  <div class="tile-body"> <i class="fa fa-industry" aria-hidden="true"></i> </div>
+						  <div class="tile-object">
+							<div class="name"> Manufacturer </div>
+						  </div>
+						</a>
+                    </div>
+                    <div class="tile bg-blue-steel">
+					  <a href ui-sref="iships">
+						  <div class="tile-body"> <i class="fa fa-tasks" aria-hidden="true"></i>
+							<div class="name"> Item Shipped </div>
+						  </div>
+						  <div class="tile-object">
+							<div class="name"></div>
+						  </div>
+						</a>
+                    </div>
+                    <div class="tile double bg-blue-madison">
+						<a href ui-sref="shippedvia">
+						  <div class="tile-body"> <i class="fa fa-sort" aria-hidden="true"></i>
+							<div class="name"> Shipped Via </div>
+						  </div>
+						</a>
+                    </div>
+                    <div class="tile double selected bg-green-turquoise">
+						<a href ui-sref="deletefiles">
+						  <div class="tile-body"> <i class="fa fa-cog" aria-hidden="true"></i> </div>
+						  <div class="tile-object">
+							<div class="name"> 								
+									Delete File
+								</a>
+							</div>
+						  </div>
+						</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'templates/footer.html'" ></div>

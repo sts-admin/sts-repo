@@ -67,7 +67,20 @@
 			templateUrl: 'templates/orderbook-info-ob.html',
 			title: 'Order Book Detail'
 		};
-		
+		obVm.showPodFile = function(obId){
+			AjaxUtil.getData("/awacp/getShipingStatus/"+obId, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.shipmentStatus){
+					/*alert(data.shipmentStatus.podUrl);*/
+					$window.open(data.shipmentStatus.podUrl);
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "OrderBookCtrl::obVm.showPodFile::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+			
+		}
 		obVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
 			title = "File List";
 			$rootScope.fileViewSource = "templates/file-listing.html";
@@ -514,10 +527,13 @@
 			if(obVm.orderBook && obVm.orderBook.id){
 				message = "Order Book Detail Updated Successfully";
 				obVm.orderBook.updatedByUserCode = StoreService.getUser().userCode;
+				obVm.orderBook.updatedById = StoreService.getUser().userId;
+				obVm.orderBook.auditMessage = "Updated Order with ID: '"+obVm.orderBook.orderBookNumber+"'";
 				update = true;
 			}else{
 				obVm.orderBook.createdByUserCode = StoreService.getUser().userCode;
-				obVm.orderBook.createdById = StoreService.getUserId();
+				obVm.orderBook.createdById = StoreService.getUser().userId;
+				obVm.orderBook.auditMessage = "Added Order with ID: '"+obVm.orderBook.orderBookNumber+"'";
 			}
 			var noInvItems = true;
 			if(obVm.orderBook.invItems && obVm.orderBook.invItems.length > 0){

@@ -52,6 +52,7 @@
 						shippedVia["createdById"] = StoreService.getUser().userId;
 						shippedVia["shippedViaAddress"] = $scope.shippedViaAddress;
 						shippedVia["createdByUserCode"] = StoreService.getUser().userCode;
+						shippedVia["auditMessage"] = "Added Shipped Via '" + $scope.shippedViaAddress + "'"; 
 						formData["shippedVia"] = shippedVia;
 						AjaxUtil.submitData("/awacp/saveShippedVia", formData)
 						.success(function(data, status, headers){
@@ -123,7 +124,9 @@
 						jQuery(".spinner").css('display','block');
 						var formData = {};
 						$scope.shippedVia.shippedViaAddress = $scope.shippedViaAddress;
+						$scope.shippedVia.updatedById = StoreService.getUser().userId;
 						$scope.shippedVia.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.shippedVia.auditMessage = "Updated Shipped Via '"+$scope.shippedViaAddress+"'";
 						formData["shippedVia"] = $scope.shippedVia;
 						AjaxUtil.submitData("/awacp/updateShippedVia", formData)
 						.success(function(data, status, headers){

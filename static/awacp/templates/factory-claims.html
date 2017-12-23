@@ -75,7 +75,7 @@
                     Claim</td>
                   <td align="center">SP</td>
                   <td align="center">UC</td>
-                  <td align="center"></td>
+                  <td align="center">Status</td>
                 </tr>
               </thead>
               <tbody>
@@ -94,9 +94,9 @@
                   <td style="padding-left:5px;"> {{fc.trucker.name}}</td>
                   <td align="center" style="padding-left:5px;"> {{fc.claimAmount | currency}}</td>
                   <td style="padding-left:5px;"> {{fc.reasonForClaim}}</td>
-                  <td align="center" style="padding-left:5px;"> LP</td>
+                  <td align="center" style="padding-left:5px;"> {{tc.salesPersonName}}</td>
                   <td align="center" style="padding-left:5px;"> {{fc.userCode}}</td>
-                  <td align="center" style="font-weight:bold;">CLOSED</td>
+                  <td align="center" style="font-weight:bold;">{{fc.status}}</td>
                 </tr>
               </tbody>
             </table>

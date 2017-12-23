@@ -257,10 +257,12 @@
 					message = "Job Invoice Detail Updated Successfully";
 					invoiceVm.invoice.updatedByUserCode = StoreService.getUser().userCode;
 					invoiceVm.invoice.updatedById = StoreService.getUser().userId;
+					invoiceVm.invoice.auditMessage = "Updated Invoice for Order Book # '"+ invoiceVm.invoice.awOrderNumber + "'";
 					update = true;
 				}else{
 					invoiceVm.invoice.createdByUserCode = StoreService.getUser().userCode;
 					invoiceVm.invoice.createdById = StoreService.getUser().userId;
+					invoiceVm.invoice.auditMessage = "Created Invoice for Order Book # '"+ invoiceVm.invoice.awOrderNumber + "'";
 				}
 				var formData = {};
 				invoiceVm.invoice.userNameOrEmail = StoreService.getUserName();

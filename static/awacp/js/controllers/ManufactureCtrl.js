@@ -54,6 +54,8 @@
 						mnD["productName"] = $scope.productName;
 						mnD["wsMultiplier"] = $scope.wsMultiplier;
 						mnD["createdByUserCode"] = StoreService.getUser().userCode;
+						mnD["auditMessage"] = "Created Manufacturer with name '"+$scope.productName+"'";
+						
 						formData["mnD"] = mnD;
 						AjaxUtil.submitData("/awacp/saveMnD", formData)
 						.success(function(data, status, headers){
@@ -128,7 +130,9 @@
 						var formData = {};
 						$scope.manufacture.productName = $scope.productName;
 						$scope.manufacture.wsMultiplier = $scope.wsMultiplier;
+						$scope.manufacture.updatedById = StoreService.getUser().userId;
 						$scope.manufacture.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.manufacture.auditMessage = "Updated Manufacturer with name '"+$scope.productName+"'";
 						formData["mnD"] = $scope.manufacture;
 						AjaxUtil.submitData("/awacp/updateMnD", formData)
 						.success(function(data, status, headers){

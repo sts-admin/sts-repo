@@ -3,188 +3,118 @@
 <div class="container-fluid">
 
 <section>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-4 col-md-5 col-sm-5 dashboard-content">
-        <h1>Add Tracking Number</h1>
-      </div>
-      <!-- .col -->
-      <div style="font-size:12px;" class="col-lg-8 col-md-7 col-sm-7 dashboard-content"> Make sure that the Tracking Number AND the Freight charges are entered before you update the order. </div>
-      <!-- .col -->
-      <div class="col-lg-12 col-md-12 col-sm-12"><br>
-      </div>
-      <!-- .col --> </div>
-    <!-- .row -->
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12"></div>
-    </div>
-  </div>
   <!-- .container -->
-  <form class="formular" action="" method="post" id="add_track" name="add_track">
+  <form class="formular" name="trackingForm" ng-submit="trackingVm.saveTracking();">
     <div class="theme-form quote-bg">
       <div class="container">
+		<div class="row">
+			<div class="col-lg-10 col-md-10 col-sm-9"> <h4>Tracking Detail (Order No: {{trackingVm.tracking.orderBookNumber}})</h4></div>
+			<div class="col-lg-10 col-md-10 col-sm-9"> <span class="new-take-off-title"><span style="font-size:12px;">Note:- <i>Make sure that the Tracking Number & the Freight charges are entered before you update the order.</i></span> </div>
+		</div>
+        <!-- .row -->
+        <div class="row">&nbsp;</div>
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><span style="font-size:14px;">Trucker 1:</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+			 <select class="form-control"
+			  ng-model="trackingVm.tracking.truckerOneId" 
+			  ng-options="tone.id as tone.name for tone in trackingVm.truckers" ng-required = "true">
+			  <option value="">--- Select ---</option>
+			</select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Tracking No (Trucker 1):</span></div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" ng-model="trackingVm.tracking.trackingNumberOne" ng-required = "true" class="form-control">
+            </div>
+          </div>
+         
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><strong>Freight(Trucker 1):</strong>$</span> </div>
+          <!-- .col --> 
+		  
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" ng-model="trackingVm.tracking.freightOne" ng-required = "true" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+		  
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Trucker 2: </span></div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <select class="form-control"
+			  ng-model="trackingVm.tracking.truckerTwoId" 
+			  ng-options="ttwo.id as ttwo.name for ttwo in trackingVm.truckers">
+			  <option value="">--- Select ---</option>
+			</select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Tracking No (Trucker 2):</span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" ng-model="trackingVm.tracking.trackingNumberTwo" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div style="clear:both;"></div>
+          <div class="col-lg-12 col-md-2 col-sm-3 visible-xs-padding-right">&nbsp;</div>
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <strong>Freight (Trucker 2):</strong>$ </span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" ng-model="trackingVm.tracking.freightTwo" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Trucker 3:</span></div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <select class="form-control"
+			  ng-model="trackingVm.tracking.truckerThreeId" 
+			  ng-options="tthree.id as tthree.name for tthree in trackingVm.truckers" >
+			  <option value="">--- Select ---</option>
+			</select>
+            </div>
+          </div>
+          <!-- .col -->
+          <div style="clear:both;"></div>
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Tracking No (Trucker 3):</span></div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" ng-model="trackingVm.tracking.freightThree" class="form-control">
+            </div>
+          </div>
+          <!-- .col -->
+          <div style="clear:both;"></div>
+          <div class="col-lg-12 col-md-2 col-sm-3 visible-xs-padding-right">&nbsp;</div>
+          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <strong>Freight (Trucker 3):</strong>$ </span> </div>
+          <!-- .col -->
+          <div class="col-lg-10 col-md-10 col-sm-9">
+            <div class="form-group">
+              <input type="text" ng-model="trackingVm.tracking.freightThree" class="form-control">
+            </div>
+          </div>
+          <!-- .col --> 
+		</div>
+        <!-- .row -->
+        <div class="row">&nbsp;</div>
         <div class="row">
           <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
           <div class="col-lg-10 col-md-10 col-sm-9 col-lg-offset-2 col-md-offset-2 col-sm-offset-3 col-lg-offset-0 col-md-offset-0">
-            <div class="form-group">
-              <input type="submit" class="submit-btn btn btn-primary" value="Update Order">
-              <input type="hidden" value="add" name="act">
-              <input type="hidden" value="17AW-5404RPL" name="ordernum">
-              <input type="hidden" id="order" value="17AW-5404RPL">
-              <input type="hidden" value="2" name="counter" id="counter">
-              <input type="hidden" value="101777" name="oiid" id="oiid">
-            </div>
-          </div>
-         </div>
-     
-     <div class="clearfix">&nbsp;</div>
-     
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><span style="font-size:14px;">Trucker</span><strong> for Order Number <font color="#FF0000">17AW-5404RPL</font> is :</strong></span> </div>
-        
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <select class="form-control" id="trucker" name="trucker">
-                <option value="">--</option>
-                <option value="A. DUIE PYLE">A. DUIE PYLE</option>
-                <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
-                <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
-                <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
-                <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
-                <option value="EDI">EDI</option>
-                <option value="FEDEX">FEDEX</option>
-                <option value="METROLOGISTICS">METROLOGISTICS</option>
-                <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
-                <option value="NEWPENN">NEWPENN</option>
-                <option value="OLD DOMINION">OLD DOMINION</option>
-                <option selected="selected" value="PICKUP">PICKUP</option>
-                <option value="ROAD RUNNER">ROAD RUNNER</option>
-                <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
-                <option value="UPS">UPS</option>
-                <option value="USF Trucking">USF TRUCKING</option>
-                <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
-                <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
-                <option value="YRC FREIGHT">YRC FREIGHT</option>
-              </select>
-            </div>
-          </div>
-   
-   <div class="clearfix">&nbsp;</div>
-   
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Tracking Number</span><strong> for Order Number <font color="#FF0000">17AW-5404RPL</font> is :</strong> </span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <input type="text" value="james miller@ 9-21-17" id="tracknum" name="tracknum" class="form-control">
-            </div>
-          </div>
-          <!-- .col -->
-         <div class="clearfix">&nbsp;</div>
-          <div class="col-lg-12 col-md-2 col-sm-3 visible-xs-padding-right">&nbsp;</div>
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"><strong>Freight Charges:</strong>$</span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <input type="text" value="" id="freight" name="freight" class="form-control">
-            </div>
-          </div>
-          <div class="clearfix">&nbsp;</div>
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Trucker 2</span> <strong>for Order Number <font color="#FF0000">17AW-5404RPL</font> is :</strong> </span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <select class="form-control" id="trucker2" name="trucker2">
-                <option value="">--</option>
-                <option value="A. DUIE PYLE">A. DUIE PYLE</option>
-                <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
-                <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
-                <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
-                <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
-                <option value="EDI">EDI</option>
-                <option value="FEDEX">FEDEX</option>
-                <option value="METROLOGISTICS">METROLOGISTICS</option>
-                <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
-                <option value="NEWPENN">NEWPENN</option>
-                <option value="OLD DOMINION">OLD DOMINION</option>
-                <option value="PICKUP">PICKUP</option>
-                <option value="ROAD RUNNER">ROAD RUNNER</option>
-                <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
-                <option value="UPS">UPS</option>
-                <option value="USF Trucking">USF TRUCKING</option>
-                <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
-                <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
-                <option value="YRC FREIGHT">YRC FREIGHT</option>
-              </select>
-            </div>
-          </div>
-          <div class="clearfix">&nbsp;</div>
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Tracking Number 2</span><strong> for Order Number <font color="#FF0000">17AW-5404RPL</font> is :</strong> </span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <input type="text" value="" id="tracknum_etc" name="tracknum_etc[]" class="form-control">
-            </div>
-          </div>
-          <!-- .col -->
-         <div class="clearfix">&nbsp;</div>
-          <div class="col-lg-12 col-md-2 col-sm-3 visible-xs-padding-right">&nbsp;</div>
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <strong>Freight Charges:</strong>$ </span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <input type="text" value="" id="freight_etc[]" name="freight_etc[]" class="form-control">
-            </div>
-          </div>
-         <div class="clearfix">&nbsp;</div>
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Trucker 3</span><strong> for Order Number <font color="#FF0000">17AW-5404RPL</font> is :</strong> </span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <select class="form-control" id="trucker3" name="trucker3">
-                <option value="">--</option>
-                <option value="A. DUIE PYLE">A. DUIE PYLE</option>
-                <option value="ABF FREIGHT SYSTEM INC">ABF FREIGHT SYSTEM INC</option>
-                <option value="AVERITT EXPRESS">AVERITT EXPRESS</option>
-                <option value="CUSTOM GLOBAL LOGISTICS">CUSTOM GLOBAL LOGISTICS</option>
-                <option value="DAYLIGHT TRUCKING">DAYLIGHT TRUCKING</option>
-                <option value="EDI">EDI</option>
-                <option value="FEDEX">FEDEX</option>
-                <option value="METROLOGISTICS">METROLOGISTICS</option>
-                <option value="NEW ENGLAND MOTOR FREIGHT">NEW ENGLAND MOTOR FREIGHT</option>
-                <option value="NEWPENN">NEWPENN</option>
-                <option value="OLD DOMINION">OLD DOMINION</option>
-                <option value="PICKUP">PICKUP</option>
-                <option value="ROAD RUNNER">ROAD RUNNER</option>
-                <option value="SBA GLOBAL LOGISTIC">SBA GLOBAL LOGISTIC</option>
-                <option value="UPS">UPS</option>
-                <option value="USF Trucking">USF TRUCKING</option>
-                <option value="USFR USF REDDAWAY">USFR USF REDDAWAY</option>
-                <option value="Vice Vision Express ">VICE VISION EXPRESS </option>
-                <option value="YRC FREIGHT">YRC FREIGHT</option>
-              </select>
-            </div>
-          </div>
-          <div class="clearfix">&nbsp;</div>
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <span style="font-size:14px;">Tracking Number 3</span><strong> for Order Number <font color="#FF0000">17AW-5404RPL</font> is :</strong> </span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <input type="text" value="" id="tracknum_etc[]" name="tracknum_etc[]" class="form-control">
-            </div>
-          </div>
-          <div class="clearfix">&nbsp;</div>
-          <div class="col-lg-12 col-md-2 col-sm-3 visible-xs-padding-right">&nbsp;</div>
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> <span class="new-take-off-title"> <strong>Freight Charges:</strong>$ </span> </div>
-          <!-- .col -->
-          <div class="col-lg-10 col-md-10 col-sm-9">
-            <div class="form-group">
-              <input type="text" value="" id="freight_etc[]" name="freight_etc[]" class="form-control">
-            </div>
-          </div>
-        <div class="clearfix">&nbsp;</div>
-        <div class="row">
-          <div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right"> &nbsp; </div>
-          <div class="col-lg-10 col-md-10 col-sm-9 col-lg-offset-2 col-md-offset-2 col-sm-offset-3 col-lg-offset-0 col-md-offset-0">
-            <input type="submit" class="submit-btn btn btn-primary" value="Update Order">
+            <input type="submit" class="actions submit-btn btn btn-primary" value="Save Tracking Detail">
+			<span class="spinner" style="display:none;">
+				<img src="images/loading.gif" />
+			</span>
           </div>
           <!-- .col --> </div>
         <!-- .row --> </div>

@@ -120,12 +120,15 @@
 			var update = false;
 			if(awfInvVm.awfInventory && awfInvVm.awfInventory.id){
 				message = "AWF Inventory Detail Updated Successfully";
+				awfInvVm.awfInventory.updatedById = StoreService.getUser().userId;
 				awfInvVm.awfInventory.updatedByUserCode = StoreService.getUser().userCode;
+				awfInvVm.awfInventory.auditMessage = "Updated AWF inventory with item name '"+ awfInvVm.awfInventory.item + "'";
 				url = "/awacp/updateAwfInventory";
 				update = true;
 			}else{
 				awfInvVm.awfInventory.createdById = StoreService.getUser().userId;
 				awfInvVm.awfInventory.createdByUserCode = StoreService.getUser().userCode;
+				awfInvVm.awfInventory.auditMessage = "Created AWF inventory with item name '"+ awfInvVm.awfInventory.item + "'";
 			}
 			var formData = {};
 			formData["awfInventory"] = awfInvVm.awfInventory;

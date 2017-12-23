@@ -18,7 +18,7 @@
 			return null;
 		}
 		
-		trackingVm.getTruckers = function(){
+		trackingVm.getTruckers = function(callback){
 			trackingVm.truckers = [];
 			trackingVm.pageNumber = trackingVm.currentPage;
 			AjaxUtil.getData("/awacp/listTruckers/-1/-1", Math.random())
@@ -37,6 +37,9 @@
 					}
 					trackingVm.truckers = tmp;
 					$scope.$digest();
+					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+						callback(data, "success");
+					}
 				}	
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -45,6 +48,7 @@
 			});
 		}
 		trackingVm.saveTracking = function(){
+			
 			jQuery(".actions").attr('disabled','disabled');
 			jQuery(".spinner").css('display','block');	
 			var update = false;
@@ -69,7 +73,7 @@
 			var formData = {};
 			formData["tracking"] = trackingVm.tracking;
 			AjaxUtil.submitData("/awacp/saveTracking", formData)
-			.success(function(data, status, headers){				
+			.success(function(data, status, headers){
 				if(data.tracking.truckerOne){
 					data.tracking.truckerOneId = data.tracking.truckerOne.id;
 				}
@@ -96,17 +100,35 @@
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
-				jqXHR.errorSource = "TrackingCtrl::trackingVm.saveTracking::Error";
-				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				
+				
+				if(1005 == jqXHR.status){
+					AlertService.showAlert(	'AWACP :: Alert!', "Unknow service provider, unable to track shipment status.")
+					.then(function (){return},function (){return});
+					return;
+				}else{
+					jqXHR.errorSource = "TrackingCtrl::trackingVm.saveTracking::Error";
+					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+				}
+				
 			});
 		}
-		trackingVm.editTracking = function(id){
-			AjaxUtil.getData("/awacp/getTracking/"+id, Math.random())
+		trackingVm.editTracking = function(orderNumber){
+			AjaxUtil.getData("/awacp/getTrackingByOrderNumber/"+orderNumber, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.tracking){										
+				if(data && data.tracking){	
+					if(data.tracking.truckerOne){
+						data.tracking.truckerOneId = data.tracking.truckerOne.id;
+					}
+					if(data.tracking.truckerTwo){
+						data.tracking.truckerTwoId = data.tracking.truckerTwo.id;
+					}
+					if(data.tracking.truckerThree){
+						data.tracking.truckerThreeId = data.tracking.truckerThree.id;
+					}				
 					trackingVm.tracking = data.tracking;
-				}
-				$scope.$digest();
+					$scope.$digest();
+				}				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "TrackingCtrl::trackingVm.editTracking::Error";
@@ -116,11 +138,13 @@
 		var state = $state.current.name;
 		if(state === 'tracking'){
 			if($state.params.invOrderBookNumber != null && $state.params.invOrderBookId != null && $state.params.invOrderItemId != null && $state.params.invType != null){
-				trackingVm.getTruckers();
-				
-				trackingVm.tracking.orderInvType = $state.params.invType;
-				trackingVm.tracking.orderBookInvItemId = $state.params.invOrderItemId;
-				trackingVm.tracking.orderBookNumber = $state.params.invOrderBookNumber;
+				trackingVm.getTruckers(function(data, sts){
+					trackingVm.tracking.invOrderBookId = $state.params.invOrderBookId;
+					trackingVm.tracking.orderInvType = $state.params.invType;
+					trackingVm.tracking.orderBookInvItemId = $state.params.invOrderItemId;
+					trackingVm.tracking.orderBookNumber = $state.params.invOrderBookNumber;
+					trackingVm.editTracking(trackingVm.tracking.invOrderBookId);
+				});	
 			}			
 		}
 	}		

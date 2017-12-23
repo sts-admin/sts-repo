@@ -52,6 +52,7 @@
 						shipTo["createdById"] = StoreService.getUser().userId;
 						shipTo["shipToAddress"] = $scope.shipToAddress;
 						shipTo["createdByUserCode"] = StoreService.getUser().userCode;
+						shipTo["auditMessage"] = "Added Ship To Detail '"+ $scope.shipToAddress + "'";
 						formData["shipTo"] = shipTo;
 						AjaxUtil.submitData("/awacp/saveShipTo", formData)
 						.success(function(data, status, headers){
@@ -124,7 +125,9 @@
 						jQuery(".spinner").css('display','block');
 						var formData = {};
 						$scope.shipTo.shipToAddress = $scope.shipToAddress;
+						$scope.shipTo.updatedById = StoreService.getUser().userId;
 						$scope.shipTo.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.shipTo.auditMessage = "Updated Ship to detail '"+ $scope.shipToAddress + "'";
 						formData["shipTo"] = $scope.shipTo;
 						AjaxUtil.submitData("/awacp/updateShipTo", formData)
 						.success(function(data, status, headers){

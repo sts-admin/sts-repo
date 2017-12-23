@@ -51,6 +51,7 @@
 						spec["detail"] = $scope.detail;
 						spec["createdById"] = StoreService.getUser().userId;
 						spec["createdByUserCode"] = StoreService.getUser().userCode;
+						spec["auditMessage"] = "Added Spec with detail '"+ $scope.detail + "'";
 						formData["spec"] = spec;
 						AjaxUtil.submitData("/awacp/saveSpecification", formData)
 						.success(function(data, status, headers){
@@ -127,6 +128,8 @@
 						var formData = {};
 						$scope.spec.detail = $scope.detail;
 						$scope.spec.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.spec.updatedById = StoreService.getUser().userId;
+						$scope.spec.auditMessage = "Updated Spec with detail '"+ $scope.detail + "'";
 						formData["spec"] = $scope.spec;
 						AjaxUtil.submitData("/awacp/updateSpecification", formData)
 						.success(function(data, status, headers){

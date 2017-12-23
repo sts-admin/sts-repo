@@ -52,6 +52,7 @@
 						quoteNote["createdById"] = StoreService.getUser().userId;
 						quoteNote["note"] = $scope.note;
 						quoteNote["createdByUserCode"] = StoreService.getUser().userCode;
+						quoteNote["auditMessage"] = "Added Quote Note '"+$scope.note+"'";
 						formData["quoteNote"] = quoteNote;
 						AjaxUtil.submitData("/awacp/saveQuoteNote", formData)
 						.success(function(data, status, headers){
@@ -124,7 +125,9 @@
 						jQuery(".spinner").css('display','block');
 						var formData = {};
 						$scope.quoteNote.note = $scope.note;
+						$scope.quoteNote.updatedById = StoreService.getUser().userId;
 						$scope.quoteNote.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.quoteNote.auditMessage = "Updated Quote Note '"+$scope.note+"'";
 						formData["quoteNote"] = $scope.quoteNote;
 						AjaxUtil.submitData("/awacp/updateQuoteNote", formData)
 						.success(function(data, status, headers){

@@ -48,7 +48,8 @@
 		}
 		orbfVm.editOrbf = function(orderBookId, jobOrderId){
 			orbfVm.orbf = {};
-			orbfVm.orbf.orderBookId = orderBookId;
+			var obId = orderBookId;
+			
 			orbfVm.getJobOrder(jobOrderId);
 			AjaxUtil.getData("/awacp/getOrbfByOrderBook/"+orderBookId, Math.random())
 			.success(function(data, status, headers){
@@ -57,7 +58,9 @@
 						data.orbf.estDate = new Date(data.orbf.estDate);
 					}
 					orbfVm.orbf = data.orbf;
+					orbfVm.orbf.orderBookId = obId;
 					$scope.$digest();
+					console.log(orbfVm.orbf);
 				}
 				
 			})
@@ -73,11 +76,14 @@
 			var message = "Orbf Detail Created Successfully";
 			if(orbfVm.orbf && orbfVm.orbf.id){
 				message = "Orbf Detail Updated Successfully";
+				orbfVm.orbf.updatedById = StoreService.getUser().userId;
 				orbfVm.orbf.updatedByUserCode = StoreService.getUser().userCode;
+				orbfVm.orbf.auditMessage = "Updated Orbf with  detail '"+orbfVm.orbf.orbf+"'";
 				update = true;
 			}else{
 				orbfVm.orbf.createdByUserCode = StoreService.getUser().userCode;
-				orbfVm.orbf.createdById = StoreService.getUserId();
+				orbfVm.orbf.createdById = StoreService.getUser().userId;
+				orbfVm.orbf.auditMessage = "Added Orbf with  detail '"+orbfVm.orbf.orbf+"'";
 			}
 			
 			var formData = {};

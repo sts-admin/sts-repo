@@ -58,6 +58,7 @@
 						taxEntry["city"] = $scope.city;
 						taxEntry["rate"] = $scope.rate;
 						taxEntry["createdByUserCode"] = StoreService.getUser().userCode;
+						taxEntry["auditMessage"] = "Added Tax entry";
 						formData["taxEntry"] = taxEntry;
 						AjaxUtil.submitData("/awacp/saveTaxEntry", formData)
 						.success(function(data, status, headers){
@@ -136,7 +137,8 @@
 						var formData = {};
 						$scope.taxEntry.city = $scope.city;
 						$scope.taxEntry.rate = $scope.rate;
-						$scope.taxEntry.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.taxEntry.updatedById = StoreService.getUser().userId;
+						$scope.taxEntry.auditMessage = "Updated Tax Entry";
 						formData["taxEntry"] = $scope.taxEntry;
 						AjaxUtil.submitData("/awacp/updateTaxEntry", formData)
 						.success(function(data, status, headers){

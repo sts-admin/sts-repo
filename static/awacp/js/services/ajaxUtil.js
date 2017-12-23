@@ -40,9 +40,10 @@
 				}else{
 					var msg = "Unable to complete request due to communication error.";
 					var rs = "", unknownPassword = false;
-					if(jqXHR.responseText && jqXHR.responseText!=null){						
+					if(jqXHR.responseText && jqXHR.responseText !=null){	
+						console.log(jqXHR.responseText);
 						rs = JSON.parse(jqXHR.responseText);
-						if(rs!=null && rs.error!=null){
+						if(rs !=null && rs.error !=null){
 							if(rs.error == 'invalid_token'){
 								//msg = "Your user session expired, need to re-login.";	
 								StoreService.removeAll();$state.go("/");				

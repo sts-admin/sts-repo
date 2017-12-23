@@ -1,0 +1,39 @@
+
+<div class="container-fluid">
+	<div class="clearfix">
+		<div class="panel panel-default" ng-init="asVm.initAppSetting()">
+			<div class="panel-heading form-heading panel-heading-top">
+				<label>{{asVm.action}}</label>
+			</div>
+			<div class="panel-body new-tk-bg">
+				<div class="container">
+					<form name="appSiteInfo" onsubmit="asVm.saveSiteInfo();">
+						 <div class="row">
+							<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+								<span class="new-take-off-title">Company Name</span><span class="colon">:</span>
+							</div><!-- .col -->
+							<div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+									<input type="text" class="form-control" name="site_title" id="site_title" value="<?php echo $records['site_title']; ?>" autocomplete="off" />
+								</div>
+							</div><!-- .col -->
+						</div><!-- .row -->
+						
+						<div class="row">
+							<div class="col-lg-2 col-md-2 col-sm-3 visible-xs-padding-right">
+								<span class="new-take-off-title">Front Website</span><span class="colon">:</span>
+							</div><!-- .col -->
+							<div class="col-lg-10 col-md-10 col-sm-9">
+								<div class="form-group">
+									<input type="text" class="form-control" name="front_website" id="front_website" value="<?php echo $records['front_website']; ?>" autocomplete="off" />
+								</div>
+							</div><!-- .col -->
+						</div><!-- .row -->           
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

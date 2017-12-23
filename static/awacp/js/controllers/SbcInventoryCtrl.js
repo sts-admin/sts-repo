@@ -114,12 +114,15 @@
 			var update = false;
 			if(sbcInvVm.sbcInventory && sbcInvVm.sbcInventory.id){
 				message = "SBC Inventory Detail Updated Successfully";
+				sbcInvVm.sbcInventory.updatedById = StoreService.getUser().userId;
 				sbcInvVm.sbcInventory.updatedByUserCode = StoreService.getUser().userCode;
+				sbcInvVm.sbcInventory.auditMessage = "Updated SBC Inventory with name '"+ sbcInvVm.sbcInventory.item + "'";
 				url = "/awacp/updateSbcInventory";
 				update = true;
 			}else{
 				sbcInvVm.sbcInventory.createdById = StoreService.getUser().userId;
 				sbcInvVm.sbcInventory.createdByUserCode = StoreService.getUser().userCode;
+				sbcInvVm.sbcInventory.auditMessage = "Added SBC Inventory with name '"+ sbcInvVm.sbcInventory.item + "'";
 			}
 			var formData = {};
 			formData["sbcInventory"] = sbcInvVm.sbcInventory;

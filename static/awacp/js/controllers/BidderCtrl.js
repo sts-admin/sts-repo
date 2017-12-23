@@ -98,10 +98,14 @@
 			if(bidVm.bidder && bidVm.bidder.id){
 				message = "Bidder Detail Updated Successfully";
 				bidVm.bidder.updatedByUserCode = StoreService.getUser().userCode;
+				bidVm.bidder.updatedById = StoreService.getUser().userId;
+				bidVm.bidder.auditMessage = "Updated Bidder with item name '"+ bidVm.bidder.name + "'";
 				url = "/awacp/updateBidder";
 				update = true;
 			}else{
 				bidVm.bidder.createdByUserCode = StoreService.getUser().userCode;
+				bidVm.bidder.createdById = StoreService.getUser().userId;
+				bidVm.bidder.auditMessage = "Created Bidder with item name '"+ bidVm.bidder.name + "'";
 			}
 			var formData = {};
 			formData["bidder"] = bidVm.bidder;

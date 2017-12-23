@@ -52,6 +52,7 @@
 						product["createdById"] = StoreService.getUser().userId;
 						product["productName"] = $scope.productName;
 						product["createdByUserCode"] = StoreService.getUser().userCode;
+						product["auditMessage"] = "Added product with name '"+$scope.productName+"'";
 						formData["product"] = product;
 						AjaxUtil.submitData("/awacp/saveProduct", formData)
 						.success(function(data, status, headers){
@@ -130,7 +131,9 @@
 						jQuery(".spinner").css('display','block');
 						var formData = {};
 						$scope.product.productName = $scope.productName;
+						$scope.product.updatedById = StoreService.getUser().userId;
 						$scope.product.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.product.auditMessage = "Updated product with name '"+$scope.productName+"'";
 						formData["product"] = $scope.product;
 						AjaxUtil.submitData("/awacp/updateProduct", formData)
 						.success(function(data, status, headers){

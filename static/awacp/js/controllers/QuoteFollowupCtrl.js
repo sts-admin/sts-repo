@@ -40,6 +40,7 @@
 		
 		qfVm.addQuoteFollowup = function(){
 			var formData = {};			
+			qfVm.quoteFollowup.createdById = StoreService.getUser().userId;	
 			formData["quoteFollowup"] = qfVm.quoteFollowup;	
 			AjaxUtil.submitData("/awacp/saveQuoteFollowup", formData)
 			.success(function(data, status, headers){

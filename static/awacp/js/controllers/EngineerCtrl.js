@@ -149,13 +149,18 @@
 			var update = false;
 			if(engVm.engineer && engVm.engineer.id){
 				message = "Engineer Detail Updated Successfully";
+				engVm.engineer.updatedById = StoreService.getUser().userId;				
 				engVm.engineer.updatedByUserCode = StoreService.getUser().userCode;
+				engVm.engineer.auditMessage = "Updated engineer with name '"+engVm.engineer.name+"'";
 				url = "/awacp/updateEngineer";
 				update = true;
 			}else{
 				engVm.engineer.createdByUserCode = StoreService.getUser().userCode;
+				engVm.engineer.createdById = StoreService.getUser().userId;
+				engVm.engineer.auditMessage = "Added engineer with name '"+engVm.engineer.name+"'";
 			}
 			var formData = {};
+			
 			formData["engineer"] = engVm.engineer;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
@@ -185,6 +190,7 @@
 			});
 		}
 		engVm.editEngineer();
+		engVm.getPageSize();
 	}		
 })();
 

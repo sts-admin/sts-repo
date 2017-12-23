@@ -125,10 +125,14 @@
 			if(mktTmpVm.marketingTemplate && mktTmpVm.marketingTemplate.id){
 				message = "Marketing Template Detail Updated Successfully";				
 				mktTmpVm.marketingTemplate.updatedByUserCode = StoreService.getUser().userCode;
+				mktTmpVm.marketingTemplate.updatedById = StoreService.getUser().userId;
+				mktTmpVm.marketingTemplate.auditMessage = "Updated Marketing template '"+ mktTmpVm.marketingTemplate.templateName + "'";
 				url = "/awacp/updateMarketingTemplate";
 				update = true;
 			}else{
 				mktTmpVm.marketingTemplate.createdByUserCode = StoreService.getUser().userCode;
+				mktTmpVm.marketingTemplate.createdById = StoreService.getUser().userId;
+				mktTmpVm.marketingTemplate.auditMessage = "Created Marketing template '"+ mktTmpVm.marketingTemplate.templateName + "'";
 			}
 			var formData = {};			
 			formData["marketingTemplate"] = mktTmpVm.marketingTemplate;

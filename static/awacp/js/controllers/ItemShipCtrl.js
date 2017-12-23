@@ -52,6 +52,8 @@
 						itemShipped["createdById"] = StoreService.getUser().userId;
 						itemShipped["item"] = $scope.item;
 						itemShipped["createdByUserCode"] = StoreService.getUser().userCode;
+						itemShipped["auditMessage"] = "Added Item Ship Detail for the item# "+ $scope.item;
+						
 						formData["itemShipped"] = itemShipped;
 						AjaxUtil.submitData("/awacp/saveItemShipped", formData)
 						.success(function(data, status, headers){
@@ -124,7 +126,9 @@
 						jQuery(".spinner").css('display','block');
 						var formData = {};
 						$scope.itemShipped.item = $scope.item;
+						$scope.itemShipped.updatedById = StoreService.getUser().userId;
 						$scope.itemShipped.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.itemShipped.auditMessage = "Updated Item Ship Detail for the item# "+ $scope.item;
 						formData["itemShipped"] = $scope.itemShipped;
 						AjaxUtil.submitData("/awacp/updateItemShipped", formData)
 						.success(function(data, status, headers){

@@ -109,12 +109,15 @@
 			var update = false;
 			if(jinvVm.jInventory && jinvVm.jInventory.id){
 				message = "J Inventory Detail Updated Successfully";
+				jinvVm.jInventory.updatedById = StoreService.getUser().userId;
 				jinvVm.jInventory.updatedByUserCode = StoreService.getUser().userCode;
+				jinvVm.jInventory.auditMessage = "Updated J Inventory with item name '"+ jinvVm.jInventory.item + "'";
 				url = "/awacp/updateJInventory";
 				update = true;
 			}else{
 				jinvVm.jInventory.createdById = StoreService.getUser().userId;
 				jinvVm.jInventory.createdByUserCode = StoreService.getUser().userCode;
+				jinvVm.jInventory.auditMessage = "Created J Inventory with item name '"+ jinvVm.jInventory.item + "'";
 			}
 			var formData = {};
 			formData["jInventory"] = jinvVm.jInventory;

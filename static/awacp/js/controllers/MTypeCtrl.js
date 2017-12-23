@@ -129,6 +129,7 @@
 						mnDType["rangeTwo"] = $scope.rangeTwo;
 						mnDType["rangeThree"] = $scope.rangeThree;
 						mnDType["createdByUserCode"] = StoreService.getUser().userCode;
+						mnDType["auditMessage"] = "Created MnD Type for product '"+$scope.productName+"'";
 						formData["mnDType"] = mnDType;
 						AjaxUtil.submitData("/awacp/saveMnDType", formData)
 						.success(function(data, status, headers){
@@ -213,6 +214,7 @@
 						$scope.mnDType.rangeThree = $scope.rangeThree;
 						$scope.mnDType.updatedById = StoreService.getUser().userId;
 						$scope.mnDType.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.mnDType.auditMessage = "Updated MnD Type for product '"+$scope.productName+"'";
 						formData["mnDType"] = $scope.mnDType;
 						AjaxUtil.submitData("/awacp/updateMnDType", formData)
 						.success(function(data, status, headers){

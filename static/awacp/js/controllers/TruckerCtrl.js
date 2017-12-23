@@ -76,12 +76,15 @@
 			var update = false;
 			if(truckerVm.trucker && truckerVm.trucker.id){
 				message = "Trucker Detail Updated Successfully";
+				truckerVm.trucker.updatedById = StoreService.getUser().userId;
 				truckerVm.trucker.updatedByUserCode = StoreService.getUser().userCode;
+				truckerVm.trucker.auditMessage = "Added Trucker with name '"+truckerVm.trucker.name+"'";
 				url = "/awacp/updateTrucker";
 				update = true;
 			}else{
 				truckerVm.trucker.createdById = StoreService.getUser().userId;
 				truckerVm.trucker.createdByUserCode = StoreService.getUser().userCode;
+				truckerVm.trucker.auditMessage = "Updated Trucker with name '"+truckerVm.trucker.name+"'";
 			}
 			var formData = {};
 			formData["trucker"] = truckerVm.trucker;

@@ -123,10 +123,13 @@
 			if(fcVm.factoryClaim && fcVm.factoryClaim.id){
 				message = "Factory Claim Detail Updated Successfully";
 				fcVm.factoryClaim.updatedByUserCode = StoreService.getUser().userCode;
+				fcVm.factoryClaim.updatedById = StoreService.getUserId();
+				fcVm.factoryClaim.auditMessage = "Updated Factory Claim for Order number # '"+ fcVm.factoryClaim.orderBookNumber + "'";
 				update = true;
 			}else{
 				fcVm.factoryClaim.createdByUserCode = StoreService.getUser().userCode;
 				fcVm.factoryClaim.createdById = StoreService.getUserId();
+				fcVm.factoryClaim.auditMessage = "Created Factory Claim for Order number # '"+ fcVm.factoryClaim.orderBookNumber + "'";
 			}
 			var formData = {};
 			fcVm.factoryClaim.userNameOrEmail = StoreService.getUserName();
@@ -136,14 +139,9 @@
 				jQuery(".fc-add-action").removeAttr('disabled');
 				jQuery("#fc-add-spinner").css('display','none');
 				fcVm.factoryClaim = {};
-				if(update){
-					AlertService.showAlert(	'AWACP :: Alert!', message)
-					.then(function (){return false;},function (){return false;});
-					return;
-				}else{
-					AlertService.showConfirm(	'AWACP :: Alert!', message)
-					.then(function (){return false;},function (){return false;});
-				}				
+				AlertService.showAlert(	'AWACP :: Alert!', message)
+				.then(function (){$state.go('cfactories');},function (){return false;});
+				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".fc-add-action").removeAttr('disabled');

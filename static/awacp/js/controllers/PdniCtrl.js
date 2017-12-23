@@ -52,6 +52,7 @@
 						pdni["createdById"] = StoreService.getUser().userId;
 						pdni["pdniName"] = $scope.pdniName;
 						pdni["createdByUserCode"] = StoreService.getUser().userCode;
+						pdni["auditMessage"] = "Added PDNI with name '"+$scope.pdniName+"'";
 						formData["pdni"] = pdni;
 						AjaxUtil.submitData("/awacp/savePdni", formData)
 						.success(function(data, status, headers){
@@ -124,7 +125,9 @@
 						jQuery(".spinner").css('display','block');
 						var formData = {};
 						$scope.pdni.pdniName = $scope.pdniName;
+						$scope.pdni.updatedById = StoreService.getUser().userId;
 						$scope.pdni.updatedByUserCode = StoreService.getUser().userCode;
+						$scope.pdni.auditMessage = "Updated PDNI with name '"+$scope.pdniName+"'";
 						formData["pdni"] = $scope.pdni;
 						AjaxUtil.submitData("/awacp/updatePdni", formData)
 						.success(function(data, status, headers){

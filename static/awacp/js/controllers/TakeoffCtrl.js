@@ -426,10 +426,14 @@
 				if(takeVm.editQuote){
 					message = "Quote Detail Updated Successfully";
 				}
+				takeVm.takeoff.updatedById = StoreService.getUser().userId;
 				takeVm.takeoff.updatedByUserCode = StoreService.getUser().userCode;
+				takeVm.takeoff.auditMessage = "Updated Takeoff with ID:'"+takeVm.takeoff.takeoffId+"'";
 				update = true;
 			}else{
+				takeVm.takeoff.createdById = StoreService.getUser().userId;
 				takeVm.takeoff.createdByUserCode = StoreService.getUser().userCode;
+				takeVm.takeoff.auditMessage = "Created Takeoff"; 
 			}
 			var formData = {};
 			takeVm.takeoff.userNameOrEmail = StoreService.getUserName();

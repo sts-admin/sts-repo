@@ -72,10 +72,14 @@
 			if(gcVm.generalContractor && gcVm.generalContractor.id){
 				message = "General Contractor Detail Updated Successfully";
 				gcVm.generalContractor.updatedByUserCode = StoreService.getUser().userCode;
+				gcVm.generalContractor.updatedById = StoreService.getUser().userId;
+				gcVm.generalContractor.auditMessage = "Updated GC with name '"+ gcVm.generalContractor.name + "'";
 				url = "/awacp/updateGc";
 				update = true;
 			}else{
 				gcVm.generalContractor.createdByUserCode = StoreService.getUser().userCode;
+				gcVm.generalContractor.createdById = StoreService.getUser().userId;
+				gcVm.generalContractor.auditMessage = "Created GC with name '"+ gcVm.generalContractor.name + "'";
 			}
 			var formData = {};
 			formData["generalContractor"] = gcVm.generalContractor;

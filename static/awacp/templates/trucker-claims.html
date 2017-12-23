@@ -75,7 +75,7 @@
                     Claim</td>
                   <td align="center">SP</td>
                   <td align="center">UC</td>
-                  <td align="center"></td>
+                  <td align="center">Status</td>
                 </tr>
               </thead>
               <tbody>
@@ -86,16 +86,17 @@
 				  <img border="0" id="img17" title="add pdf" src=""></a></td>
                   <td align="center" style="padding-left:5px;"> {{tc.orderBookNumber}}</td>
                   <td align="center" style="padding-left:5px;">
-				  <a target="_blank" href="#">CT-0001</a></td>
+					<a href ui-sref="fsr-trucker({claimId:tc.id})">CT-0001</a>								
+				  </td>
                   <td align="center" style="padding-left:5px;"> {{tc.orbf}}</td>
                   <td style="padding-left:5px;"> {{tc.contractor.name}}</td>
                   <td align="center" style="padding-left:5px;"> {{tc.tracking}}</td>
                   <td style="padding-left:5px;"> {{tc.trucker.name}}</td>
                   <td align="center" style="padding-left:5px;"> {{tc.claimAmount | currency}}</td>
                   <td style="padding-left:5px;"> {{tc.reasonForClaim}}</td>
-                  <td align="center" style="padding-left:5px;"> LP</td>
+                  <td align="center" style="padding-left:5px;"> {{tc.salesPersonName}}</td>
                   <td align="center" style="padding-left:5px;"> {{tc.userCode}}</td>
-                  <td align="center" style="font-weight:bold;">CLOSED</td>
+                  <td align="center" style="font-weight:bold;">{{tc.status}}</td>
                 </tr>
               </tbody>
             </table>
