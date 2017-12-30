@@ -81,9 +81,14 @@
               <tbody>
                 <tr height="25" style="color:#009900" ng-repeat="tc in tcVm.claims track by $index">
                   <td style="padding-left:5px;"> {{tc.dateCreated | date:'shortDate'}}</td>
-                  <td id="add_trucker_17" style="padding-left:5px;">
-				  <a data-target="#myModal" data-toggle="modal" href="#">
-				  <img border="0" id="img17" title="add pdf" src=""></a></td>
+				  <td align="center" >
+					<a href ng-click="tcVm.showFileListingView('TC_PDF', tc.id, 'Trucker Claim PDF', 'large', '.pdf', 'list-view');">
+						<span class="badge">{{tc.pdfDocCount}}</span>
+					</a>
+					<a href ng-click="tcVm.showFileListingView('TC_PDF', tc.id, 'Trucker Claim PDF', 'large', '.pdf', 'upload-view');">						
+						<img src="images/FileUploadIcon.png" alt="image" border="0" />
+					</a>
+				  </td>
                   <td align="center" style="padding-left:5px;"> {{tc.orderBookNumber}}</td>
                   <td align="center" style="padding-left:5px;">
 					<a href ui-sref="fsr-trucker({claimId:tc.id})">CT-0001</a>								

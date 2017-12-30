@@ -68,7 +68,7 @@
                   <td align="center">ORBF</td>
                   <td align="center">Contractor</td>
                   <td align="center">Tracking#</td>
-                  <td align="center">Trucker</td>
+                  <td align="center">Factory</td>
                   <td align="center">Claim<br>
                     Amount</td>
                   <td align="center">Reason for<br>
@@ -81,10 +81,14 @@
               <tbody>
                 <tr height="25" style="color:#009900" ng-repeat="fc in fcVm.claims track by $index">
                   <td style="padding-left:5px;"> {{fc.dateCreated | date:'shortDate'}}</td>
-                  <td id="add_Factory_17" style="padding-left:5px;">
-					<a data-target="#myModal" data-toggle="modal" href="#">
-					<img border="0" id="img17" title="add pdf" src=""></a>
-				</td>
+                 <td align="center" >
+					<a href ng-click="fcVm.showFileListingView('FC_PDF', fc.id, 'Factory Claim PDF', 'large', '.pdf', 'list-view');">
+						<span class="badge">{{fc.pdfDocCount}}</span>
+					</a>
+					<a href ng-click="fcVm.showFileListingView('FC_PDF', fc.id, 'Factory Claim PDF', 'large', '.pdf', 'upload-view');">						
+						<img src="images/FileUploadIcon.png" alt="image" border="0" />
+					</a>
+				  </td>
                   <td align="center" style="padding-left:5px;"> {{fc.orderBookNumber}}</td>
                   <td align="center" style="padding-left:5px;">
 					<a target="_blank" href="#">CT-0001</a></td>
