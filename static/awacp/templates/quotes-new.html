@@ -12,12 +12,12 @@
 					Per page Rows 
 					<select ng-class="styledselect_pages" style="outline:none;"
 					  ng-model="qVm.pageSize" 
-					  ng-options="size for size in qVm.pageSizeList" ng-change="qVm.setCurrentPageSize(qVm.pageSize);" >
+					  ng-options="size for size in qVm.pageSizeList" ng-change="qVm.setCurrentPageSize(qVm.pageSize, 'new');" >
 					</select>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 dashboard-content"> 
 						<a href="javascript:void(0);" onclick="ClearSearch('engineers');" class="btn btn-primary width-full">Clear Search</a> </div>
-					<ul uib-pagination total-items="qVm.totalItems" items-per-page = "qVm.pageSize" ng-model="qVm.currentPage" ng-change="qVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="qVm.totalItems" items-per-page = "qVm.pageSize" ng-model="qVm.currentPage" ng-change="qVm.pageChanged('new')"></ul>
 				</div>
   
 				<!-- .row -->

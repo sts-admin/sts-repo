@@ -31,30 +31,13 @@
 								$scope.hasFile = false;
 							};
 							//resetSelection:end
-							//showFileList:start
-							$scope.showFileList = function(){
-								$rootScope.fileViewSource = "templates/file-listing.html";
-								$scope.title = "File List";
-							};
-							//showFileList:end
-							//showUploadForm:start
-							$scope.showUploadForm = function(){
-								$rootScope.fileViewSource = "templates/file-upload.html";
-								$scope.title = "Upload File";
-							};
-							if(viewSource && viewSource === 'list-view'){
-								$scope.showFileList();
-							}else{
-								$scope.showUploadForm();
-							}
-							//showUploadForm:end
 							//listDocuments:start
 							$scope.listDocuments = function (source, sourceId){
 								$scope.documents = [];
 								AjaxUtil.getData("/awacp/listFilesBySource/"+ source + "/"+sourceId, Math.random())
 								.success(function(data, status, headers){
 									if(data && data.file && data.file.length > 0){										
-										$.each(data.file, function(k, v){
+										jQuery.each(data.file, function(k, v){
 											$scope.documents.push(v);
 										});
 									}
@@ -66,6 +49,25 @@
 								});
 							};
 							//listDocuments:end
+							//showFileList:start
+							$scope.showFileList = function(){
+								$rootScope.fileViewSource = "templates/file-listing.html";
+								$scope.title = "File List";
+								$scope.listDocuments($scope.source, $scope.sourceId);
+							};
+							//showFileList:end
+							//showUploadForm:start
+							$scope.showUploadForm = function(){
+								$rootScope.fileViewSource = "templates/file-upload.html";
+								$scope.title = "Upload File";								
+							};
+							if(viewSource && viewSource === 'list-view'){
+								$scope.showFileList();
+							}else{
+								$scope.showUploadForm();
+							}
+							//showUploadForm:end
+							
 							//close:start
 							$scope.close = function (){
 								modalInstance.dismiss();
@@ -83,6 +85,7 @@
 									AjaxUtil.uploadData("/awacp/uploadFile", fileData)
 									.success(function(data, status, headers){
 										var url = "/awacp/updateFileSource?userId="+StoreService.getUser().userId+"&fileSource="+$scope.source+"&fileSourceId="+$scope.sourceId+"&fileId="+data.file.id;
+										
 										AjaxUtil.getData(url, Math.random())
 										.success(function(data, status, headers){
 											AlertService.showAlert(	'AWACP :: Alert!', "File uploaded successfully")
@@ -122,10 +125,7 @@
 								.error(function(jqXHR, textStatus, errorThrown){
 									alert("ERROR: "+ JSON.stringify(jqXHR, null, 4));
 								});
-							}; //fileDownload :end
-							if($rootScope.fileViewSource === 'templates/file-listing.html'){
-								$scope.listDocuments($scope.source, $scope.sourceId);
-							}							
+							}; //fileDownload :end	
 						}
 					});
 					return defer.promise;

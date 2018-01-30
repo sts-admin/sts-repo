@@ -1,4 +1,9 @@
-
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function (searchString, position) {
+        position = position || 0;
+        return this.substr(position, searchString.length) === searchString;
+    };
+}
 (function() {
     'use strict';
 	//Local env
@@ -10,7 +15,7 @@
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/";	
 	var basePath = "/";*/
 	//prod env
-    angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce'])
+    angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce', 'autoCompleteModule'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
 		.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 			$stateProvider				

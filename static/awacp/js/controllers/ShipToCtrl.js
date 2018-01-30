@@ -63,7 +63,7 @@
 								modalInstance.dismiss();
 								shipToVm.getShipTos();
 								$scope.message = "";								
-							}, 2000);							
+							}, 1000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){

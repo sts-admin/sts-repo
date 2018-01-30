@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('FsrCtrl', FsrCtrl);
-	FsrCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
-	function FsrCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
+	FsrCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService', 'FileService'];
+	function FsrCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService, FileService){
 		var fsrVm = this;
 		fsrVm.currDate = new Date();
 		fsrVm.orderBook = {};
@@ -11,6 +11,28 @@
 		fsrVm.followups= [];
 		fsrVm.followup = {};
 		fsrVm.claim= {};
+		
+		fsrVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
+			title = "File List";
+			$rootScope.fileViewSource = "templates/file-listing.html";
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
+				if("success" === status){
+					fsrVm.updateFileUploadCount(source, sourceId, filePattern);
+				}
+			});
+		}
+		fsrVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(fsrVm.claims && fsrVm.claims.length > 0){
+				for(var i = 0; i < fsrVm.claims.length; i++){
+					if(fsrVm.claims[i].id === sourceId){
+						if(source.includes("TC_PDF") || source.includes("FC_PDF")){
+							fsrVm.claims[i].pdfDocCount = (parseInt(fsrVm.claims[i].pdfDocCount) + 1);
+						}			
+						break;
+					}
+				}
+			}
+		}
 		
 		fsrVm.getClaim = function(id, type, callback){
 			fsrVm.followup = {};
@@ -41,9 +63,10 @@
 			});
 		}
 		
-		fsrVm.listFollowups = function(id){
+		fsrVm.listFollowups = function(id, type){
+			var url = "/awacp/getFollowupsByClaim/"+id+"/"+type;
 			fsrVm.followups= [];
-			AjaxUtil.getData("/awacp/getFollowupsByClaim/"+id+"/", Math.random())
+			AjaxUtil.getData(url, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.claimFollowup){
 					var tmp = [];
@@ -56,7 +79,6 @@
 					}
 					fsrVm.followups = tmp;
 					$scope.$digest();
-					console.log(fsrVm.followups);
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -91,9 +113,10 @@
 				jQuery(".fu-add-action").removeAttr('disabled');
 				jQuery("#fu-add-spinner").css('display','none');
 				fsrVm.followup = {};
+				fsrVm.followup.claimSource = data.claimFollowup.claimSource;
 				AlertService.showAlert(	'AWACP :: Alert!', message)
 				.then(function (){return false;},function (){return false;});
-				fsrVm.listFollowups(fsrVm.claim.id);			
+				fsrVm.listFollowups(fsrVm.claim.id, data.claimFollowup.claimSource);			
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".fu-add-action").removeAttr('disabled');
@@ -112,7 +135,13 @@
 			}
 			if($state.params.claimId != null && type != null){
 				fsrVm.getClaim($state.params.claimId, type, function(result, sts){
-					fsrVm.listFollowups($state.params.claimId);
+					if("trucker" === type){
+						fsrVm.followup.claimSource = 'TC';
+						fsrVm.listFollowups($state.params.claimId, 'TC');
+					}else if("factory" === type){
+						fsrVm.followup.claimSource = 'FC';
+						fsrVm.listFollowups($state.params.claimId, 'FC');
+					}
 				});
 			}			
 		}

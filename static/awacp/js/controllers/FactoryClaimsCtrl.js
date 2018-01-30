@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('FactoryClaimsCtrl', FactoryClaimsCtrl);
-	FactoryClaimsCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
-	function FactoryClaimsCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
+	FactoryClaimsCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService', 'FileService'];
+	function FactoryClaimsCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService, FileService){
 		var fcVm = this;
 		fcVm.action = "Add";
 		fcVm.fcObSearchDone = false;
@@ -20,6 +20,29 @@
 		fcVm.pageNumber = 1;
 		fcVm.pageSize = 20;
 		fcVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		
+		fcVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
+			title = "File List";
+			$rootScope.fileViewSource = "templates/file-listing.html";
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
+				if("success" === status){
+					fcVm.updateFileUploadCount(source, sourceId, filePattern);
+				}
+			});
+		}
+		
+		fcVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(fcVm.claims && fcVm.claims.length > 0){
+				for(var i = 0; i < fcVm.claims.length; i++){
+					if(fcVm.claims[i].id === sourceId){
+						if(source.includes("FC_PDF")){
+							fcVm.claims[i].pdfDocCount = (parseInt(fcVm.claims[i].pdfDocCount) + 1);
+						}			
+						break;
+					}
+				}
+			}
+		}
 		fcVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("FACTORY_CLAIM", size, function(status, size){
 				if("success" === status){
@@ -119,7 +142,7 @@
 			jQuery(".fc-add-action").attr('disabled','disabled');
 			jQuery("#fc-add-spinner").css('display','block');	
 			var update = false;
-			var message = "Factory Claim Detail Created Successfully, add more?";
+			var message = "Factory Claim Detail Created Successfully.";
 			if(fcVm.factoryClaim && fcVm.factoryClaim.id){
 				message = "Factory Claim Detail Updated Successfully";
 				fcVm.factoryClaim.updatedByUserCode = StoreService.getUser().userCode;

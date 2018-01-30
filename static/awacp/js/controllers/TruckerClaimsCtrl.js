@@ -1,8 +1,8 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.controllers').controller('TruckerClaimsCtrl', TruckerClaimsCtrl);
-	TruckerClaimsCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService'];
-	function TruckerClaimsCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService){
+	TruckerClaimsCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', '$uibModal', 'StoreService', 'FileService'];
+	function TruckerClaimsCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, $uibModal, StoreService, FileService){
 		var tcVm = this;
 		tcVm.action = "Add";
 		tcVm.tcObSearchDone = false;
@@ -20,6 +20,28 @@
 		tcVm.pageNumber = 1;
 		tcVm.pageSize = 20;
 		tcVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		
+		tcVm.showFileListingView = function(source, sourceId, title, size, filePattern, viewSource){
+			title = "File List";
+			$rootScope.fileViewSource = "templates/file-listing.html";
+			FileService.showFileViewDialog(source, sourceId, title, size, filePattern, viewSource, function(data, status){
+				if("success" === status){
+					tcVm.updateFileUploadCount(source, sourceId, filePattern);
+				}
+			});
+		}
+		tcVm.updateFileUploadCount = function(source, sourceId, docType){
+			if(tcVm.claims && tcVm.claims.length > 0){
+				for(var i = 0; i < tcVm.claims.length; i++){
+					if(tcVm.claims[i].id === sourceId){
+						if(source.includes("TC_PDF")){
+							tcVm.claims[i].pdfDocCount = (parseInt(tcVm.claims[i].pdfDocCount) + 1);
+						}			
+						break;
+					}
+				}
+			}
+		}
 		tcVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("TRUCKER_CLAIM", size, function(status, size){
 				if("success" === status){

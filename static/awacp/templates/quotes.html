@@ -6,15 +6,30 @@
 			<div class="panel-heading panel-heading-top form-heading">
 				<label>View Quote(s)</label>
 			</div>
-			<div class="panel-body">
-            
-            <div class="col-lg-7 col-md-4 col-sm-7 col-xs-12 dashboard-content"> <p class="line-height">Revise Quote - Click Quote Number / <span class="text-danger">Quote Followup - Click JobName </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total rows found for Year - 25</p> </div>
-            <div class="col-lg-2 col-md-2 col-sm-6"><a href="javascript:void(0);" class="btn btn-primary" onclick="ClearSearch('takeoff');">Clear Search</a> </div>
+			<div class="panel-body">            
+				<div class="col-lg-7 col-md-4 col-sm-7 col-xs-12 dashboard-content"> 
+					<p class="line-height">
+						Revise Quote - Click Quote Number / 
+						<span class="text-danger">
+							Quote Followup - Click JobName 
+						</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total rows found for Year - 25
+					</p> 
+			</div>
+            <div class="col-lg-2 col-md-2 col-sm-6">
+				<a href="#" class="btn btn-primary">Clear Search</a> 
+			</div>
       
-      <div class="col-lg-3 col-md-3 col-sm-6 per-page-row text-right">Per page Rows <select class="styledselect_pages" id="num_of_records" style="outline:none;" onchange="setRecPage(this.value, 'takeoff', 'takeoff_view_form')"> <option value="25" selected="selected">25</option> <option value="50">50</option> <option value="75">75</option> <option value="100">100</option> <option value="125">125</option> <option value="150">150</option> </select></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 per-page-row text-right">
+			Per page Rows 			
+			<select ng-class="styledselect_pages" style="outline:none;"
+			  ng-model="qVm.pageSize" 
+			  ng-options="size for size in qVm.pageSizeList" ng-change="qVm.setCurrentPageSize(qVm.pageSize, 'quotes');" >
+			</select>
+		
+	  </div>
    
 				<div class="col-lg-12 col-md-12 col-sm-12" style="text-align:right;">
-					<ul uib-pagination total-items="qVm.totalItems" ng-model="qVm.currentPage" ng-change="qVm.pageChanged()"></ul>
+					<ul uib-pagination total-items="qVm.totalItems" ng-model="qVm.currentPage" ng-change="qVm.pageChanged('quotes')"></ul>
 				</div>
   
 				<!-- .row -->

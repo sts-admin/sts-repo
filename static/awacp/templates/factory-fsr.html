@@ -10,7 +10,7 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-lg-2 col-md-2 col-sm-2 dashboard-content">
-                    <h3>Trucker Claims</h3>
+                    <h3>Factory Claims</h3>
                   </div>
                   <!-- .col -->
                   <div class="col-lg-2 col-md-2 col-sm-2 text-center"> </div>
@@ -49,9 +49,13 @@
 						<tbody>
 					  <tr height="25" style="color:#009900">
 						  <td style="padding-left:5px;"> {{fsrVm.claim.dateCreated | date:'shortDate'}}</td>
-						  <td id="add_trucker_17" style="padding-left:5px;">
-							  <a data-target="#myModal" data-toggle="modal" href="#">
-							  <img border="0" id="img17" title="add pdf" src=""></a>
+						  <td align="center" >
+							<a href ng-click="fsrVm.showFileListingView('FC_PDF', fsrVm.claim.id, 'Factory Claim FSR PDF', 'large', '.pdf', 'list-view');">
+								<span class="badge">{{fsrVm.claim.pdfDocCount}}</span>
+							</a>
+							<a href ng-click="fsrVm.showFileListingView('FC_PDF', fsrVm.claim.id, 'Factory Claim FSR PDF', 'large', '.pdf', 'upload-view');">						
+								<img src="images/FileUploadIcon.png" alt="image" border="0" />
+							</a>
 						  </td>
 						  <td align="center" style="padding-left:5px;"> {{fsrVm.claim.orderBookNumber}}</td>
 						  <td align="center" style="padding-left:5px;">

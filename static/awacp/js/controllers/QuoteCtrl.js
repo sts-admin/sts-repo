@@ -78,24 +78,29 @@
 			}
 		}
 		
-		qVm.setCurrentPageSize =function(size){
-			AjaxUtil.setPageSize("NEW_QUOTES", size, function(status, size){
+		qVm.setCurrentPageSize =function(size, src){
+			AjaxUtil.setPageSize('new' === src? 'NEW-QUOTES':'QUOTES', size, function(status, size){
 				if("success" === status){
 					qVm.pageSize = size;
-					qVm.pageChanged();
+					qVm.pageChanged(src);
 				}
 			});
 		}
 		
-		qVm.getPageSize = function(){
-			AjaxUtil.getPageSize("NEW_QUOTES", function(status, size){
+		qVm.getPageSize = function(src){
+			AjaxUtil.getPageSize('new' === src ? 'NEW-QUOTES':'QUOTES', function(status, size){
 				if("success" === status){
 					qVm.pageSize = size;
+					$scope.$digest();
 				}
 			});
 		}
-		qVm.pageChanged = function() {
-			qVm.listQuotes();
+		qVm.pageChanged = function(src) {
+			if('new' === src){
+				qVm.listNewTakeoffsForQuote();
+			}else if('quotes' === src){
+				qVm.listQuotes();
+			}			
 		};		
 		qVm.cancelQuoteAction = function(){
 			$state.go("quotes");
@@ -534,7 +539,11 @@
 				$timeout.cancel($scope.timers[i]);
 			}
 		});
-		qVm.getPageSize();
+		if('quote-new-view' === $state.current.name){
+			qVm.getPageSize('new');
+		}else if('quote-view' === $state.current.name){
+			qVm.getPageSize('quotes');
+		}
 	}		
 })();
 

@@ -63,7 +63,7 @@
 								$scope.message = "";
 								modalInstance.dismiss();
 								pdniVm.getPdnis();
-							}, 2000);							
+							}, 1000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
@@ -138,7 +138,7 @@
 								$scope.message = "";
 								modalInstance.dismiss();
 								pdniVm.getPdnis();
-							}, 3000);							
+							}, 1000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){

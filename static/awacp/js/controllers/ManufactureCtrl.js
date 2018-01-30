@@ -66,7 +66,7 @@
 								modalInstance.dismiss();
 								manuVm.getManufactures();
 								$scope.message = "";
-							}, 2000);							
+							}, 1000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
@@ -143,7 +143,7 @@
 								modalInstance.dismiss();
 								manuVm.getManufactures();
 								$scope.message = "";								
-							}, 2000);							
+							}, 1000);							
 							return;
 						})
 						.error(function(jqXHR, textStatus, errorThrown){
