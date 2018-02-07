@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -266,6 +267,87 @@ public class AppSettingServiceImpl implements AppSettingService {
 		test.setDescription("TEST");
 		getEntityManager().merge(test);
 		return test;
+	}
+
+	@Override
+	public StsResponse<SystemLog> filterLogs(SystemLog log) {
+		StringBuffer selectQueryBuffer = new StringBuffer("SELECT sl FROM ").append(SystemLog.class.getSimpleName())
+				.append(" sl WHERE sl.archived = 'false' ");
+
+		StringBuffer countQueryBuffer = new StringBuffer("SELECT COUNT(sl.id) FROM ")
+				.append(SystemLog.class.getSimpleName()).append(" sl WHERE sl.archived = 'false' ");
+
+		if (log.getFromDate() != null) {
+			selectQueryBuffer.append(
+					" AND (FUNC('DATE', sl.dateCreated) >= :fromDate OR FUNC('DATE', sl.dateUpdated) >= :fromDate) ");
+			countQueryBuffer.append(
+					" AND (FUNC('DATE', sl.dateCreated) >= :fromDate OR FUNC('DATE', sl.dateUpdated) >= :fromDate) ");
+		}
+
+		if (log.getToDate() != null) {
+			selectQueryBuffer.append(
+					" AND (FUNC('DATE', sl.dateCreated) <= :toDate OR FUNC('DATE', sl.dateUpdated) <= :toDate) ");
+			countQueryBuffer.append(
+					" AND (FUNC('DATE', sl.dateCreated) <= :toDate OR FUNC('DATE', sl.dateUpdated) <= :toDate) ");
+		}
+
+		if (log.getUc() != null && !log.getUc().isEmpty()) {
+			selectQueryBuffer.append(" AND LOWER(sl.uc) =:uc");
+			countQueryBuffer.append(" AND LOWER(sl.uc) =:uc");
+		}
+
+		if (log.getSection() != null && !log.getSection().isEmpty()) {
+			selectQueryBuffer.append(" AND LOWER(sl.section) =:section");
+			countQueryBuffer.append(" AND LOWER(sl.section) =:section");
+		}
+
+		if (log.getDescription() != null && !log.getDescription().isEmpty()) {
+			selectQueryBuffer.append(" AND LOWER(sl.description) LIKE :description");
+			countQueryBuffer.append(" AND LOWER(sl.description) LIKE :description");
+		}
+
+		Query selectQuery = getEntityManager().createQuery(selectQueryBuffer.toString());
+		Query countQuery = getEntityManager().createQuery(countQueryBuffer.toString());
+
+		if (log.getFromDate() != null) {
+			selectQuery.setParameter("fromDate", log.getFromDate().getTime(), TemporalType.DATE);
+			countQuery.setParameter("fromDate", log.getFromDate().getTime(), TemporalType.DATE);
+		}
+		if (log.getToDate() != null) {
+			selectQuery.setParameter("toDate", log.getToDate().getTime(), TemporalType.DATE);
+			countQuery.setParameter("toDate", log.getToDate().getTime(), TemporalType.DATE);
+		}
+
+		if (log.getUc() != null && !log.getUc().isEmpty()) {
+			selectQuery.setParameter("uc", log.getUc().toLowerCase());
+			countQuery.setParameter("uc", log.getUc().toLowerCase());
+		}
+
+		if (log.getSection() != null && !log.getSection().isEmpty()) {
+			selectQuery.setParameter("section", log.getSection().toLowerCase());
+			countQuery.setParameter("section", log.getSection().toLowerCase());
+		}
+
+		if (log.getDescription() != null && !log.getDescription().isEmpty()) {
+			selectQuery.setParameter("description", "%" + log.getDescription().toLowerCase() + "%");
+			countQuery.setParameter("description", "%" + log.getDescription().toLowerCase() + "%");
+		}
+
+		StsResponse<SystemLog> response = new StsResponse<SystemLog>();
+		if (log.getPageNumber() <= 1) {
+			Object object = countQuery.getSingleResult();
+			int count = 0;
+			if (object != null) {
+				count = (((Long) object).intValue());
+			}
+			response.setTotalCount(count);
+		}
+		if (log.getPageNumber() > 0 && log.getPageSize() > 0) {
+			selectQuery.setFirstResult(((log.getPageNumber() - 1) * log.getPageSize())).setMaxResults(log.getPageSize());
+		}
+		@SuppressWarnings("unchecked")
+		List<SystemLog> results = selectQuery.getResultList();
+		return results == null || results.isEmpty() ? response : response.setResults(results);
 	}
 
 }

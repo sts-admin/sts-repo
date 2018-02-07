@@ -804,8 +804,8 @@ public class OrderBookServiceImpl extends CommonServiceImpl<OrderBook> implement
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ClaimFollowup> getFollowupsByClaim(Long claimId) {
-		return getEntityManager().createNamedQuery("ClaimFollowup.getByClaim").setParameter("claimId", claimId)
+	public List<ClaimFollowup> getFollowupsByClaim(Long claimId, String source) {
+		return getEntityManager().createNamedQuery("ClaimFollowup.getByClaim").setParameter("claimId", claimId).setParameter("source", source.toLowerCase())
 				.getResultList();
 	}
 }

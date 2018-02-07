@@ -34,10 +34,12 @@ public class TruckerClaim extends BaseEntity {
 	private Long contractorId;
 
 	private Long truckerId;
-	
+
 	private String status;
-	
+
 	private String salesPersonName;
+
+	private int pdfDocCount;
 
 	public TruckerClaim() {
 		super();
@@ -147,7 +149,6 @@ public class TruckerClaim extends BaseEntity {
 		this.truckerId = truckerId;
 	}
 
-	
 	public String getStatus() {
 		return status;
 	}
@@ -164,7 +165,14 @@ public class TruckerClaim extends BaseEntity {
 	public void setSalesPersonName(String salesPersonName) {
 		this.salesPersonName = salesPersonName;
 	}
-	
-	
+
+	@Transient
+	public int getPdfDocCount() {
+		return pdfDocCount;
+	}
+
+	public void setPdfDocCount(int pdfDocCount) {
+		this.pdfDocCount = pdfDocCount;
+	}
 
 }

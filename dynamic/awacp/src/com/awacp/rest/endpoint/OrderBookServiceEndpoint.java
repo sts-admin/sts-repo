@@ -44,17 +44,17 @@ public class OrderBookServiceEndpoint extends CrossOriginFilter {
 	@GET
 	@Path("/getClaimFollowup/{claimId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ClaimFollowup getClaimFollowup(@PathParam("claimId") Long claimId,
+	public ClaimFollowup getClaimFollowup(@PathParam("claimId") Long claimId, 
 			@Context HttpServletResponse servletResponse) throws IOException {
 		return this.orderBookService.getClaimFollowup(claimId);
 	}
 
 	@GET
-	@Path("/getFollowupsByClaim/{claimId}")
+	@Path("/getFollowupsByClaim/{claimId}/{source}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ClaimFollowup> getFollowupsByClaim(@PathParam("claimId") Long claimId,
-			@Context HttpServletResponse servletResponse) throws IOException {
-		return this.orderBookService.getFollowupsByClaim(claimId);
+			@PathParam("source") String source, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.orderBookService.getFollowupsByClaim(claimId, source);
 	}
 
 	@GET

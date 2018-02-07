@@ -18,7 +18,7 @@ import com.sts.core.entity.BaseEntity;
 @Entity
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "ClaimFollowup.getByClaim", query = "SELECT cf FROM ClaimFollowup cf WHERE cf.archived = 'false' AND cf.claimId = :claimId ORDER BY cf.dateCreated DESC") })
+		@NamedQuery(name = "ClaimFollowup.getByClaim", query = "SELECT cf FROM ClaimFollowup cf WHERE cf.archived = 'false' AND cf.claimId = :claimId AND LOWER(cf.claimSource) = :source ORDER BY cf.dateCreated DESC") })
 public class ClaimFollowup extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +30,8 @@ public class ClaimFollowup extends BaseEntity {
 	private boolean status;
 	private String userCode; // length 10
 	private boolean reminderDismissed;
+
+	private String claimSource;
 
 	public ClaimFollowup() {
 		super();
@@ -45,7 +47,6 @@ public class ClaimFollowup extends BaseEntity {
 		this.claimId = claimId;
 	}
 
-	
 	public Calendar getDateCreated() {
 		return dateCreated;
 	}
@@ -63,7 +64,6 @@ public class ClaimFollowup extends BaseEntity {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-
 
 	public Calendar getNextRemindDate() {
 		return nextRemindDate;
@@ -93,13 +93,21 @@ public class ClaimFollowup extends BaseEntity {
 		this.userCode = userCode;
 	}
 
-	
 	public boolean isReminderDismissed() {
 		return reminderDismissed;
 	}
 
 	public void setReminderDismissed(boolean reminderDismissed) {
 		this.reminderDismissed = reminderDismissed;
+	}
+
+	@Column(nullable = false, length = 2)
+	public String getClaimSource() {
+		return claimSource;
+	}
+
+	public void setClaimSource(String claimSource) {
+		this.claimSource = claimSource;
 	}
 
 }

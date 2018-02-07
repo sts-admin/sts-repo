@@ -43,6 +43,10 @@ public class StsCoreConstant {
 	public static final String DOC_JO_TAX = "JO_TAX";
 	public static final String DOC_JO_PO = "JO_PO";
 	public static final String DOC_JO_IU = "JO_IU";
+	
+	public static final String DOC_TC_PDF = "TC_PDF";
+	public static final String DOC_FC_PDF = "FC_PDF";
+	
 
 	public static final String DOC_TAKEOFF_DRAWING = "TAKEOFF_DRAWING_DOC";
 	public static final String DOC_TAKEOFF_VIBRO = "TAKEOFF_VIBRO_DOC";

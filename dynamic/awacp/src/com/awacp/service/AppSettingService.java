@@ -49,4 +49,6 @@ public interface AppSettingService {
 
 	public StsResponse<SystemLog> listSystemLogs(int pageNumber, int pageSize);
 
+	public StsResponse<SystemLog> filterLogs(SystemLog log);
+
 }

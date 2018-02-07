@@ -1,8 +1,11 @@
 package com.awacp.entity;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.sts.core.entity.BaseEntity;
@@ -17,6 +20,13 @@ public class SystemLog extends BaseEntity {
 	private String section;
 	private String description;
 	private String uc;
+
+	// Transient
+	private int pageNumber;
+	private int pageSize;
+
+	private Calendar fromDate;
+	private Calendar toDate;
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,4 +59,41 @@ public class SystemLog extends BaseEntity {
 	public void setSection(String section) {
 		this.section = section;
 	}
+
+	@Transient
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	@Transient
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	@Transient
+	public Calendar getFromDate() {
+		return fromDate;
+	}
+
+	@Transient
+	public Calendar getToDate() {
+		return toDate;
+	}
+
+	public void setFromDate(Calendar fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public void setToDate(Calendar toDate) {
+		this.toDate = toDate;
+	}
+
 }

@@ -3,19 +3,25 @@ package com.awacp.service.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.awacp.entity.Contractor;
 import com.awacp.entity.Trucker;
 import com.awacp.entity.TruckerClaim;
 import com.awacp.service.TruckerClaimService;
+import com.sts.core.constant.StsCoreConstant;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
 import com.sts.core.exception.StsDuplicateException;
+import com.sts.core.service.FileService;
 import com.sts.core.service.impl.CommonServiceImpl;
 
 public class TruckerClaimServiceImpl extends CommonServiceImpl<TruckerClaim> implements TruckerClaimService {
 	private EntityManager entityManager;
+
+	@Autowired
+	private FileService fileService;
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
@@ -60,7 +66,9 @@ public class TruckerClaimServiceImpl extends CommonServiceImpl<TruckerClaim> imp
 
 	@Override
 	public TruckerClaim getTruckerClaim(Long id) {
-		return getEntityManager().find(TruckerClaim.class, id);
+		TruckerClaim tc = getEntityManager().find(TruckerClaim.class, id);
+		initClaims(tc);
+		return tc;
 	}
 
 	@Override
@@ -77,8 +85,11 @@ public class TruckerClaimServiceImpl extends CommonServiceImpl<TruckerClaim> imp
 	}
 
 	private void initClaims(TruckerClaim claim) {
-		if(claim.getSalesmanId() != null)
-		claim.setSalesPersonName(getEntityManager().find(User.class, claim.getSalesmanId()).getUserCode());
+		if (claim.getSalesmanId() != null) {
+			claim.setSalesPersonName(getEntityManager().find(User.class, claim.getSalesmanId()).getUserCode());
+		}
+
+		claim.setPdfDocCount(fileService.getFileCount(StsCoreConstant.DOC_TC_PDF, claim.getId()));
 	}
 
 	@Override

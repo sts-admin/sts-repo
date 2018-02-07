@@ -27,7 +27,16 @@ public class AppSettingServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	AppSettingService appSettingService;
-	
+
+	@POST
+	@Path("/filterLogs")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<SystemLog> filterLogs(SystemLog systemLog, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		return this.appSettingService.filterLogs(systemLog);
+
+	}
+
 	@GET
 	@Path("/listSystemLogs/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)

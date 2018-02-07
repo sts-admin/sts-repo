@@ -50,7 +50,7 @@ public interface OrderBookService {
 
 	public ClaimFollowup getClaimFollowup(Long id);
 	
-	public List<ClaimFollowup> getFollowupsByClaim(Long claimId);
+	public List<ClaimFollowup> getFollowupsByClaim(Long claimId, String source);
 
 	public List<ClaimFollowup> getFollowupsByOrderBook(Long orderBookId);
 

@@ -5,11 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import org.springframework.transaction.annotation.Transactional;
-
-import com.awacp.entity.SystemLog;
 import com.sts.core.dto.StsResponse;
-import com.sts.core.entity.User;
 import com.sts.core.service.CommonService;
 
 public class CommonServiceImpl<T> implements CommonService<T> {
@@ -31,6 +27,15 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	}
 
 	@Override
+	public int getTotalRecords(Query query) {
+		Object object = query.getSingleResult();
+		if (object != null) {
+			return (((Long) object).intValue());
+		}
+		return 0;
+	}
+
+	@Override
 	public StsResponse<T> listAll(String entityClassName, EntityManager em) {
 		return listAll(-1, -1, entityClassName, em);
 	}
@@ -39,30 +44,58 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 	public StsResponse<T> listAllArchived(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
 		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
 				.append(" entity WHERE entity.archived = 'true'");
-		return listAll(pageNumber, pageSize, sb.toString(), entityClassName, "id", em);
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(entity.id").append(" FROM ").append(entityClassName)
+				.append(" entity WHERE entity.archived = 'true'");
+		return listAll(pageNumber, pageSize, sb.toString(), countQuery.toString(), entityClassName, "id", em);
 	}
 
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
 		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
 				.append(" entity WHERE entity.archived = 'false' ORDER BY entity.dateCreated DESC");
-		return listAll(pageNumber, pageSize, sb.toString(), entityClassName, "id", em);
+		return listAll(pageNumber, pageSize, sb.toString(), "all", entityClassName, "id", em);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StsResponse<T> listAll(int pageNumber, int pageSize, String queryString, String entityClassName,
-			String primaryKeyName, EntityManager em) {
+	public StsResponse<T> listAll(int pageNumber, int pageSize, String searchQuery, String countQuery,
+			String entityClassName, String primaryKeyName, EntityManager em) {
 
 		StsResponse<T> response = new StsResponse<T>();
 		if (pageNumber <= 1) {
-			response.setTotalCount(getTotalRecords(entityClassName, primaryKeyName, em));
+			if ("all".equalsIgnoreCase(countQuery)) {
+				response.setTotalCount(getTotalRecords(entityClassName, primaryKeyName, em));
+			} else {
+				response.setTotalCount(getTotalRecords(countQuery, em));
+			}
+
 		}
-		Query query = em.createQuery(queryString);
+		Query query = em.createQuery(searchQuery);
 		if (pageNumber > 0 && pageSize > 0) {
 			query.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
 		}
 		List<T> results = query.getResultList();
+		return results == null || results.isEmpty() ? response : response.setResults(results);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public StsResponse<T> listAll(int pageNumber, int pageSize, Query searchQuery, Query countQuery,
+			String entityClassName, String primaryKeyName, EntityManager em) {
+
+		StsResponse<T> response = new StsResponse<T>();
+		if (pageNumber <= 1) {
+			if (countQuery == null) {
+				response.setTotalCount(getTotalRecords(entityClassName, primaryKeyName, em));
+			} else {
+				response.setTotalCount(getTotalRecords(countQuery));
+			}
+
+		}
+		if (pageNumber > 0 && pageSize > 0) {
+			searchQuery.setFirstResult(((pageNumber - 1) * pageSize)).setMaxResults(pageSize);
+		}
+		List<T> results = searchQuery.getResultList();
 		return results == null || results.isEmpty() ? response : response.setResults(results);
 	}
 

@@ -11,6 +11,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -24,6 +25,7 @@ import com.awacp.service.TakeoffService;
 import com.awacp.service.WorksheetService;
 import com.awacp.util.QuotePdfGenerator;
 import com.sts.core.config.AppPropConfig;
+import com.sts.core.dto.AutoComplete;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.web.filter.CrossOriginFilter;
 
@@ -37,6 +39,31 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 
 	@Autowired
 	SpecService specService;
+
+	@GET
+	@Path("/totalRecordsForTheYear/{recordType}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String totalRecordsForTheYear(@PathParam("recordType") String recordType, @Context HttpServletResponse servletResponse) throws IOException {
+		int totalCount = this.takeoffService.totalRecordsForTheYear(recordType);
+		return "{\"totalCount\":\"" + totalCount + "\"}";
+	}
+
+	@GET
+	@Path("/autoCompleteTakeoffList")
+	@Produces(MediaType.APPLICATION_JSON)
+	public AutoComplete autoCompleteList(@QueryParam("keyword") String keyword, @QueryParam("field") String field,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.takeoffService.autoCompleteList(keyword, field);
+	}
+
+	@POST
+	@Path("/searchTakeoffs")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public StsResponse<Takeoff> searchTakeoffs(Takeoff takeoff, @Context HttpServletResponse servletResponse)
+			throws Exception {
+		return this.takeoffService.searchTakeoffs(takeoff);
+	}
 
 	@POST
 	@Path("/generateTakeoffReport")
@@ -94,11 +121,12 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/filterTakeoffs/{pageNumber}/{pageSize}")
+	@Path("/filterTakeoffs/{pageNumber}/{pageSize}/{redOrGreenOrAll}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<Takeoff> filterTakeoffs(@PathParam("pageNumber") int pageNumber,
-			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.takeoffService.listTakeoffs(pageNumber, pageSize);
+			@PathParam("pageSize") int pageSize, @PathParam("redOrGreenOrAll") String redOrGreenOrAll,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.takeoffService.listTakeoffs(pageNumber, pageSize, redOrGreenOrAll);
 	}
 
 	@GET
@@ -119,11 +147,12 @@ public class TakeoffServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/listTakeoffs/{pageNumber}/{pageSize}")
+	@Path("/listTakeoffs/{pageNumber}/{pageSize}/{redOrGreenOrAll}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<Takeoff> listTakeoffs(@PathParam("pageNumber") int pageNumber,
-			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
-		return this.takeoffService.listTakeoffs(pageNumber, pageSize);
+			@PathParam("pageSize") int pageSize, @PathParam("redOrGreenOrAll") String redOrGreenOrAll,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.takeoffService.listTakeoffs(pageNumber, pageSize, redOrGreenOrAll);
 	}
 
 	@GET

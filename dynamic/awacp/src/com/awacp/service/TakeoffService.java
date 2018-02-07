@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.awacp.entity.QuoteFollowup;
 import com.awacp.entity.Takeoff;
+import com.sts.core.dto.AutoComplete;
 import com.sts.core.dto.StsResponse;
 
 public interface TakeoffService {
-	public StsResponse<Takeoff> listTakeoffs(int pageNumber, int pageSize);
+	public StsResponse<Takeoff> listTakeoffs(int pageNumber, int pageSize, String redOrGreenOrAll);
 
 	public Takeoff getTakeoff(Long takeoffId);
 
@@ -25,9 +26,7 @@ public interface TakeoffService {
 
 	public List<Takeoff> filter(String filters, int pageNumber, int pageSize);
 
-	public List<String> listTakeoffIds(String keword);
-
-	public List<String> listQuoteIds(String keword);
+	public AutoComplete autoCompleteList(String keyword, String field);
 
 	public StsResponse<Takeoff> listNewTakeoffsForQuote(int pageNumber, int pageSize);
 
@@ -42,8 +41,13 @@ public interface TakeoffService {
 	public List<QuoteFollowup> getAllQuoteFollowups(Long takeoffId);
 
 	public Takeoff getTakeoffByQuoteId(String quoteId);
-	
+
 	public StsResponse<Takeoff> generateTakeoffReport(Takeoff takeoff);
-	
+
 	public void setQuotePdfGenerated(Long takeoffId, String pdfFilePath);
+
+	public StsResponse<Takeoff> searchTakeoffs(Takeoff takeoff);
+	
+	public int totalRecordsForTheYear(String recordType);
+
 }

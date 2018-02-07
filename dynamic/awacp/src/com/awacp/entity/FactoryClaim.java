@@ -39,6 +39,8 @@ public class FactoryClaim extends BaseEntity {
 
 	private String salesPersonName;
 
+	private int pdfDocCount;
+
 	public FactoryClaim() {
 		super();
 	}
@@ -147,7 +149,6 @@ public class FactoryClaim extends BaseEntity {
 		this.truckerId = truckerId;
 	}
 
-	
 	public String getStatus() {
 		return status;
 	}
@@ -163,6 +164,15 @@ public class FactoryClaim extends BaseEntity {
 
 	public void setSalesPersonName(String salesPersonName) {
 		this.salesPersonName = salesPersonName;
+	}
+
+	@Transient
+	public int getPdfDocCount() {
+		return pdfDocCount;
+	}
+
+	public void setPdfDocCount(int pdfDocCount) {
+		this.pdfDocCount = pdfDocCount;
 	}
 
 }

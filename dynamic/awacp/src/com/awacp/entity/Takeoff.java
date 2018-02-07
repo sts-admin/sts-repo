@@ -32,9 +32,10 @@ import com.sts.core.entity.BaseEntity;
 		@NamedQuery(name = "Takeoff.countAll", query = "SELECT COUNT(t.id) FROM Takeoff t WHERE t.archived = 'false'"),
 		@NamedQuery(name = "Takeoff.listNewTakeoffsForQuote", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND FUNC('ISNULL', t.quoteId)  ORDER BY t.dateCreated DESC"),
 		@NamedQuery(name = "Takeoff.listTakeoffsForView", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND NOT FUNC('ISNULL', t.quoteId)  ORDER BY t.dateCreated DESC"),
+		@NamedQuery(name = "Takeoff.listTakeoffsNotQuoted", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND FUNC('ISNULL', t.quoteId)  ORDER BY t.dateCreated DESC"),
+		@NamedQuery(name = "Takeoff.listTakeoffsQuoted", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND NOT FUNC('ISNULL', t.quoteId)  ORDER BY t.dateCreated DESC"),
 		@NamedQuery(name = "Takeoff.getTakeoffByQuoteId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.quoteId =:quoteId"),
-		@NamedQuery(name = "Takeoff.getTakeoffByTakeoffId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.takeoffId =:takeoffId")
-		})
+		@NamedQuery(name = "Takeoff.getTakeoffByTakeoffId", query = "SELECT t FROM Takeoff t WHERE t.archived = 'false' AND t.takeoffId =:takeoffId") })
 public class Takeoff extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -77,6 +78,7 @@ public class Takeoff extends BaseEntity {
 
 	private String vibrolayin;
 	private Double amount;
+	private String amt;
 
 	private String quoteRevision;
 	private boolean mailSentToBidder;
@@ -119,6 +121,10 @@ public class Takeoff extends BaseEntity {
 
 	private int pageNumber;
 	private int pageSize;
+	private String view;
+
+	private String bidder;
+	private String gc;
 
 	public Takeoff() {
 		super();
@@ -669,6 +675,42 @@ public class Takeoff extends BaseEntity {
 
 	public void setPdfFilePath(String pdfFilePath) {
 		this.pdfFilePath = pdfFilePath;
+	}
+
+	@Transient
+	public String getView() {
+		return view;
+	}
+
+	public void setView(String view) {
+		this.view = view;
+	}
+
+	@Transient
+	public String getBidder() {
+		return bidder;
+	}
+
+	@Transient
+	public String getGc() {
+		return gc;
+	}
+
+	public void setBidder(String bidder) {
+		this.bidder = bidder;
+	}
+
+	public void setGc(String gc) {
+		this.gc = gc;
+	}
+
+	@Transient
+	public String getAmt() {
+		return amt;
+	}
+
+	public void setAmt(String amt) {
+		this.amt = amt;
 	}
 
 }
