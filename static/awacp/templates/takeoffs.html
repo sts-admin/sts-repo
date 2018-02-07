@@ -2,17 +2,17 @@
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
   <div class="clearfix">
-    <div class="panel panel-default shadow" ng-init="takeVm.listTakeoffs();">
+    <div class="panel panel-default shadow" ng-init="takeVm.getAllTakeoffs();">
       <div class="panel-heading form-heading panel-heading-top">
         <label>View Takeoffs</label>
         <span class="pull-right"><a href ui-sref="takeoff-add" >Add Takeoff</a></span> </div>
       <div class="panel-body">      
 		<div class="col-lg-7 col-md-7 col-sm-6"> 
-			<a href="#" class="color-red">RED = Takeoff Needs to be Quoted</a> / 
-			<a href="#" class="color-green">GREEN = Already Quoted </a> / 
-			<a href="#" class="color-blue">All = green + red</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			<a href ng-click="takeVm.getTakeoffsNotQuoted();" class="color-red">RED = Takeoff Needs to be Quoted</a> / 
+			<a href ng-click="takeVm.getTakeoffsQuoted();" class="color-green">GREEN = Already Quoted </a> / 
+			<a href ng-click="takeVm.getAllTakeoffs();" class="color-blue">All = green + red</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 			<a href="#" ng-click="takeVm.clearSearch();" class="btn btn-primary">Clear Search</a> <br> 
-			<span id="tophead" style="font-size:12px;">Total rows found for Year 2016 - 7,396</span> 
+			<span id="tophead" style="font-size:12px;">Total rows found for Year {{takeVm.currentYear}} - {{takeVm.totalCountOfTheYear}}</span> 
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
 			Per page Rows 			
@@ -69,16 +69,16 @@
 					  </td>
 					  
 					  <td align="center">
-						<input type="text" name="eng" ng-model="takeVm.sTakeoff.engineerName" class="form-control" style="width:300px" 					placeholder="Engineer" auto-complete="takeVm.autoCompleteOptions" />
+						<input type="text" name="engineerId" ng-model="takeVm.sTakeoff.engineerId" class="form-control" style="width:300px" 					placeholder="Engineer" auto-complete="takeVm.autoCompleteOptions" />
 						<span class="loading" ng-show="takeVm.loading"></span>
 					  </td>
 					  
                        <td align="center">
-						<input type="text" name="arc" ng-model="takeVm.sTakeoff.architectureName" class="form-control" style="width:300px" 					placeholder="Architect" auto-complete="takeVm.autoCompleteOptions" />
+						<input type="text" name="architectureId" ng-model="takeVm.sTakeoff.architectureId" class="form-control" style="width:300px" 					placeholder="Architect" auto-complete="takeVm.autoCompleteOptions" />
 						<span class="loading" ng-show="takeVm.loading"></span>
 					  </td>
                       <td align="center">
-						<input type="text" name="sp" ng-model="takeVm.sTakeoff.salesPersonName" class="form-control" style="width:300px" 					placeholder="SP" auto-complete="takeVm.autoCompleteOptions" />
+						<input type="text" name="salesPerson" ng-model="takeVm.sTakeoff.salesPerson" class="form-control" style="width:300px" 					placeholder="SP" auto-complete="takeVm.autoCompleteOptions" />
 						<span class="loading" ng-show="takeVm.loading"></span>
 					  </td>
                       <td align="center">
@@ -86,7 +86,7 @@
 						<span class="loading" ng-show="takeVm.loading"></span>
 					  </td>
                      <td align="center">
-						<input type="text" name="spec" ng-model="takeVm.sTakeoff.specName" class="form-control" style="width:300px" 					placeholder="SPEC" auto-complete="takeVm.autoCompleteOptions" />
+						<input type="text" name="specId" ng-model="takeVm.sTakeoff.specId" class="form-control" style="width:300px" 					placeholder="SPEC" auto-complete="takeVm.autoCompleteOptions" />
 						<span class="loading" ng-show="takeVm.loading"></span>
 					  </td>
                      <td align="center">
@@ -98,11 +98,11 @@
 						<span class="loading" ng-show="takeVm.loading"></span>
 					  </td>
                        <td align="center">
-						<input type="text" name="gc" ng-model="takeVm.sTakeoff.gc" class="form-control" style="width:300px" 					placeholder="GC" auto-complete="takeVm.autoCompleteOptions" />
+						<input type="text" name="contractorsIds" ng-model="takeVm.sTakeoff.contractorsIds" class="form-control" style="width:300px" 					placeholder="GC" auto-complete="takeVm.autoCompleteOptions" />
 						<span class="loading" ng-show="takeVm.loading"></span>
 					  </td>
 					  <td align="center">
-						<input type="text" name="bid" ng-model="takeVm.sTakeoff.bidder" class="form-control" style="width:300px" 					placeholder="Bidder" auto-complete="takeVm.autoCompleteOptions" />
+						<input type="text" name="biddersIds" ng-model="takeVm.sTakeoff.biddersIds" class="form-control" style="width:300px" 					placeholder="Bidder" auto-complete="takeVm.autoCompleteOptions" />
 						<span class="loading" ng-show="takeVm.loading"></span>
 					  </td>
                     </tr>

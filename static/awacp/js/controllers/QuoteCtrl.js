@@ -4,6 +4,8 @@
 	QuoteCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService', 'StoreService', 'FileService'];
 	function QuoteCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService, FileService){
 		var qVm = this;
+		qVm.sQuote = {};
+		qVm.loading = false;
 		qVm.showReportForm = true;
 		qVm.selectedBidders = [];
 		qVm.totalQuoteAmount = 0;
@@ -32,10 +34,14 @@
 		qVm.specs = [];
 		qVm.engineers = [];
 		qVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
+		qVm.dateCreated = {opened:false};
 		qVm.rptFromDate = {opened:false};
 		qVm.rptToDate = {opened:false};
 		qVm.rptDueDateFrom ={opened:false};
 		qVm.rptDueDateTo ={opened:false};
+		qVm.createdDatePicker = function(){
+			qVm.dateCreated.opened = true;
+		}
 		qVm.rptFromDatePicker = function(){
 			qVm.rptFromDate.opened = true;
 		}
@@ -543,6 +549,111 @@
 			qVm.getPageSize('new');
 		}else if('quote-view' === $state.current.name){
 			qVm.getPageSize('quotes');
+		}
+		
+		qVm.searchFieldName = "undefined";
+		qVm.autoCompleteOptions = {			
+            minimumChars: 3,
+            dropdownWidth: '200px',
+            dropdownHeight: '200px',
+			loading:function(fieldName){qVm.searchFieldName = fieldName;},
+			data: function (searchTerm) {
+				var accessToken = StoreService.getAccessToken();
+				var url = $rootScope.base + "/awacp/autoCompleteTakeoffList?keyword="+searchTerm+"&field="+qVm.searchFieldName+"&"+Math.random();
+                return $http.get(url, {headers : { 'Authorization' : 'Bearer ' + accessToken, 'Accept' : 'application/json' }})
+                    .then(function (response) {
+                        qVm.loading = true;
+						if(response.data && response.data.autoComplete){
+							if(jQuery.isArray(response.data.autoComplete.result)){
+								var res = [];
+								jQuery.each(response.data.autoComplete.result, function(index, record){
+									res.push(JSON.parse(record));
+								});
+								return res;
+							}else{
+								return [JSON.parse(response.data.autoComplete.result)];
+							}														
+						}                        
+						qVm.loading = false;
+                    });
+            },
+			renderItem: function(item){
+				return {'value':item.label, 'label':item.label};
+			},
+			itemSelected:function(selItem){
+				qVm.setModelData(selItem);				
+			}
+        };
+		qVm.setModelData = function(data){
+			qVm.takeoff[data.item.field] = data.item.value;
+			qVm.search();			
+		}
+		qVm.search = function(){
+			qVm.quotes = [];
+			if(qVm.sQuote.dateCreated){
+				qVm.takeoff.dateCreated = new Date(qVm.sQuote.dateCreated);
+			}
+			qVm.takeoff.pageNumber = qVm.currentPage;
+			qVm.takeoff.pageSize = qVm.pageSize;
+			var formData = {};
+			qVm.takeoff.view = 'quote';
+			formData["takeoff"] = qVm.takeoff;
+			AjaxUtil.submitData("/awacp/searchTakeoffs", formData)
+			.success(function(data, status, headers){				
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					qVm.totalItems = data.stsResponse.totalCount;
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							v.openInfoBox = false;
+							if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
+								var b = [];
+								b.push(v.bidders);
+								v["bidders"] = b;
+							}
+							if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
+								var gc = [];
+								gc.push(v.generalContractors);
+								v["generalContractors"] = gc;
+							}
+							tmp.push(v);
+						});					
+					} else {
+						data.stsResponse.results.openInfoBox = false;
+						if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
+							var b = [];
+							b.push(data.stsResponse.results.bidders);
+							data.stsResponse.results["bidders"] = b;
+						}
+						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
+							var gc = [];
+							gc.push(data.stsResponse.results.generalContractors);
+							data.stsResponse.results["generalContractors"] = gc;
+						}
+						tmp.push(data.stsResponse.results);
+					}
+					$scope.$apply(function(){
+						qVm.quotes = tmp;							
+					});
+				}else{
+					$scope.$digest();
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "QuoteCtrl::qVm.search::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
+		
+		qVm.clearSearch = function(){
+			qVm.sQuote = {};
+			qVm.takeoff = {};
+			qVm.listQuotes();
+		}
+		qVm.triggerSearch = function(){
+			qVm.search();
 		}
 	}		
 })();

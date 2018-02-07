@@ -3,8 +3,12 @@
 	angular.module('awacpApp.controllers').controller('TakeoffCtrl', TakeoffCtrl);
 	TakeoffCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService', '$sce'];
 	function TakeoffCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService, $sce){
-		var takeVm = this;
+		var takeVm = this;		
+		takeVm.recordType = "all";
+		takeVm.totalCountOfTheYear = 0;
 		takeVm.resetSearch = false;
+		takeVm.currentDate = $rootScope.currentDate;
+		takeVm.currentYear = $rootScope.currentDate.getFullYear();
 		takeVm.report = {mode:'input'};
 		takeVm.showReportForm = true;
 		takeVm.editQuote = false;
@@ -336,6 +340,9 @@
 				if(data && data.takeoff){
 					$scope.$apply(function(){
 						takeVm.takeoff = data.takeoff;	
+						if(takeVm.takeoff.dateCreated){
+							takeVm.currentDate = new Date(takeVm.takeoff.dateCreated);
+						}
 						if(takeVm.takeoff.drawingDate){
 							takeVm.takeoff.drawingDate = new Date(takeVm.takeoff.drawingDate);
 						}
@@ -484,9 +491,22 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		takeVm.countOfTheYear = function(){
+			AjaxUtil.getData("/awacp/totalRecordsForTheYear/"+takeVm.recordType, Math.random())
+			.success(function(data, status, headers){
+				if(data && data.totalCount){
+					takeVm.totalCountOfTheYear = data.totalCount;
+				}
+			})
+			.error(function(jqXHR, textStatus, errorThrown){
+				jqXHR.errorSource = "TakeoffCtrl::takeVm.totalCountOfTheYear::Error";
+				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
+			});
+		}
 		takeVm.listTakeoffs = function(){
+			takeVm.countOfTheYear();
 			takeVm.takeoffs = [];
-			AjaxUtil.getData("/awacp/listTakeoffs/"+takeVm.currentPage+"/"+takeVm.pageSize, Math.random())
+			AjaxUtil.getData("/awacp/listTakeoffs/"+takeVm.currentPage+"/"+takeVm.pageSize+"/"+takeVm.recordType, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					takeVm.totalItems = data.stsResponse.totalCount;
@@ -532,7 +552,19 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		takeVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}];
+		takeVm.getTakeoffsNotQuoted = function(){
+			takeVm.recordType = "not_quoted";
+			takeVm.listTakeoffs();
+		}
+		takeVm.getTakeoffsQuoted = function(){
+			takeVm.recordType = "quoted";
+			takeVm.listTakeoffs();
+		}
+		takeVm.getAllTakeoffs = function(){
+			takeVm.recordType = "all";
+			takeVm.listTakeoffs();
+		}
+		takeVm.rptYearRange = [{id:2015, val:"2015"}, {id:2016, val:"2016"}, {id:2017, val:"2017"}, , {id:2018, val:"2018"}, , {id:2019, val:"2019"}, , {id:2020, val:"2020"}];
 		takeVm.rptFromDate = {opened:false};
 		takeVm.rptDrawingDate = {opened:false};
 		takeVm.rptReviseDate = {opened:false};
@@ -717,69 +749,81 @@
 								jQuery.each(response.data.autoComplete.result, function(index, record){
 									res.push(JSON.parse(record));
 								});
-								return _.pluck(res, 'id');
+								return res;
 							}else{
-								return _.pluck([JSON.parse(response.data.autoComplete.result)], 'id');
+								return [JSON.parse(response.data.autoComplete.result)];
 							}														
 						}                        
 						takeVm.loading = false;
                     });
             },
-			itemSelected:function(selItem){
-				takeVm.search();				
+			renderItem: function(item){
+				return {'value':item.label, 'label':item.label};
+			},
+			itemSelected:function(selItem){	
+				takeVm.setModelData(selItem);	
 			}
         };
+		takeVm.setModelData = function(data){
+			takeVm.takeoff[data.item.field] = data.item.value;
+			takeVm.search();			
+		}
 		takeVm.search = function(){
 			takeVm.takeoffs = [];
 			if(takeVm.sTakeoff.dateCreated){
-				takeVm.sTakeoff.dateCreated = new Date(takeVm.sTakeoff.dateCreated);
+				takeVm.takeoff.dateCreated = new Date(takeVm.sTakeoff.dateCreated);
 			}
-			takeVm.sTakeoff.pageNumber = takeVm.currentPage;
-			takeVm.sTakeoff.pageSize = takeVm.pageSize;
+			if(takeVm.sTakeoff.dueDate){
+				takeVm.takeoff.dueDate = new Date(takeVm.sTakeoff.dueDate);
+			}
+			takeVm.takeoff.pageNumber = takeVm.currentPage;
+			takeVm.takeoff.pageSize = takeVm.pageSize;
 			var formData = {};
-			formData["takeoff"] = takeVm.sTakeoff;
+			takeVm.takeoff.view = 'takeoff';
+			formData["takeoff"] = takeVm.takeoff;
+			//return;
 			AjaxUtil.submitData("/awacp/searchTakeoffs", formData)
 			.success(function(data, status, headers){				
-					if(data && data.stsResponse && data.stsResponse.totalCount){
-						takeVm.totalItems = data.stsResponse.totalCount;
-					}
-					if(data && data.stsResponse && data.stsResponse.results){
-						var tmp = [];
-						if(jQuery.isArray(data.stsResponse.results)) {
-							jQuery.each(data.stsResponse.results, function(k, v){
-								v.openInfoBox = false;
-								if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
-									var b = [];
-									b.push(v.bidders);
-									v["bidders"] = b;
-								}
-								if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
-									var gc = [];
-									gc.push(v.generalContractors);
-									v["generalContractors"] = gc;
-								}
-								tmp.push(v);
-							});					
-						} else {
-							data.stsResponse.results.openInfoBox = false;
-							if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
+				if(data && data.stsResponse && data.stsResponse.totalCount){
+					takeVm.totalItems = data.stsResponse.totalCount;
+				}
+				if(data && data.stsResponse && data.stsResponse.results){
+					var tmp = [];
+					if(jQuery.isArray(data.stsResponse.results)) {
+						jQuery.each(data.stsResponse.results, function(k, v){
+							v.openInfoBox = false;
+							if(v.hasOwnProperty('bidders') && !jQuery.isArray(v.bidders)){
 								var b = [];
-								b.push(data.stsResponse.results.bidders);
-								data.stsResponse.results["bidders"] = b;
+								b.push(v.bidders);
+								v["bidders"] = b;
 							}
-							if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
+							if(v.hasOwnProperty('generalContractors') && !jQuery.isArray(v.generalContractors)){
 								var gc = [];
-								gc.push(data.stsResponse.results.generalContractors);
-								data.stsResponse.results["generalContractors"] = gc;
+								gc.push(v.generalContractors);
+								v["generalContractors"] = gc;
 							}
-							tmp.push(data.stsResponse.results);
+							tmp.push(v);
+						});					
+					} else {
+						data.stsResponse.results.openInfoBox = false;
+						if(data.stsResponse.results.hasOwnProperty('bidders') && !jQuery.isArray(data.stsResponse.results.bidders)){
+							var b = [];
+							b.push(data.stsResponse.results.bidders);
+							data.stsResponse.results["bidders"] = b;
 						}
-						$scope.$apply(function(){
-							takeVm.takeoffs = tmp;							
-						});
-					}else{
-						$scope.$digest();
+						if(data.stsResponse.results.hasOwnProperty('generalContractors') && !jQuery.isArray(data.stsResponse.results.generalContractors)){
+							var gc = [];
+							gc.push(data.stsResponse.results.generalContractors);
+							data.stsResponse.results["generalContractors"] = gc;
+						}
+						tmp.push(data.stsResponse.results);
 					}
+					$scope.$apply(function(){
+						takeVm.takeoffs = tmp;							
+					});
+				}else{
+					$scope.$digest();
+				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "TakeoffCtrl::takeVm.generateReport::Error";
@@ -788,6 +832,8 @@
 		}
 		takeVm.clearSearch = function(){
 			takeVm.sTakeoff = {};
+			takeVm.takeoff = {};
+			takeVm.recordType = "all";
 			takeVm.listTakeoffs();
 		}
 		takeVm.triggerSearch = function(){
