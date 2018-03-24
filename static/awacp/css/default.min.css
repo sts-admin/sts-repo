@@ -255,6 +255,7 @@ body.page-md {
 .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav>li .dropdown-menu li.active>a:hover>i, .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav>li .dropdown-menu li.active>a>i, .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav>li .dropdown-menu li.current>a:hover>i, .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav>li .dropdown-menu li.current>a>i {
 	color:#6fa7d7
 }
+.search-form{display: none  !important;}
 .page-header .page-header-menu .hor-menu.hor-menu-light .navbar-nav>li .dropdown-menu li.divider {
 	background-color:#ededf4
 }
