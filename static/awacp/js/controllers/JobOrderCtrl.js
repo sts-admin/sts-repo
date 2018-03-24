@@ -601,7 +601,8 @@
 				jQuery(".jobOrder-add-action").removeAttr('disabled');
 				jQuery("#jobOrder-add-spinner").css('display','none');
 				jobVm.jobOrder = {};
-				if(update){
+				jobVm.cancelJobOrderAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){jobVm.cancelJobOrderAction();},function (){return false;});
 					return;
@@ -609,7 +610,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){jobVm.cancelJobOrderAction();});
 					return;
-				}				
+				}*/				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".jobOrder-add-action").removeAttr('disabled');

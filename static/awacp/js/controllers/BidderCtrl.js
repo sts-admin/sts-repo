@@ -112,7 +112,8 @@
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){	
 				bidVm.bidder = {};
-				if(update){
+				bidVm.cancelBidderAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){bidVm.cancelBidderAction();},function (){return false;});
 					return;
@@ -120,7 +121,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){bidVm.cancelBidderAction();});
 					return;
-				}
+				}*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				if(1002 == jqXHR.status){

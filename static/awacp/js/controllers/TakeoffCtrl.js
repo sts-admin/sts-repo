@@ -338,43 +338,42 @@
 			AjaxUtil.getData("/awacp/getTakeoff/"+id, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.takeoff){
-					$scope.$apply(function(){
-						takeVm.takeoff = data.takeoff;	
-						if(takeVm.takeoff.dateCreated){
-							takeVm.currentDate = new Date(takeVm.takeoff.dateCreated);
-						}
-						if(takeVm.takeoff.drawingDate){
-							takeVm.takeoff.drawingDate = new Date(takeVm.takeoff.drawingDate);
-						}
-						if(takeVm.takeoff.dueDate){
-							takeVm.takeoff.dueDate = new Date(takeVm.takeoff.dueDate);
-						}
-						if(takeVm.takeoff.revisedDate){
-							takeVm.takeoff.revisedDate = new Date(takeVm.takeoff.revisedDate);
-						}
-						if(takeVm.takeoff.bidders){
-							if(jQuery.isArray(takeVm.takeoff.bidders)) {
-								takeVm.selectedBidders = takeVm.takeoff.bidders;
-							}else{
-								takeVm.selectedBidders = [];
-								takeVm.selectedBidders.push(takeVm.takeoff.bidders);
-							}								
-						}
-						if(takeVm.takeoff.generalContractors){
-							if(jQuery.isArray(takeVm.takeoff.generalContractors)) {
-								takeVm.selectedContractors = takeVm.takeoff.generalContractors;
-							}else{
-								takeVm.selectedContractors = [];
-								takeVm.selectedContractors.push(takeVm.takeoff.generalContractors);
-							}								
-						}
-						if(takeVm.editQuote){
-							takeVm.action = "Update Quote";
+					takeVm.takeoff = data.takeoff;	
+					$scope.$ditest();
+					if(takeVm.takeoff.dateCreated){
+						takeVm.currentDate = new Date(takeVm.takeoff.dateCreated);
+					}
+					if(takeVm.takeoff.drawingDate){
+						takeVm.takeoff.drawingDate = new Date(takeVm.takeoff.drawingDate);
+					}
+					if(takeVm.takeoff.dueDate){
+						takeVm.takeoff.dueDate = new Date(takeVm.takeoff.dueDate);
+					}
+					if(takeVm.takeoff.revisedDate){
+						takeVm.takeoff.revisedDate = new Date(takeVm.takeoff.revisedDate);
+					}
+					if(takeVm.takeoff.bidders){
+						if(jQuery.isArray(takeVm.takeoff.bidders)) {
+							takeVm.selectedBidders = takeVm.takeoff.bidders;
 						}else{
-							takeVm.action = takeVm.takeoff && takeVm.takeoff.id?"Update Quote":"Add New Quote";
-						}
-													
-					});
+							takeVm.selectedBidders = [];
+							takeVm.selectedBidders.push(takeVm.takeoff.bidders);
+						}								
+					}
+					if(takeVm.takeoff.generalContractors){
+						if(jQuery.isArray(takeVm.takeoff.generalContractors)) {
+							takeVm.selectedContractors = takeVm.takeoff.generalContractors;
+						}else{
+							takeVm.selectedContractors = [];
+							takeVm.selectedContractors.push(takeVm.takeoff.generalContractors);
+						}								
+					}
+					if(takeVm.editQuote){
+						takeVm.action = "Update Quote";
+					}else{
+						takeVm.action = takeVm.takeoff && takeVm.takeoff.id?"Update Quote":"Add New Quote";
+					}
+					$scope.$ditest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -474,7 +473,8 @@
 				jQuery(".takeoff-add-action").removeAttr('disabled');
 				jQuery("#takeoff-add-spinner").css('display','none');
 				takeVm.takeoff = {};
-				if(update){
+				takeVm.cancelTakeoffAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){takeVm.cancelTakeoffAction();},function (){return false;});
 					return;
@@ -482,7 +482,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){takeVm.cancelTakeoffAction();});
 					return;
-				}				
+				}*/				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".takeoff-add-action").removeAttr('disabled');

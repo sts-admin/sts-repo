@@ -131,7 +131,8 @@
 				awInvVm.awInventory = {};
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
-				if(update){
+				awInvVm.cancelAwInventoryAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){awInvVm.cancelAwInventoryAction();},function (){return false;});
 					return;
@@ -139,7 +140,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){awInvVm.cancelAwInventoryAction();});
 					return;
-				}
+				}*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".actions").removeAttr('disabled');

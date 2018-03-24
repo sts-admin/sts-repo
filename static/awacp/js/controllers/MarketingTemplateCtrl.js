@@ -142,7 +142,8 @@
 			.success(function(data, status, headers){
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
-				if(update){
+				mktTmpVm.cancelMarketingTemplateAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){mktTmpVm.cancelMarketingTemplateAction();},function (){return false;});
 					return;
@@ -150,7 +151,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){mktTmpVm.cancelMarketingTemplateAction();});
 					return;
-				}
+				}*/
 				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

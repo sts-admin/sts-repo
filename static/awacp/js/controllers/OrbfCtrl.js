@@ -60,7 +60,6 @@
 					orbfVm.orbf = data.orbf;
 					orbfVm.orbf.orderBookId = obId;
 					$scope.$digest();
-					console.log(orbfVm.orbf);
 				}
 				
 			})

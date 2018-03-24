@@ -150,7 +150,8 @@
 			
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
-				if(update){
+				arcVm.cancelArchitectAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){arcVm.cancelArchitectAction();},function (){return false;});
 					return;
@@ -158,7 +159,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){arcVm.cancelArchitectAction();});
 					return;
-				}
+				}*/
 				
 			})
 			.error(function(jqXHR, textStatus, errorThrown){

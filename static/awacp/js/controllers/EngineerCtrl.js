@@ -164,7 +164,8 @@
 			formData["engineer"] = engVm.engineer;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
-				if(update){
+				engVm.cancelEngineerAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){engVm.cancelEngineerAction();},function (){return false;});
 					return;
@@ -172,7 +173,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){engVm.cancelEngineerAction();});
 					return;
-				}
+				}*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				if(1002 == jqXHR.status){

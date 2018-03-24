@@ -137,7 +137,8 @@
 				awfInvVm.awfInventory = {};
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
-				if(update){
+				awfInvVm.cancelAwfInventoryAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){awfInvVm.cancelAwfInventoryAction();},function (){return false;});
 					return;
@@ -145,7 +146,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){awfInvVm.cancelAwfInventoryAction();});
 					return;
-				}
+				}*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".actions").removeAttr('disabled');

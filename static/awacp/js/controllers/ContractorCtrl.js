@@ -85,7 +85,8 @@
 			formData["contractor"] = conVm.contractor;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
-				if(update){
+				conVm.cancelContractorAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){conVm.cancelContractorAction();},function (){return false;});
 					return;
@@ -93,7 +94,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){conVm.cancelContractorAction();});
 					return;
-				}
+				}*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				if(1002 == jqXHR.status){

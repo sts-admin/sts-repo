@@ -1,3 +1,8 @@
+<style type="text/css">
+        .selected{
+            color: #FF0000;
+        }
+    </style>
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
@@ -63,8 +68,8 @@
 						  <tbody ng-repeat="jinv in jinvVm.jinvs track by $index">
 							<tr height="25" >
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="center">{{jinv.item}} <br /></td>
-                              <td align="center">{{jinv.quantity}}</td>
+							  <td align="center" ng-class="{selected: jinv.quantity < jinv.minStockLevel}">{{jinv.item}} <br /></td>
+                              <td align="center" ng-class="{selected: jinv.quantity < jinv.minStockLevel}">{{jinv.quantity}}</td>
 							  <td align="center">{{jinv.reorderQuantity}}</td>
 							  <td align="center">{{jinv.size}}</td>
 							  <td align="center">{{jinv.unitPrice}}</td>

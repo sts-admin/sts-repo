@@ -1,3 +1,8 @@
+<style type="text/css">
+        .selected{
+            color: #FF0000;
+        }
+    </style>
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
@@ -61,8 +66,8 @@
 						  <tbody ng-repeat="awInv in awInvVm.awInventories track by $index" id="inv_row_{{awInv.id}}">
 							<tr height="25">
 							  <td align="center">{{$index + 1}}</td>
-							  <td align="center">{{awInv.item}} <br /></td>
-                              <td align="center">{{awInv.quantity}}</td>
+							  <td align="center" ng-class="{selected: awInv.quantity < awInv.minStockLevel}">{{awInv.item}} <br /></td>
+                              <td align="center" ng-class="{selected: awInv.quantity < awInv.minStockLevel}">{{awInv.quantity}}</td>
 							  <td align="center">{{awInv.reorderQuantity}}</td>
 							  <td align="center">{{awInv.size}}</td>
 							  <td align="center">{{awInv.unitPrice}}</td>

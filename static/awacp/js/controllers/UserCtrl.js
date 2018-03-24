@@ -76,10 +76,11 @@
 			formData["user"] = userVm.user;
 			AjaxUtil.submitData("/awacp/saveUser", formData)
 			.success(function(data, status, headers){
-				var message = "User Detail Created Successfully, add more?";
+				userVm.cancelUserAction();
+				/*var message = "User Detail Created Successfully, add more?";
 				AlertService.showConfirm(	'AWACP :: Alert!', message)
 				.then(function (){return},function (){userVm.cancelUserAction();});
-				return;
+				return;*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				var message = "";

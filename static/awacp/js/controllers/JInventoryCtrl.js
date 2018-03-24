@@ -126,7 +126,8 @@
 				jinvVm.jInventory = {};
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
-				if(update){
+				jinvVm.cancelJInventoryAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){jinvVm.cancelJInventoryAction();},function (){return false;});
 					return;
@@ -134,7 +135,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){jinvVm.cancelJInventoryAction();});
 					return;
-				}
+				}*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".actions").removeAttr('disabled');

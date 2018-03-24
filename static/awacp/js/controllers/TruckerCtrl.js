@@ -92,7 +92,8 @@
 			.success(function(data, status, headers){
 				jQuery(".actions").removeAttr('disabled');
 				jQuery(".spinner").css('display','none');
-				if(update){
+				truckerVm.cancelTruckerAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){truckerVm.cancelTruckerAction();},function (){return false;});
 					return;
@@ -100,7 +101,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){truckerVm.cancelTruckerAction();});
 					return;
-				}
+				}*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jQuery(".actions").removeAttr('disabled');

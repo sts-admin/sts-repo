@@ -271,7 +271,8 @@
 				.success(function(data, status, headers){
 					jQuery(".invoice-add-action").removeAttr('disabled');
 					jQuery("#invoice-add-spinner").css('display','none');
-					if(update){
+					invoiceVm.cancelInvoiceAction();
+					/*if(update){
 						AlertService.showAlert(	'AWACP :: Alert!', message)
 						.then(function (){invoiceVm.cancelInvoiceAction();},function (){return false;});
 						return;
@@ -279,7 +280,7 @@
 						AlertService.showConfirm(	'AWACP :: Alert!', message)
 						.then(function (){return},function (){invoiceVm.cancelinvoiceAction();});
 						return;
-					}				
+					}*/			
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
 					jQuery(".invoice-add-action").removeAttr('disabled');

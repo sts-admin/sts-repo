@@ -85,7 +85,8 @@
 			formData["generalContractor"] = gcVm.generalContractor;
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
-				if(update){
+				gcVm.cancelGcAction();
+				/*if(update){
 					AlertService.showAlert(	'AWACP :: Alert!', message)
 					.then(function (){gcVm.cancelGcAction();},function (){return false;});
 					return;
@@ -93,7 +94,7 @@
 					AlertService.showConfirm(	'AWACP :: Alert!', message)
 					.then(function (){return},function (){gcVm.cancelGcAction();});
 					return;
-				}
+				}*/
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				if(1002 == jqXHR.status){
