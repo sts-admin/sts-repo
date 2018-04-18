@@ -107,5 +107,7 @@ public class Worksheet extends BaseEntity {
 	public void setManufacturerItems(Set<WsManufacturerInfo> manufacturerItems) {
 		this.manufacturerItems = manufacturerItems;
 	}
+	
+	
 
 }

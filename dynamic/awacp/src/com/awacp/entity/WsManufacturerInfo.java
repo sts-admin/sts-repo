@@ -39,6 +39,8 @@ public class WsManufacturerInfo extends BaseEntity {
 
 	private boolean manualMultiplierSet;
 
+	private Integer displayOrder;
+
 	public WsManufacturerInfo() {
 		super();
 	}
@@ -150,37 +152,20 @@ public class WsManufacturerInfo extends BaseEntity {
 		this.productItems = productItems;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		WsManufacturerInfo other = (WsManufacturerInfo) obj;
-		if (getId() == null) {
-			if (other.getId() != null)
-				return false;
-		} else if (getId().intValue() != other.getId().intValue())
-			return false;
-		return true;
-	}
-
 	public boolean isManualMultiplierSet() {
 		return manualMultiplierSet;
 	}
 
 	public void setManualMultiplierSet(boolean manualMultiplierSet) {
 		this.manualMultiplierSet = manualMultiplierSet;
+	}
+
+	public Integer getDisplayOrder() {
+		return displayOrder;
+	}
+
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 
 }

@@ -224,10 +224,12 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 	}
 
 	@Override
+	@Transactional
 	public String activateUser(Long userId) throws StsCoreException {
 		User user = findUser(userId);
 		if (user != null) {
 			user.setArchived(false);
+			user.setDeleted(false);
 			getEntityManager().merge(user);
 			return "success";
 		}
@@ -639,11 +641,11 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 
 	/*
 	 * private List<MenuItem> getBbtItems(List<MenuItem> items) { items.add(new
-	 * MenuItem("Manage Engineer", "engineers")); items.add(new
-	 * MenuItem("divider", "#"));
+	 * MenuItem("Manage Engineer", "engineers")); items.add(new MenuItem("divider",
+	 * "#"));
 	 * 
-	 * items.add(new MenuItem("Manage Contractor", "contractors"));
-	 * items.add(new MenuItem("divider", "#"));
+	 * items.add(new MenuItem("Manage Contractor", "contractors")); items.add(new
+	 * MenuItem("divider", "#"));
 	 * 
 	 * items.add(new MenuItem("Manage Architect", "architects")); items.add(new
 	 * MenuItem("divider", "#"));
@@ -663,8 +665,8 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 	 * items.add(new MenuItem("Manage Quote Notes", "qnotes")); items.add(new
 	 * MenuItem("divider", "#"));
 	 * 
-	 * items.add(new MenuItem("Manage Manufacture & Description",
-	 * "manufactures")); items.add(new MenuItem("divider", "#"));
+	 * items.add(new MenuItem("Manage Manufacture & Description", "manufactures"));
+	 * items.add(new MenuItem("divider", "#"));
 	 * 
 	 * items.add(new MenuItem("Manage Item Shipped", "iships")); items.add(new
 	 * MenuItem("divider", "#"));
@@ -771,20 +773,18 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 	@Override
 	@Transactional
 	public int updateUserOnlineStatus(Long userId, boolean status) {
-		/*List<User> users = getEntityManager().createNamedQuery("User.findAll").getResultList();
-		if (users != null && !users.isEmpty()) {
-			for (User user : users) {
-				user.setOnline(false);
-				getEntityManager().merge(user);
-			}
-			getEntityManager().flush();
-		}*/
 		User user = findUser(userId);
 		user.setOnline(status);
-		user.setOnlineTime(Calendar.getInstance());
+		if (status) {
+			user.setOnlineTime(Calendar.getInstance());
+			user.setOfflineTime(null);
+		} else {
+			user.setOfflineTime(Calendar.getInstance());
+		}
+
 		getEntityManager().merge(user);
 		getEntityManager().flush();
-		return 1;
+		return status ? 1 : 0;
 	}
 
 	private void enrichUserDTO(List<UserDTO> users) {
@@ -796,8 +796,24 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 					? AppPropConfig.acResourceWriteDir + "/" + userImage.getCreatedName() + userImage.getExtension()
 					: AppPropConfig.acResourceWriteDir + "/" + user.getAvtarImage();
 			user.setPhotoUrl(photoUrl);
-			user.setUnreadMessageCount(chatService.getMyUnreadMessagesCount(user.getId()));
+			/*user.setUnreadMessageCount(chatService.getMyUnreadMessagesCount(user.getId()));*/
 
 		}
+	}
+
+	@Override
+	public StsResponse<User> listDeletedUser(int pageNumber, int pageSize) {
+		StringBuffer selectQuery = new StringBuffer("SELECT entity FROM ").append(User.class.getSimpleName()).append(
+				" entity WHERE entity.archived = 'true' AND  entity.deleted = 'true' ORDER BY entity.dateCreated DESC");
+		StringBuffer countQuery = new StringBuffer("SELECT COUNT(entity.id) FROM ").append(User.class.getSimpleName())
+				.append(" entity WHERE entity.archived = 'true' AND entity.deleted = 'true'");
+		StsResponse<User> response = listAll(pageNumber, pageSize, selectQuery.toString(), countQuery.toString(),
+				User.class.getSimpleName(), "id", getEntityManager());
+		if (response.getResults() != null && !response.getResults().isEmpty()) {
+			for (User user : response.getResults()) {
+				setUserPhotoAndName(user);
+			}
+		}
+		return response;
 	}
 }

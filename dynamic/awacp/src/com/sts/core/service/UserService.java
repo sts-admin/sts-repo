@@ -92,4 +92,6 @@ public interface UserService {
 	public List<UserDTO> listUsersByOnlineStatus(String onlineStatus);
 	
 	public int updateUserOnlineStatus(Long userId, boolean status);
+	
+	public StsResponse<User> listDeletedUser(int pageNumber, int pageSize);
 }

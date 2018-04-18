@@ -296,7 +296,7 @@ public class QuotePdfGenerator {
 			table.addCell(cell);
 
 			cell = new PdfPCell(new Phrase(
-					"TOTAL NET PRICE (F.O.B. Factory) FREIGHT ALLOWED: $" + wsManufacturerInfo.getTotalAmount(),
+					"TOTAL NET PRICE (F.O.B. Factory) FREIGHT ALLOWED: $" + wsManufacturerInfo.getQuoteAmount(),
 					FontFactory.getFont(FontFactory.HELVETICA, 8)));
 			cell.setColspan(4);
 			cell.setBorder(Rectangle.BOTTOM);

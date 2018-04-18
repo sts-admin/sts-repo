@@ -3,6 +3,7 @@ package com.sts.core.entity;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,9 +16,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "ChatMessage.listMyAllConversations", query = "SELECT cm FROM ChatMessage cm WHERE cm.archived = 'false' AND cm.targetUserId =:myUserId ORDER BY cm.dateCreated DESC"),
 		@NamedQuery(name = "ChatMessage.listMyConversationsWith", query = "SELECT cm FROM ChatMessage cm WHERE cm.archived = 'false' AND ((cm.sourceUserId =:myUserId AND cm.targetUserId =:otherUserId) OR (cm.sourceUserId =:otherUserId AND cm.targetUserId =:myUserId)) ORDER BY cm.dateCreated ASC"),
 		@NamedQuery(name = "ChatMessage.listMyUnreadMessages", query = "SELECT cm FROM ChatMessage cm WHERE cm.archived = 'false' AND cm.seen = 'false' AND cm.targetUserId =:myUserId ORDER BY cm.dateCreated DESC"),
-		@NamedQuery(name = "ChatMessage.getMyUnreadMessagesCount", query = "SELECT COUNT(cm.id) FROM ChatMessage cm WHERE cm.archived = 'false' AND cm.seen = 'false' AND cm.targetUserId =:myUserId ORDER BY cm.dateCreated DESC")
+		@NamedQuery(name = "ChatMessage.getMyUnreadMessagesCount", query = "SELECT COUNT(cm.id) FROM ChatMessage cm WHERE cm.archived = 'false' AND cm.seen = 'false' AND cm.targetUserId =:myUserId ORDER BY cm.dateCreated DESC"),
+		})
 
-})
 public class ChatMessage extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -33,6 +34,8 @@ public class ChatMessage extends BaseEntity {
 	private String targetUserName;
 
 	private boolean seen;
+
+	private int msgCount;
 
 	public ChatMessage() {
 		super();
@@ -92,6 +95,15 @@ public class ChatMessage extends BaseEntity {
 
 	public void setSeen(boolean seen) {
 		this.seen = seen;
+	}
+
+	@Transient
+	public int getMsgCount() {
+		return msgCount;
+	}
+
+	public void setMsgCount(int msgCount) {
+		this.msgCount = msgCount;
 	}
 
 }

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.sts.core.dto.StsResponse;
+import com.sts.core.entity.User;
 import com.sts.core.service.CommonService;
 
 public class CommonServiceImpl<T> implements CommonService<T> {
@@ -51,8 +52,12 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
-		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
-				.append(" entity WHERE entity.archived = 'false' ORDER BY entity.dateCreated DESC");
+		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName).append(
+				" entity WHERE entity.archived = 'false' ORDER BY entity.dateCreated DESC");
+		if(entityClassName.equalsIgnoreCase(User.class.getSimpleName())) {
+			sb = new StringBuffer("SELECT entity FROM ").append(entityClassName).append(
+					" entity WHERE entity.archived = 'false' AND  entity.deleted = 'false' ORDER BY entity.dateCreated DESC");
+		}
 		return listAll(pageNumber, pageSize, sb.toString(), "all", entityClassName, "id", em);
 	}
 

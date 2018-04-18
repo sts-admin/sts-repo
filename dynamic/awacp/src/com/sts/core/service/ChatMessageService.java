@@ -15,6 +15,8 @@ public interface ChatMessageService {
 
 	public List<ChatMessage> listMyUnreadMessages(Long myUserId);
 	
+	public List<ChatMessage> getAllMyUnreadMessagesCount(Long myUserId);
+	
 	public int getMyUnreadMessagesCount(Long myUserId);
 
 	public void updateMessagesStatus(String[] messageIds);

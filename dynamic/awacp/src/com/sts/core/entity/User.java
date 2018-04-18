@@ -56,6 +56,7 @@ public class User extends BaseEntity {
 	private boolean online;
 	private boolean deleted;
 	private Calendar onlineTime;
+	private Calendar offlineTime;
 
 	private Set<Permission> permissions;
 
@@ -348,6 +349,14 @@ public class User extends BaseEntity {
 
 	public void setOnlineTime(Calendar onlineTime) {
 		this.onlineTime = onlineTime;
+	}
+
+	public Calendar getOfflineTime() {
+		return offlineTime;
+	}
+
+	public void setOfflineTime(Calendar offlineTime) {
+		this.offlineTime = offlineTime;
 	}
 
 }

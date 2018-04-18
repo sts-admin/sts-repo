@@ -154,6 +154,7 @@
     </bean>    
     <bean id="userServiceEndpoint" class="com.sts.core.rest.endpoint.UserServiceEndpoint">
         <property name="userService" ref="userService" />
+        <property name="chatMessageService" ref="chatMessageService" />
     </bean>    
     <bean id="facebookServiceEndpoint" class="com.sts.core.rest.endpoint.FacebookServiceEndpoint">
         <property name="facebookService" ref="facebookService" />

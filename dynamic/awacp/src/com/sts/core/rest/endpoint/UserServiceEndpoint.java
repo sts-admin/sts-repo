@@ -24,9 +24,11 @@ import com.sts.core.dto.StsCoreResponse;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.dto.UserDTO;
 import com.sts.core.entity.Address;
+import com.sts.core.entity.ChatMessage;
 import com.sts.core.entity.Permission;
 import com.sts.core.entity.User;
 import com.sts.core.exception.StsCoreException;
+import com.sts.core.service.ChatMessageService;
 import com.sts.core.service.UserService;
 import com.sts.core.web.filter.CrossOriginFilter;
 
@@ -35,13 +37,33 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private ChatMessageService chatMessageService;
+
+	@GET
+	@Path("/getAllMyUnreadMessagesCount/{myUserId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ChatMessage> getAllMyUnreadMessagesCount(@PathParam("myUserId") Long myUserId,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		return this.chatMessageService.getAllMyUnreadMessagesCount(myUserId);
+	}
+
+	@GET
+	@Path("/updateOnlineStatus")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateOnlineStatus(@QueryParam("userId") Long userId, @QueryParam("status") boolean status,
+			@Context HttpServletResponse servletResponse) throws IOException {
+		int result = this.userService.updateUserOnlineStatus(userId, status);
+		return "{\"status\":\"" + result + "\"}";
+	}
+
 	@GET
 	@Path("/listOnlineUsers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<UserDTO> listOnlineUsers(@Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.listUsersByOnlineStatus("online");
 	}
-	
+
 	@GET
 	@Path("/listOfflineUsers")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -158,9 +180,17 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	}
 
 	@GET
-	@Path("/listArchivedUser/{pageNumber}/{pageSize}")
+	@Path("/listDeletedUser/{pageNumber}/{pageSize}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StsResponse<User> listDeletedUser(@PathParam("pageNumber") int pageNumber,
+			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
+		return this.userService.listDeletedUser(pageNumber, pageSize);
+	}
+
+	@GET
+	@Path("/listArchivedUser/{pageNumber}/{pageSize}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StsResponse<User> listArchivedUser(@PathParam("pageNumber") int pageNumber,
 			@PathParam("pageSize") int pageSize, @Context HttpServletResponse servletResponse) throws IOException {
 		return this.userService.listArchivedUser(pageNumber, pageSize);
 	}
@@ -262,15 +292,14 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 		return "{\"status\":\"" + status + "\"}";
 	}
 
-	@DELETE
+	@GET
 	@Path("/activate/user/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
 	public String activateUser(@PathParam("userId") Long userId, @Context HttpServletResponse servletResponse)
 			throws IOException {
 		String status = "fail";
 		try {
-			status = this.userService.removeUser(userId);
+			status = this.userService.activateUser(userId);
 		} catch (StsCoreException e) {
 			Integer code = 500;
 			final String message = e.getMessage().toLowerCase();
@@ -335,6 +364,10 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+
+	public void setChatMessageService(ChatMessageService chatMessageService) {
+		this.chatMessageService = chatMessageService;
 	}
 
 }

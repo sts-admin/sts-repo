@@ -1,5 +1,6 @@
 package com.sts.core.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -108,6 +109,25 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		}
 
 		return users;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ChatMessage> getAllMyUnreadMessagesCount(Long myUserId) {
+		String query = "SELECT cm.sourceUserId, COUNT(cm.id) FROM ChatMessage cm WHERE cm.targetUserId =:myUserId AND cm.seen = 'false' GROUP BY cm.sourceUserId";
+		List<Object[]> results = getEntityManager().createQuery(query).setParameter("myUserId", myUserId)
+				.getResultList();
+		List<ChatMessage> messages = new ArrayList<ChatMessage>();
+		if (results != null & !results.isEmpty()) {
+			ChatMessage cm = null;
+			for (Object[] result : results) {
+				cm = new ChatMessage();
+				cm.setSourceUserId((Long) result[0]);
+				cm.setMsgCount(((Long) result[1]).intValue());
+				messages.add(cm);
+			}
+		}
+		return messages;
 	}
 
 }

@@ -50,7 +50,7 @@ public class WorksheetServiceImpl implements WorksheetService {
 	private EntityManager getEntityManager() {
 		return entityManager;
 	}
-
+	
 	@Override
 	@Transactional
 	public Worksheet updateWorksheet(Worksheet worksheet) {
@@ -100,10 +100,9 @@ public class WorksheetServiceImpl implements WorksheetService {
 		}
 		/*
 		 * for (WsManufacturerInfo wsMInfo : worksheet.getManufacturerItems()) {
-		 * System.err.println("Manufacturer ID: " +
-		 * wsMInfo.getManufacturer().getId()); for (WsProductInfo wsProdInfo :
-		 * wsMInfo.getProductItems()) { System.err.println(
-		 * "Product in manufacturer block with  ID " +
+		 * System.err.println("Manufacturer ID: " + wsMInfo.getManufacturer().getId());
+		 * for (WsProductInfo wsProdInfo : wsMInfo.getProductItems()) {
+		 * System.err.println( "Product in manufacturer block with  ID " +
 		 * wsMInfo.getManufacturer().getId() + " is " +
 		 * wsProdInfo.getProduct().getId()); } }
 		 */
@@ -143,12 +142,10 @@ public class WorksheetServiceImpl implements WorksheetService {
 			if (entity.getManufacturerItems() != null) {
 				entity.getManufacturerItems().clear();
 				/*
-				 * for(WsManufacturerInfo wsManu:
-				 * entity.getManufacturerItems()){ if(wsManu.getPdnis() != null
-				 * && !wsManu.getPdnis().isEmpty()){ wsManu.getPdnis().clear();
-				 * } if(wsManu.getProductItems() != null &&
-				 * !wsManu.getProductItems().isEmpty()){
-				 * wsManu.getProductItems().clear(); } }
+				 * for(WsManufacturerInfo wsManu: entity.getManufacturerItems()){
+				 * if(wsManu.getPdnis() != null && !wsManu.getPdnis().isEmpty()){
+				 * wsManu.getPdnis().clear(); } if(wsManu.getProductItems() != null &&
+				 * !wsManu.getProductItems().isEmpty()){ wsManu.getProductItems().clear(); } }
 				 */
 			}
 			entity.setArchived(true);
