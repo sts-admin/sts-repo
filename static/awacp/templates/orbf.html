@@ -43,8 +43,8 @@
                                               <td style="padding:5px; background:#FFF;">BREFFNI MECH</td>
                                               <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.jobName}}</td>
                                               <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.salesPersonName}}</td>
-											  <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.createdByUserCode}}</td>
-											  <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.updatedByUserCode}}</td>
+											  <td style="padding:5px; background:#FFF;">{{orbfVm.orbf.createdByUserCode?orbfVm.orbf.createdByUserCode:orbfVm.jobOrder.createdByUserCode}}</td>
+											  <td style="padding:5px; background:#FFF;">{{orbfVm.orbf.updatedByUserCode}}</td>
                                               <td style="padding:5px; background:#FFF;">{{orbfVm.jobOrder.comment}}</td>
                                             </tr>
                                           </tbody>

@@ -158,13 +158,22 @@
 									<i class="star red">*</i>
 									<span class="colon">:</span> 
 								</div>
-								<div class="col-lg-8 col-md-8 col-sm-9">
-									<select name="shipToId" class="form-control"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined || !obVm.orderBook.jobId" 
-									  ng-model="obVm.orderBook.shipToId" 
-									  ng-options="shipTo.id as shipTo.shipToAddress for shipTo in obVm.shiptos" 
-									  ng-required="true" >
-									  <option value="">--- Select ---</option>
-									</select>
+								<div class="col-lg-5 col-md-5 col-sm-6" >
+									<div class="form-group" ng-hide="'REVERT' == obVm.shipto_text">
+											<select name="shipToId" class="form-control"  ng-disabled="obVm.orderBook.obCategory == '' || obVm.orderBook.obCategory == undefined || !obVm.orderBook.jobId" 
+										  ng-model="obVm.orderBook.shipToId" 
+										  ng-options="shipTo.id as shipTo.shipToAddress for shipTo in obVm.shiptos" 
+										  ng-required="true" >
+										  <option value="">--- Select ---</option>
+										</select>
+									</div>
+									
+									<div class="form-group" ng-hide="'NEW' == obVm.shipto_text">
+										 <input type="text" placeholder="Ship To Address" class="form-control" maxlength="250" oninvalid="this.setCustomValidity('Ship To Address');" onkeypress="this.setCustomValidity('');" ng-model="obVm.orderBook.shipToName" ng-required="'REVERT' == obVm.shipto_text" />
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-4">
+									<a href class="col-lg-1 col-md-1 col-sm-1" ng-click="obVm.setNewShipTo();">{{obVm.shipto_text}}</a>
 								</div>
 							</div>
 							<div class="row">

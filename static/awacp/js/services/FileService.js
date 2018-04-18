@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.services')
-		.factory("FileService",["$q", "$uibModal", "AjaxUtil", "Upload", "StoreService", "$rootScope", "AlertService", function ($q, $uibModal, AjaxUtil, Upload, StoreService, $rootScope, AlertService){
+		.factory("FileService",["$q", "$uibModal", "AjaxUtil", "Upload", "StoreService", "$rootScope", "AlertService", "$http", function ($q, $uibModal, AjaxUtil, Upload, StoreService, $rootScope, AlertService, $http){
 			return {
 				showFileViewDialog:function(source, sourceId, sourceTitle, size, filePattern, viewSource, callback){
 					var defer = $q.defer();
@@ -117,14 +117,9 @@
 							//fileUpload :end
 							//fileDownload :start
 							$scope.fileDownload = function(source, fileId){
-								//window.location.href = "http://localhost:8080/awacpservices/awacp/get/file/" + fileId;
-								AjaxUtil.downloadData("/awacp/get/file/"+sourceId, Math.random())
-								.success(function(data, status, headers){
-									alert("success");
-								})
-								.error(function(jqXHR, textStatus, errorThrown){
-									alert("ERROR: "+ JSON.stringify(jqXHR, null, 4));
-								});
+								var accessToken = StoreService.getAccessToken();
+								var url = $rootScope.base + '/awacp/downloadFile/'+fileId+'?access_token='+accessToken +'&'+Math.random();
+								window.location.href = url;
 							}; //fileDownload :end	
 						}
 					});

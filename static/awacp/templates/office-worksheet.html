@@ -2,32 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Restaurant Rating & Review</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-<section>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 dashboard-content">
-        <h1>Cost Worksheet</h1>
-      </div>
-      <!-- .col -->
-      <div class="col-lg-6 col-md-6 pad-top text-right pad_bot_30">
-        <input type="button" onclick="window.location.href='http://www.awacp.org/quote/generatepdfofficesheet/77739/1495821360'" value="Download" name="print" class="medium btn btn-primary">
-      </div>
-      <!-- .col -->
-    </div>
-    <!-- .row -->
-    <table width="100%" class="table-responsive differentTable theme-table">
-      <tbody>
-        <tr>
-          <td align="center" style="background:#EEE; padding:10px; font-size:20px; color:#666; font-weight:bold;" colspan="4">OFFICE WORK SHEET</td>
-        </tr>
-        <tr>
+	
+<table width="99%" border="1" bordercolor="#8B8989" cellspacing="0" cellpadding="0" style="border:1px solid #666;  border-collapse: collapse; padding: 10px; margin-left:10px;">
+	<tbody>
+		<tr>
+			<td height="40" colspan="3" align="left" valign="middle" style="border:none;padding-left:5px;">
+				<h3>Cost Worksheet</h3>
+			</td>
+			<td height="40" colspan="3" align="right" valign="middle" style="border:none;padding-right:5px;">
+				 <input type="button" value="Download" name="print" class="medium btn btn-primary">
+			</td>
+		</tr>
+		<tr>
+			<td height="60" colspan="6" align="center" valign="middle" style="background-color: #DFDEDE; ">
+				<strong>OFFICE WORK SHEET</strong>
+			</td>
+		</tr>
+		<tr>
           <td width="10%" align="left"><div class="pad5"><b>Project</b></div></td>
           <td width="60%" align="left"><div class="pad5">{{wsVm.quote.projectNumber}}</div></td>
           <td width="7%" align="left"><div class="pad5"><b>Date</b></div></td>
@@ -57,129 +54,135 @@
           <td align="left"><div class="pad5"><b>Spec.</b></div></td>
           <td align="left"><div class="pad5">{{wsVm.quote.specName}}</div></td>
         </tr>
-      </tbody>
-    </table>
-    <br>
-    <table width="100%" border="0" class="theme-table">
-      <tbody>
-        <tr>
-          <td><div style="margin-top:20px;" id="content_desc1" ng-repeat="wsManufacturerInfo in wsVm.worksheet.manufacturerItems">
-              <input type="hidden" value="27828" name="worksheetid1">
-              <div class="pad5"><strong>{{wsManufacturerInfo.manufacturer.productName}}</strong></div>
-              <input type="hidden" value="27" id="tlp_perc1" name="tlp_perc1">
-              <table width="100%" style="font-weight:normal; margin-top:10px;" class="table-responsive differentTable theme-table">
-                <tbody>
-                  <tr>
-                    <th width="10%"><b>Quantity</b></th>
-                    <th width="60%"><b>Type</b></th>
-                    <th width="7%"><b>List</b></th>
-                    <th width="11%"><b>Net</b></th>
-                    <th width="12%">MULTIPLIER CATEGORY <br>
-                      ($1 - $3000)</th>
-                  </tr>
-                  <tr id="1pro1_row1" ng-repeat="pInfo in wsManufacturerInfo.productItems">
-                    <td align="center"> {{pInfo.quantity}} </td>
-                    <td align="left" id="type1_1"> {{pInfo.product.productName}} </td>
-                    <td align="center"> {{pInfo.listAmount}} </td>
-                    <td align="center">{{pInfo.netAmount}}</td>
-                    <td align="center"> $ 79.50 </td>
-                  </tr>
-                  <tr>
-                    <td align="right" colspan="2"><b>Total</b>&nbsp;&nbsp;</td>
-                    <th align="center">{{wsManufacturerInfo.listTotal}}</th>
-                    <th align="center">{{wsManufacturerInfo.netTotal}}</th>
-                    <th align="center">{{wsManufacturerInfo.totalAmount}}</th>
-                  </tr>
-                  <tr>
-                    <th valign="top" colspan="5"> <table width="100%" border="0">
-                        <tbody>
-                          <tr>
-                            <th width="5%" align="center">&nbsp;</th>
-                            <th width="10%" align="center" id="multiplier1"> <b>{{wsManufacturerInfo.manufacturer.wsMultiplier}}</b> </th>
-                            <th width="10%" align="center"><b>MULT</b></th>
-                            <th width="11%" align="center"><b>=</b></th>
-                            <th width="11%" align="center"><b>NETS</b></th>
-                            <th width="18%" align="center"><b>FRT</b></th>
-                            <th width="12%"><b>TTL</b></th>
-                            <th width="11%"><b>QUOTE AMOUNT</b></th>
-                            <th width="12%"><b>ESTIMATED COST</b></th>
-                          </tr>
-                          <tr>
-                            <th><b>TLP</b></th>
-                            <th>{{wsManufacturerInfo.percent}}</th>
-                            <th>{{wsManufacturerInfo.multiplier}}</th>
-                            <th>{{wsManufacturerInfo.multPercentAmount}}</th>
-                            <th>{{wsManufacturerInfo.netTotal}}</th>
-                            <th>{{wsManufacturerInfo.freight}}</th>
-                            <th>{{wsManufacturerInfo.totalAmount}}</th>
-                            <th>${{wsManufacturerInfo.quoteAmount}}</th>
-                            <th>$209.50</th>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </th>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><b>P.D.N.I.</b></td>
-                  </tr>
-				  <tr ng-repeat="pdni in wsManufacturerInfo.pdnis track by $index">
-					<td colspan="2">{{$index + 1}} {{pdni.pdniName}}</td>
-				  </tr>
-                  <tr>
-                    <td valign="middle" align="left"><b>Comments</b></td>
-                    <td valign="middle" align="left" colspan="4">{{wsManufacturerInfo.comments}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div></td>
-        </tr>
-        <tr>
-          <td><table width="100%" style="font-weight:normal;">
-              <tbody>
-                <tr>
-                  <th width="10%" valign="middle" align="left"><b>Notes</b></th>
-                </tr>
-				<tr ng-repeat="term in wsVm.worksheet.notes">
-					<td colspan="2">• {{term.note}}</td>
-				  </tr>
-                  <th valign="middle" align="left"><b>Special Notes</b></th>
-                  <td valign="middle" align="left"> {{wsVm.worksheet.specialNotes}} </td>
-                </tr>
-              </tbody>
-            </table></td>
-        </tr>
-        <tr>
-          <td><table width="100%" cellspacing="0" cellpadding="0" border="1" style="font-weight:normal;" id="product-table">
-              <thead>
-                <tr>
-                  <td colspan="7"><h2>Bidders</h2></td>
-                </tr>
-                <tr>
-                  <th width="4%" valign="middle"><b>S. No.</b></th>
-                  <th width="19%" valign="middle"><b>Name</b></th>
-                  <th width="20%" valign="middle"><b>Email</b></th>
-                  <th width="23%" valign="middle"><b>Send Date</b></th>
-                  <th width="11%" valign="middle"><b>Resend Counter</b></th>
-                  <th width="17%" valign="middle"><b>Resend Date</b></th>
-                  <th width="6%" valign="middle"><b>Resend</b></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="amt in wsVm.quoteMailTrackers track by $index">
-                  <td align="center">($index + 1)</td>
-                  <td align="left">{{amt.bidder.name}}</td>
-                  <td align="left"> {{amt.bidder.email}} </td>
-                  <td align="center">{{amt.dateCreated | date:'shortDate'}} </td>
-                  <td align="center">{{amt.mailSentCount}}</td>
-                  <td align="center">{{amt.dateUpdated | date:'shortDate'}}</td>
-                  <td align="center"></td>
-                </tr>
-              </tbody>
-            </table></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+	</tbody>
+</table>
+<br><br>
+	
+<table width="99%" border="1" bordercolor="#8B8989" cellspacing="0" cellpadding="0" style="border:1px solid #666;  border-collapse: collapse; padding: 10px; margin-left:10px;">
+  <tbody ng-repeat="wsManufacturerInfo in wsVm.worksheet.manufacturerItems">
+	<tr>
+      <td colspan="5" height="30" style="padding-left: 6px; padding-right: 6px;">
+		<strong>{{wsManufacturerInfo.manufacturer.productName}}</strong>
+	 </td>
+    </tr>
+    <tr>
+      <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;" align="center"><strong>Quantity</strong></td>
+      <td width="60%" height="30" style="padding-left: 6px; padding-right: 6px;" align="center"><strong>Type</strong></td>
+      <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;" align="center"><strong>List</strong></td>
+      <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;" align="center"><strong>Net</strong></td>
+      <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;" align="center"><strong>Multiplier Category ($1-$300)</strong></td>
+    </tr>
+	<tr ng-repeat="pInfo in wsManufacturerInfo.productItems">
+		<td align="center"> {{pInfo.quantity}} </td>
+		<td align="left" id="type1_1"> {{pInfo.product.productName}} </td>
+		<td align="center"> {{pInfo.listAmount | number: 2}} </td>
+		<td align="center">{{pInfo.netAmount | number: 2}}</td>
+		<td align="center"> $ 79.50 </td>
+	</tr>
+	 <tr>
+		<td height="30" colspan="2" align="right" style="padding-left: 6px; padding-right: 6px;"><strong>Total</strong></td>
+		<td height="30" align="center"><strong>{{wsManufacturerInfo.listTotal | number: 2}}</strong></td>
+		<td height="30" align="center"><strong>{{wsManufacturerInfo.netTotal | number: 2}}</strong></td>
+		<td height="30" style="padding-left: 6px; padding-right: 6px;"><strong>{{wsManufacturerInfo.totalAmount | number: 2}}</strong></td>
+    </tr>
+	<tr>
+      <td height="30" colspan="5" align="right">
+		  
+		<table width="100%" border="0" bordercolor="#8B8989" cellspacing="0" cellpadding="0" style="border-collapse: collapse; padding: 10px; ">
+        <tbody>
+          <tr>
+            <td width="5%" height="30" style="padding-left: 6px; padding-right: 6px;">&nbsp;</td>
+            <td width="5%" height="30" style="padding-left: 6px; padding-right: 6px;border:0px 0px 1px 0px"><strong>{{wsManufacturerInfo.manufacturer.wsMultiplier}}</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>MULT</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>=</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>NETS</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>FRT</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>TTL</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>QUOTE AMOUNT</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>ESTIMATED COST</strong></td>
+          </tr>
+          <tr>
+            <td width="5%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>TLP</strong></td>
+            <td width="5%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>{{wsManufacturerInfo.percent | number: 2}}</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>{{wsManufacturerInfo.multiplier}}</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>{{wsManufacturerInfo.multPercentAmount | number: 2}}</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>{{wsManufacturerInfo.netTotal | number: 2}}</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>{{wsManufacturerInfo.freight | number: 2}}</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>{{wsManufacturerInfo.totalAmount | number: 2}}</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>{{wsManufacturerInfo.quoteAmount | number: 2}}</strong></td>
+            <td width="10%" height="30" style="padding-left: 6px; padding-right: 6px;"><strong>$209.50</strong></td>
+          </tr>
+		   <tr style="border:1px solid black;">
+			  <td height="30" align="left" style="padding-left: 6px; padding-right: 6px;" colspan="9"><strong>P.D.N.I</strong></td>
+			</tr>
+			 <tr ng-repeat="pdni in wsManufacturerInfo.pdnis track by $index">
+				<td colspan="2" ng-show="pdni.pdniName">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$index + 1}}) {{pdni.pdniName}}</td>
+			  </tr>
+			<tr style="border-top:1px solid black;">
+			  <td height="30" align="left" style="padding-left: 6px; padding-right: 6px;"><strong>Comments:</strong></td>
+			  <td height="30" colspan="8" style="padding-left: 6px; padding-right: 6px;">{{wsManufacturerInfo.comments}}</td>
+			</tr>
+			
+        </tbody>
+      </table></td>
+    </tr>
+	<tr >
+		<td colspan="5" height="50" style="border-left-color:white;border-right-color:white;"></td>
+	</tr>
+	</tbody>
+</table>
+<table width="99%" border="1" bordercolor="#8B8989" cellspacing="0" cellpadding="0" style="border:1px solid #666;  border-collapse: collapse; padding: 10px; margin-left:10px;">
+	<tbody>
+		<tr>
+			  <td height="30" align="left" style="padding-left: 6px; padding-right: 6px;" colspan="9"><strong>Notes:</strong></td>
+			</tr>
+			<tr ng-repeat="term in wsVm.worksheet.notes">
+				<td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• {{term.note}}</td>
+			  </tr>
+			  <tr>
+			  <td height="30" align="left" style="padding-left: 6px; padding-right: 6px;" colspan="9"><strong>Special Notes:</strong></td>
+			</tr>
+			<tr>
+				<td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• {{wsVm.worksheet.specialNotes}}</td>
+			  </tr>
+	</tbody>
+</table>
+<br />
+<table width="99%" border="1" bordercolor="#8B8989" cellspacing="0" cellpadding="0" style="border:1px solid #666;  border-collapse: collapse; padding: 10px; margin-left:10px;">
+  <thead>
+	<tr>
+	  <td colspan="7"><h2>Bidders</h2></td>
+	</tr>
+	<tr>
+	  <th width="4%" align="center"><b>S. No.</b></th>
+	  <th width="19%" align="center"><b>Name</b></th>
+	  <th width="20%" align="center"><b>Email</b></th>
+	  <th width="23%" align="center"><b>Send Date</b></th>
+	  <th width="11%" align="center"><b>Resend Counter</b></th>
+	  <th width="17%" align="center"><b>Resend Date</b></th>
+	  <th width="6%"  align="center"><b>Resend</b></th>
+	</tr>
+  </thead>
+  <tbody>
+	<tr ng-repeat="amt in wsVm.quoteMailTrackers track by $index">
+	  <td align="center">($index + 1)</td>
+	  <td align="left">{{amt.bidder.name}}</td>
+	  <td align="left"> {{amt.bidder.email}} </td>
+	  <td align="center">{{amt.dateCreated | date:'shortDate'}} </td>
+	  <td align="center">{{amt.mailSentCount}}</td>
+	  <td align="center">{{amt.dateUpdated | date:'shortDate'}}</td>
+	  <td align="center"></td>
+	</tr>
+  </tbody>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="0" >
+  
+  <tbody>
+	<tr>
+	  <td colspan="7" height="50"></td>
+	</tr>
+  </tbody>
+</table>
 </body>
 </html>

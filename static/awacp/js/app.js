@@ -7,13 +7,13 @@ if (!String.prototype.startsWith) {
 (function() {
     'use strict';
 	//Local env
-	var base ="http://localhost:8080/awacpservices";
+	/*var base ="http://localhost:8080/awacpservices";
 	var resourceReadPath = "http://localhost/tutorial/resource/";
-	var basePath = "/tutorial/";
+	var basePath = "/tutorial/";*/
 	//prod env
-	/*var base ="http://awacptechnicalservices.com:8080/awacpservices";
+	var base ="http://awacptechnicalservices.com:8080/awacpservices";
 	var resourceReadPath = "http://awacptechnicalservices.com/resource/";	
-	var basePath = "/";*/
+	var basePath = "/";
 	//prod env
     angular.module('awacpApp', ['awacpApp.services', 'awacpApp.controllers','angular-storage','ui.router','checklist-model', 'angularMoment', 'ui.bootstrap', 'angularjs-dropdown-multiselect', 'ui.navbar', 'ui.bootstrap.tpls', 'ds.clock','ui.select', 'ngSanitize','ui-listView','ngFileUpload', 'angucomplete-alt', 'ui.tinymce', 'autoCompleteModule'])
 		.constant("base", base).constant("resourceReadPath", resourceReadPath).constant("basePath", basePath)
@@ -655,7 +655,7 @@ if (!String.prototype.startsWith) {
 			// if none of the above states are matched, use this as the fallback
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
-		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base, ChatService) {
+		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base, ChatService, $interval) {
 			$rootScope.storeKeys = [];
 			$rootScope.rightTrayClicked = false;
 			$rootScope.openChatWindow = false;
@@ -701,6 +701,27 @@ if (!String.prototype.startsWith) {
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);				
 				});
 			}
+			$rootScope.fetchUnreadMessageCounts = function(forUserId){
+				ChatService.fetchUnreadMessageCounts(forUserId, function(result, status){
+					if("success" === status){
+						jQuery.each(result, function(msgKey, msg){
+							for(var i = 0; i < $rootScope.onlineUsers.length; i++){
+								if($rootScope.onlineUsers[i].id == msg.sourceUserId){									
+									$rootScope.onlineUsers[i].unreadMessageCount = msg.msgCount;
+								}
+							}							
+						});
+						jQuery.each(result, function(msgKey, msg){
+							for(var i = 0; i < $rootScope.offlineUsers.length; i++){
+								if($rootScope.offlineUsers[i].id == msg.sourceUserId){									
+									$rootScope.offlineUsers[i].unreadMessageCount = msg.msgCount;
+								}
+							}							
+						});
+						$rootScope.$digest();
+					}
+				});
+			}
 			
 			$rootScope.listOnlineUsers = function(){
 				$rootScope.onlineUsers = [];
@@ -718,6 +739,7 @@ if (!String.prototype.startsWith) {
 						$rootScope.offlineUsers = result;
 						$rootScope.totalUsers = parseInt($rootScope.onlineUsers.length + $rootScope.offlineUsers.length + 1);
 						$rootScope.$digest();
+						$rootScope.fetchUnreadMessageCounts(StoreService.getUserId());
 					}
 				});
 			}
@@ -734,7 +756,11 @@ if (!String.prototype.startsWith) {
 				$rootScope.listOnlineUsers();
 			}
 			$rootScope.toggleRightTray = function(){
-				$rootScope.rightTrayClicked = !$rootScope.rightTrayClicked;				
+				$rootScope.rightTrayClicked = !$rootScope.rightTrayClicked;	
+				if($rootScope.rightTrayClicked){
+					$rootScope.listOnlineUsers();	
+					$rootScope.listOfflineUsers();
+				}				
 			}
 			/*$rootScope.loadChartDetail = function(){
 				alert("loadChartDetail");
@@ -794,5 +820,11 @@ if (!String.prototype.startsWith) {
 					}
 				}				
 			});
+			if($rootScope.user.isLoggedIn){
+				$interval(function() {
+					$rootScope.fetchUnreadMessageCounts(StoreService.getUserId());
+				}, 5000);
+			}
+			
 		});
 })();

@@ -65,7 +65,7 @@
               <div class="manufacture-row row">
                 <div class="col-sm-2"> Manufacturer </div>
                 <div class="col-sm-10">
-                  <select ng-required="true" ng-change="wsVm.listProducts(wsVm.worksheet.manufacturerItems[$index].manufacturer.id);wsVm.doCalculation($index, manufacturerItem, null);" 
+                  <select ng-required="true" ng-change="wsVm.listProducts(wsVm.worksheet.manufacturerItems[$index].manufacturer.id, $index, null);wsVm.doCalculation($index, manufacturerItem, null);" 
 								  ng-model="wsVm.worksheet.manufacturerItems[$index].manufacturer.id" 
 								  ng-options="manu.id as manu.productName for manu in wsVm.manufacturers" 
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
@@ -85,7 +85,7 @@
                 <div class="col-sm-5">
                   <select ng-required="true" ng-disabled="!manufacturerItem.manufacturer"
 								  ng-model="manufacturerItem.productItems[$index].product.id" 
-								  ng-options="prod.id as prod.productName for prod in wsVm.products" 
+								  ng-options="prod.id as prod.productName for prod in manufacturerItem.products" 
 								  style="display:inline-block; height:40px; border-radius:5px; text-indent:5px; border:1px solid #ccc;">
                   </select>
                 </div>

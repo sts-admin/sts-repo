@@ -91,7 +91,7 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		wsVm.listProducts = function(mndId, callback){			
+		wsVm.listProducts = function(mndId, index, callback){	
 			wsVm.products = [];
 			AjaxUtil.getData("/awacp/listMnDTypes/"+mndId+"/-1/-1", Math.random())
 			.success(function(data, status, headers){
@@ -103,10 +103,9 @@
 						});					
 					} else {
 					    tmp.push(data.stsResponse.results);
-					}
-					$scope.$apply(function(){
-						wsVm.products = tmp;
-					});
+					}			
+					wsVm.worksheet.manufacturerItems[index].products = tmp;
+					$scope.$digest();
 				}
 				if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
 					callback();
@@ -151,18 +150,18 @@
 		}
 		wsVm.removeProduct = function(index, manufacturerItem, productItems){
 			productItems.splice(index, 1);
-			wsVm.doCalculation(index, indexmanufacturerItem);			
+			wsVm.doCalculation(index, manufacturerItem);			
 		}
 		wsVm.addWorksheetInfoBlock = function(){
 			var length = (!wsVm.worksheet.manufacturerItems)? 0 : wsVm.worksheet.manufacturerItems.length;
+			
 			if(length <= 0){
 				wsVm.worksheet["specialNotes"] = "";
 				wsVm.worksheet["notes"] = [{}];
 				wsVm.worksheet["manufacturerItems"] = [];	
-				length = wsVm.worksheet.manufacturerItems.length;
 			}
-			/*wsVm.worksheet["notes"].push({});*/
-			wsVm.worksheet["manufacturerItems"].push({multiplier: 0.5, freight:0, "pdnis": [{}], "productItems": [{quantity:1, listAmount:0, netAmount:0}]});
+			var order = (parseInt(wsVm.worksheet.manufacturerItems.length) -1);
+			wsVm.worksheet["manufacturerItems"].push({displayOrder: order, multiplier: 0.5, freight:0, "pdnis": [{}], "productItems": [{quantity:1, listAmount:0, netAmount:0}]});
 			
 		}
 		wsVm.removeWorksheetInfoBlock = function(index){
@@ -341,8 +340,8 @@
 				}
 			}
 		}
-		wsVm.setProductItems = function(mItem){
-			wsVm.listProducts(mItem.manufacturer.id, function(){
+		wsVm.setProductItems = function(index, mItem){
+			wsVm.listProducts(mItem.manufacturer.id, index, function(){
 				var productItems = [];
 				if(mItem.productItems){								
 					if(jQuery.isArray(mItem.productItems)) {
@@ -436,13 +435,15 @@
 						wsVm.worksheet.specialNotes = data.worksheet.specialNotes;
 					}
 					if(jQuery.isArray(data.worksheet.manufacturerItems)) {
+						wsVm.worksheet.manufacturerItems =  new Array(data.worksheet.manufacturerItems.length);
 						jQuery.each(data.worksheet.manufacturerItems, function(k, v){
-							wsVm.setProductItems(v);
+							wsVm.setProductItems(k, v);
 							wsVm.setPdnis(v);
-							wsVm.worksheet.manufacturerItems.push(v);
+							wsVm.worksheet.manufacturerItems[v.displayOrder] = v;
 						});
+						
 					}else{
-						wsVm.setProductItems(data.worksheet.manufacturerItems);
+						wsVm.setProductItems(0, data.worksheet.manufacturerItems);
 						wsVm.setPdnis(data.worksheet.manufacturerItems);
 						wsVm.worksheet.manufacturerItems.push(data.worksheet.manufacturerItems);
 					}
@@ -564,7 +565,6 @@
 			}
 			var formData = {};			
 			formData["worksheet"] = wsVm.worksheet;
-			console.log(formData);
 			AjaxUtil.submitData(url, formData)
 			.success(function(data, status, headers){
 				wsVm.wsAction = "Update Worksheet";

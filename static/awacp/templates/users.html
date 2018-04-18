@@ -1,3 +1,4 @@
+
 <div ng-include="'templates/header.html'"></div>
 <div ng-include="'templates/main-menu.html'"></div>
 <div class="container-fluid" style="margin-top:-10px;">
@@ -15,7 +16,7 @@
         
 
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="" ui-sref="add-user" class="btn btn-two btn-info width-full">Add User</a> </div>
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="javascript:void(0);" onclick="users_mode('deleted')" id="status_users" class="btn btn-two btn-danger width-full">Deleted User</a> </div>
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="javascript:void(0);" ng-click="userVm.toggleUsers();" class="btn btn-two width-full" ng-class="{'btn-success': userVm.userMode == 'active', 'btn-danger': userVm.userMode == 'deleted'}">{{userVm.usersBtnText}}</a> </div>
 
         
 				<div style="text-align:right;">
@@ -73,10 +74,11 @@
                       <td>{{user.role}}</td>
                       <td>{{user.dateCreated | date:'mediumDate'}}</td>
                       <td align="center">&nbsp; 
-						<a href ui-sref="edit-user({id:user.id})"> 
+						<a ng-hide="user.deleted" href ui-sref="edit-user({id:user.id})"> 
 							<img src="images/file_edit.png" title="edit user" border="0">
 						</a> &nbsp;&nbsp; 
-						<img src="images/file_delete.png" style="cursor:pointer;" title="delete user" ng-click="userVm.archiveUser(user.id)" border="0"> &nbsp;&nbsp; 
+						<img ng-hide="user.deleted" src="images/file_delete.png" style="cursor:pointer;" title="delete user" ng-click="userVm.deleteUser(user.id)" border="0"> &nbsp;&nbsp; 
+						<img ng-show="user.deleted" src="images/reactivate.png" style="cursor:pointer;" title="activate user" ng-click="userVm.reactivateUser(user.id)" border="0"> &nbsp;&nbsp; 
 						<a href ng-click="userVm.showUserDetail(user.id)">
 							<img popover-placement="left" uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" src="images/business_user_info.png" title="show user information" border="0">
 						</a>

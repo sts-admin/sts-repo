@@ -4,6 +4,7 @@
 	OrderBookCtrl.$inject = ['$scope', '$state', '$location', '$http', 'AjaxUtil', 'store', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AlertService','FileService','$uibModal','StoreService'];
 	function OrderBookCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, FileService, $uibModal, StoreService){
 		var obVm = this;
+		obVm.shipto_text = "NEW";
 		obVm.showReportForm = true;
 		obVm.report = {mode:'input'};
 		obVm.orderCategories = [{id:'REGULAR', title:'Regular Order'}, {id:'AW', title:'AW Order'}, {id:'AWF', title:'AWF Order'}, {id:'SBC', title:'SBC Order'}, {id:'SPL', title:'SPL Order'}, {id:'J', title:'J Order'}, {id:'Q', title:'Q Order'}];
@@ -38,6 +39,11 @@
 		obVm.estDate = {opened:false};
 		obVm.rptToDate = {opened:false};
 		obVm.rptEstDate = {opened:false};
+		
+		obVm.setNewShipTo = function(){
+			obVm.orderBook.shipToName = "";
+			obVm.shipto_text = obVm.shipto_text === 'NEW'?'REVERT':'NEW';			
+		}
 		obVm.estDatePicker = function(){
 			obVm.estDate.opened = true;
 		}

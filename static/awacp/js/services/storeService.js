@@ -1,23 +1,24 @@
 (function() {
 	'use strict';
 	angular.module('awacpApp.services')
-	.factory('StoreService', function (store, $rootScope) {
+	.factory('StoreService', function (store, $rootScope, $window) {
 		return {
 			setUser:function(user){
-				store.set('awacp_user', user);							
+				$window.sessionStorage.setItem('awacp_user', JSON.stringify(user));
 			},
 			getUser:function(){
-				return store.get('awacp_user');
+				var user = $window.sessionStorage.getItem('awacp_user');
+				return user ? JSON.parse(user) : null;
 			},
 			getUserId:function(){
-				var user = store.get('awacp_user');
+				var user = this.getUser();
 				if(user != null){
 					return user.userId;
 				}
 				return "";
 			},
 			userDisplayName:function(){
-				var user = store.get('awacp_user');
+				var user = this.getUser();
 				if(user != null){
 					return user.displayName;
 				}
@@ -58,7 +59,7 @@
 			},
 			getAccessToken: function() {
 				var user = this.getUser();
-				if(user !=null){
+				if(user != null){
 					return user.token;
 				}
 				return "";
@@ -75,30 +76,30 @@
 				return "";
 			},
 			set:function(key, val){
-				store.set(key, val);	
-				$rootScope.storeKeys.push(key);
+				$window.sessionStorage.setItem(key, val);	
+				/*$rootScope.storeKeys.push(key);*/
 			},
 			remove:function(key){
-				store.remove(key);	
-				if($rootScope.storeKeys && $rootScope.storeKeys.length > 0){
+				$window.sessionStorage.removeItem(key);	
+				/*if($rootScope.storeKeys && $rootScope.storeKeys.length > 0){
 					for(var i = 0; i < $rootScope.storeKeys.length; i++){
 						if($rootScope.storeKeys[i] === key){
 							$rootScope.storeKeys.splice(i, 1);
 							break;
 						}
 					}
-				}
+				}*/
 			},
 			get:function(key){
-				return store.get(key);	
+				return $window.sessionStorage.getItem(key);	
 			},
 			removeAll:function(){
-				store.remove('awacp_user'); 
-				if($rootScope.storeKeys && $rootScope.storeKeys.length > 0){
+				$window.sessionStorage.clear();
+				/*if($rootScope.storeKeys && $rootScope.storeKeys.length > 0){
 					for(var i = 0; i < $rootScope.storeKeys.length; i++){
 						store.remove($rootScope.storeKeys[i]);
 					}
-				}
+				}*/
 			}
 		};
 	});

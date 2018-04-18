@@ -4,13 +4,16 @@
 	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'AlertService','$sce'];
 	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, AlertService, $sce){	
 		var userVm = this;
+		userVm.usersBtnText = "Deleted Users";
 		userVm.users = [];
+		userVm.userMode = "deleted";
 		userVm.deletedUsers = [];
 		userVm.roles = [{name:"Administrator", id:"role_admin"}, {name:"Sub Administrator", id:"role_subadmin"}, {name:"Executive", id:"role_executive"}, {name:"Guest", id:"role_guest"}];
 		userVm.totalItems = 0;
 		userVm.currentPage = 1;
 		userVm.pageSize = 5;
 		userVm.genders = [{name:"Male", title:"Male"}, {name:"Female", title:"Female"}];
+		
 		userVm.setPage = function (pageNo) {
 			$scope.currentPage = pageNo;
 		};
@@ -105,10 +108,12 @@
 			userVm.users = [];
 			AjaxUtil.getData("/awacp/listUser/"+userVm.currentPage+"/"+userVm.pageSize, Math.random())
 			.success(function(data, status, headers){
+				userVm.usersBtnText = "Deleted Users";
+				userVm.userMode = "deleted";
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					userVm.totalItems = data.stsResponse.totalCount;
 				}
-				if(data && data.stsResponse && data.stsResponse.results){
+				if(data && data.stsResponse && data.stsResponse.results){					
 					var tmp = [];
 					if(data.stsResponse.totalCount == 1){
 						data.stsResponse.results.customName = data.stsResponse.results.userCode + " - "+ data.stsResponse.results.firstName;
@@ -130,13 +135,17 @@
 			});
 		}
 		userVm.getDeletedUsers = function(){
-			userVm.deletedUsers = [];
-			AjaxUtil.getData("/awacp/listArchivedUser/"+userVm.currentPage+"/"+userVm.pageSize, Math.random())
+			userVm.users = [];
+			AjaxUtil.getData("/awacp/listDeletedUser/"+userVm.currentPage+"/"+userVm.pageSize, Math.random())
 			.success(function(data, status, headers){
+				userVm.usersBtnText = "Active Users";
+				userVm.userMode = "active";
+				$scope.$digest();
 				if(data && data.stsResponse && data.stsResponse.totalCount){
 					userVm.totalItems = data.stsResponse.totalCount;
 				}
 				if(data && data.stsResponse && data.stsResponse.results){
+					
 					var tmp = [];
 					if(data.stsResponse.totalCount == 1){
 						tmp.push(data.stsResponse.results);
@@ -145,10 +154,9 @@
 							v.customName = v.userCode + " - "+ v.firstName;
 							tmp.push(v);
 						});
-					}					
-					$scope.$apply(function(){
-						userVm.deletedUsers = tmp;
-					});
+					}
+					userVm.users = tmp;
+					$scope.$digest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -162,7 +170,7 @@
 		};
 		$scope.htmlPopover = "";
 		userVm.showUserDetail = function(userId){
-			//alert("user id = "+ userId);
+			userVm.editUser(userId);
 		}
 		userVm.getPermissionsGroup = function(){ //All permissions, not role specific.
 			if(!AjaxUtil.isAuthorized(false)){
@@ -171,9 +179,8 @@
 			userVm.allPermissionsGroup = [];
 			UserService.getPermissionsGroup(function(jqXHR, status) {
 				if("success" === status){
-					$scope.$apply(function(){
-						userVm.allPermissionsGroup = jqXHR;
-					});
+					userVm.allPermissionsGroup = jqXHR;
+					$scope.$digest();
 				}else{
 					jqXHR.errorSource = "UserCtrl::userVm.groupPermissionsGroup::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
@@ -183,6 +190,7 @@
 		userVm.checkAll = function() {
 			userVm.user["permissionArray"] = [];
 			jQuery.each(userVm.allPermissionsGroup, function(k, v){
+				if(!v || !v.permissions) return true;
 				jQuery.each(v.permissions, function(index, val){
 					userVm.user.permissionArray.push(val.authority);
 				});
@@ -274,11 +282,12 @@
 			}
 		}
 		userVm.editUser = function(id){
-			userVm.user = [];
+			userVm.user = {};
 			AjaxUtil.getData("/awacp/getUserWithPermissions/"+id, Math.random())
 			.success(function(data, status, headers){
 				if(data && data.user){
-					userVm.user = data.user;					
+					userVm.user = data.user;	
+					$scope.$digest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -286,21 +295,27 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
-		userVm.editUser = function(id){
-			userVm.user = [];
-			AjaxUtil.getData("/awacp/getUserWithPermissions/"+id, Math.random())
+		userVm.reactivateUser = function(id){
+			userVm.user = {};
+			AjaxUtil.getData("/awacp/activate/user/"+id, Math.random())
 			.success(function(data, status, headers){
-				if(data && data.user){
-					userVm.user = data.user;					
-				}
+				userVm.getDeletedUsers();
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
 				jqXHR.errorSource = "UserCtrl::userVm.editUser::Error";
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		
 		if($state.params && $state.params.id){ //edit user url
 			userVm.editUser($state.params.id);
+		}
+		userVm.toggleUsers = function(){
+			if("Deleted Users" === userVm.usersBtnText){
+				userVm.getDeletedUsers();
+			}else if("Active Users" === userVm.usersBtnText){
+				userVm.getUsers();
+			}
 		}
 		userVm.getPermissionsGroup();
 	}		

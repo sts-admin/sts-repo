@@ -9,10 +9,14 @@
 		StoreService.remove("rtpQueryOptions-j");
 		StoreService.remove("rtpQueryOptions-ob");
 		
+		
+		
 		orbfVm.truckers= [];		
 		orbfVm.orbf = {};
 		orbfVm.jobOrder = {};		
 		orbfVm.estDate = {opened:false};
+		
+		
 		orbfVm.estDatePicker = function(){
 			orbfVm.estDate.opened = true;
 		}
