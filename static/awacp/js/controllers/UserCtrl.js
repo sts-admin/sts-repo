@@ -4,6 +4,7 @@
 	UserCtrl.$inject = ['$scope', '$state', '$location', '$q', '$timeout', '$window', '$rootScope', '$interval', '$compile', 'AjaxUtil', 'UserService', 'StoreService', 'AlertService','$sce'];
 	function UserCtrl($scope, $state, $location, $q, $timeout, $window, $rootScope, $interval, $compile, AjaxUtil, UserService, StoreService, AlertService, $sce){	
 		var userVm = this;
+		
 		userVm.usersBtnText = "Deleted Users";
 		userVm.users = [];
 		userVm.userMode = "deleted";
@@ -12,13 +13,29 @@
 		userVm.totalItems = 0;
 		userVm.currentPage = 1;
 		userVm.pageSize = 5;
+		userVm.pageNumber = 1;
+		
 		userVm.genders = [{name:"Male", title:"Male"}, {name:"Female", title:"Female"}];
 		
-		userVm.setPage = function (pageNo) {
-			$scope.currentPage = pageNo;
-		};
+		userVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+		userVm.setCurrentPageSize =function(size){
+			AjaxUtil.setPageSize("USER", size, function(status, size){
+				if("success" === status){
+					userVm.pageSize = size;
+					userVm.pageChanged();
+				}
+			});
+		}
+		
+		userVm.getPageSize = function(){
+			AjaxUtil.getPageSize("USER", function(status, size){
+				if("success" === status){
+					userVm.pageSize = size;
+				}
+			});
+		}
 		userVm.pageChanged = function() {
-			console.log('Page changed to: ' + userVm.currentPage);
+			userVm.getUsers();
 		};
 		userVm.cancelUserAction = function(){
 			$state.go("users");
@@ -34,6 +51,7 @@
 			AjaxUtil.toggleSpinner('login-submit', 'loading_span', userVm.spinnerUrl, "disable");
 			UserService.login(userVm.loginForm.userName, userVm.loginForm.password, 'manual')
 			 .success(function (data, response, headers) {	
+				
 				StoreService.remove("rtpQueryOptions-takeoff");
 				StoreService.remove("rtpQueryOptions-quote");
 				StoreService.remove("rtpQueryOptions-j");
@@ -57,7 +75,8 @@
 						$state.go("admin");
 					}else{
 						$state.go("dashboard");
-					}					
+					}
+					$rootScope.fetchUnreadMessageCounts(StoreService.getUserId());					
 				 }
 			 })
 			.error(function (jqXHR, textStatus, errorThrown) {	
@@ -318,6 +337,10 @@
 			}
 		}
 		userVm.getPermissionsGroup();
+		if($rootScope.user.isLoggedIn){
+			userVm.getPageSize();
+		}
+		
 	}		
 })();
 

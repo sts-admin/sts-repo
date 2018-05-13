@@ -10,9 +10,11 @@
 		
 		
 		chatVm.sendMessage = function(){
+			alert("send msg: before target user check");
 			if(!$rootScope.targetUser){
 				return;
-			}		
+			}	
+			alert("send msg: before target user check");			
 			if(chatVm.chatMessage.message && chatVm.chatMessage.message.length > 0){
 				var formData = {};
 				chatVm.chatMessage.sourceUserId = StoreService.getUserId();

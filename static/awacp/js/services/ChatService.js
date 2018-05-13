@@ -39,6 +39,22 @@
 					}					
 				});
 			},
+			markMessagesAsRead: function(loggedInUserId, otherUserId, callback){
+				var url = "/awacp/markMessagesAsRead/"+loggedInUserId+"/"+otherUserId;				
+				AjaxUtil.getData(url, Math.random())
+				.success(function (data, status, headers) {
+					if(data){
+						if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+							callback(data, "success");
+						}
+					}										
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					if (typeof callback !== 'undefined' && jQuery.isFunction(callback)) {
+						callback(jqXHR, "error");
+					}					
+				});
+			},
 			fetchUnreadMessageCounts: function(userId, callback){
 				var messages = [];
 				var url = "/awacp/getAllMyUnreadMessagesCount/"+userId;				

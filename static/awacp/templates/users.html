@@ -10,9 +10,14 @@
       <div class="panel-body" ng-init="userVm.getUsers();">
       
         
-        
-        
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="javascript:void(0);" class="btn btn-two btn-primary width-full">Clear Search</a> </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
+			Per page Rows 
+			<select ng-class="styledselect_pages" style="outline:none;"
+				ng-model="userVm.pageSize" 
+				ng-options="size for size in userVm.pageSizeList" ng-change="userVm.setCurrentPageSize(userVm.pageSize);" >
+			</select>
+	</div>
+
         
 
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 dashboard-content"> <a href="" ui-sref="add-user" class="btn btn-two btn-info width-full">Add User</a> </div>
@@ -21,11 +26,7 @@
         
 				<div style="text-align:right;">
 					<div class="col-lg-2 col-md-2 col-sm-6 per-page-row text-left">
-						Per page Rows 
-						<select ng-class="styledselect_pages" style="outline:none;"
-						  ng-model="userVm.pageSize" 
-						  ng-options="size for size in userVm.pageSizeList" ng-change="userVm.setCurrentPageSize(userVm.pageSize);" >
-						</select>
+						
 					</div>
 					<ul uib-pagination total-items="userVm.totalItems" items-per-page = "userVm.pageSize" ng-model="userVm.currentPage" ng-change="userVm.pageChanged()"></ul>
 				</div>

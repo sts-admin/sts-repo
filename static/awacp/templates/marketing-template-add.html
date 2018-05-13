@@ -4,7 +4,7 @@
 	<div class="clearfix">
 		<div class="panel panel-default">
 			<div class="panel-heading form-heading panel-heading-top">
-				<label>{{mktTmpVm.action}} New Template</label>				
+				<label>{{mktTmpVm.action}} Template</label>				
 			</div>
 			<div class="panel-body" style="background:#C08181;">
 				<form ng-submit="mktTmpVm.addMarketingTemplate();">
@@ -40,7 +40,7 @@
 					</div>
 					 <div class="col-lg-10 col-md-10 col-sm-9">
 						<div class="form-group">
-						  <textarea ui-tinymce ng-model="mktTmpVm.editorContent"></textarea>
+						  <textarea ui-tinymce="mktTmpVm.tinymceOptions" ng-model="mktTmpVm.editorContent"></textarea>
 						</div>
 					  </div>
 					

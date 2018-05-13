@@ -14,11 +14,6 @@
       <!-- BEGIN TOP NAVIGATION MENU -->
       <div class="top-menu">
         <ul class="nav navbar-nav pull-right">
-          <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar"> <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <i class="icon-bell"></i> <span class="badge badge-default">7</span> </a>			
-			<ul class="dropdown-menu" ng-include="'templates/task-notification.html'">
-			</ul>
-          </li>
-          <li class="droddown dropdown-separator"> <span class="separator"></span> </li>
           
           <li class="dropdown dropdown-user dropdown-dark">
 		  
@@ -31,7 +26,11 @@
               
             </ul>
           </li>
-          <li class="dropdown dropdown-extended quick-sidebar-toggler" ng-click="toggleRightTray();"> <span class="sr-only">Toggle Quick Sidebar</span> <img alt="" class="img-circle" src="images/chat-icon.png"> </li>
+          <li class="dropdown dropdown-extended quick-sidebar-toggler" ng-click="toggleRightTray();"> 
+			<span class="sr-only">Toggle Quick Sidebar</span> 
+			<img alt="" class="img-circle" src="images/chat-icon.png"> 
+			<span class="badge badge-danger">{{totalUnreadMsgCount}}</span>
+		</li>
         </ul>
       </div>
 	  <div ng-include="'templates/online-users.html'" ></div>

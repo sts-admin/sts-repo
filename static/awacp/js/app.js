@@ -651,8 +651,15 @@ if (!String.prototype.startsWith) {
 				controllerAs:"sysVm",
 				requireAuth: true,
 				cache:false
+			}).state('marketing-mails',{
+				url: '/marketing/sendemail',
+				templateUrl:"templates/send-email.html",
+				controller:"MarketingTemplateCtrl",
+				controllerAs:"mktTmpVm",
+				requireAuth: true,
+				cache:false
 			});
-			// if none of the above states are matched, use this as the fallback
+			// if none of the above states are matched, use this as the fall back
 			$locationProvider.html5Mode(true);
 			$urlRouterProvider.otherwise('/');
 		}).run(function($rootScope, $state, store, $window, AjaxUtil, StoreService, $timeout, resourceReadPath, UserService, base, ChatService, $interval) {
@@ -664,6 +671,12 @@ if (!String.prototype.startsWith) {
 			$rootScope.onlineUsers = [];
 			$rootScope.offlineUsers = [];
 			$rootScope.totalUsers = 0;
+			
+			window.onbeforeunload = function() {
+				/*UserService.logout();
+				return "Are you sure you want to leave this page?";*/
+			}
+			
 			$rootScope.listChatMessage = function(targetUser){
 				$rootScope.myConversations = [];
 				var myUserId = StoreService.getUserId();
@@ -684,30 +697,33 @@ if (!String.prototype.startsWith) {
 							});
 						}else{
 							if(data.chatMessage.sourceUserId == myUserId){
-									data.chatMessage.msgSource = 'me';
-									data.chatMessage.myMsg = data.chatMessage.message;
-								}else{
-									data.chatMessage.msgSource = 'other';
-									data.chatMessage.otherMsg = data.chatMessage.message;
-								}
+								data.chatMessage.msgSource = 'me';
+								data.chatMessage.myMsg = data.chatMessage.message;
+							}else{
+								data.chatMessage.msgSource = 'other';
+								data.chatMessage.otherMsg = data.chatMessage.message;
+							}
 							$rootScope.myConversations.push(data.chatMessage);
 						}
+						ChatService.markMessagesAsRead(myUserId, otherUserId, function(result, status){});
 					}
-					$rootScope.$digest();
-					
+					$rootScope.$digest();					
 				})
 				.error(function (jqXHR, textStatus, errorThrown) {
 					jqXHR.errorSource = "ChatCtrl::openChatWindow::Error";
 					AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);				
 				});
 			}
+			$rootScope.totalUnreadMsgCount = 0;
 			$rootScope.fetchUnreadMessageCounts = function(forUserId){
 				ChatService.fetchUnreadMessageCounts(forUserId, function(result, status){
 					if("success" === status){
+						$rootScope.totalUnreadMsgCount = 0;
 						jQuery.each(result, function(msgKey, msg){
+							$rootScope.totalUnreadMsgCount = $rootScope.totalUnreadMsgCount + msg.msgCount;
 							for(var i = 0; i < $rootScope.onlineUsers.length; i++){
 								if($rootScope.onlineUsers[i].id == msg.sourceUserId){									
-									$rootScope.onlineUsers[i].unreadMessageCount = msg.msgCount;
+									$rootScope.onlineUsers[i].unreadMessageCount = msg.msgCount;									
 								}
 							}							
 						});
@@ -739,20 +755,23 @@ if (!String.prototype.startsWith) {
 						$rootScope.offlineUsers = result;
 						$rootScope.totalUsers = parseInt($rootScope.onlineUsers.length + $rootScope.offlineUsers.length + 1);
 						$rootScope.$digest();
-						$rootScope.fetchUnreadMessageCounts(StoreService.getUserId());
 					}
 				});
 			}
-			$rootScope.toggleChatWindow = function(val, targetUser, isOnline){
+			$rootScope.toggleChatWindow = function(openChatBox, targetUser, isOnline){
 				if(targetUser){
 					targetUser.online = (isOnline == 'online'?true:false);
 					$rootScope.targetUser = targetUser;	
-					$rootScope.listChatMessage(targetUser);
+					//$interval(function() {
+						if($rootScope.user.isLoggedIn){
+							$rootScope.listChatMessage($rootScope.targetUser);
+						}							
+					//}, 10000);					
 					
 				}else{
 					$rootScope.targetUser = {};
 				}
-				$rootScope.openChatWindow = val;
+				$rootScope.openChatWindow = openChatBox;
 				$rootScope.listOnlineUsers();
 			}
 			$rootScope.toggleRightTray = function(){
@@ -762,9 +781,6 @@ if (!String.prototype.startsWith) {
 					$rootScope.listOfflineUsers();
 				}				
 			}
-			/*$rootScope.loadChartDetail = function(){
-				alert("loadChartDetail");
-			}*/
 			$rootScope.fileViewSource = "templates/file-listing.html";
 			$rootScope.gmtValue = 5.3;
 			$rootScope.dayDiff = function(startdate, enddate) {
@@ -794,9 +810,14 @@ if (!String.prototype.startsWith) {
 			$rootScope.setUpUserMenu = function(){
 				UserService.initializeMenu(function(jqXHR, status){
 					if("success" === status){
-						$rootScope.$apply(function(){
-							$rootScope.menus = jqXHR;
-						});
+						$rootScope.menus = jqXHR;
+						$rootScope.$digest();
+						$interval(function() {
+							if($rootScope.user.isLoggedIn){
+								$rootScope.fetchUnreadMessageCounts(StoreService.getUserId());
+							}							
+						}, 10000);
+						
 					}else{
 						jqXHR.errorSource = "RootScope::setUpUserMenu::Error";
 						AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
@@ -820,11 +841,6 @@ if (!String.prototype.startsWith) {
 					}
 				}				
 			});
-			if($rootScope.user.isLoggedIn){
-				$interval(function() {
-					$rootScope.fetchUnreadMessageCounts(StoreService.getUserId());
-				}, 5000);
-			}
 			
 		});
 })();

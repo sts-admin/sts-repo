@@ -5,7 +5,7 @@
 	function MarketingTemplateCtrl($scope, $state, $location, $http, AjaxUtil, store, $q, $timeout, $window, $rootScope, $interval, $compile, AlertService, StoreService){
 		var mktTmpVm = this;
 		mktTmpVm.pageSizeList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
-		mktTmpVm.action = "Add";
+		mktTmpVm.action = "Add new";
 		$scope.timers = [];
 		mktTmpVm.totalItems = -1;
 		mktTmpVm.currentPage = 1;
@@ -14,6 +14,17 @@
 		mktTmpVm.marketingTemplates= [];
 		mktTmpVm.marketingTemplate = {};
 		mktTmpVm.editorContent = "";
+		mktTmpVm.tinymceOptions = {
+			selector: 'textarea',  // change this value according to your HTML
+			height : 600,
+			onChange: function(e) {
+			  // put logic here for keypress and cut/paste changes
+			},
+			inline: false,
+			plugins : 'advlist autolink link image lists charmap print preview table',
+			skin: 'lightgray',
+			theme : 'modern'
+		  };
 		mktTmpVm.setCurrentPageSize =function(size){
 			AjaxUtil.setPageSize("MARKETING_TEMPLATE", size, function(status, size){
 				if("success" === status){
@@ -48,7 +59,7 @@
 						$scope.$apply(function(){
 							mktTmpVm.marketingTemplate = data.marketingTemplate;	
 							mktTmpVm.editorContent = mktTmpVm.marketingTemplate.contentHtml;
-							mktTmpVm.action = mktTmpVm.marketingTemplate && mktTmpVm.marketingTemplate.id?"Update":"Add";							
+							mktTmpVm.action = mktTmpVm.marketingTemplate && mktTmpVm.marketingTemplate.id?"Update":"Add new";							
 						});						
 					}
 				})
@@ -111,8 +122,8 @@
 					.then(function (){return false;},function (){return false;});
 					return;
 			}
-			if(mktTmpVm.editorContent.length > 2000){
-				AlertService.showAlert(	'AWACP :: Alert!', "Content length exceeding allowed 2000 characters limit.")
+			if(mktTmpVm.editorContent.length > 5000){
+				AlertService.showAlert(	'AWACP :: Alert!', "Content length exceeding allowed 5000 characters limit.")
 					.then(function (){return false;},function (){return false;});
 					return;
 			}

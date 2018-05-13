@@ -1467,6 +1467,11 @@ transition:margin .3s;
 	padding:0 10px;
 	position:relative
 }
+.page-quick-sidebar-chat-user-messages {
+    overflow: scroll !important;
+    height: 100vh !important;
+    padding-bottom: 145px !important;
+}
 .page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-chat .page-quick-sidebar-chat-user .page-quick-sidebar-chat-user-messages .post {
 transition:display .3s;
 	padding:5px 0;
