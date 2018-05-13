@@ -51,7 +51,7 @@ public class MarketingTemplate extends BaseEntity {
 	}
 
 	@Lob
-	@Column(length = 2048)
+	@Column(length = 5048)
 	public String getContentHtml() {
 		return contentHtml;
 	}

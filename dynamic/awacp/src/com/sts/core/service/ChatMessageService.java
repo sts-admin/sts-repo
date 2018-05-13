@@ -14,12 +14,14 @@ public interface ChatMessageService {
 	public List<ChatMessage> listMyConversationsWith(Long myUserId, Long otherUserId);
 
 	public List<ChatMessage> listMyUnreadMessages(Long myUserId);
-	
+
 	public List<ChatMessage> getAllMyUnreadMessagesCount(Long myUserId);
-	
+
 	public int getMyUnreadMessagesCount(Long myUserId);
 
 	public void updateMessagesStatus(String[] messageIds);
-	
+
 	public List<UserDTO> listUsersByOnlineStatus(String onlineStatus);
+
+	public int markMessagesAsRead(Long loggedInUserId, Long otherUserId);
 }

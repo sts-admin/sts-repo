@@ -243,7 +243,7 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 		if (user.getLastName() == null) {
 			user.setLastName(" ");
 		}
-		String photoUrl = AppPropConfig.acResourceWriteDir;
+		String photoUrl = AppPropConfig.acBaseUrl + "/" + AppPropConfig.acImageDir;
 		user.setPhotoUrl(photoUrl + "/" + user.getAvtarImage());
 
 		if (user.getPhoto() != null) {
@@ -793,8 +793,8 @@ public class UserServiceImpl extends CommonServiceImpl<User> implements UserServ
 		for (UserDTO user : users) {
 			File userImage = getEntityManager().find(File.class, user.getPhotoId());
 			String photoUrl = userImage != null
-					? AppPropConfig.acResourceWriteDir + "/" + userImage.getCreatedName() + userImage.getExtension()
-					: AppPropConfig.acResourceWriteDir + "/" + user.getAvtarImage();
+					? AppPropConfig.acBaseUrl + "/" + AppPropConfig.acImageDir + "/" + userImage.getCreatedName() + userImage.getExtension()
+					: AppPropConfig.acBaseUrl + "/" + AppPropConfig.acImageDir + "/" +  user.getAvtarImage();
 			user.setPhotoUrl(photoUrl);
 			/*user.setUnreadMessageCount(chatService.getMyUnreadMessagesCount(user.getId()));*/
 

@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = "ChatMessage.listMyConversationsWith", query = "SELECT cm FROM ChatMessage cm WHERE cm.archived = 'false' AND ((cm.sourceUserId =:myUserId AND cm.targetUserId =:otherUserId) OR (cm.sourceUserId =:otherUserId AND cm.targetUserId =:myUserId)) ORDER BY cm.dateCreated ASC"),
 		@NamedQuery(name = "ChatMessage.listMyUnreadMessages", query = "SELECT cm FROM ChatMessage cm WHERE cm.archived = 'false' AND cm.seen = 'false' AND cm.targetUserId =:myUserId ORDER BY cm.dateCreated DESC"),
 		@NamedQuery(name = "ChatMessage.getMyUnreadMessagesCount", query = "SELECT COUNT(cm.id) FROM ChatMessage cm WHERE cm.archived = 'false' AND cm.seen = 'false' AND cm.targetUserId =:myUserId ORDER BY cm.dateCreated DESC"),
+		@NamedQuery(name = "ChatMessage.listMyUnreadMessagesFromUser", query = "SELECT cm FROM ChatMessage cm WHERE cm.archived = 'false' AND cm.seen = 'false' AND cm.targetUserId =:loggedInUserId AND cm.sourceUserId =:otherUserId")
 		})
 
 public class ChatMessage extends BaseEntity {

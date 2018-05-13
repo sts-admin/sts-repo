@@ -41,6 +41,16 @@ public class UserServiceEndpoint extends CrossOriginFilter {
 	private ChatMessageService chatMessageService;
 
 	@GET
+	@Path("/markMessagesAsRead/{loggedInUserId}/{otherUserId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String markMessagesAsRead(@PathParam("loggedInUserId") Long loggedInUserId,
+			@PathParam("otherUserId") Long otherUserId, @Context HttpServletResponse servletResponse)
+			throws IOException {
+		int count = this.chatMessageService.markMessagesAsRead(loggedInUserId, otherUserId);
+		return "{\"updateCount\":\"" + count + "\"}";
+	}
+
+	@GET
 	@Path("/getAllMyUnreadMessagesCount/{myUserId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ChatMessage> getAllMyUnreadMessagesCount(@PathParam("myUserId") Long myUserId,

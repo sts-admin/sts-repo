@@ -101,14 +101,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 		if (onlineStatus != null && onlineStatus.trim().equalsIgnoreCase("offline")) {
 			query = "User.listOfflineUsers";
 		}
-		List<UserDTO> users = getEntityManager().createNamedQuery(query).getResultList();
-		if (users != null && !users.isEmpty()) {
-			for (UserDTO u : users) {
-				u.setUnreadMessageCount(getMyUnreadMessagesCount(u.getId()));
-			}
-		}
-
-		return users;
+		return getEntityManager().createNamedQuery(query).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -128,6 +121,29 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 			}
 		}
 		return messages;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public int markMessagesAsRead(Long loggedInUserId, Long otherUserId) {
+		int count = 0;
+		List<ChatMessage> messages = getEntityManager().createNamedQuery("ChatMessage.listMyUnreadMessagesFromUser")
+				.setParameter("loggedInUserId", loggedInUserId).setParameter("otherUserId", otherUserId)
+				.getResultList();
+		if (messages != null && !messages.isEmpty()) {
+
+			for (ChatMessage message : messages) {
+				if (!message.isArchived()) {
+					message.setSeen(true);
+					getEntityManager().merge(message);
+					count++;
+				}
+
+			}
+			getEntityManager().flush();
+		}
+		return count;
 	}
 
 }
