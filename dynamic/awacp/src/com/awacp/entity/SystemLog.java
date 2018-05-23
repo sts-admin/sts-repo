@@ -34,6 +34,16 @@ public class SystemLog extends BaseEntity {
 		super();
 	}
 
+	public SystemLog(String section, String description, Calendar dateCreated, Long createdById, String userCode,
+			Long version) {
+		setDateCreated(dateCreated);
+		setCreatedById(createdById);
+		setVersion(version);
+		this.section = section;
+		this.description = description;
+		this.uc = userCode;
+	}
+
 	public String getUc() {
 		return uc;
 	}

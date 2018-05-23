@@ -9,6 +9,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.awacp.entity.Architect;
 import com.awacp.entity.MenuItem;
 import com.awacp.entity.SiteColor;
 import com.awacp.entity.SiteEmailAccount;
@@ -16,9 +17,11 @@ import com.awacp.entity.SiteInfo;
 import com.awacp.entity.SystemLog;
 import com.awacp.service.AppSettingService;
 import com.sts.core.config.AppPropConfig;
+import com.sts.core.dto.Log;
 import com.sts.core.dto.StsResponse;
+import com.sts.core.service.impl.CommonServiceImpl;
 
-public class AppSettingServiceImpl implements AppSettingService {
+public class AppSettingServiceImpl  extends CommonServiceImpl<Architect> implements AppSettingService {
 	private EntityManager entityManager;
 
 	@PersistenceContext
@@ -76,6 +79,8 @@ public class AppSettingServiceImpl implements AppSettingService {
 			}
 
 		}
+		Log log = new Log();
+		doLogActivity(log, getEntityManager());
 		getEntityManager().flush();
 		return si;
 	}
@@ -259,15 +264,6 @@ public class AppSettingServiceImpl implements AppSettingService {
 		return results == null || results.isEmpty() ? response : response.setResults(results);
 	}
 
-	@Transactional
-	@Override
-	public SystemLog saveSystemLog(SystemLog sl) {
-		SystemLog test = new SystemLog();
-		test.setSection("TEST");
-		test.setDescription("TEST");
-		getEntityManager().merge(test);
-		return test;
-	}
 
 	@Override
 	public StsResponse<SystemLog> filterLogs(SystemLog log) {

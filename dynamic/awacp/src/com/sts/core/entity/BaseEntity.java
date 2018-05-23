@@ -3,7 +3,6 @@ package com.sts.core.entity;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,14 +12,11 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import com.awacp.entity.listener.AwacpEntityListener;
-
 /**
  * Entity implementation class for Entity: BaseEntity
  *
  */
 @MappedSuperclass
-@EntityListeners(AwacpEntityListener.class)
 public class BaseEntity implements Serializable {
 
 	private Long id;

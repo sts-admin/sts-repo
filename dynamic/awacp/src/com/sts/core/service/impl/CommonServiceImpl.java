@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.awacp.entity.SystemLog;
+import com.sts.core.dto.Log;
 import com.sts.core.dto.StsResponse;
 import com.sts.core.entity.User;
 import com.sts.core.service.CommonService;
@@ -52,9 +54,9 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 
 	@Override
 	public StsResponse<T> listAll(int pageNumber, int pageSize, String entityClassName, EntityManager em) {
-		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName).append(
-				" entity WHERE entity.archived = 'false' ORDER BY entity.dateCreated DESC");
-		if(entityClassName.equalsIgnoreCase(User.class.getSimpleName())) {
+		StringBuffer sb = new StringBuffer("SELECT entity FROM ").append(entityClassName)
+				.append(" entity WHERE entity.archived = 'false' ORDER BY entity.dateCreated DESC");
+		if (entityClassName.equalsIgnoreCase(User.class.getSimpleName())) {
 			sb = new StringBuffer("SELECT entity FROM ").append(entityClassName).append(
 					" entity WHERE entity.archived = 'false' AND  entity.deleted = 'false' ORDER BY entity.dateCreated DESC");
 		}
@@ -129,5 +131,13 @@ public class CommonServiceImpl<T> implements CommonService<T> {
 		int count = ((Number) em.createQuery(query.toString()).setParameter(fieldName, name.trim().toLowerCase())
 				.getSingleResult()).intValue();
 		return count <= 0 ? false : true;
+	}
+
+	@Override
+	public void doLogActivity(Log log, EntityManager em) {
+		SystemLog systemLog = new SystemLog(log.getSection(), log.getDescription(), log.getDateCreated(),
+				log.getCreatedBy(), log.getUserCode(), log.getVersion());
+		em.persist(systemLog);
+
 	}
 }

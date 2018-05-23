@@ -3,6 +3,7 @@ package com.sts.core.service;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.sts.core.dto.Log;
 import com.sts.core.dto.StsResponse;
 
 public interface CommonService<T> {
@@ -30,4 +31,6 @@ public interface CommonService<T> {
 	public boolean isExistsByName(final String name, String fieldName, final String entityName, EntityManager em);
 
 	public T getByEmail(final String email, final String entityName, EntityManager em);
+
+	public void doLogActivity(Log log, EntityManager em);
 }

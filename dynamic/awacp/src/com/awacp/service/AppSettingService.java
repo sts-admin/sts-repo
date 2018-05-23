@@ -45,8 +45,6 @@ public interface AppSettingService {
 
 	public String deleteSiteMenuItem(Long id);
 
-	public SystemLog saveSystemLog(SystemLog sl);
-
 	public StsResponse<SystemLog> listSystemLogs(int pageNumber, int pageSize);
 
 	public StsResponse<SystemLog> filterLogs(SystemLog log);
