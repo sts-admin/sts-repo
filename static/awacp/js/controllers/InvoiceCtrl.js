@@ -220,6 +220,24 @@
 				AjaxUtil.saveErrorLog(jqXHR, "Unable to fulfil request due to communication error", true);
 			});
 		}
+		invoiceVm.doCalculate = function(){
+			if(invoiceVm.invoice && invoiceVm.invoice.profitSheetItems){
+				var totalCost = 0.0;
+				var totalProfit = 0.0;
+				var profitPercent = 0.0;
+				for(var i = 0; i < invoiceVm.invoice.profitSheetItems.length; i++){
+					totalCost = parseFloat(totalCost) + parseFloat(invoiceVm.invoice.profitSheetItems[i].invAmount) + parseFloat(invoiceVm.invoice.profitSheetItems[i].freight);
+				}
+				totalProfit = parseFloat(invoiceVm.invoice.billableAmount) - parseFloat(totalCost);
+				invoiceVm.invoice.totalCost = totalCost;
+				invoiceVm.invoice.totalProfit = totalProfit;
+				invoiceVm.invoice.profitPercent = ((100 / invoiceVm.invoice.billableAmount) * invoiceVm.invoice.totalProfit);
+				if(invoiceVm.invoice.totalCost > invoiceVm.invoice.billableAmount){
+					invoiceVm.invoice.profitOrLossLabel = "Loss";
+				}
+				$scope.$digest();
+			}
+		}
 		invoiceVm.editInvoice = function(id){
 			AjaxUtil.getData("/awacp/getInvoice/"+id, Math.random())
 			.success(function(data, status, headers){				
@@ -236,10 +254,10 @@
 						});
 					}
 					data.invoice.profitSheetItems = tmp;
-					$scope.$apply(function(){
-						invoiceVm.invoice = data.invoice;	
-						invoiceVm.action = "Update";							
-					});
+					invoiceVm.invoice = data.invoice;	
+					invoiceVm.action = "Update";	
+					invoiceVm.doCalculate();
+					$scope.$digest();
 				}
 			})
 			.error(function(jqXHR, textStatus, errorThrown){
@@ -272,15 +290,6 @@
 					jQuery(".invoice-add-action").removeAttr('disabled');
 					jQuery("#invoice-add-spinner").css('display','none');
 					invoiceVm.cancelInvoiceAction();
-					/*if(update){
-						AlertService.showAlert(	'AWACP :: Alert!', message)
-						.then(function (){invoiceVm.cancelInvoiceAction();},function (){return false;});
-						return;
-					}else{
-						AlertService.showConfirm(	'AWACP :: Alert!', message)
-						.then(function (){return},function (){invoiceVm.cancelinvoiceAction();});
-						return;
-					}*/			
 				})
 				.error(function(jqXHR, textStatus, errorThrown){
 					jQuery(".invoice-add-action").removeAttr('disabled');

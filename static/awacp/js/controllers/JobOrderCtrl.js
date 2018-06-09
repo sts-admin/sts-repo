@@ -546,29 +546,28 @@
 				AjaxUtil.getData("/awacp/getJobOrder/"+$state.params.id, Math.random())
 				.success(function(data, status, headers){
 					if(data && data.jobOrder){
-						$scope.$apply(function(){
-							jobVm.jobOrder = data.jobOrder;	
-							if(jobVm.jobOrder.dateEntered){
-								jobVm.jobOrder.dateEntered = new Date(jobVm.jobOrder.dateEntered);
-							}
-							if(jobVm.jobOrder.bidders){
-								if(jQuery.isArray(jobVm.jobOrder.bidders)) {
-									jobVm.selectedBidders = jobVm.jobOrder.bidders;
-								}else{
-									jobVm.selectedBidders = [];
-									jobVm.selectedBidders.push(jobVm.jobOrder.bidders);
-								}								
-							}
-							if(jobVm.jobOrder.generalContractors){
-								if(jQuery.isArray(jobVm.jobOrder.generalContractors)) {
-									jobVm.selectedContractors = jobVm.jobOrder.generalContractors;
-								}else{
-									jobVm.selectedContractors = [];
-									jobVm.selectedContractors.push(jobVm.jobOrder.generalContractors);
-								}								
-							}
-							jobVm.action = jobVm.jobOrder && jobVm.jobOrder.id?"Update":"Add New";							
-						});
+						jobVm.jobOrder = data.jobOrder;	
+						if(jobVm.jobOrder.dateEntered){
+							jobVm.jobOrder.dateEntered = new Date(jobVm.jobOrder.dateEntered);
+						}
+						if(jobVm.jobOrder.bidders){
+							if(jQuery.isArray(jobVm.jobOrder.bidders)) {
+								jobVm.selectedBidders = jobVm.jobOrder.bidders;
+							}else{
+								jobVm.selectedBidders = [];
+								jobVm.selectedBidders.push(jobVm.jobOrder.bidders);
+							}								
+						}
+						if(jobVm.jobOrder.generalContractors){
+							if(jQuery.isArray(jobVm.jobOrder.generalContractors)) {
+								jobVm.selectedContractors = jobVm.jobOrder.generalContractors;
+							}else{
+								jobVm.selectedContractors = [];
+								jobVm.selectedContractors.push(jobVm.jobOrder.generalContractors);
+							}								
+						}
+						jobVm.action = jobVm.jobOrder && jobVm.jobOrder.id?"Update":"Add New";	
+						$scope.$digest();
 					}
 				})
 				.error(function(jqXHR, textStatus, errorThrown){

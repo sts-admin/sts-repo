@@ -203,21 +203,15 @@
                       <div class="panel-body prob-hei">
                         <div class="row">
                           <div class="col-lg-3 col-md-3 col-sm-3"> <span class="form-label"> AWACP Cost Sheet for JobID :</span> </div>
-                          <div class="col-lg-3 col-md-3 col-sm-3"> <span style="font-weight:normal" class="form-label"> {{invoiceVm.jobOrder.orderNumber}} </span> </div>
-                          
-                          
-                        
+                          <div class="col-lg-3 col-md-3 col-sm-3"> <span style="font-weight:normal" class="form-label"> {{invoiceVm.jobOrder.orderNumber}} </span> </div>  
                         
                           <div class="col-lg-3 col-md-3 col-sm-3"> <span class="form-label"> Contractor :</span> </div>
                           <div class="col-lg-3 col-md-3 col-sm-3"> <span style="font-weight:normal" class="form-label"> {{invoiceVm.jobOrder.contractorName}} </span> </div>
                         </div>
                         
-                        
                         <div class="row">
                           <div class="col-lg-3 col-md-3 col-sm-3"> <span class="form-label"> Job Name :</span> </div>
                           <div class="col-lg-3 col-md-3 col-sm-3"> <span style="font-weight:normal" class="form-label"> {{invoiceVm.jobOrder.jobName}} </span> </div>
-                          
-                        
                         
                           <div class="col-lg-3 col-md-3 col-sm-3"> <span class="form-label"> Job Address :</span> </div>
                           <div class="col-lg-3 col-md-3 col-sm-3"> <span style="font-weight:normal" class="form-label"> {{invoiceVm.jobOrder.jobAddress}} </span> </div>
@@ -261,10 +255,10 @@
                             </span> </div>
 							
                           <div class="col-lg-1 col-md-1 col-sm-1 pad-none"> <span class="form-label">
-                            <input type="text" placeholder="AWACP PO#" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].invAmount"  ng-readonly="!invoiceVm.invoice.profitSheetItems[$index].manual" />
+                            <input type="text" placeholder="AWACP PO#" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].invAmount"  ng-readonly="!invoiceVm.invoice.profitSheetItems[$index].manual" ng-change="invoiceVm.doCalculate();"  />
                             </span> </div>
                           <div class="col-lg-1 col-md-1 col-sm-1 pad-none"> <span class="form-label">
-                            <input type="text" placeholder="FREIGHT" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].freight" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44 || event.charCode == 0 ">
+                            <input type="text" placeholder="FREIGHT" class="form-control" ng-model="invoiceVm.invoice.profitSheetItems[$index].freight" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 44 || event.charCode == 0 " ng-change="invoiceVm.doCalculate();">
                             </span> </div>
 							
 							
@@ -279,7 +273,7 @@
                         <div class="row prob-bg-hed" style="margin-top:20px;">
                           <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> Total Cost </span> <span class="colon">:</span> </div>
                           <div class="col-lg-2 col-md-2 col-sm-2" style="padding:10px 0 !important"> <span class="form-label">
-                            <input type="text" placeholder="Total Cost" class="form-control" ng-model="invoiceVm.invoice.totalCost"  ng-readonly="true" />
+                            <input type="text" placeholder="Total Cost" class="form-control" ng-model="invoiceVm.invoice.totalCost | currency"  ng-readonly="true" />
                             </span> </div>
                           <div class="col-lg-2 col-md-2 col-sm-2"> <span class="form-label"> Total {{invoiceVm.invoice.profitOrLossLabel}} </span> <span class="colon">:</span> </div>
                           <div class="col-lg-2 col-md-2 col-sm-2" style="background:#090;"> <span class="form-label"> {{invoiceVm.invoice.totalProfit | currency }} </span> </div>
